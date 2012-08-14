@@ -1,0 +1,21 @@
+<?php
+return array(
+    'application.models.*',
+    'application.models.form.*',
+    'application.models.payment.*',
+    'application.models.runbee.*',
+    'application.models.tasks.*',
+    'application.components.*',
+    'application.helpers.*',
+    //'ext.eoauth.*',
+    //'ext.eoauth.lib.*',
+    //'ext.lightopenid.*',
+    //'ext.eauth.*',
+    //'ext.eauth.services.*',
+    //'application.modules.user.*',
+    //'application.modules.user.models.*',
+    //'application.modules.user.components.*',
+    //'ext.sxgeo.*',
+    'application.extensions.phpass.*',
+    'ext.mongo.*',
+);

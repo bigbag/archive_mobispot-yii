@@ -1,0 +1,9 @@
+<?php
+return array(
+    'smtpServer'=>'',
+    'smtpUser'=>'',
+    'smtpPassword'=>'',
+    'smptPort'=>,
+    //'onBeginRequest'=>create_function('$event', 'return ob_start("ob_gzhandler");'),
+    //'onEndRequest'=>create_function('$event', 'return ob_end_flush();'),
+);

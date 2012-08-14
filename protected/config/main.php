@@ -6,85 +6,94 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
-	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+    'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
+    'name' => 'Mobispot',
+    'theme' => 'mobispot',
+    'language' => 'ru',
+    'charset' => 'UTF-8',
+    'preload' => array('log'),
+    'import' => require(dirname(__FILE__) . '/import.php'),
+    'modules' => require(dirname(__FILE__) . '/modules.php'),
 
-	// preloading 'log' component
-	'preload'=>array('log'),
+    // application components
+    'components' => array(
+        'session' => array(
+            'sessionName' => 'runbee',
+            'class' => 'CDbHttpSession',
+            'connectionID' => 'db',
+            'sessionTableName' => 'session',
+            'useTransparentSessionID' => ($_POST['PHPSESSID']) ? true : false,
+            'autoStart' => 'false',
+            'cookieMode' => 'only',
+            'timeout' => 3600
+        ),
 
-	// autoloading model and component classes
-	'import'=>array(
-		'application.models.*',
-		'application.components.*',
-	),
+        'mongodb' => array(
+            'class'             => 'EMongoDB',
+            'connectionString'  => 'mongodb://localhost',
+            'dbName'            => 'mobispot',
+            'fsyncFlag'         => false,
+            'safeFlag'          => false,
+            'useCursor'         => false,
+        ),
 
-	'modules'=>array(
-		// uncomment the following to enable the Gii tool
-		/*
-		'gii'=>array(
-			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
-			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1'),
-		),
-		*/
-	),
+        'urlManager' => require(dirname(__FILE__) . '/routes.php'),
+        'db' => require(dirname(__FILE__) . '/db.php'),
 
-	// application components
-	'components'=>array(
-		'user'=>array(
-			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
-		),
-		// uncomment the following to enable URLs in path-format
-		/*
-		'urlManager'=>array(
-			'urlFormat'=>'path',
-			'rules'=>array(
-				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-			),
-		),
-		*/
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
-		),
-		*/
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
-			),
-		),
-	),
-
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
-	),
+        'errorHandler' => array(
+            // use 'site/error' action to display errors
+            'errorAction' => 'site/error',
+        ),
+        'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
+                array(
+                    'class'=>'CWebLogRoute',
+                    'levels'=>'trace',
+                    'categories'=>'vardump',
+                    'showInFireBug'=>true
+                ),
+                array(
+                    'class' => 'CFileLogRoute',
+                    'categories' => 'application',
+                    'levels' => 'error, warning, trace, profile, info',
+                ),
+                //array(
+                //    'class'=>'ext.db_profiler.DbProfileLogRoute',
+                //    'countLimit' => 1,
+                //    'slowQueryMin' => 0.01,
+                //),
+            ),
+        ),
+        'loid' => array(
+            'class' => 'ext.lightopenid.loid',
+        ),
+        'eauth' => array(
+            'class' => 'ext.eauth.EAuth',
+            'popup' => true, // Use the popup window instead of redirecting.
+            'services' => require(dirname(__FILE__) . '/eauth.php'),
+        ),
+        //'user' => array(
+        //    'class' => 'RWebUser',
+        //    'allowAutoLogin' => true,
+        //    'loginUrl' => array('/user/login'),
+        //),
+        'authManager' => array(
+            'class' => 'RDbAuthManager',
+            'defaultRoles' => array('Guest')
+        ),
+        'par' => array(
+            'class' => 'application.extensions.dbparam.XDbParam',
+            'connectionID' => 'db',
+        ),
+        'cache' => array(
+            'class' => 'system.caching.CApcCache',
+        ),
+        'hasher' => array(
+            'class' => 'Phpass',
+            'hashPortable' => false,
+            'hashCostLog2' => 10,
+        ),
+    ),
+    'params' => include(dirname(__FILE__) . '/params.php'),
 );
