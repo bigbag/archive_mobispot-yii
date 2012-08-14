@@ -9,7 +9,6 @@
  * @property integer $status
  * @property integer $type
  * @property integer $premium
- * @property integer $user_id
  * @property string $creation_date
  */
 class Discodes extends CActiveRecord
@@ -82,15 +81,15 @@ class Discodes extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, premium, user_id, creation_date', 'required'),
-            array('id, status, type, premium, user_id', 'numerical', 'integerOnly' => true),
+            array('id, premium, creation_date', 'required'),
+            array('id, status, type, premium', 'numerical', 'integerOnly' => true),
             array('premium', 'in', 'range' => array_keys($this->getPremiumList())),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('code', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, code, status, type, premium, user_id, creation_date', 'safe', 'on' => 'search'),
+            array('id, code, status, type, premium, creation_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -102,7 +101,6 @@ class Discodes extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
         );
     }
 
@@ -117,7 +115,6 @@ class Discodes extends CActiveRecord
             'status' => 'Статус',
             'type' => 'Тип',
             'premium' => 'Премиум',
-            'user_id' => 'Пользователь',
             'creation_date' => 'Дата создания',
         );
     }
@@ -138,7 +135,6 @@ class Discodes extends CActiveRecord
         $criteria->compare('status', $this->status);
         $criteria->compare('type', $this->type);
         $criteria->compare('premium', $this->premium);
-        $criteria->compare('user_id', $this->user_id);
         $criteria->compare('creation_date', $this->creation_date, true);
 
         return new CActiveDataProvider($this, array(
