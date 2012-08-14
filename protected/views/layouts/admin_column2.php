@@ -1,4 +1,4 @@
-<?php $this->beginContent('//layouts/main'); ?>
+<?php $this->beginContent('//layouts/admin_main'); ?>
 <div class="span-19">
     <div id="content">
         <?php echo $content; ?>
@@ -9,7 +9,7 @@
     <div id="sidebar">
         <?php
         $this->beginWidget('zii.widgets.CPortlet', array(
-            'title' => 'Operations',
+            'title' => Yii::t('admin', 'Операции'),
         ));
         $this->widget('zii.widgets.CMenu', array(
             'items' => $this->menu,

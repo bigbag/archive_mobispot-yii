@@ -73,15 +73,6 @@ return array(
             'popup' => true, // Use the popup window instead of redirecting.
             'services' => require(dirname(__FILE__) . '/eauth.php'),
         ),
-        //'user' => array(
-        //    'class' => 'RWebUser',
-        //    'allowAutoLogin' => true,
-        //    'loginUrl' => array('/user/login'),
-        //),
-        'authManager' => array(
-            'class' => 'RDbAuthManager',
-            'defaultRoles' => array('Guest')
-        ),
         'par' => array(
             'class' => 'application.extensions.dbparam.XDbParam',
             'connectionID' => 'db',
