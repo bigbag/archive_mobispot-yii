@@ -7,32 +7,16 @@
  * @property integer $id
  * @property string $code
  * @property integer $status
- * @property integer $type
  * @property integer $premium
- * @property string $creation_date
  */
 class Discodes extends CActiveRecord
 {
-    const TYPE_PERSONA = 0;
-    const TYPE_FIRM = 1;
 
     const PREMIUM_NO = 0;
     const PREMIUM_YES = 1;
 
-    const STATUS_INIT = -1;
-    const STATUS_GENERATED = 0;
-    const STATUS_ISSUED = 1;
-    const STATUS_REGISTERED = 2;
-    const STATUS_CLONES = 3;
-    const STATUS_REMOVED = 4;
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_PERSONA => 'Физик',
-            self::TYPE_FIRM => 'Юрик',
-        );
-    }
+    const STATUS_INIT = 0;
+    const STATUS_GENERATED = 1;
 
     public function getPremiumList()
     {
@@ -47,11 +31,19 @@ class Discodes extends CActiveRecord
         return array(
             self::STATUS_INIT => 'Чистый',
             self::STATUS_GENERATED => 'Сгенерирован',
-            self::STATUS_ISSUED => 'Выдан',
-            self::STATUS_REGISTERED => 'Зарегистрирован',
-            self::STATUS_CLONES => 'Клон',
-            self::STATUS_REMOVED => 'Удалён',
         );
+    }
+
+    public function getPremium()
+    {
+        $data = $this->getPremiumList();
+        return $data[$this->premium];
+    }
+
+    public function getStatus()
+    {
+        $data = $this->getStatusList();
+        return $data[$this->status];
     }
 
 
@@ -81,15 +73,14 @@ class Discodes extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, premium, creation_date', 'required'),
+            array('id, premium', 'required'),
             array('id, status, type, premium', 'numerical', 'integerOnly' => true),
             array('premium', 'in', 'range' => array_keys($this->getPremiumList())),
-            array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('code', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, code, status, type, premium, creation_date', 'safe', 'on' => 'search'),
+            array('id, code, status, premium', 'safe', 'on' => 'search'),
         );
     }
 
@@ -133,12 +124,14 @@ class Discodes extends CActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('code', $this->code, true);
         $criteria->compare('status', $this->status);
-        $criteria->compare('type', $this->type);
         $criteria->compare('premium', $this->premium);
-        $criteria->compare('creation_date', $this->creation_date, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+            'sort' => array('defaultOrder' => 'id ASC',)
         ));
     }
 }

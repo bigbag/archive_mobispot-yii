@@ -83,7 +83,7 @@ class Page extends CActiveRecord
             $this->slug = YText::translit($this->title);
 
         if ($this->isNewRecord) $this->creation_date = new CDbExpression('NOW()');
-        if ($this->change_date) $this->change_date = new CDbExpression('NOW()');
+        if (!$this->change_date) $this->change_date = new CDbExpression('NOW()');
 
         if (!isset($this->user_id))
             $this->user_id = Yii::app()->user->id;

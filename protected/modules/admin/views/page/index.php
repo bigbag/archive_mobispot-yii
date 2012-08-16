@@ -1,7 +1,8 @@
+<?php $this->pageTitle = 'Cтраницы';?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
-    'Модели',
+    'Содержимое',
     'Страницы',
     'Управление',
 );
@@ -25,7 +26,7 @@ $this->menu = array(
         array(
             'name' => 'user_id',
             'type' => 'raw',
-            'value' => '$data->user->email',
+            'value' => '($data->user)?$data->user->email:""',
         ),
         'title',
         array(

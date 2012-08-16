@@ -1,3 +1,4 @@
+<?php $this->pageTitle = 'Настройки';?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),

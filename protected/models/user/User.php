@@ -15,6 +15,31 @@
  */
 class User extends CActiveRecord
 {
+
+    const STATUS_NOACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_BANNED = -1;
+
+    const TYPE_USER = 0;
+    const TYPE_ADMIN = 1;
+
+    public function getStatusList()
+    {
+        return array(
+            self::STATUS_NOACTIVE => Yii::t('user', 'Not active'),
+            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
+            self::STATUS_BANNED => Yii::t('user', 'Banned'),
+        );
+    }
+
+    public function getTypeList()
+    {
+        return array(
+            self::TYPE_USER => Yii::t('user', 'User'),
+            self::TYPE_ADMIN => Yii::t('user', 'Admin'),
+        );
+    }
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -42,8 +67,13 @@ class User extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email, password, activkey, creation_date, lastvisit', 'required'),
+            array('email', 'email'),
+            array('email', 'unique', 'message' => Yii::t('user', "This user's email address already exists.")),
+            array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length5 symbols).")),
 			array('type, status', 'numerical', 'integerOnly'=>true),
 			array('email, password, activkey', 'length', 'max'=>128),
+            array('type', 'in', 'range' => array_keys($this->getTypeList())),
+            array('status', 'in', 'range' => array_keys($this->getStatusList())),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, email, password, activkey, creation_date, lastvisit, type, status', 'safe', 'on'=>'search'),
@@ -67,16 +97,40 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'email' => 'Email',
-			'password' => 'Password',
-			'activkey' => 'Activkey',
-			'creation_date' => 'Creation Date',
-			'lastvisit' => 'Lastvisit',
-			'type' => 'Type',
-			'status' => 'Status',
+            'password' => Yii::t('user', "password"),
+            'verifyPassword' => Yii::t('user', "Retype Password"),
+            'email' => Yii::t('user', "E-mail"),
+            'verifyEmail' => Yii::t('user', "Retype Email"),
+            'verifyCode' => Yii::t('user', "Verification Code"),
+            'id' => Yii::t('user', "Id"),
+            'activkey' =>Yii::t('user', "activation key"),
+            'creation_date' => Yii::t('user', "Registration date"),
+            'lastvisit' => Yii::t('user', "Last visit"),
+            'status' => Yii::t('user', "Status"),
+            'type' => Yii::t('user', "Type"),
 		);
 	}
+
+    public function scopes()
+    {
+        return array(
+            'active' => array(
+                'condition' => 'status=' . self::STATUS_ACTIVE,
+            ),
+            'notactvie' => array(
+                'condition' => 'status=' . self::STATUS_NOACTIVE,
+            ),
+            'banned' => array(
+                'condition' => 'status=' . self::STATUS_BANED,
+            ),
+            'admin' => array(
+                'condition' => 'status=' . self::TYPE_ADMIN,
+            ),
+            'user' => array(
+                'condition' => 'status=' . self::TYPE_USER,
+            ),
+        );
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

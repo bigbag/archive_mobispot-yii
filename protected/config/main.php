@@ -18,7 +18,7 @@ return array(
     // application components
     'components' => array(
         'session' => array(
-            'sessionName' => 'runbee',
+            'sessionName' => 'mobispot',
             'class' => 'CDbHttpSession',
             'connectionID' => 'db',
             'sessionTableName' => 'session',
@@ -28,13 +28,20 @@ return array(
             'timeout' => 3600
         ),
 
+        'messages' => array(
+
+            'class' => 'CPhpMessageSource',
+            'cachingDuration' => 3600,
+
+        ),
+
         'mongodb' => array(
-            'class'             => 'EMongoDB',
-            'connectionString'  => 'mongodb://localhost',
-            'dbName'            => 'mobispot',
-            'fsyncFlag'         => false,
-            'safeFlag'          => false,
-            'useCursor'         => false,
+            'class' => 'EMongoDB',
+            'connectionString' => 'mongodb://localhost',
+            'dbName' => 'mobispot',
+            'fsyncFlag' => false,
+            'safeFlag' => false,
+            'useCursor' => false,
         ),
 
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
@@ -48,10 +55,10 @@ return array(
             'class' => 'CLogRouter',
             'routes' => array(
                 array(
-                    'class'=>'CWebLogRoute',
-                    'levels'=>'trace',
-                    'categories'=>'vardump',
-                    'showInFireBug'=>true
+                    'class' => 'CWebLogRoute',
+                    'levels' => 'trace',
+                    'categories' => 'vardump',
+                    'showInFireBug' => true
                 ),
                 array(
                     'class' => 'CFileLogRoute',

@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends AdminController
+class PageController extends Controller
 {
     public $layout = '//layouts/admin_column2';
 

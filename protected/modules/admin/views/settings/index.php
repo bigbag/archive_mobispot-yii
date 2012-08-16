@@ -1,3 +1,4 @@
+<?php $this->pageTitle = 'Настройки';?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -19,7 +20,7 @@ $this->menu = array(
         'name',
         'change_date',
         array(
-            'name' => 'user',
+            'name' => 'user_id',
             'type' => 'raw',
             'value' => '$data->user->username',
         ),
