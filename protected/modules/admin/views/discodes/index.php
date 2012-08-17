@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Cтраницы';?>
+<?php $this->pageTitle = 'ДИС';?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -38,7 +38,6 @@ $('.search-form form').submit(function(){
     'filter'=>$model,
     'columns'=>array(
         'id',
-        'code',
         array(
             'name' => 'premium',
             'type' => 'raw',

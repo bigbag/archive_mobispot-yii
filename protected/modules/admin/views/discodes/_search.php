@@ -17,11 +17,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'code'); ?>
-		<?php echo $form->textField($model,'code',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
-
-	<div class="row">
         <?php echo $form->label($model, 'premium'); ?>
         <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList(), array('empty' => '')); ?>
 	</div>

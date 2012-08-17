@@ -1,38 +1,88 @@
+<?php $this->pageTitle = 'Споты'; ?>
 <?php
-/* @var $this SpotController */
-/* @var $model Spot */
-
-$this->breadcrumbs=array(
-	'Spots'=>array('index'),
-	$model->name,
+$this->breadcrumbs = array(
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    $model->discodes_id,
 );
+$menu = array();
 
-$this->menu=array(
-	array('label'=>'List Spot', 'url'=>array('index')),
-	array('label'=>'Create Spot', 'url'=>array('create')),
-	array('label'=>'Update Spot', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Spot', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Spot', 'url'=>array('admin')),
-);
+if ($model->status == Spot::STATUS_GENERATED) {
+    array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->id)));
+}
+
+if (!$model->nfc) {
+    array_push($menu, array('label' => 'Сгенерировать NFC', 'url' => array('nfc', 'id' => $model->id)));
+}
+
+if ($model->status == Spot::STATUS_ACTIVATED or $model->status == Spot::STATUS_GENERATED) {
+    array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
+        'submit' => array('delete', 'id' => $model->id),
+        'confirm' => 'Вы уверены что хотите удалить спот ID ' . $model->discodes_id . '?')));
+}
+
+$this->menu = $menu;
 ?>
 
-<h1>View Spot #<?php echo $model->id; ?></h1>
+<h1>Информация о споте <?php echo $model->discodes_id; ?></h1>
+
+<?php if (Yii::app()->user->hasFlash('spot')): ?>
+<div class="success">
+    <?php echo Yii::app()->user->getFlash('spot'); ?>
+</div>
+<?php endif;?>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'name',
-		'discodes_id',
-		'spot_type_id',
-		'user_id',
-		'spot_hard_type_id',
-		'spot_hard',
-		'nfc',
-		'type',
-		'status',
-		'generated_date',
-		'registerered_date',
-		'removed_date',
-	),
+    'data' => $model,
+    'attributes' => array(
+        'name',
+        'discodes_id',
+        array(
+            'name' => 'spot_type_id',
+            'type' => 'raw',
+            'value' => ($model->spot_type) ? $model->spot_type->name : "",
+        ),
+        array(
+            'name' => 'user_id',
+            'type' => 'raw',
+            'value' => ($model->user) ? $model->user->email : "",
+        ),
+        array(
+            'name' => 'spot_hard_type_id',
+            'type' => 'raw',
+            'value' => ($model->spot_hard_type) ? $model->spot_hard_type->name : "",
+        ),
+        'spot_hard',
+        'nfc',
+        array(
+            'name' => 'premium',
+            'type' => 'raw',
+            'value' => $model->getPremium(),
+        ),
+        array(
+            'name' => 'type',
+            'type' => 'raw',
+            'value' => $model->getType(),
+        ),
+        array(
+            'name' => 'status',
+            'type' => 'raw',
+            'value' => $model->getStatus(),
+        ),
+        array(
+            'name' => 'generated_date',
+            'type' => 'raw',
+            'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->generated_date),
+        ),
+        array(
+            'name' => 'registerered_date',
+            'type' => 'raw',
+            'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->registerered_date),
+        ),
+        array(
+            'name' => 'removed_date',
+            'type' => 'raw',
+            'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->removed_date),
+        ),
+    ),
 )); ?>

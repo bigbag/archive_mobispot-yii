@@ -1,17 +1,10 @@
-<?php $this->pageTitle = 'Активные споты'; ?>
+<?php $this->pageTitle = 'Споты'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
-    'Споты',
-    'Активные споты',
+    'Споты' => array('/admin/spot/'),
     'Управление'
 );
-
-$this->menu = array(
-    array('label' => 'Сгенерировать', 'url' => array('generate')),
-    array('label' => 'Активировать', 'url' => array('activate')),
-);
-
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -26,6 +19,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+<?php echo CHtml::link('Сгенерировать активационные коды', '/admin/spot/generate'); ?><br />
 <?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php $this->renderPartial('_search', array(
@@ -33,19 +27,30 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php if (Yii::app()->user->hasFlash('spot')): ?>
+<div class="success">
+    <?php echo Yii::app()->user->getFlash('spot'); ?>
+</div>
+<?php endif;?>
+
+<?
+$this->widget('ext.selgridview.SelGridView', array(
     'id' => 'spot-grid',
     'dataProvider' => $model->search(),
+    'selectableRows' => 2,
     'filter' => $model,
     'columns' => array(
+        array(
+            'class' => 'CCheckBoxColumn',
+        ),
         'discodes_id',
+        'code',
         'spot_type_id',
         array(
             'name' => 'user_id',
             'type' => 'raw',
             'value' => '($data->user)?$data->user->email:""',
         ),
-        'spot_hard',
         array(
             'name' => 'type',
             'type' => 'raw',
@@ -60,6 +65,34 @@ $('.search-form form').submit(function(){
         ),
         array(
             'class' => 'CButtonColumn',
+            'template' => '{view} {update}',
         ),
     ),
-)); ?>
+));
+?>
+
+<button id="activate_btn" type="button">Активировать</button><button id="delete_btn" type="button">Удалить</button>
+<script type="text/javascript">
+    $("#activate_btn, #delete_btn").click(function(){
+        var url;
+        var action = $(this).attr('id');
+        var selected = $("#spot-grid").selGridView("getAllSelection");
+        var id = selected.join("|");
+
+        if (action === 'activate_btn') url = '/admin/spot/activate/';
+        else if (action === 'delete_btn') url = '/admin/spot/delete/';
+
+        if (id[1]) {
+            $.ajax({
+                url:url,
+                dataType:"json",
+                type:'GET',
+                data:{id:id, ajax: 1},
+                complete: function (data, textStatus) {
+                    $().redirect('/admin/spot/');
+                }
+            });
+        }
+        return false;
+    });
+</script>

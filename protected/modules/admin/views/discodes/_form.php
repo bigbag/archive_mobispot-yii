@@ -17,9 +17,6 @@
 		<strong>ID:</strong> <?php echo $model->id ?>
 	</div>
     <div class="row">
-        <strong>Код:</strong> <?php echo $model->code ?>
-    </div>
-    <div class="row">
         <?php echo $form->label($model, 'premium'); ?>
         <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList()); ?>
         <?php echo $form->error($model, 'premium'); ?>

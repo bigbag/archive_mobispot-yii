@@ -155,8 +155,12 @@ class Page extends CActiveRecord
         $criteria->compare('description', $this->description, true);
         $criteria->compare('status', $this->status);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+            'sort' => array('defaultOrder' => 'creation_date desc',)
         ));
     }
 }

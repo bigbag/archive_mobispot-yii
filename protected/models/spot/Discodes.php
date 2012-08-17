@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'discodes':
  * @property integer $id
- * @property string $code
  * @property integer $status
  * @property integer $premium
  */
@@ -74,13 +73,12 @@ class Discodes extends CActiveRecord
         // will receive user inputs.
         return array(
             array('id, premium', 'required'),
-            array('id, status, type, premium', 'numerical', 'integerOnly' => true),
+            array('id, status, premium', 'numerical', 'integerOnly' => true),
             array('premium', 'in', 'range' => array_keys($this->getPremiumList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
-            array('code', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, code, status, premium', 'safe', 'on' => 'search'),
+            array('id, status, premium', 'safe', 'on' => 'search'),
         );
     }
 
@@ -102,11 +100,8 @@ class Discodes extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'code' => 'Код',
             'status' => 'Статус',
-            'type' => 'Тип',
             'premium' => 'Премиум',
-            'creation_date' => 'Дата создания',
         );
     }
 
@@ -122,7 +117,6 @@ class Discodes extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('code', $this->code, true);
         $criteria->compare('status', $this->status);
         $criteria->compare('premium', $this->premium);
 

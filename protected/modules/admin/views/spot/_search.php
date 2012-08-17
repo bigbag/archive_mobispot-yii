@@ -31,6 +31,11 @@
 		<?php echo $form->textField($model,'nfc',array('size'=>32,'maxlength'=>32)); ?>
 	</div>
 
+    <div class="row">
+        <?php echo $form->label($model, 'premium'); ?>
+        <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList(), array('empty' => '')); ?>
+    </div>
+
 	<div class="row">
         <?php echo $form->label($model, 'type'); ?>
         <?php echo $form->dropDownList($model, 'type', $model->getTypeList(), array('empty' => '')); ?>

@@ -19,26 +19,63 @@ class SpotController extends Controller
         ));
     }
 
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
+    public function getDisId($premium, $type, $activate = 0, $count)
     {
-        $model = new Spot;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['Spot'])) {
-            $model->attributes = $_POST['Spot'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
-        }
-
-        $this->render('create', array(
-            'model' => $model,
+        $dis_cod = Discodes::model()->findAll(array(
+            'select' => 'id',
+            'condition' => 'status=0 and premium=:premium',
+            'params' => array(':premium' => $premium),
+            'limit' => $count
         ));
+
+        if ($dis_cod) {
+
+            $length = Spot::SYMBOL_LENGTH;
+
+            foreach ($dis_cod as $row) {
+
+                $code = '';
+                if ($type == Spot::TYPE_PERSONA) $symbols = Spot::SYMBOL_PERSONA;
+                else $symbols = Spot::SYMBOL_FIRM;
+
+                $id = $row->id;
+
+                $symbols = str_split($symbols);
+                shuffle($symbols);
+
+                $max = count($symbols) - 1;
+                for ($i = 0; $i < $length; $i++) {
+                    $code .= $symbols[rand(0, $max)];
+                }
+
+                $positions = range(0, 9);
+                shuffle($positions);
+                $positions = array_slice($positions, 0, strlen($id));
+                sort($positions);
+
+                for ($i = 0; $i < strlen($id); $i++) {
+                    $code[$positions[$i]] = $id[$i];
+                }
+
+                $dis = Discodes::model()->findByPk($id);
+                $dis->status = Discodes::STATUS_GENERATED;
+                $dis->save();
+
+                $spot = new Spot();
+                $spot->discodes_id = $id;
+
+                if ($activate == 1) $spot->status = Spot::STATUS_ACTIVATED;
+                else $spot->status = Spot::STATUS_GENERATED;
+
+                $spot->code = $code;
+                $spot->premium = $dis->premium;
+                $spot->type = $type;
+                $spot->save();
+            }
+           return true;
+        }
+        return false;
     }
 
     /**
@@ -69,13 +106,34 @@ class SpotController extends Controller
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->loadModel($id)->delete();
+        $flag = false;
+        if  (isset($_GET['id'])){
+            $id = $_GET['id'];
+            $id = explode('|', $id);
+            if (isset($id[0])){
+                foreach ($id as $row){
+                    $spot = Spot::model()->findByPk((int)$row);
+                    if ($spot){
+                        if ($spot->status == Spot::STATUS_GENERATED or $spot->status == Spot::STATUS_ACTIVATED){
+                            $dis_id = $spot->discodes_id;
+                            if ($spot->delete()){
+                                $dis = Discodes::model()->findByPk($dis_id);
+                                $dis->status = Discodes::STATUS_INIT;
+                                $dis->save();
+                                $flag = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (!isset($_GET['ajax'])){
+            if ($flag) Yii::app()->user->setFlash('spot', 'Спот ID '.$dis_id.' удалён.');
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/admin/spot');
+        }
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
     }
 
     /**
@@ -83,6 +141,7 @@ class SpotController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = '//layouts/admin_column1';
         $model = new Spot('search');
         $model->unsetAttributes(); // clear any default values
         if (isset($_GET['Spot']))
@@ -95,18 +154,56 @@ class SpotController extends Controller
 
     public function actionActivate()
     {
-        $this->render('activate', array(
+        if  (isset($_GET['id'])){
+            $id = $_GET['id'];
+            $id = explode('|', $id);
+            if (isset($id[0])){
+                foreach ($id as $row){
+                    $spot = Spot::model()->findByPk((int)$row);
+                    if ($spot and $spot->status == Spot::STATUS_GENERATED){
+                        $spot->status = Spot::STATUS_ACTIVATED;
+                        $spot->save();
+                    }
+                }
+            }
+        }
 
-        ));
+        if (!isset($_GET['ajax'])){
+            Yii::app()->user->setFlash('spot', 'Спот активирован.');
+            $referer = Yii::app()->request->getUrlReferrer();
+            $this->redirect($referer);
+        }
+
+
+
+    }
+
+    public function actionNfc()
+    {
+        if (Yii::app()->request->getQuery('id', 0)) {
+            $id = (int)Yii::app()->request->getQuery('id', 0);
+
+        }
     }
 
     public function actionGenerate()
     {
-        $model = new Spot(null);
+        if (isset($_POST['SpotGenerate'])) {
+            $count = (int)$_POST['SpotGenerate']['count'];
+            if ($count < 1) $count = 1;
 
-        $this->render('generate', array(
-            'model' => $model,
-        ));
+            $premium = (int)$_POST['SpotGenerate']['premium'];
+            $type = (int)$_POST['SpotGenerate']['type'];
+            $activate = (int)$_POST['SpotGenerate']['activate'];
+
+            if ($this->getDisId($premium, $type, $activate, $count)){
+                if ($activate == 1) $message = 'Споты сгенерированы и активированы.';
+                else $message  = 'Споты сгенерирован.';
+                Yii::app()->user->setFlash('spot', $message);
+                $this->redirect('/admin/spot');
+            }
+        }
+        $this->render('generate');
     }
 
     /**
