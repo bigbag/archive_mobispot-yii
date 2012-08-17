@@ -1,21 +1,18 @@
+
+<?php $this->pageTitle = 'Типы спотов'; ?>
 <?php
-/* @var $this SpotTypeController */
-/* @var $model SpotType */
-
-$this->breadcrumbs=array(
-	'Spot Types'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Update',
+$this->breadcrumbs = array(
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Типы спотов' => array('/admin/spotType/'),
+    'Редактировать',
+    $model->name,
 );
-
 $this->menu=array(
-	array('label'=>'List SpotType', 'url'=>array('index')),
-	array('label'=>'Create SpotType', 'url'=>array('create')),
-	array('label'=>'View SpotType', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage SpotType', 'url'=>array('admin')),
+    array('label'=>'Добавить тип', 'url'=>array('create')),
 );
 ?>
 
-<h1>Update SpotType <?php echo $model->id; ?></h1>
+<h1>Редактировать тип "<?php echo $model->name; ?>"</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

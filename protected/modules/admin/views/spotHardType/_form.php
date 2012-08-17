@@ -11,32 +11,66 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+    <p class="note">Поля, отмеченные <span class="required">*</span> обязательны к заполнению.</p>
 
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'desc'); ?>
-		<?php echo $form->textArea($model,'desc',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'desc'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'photo'); ?>
-		<?php echo $form->textArea($model,'photo',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'photo'); ?>
-	</div>
-
+    <?php echo $form->errorSummary($model); ?>
+    <table class="detail-view" id="yw0">
+        <tr class="even">
+            <th><?php echo $form->labelEx($model,'name'); ?></th>
+            <td><?php echo $form->textField($model,'name',array('size'=>30,'maxlength'=>150)); ?></td>
+        </tr>
+        <tr class="odd">
+            <th><?php echo $form->label($model, 'desc'); ?></th>
+            <td><?php echo $form->textArea($model,'desc',array('rows'=>6, 'cols'=>50)); ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->labelEx($model, 'photo'); ?></th>
+            <td>
+                <?php if (isset($model->photo)): ?>
+                <img id="hard_photo" src="/uploads/images/<?php echo $model->photo?>">
+                <?php endif;?>
+                <?php echo $form->hiddenField($model, 'photo'); ?>
+                <div class="hard_photo">
+                    <input type="file" name="file_upload" id="add_photo"/>
+                    <noscript>
+                        <p>Please enable JavaScript to use file uploader.</p>
+                    </noscript>
+                </div>
+            </td>
+        </tr>
+    </table>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+</div>
+
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/uploadify.css'); ?>
+
+<script type="text/javascript">
+    $(function () {
+        $("#add_photo").uploadify({
+            'width':'167',
+            'height':'21',
+            'fileSizeLimit':'512KB',
+            'fileTypeDesc':'Images',
+            swf:'/themes/mobispot/js/uploadify.swf',
+            uploader:'/admin/spotHardType/upload/',
+            'formData':{'action':'hard_image'},
+            'removeTimeout':10,
+            'multi':false,
+            'buttonImage':'/themes/mobispot/images/upload.png',
+            'onUploadError':function (file, errorCode, errorMsg, errorString) {
+                alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            },
+            'onUploadSuccess':function (file, data, response) {
+                $('.hard_photo').html('<img src="/uploads/images/' + data + '" />');
+                $('#SpotHardType_photo').val(data);
+                $('#hard_photo').css({'display':'none'});
+            }
+        });
+    });
+</script>

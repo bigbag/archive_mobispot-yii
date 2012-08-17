@@ -1,20 +1,34 @@
+<?php $this->pageTitle = 'Типы исполнения спотов'; ?>
 <?php
-/* @var $this SpotHardTypeController */
-/* @var $dataProvider CActiveDataProvider */
-
-$this->breadcrumbs=array(
-	'Spot Hard Types',
+$this->breadcrumbs = array(
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Типы исполнения спотов' => array('/admin/spotHardType/'),
+    'Управление'
 );
-
 $this->menu=array(
-	array('label'=>'Create SpotHardType', 'url'=>array('create')),
-	array('label'=>'Manage SpotHardType', 'url'=>array('admin')),
+    array('label'=>'Добавить тип', 'url'=>array('create')),
 );
 ?>
 
-<h1>Spot Hard Types</h1>
+<h1>Типы исполнения спотов</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'spot-hard-type-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
+        'name',
+        'desc',
+        array(
+            'name' => 'photo',
+            'filter' => false,
+            'type' => 'raw',
+            'value' => 'CHtml::link(CHtml::image("/uploads/images/tmb_".$data->photo, "photo"), "/uploads/images/".$data->photo, array("rel"=>"lightbox"))'
+        ),
+        array(
+            'class' => 'CButtonColumn',
+            'template' => '{update}',
+        ),
+    ),
 )); ?>

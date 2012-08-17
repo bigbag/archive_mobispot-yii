@@ -1,60 +1,40 @@
 <?php
 
-class SpotHardTypeController extends Controller
+class SpotFieldController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
     public $layout = '//layouts/admin_column2';
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-
-    public function actionUpload()
-    {
-        if (!empty($_FILES)) {
-            $maxSize = 512;
-            $action = $_POST['action'];
-
-            $tempFile = $_FILES['Filedata']['tmp_name'];
-
-            $fileParts = pathinfo($_FILES['Filedata']['name']);
-
-            $fileName = $action . '_' . md5(time() . $fileParts['basename']);
-            $targetFileName = $fileName . '.jpg';
-
-            if (filesize($tempFile) < $maxSize * 1024) {
-                $targetPath = Yii::getPathOfAlias('webroot.uploads.images.').'/';
-
-                $image = new CImageHandler();
-                $image->load($tempFile);
-                if ($image->thumb(95, 95, true)) {
-                    $image->save($targetPath . 'tmb_' . $fileName . '.jpg');
-
-                    $image->reload();
-                    $image->thumb(300, 300, true);
-                    $image->save($targetPath . $fileName . '.jpg');
-                    echo $targetFileName;
-                } else echo "Not a picture file";
-
-            } else echo "Max size = " . $maxSize * 1024;
-        }
-    }
-
 	public function actionCreate()
 	{
-		$model=new SpotHardType;
+		$model=new SpotField;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SpotHardType']))
+		if(isset($_POST['SpotField']))
 		{
-			$model->attributes=$_POST['SpotHardType'];
+			$model->attributes=$_POST['SpotField'];
 			if($model->save())
-				$this->redirect(array('index'));
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
@@ -74,11 +54,11 @@ class SpotHardTypeController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SpotHardType']))
+		if(isset($_POST['SpotField']))
 		{
-			$model->attributes=$_POST['SpotHardType'];
+			$model->attributes=$_POST['SpotField'];
 			if($model->save())
-				$this->redirect(array('index'));
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('update',array(
@@ -97,7 +77,7 @@ class SpotHardTypeController extends Controller
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/admin/spotHardType/'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -105,12 +85,23 @@ class SpotHardTypeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new SpotHardType('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SpotHardType']))
-			$model->attributes=$_GET['SpotHardType'];
-
+		$dataProvider=new CActiveDataProvider('SpotField');
 		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionAdmin()
+	{
+		$model=new SpotField('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['SpotField']))
+			$model->attributes=$_GET['SpotField'];
+
+		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
@@ -122,7 +113,7 @@ class SpotHardTypeController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=SpotHardType::model()->findByPk($id);
+		$model=SpotField::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -134,7 +125,7 @@ class SpotHardTypeController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='spot-hard-type-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='spot-field-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

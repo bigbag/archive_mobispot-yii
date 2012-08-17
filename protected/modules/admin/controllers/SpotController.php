@@ -198,7 +198,7 @@ class SpotController extends Controller
 
             if ($this->getDisId($premium, $type, $activate, $count)){
                 if ($activate == 1) $message = 'Споты сгенерированы и активированы.';
-                else $message  = 'Споты сгенерирован.';
+                else $message  = 'Споты сгенерированы.';
                 Yii::app()->user->setFlash('spot', $message);
                 $this->redirect('/admin/spot');
             }

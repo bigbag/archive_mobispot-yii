@@ -17,7 +17,7 @@
  * @property integer $premium
  * @property integer $status
  * @property string $generated_date
- * @property string $registerered_date
+ * @property string $registered_date
  * @property string $removed_date
  */
 class Spot extends CActiveRecord
@@ -35,6 +35,8 @@ class Spot extends CActiveRecord
     const STATUS_CLONES = 3;
     const STATUS_REMOVED = 4;
     const STATUS_INVISIBLE = 5;
+
+    public $spot_type_name;
 
     public function getTypeList()
     {
@@ -114,8 +116,8 @@ class Spot extends CActiveRecord
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
             array('spot_hard, nfc', 'length', 'max' => 32),
-            array('registerered_date, removed_date', 'safe'),
-            array('id, code, name, discodes_id, spot_type_id, user_id, spot_hard_type_id, spot_hard, nfc, type, premium, status, generated_date, registerered_date, removed_date', 'safe', 'on' => 'search'),
+            array('registered_date, removed_date', 'safe'),
+            array('id, code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, type, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -126,8 +128,8 @@ class Spot extends CActiveRecord
             $this->status == self::STATUS_GENERATED;
         }
 
-        if (!($this->registerered_date) and ($this->status == self::STATUS_REGISTERED)) {
-            $this->registerered_date = new CDbExpression('NOW()');
+        if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED)) {
+            $this->registered_date = new CDbExpression('NOW()');
         }
 
         if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED)) {
@@ -163,6 +165,7 @@ class Spot extends CActiveRecord
             'name' => 'Название',
             'discodes_id' => 'ДИС',
             'spot_type_id' => 'Тип спота',
+            'spot_type_name' => 'Тип спота',
             'user_id' => 'Пользователь',
             'spot_hard_type_id' => 'Тип исполнения',
             'spot_hard' => 'Заводской номер',
@@ -171,7 +174,7 @@ class Spot extends CActiveRecord
             'status' => 'Статус',
             'premium' => 'Премиум',
             'generated_date' => 'Дата генерации',
-            'registerered_date' => 'Дата регистрации',
+            'registered_date' => 'Дата регистрации',
             'removed_date' => 'Дата удаления',
         );
     }
@@ -182,16 +185,27 @@ class Spot extends CActiveRecord
      */
     public function search()
     {
+        $sort = new CSort;
+        $sort->attributes = array(
+            'defaultOrder' => 'generated_date desc',
+            'spot_type_name'=>array(
+                'asc'=>'spot_type.name',
+                'desc'=>'spot_type.name DESC',
+            ),
+
+        );
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
         $criteria = new CDbCriteria;
 
+        $criteria->with = 'spot_type';
         $criteria->compare('id', $this->id);
         $criteria->compare('code', $this->code, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('discodes_id', $this->discodes_id);
         $criteria->compare('spot_type_id', $this->spot_type_id);
+        $criteria->compare('spot_type.name',$this->spot_type_name,true);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
         $criteria->compare('spot_hard', $this->spot_hard, true);
@@ -200,7 +214,7 @@ class Spot extends CActiveRecord
         $criteria->compare('premium', $this->premium);
         $criteria->compare('status', $this->status);
         $criteria->compare('generated_date', $this->generated_date, true);
-        $criteria->compare('registerered_date', $this->registerered_date, true);
+        $criteria->compare('registered_date', $this->registered_date, true);
         $criteria->compare('removed_date', $this->removed_date, true);
 
         return new CActiveDataProvider(get_class($this), array(
@@ -208,7 +222,7 @@ class Spot extends CActiveRecord
             'pagination' => array(
                 'pageSize' => 20,
             ),
-            'sort' => array('defaultOrder' => 'generated_date desc',)
+            'sort'=>$sort,
         ));
     }
 }

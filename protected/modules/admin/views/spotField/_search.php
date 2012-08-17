@@ -1,6 +1,6 @@
 <?php
-/* @var $this SpotHardTypeController */
-/* @var $model SpotHardType */
+/* @var $this SpotFieldController */
+/* @var $model SpotField */
 /* @var $form CActiveForm */
 ?>
 
@@ -27,8 +27,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'photo'); ?>
-		<?php echo $form->textArea($model,'photo',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->label($model,'widget'); ?>
+		<?php echo $form->textArea($model,'widget',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
 
 	<div class="row buttons">

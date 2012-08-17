@@ -1,20 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "spot_hard_type".
+ * This is the model class for table "spot_comment".
  *
- * The followings are the available columns in table 'spot_hard_type':
+ * The followings are the available columns in table 'spot_comment':
  * @property integer $id
- * @property string $name
- * @property string $desc
- * @property string $photo
+ * @property integer $user_id
+ * @property integer $spot_id
+ * @property string $body
+ * @property string $creation_date
  */
-class SpotHardType extends CActiveRecord
+class SpotComment extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return SpotHardType the static model class
+	 * @return SpotComment the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -26,7 +27,7 @@ class SpotHardType extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'spot_hard_type';
+		return 'spot_comment';
 	}
 
 	/**
@@ -37,14 +38,11 @@ class SpotHardType extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>300),
-            array('name, desc', 'filter', 'filter' => 'trim'),
-            array('name, desc', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-			array('photo', 'safe'),
+			array('user_id, spot_id, body, creation_date', 'required'),
+			array('user_id, spot_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, desc, photo', 'safe', 'on'=>'search'),
+			array('id, user_id, spot_id, body, creation_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +54,8 @@ class SpotHardType extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'spot' => array(self::BELONGS_TO, 'Spot', 'spot_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -65,30 +65,11 @@ class SpotHardType extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Название',
-			'desc' => 'Описание',
-			'photo' => 'Фотография',
+			'user_id' => 'Пользователь',
+			'spot_id' => 'Спот',
+			'creation_date' => 'Дата создания',
 		);
 	}
-
-    public static function getSpotHardType()
-    {
-        $spot_hard_type = Yii::app()->cache->get('spot_hard_type');
-        if ($spot_hard_type === false) {
-            $spot_hard_type = SpotHardType::model()->findAll();
-
-            Yii::app()->cache->set('spot_hard_type', $spot_hard_type, 36000);
-        }
-        return $spot_hard_type;
-    }
-
-    protected function afterSave()
-    {
-        Yii::app()->cache->delete('spot_hard_type');
-        parent::afterSave();
-
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -102,9 +83,10 @@ class SpotHardType extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('desc',$this->desc,true);
-		$criteria->compare('photo',$this->photo,true);
+		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('spot_id',$this->spot_id);
+		$criteria->compare('body',$this->body,true);
+		$criteria->compare('creation_date',$this->creation_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -1,20 +1,35 @@
+<?php $this->pageTitle = 'Типы спотов'; ?>
 <?php
-/* @var $this SpotTypeController */
-/* @var $dataProvider CActiveDataProvider */
-
-$this->breadcrumbs=array(
-	'Spot Types',
+$this->breadcrumbs = array(
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Типы спотов' => array('/admin/spotType/'),
+    'Управление'
 );
-
 $this->menu=array(
-	array('label'=>'Create SpotType', 'url'=>array('create')),
-	array('label'=>'Manage SpotType', 'url'=>array('admin')),
+	array('label'=>'Добавить тип', 'url'=>array('create')),
 );
 ?>
 
-<h1>Spot Types</h1>
+<h1>Типы спотов</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'spot-type-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
+        'name',
+        'desc',
+        array(
+            'name' => 'type',
+            'type' => 'raw',
+            'value' => '$data->getType()',
+            'filter' => $model->getTypeList(),
+        ),
+        array(
+            'class' => 'CButtonColumn',
+            'template' => '{update} {delete}',
+        ),
+    ),
 )); ?>

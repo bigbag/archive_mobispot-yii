@@ -99,18 +99,9 @@ class PageController extends Controller
     {
         if (!empty($_FILES)) {
             $maxSize = Yii::app()->par->load('pageImageSize');
-            $type = explode(',', Yii::app()->par->load('pageImageType'));
 
-            $dir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/page/';
+            $dir = Yii::getPathOfAlias('webroot.uploads.page');
 
-            $imageType = array();
-            foreach ($type as $row) {
-                $imageType[] = 'image/' . $row;
-            }
-
-            $_FILES['file']['type'] = strtolower($_FILES['file']['type']);
-
-            if (in_array($_FILES['file']['type'], $imageType)) {
                 $file = md5(date('YmdHis')) . '.jpg';
                 $fileSize = filesize($_FILES['file']['tmp_name']);
 
@@ -122,7 +113,6 @@ class PageController extends Controller
                     );
                     echo stripslashes(json_encode($array));
                 } else echo "Размер файла больше допустимого = " . $maxSize * 1024;
-            } else echo "Файл имеет недопустимый тип";
         }
     }
 

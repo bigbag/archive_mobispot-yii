@@ -15,6 +15,8 @@ if (!$model->nfc) {
     array_push($menu, array('label' => 'Сгенерировать NFC', 'url' => array('nfc', 'id' => $model->id)));
 }
 
+array_push($menu, array('label' => 'Редактировать спот', 'url' => array('update', 'id' => $model->id)));
+
 if ($model->status == Spot::STATUS_ACTIVATED or $model->status == Spot::STATUS_GENERATED) {
     array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
         'submit' => array('delete', 'id' => $model->id),
@@ -75,9 +77,9 @@ $this->menu = $menu;
             'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->generated_date),
         ),
         array(
-            'name' => 'registerered_date',
+            'name' => 'registered_date',
             'type' => 'raw',
-            'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->registerered_date),
+            'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->registered_date),
         ),
         array(
             'name' => 'removed_date',

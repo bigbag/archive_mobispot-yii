@@ -12,22 +12,22 @@
 )); ?>
 
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<strong>ID:</strong> <?php echo $model->id ?>
-	</div>
-    <div class="row">
-        <?php echo $form->label($model, 'premium'); ?>
-        <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList()); ?>
-        <?php echo $form->error($model, 'premium'); ?>
-    </div>
-    <div class="row">
-        <strong>Статус:</strong> <?php echo $model->getStatus() ?>
-    </div>
-
+    <table class="detail-view" id="yw0">
+        <tr class="even">
+            <th><?php echo $form->label($model, 'id'); ?></th>
+            <td><?php echo $model->id ?></td>
+        </tr>
+        <tr class="odd">
+            <th><?php echo $form->label($model, 'premium'); ?></th>
+            <td><?php echo $form->dropDownList($model, 'premium', $model->getPremiumList()); ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->label($model, 'status'); ?></th>
+            <td><?php echo $model->getStatus() ?></td>
+        </tr>
+    </table>
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавть' : 'Сохранить'); ?>
-	</div>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
 
 <?php $this->endWidget(); ?>
 

@@ -1,21 +1,20 @@
+<?php $this->pageTitle = 'Типы исполнения спотов'; ?>
 <?php
-/* @var $this SpotHardTypeController */
-/* @var $model SpotHardType */
-
-$this->breadcrumbs=array(
-	'Spot Hard Types'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
-	'Update',
+$this->breadcrumbs = array(
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Типы исполнения спотов' => array('/admin/spotHardType/'),
+    'Редактировать',
+    $model->name,
 );
-
 $this->menu=array(
-	array('label'=>'List SpotHardType', 'url'=>array('index')),
-	array('label'=>'Create SpotHardType', 'url'=>array('create')),
-	array('label'=>'View SpotHardType', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage SpotHardType', 'url'=>array('admin')),
+    array('label'=>'Добавить тип', 'url'=>array('create')),
+    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array(
+        'submit' => array('delete', 'id' => $model->id),
+        'confirm' => 'Вы уверены что хотите данный тип?')),
 );
 ?>
 
-<h1>Update SpotHardType <?php echo $model->id; ?></h1>
+<h1>Редактировать тип "<?php echo $model->name; ?>"</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

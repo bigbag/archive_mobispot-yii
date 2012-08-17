@@ -15,17 +15,6 @@ class SpotTypeController extends Controller
 	 */
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
@@ -40,7 +29,7 @@ class SpotTypeController extends Controller
 		{
 			$model->attributes=$_POST['SpotType'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect('index');
 		}
 
 		$this->render('create',array(
@@ -64,7 +53,7 @@ class SpotTypeController extends Controller
 		{
 			$model->attributes=$_POST['SpotType'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                $this->redirect('index');
 		}
 
 		$this->render('update',array(
@@ -91,25 +80,14 @@ class SpotTypeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('SpotType');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+        $model=new SpotType('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['SpotType']))
+            $model->attributes=$_GET['SpotType'];
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new SpotType('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SpotType']))
-			$model->attributes=$_GET['SpotType'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+        $this->render('index',array(
+            'model'=>$model,
+        ));
 	}
 
 	/**

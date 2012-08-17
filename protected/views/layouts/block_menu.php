@@ -13,11 +13,14 @@
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
             ),
         ),
-        array('label' => 'Споты', 'url' => array('/admin/spot/'), 'active' => ((in_array(Yii::app()->controller->id, array('discodes', 'spot', 'spotType', 'spotHardType'))) ? true : false),
+        array('label' => 'Споты', 'url' => array('/admin/spot/'), 'active' => ((in_array(Yii::app()->controller->id, array(
+            'discodes', 'spot', 'spotType', 'spotHardType', 'spotField', 'spotComment'))) ? true : false),
             'items' => array(
                 array('label' => 'ДИС', 'url' => array('/admin/discodes')),
                 array('label' => 'Типы спотов', 'url' => array('/admin/spotType/')),
-                array('label' => 'Типы устройств', 'url' => array('/admin/spotHardType/')),
+                array('label' => 'Доступные Поля', 'url' => array('/admin/spotField/')),
+                array('label' => 'Типы исполнения спотов', 'url' => array('/admin/spotHardType/')),
+                array('label' => 'Комментарии', 'url' => array('/admin/spotComment/')),
             ),
         ),
         array('label' => 'Выйти (' . Yii::app()->user->name . ')', 'url' => array('/user/logout'), 'visible' => !Yii::app()->user->isGuest)

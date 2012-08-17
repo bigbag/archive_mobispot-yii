@@ -11,84 +11,64 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'discodes_id'); ?>
-		<?php echo $form->textField($model,'discodes_id'); ?>
-		<?php echo $form->error($model,'discodes_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'spot_type_id'); ?>
-		<?php echo $form->textField($model,'spot_type_id'); ?>
-		<?php echo $form->error($model,'spot_type_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php echo $form->textField($model,'user_id'); ?>
-		<?php echo $form->error($model,'user_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'spot_hard_type_id'); ?>
-		<?php echo $form->textField($model,'spot_hard_type_id'); ?>
-		<?php echo $form->error($model,'spot_hard_type_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'spot_hard'); ?>
-		<?php echo $form->textField($model,'spot_hard',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'spot_hard'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'nfc'); ?>
-		<?php echo $form->textField($model,'nfc',array('size'=>32,'maxlength'=>32)); ?>
-		<?php echo $form->error($model,'nfc'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type'); ?>
-		<?php echo $form->error($model,'type'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
-		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'generated_date'); ?>
-		<?php echo $form->textField($model,'generated_date'); ?>
-		<?php echo $form->error($model,'generated_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'registerered_date'); ?>
-		<?php echo $form->textField($model,'registerered_date'); ?>
-		<?php echo $form->error($model,'registerered_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'removed_date'); ?>
-		<?php echo $form->textField($model,'removed_date'); ?>
-		<?php echo $form->error($model,'removed_date'); ?>
-	</div>
+    <table class="detail-view" id="yw0">
+        <tr class="even">
+            <th><?php echo $form->label($model, 'name'); ?></th>
+            <td><?php echo $model->name ?></td>
+        </tr>
+        <tr class="odd">
+            <th><?php echo $form->label($model, 'discodes_id'); ?></th>
+            <td><?php echo $model->discodes_id ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->labelEx($model,'spot_type_id'); ?></th>
+            <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType($model->type), 'id', 'name')); ?></td>
+        </tr>
+        <tr class="odd"><th>
+            <?php echo $form->label($model, 'status'); ?></th>
+            <td><?php echo $model->getStatus() ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->labelEx($model,'user_id'); ?></th>
+            <td><?php echo ($model->user) ? $model->user->email : ""; ?></td>
+        </tr>
+        <tr class="odd"><th>
+            <?php echo $form->label($model, 'spot_hard_type_id'); ?></th>
+            <td><?php echo $form->dropDownList($model, 'spot_hard_type_id', CHtml::listData(SpotHardType::getSpotHardType(), 'id', 'name')); ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->labelEx($model,'spot_hard'); ?></th>
+            <td><?php echo $form->textField($model,'spot_hard',array('size'=>32,'maxlength'=>32)); ?></td>
+        </tr>
+        <tr class="odd"><th>
+            <?php echo $form->label($model, 'nfc'); ?></th>
+            <td><?php echo $model->nfc ?></td>
+        </tr>
+        <tr class="even"><th>
+            <?php echo $form->label($model, 'type'); ?></th>
+            <td><?php echo $model->getType() ?></td>
+        </tr>
+        <tr class="odd"><th>
+            <?php echo $form->label($model, 'status'); ?></th>
+            <td><?php echo $model->getStatus() ?></td>
+        </tr>
+        <tr class="even"><th>
+            <?php echo $form->label($model, 'generated_date'); ?></th>
+            <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->generated_date) ?></td>
+        </tr>
+        <tr class="odd"><th>
+            <?php echo $form->label($model, 'registered_date'); ?></th>
+            <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->registered_date) ?></td>
+        </tr>
+        <tr class="even"><th>
+            <?php echo $form->label($model, 'removed_date'); ?></th>
+            <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->removed_date) ?></td>
+        </tr>
+    </table>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

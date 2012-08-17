@@ -19,5 +19,6 @@ return array(
     //'application.modules.user.components.*',
     //'ext.sxgeo.*',
     'application.extensions.phpass.*',
+    'application.extensions.image.*',
     'ext.mongo.*',
 );

@@ -18,7 +18,7 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'spot_hard_type_id'); ?>
-		<?php echo $form->textField($model,'spot_hard_type_id'); ?>
+        <?php echo $form->dropDownList($model, 'spot_hard_type_id', CHtml::listData(SpotHardType::getSpotHardType(), 'id', 'name'), array('empty' => '')); ?>
 	</div>
 
 	<div class="row">
@@ -51,8 +51,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'registerered_date'); ?>
-		<?php echo $form->textField($model,'registerered_date'); ?>
+		<?php echo $form->label($model,'registered_date'); ?>
+		<?php echo $form->textField($model,'registered_date'); ?>
 	</div>
 
 	<div class="row">

@@ -45,7 +45,10 @@ $this->widget('ext.selgridview.SelGridView', array(
         ),
         'discodes_id',
         'code',
-        'spot_type_id',
+        array(
+            'name' => 'spot_type_name',
+            'value' => '($data->spot_type)?$data->spot_type->name:""',
+        ),
         array(
             'name' => 'user_id',
             'type' => 'raw',

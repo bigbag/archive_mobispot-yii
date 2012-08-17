@@ -1,6 +1,6 @@
 <?php
-/* @var $this SpotTypeController */
-/* @var $model SpotType */
+/* @var $this SpotFieldController */
+/* @var $model SpotField */
 ?>
 
 <div class="view">
@@ -13,8 +13,12 @@
 	<?php echo CHtml::encode($data->name); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('field')); ?>:</b>
-	<?php echo CHtml::encode($data->field); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('desc')); ?>:</b>
+	<?php echo CHtml::encode($data->desc); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('widget')); ?>:</b>
+	<?php echo CHtml::encode($data->widget); ?>
 	<br />
 
 
