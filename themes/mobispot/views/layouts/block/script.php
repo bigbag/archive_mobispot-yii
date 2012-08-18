@@ -8,6 +8,28 @@
             $("#button-auth span").hide();
         });
     });
+    //Регистрация
+    $(document).ready(function () {
+        var options = {
+            success:showRegistrationResponse,
+            clearForm:true,
+            url:'/ajax/registration/'
+        };
+
+        $('#registration').submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+    });
+
+    function showRegistrationResponse(responseText) {
+        if (responseText) {
+            alert(1);
+        }
+        else {
+            alert(0);
+        }
+    }
     //Вход
     $(document).ready(function () {
         var options = {
@@ -30,12 +52,6 @@
             $('#mistake-auth').show();
         }
     }
-    $(function () {
-        $('body').delegate('#test', 'click', function () {
-            alert(1);
-        });
-        return false;
-    });
 
     //Восстановление пароля
     $(function () {

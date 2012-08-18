@@ -22,9 +22,9 @@ class AdminModule extends CWebModule
 
             if (isset(Yii::app()->user->id)) $user = User::model()->findByPk(Yii::app()->user->id);
 
-            //if (!$user or ($user and $user->type != User::TYPE_ADMIN)) {
-            //    throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
-            //}
+            if (!$user or ($user and $user->type != User::TYPE_ADMIN)) {
+                throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+            }
 
             return true;
         } else

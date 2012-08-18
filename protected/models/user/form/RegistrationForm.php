@@ -8,18 +8,19 @@ class RegistrationForm extends User
 {
     public $verifyPassword;
     public $terms;
-    public $discodes_code;
+    public $code;
 
     public function rules()
     {
         $rules = array(
-            array('email, password', 'required'),
+            array('email, password, terms, verifyPassword', 'required'),
             array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
-            //array('terms', 'in', 'range' => array(1), 'message' => Yii::t('user', "To register, you must agree to the terms of this agreement")),
+            array('terms', 'in', 'range' => array(1), 'message' => Yii::t('user', "To register, you must agree to the terms of this agreement")),
             array('email', 'email'),
+            array('code', 'length', 'is' => 10, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
             array('email', 'unique', 'message' => Yii::t('user', "This user's email address already exists.")),
             array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', "Retype Password is incorrect.")),
-            //array('discodes_code', 'checkexists'),
+            array('code', 'checkexists'),
         );
         return $rules;
     }
@@ -27,14 +28,10 @@ class RegistrationForm extends User
     public function checkexists($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if ($this->discodes_code) {
-                $discodes = Discodes::model()->findByAttributes(array('code' => $this->discodes_code, 'status' => Discodes::STATUS_INIT));
-            } else $discodes = null;
+            $spot = Spot::model()->findByAttributes(array('code' => $this->code, 'status' => Spot::STATUS_ACTIVATED));
 
-            if ($discodes === null)
-                if ($this->discodes_code) {
-                    $this->addError("discodes_code", Yii::t('user', "The activation code is incorrect spot."));
-                }
+            if ($spot === null)
+            $this->addError("discodes_code", Yii::t('user', "The activation code is incorrect spot."));
         }
     }
 

@@ -60,4 +60,9 @@ class AjaxController extends MController
         }
     }
 
+    public function actionRegistration()
+    {
+
+    }
+
 }
