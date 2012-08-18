@@ -5,11 +5,16 @@
  */
 class MController extends Controller
 {
+
+    public $pageDescription;
+    public $pageKeywords;
+
+    public $pageClass;
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
      * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
      */
-    public $layout='//layouts/column1';
+    public $layout = '//layouts/all';
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
@@ -23,5 +28,23 @@ class MController extends Controller
 
     public function setAccess(){
         throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+    }
+
+    public function beforeRender()
+    {
+
+        if (!empty($this->pageDescription)) $description = $this->pageDescription;
+        else $description = Yii::app()->par->load('siteDesc');
+
+        Yii::app()->clientScript->registerMetaTag($description, 'description');
+
+        if (!empty($this->pageKeywords)) $keywords = $this->pageKeywords;
+        else  $keywords = Yii::app()->par->load('siteKeywords');
+
+        Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
+
+        //Yii::app()->cache->flush();
+
+        return true;
     }
 }
