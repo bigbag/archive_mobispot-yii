@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css"/>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.form.min.js' ); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.form.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.redirect.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/lightbox.js'); ?>
 

@@ -6,18 +6,18 @@ $this->breadcrumbs = array(
     'Типы исполнения спотов' => array('/admin/spotHardType/'),
     'Управление'
 );
-$this->menu=array(
-    array('label'=>'Добавить тип', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Добавить тип', 'url' => array('create')),
 );
 ?>
 
 <h1>Типы исполнения спотов</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'spot-hard-type-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+    'id' => 'spot-hard-type-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
         'name',
         'desc',
         array(

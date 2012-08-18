@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Типы страниц';?>
+<?php $this->pageTitle = 'Типы страниц'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -14,4 +14,4 @@ $this->menu = array(
 
 <h1>Создать тип</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

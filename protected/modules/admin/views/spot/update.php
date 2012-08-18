@@ -28,4 +28,4 @@ $this->menu = $menu;
 
 <h1>Редактировать спот ID <?php echo $model->discodes_id; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

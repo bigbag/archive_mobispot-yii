@@ -102,17 +102,17 @@ class PageController extends Controller
 
             $dir = Yii::getPathOfAlias('webroot.uploads.page');
 
-                $file = md5(date('YmdHis')) . '.jpg';
-                $fileSize = filesize($_FILES['file']['tmp_name']);
+            $file = md5(date('YmdHis')) . '.jpg';
+            $fileSize = filesize($_FILES['file']['tmp_name']);
 
-                if ($fileSize < $maxSize * 1024) {
-                    move_uploaded_file($_FILES['file']['tmp_name'], $dir . $file);
+            if ($fileSize < $maxSize * 1024) {
+                move_uploaded_file($_FILES['file']['tmp_name'], $dir . $file);
 
-                    $array = array(
-                        'filelink' => $this->createUrl('/uploads/page/' . $file)
-                    );
-                    echo stripslashes(json_encode($array));
-                } else echo "Размер файла больше допустимого = " . $maxSize * 1024;
+                $array = array(
+                    'filelink' => $this->createUrl('/uploads/page/' . $file)
+                );
+                echo stripslashes(json_encode($array));
+            } else echo "Размер файла больше допустимого = " . $maxSize * 1024;
         }
     }
 

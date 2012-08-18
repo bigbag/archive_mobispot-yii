@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Типы страниц';?>
+<?php $this->pageTitle = 'Типы страниц'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),

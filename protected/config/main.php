@@ -34,7 +34,10 @@ return array(
             'cachingDuration' => 3600,
 
         ),
-
+        'user' => array(
+            'class' => 'CWebUser',
+            'allowAutoLogin' => true,
+        ),
         'mongodb' => array(
             'class' => 'EMongoDB',
             'connectionString' => 'mongodb://localhost',
@@ -66,7 +69,7 @@ return array(
                     'levels' => 'error, warning, trace, profile, info',
                 ),
                 //array(
-                //    'class'=>'ext.db_profiler.DbProfileLogRoute',
+                //    'class' => 'ext.db_profiler.DbProfileLogRoute',
                 //    'countLimit' => 1,
                 //    'slowQueryMin' => 0.01,
                 //),

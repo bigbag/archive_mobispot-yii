@@ -12,10 +12,10 @@ $this->breadcrumbs = array(
 <h1>Управление комментариями</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'spot-comment-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+    'id' => 'spot-comment-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
         array(
             'name' => 'user_id',
             'type' => 'raw',

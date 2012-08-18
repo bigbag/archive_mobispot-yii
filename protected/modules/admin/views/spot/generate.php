@@ -27,7 +27,7 @@ $this->menu = array(
     </div>
     <div class="row">
         <label>Активировать споты после генерации? </label>
-        <?php echo CHtml::radioButtonList('SpotGenerate[activate]',0,array(0 =>'Нет',1 =>'Да'), array('separator'=>' ', 'template' =>'{label} {input}' )); ?>
+        <?php echo CHtml::radioButtonList('SpotGenerate[activate]', 0, array(0 => 'Нет', 1 => 'Да'), array('separator' => ' ', 'template' => '{label} {input}')); ?>
     </div>
     <div class="row buttons">
         <?php echo CHtml::submitButton('Сгенерировать'); ?>

@@ -18,17 +18,13 @@ class MController extends Controller
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
-    public $menu=array();
+    public $menu = array();
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-    public $breadcrumbs=array();
-
-    public function setAccess(){
-        throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
-    }
+    public $breadcrumbs = array();
 
     public function beforeRender()
     {
@@ -46,5 +42,22 @@ class MController extends Controller
         //Yii::app()->cache->flush();
 
         return true;
+    }
+
+    public function lastVisit()
+    {
+        Yii::app()->db->createCommand()
+            ->update('user',
+            array(
+                'lastvisit' => new CDbExpression('NOW()'),
+            ),
+            'id=:id',
+            array(':id' => Yii::app()->user->id));
+        return true;
+    }
+
+    public function setAccess()
+    {
+        throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
     }
 }

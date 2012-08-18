@@ -13,7 +13,7 @@ class SpotModel extends EMongoSoftDocument
         return 'mixed_collection';
     }
 
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

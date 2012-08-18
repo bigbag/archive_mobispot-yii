@@ -7,8 +7,8 @@ $this->breadcrumbs = array(
     'Редактировать',
     $model->name,
 );
-$this->menu=array(
-    array('label'=>'Добавить тип', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Добавить тип', 'url' => array('create')),
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array(
         'submit' => array('delete', 'id' => $model->id),
         'confirm' => 'Вы уверены что хотите данный тип?')),
@@ -17,4 +17,4 @@ $this->menu=array(
 
 <h1>Редактировать тип "<?php echo $model->name; ?>"</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

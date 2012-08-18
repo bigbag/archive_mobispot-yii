@@ -29,23 +29,17 @@ class UserRecoveryForm extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'email' => 'Email',
+            'email' => Yii::t('user', 'Email'),
         );
     }
 
     public function checkexists($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
-            if (strpos($this->email, "@")) {
-                $user = User::model()->findByAttributes(array('email' => $this->email));
-
-            } else $user = null;
+        if (!$this->hasErrors()) {
+            $user = User::model()->findByAttributes(array('email' => $this->email));
 
             if ($user === null)
-                if (strpos($this->email, "@")) {
-                    $this->addError("email", Yii::t('user', "Email is incorrect."));
-                }
+                $this->addError("email", Yii::t('user', "Email is incorrect."));
         }
     }
 

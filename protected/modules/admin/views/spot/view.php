@@ -32,7 +32,7 @@ $this->menu = $menu;
 <div class="success">
     <?php echo Yii::app()->user->getFlash('spot'); ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,

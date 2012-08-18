@@ -188,9 +188,9 @@ class Spot extends CActiveRecord
         $sort = new CSort;
         $sort->attributes = array(
             'defaultOrder' => 'generated_date desc',
-            'spot_type_name'=>array(
-                'asc'=>'spot_type.name',
-                'desc'=>'spot_type.name DESC',
+            'spot_type_name' => array(
+                'asc' => 'spot_type.name',
+                'desc' => 'spot_type.name DESC',
             ),
 
         );
@@ -205,7 +205,7 @@ class Spot extends CActiveRecord
         $criteria->compare('name', $this->name, true);
         $criteria->compare('discodes_id', $this->discodes_id);
         $criteria->compare('spot_type_id', $this->spot_type_id);
-        $criteria->compare('spot_type.name',$this->spot_type_name,true);
+        $criteria->compare('spot_type.name', $this->spot_type_name, true);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
         $criteria->compare('spot_hard', $this->spot_hard, true);
@@ -222,7 +222,7 @@ class Spot extends CActiveRecord
             'pagination' => array(
                 'pageSize' => 20,
             ),
-            'sort'=>$sort,
+            'sort' => $sort,
         ));
     }
 }

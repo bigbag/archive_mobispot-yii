@@ -6,8 +6,8 @@ $this->breadcrumbs = array(
     'Типы спотов' => array('/admin/spotType/'),
     'Управление'
 );
-$this->menu=array(
-	array('label'=>'Добавить тип', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Добавить тип', 'url' => array('create')),
 );
 ?>
 

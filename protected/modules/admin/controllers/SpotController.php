@@ -73,7 +73,7 @@ class SpotController extends Controller
                 $spot->type = $type;
                 $spot->save();
             }
-           return true;
+            return true;
         }
         return false;
     }
@@ -109,16 +109,16 @@ class SpotController extends Controller
     public function actionDelete()
     {
         $flag = false;
-        if  (isset($_GET['id'])){
+        if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $id = explode('|', $id);
-            if (isset($id[0])){
-                foreach ($id as $row){
+            if (isset($id[0])) {
+                foreach ($id as $row) {
                     $spot = Spot::model()->findByPk((int)$row);
-                    if ($spot){
-                        if ($spot->status == Spot::STATUS_GENERATED or $spot->status == Spot::STATUS_ACTIVATED){
+                    if ($spot) {
+                        if ($spot->status == Spot::STATUS_GENERATED or $spot->status == Spot::STATUS_ACTIVATED) {
                             $dis_id = $spot->discodes_id;
-                            if ($spot->delete()){
+                            if ($spot->delete()) {
                                 $dis = Discodes::model()->findByPk($dis_id);
                                 $dis->status = Discodes::STATUS_INIT;
                                 $dis->save();
@@ -129,8 +129,8 @@ class SpotController extends Controller
                 }
             }
         }
-        if (!isset($_GET['ajax'])){
-            if ($flag) Yii::app()->user->setFlash('spot', 'Спот ID '.$dis_id.' удалён.');
+        if (!isset($_GET['ajax'])) {
+            if ($flag) Yii::app()->user->setFlash('spot', 'Спот ID ' . $dis_id . ' удалён.');
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/admin/spot');
         }
 
@@ -154,13 +154,13 @@ class SpotController extends Controller
 
     public function actionActivate()
     {
-        if  (isset($_GET['id'])){
+        if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $id = explode('|', $id);
-            if (isset($id[0])){
-                foreach ($id as $row){
+            if (isset($id[0])) {
+                foreach ($id as $row) {
                     $spot = Spot::model()->findByPk((int)$row);
-                    if ($spot and $spot->status == Spot::STATUS_GENERATED){
+                    if ($spot and $spot->status == Spot::STATUS_GENERATED) {
                         $spot->status = Spot::STATUS_ACTIVATED;
                         $spot->save();
                     }
@@ -168,12 +168,11 @@ class SpotController extends Controller
             }
         }
 
-        if (!isset($_GET['ajax'])){
+        if (!isset($_GET['ajax'])) {
             Yii::app()->user->setFlash('spot', 'Спот активирован.');
             $referer = Yii::app()->request->getUrlReferrer();
             $this->redirect($referer);
         }
-
 
 
     }
@@ -196,9 +195,9 @@ class SpotController extends Controller
             $type = (int)$_POST['SpotGenerate']['type'];
             $activate = (int)$_POST['SpotGenerate']['activate'];
 
-            if ($this->getDisId($premium, $type, $activate, $count)){
+            if ($this->getDisId($premium, $type, $activate, $count)) {
                 if ($activate == 1) $message = 'Споты сгенерированы и активированы.';
-                else $message  = 'Споты сгенерированы.';
+                else $message = 'Споты сгенерированы.';
                 Yii::app()->user->setFlash('spot', $message);
                 $this->redirect('/admin/spot');
             }

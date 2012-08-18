@@ -14,7 +14,7 @@ class UserChangePassword extends CFormModel
         return array(
             array('password, verifyPassword', 'required'),
             array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
-            array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' =>Yii::t('user', "Retype Password is incorrect.")),
+            array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', "Retype Password is incorrect.")),
         );
     }
 

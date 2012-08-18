@@ -19,7 +19,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<?php echo CHtml::link('Сгенерировать активационные коды', '/admin/spot/generate'); ?><br />
+<?php echo CHtml::link('Сгенерировать активационные коды', '/admin/spot/generate'); ?><br/>
 <?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php $this->renderPartial('_search', array(
@@ -31,7 +31,7 @@ $('.search-form form').submit(function(){
 <div class="success">
     <?php echo Yii::app()->user->getFlash('spot'); ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 
 <?
 $this->widget('ext.selgridview.SelGridView', array(
@@ -74,9 +74,10 @@ $this->widget('ext.selgridview.SelGridView', array(
 ));
 ?>
 
-<button id="activate_btn" type="button">Активировать</button><button id="delete_btn" type="button">Удалить</button>
+<button id="activate_btn" type="button">Активировать</button>
+<button id="delete_btn" type="button">Удалить</button>
 <script type="text/javascript">
-    $("#activate_btn, #delete_btn").click(function(){
+    $("#activate_btn, #delete_btn").click(function () {
         var url;
         var action = $(this).attr('id');
         var selected = $("#spot-grid").selGridView("getAllSelection");
@@ -90,8 +91,8 @@ $this->widget('ext.selgridview.SelGridView', array(
                 url:url,
                 dataType:"json",
                 type:'GET',
-                data:{id:id, ajax: 1},
-                complete: function (data, textStatus) {
+                data:{id:id, ajax:1},
+                complete:function (data, textStatus) {
                     $().redirect('/admin/spot/');
                 }
             });

@@ -6,9 +6,9 @@
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'spot-hard-type-form',
-	'enableAjaxValidation'=>false,
+    <?php $form = $this->beginWidget('CActiveForm', array(
+    'id' => 'spot-hard-type-form',
+    'enableAjaxValidation' => false,
 )); ?>
 
     <p class="note">Поля, отмеченные <span class="required">*</span> обязательны к заполнению.</p>
@@ -16,12 +16,12 @@
     <?php echo $form->errorSummary($model); ?>
     <table class="detail-view" id="yw0">
         <tr class="even">
-            <th><?php echo $form->labelEx($model,'name'); ?></th>
-            <td><?php echo $form->textField($model,'name',array('size'=>30,'maxlength'=>150)); ?></td>
+            <th><?php echo $form->labelEx($model, 'name'); ?></th>
+            <td><?php echo $form->textField($model, 'name', array('size' => 30, 'maxlength' => 150)); ?></td>
         </tr>
         <tr class="odd">
             <th><?php echo $form->label($model, 'desc'); ?></th>
-            <td><?php echo $form->textArea($model,'desc',array('rows'=>6, 'cols'=>50)); ?></td>
+            <td><?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?></td>
         </tr>
         <tr class="even">
             <th><?php echo $form->labelEx($model, 'photo'); ?></th>
@@ -39,11 +39,11 @@
             </td>
         </tr>
     </table>
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
-	</div>
+    <div class="row buttons">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
+    </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div>
 

@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'ДИС';?>
+<?php $this->pageTitle = 'ДИС'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -25,18 +25,18 @@ $('.search-form form').submit(function(){
 <h1>Управление ДИС</h1>
 
 
-<?php echo CHtml::link('Расширенный поиск','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search',array(
-    'model'=>$model,
+    <?php $this->renderPartial('_search', array(
+    'model' => $model,
 )); ?>
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'discodes-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+    'id' => 'discodes-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
         'id',
         array(
             'name' => 'premium',
