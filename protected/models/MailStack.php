@@ -48,6 +48,13 @@ class MailStack extends CActiveRecord
         );
     }
 
+    public function beforeValidate()
+    {
+        if ($this->isNewRecord) $this->creation_date = new CDbExpression('NOW()');
+
+        return parent::beforeValidate();
+    }
+
     /**
      * @return array relational rules.
      */

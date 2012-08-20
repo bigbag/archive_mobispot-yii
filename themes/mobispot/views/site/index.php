@@ -53,7 +53,7 @@
                 <?php else: ?>
                 <h2>Мои споты</h2><span id="sort-spot"><span><?php echo Yii::t('general', 'По номерам')?></span> / <a
                     href=""><?php echo Yii::t('general', 'По названию')?></a></span>
-                <form action="account" method="get">
+                <form action="/user/account" method="get">
                     <div class="btn-form">
                         <div class="btn-form-cl"><a href="">492358</a><a href="" class="name-spot">Личный</a></div>
                     </div>

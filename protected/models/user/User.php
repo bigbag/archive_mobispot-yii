@@ -91,6 +91,17 @@ class User extends CActiveRecord
         return parent::beforeValidate();
     }
 
+    protected function afterSave()
+    {
+        if ($this->isNewRecord) {
+            $profile = new UserProfile;
+            $profile->user_id = $this->id;
+            $profile->save();
+        }
+
+        parent::afterSave();
+    }
+
 
     /**
      * @return array relational rules.

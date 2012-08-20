@@ -19,14 +19,16 @@ class UserController extends MController
     public function actionLogin()
     {
         if (Yii::app()->user->isGuest) {
-            $model = new LoginForm;
-            if (isset($_POST['UserLogin'])) {
-                $model->attributes = $_POST['UserLogin'];
+            $model = new LoginCaptchaForm;
+            if (isset($_POST['LoginCaptchaForm'])) {
+                $model->attributes = $_POST['LoginCaptchaForm'];
+                if ($model->rememberMe == 'on') $model->rememberMe = 1;
+                else $model->rememberMe = 0;
                 if ($model->validate()) {
                     $this->redirect(Yii::app()->user->returnUrl);
                 }
             }
-            $this->render('/user/login', array('model' => $model));
+            $this->render('login', array('model' => $model));
         } else
             $this->redirect(Yii::app()->user->returnUrl);
     }
@@ -67,7 +69,26 @@ class UserController extends MController
                     }
                 }
             }
-            $this->render('/user/registration', array('model' => $model));
+            $this->render('registration', array('model' => $model));
         }
+    }
+    public function actionProfile(){
+        if (!Yii::app()->user->id) {
+            throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+        }
+        else{
+            $this->render('profile');
+        }
+
+    }
+
+    public function actionAccount(){
+        if (!Yii::app()->user->id) {
+            throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+        }
+        else{
+            $this->render('account');
+        }
+
     }
 }

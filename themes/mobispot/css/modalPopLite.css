@@ -136,3 +136,17 @@
 }
 /* end popup */
 
+.modal
+{
+    display: table;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #fff;
+    -webkit-border-radius: .5em;
+    -moz-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-shadow: 0 0px 25px rgba(0,0,0,.9);
+    -moz-box-shadow: 0 0px 25px rgba(0,0,0,.9);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+
+}

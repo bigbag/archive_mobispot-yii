@@ -1,11 +1,3 @@
-<?php
-$this->breadcrumbs = array(
-    Yii::t('user', "Login"),
-);
-?>
-
-<h1><?php echo Yii::t('user', "Login"); ?></h1>
-
 <?php if (Yii::app()->user->hasFlash('loginMessage')): ?>
 
 <div class="success">
@@ -13,71 +5,86 @@ $this->breadcrumbs = array(
 </div>
 
 <?php endif; ?>
+<div class="modal">
+    <div class="cont-pop">
+        <?php echo CHtml::beginForm(); ?>
+            <span class="error"><?php echo CHtml::errorSummary($model); ?></span>
+            <center>Вы не правильно ввели комбинацию логина<br/> и пароля. Пожалуйста повторите попытку
+                <table class="form">
+                    <tr>
+                        <td>
+                                <div class="txt-form">
+                                    <div class="txt-form-cl">
+                                        <input type="text" name="LoginCaptchaForm[email]" style="width:100%;" class="txt"
+                                               value="<?php echo $model->email;?>" placeholder="E-mail"/>
+                                        <input type="hidden" name="token" id="token"
+                                               value="<?php echo Yii::app()->request->csrfToken?>">
+                                    </div>
+                                </div>
 
-<p><?php echo Yii::t('user', "Please fill out the following form with your login credentials:"); ?></p>
-
-<div class="form">
-    <?php echo CHtml::beginForm(); ?>
-
-    <p class="note"><?php echo Yii::t('user', 'Fields with <span class="required">*</span> are required.'); ?></p>
-
-    <?php echo CHtml::errorSummary($model); ?>
-
-    <div class="row">
-        <?php echo CHtml::activeLabelEx($model, 'email'); ?>
-        <?php echo CHtml::activeTextField($model, 'email') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>
+                                <div class="txt-form">
+                                    <div class="txt-form-cl">
+                                        <input type="password" name="LoginCaptchaForm[password]" style="width:100%;"
+                                               class="txt" value="<?php echo $model->password;?>" placeholder="Пароль"/>
+                                    </div>
+                                </div>
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="dop-txt">Запомнить меня</span><input name="LoginCaptchaForm[rememberMe]"
+                                                                              type="checkbox" class="niceCheck"></td>
+                    </tr>
+                    <tr>
+                </table>
+                Пожалуйста введите код показанный на картинке
+                <table class="form">
+                    <tr>
+                        <td>
+                            <div id="img-capt">
+                                <?php $this->widget('CCaptcha', array(
+                                'clickableImage' => true,
+                                'showRefreshButton' => true,
+                                'buttonType' => 'button',
+                                'buttonOptions' =>
+                                array('type' => 'image',
+                                    'src' => "/themes/mobispot/images/ico-refresh.png",
+                                    'width' => 21,
+                                ),
+                            ));?>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>
+                                <div class="txt-form">
+                                    <div class="txt-form-cl">
+                                        <input type="text" style="width:100%;" class="txt"
+                                               name="LoginCaptchaForm[verifyCode]" value="" placeholder=""/>
+                                    </div>
+                                </div>
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>
+                                <div class="round-btn" style="float:right">
+                                    <div class="round-btn-cl">
+                                        <input type="submit" class="" value="Отправить"/>
+                                    </div>
+                                </div>
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        <?php echo CHtml::endForm(); ?>
     </div>
-
-    <div class="row">
-        <?php echo CHtml::activeLabelEx($model, 'password'); ?>
-        <?php echo CHtml::activePasswordField($model, 'password') ?>
-    </div>
-
-    <div class="row rememberMe">
-        <?php echo CHtml::activeCheckBox($model, 'rememberMe'); ?>
-        <?php echo CHtml::activeLabelEx($model, 'rememberMe'); ?>
-    </div>
-    <?php $this->widget('CCaptcha', array(
-    'clickableImage' => true,
-    'showRefreshButton' => true,
-    'buttonType' => 'button',
-    'buttonOptions' =>
-    array('type' => 'image',
-        'src' => "/themes/mobispot/images/ico-refresh.png",
-        'width' => 21,
-    ),
-));?><input type="text" class="txt"
-            name="LoginCaptchaForm[verifyCode]" value="" placeholder=""/>
-    <div class="row submit">
-        <?php echo CHtml::submitButton(Yii::t('user', "Login")); ?>
-    </div>
-
-    <?php echo CHtml::endForm(); ?>
-</div><!-- form -->
-
-
-<?php
-$form = new CForm(array(
-    'elements' => array(
-        'email' => array(
-            'type' => 'text',
-            'maxlength' => 32,
-        ),
-        'password' => array(
-            'type' => 'password',
-            'maxlength' => 32,
-        ),
-        'rememberMe' => array(
-            'type' => 'checkbox',
-        )
-    ),
-
-    'buttons' => array(
-        'login' => array(
-            'type' => 'submit',
-            'label' => 'Login',
-        ),
-    ),
-), $model);
-?>
-
+</div>
