@@ -74,7 +74,7 @@ class AjaxController extends MController
                         echo 1;
                     } else {
                         //echo json_encode(array('error' => $form->getErrors()));
-                        echo 1;
+                        echo 0;
                     }
                 }
             }
@@ -105,6 +105,7 @@ class AjaxController extends MController
                     $form->email = $_POST['email'];
                     if ($form->validate()) {
                         $user = User::model()->findByAttributes(array('email' => $form->email));
+                        MMail::recovery($user->email, $user->activkey);
 
                         echo true;
                     } else echo false;
@@ -137,8 +138,8 @@ class AjaxController extends MController
                             $spot->status = Spot::STATUS_REGISTERED;
                             $spot->save();
 
-                            $activation_url = $this->createAbsoluteUrl('/user/activation/activation', array("activkey" => $model->activkey, "email" => $model->email));
-                            //UserModule::sendMail($model->email, Yii::t('user', "You registered from {site_name}", array('{site_name}' => Yii::app()->name)), Yii::t('user', "Please activate you account go to {activation_url}", array('{activation_url}' => $activation_url)));
+                            MMail::activation($model->email, $model->activkey);
+
                             Yii::app()->user->setFlash('registration', Yii::t('user', "Thank you for your registration. Please check your email."));
                             echo true;
                         }
