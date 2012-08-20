@@ -2,6 +2,7 @@
 
 class UserController extends MController
 {
+
     public function actions()
     {
         return array(
@@ -18,7 +19,7 @@ class UserController extends MController
     public function actionLogin()
     {
         if (Yii::app()->user->isGuest) {
-            $model = new UserLogin;
+            $model = new LoginForm;
             if (isset($_POST['UserLogin'])) {
                 $model->attributes = $_POST['UserLogin'];
                 if ($model->validate()) {

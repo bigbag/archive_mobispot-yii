@@ -66,7 +66,7 @@ class User extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('email, password, activkey, creation_date, lastvisit', 'required'),
+            array('email, password, activkey, creation_date', 'required'),
             array('email', 'email'),
             array('email', 'unique', 'message' => Yii::t('user', "This user's email address already exists.")),
             array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
@@ -84,7 +84,6 @@ class User extends CActiveRecord
     {
         if ($this->isNewRecord) {
             $this->creation_date = new CDbExpression('NOW()');
-            $this->lastvisit = $this->creation_date;
             $this->status = self::STATUS_NOACTIVE;
             $this->type = self::TYPE_USER;
         }

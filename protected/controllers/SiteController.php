@@ -8,15 +8,12 @@ class SiteController extends MController
     public function actions()
     {
         return array(
-            // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => array(
-                'class' => 'CCaptchaAction',
-                'backColor' => 0xFFFFFF,
-            ),
-            // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
-            'page' => array(
-                'class' => 'CViewAction',
+                'class' => 'application.extensions.kcaptcha.KCaptchaAction',
+                'maxLength' => 6,
+                'minLength' => 5,
+                'foreColor' => array(mt_rand(0, 100), mt_rand(0, 100), mt_rand(0, 100)),
+                'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
             ),
         );
     }

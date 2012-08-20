@@ -13,7 +13,6 @@
                 </div>
             </div>
         </div>
-
         <div id="registration-block">
             <div id="registration-form">
                 <?php if (Yii::app()->user->isGuest): ?>
@@ -21,28 +20,33 @@
                 <form action="#" method="post" id="registration">
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input type="text" style="width:325px;" class="txt" name="RegistrationForm[email]"
+                            <input type="text" id="email" style="width:325px;" class="txt" name="RegistrationForm[email]"
                                    value="" placeholder="Адрес электронной почты"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input type="text" style="width:325px;" class="txt" name="RegistrationForm[password]"
+                            <input type="text" id="password" style="width:325px;" class="txt" name="RegistrationForm[password]"
                                    value="" placeholder="Пароль"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input type="text" style="width:325px;" class="txt" name="RegistrationForm[verifyPassword]"
+                            <input type="text" id="verifyPassword" style="width:325px;" class="txt" name="RegistrationForm[verifyPassword]"
                                    value="" placeholder="Подтверждение пароля"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input type="text" style="width:325px;" class="txt" name="RegistrationForm[code]"
+                            <input type="text" id="code" style="width:325px;" class="txt" name="RegistrationForm[code]"
                                    value="" placeholder="Код активации спота"/></div>
                     </div>
-
-                    <input type="checkbox" name="RegistrationForm[terms]" value="1" class="niceCheck"><span class="dop-txt">Я согласен с условиями предоставления сервиса</span>
+                    <div id="terms" style="display: none;">
+                        <input type="checkbox" name="RegistrationForm[terms]" value="1" class="niceCheck">
+                    <span class="dop-txt">
+                        Я согласен с условиями предоставления сервиса
+                    </span>
+                    </div>
 
                     <div class="btn-30">
+                        <input type="hidden" name="token" id="token" value="<?php echo Yii::app()->request->csrfToken?>">
                         <div><input type="submit" value="Зарегистрироваться"/></div>
                     </div>
                 </form>
@@ -111,4 +115,3 @@
         <div class="clear"></div>
     </div>
 </div>
-

@@ -38,7 +38,8 @@ class UserIdentity extends CUserIdentity
         else {
             $this->_id = $user->id;
             $this->_email = $user->email;
-            $this->_password = $user->password;
+            $this->username = $user->email;
+            $this->password = $user->password;
             $this->errorCode = self::ERROR_NONE;
         }
         return !$this->errorCode;

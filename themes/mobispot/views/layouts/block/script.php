@@ -9,10 +9,23 @@
         });
     });
     //Регистрация
+    $(function () {
+        var count = 0;
+        $('#email, #password, #verifyPassword, #code').bind('change', function(){
+            count++;
+        });
+        $('#email, #password, #verifyPassword, #code').bind('focus', function(){
+            if (count == 3){
+                $('#terms').show();
+            }
+        });
+    });
+
+
     $(document).ready(function () {
         var options = {
             success:showRegistrationResponse,
-            clearForm:true,
+            clearForm:false,
             url:'/ajax/registration/'
         };
 
@@ -24,7 +37,8 @@
 
     function showRegistrationResponse(responseText) {
         if (responseText) {
-            alert(1);
+            alert('<?php echo Yii::t("user", "Спасибо за регистрацию на нашем сайте, на указанную вами email была отправлено письмо с инструкцией по активации вашей учётной записи.")?>');
+            $().redirect('/');
         }
         else {
             alert(0);
@@ -42,26 +56,55 @@
             $(this).ajaxSubmit(options);
             return false;
         });
+
+    });
+
+    $(document).ready(function () {
+        var options = {
+            success:showLoginCaptchaResponse,
+            clearForm:false,
+            url:'/ajax/loginCaptcha/'
+        };
+
+        $('#login_captcha_form').submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+
     });
 
     function showLoginResponse(responseText) {
-        if (responseText) {
-            $('#user_menu').html(responseText);
+        if (responseText == 'email_error') {
+            $('#mistake-auth').show();
+            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пользователя с таким логином не существует.')?>');
+        }
+        else if (responseText == 'password_error') {
+            $('#mistake-auth').show();
+            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль не верен.')?>');
+        }
+        else if (responseText  == 'login_error_count'){
+            $('#login-captcha').modalPopLite({ openButton: '#button-auth', closeButton: '.close-btn' });
+            $('#login-captcha').show();
+        }
+        else if (responseText) {
+            $().redirect('/');
+        }
+    }
+
+    function showLoginCaptchaResponse(responseText) {
+        if (responseText == 1) {
+            $().redirect('/');
         }
         else {
-            $('#mistake-auth').show();
+            //$('#yw0_button').click();
+            $('#login_captcha_form span.error').text('<?php echo Yii::t("user", "Вы не правильно заполнили поля.")?>');
         }
     }
 
     //Восстановление пароля
     $(function () {
-        $('body').delegate('#forget-pass', 'click', function () {
-            $(function(){
-                mw = new ModalWindowClass();
-                mw.show($('#error-login').html());
-            });
-        });
-        return false;
+        $('#recovery').modalPopLite({ openButton: '#forget-pass', closeButton: '.close-btn' });
+        $('#recovery').show();
     });
 
     $(document).ready(function ()  {
@@ -79,11 +122,12 @@
 
     function showRecoveryResponse(responseText) {
         if (responseText == 1) {
-            $('#error-login').hide();
-            alert('По указанному вами адресу отправлено письмо с информацией о востановлении пароля. ');
+            $('#recovery').hide();
+            alert('<?php echo Yii::t("user", "По указанному вами адресу отправлено письмо с информацией о востановлении пароля.")?>');
+            $().redirect('/');
         }
         else if (responseText == 0) {
-            $('#recovery_form span').text('Hа сайте не зарегистрирован пользователь с такими данными.');
+            $('#recovery_form span').text('<?php echo Yii::t("user", "Hа сайте не зарегистрирован пользователь с таким Email.")?>');
         }
     }
 

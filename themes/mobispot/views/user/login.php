@@ -37,7 +37,17 @@ $this->breadcrumbs = array(
         <?php echo CHtml::activeCheckBox($model, 'rememberMe'); ?>
         <?php echo CHtml::activeLabelEx($model, 'rememberMe'); ?>
     </div>
-
+    <?php $this->widget('CCaptcha', array(
+    'clickableImage' => true,
+    'showRefreshButton' => true,
+    'buttonType' => 'button',
+    'buttonOptions' =>
+    array('type' => 'image',
+        'src' => "/themes/mobispot/images/ico-refresh.png",
+        'width' => 21,
+    ),
+));?><input type="text" class="txt"
+            name="LoginCaptchaForm[verifyCode]" value="" placeholder=""/>
     <div class="row submit">
         <?php echo CHtml::submitButton(Yii::t('user', "Login")); ?>
     </div>
