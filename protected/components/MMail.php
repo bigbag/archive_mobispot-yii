@@ -11,7 +11,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $subject;
-        $stack->body = $this->renderPartial('/themes/mobispot/views/mail/info',
+        $stack->body = $this->renderPartial('/mail/info',
             array(
                 'title' => $subject,
                 'message' => $message,
@@ -33,7 +33,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $subject;
-        $stack->body = $this->renderPartial('/themes/mobispot/views/mail/info',
+        $stack->body = $this->renderPartial('/mail/info',
             array(
                 'title' => $subject,
                 'message' => $message,

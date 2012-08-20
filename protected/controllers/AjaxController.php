@@ -100,7 +100,7 @@ class AjaxController extends MController
     {
         if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
             if ($_POST['token'] == Yii::app()->request->csrfToken) {
-                $form = new UserRecoveryForm;
+                $form = new RecoveryForm;
                 if (isset($_POST['email'])) {
                     $form->email = $_POST['email'];
                     if ($form->validate()) {
