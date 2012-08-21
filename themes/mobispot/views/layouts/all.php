@@ -7,6 +7,7 @@
     <div id="header">
         <?php include('block/menu.php');?>
     </div>
+    <div id="errors"></div>
     <?php echo $content; ?>
 </div>
 <div class="center-rel">

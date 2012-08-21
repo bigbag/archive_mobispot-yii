@@ -68,8 +68,8 @@ class User extends CActiveRecord
         return array(
             array('email, password, activkey, creation_date', 'required'),
             array('email', 'email'),
-            array('email', 'unique', 'message' => Yii::t('user', "This user's email address already exists.")),
-            array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
+            array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
+            array('password', 'length', 'max' => 128, 'min' => 10, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
             array('type, status', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
@@ -120,17 +120,17 @@ class User extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'password' => Yii::t('user', "password"),
-            'verifyPassword' => Yii::t('user', "Retype Password"),
+            'password' => Yii::t('user', "Пароль"),
+            'verifyPassword' => Yii::t('user', "Подтверждение пароля"),
             'email' => Yii::t('user', "E-mail"),
-            'verifyEmail' => Yii::t('user', "Retype Email"),
-            'verifyCode' => Yii::t('user', "Verification Code"),
+            'verifyEmail' => Yii::t('user', "Подтверждение Email"),
+            'verifyCode' => Yii::t('user', "Проверочный код"),
             'id' => Yii::t('user', "Id"),
-            'activkey' => Yii::t('user', "activation key"),
-            'creation_date' => Yii::t('user', "Registration date"),
-            'lastvisit' => Yii::t('user', "Last visit"),
-            'status' => Yii::t('user', "Status"),
-            'type' => Yii::t('user', "Type"),
+            'activkey' => Yii::t('user', "Ключ активации"),
+            'creation_date' => Yii::t('user', "Дата регистрации"),
+            'lastvisit' => Yii::t('user', "Последний визит"),
+            'status' => Yii::t('user', "Статус"),
+            'type' => Yii::t('user', "Тип"),
         );
     }
 

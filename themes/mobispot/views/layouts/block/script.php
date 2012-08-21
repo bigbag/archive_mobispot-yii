@@ -11,10 +11,10 @@
     //Регистрация
     $(function () {
         var count = 0;
-        $('#email, #password, #verifyPassword, #code').bind('change', function(){
+        $('#email, #password, #verifyPassword, #activ_code').bind('change', function(){
             count++;
         });
-        $('#email, #password, #verifyPassword, #code').bind('focus', function(){
+        $('#email, #password, #verifyPassword, #activ_code').bind('focus', function(){
             if (count == 3){
                 $('#terms').show();
             }
@@ -36,12 +36,26 @@
     });
 
     function showRegistrationResponse(responseText) {
-        if (responseText) {
+        if (responseText == 1) {
             alert('<?php echo Yii::t("user", "Спасибо за регистрацию на нашем сайте, на указанную вами email была отправлено письмо с инструкцией по активации вашей учётной записи.")?>');
-            $().redirect('/');
+            $().redirect('/', null, 'GET');
         }
         else {
-            alert(0);
+            var obj = jQuery.parseJSON(responseText);
+
+            var error = "<ol>";
+            if (obj.error.email) error += "<li>" + obj.error.email + "</li>";
+            if (obj.error.password) error += "<li>" + obj.error.password + "</li>";
+            if (obj.error.verifyPassword) error += "<li>" + obj.error.verifyPassword + "</li>";
+            if (obj.error.terms) error += "<li>" + obj.error.terms + "</li>";
+            if (obj.error.activ_code) error += "<li>" + obj.error.activ_code + "</li>";
+            if (obj.error.verifyCode) error += "<li>" + obj.error.verifyCode + "</li>";
+            error += "</ol>";
+
+            $('#terms').show();
+            $('#registration_captcha').show();
+            $('#registration-form span.error').empty() ;
+            $('#registration-form span.error').html(error);
         }
     }
     //Вход
@@ -87,13 +101,13 @@
             $('#login-captcha').show();
         }
         else if (responseText) {
-            $().redirect('/');
+            $().redirect('/', null, 'GET');
         }
     }
 
     function showLoginCaptchaResponse(responseText) {
         if (responseText == 1) {
-            $().redirect('/');
+            $().redirect('/', null, 'GET');
         }
         else {
             $('#yw0_button').click();
@@ -124,7 +138,7 @@
         if (responseText == 1) {
             $('#recovery').hide();
             alert('<?php echo Yii::t("user", "По указанному вами адресу отправлено письмо с информацией о востановлении пароля.")?>');
-            $().redirect('/');
+            $().redirect('/', null, 'GET');
         }
         else if (responseText == 0) {
             $('#recovery_form span').text('<?php echo Yii::t("user", "Hа сайте не зарегистрирован пользователь с таким Email.")?>');

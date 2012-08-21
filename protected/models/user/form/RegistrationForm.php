@@ -8,19 +8,20 @@ class RegistrationForm extends User
 {
     public $verifyPassword;
     public $terms;
-    public $code;
+    public $activ_code;
 
     public function rules()
     {
         $rules = array(
-            array('email, password, terms, verifyPassword', 'required'),
-            array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
-            array('terms', 'in', 'range' => array(1), 'message' => Yii::t('user', "To register, you must agree to the terms of this agreement")),
+            array('email, password, verifyPassword', 'required'),
+            array('activ_code', 'required', 'message' => Yii::t('user', "Необходимо указать код активации спота")),
+            array('terms', 'required', 'message' => Yii::t('user', "Вы должны согласиться с условиями предоставления сервиса")),
+            array('password', 'length', 'min' => 5, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
+            array('activ_code', 'length', 'is' => 10, 'message' => Yii::t('user', "Код активации должен иметь длину 10 символов")),
             array('email', 'email'),
-            array('code', 'length', 'is' => 10, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
-            array('email', 'unique', 'message' => Yii::t('user', "This user's email address already exists.")),
-            array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', "Retype Password is incorrect.")),
-            array('code', 'checkexists'),
+            array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
+            array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', "Пароли не совпадают")),
+            array('activ_code', 'checkexists'),
         );
         return $rules;
     }
@@ -28,10 +29,10 @@ class RegistrationForm extends User
     public function checkexists($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $spot = Spot::model()->findByAttributes(array('code' => $this->code, 'status' => Spot::STATUS_ACTIVATED));
+            $spot = Spot::model()->findByAttributes(array('code' => $this->activ_code, 'status' => Spot::STATUS_ACTIVATED));
 
             if ($spot === null)
-            $this->addError("discodes_code", Yii::t('user', "The activation code is incorrect spot."));
+            $this->addError("activ_code", Yii::t('user', "Код активации спота неверен"));
         }
     }
 
