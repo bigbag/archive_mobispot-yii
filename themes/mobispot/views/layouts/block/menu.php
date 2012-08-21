@@ -13,12 +13,12 @@
         <?php if (Yii::app()->user->isGuest):?>
         <form action="#" method="post" id="login_form">
             <div id="form-auth-login" >
-                <input name="LoginForm[email]" type="text" class="txt-inp" placeholder="E-mail" />
+                <input name="LoginForm[email]" type="text" class="txt-inp" placeholder="E-mail" autocomplete="off"/>
                 <input type="hidden" name="token" id="token" value="<?php echo Yii::app()->request->csrfToken?>">
                 <span id="save-me"><input name="LoginForm[rememberMe]" type="checkbox"><?php echo Yii::t('user', 'Запомнить меня')?></span>
             </div>
             <div id="form-auth-pass">
-                <input name="LoginForm[password]" type="password" class="txt-inp" placeholder="Пароль" />
+                <input name="LoginForm[password]" type="password" class="txt-inp" placeholder="Пароль" autocomplete="off"/>
                 <span id="forget-pass"><?php echo Yii::t('user', 'Забыли пароль?')?></span>
             </div>
             <div id="button-auth"><span><?php echo Yii::t('user', 'Войти')?></span><input type="submit" value="<?php echo Yii::t('user', 'Войти')?>"  style="display:none" /></div>
