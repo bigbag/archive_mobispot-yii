@@ -19,3 +19,4 @@ uploads/
 *.properties
 nbproject/
 /.idea/
+index.php

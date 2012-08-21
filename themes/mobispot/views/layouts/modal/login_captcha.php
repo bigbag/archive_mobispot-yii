@@ -11,7 +11,7 @@
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="text" name="LoginCaptchaForm[email]" style="width:100%;" class="txt"
-                                               value="" placeholder="E-mail"/>
+                                               value="" placeholder="E-mail" autocomplete="off"/>
                                         <input type="hidden" name="token" id="token"
                                                value="<?php echo Yii::app()->request->csrfToken?>">
                                     </div>
@@ -25,7 +25,7 @@
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="password" name="LoginCaptchaForm[password]" style="width:100%;"
-                                               class="txt" value="" placeholder="Пароль"/>
+                                               class="txt" value="" placeholder="Пароль" autocomplete="off"/>
                                     </div>
                                 </div>
                             </center>
@@ -61,7 +61,7 @@
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="text" style="width:100%;" class="txt"
-                                               name="LoginCaptchaForm[verifyCode]" value="" placeholder=""/>
+                                               name="LoginCaptchaForm[verifyCode]" value="" placeholder="" autocomplete="off"/>
                                     </div>
                                 </div>
                             </center>
