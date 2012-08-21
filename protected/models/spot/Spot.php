@@ -33,8 +33,9 @@ class Spot extends CActiveRecord
     const STATUS_ACTIVATED = 1;
     const STATUS_REGISTERED = 2;
     const STATUS_CLONES = 3;
-    const STATUS_REMOVED = 4;
-    const STATUS_INVISIBLE = 5;
+    const STATUS_REMOVED_USER = 4;
+    const STATUS_REMOVED_SYS = 5;
+    const STATUS_INVISIBLE = 6;
 
     public $spot_type_name;
 
@@ -54,7 +55,8 @@ class Spot extends CActiveRecord
             self::STATUS_REGISTERED => 'Зарегистрирован',
             self::STATUS_INVISIBLE => 'Невидим',
             self::STATUS_CLONES => 'Клон',
-            self::STATUS_REMOVED => 'Удалён',
+            self::STATUS_REMOVED_USER => 'Удалён пользователем',
+            self::STATUS_REMOVED_SYS => 'Удалён системой',
         );
     }
 
@@ -132,11 +134,20 @@ class Spot extends CActiveRecord
             $this->registered_date = new CDbExpression('NOW()');
         }
 
-        if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED)) {
+        if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED_USER or $this->status == self::STATUS_REMOVED_SYS)) {
             $this->removed_date = new CDbExpression('NOW()');
         }
 
         return parent::beforeValidate();
+    }
+
+    protected function afterDelete()
+    {
+        $dis = Discodes::model()->findByPk($this->discodes_id);
+        $dis->status = Discodes::STATUS_INIT;
+        $dis->save();
+
+        parent::afterDelete();
     }
 
     /**

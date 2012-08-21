@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Споты'; ?>
+<?php $this->pageTitle = 'Пользователи'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -14,7 +14,7 @@ $this->breadcrumbs = array(
 
 <?
 $this->widget('ext.selgridview.SelGridView', array(
-    'id' => 'гыук-grid',
+    'id' => 'user-grid',
     'dataProvider' => $model->search(),
     'selectableRows' => 2,
     'filter' => $model,
@@ -32,6 +32,18 @@ $this->widget('ext.selgridview.SelGridView', array(
             'name' => 'lastvisit',
             'type' => 'raw',
             'value' => 'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->lastvisit)',
+        ),
+        array(
+            'name' => 'type',
+            'type' => 'raw',
+            'value' => '$data->getType()',
+            'filter' => $model->getTypeList(),
+        ),
+        array(
+            'name' => 'status',
+            'type' => 'raw',
+            'value' => '$data->getStatus()',
+            'filter' => $model->getStatusList(),
         ),
         array(
             'class' => 'CButtonColumn',

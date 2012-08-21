@@ -109,6 +109,7 @@ class SpotController extends Controller
     public function actionDelete()
     {
         $flag = false;
+        $dis_id = 0;
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $id = explode('|', $id);
@@ -119,9 +120,6 @@ class SpotController extends Controller
                         if ($spot->status == Spot::STATUS_GENERATED or $spot->status == Spot::STATUS_ACTIVATED) {
                             $dis_id = $spot->discodes_id;
                             if ($spot->delete()) {
-                                $dis = Discodes::model()->findByPk($dis_id);
-                                $dis->status = Discodes::STATUS_INIT;
-                                $dis->save();
                                 $flag = true;
                             }
                         }

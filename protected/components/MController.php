@@ -50,7 +50,7 @@ class MController extends Controller
             $id = Yii::app()->user->id;
             $info = Yii::app()->cache->get('user_' . $id);
             if ($info == false) {
-                $info = UserProfile::model()->findByAttributes(array('user_id' => $id));
+                $info = UserProfile::model()->findByPk($id);
                 $user = User::model()->findByPk($id);
                 if (empty($info->name)) $info->name = $user->email;
 

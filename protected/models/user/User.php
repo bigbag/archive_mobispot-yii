@@ -40,6 +40,18 @@ class User extends CActiveRecord
         );
     }
 
+    public function getType()
+    {
+        $data = $this->getTypeList();
+        return $data[$this->type];
+    }
+
+    public function getStatus()
+    {
+        $data = $this->getStatusList();
+        return $data[$this->status];
+    }
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -100,6 +112,13 @@ class User extends CActiveRecord
         }
 
         parent::afterSave();
+    }
+
+    protected function afterDelete()
+    {
+        UserProfile::model()->deleteByPk($this->id);
+        Spot::model()->updateAll(array('status' => Spot::STATUS_REMOVED_SYS, 'removed_date' => new CDbExpression('NOW()')), 'user_id = '.$this->id );
+        parent::afterDelete();
     }
 
 
