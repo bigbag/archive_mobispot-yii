@@ -171,8 +171,6 @@ class SpotController extends Controller
             $referer = Yii::app()->request->getUrlReferrer();
             $this->redirect($referer);
         }
-
-
     }
 
     public function actionNfc()

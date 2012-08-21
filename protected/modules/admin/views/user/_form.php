@@ -11,54 +11,49 @@
     'enableAjaxValidation' => false,
 )); ?>
 
-    <p class="note">Fields with <span class="required">*</span> are required.</p>
-
     <?php echo $form->errorSummary($model); ?>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'email'); ?>
-        <?php echo $form->textField($model, 'email', array('size' => 60, 'maxlength' => 128)); ?>
-        <?php echo $form->error($model, 'email'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'password'); ?>
-        <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 128)); ?>
-        <?php echo $form->error($model, 'password'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'activkey'); ?>
-        <?php echo $form->textField($model, 'activkey', array('size' => 60, 'maxlength' => 128)); ?>
-        <?php echo $form->error($model, 'activkey'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'creation_date'); ?>
-        <?php echo $form->textField($model, 'creation_date'); ?>
-        <?php echo $form->error($model, 'creation_date'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'lastvisit'); ?>
-        <?php echo $form->textField($model, 'lastvisit'); ?>
-        <?php echo $form->error($model, 'lastvisit'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'type'); ?>
-        <?php echo $form->textField($model, 'type'); ?>
-        <?php echo $form->error($model, 'type'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'status'); ?>
-        <?php echo $form->textField($model, 'status'); ?>
-        <?php echo $form->error($model, 'status'); ?>
-    </div>
+    <table class="detail-view" id="yw0">
+        <tr class="even">
+            <th><?php echo $form->label($model, 'email'); ?></th>
+            <td><?php echo $model->email ?></td>
+        </tr>
+        <tr class="odd">
+            <th><?php echo $form->label($model, 'name'); ?></th>
+            <td><?php echo $model->profile->name ?></td>
+        </tr>
+        <tr class="even">
+            <th><?php echo $form->label($model, 'email'); ?></th>
+            <td><?php echo $model->email ?></td>
+        </tr>
+        <tr class="odd">
+            <th>
+                <?php echo $form->label($model, 'creation_date'); ?>
+            </th>
+            <td>
+                <?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->creation_date) ?>
+            </td>
+        </tr>
+        <tr class="even">
+            <th>
+                <?php echo $form->label($model, 'lastvisit'); ?></th>
+            <td>
+                <?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->lastvisit) ?>
+            </td>
+        </tr>
+        <tr class="odd">
+            <th><?php echo $form->label($model, 'type'); ?></th>
+            <td><?php echo $form->dropDownList($model, 'status', $model->getTypeList()); ?></td>
+        </tr>
+        <tr class="even">
+            <th>
+                <?php echo $form->label($model, 'status'); ?>
+            </th>
+            <td><?php echo $form->dropDownList($model, 'status', $model->getStatusList()); ?></td>
+        </tr>
+    </table>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить'); ?>
     </div>
 
     <?php $this->endWidget(); ?>

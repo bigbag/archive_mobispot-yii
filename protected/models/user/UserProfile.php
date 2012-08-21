@@ -21,7 +21,23 @@
  */
 class UserProfile extends CActiveRecord
 {
-	/**
+    const SEX_MALE = 0;
+    const SEX_FEMALE = 1;
+
+    public function getSexList()
+    {
+        return array(
+            self::SEX_MALE => Yii::t('user', 'Мужчина'),
+            self::SEX_FEMALE => Yii::t('user', 'Женщина'),
+        );
+    }
+
+    public function getSex()
+    {
+        $data = $this->getSexList();
+        return $data[$this->sex];
+    }
+    /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return UserProfile the static model class

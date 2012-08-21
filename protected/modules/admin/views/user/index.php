@@ -5,6 +5,7 @@ $this->breadcrumbs = array(
     'Пользователи' => array('/admin/user/'),
     'Управление'
 );
+
 ?>
 <?php if (Yii::app()->user->hasFlash('user')): ?>
 <div class="success">
@@ -18,11 +19,13 @@ $this->widget('ext.selgridview.SelGridView', array(
     'dataProvider' => $model->search(),
     'selectableRows' => 2,
     'filter' => $model,
+    'afterAjaxUpdate'=>"function(){jQuery('#creation_date_search').datepicker({'dateFormat': 'yy-mm-dd'})}",
     'columns' => array(
         array(
             'class' => 'CCheckBoxColumn',
         ),
         'email',
+
         array(
             'name' => 'creation_date',
             'type' => 'raw',
@@ -47,8 +50,36 @@ $this->widget('ext.selgridview.SelGridView', array(
         ),
         array(
             'class' => 'CButtonColumn',
-           // 'template' => '{view} {update}',
+            'template' => '{update} {delete}',
         ),
     ),
 ));
 ?>
+
+<button id="activate_btn" type="button">Активировать</button>
+<button id="banned_btn" type="button">Заблокировать</button>
+<script type="text/javascript">
+    $("#activate_btn, #banned_btn").click(function () {
+
+        var url;
+        var action = $(this).attr('id');
+        var selected = $("#user-grid").selGridView("getAllSelection");
+        var id = selected.join("|");
+
+        if (action === 'activate_btn') url = '/admin/user/activate/';
+        else if (action === 'banned_btn') url = '/admin/user/banned/';
+
+        if (id[0]) {
+            $.ajax({
+                url:url,
+                dataType:"json",
+                type:'GET',
+                data:{id:id, ajax:1},
+                success:function (data, textStatus) {
+                    $().redirect('/admin/user/');
+                }
+            });
+        }
+        return false;
+    });
+</script>

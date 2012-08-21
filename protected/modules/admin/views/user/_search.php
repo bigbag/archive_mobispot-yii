@@ -1,6 +1,6 @@
 <?php
-/* @var $this UserController */
-/* @var $model User */
+/* @var $this SpotController */
+/* @var $model Spot */
 /* @var $form CActiveForm */
 ?>
 
@@ -10,44 +10,14 @@
     'action' => Yii::app()->createUrl($this->route),
     'method' => 'get',
 )); ?>
-
     <div class="row">
-        <?php echo $form->label($model, 'id'); ?>
-        <?php echo $form->textField($model, 'id'); ?>
+        <?php echo $form->label($model, 'profile_sex'); ?>
+        <?php echo $form->dropDownList($model, 'profile_sex', UserProfile::getSexList(), array('empty' => '')); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model, 'email'); ?>
-        <?php echo $form->textField($model, 'email', array('size' => 60, 'maxlength' => 128)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'activkey'); ?>
-        <?php echo $form->textField($model, 'activkey', array('size' => 60, 'maxlength' => 128)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'creation_date'); ?>
-        <?php echo $form->textField($model, 'creation_date'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'lastvisit'); ?>
-        <?php echo $form->textField($model, 'lastvisit'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'type'); ?>
-        <?php echo $form->textField($model, 'type'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'status'); ?>
-        <?php echo $form->textField($model, 'status'); ?>
-    </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Search'); ?>
+        <?php echo CHtml::submitButton('Найти'); ?>
     </div>
 
     <?php $this->endWidget(); ?>

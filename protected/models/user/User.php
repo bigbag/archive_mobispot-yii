@@ -15,7 +15,6 @@
  */
 class User extends CActiveRecord
 {
-
     const STATUS_NOACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = -1;
@@ -26,17 +25,17 @@ class User extends CActiveRecord
     public function getStatusList()
     {
         return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Not active'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
-            self::STATUS_BANNED => Yii::t('user', 'Banned'),
+            self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
+            self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
+            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
         );
     }
 
     public function getTypeList()
     {
         return array(
-            self::TYPE_USER => Yii::t('user', 'User'),
-            self::TYPE_ADMIN => Yii::t('user', 'Admin'),
+            self::TYPE_USER => Yii::t('user', 'Пользователь'),
+            self::TYPE_ADMIN => Yii::t('user', 'Админ'),
         );
     }
 
@@ -143,12 +142,13 @@ class User extends CActiveRecord
             'password' => Yii::t('user', "Пароль"),
             'verifyPassword' => Yii::t('user', "Подтверждение пароля"),
             'email' => Yii::t('user', "E-mail"),
+            'name' => Yii::t('user', "Имя"),
             'verifyEmail' => Yii::t('user', "Подтверждение Email"),
             'verifyCode' => Yii::t('user', "Проверочный код"),
             'id' => Yii::t('user', "Id"),
             'activkey' => Yii::t('user', "Ключ активации"),
             'creation_date' => Yii::t('user', "Дата регистрации"),
-            'lastvisit' => Yii::t('user', "Последний визит"),
+            'lastvisit' => Yii::t('user', "Дата последнего посещения"),
             'status' => Yii::t('user', "Статус"),
             'type' => Yii::t('user', "Тип"),
         );

@@ -86,13 +86,13 @@ $this->widget('ext.selgridview.SelGridView', array(
         if (action === 'activate_btn') url = '/admin/spot/activate/';
         else if (action === 'delete_btn') url = '/admin/spot/delete/';
 
-        if (id[1]) {
+        if (id[0]) {
             $.ajax({
                 url:url,
                 dataType:"json",
                 type:'GET',
                 data:{id:id, ajax:1},
-                complete:function (data, textStatus) {
+                success:function (data, textStatus) {
                     $().redirect('/admin/spot/');
                 }
             });

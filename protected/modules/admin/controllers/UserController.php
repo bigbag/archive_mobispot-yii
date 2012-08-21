@@ -9,39 +9,6 @@ class UserController extends Controller
     public $layout = '//layouts/admin_column1';
 
     /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionView($id)
-    {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
-        ));
-    }
-
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
-    {
-        $model = new User;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
-        if (isset($_POST['User'])) {
-            $model->attributes = $_POST['User'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
-        }
-
-        $this->render('create', array(
-            'model' => $model,
-        ));
-    }
-
-    /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
@@ -56,7 +23,7 @@ class UserController extends Controller
         if (isset($_POST['User'])) {
             $model->attributes = $_POST['User'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect('/admin/user');
         }
 
         $this->render('update', array(
@@ -71,11 +38,11 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->loadModel($id)->delete();
+        if ($id != 1) $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/admin/user');
     }
 
     /**
@@ -91,6 +58,40 @@ class UserController extends Controller
         $this->render('index', array(
             'model' => $model,
         ));
+    }
+
+    public function actionActivate()
+    {
+        if (isset($_GET['id'])) {
+            $id = explode('|', $_GET['id']);
+            if (isset($id[0])) {
+                foreach ($id as $row) {
+                    $user = User::model()->findByPk((int)$row);
+                    if ($user) {
+                        $user->status = User::STATUS_ACTIVE;
+                        $user->save();
+                    }
+                }
+            }
+        }
+    }
+
+    public function actionBanned()
+    {
+        if (isset($_GET['id'])) {
+             $id = explode('|', $_GET['id']);
+            if (isset($id[0])) {
+                foreach ($id as $row) {
+                    if ($row != 1){
+                        $user = User::model()->findByPk((int)$row);
+                        if ($user) {
+                            $user->status = User::STATUS_BANNED;
+                            $user->save();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
