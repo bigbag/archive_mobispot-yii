@@ -72,6 +72,42 @@ class UserController extends MController
             $this->render('registration', array('model' => $model));
         }
     }
+
+    public function actionActivation(){
+        if (Yii::app()->user->id) {
+            $this->redirect('/');
+        }
+        else{
+            $email = $_GET['email'];
+            $activkey = $_GET['activkey'];
+
+            if ($email && $activkey) {
+                $find = User::model()->findByAttributes(array('email' => $email));
+                if (isset($find->activkey) && ($find->activkey == $activkey)) {
+                    $find->activkey = sha1(microtime());
+                    $find->status = User::STATUS_ACTIVE;
+                    if ($find->save()){
+                        $this->render('activation',
+                            array(
+                                'title' => Yii::t('user', "Активация пользователя"),
+                                'content' => Yii::t('user', "Вы успешно активировали учётную запись.")
+                            ));
+                    }
+                }
+                else $this->render('activation',
+                    array(
+                        'title' => Yii::t('user', "Активация пользователя"),
+                        'content' => Yii::t('user', "Неверная активационная ссылка.")
+                    ));
+            }
+            else $this->render('activation',
+                array(
+                    'title' => Yii::t('user', "Активация пользователя"),
+                    'content' => Yii::t('user', "Неверная активационная ссылка.")
+                ));
+        }
+    }
+
     public function actionProfile(){
         if (!Yii::app()->user->id) {
             throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
@@ -79,7 +115,6 @@ class UserController extends MController
         else{
             $this->render('profile');
         }
-
     }
 
     public function actionAccount(){

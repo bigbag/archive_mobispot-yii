@@ -3,7 +3,7 @@ Class MMail
 {
     public function activation($email, $activkey)
     {
-        $activation_url = Yii::app()->request->hostInfo . '/service/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->request->hostInfo . '/user/activation/activkey/' . $activkey . '/email/' . $email;
         $subject = Yii::t('mail','Вы зарегистрировались на сайте ') . Yii::app()->par->load('siteTitle');
         $message = Yii::t('mail','Для активации вашей учётной записи вам необходимо перейти по ссылке ') . $activation_url;
 
@@ -25,7 +25,7 @@ Class MMail
 
     public function recovery($email, $activkey)
     {
-        $activation_url = Yii::app()->request->hostInfo . '/service/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->request->hostInfo . '/user/activation/activkey/' . $activkey . '/email/' . $email;
         $subject = Yii::t('mail', 'Востановлен пароля на сайте ') . Yii::app()->par->load('siteTitle');
         $message = Yii::t('mail', 'Для востановления пароля вам необходимо перейти по ссылке ') . $activation_url;
 

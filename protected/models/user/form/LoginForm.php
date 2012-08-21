@@ -18,6 +18,7 @@ class LoginForm extends CFormModel
             // email and password are required
             array('email', 'required'),
             array('email', 'email'),
+            array('email, password', 'filter', 'filter' => 'trim'),
             // rememberMe needs to be a boolean
             array('rememberMe', 'boolean'),
             // password needs to be authenticated

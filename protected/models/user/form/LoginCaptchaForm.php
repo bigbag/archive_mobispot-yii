@@ -19,6 +19,7 @@ class LoginCaptchaForm extends CFormModel
             // email and password are required
             array('email', 'required'),
             array('email', 'email'),
+            array('email, password', 'filter', 'filter' => 'trim'),
             array('verifyCode', 'captcha'),
             // rememberMe needs to be a boolean
             array('rememberMe', 'boolean'),

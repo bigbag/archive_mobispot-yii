@@ -110,7 +110,6 @@
             $().redirect('/', null, 'GET');
         }
         else {
-            $('#yw0_button').click();
             $('#login_captcha_form span.error').text('<?php echo Yii::t("user", "Вы не правильно заполнили поля.")?>');
         }
     }

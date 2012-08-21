@@ -113,8 +113,7 @@ class AjaxController extends MController
         }
     }
 
-    public
-    function actionRegistration()
+    public function actionRegistration()
     {
         if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
             if ($_POST['token'] == Yii::app()->request->csrfToken) {

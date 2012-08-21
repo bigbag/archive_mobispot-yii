@@ -15,6 +15,7 @@ class RegistrationCaptchaForm extends User
     {
         $rules = array(
             array('email, password, verifyPassword', 'required'),
+            array('email, password, verifyPassword, activ_code', 'filter', 'filter' => 'trim'),
             array('activ_code', 'required', 'message' => Yii::t('user', "Необходимо указать код активации спота")),
             array('terms', 'required', 'message' => Yii::t('user', "Вы должны согласиться с условиями предоставления сервиса")),
             array('password', 'length', 'min' => 5, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),

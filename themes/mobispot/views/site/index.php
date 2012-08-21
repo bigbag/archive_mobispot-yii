@@ -24,25 +24,25 @@
                         <div class="txt-form-cl">
                             <input type="text" id="email" style="width:325px;" class="txt"
                                    name="RegistrationForm[email]"
-                                   value="" placeholder="Адрес электронной почты"/></div>
+                                   value="" placeholder="Адрес электронной почты" autocomplete="off"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="password" style="width:325px;" class="txt"
                                    name="RegistrationForm[password]"
-                                   value="" placeholder="Пароль"/></div>
+                                   value="" placeholder="Пароль" autocomplete="off"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="verifyPassword" style="width:325px;" class="txt"
                                    name="RegistrationForm[verifyPassword]"
-                                   value="" placeholder="Подтверждение пароля"/></div>
+                                   value="" placeholder="Подтверждение пароля" autocomplete="off"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="activ_code" style="width:325px;" class="txt"
                                    name="RegistrationForm[activ_code]"
-                                   value="" placeholder="Код активации спота"/></div>
+                                   value="" placeholder="Код активации спота" autocomplete="off"/></div>
                     </div>
                     <div id="registration_captcha" style="display: none">
                         Пожалуйста введите код показанный на картинке
