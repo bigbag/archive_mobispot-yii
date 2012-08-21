@@ -30,7 +30,7 @@ class AjaxController extends MController
                     $login_error_count = Yii::app()->session['login_error_count'];
                 } else $login_error_count = 0;
 
-                if ($login_error_count > 1) {
+                if ($login_error_count > 2) {
                     echo 'login_error_count';
                 } else {
                     $form = new LoginForm;

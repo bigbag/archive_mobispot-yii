@@ -17,7 +17,6 @@ Class MMail
                 'message' => $message,
             ),
             true);
-        $stack->body = $message;
 
         if ($stack->save()) return true;
         else return false;

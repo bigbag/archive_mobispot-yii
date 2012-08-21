@@ -12,7 +12,7 @@ function WaitShadowClass(options)
         var _this = this;
 
         var block = $('<div>');
-        block.css('background', 'url(/themes/mobispot/images/shadow.png) top left repeat');
+        block.css('background', 'url(images/shadow.png) top left repeat');
         block.css('position', 'absolute');
         block.css('zIndex', '1000');
         block.hide();
@@ -23,7 +23,7 @@ function WaitShadowClass(options)
             /*setTimeout(function(){
                 setPosition(_this, parent);
             }, 100);*/
-        };
+        }
 
         _this.hide = function() {
             _this.block.hide();
@@ -57,6 +57,9 @@ function WaitShadowClass(options)
 function ModalWindowClass(options)
 {
     if ('undefined' == typeof(options))
+        options = {};
+
+    var block = null;
 
     //var content = ( 'undefined' == typeof(options.content) ? '' : options.content );
 
@@ -97,13 +100,13 @@ function ModalWindowClass(options)
             _this.updatePosition();
             _this.block.show();
             //useCuSel();
-        };
+        }
 
         _this.close = function() {
             _this.block.hide();
             _this.block.remove();
             _this.sh.hide();
-        };
+        }
 
         _this.updatePosition = function() {
             var windowObject = $(window);
@@ -111,7 +114,7 @@ function ModalWindowClass(options)
             var top = (windowObject.scrollTop() + windowObject.height() / 2) - (_this.block.height() / 2);
             _this.block.css('left', left);
             _this.block.css('top', top);
-        };
+        }
 
         _this.setContent = function(data) {
             _this.contentBlock.html(data);

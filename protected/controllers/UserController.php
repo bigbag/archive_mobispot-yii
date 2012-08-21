@@ -110,7 +110,7 @@ class UserController extends MController
 
     public function actionProfile(){
         if (!Yii::app()->user->id) {
-            throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+            $this->setAccess();
         }
         else{
             $this->render('profile');
@@ -119,7 +119,7 @@ class UserController extends MController
 
     public function actionAccount(){
         if (!Yii::app()->user->id) {
-            throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+            $this->setAccess();
         }
         else{
             $this->render('account');

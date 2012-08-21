@@ -96,11 +96,16 @@
                         <div class="btn-form-cl"><a href="">492358</a><a href="" class="name-spot">Личный</a></div>
                     </div>
 
+                        <span class="dop-txt"><a href=""><?php echo Yii::t('general', 'Показать ещё')?>
+                            <span></span></a></span>
+                        <br />
+                        <br />
+                        <div style="text-align: right">
+                            <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
+                                   id="btn-lk"/>
+                        </div>
 
-                    <span class="dop-txt"><a href=""><?php echo Yii::t('general', 'Показать ещё')?>
-                        <span></span></a></span>
-                    <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
-                           id="btn-lk"/>
+
                 </form>
                 <?php endif;?>
                 <div class="clear"></div>

@@ -25,9 +25,10 @@
         </form>
         <span id="mistake-auth" style="display:none"></span>
         <?php else:?>
+        <?php $user_info = $this->userInfo();?>
         <div id="auth-on">
             <div id="button-exit"><a href="/user/logout"><span><?php echo Yii::t('user', 'Выйти')?></span></a></div>
-		    <span id="auth-user-name">Илья<br />
+		    <span id="auth-user-name"><?php echo $user_info->name;?><br />
 			    <a href="/user/profile"><?php echo Yii::t('user', 'Изменить личные данные')?></a>
 			</span>
         </div>

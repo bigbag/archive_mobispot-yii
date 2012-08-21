@@ -44,6 +44,23 @@ class MController extends Controller
         return true;
     }
 
+    public function userInfo()
+    {
+        if (Yii::app()->user->id) {
+            $id = Yii::app()->user->id;
+            $info = Yii::app()->cache->get('user_' . $id);
+            if ($info == false) {
+                $info = UserProfile::model()->findByAttributes(array('user_id' => $id));
+                $user = User::model()->findByPk($id);
+                if (empty($info->name)) $info->name = $user->email;
+
+                Yii::app()->cache->set('user_' . $id, $info, 3600);
+            }
+
+            return $info;
+        } else return false;
+    }
+
     public function lastVisit()
     {
         Yii::app()->db->createCommand()
@@ -58,6 +75,6 @@ class MController extends Controller
 
     public function setAccess()
     {
-        throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));
+        throw new CHttpException(403, Yii::t('user', 'У вас не хватает прав для доступа.'));
     }
 }

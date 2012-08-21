@@ -19,7 +19,7 @@ class RecoveryForm extends CFormModel
         return array(
             array('email', 'required'),
             array('email', 'email'),
-            array('email, password', 'filter', 'filter' => 'trim'),
+            array('email', 'filter', 'filter' => 'trim'),
             array('email', 'checkexists'),
         );
     }
