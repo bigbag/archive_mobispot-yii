@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1><?php echo UserModule::t("Change Password"); ?></h1>
+<h1><?php echo Yii::t('user', "Change Password"); ?></h1>
 
 
 <div class="form">

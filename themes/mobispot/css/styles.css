@@ -50,7 +50,8 @@ div#header {width:100%;background: url(../images/header-back.png) left bottom re
 #button-auth input{border:0;float:right;padding:0;margin:0;color:#666;font:normal 16px  Helvetica;cursor:pointer;background:transparent;}
 #save-me{float:left;font-size:12px;color:#798f38;line-height:20px;padding-top:2px}
 #save-me input {float:left;	}
-#forget-pass{padding-top:2px;color:#798f38;font-size:12px;cursor:pointer;line-height:22px;text-decoration:underline}
+#forget-pass{padding-top:2px}
+#forget-pass a{color:#798f38;font-size:12px;line-height:22px;text-decoration:underline}
 #mistake-auth {color:#e61717;font-size:12px;height:20px;display:block;padding-left:3px}
 /* ---Header--- */
 
@@ -93,7 +94,7 @@ div#header {width:100%;background: url(../images/header-back.png) left bottom re
 
 
 #registration-form span.dop-txt {font-size:13px;line-height:22px;float:right;margin:6px 0 0 0;color:#585858}
-#registration-form span.dop-txt a{font-size:12px;line-height:22px;float:right;color:#82817f;width:100%;text-decoration:underline}
+#registration-form span.dop-txt a{font-size:12px;line-height:22px;float:right;color:#82817f;width:100%text-decoration:underline}
 #registration-form span.dop-txt a span{background:url(../images/hand-right.png) 0 0 no-repeat;width:10px;height:7px;display:block;float:right;margin:8px 0 0 8px}
 
 #registration-form .btn-30 {float:right;margin:12px 8px 0 0;border:0;cursor:pointer;display:block;}
@@ -190,7 +191,7 @@ textarea.txtarea:focus {border:1px #b7c86a solid;}
 /* +++Личный кабинет+++ */
 
 #lf-block {float:left;border-top:1px #fbfbfb solid;border-right:1px #dadada solid;width:217px;padding:15px}
-.photo-cont {float:left;border-top:1px #fbfbfb solid;background:#dadada;width:136px;height:168px;-moz-box-shadow:inset 1px 1px 3px rgba(150,150,150,0.5);-webkit-box-shadow:inset 1px 1px 3px rgba(150,150,150,0.5);box-shadow:inset 1px 1px 3px rgba(150,150,150,0.5);border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;behavior: url(ie-css3.htc);}
+.photo-cont {float:left;border-top:1px #fbfbfb solid;background:#dadada;width:136px;height:168px;-moz-box-shadow:inset 1px 1px 3px rgba(150,150,150,0.5);-webkit-box-shadow:inset 1px 1x 3px rgba(150,150,150,0.5);box-shadow:inset 1px 1px 3px rgba(150,150,150,0.5);border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;behavior: url(ie-css3.htc);}
 
 #lf-block span.niceCheck {float:left}
 #lf-block span.dop-txt {font-size:14px;line-height:18px;float:left;color:#7d7d7d;margin-top:1px}
@@ -470,25 +471,25 @@ div#footer #soc-seti #fut-twitter {background-position: -22px 0;}
 border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;  -moz-box-shadow:-2px -2px 2px rgba(180,180,180,1);-webkit-box-shadow: -2px -2px 2px rgba(180,180,180,1);box-shadow:-2px -2px 2px rgba(180,180,180,1);behavior: url(ie-css3.htc);}
 .modal-close {display: block;width: 36px;height: 9px;background: url('../images/close.png') 0 0 no-repeat;position: absolute;right: 10px;top: 7px;cursor:pointer;}
 .modal-content {}
-div.cont-pop {margin:10px 60px 10px 60px;padding:6px;color: #797979;font-size:16px}
-.cont-pop .txt-form {background:url(../images/form/text-form.png) 0 0 no-repeat;height:35px;position:relative;margin:10px 12px 0 0;width:272px}
-.cont-pop .txt-form-cl {background:url(../images/form/text-form.png) 100% -35px no-repeat;width:100%;height:35px;position:absolute;right:-12px}
-.cont-pop .txt-form-cl input {border:0;background:transparent;height:33px;line-height:30px;outline: none;font-size:14px;color:#585858;font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;}
-.cont-pop span.dop-txt {font-size:15px;line-height:22px;float:right;color:#797979}
+div#cont-pop {margin:10px 60px 10px 60px;padding:6px;color: #797979;font-size:16px} 
+#cont-pop .txt-form {background:url(../images/form/text-form.png) 0 0 no-repeat;height:35px;position:relative;margin:10px 12px 0 0;width:272px}
+#cont-pop .txt-form-cl {background:url(../images/form/text-form.png) 100% -35px no-repeat;width:100%;height:35px;position:absolute;right:-12px}
+#cont-pop .txt-form-cl input {border:0;background:transparent;height:33px;line-height:30px;outline: none;font-size:14px;color:#585858;font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;}
+#cont-pop span.dop-txt {font-size:15px;line-height:22px;float:right;color:#797979}
 
-.cont-pop span.niceCheck {float:right}
+#cont-pop span.niceCheck {float:right}
 
-.cont-pop .selectBox {width:150px;}
+#cont-pop .selectBox {width:150px;}
 
-.cont-pop .round-btn {margin:10px 14px 0 0;float:none     }
-.cont-pop .round-btn-cl input {background:transparent;padding:0 20px;font-size:16px;}
+#cont-pop .round-btn {margin:10px 14px 0 0;float:none     }
+#cont-pop .round-btn-cl input {background:transparent;padding:0 20px;font-size:16px;}
 
-.cont-pop #galleryPhoto {position:relative;margin-bottom:10px;overflow:hidden;}
-.cont-pop #galleryPhoto #numPhoto {position:absolute;top:10px;left:10px;color:#fff;text-shadow: 1px 1px 0px rgba(0,0,0,1);}
-.cont-pop #galleryPhoto .navGallery {background:url(../images/navGallery.png) 0 0  no-repeat;height:64px;width:70px}
-.cont-pop #galleryPhoto #left {position:absolute;top:50%;left:0px;background-position:0 0;margin-top:-32px}
-.cont-pop #galleryPhoto #right {position:absolute;top:50%;right:0px;background-position: -70px 0;margin-top:-32px}
-.cont-pop #galleryOption .btn-30{float:right;margin-left:6px}
+#cont-pop #galleryPhoto {position:relative;margin-bottom:10px;overflow:hidden;}
+#cont-pop #galleryPhoto #numPhoto {position:absolute;top:10px;left:10px;color:#fff;text-shadow: 1px 1px 0px rgba(0,0,0,1);}
+#cont-pop #galleryPhoto .navGallery {background:url(../images/navGallery.png) 0 0  no-repeat;height:64px;width:70px}
+#cont-pop #galleryPhoto #left {position:absolute;top:50%;left:0px;background-position:0 0;margin-top:-32px}
+#cont-pop #galleryPhoto #right {position:absolute;top:50%;right:0px;background-position: -70px 0;margin-top:-32px}
+#cont-pop #galleryOption .btn-30{float:right;margin-left:6px}
 
 /* ---Pop-win--- */
 
@@ -506,7 +507,11 @@ border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;behavior: url
 -moz-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);-webkit-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);box-shadow: 1px 1px 1px rgba(150,150,150,0.5);}
 
 
-span.error {
-    color: #f00;
-    padding: 4px 0 4px 30px;
+
+.selectBox-dropdown-menu {
+    position: absolute;
+    z-index: 99999;
+    max-height: 200px;
+    min-height: 1em;
+    overflow: auto;
 }

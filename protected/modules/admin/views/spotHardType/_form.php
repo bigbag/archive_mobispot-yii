@@ -69,7 +69,7 @@
             'onUploadSuccess':function (file, data, response) {
                 $('.hard_photo').html('<img src="/uploads/images/' + data + '" />');
                 $('#SpotHardType_photo').val(data);
-                $('#hard_photo').css({'display':'none'});
+                $('#hard_photo').hide();
             }
         });
     });

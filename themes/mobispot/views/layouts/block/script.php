@@ -21,7 +21,6 @@
         });
     });
 
-
     $(document).ready(function () {
         var options = {
             success:showRegistrationResponse,
@@ -163,4 +162,8 @@
         });
     });
     jQuery('input[placeholder], textarea[placeholder]').placeholder();
+
+    $(document).ready(function() {
+        $("select").selectBox();
+    });
 </script>

@@ -113,7 +113,24 @@ class UserController extends MController
             $this->setAccess();
         }
         else{
-            $this->render('profile');
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
+
+            if (isset($_POST['UserProfile'])) {
+                if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)){
+                    $profile->attributes = $_POST['UserProfile'];
+                    if ($profile->validate()) {
+                        $profile->save();
+                        $this->refresh();
+                    }
+                }
+                else{
+                    Yii::app()->user->setFlash('profile', Yii::t('profile', "Для изменения профиля вы должны вести свой пароль."));
+                }
+            }
+            $this->render('profile', array(
+                'profile' => $profile,
+            ));
         }
     }
 

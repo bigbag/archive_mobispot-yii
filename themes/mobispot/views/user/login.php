@@ -9,14 +9,14 @@
     <div class="cont-pop">
         <?php echo CHtml::beginForm(); ?>
             <span class="error"><?php echo CHtml::errorSummary($model); ?></span>
-            <center>Вы не правильно ввели комбинацию логина<br/> и пароля. Пожалуйста повторите попытку
+            <center><?php echo Yii::t('user', 'Вы не правильно ввели комбинацию логина<br/> и пароля. Пожалуйста повторите попытку')?>
                 <table class="form">
                     <tr>
                         <td>
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="text" name="LoginCaptchaForm[email]" style="width:100%;" class="txt"
-                                               value="<?php echo $model->email;?>" placeholder="E-mail"/>
+                                               value="<?php echo $model->email;?>" placeholder="<?php echo Yii::t('user', 'E-mail')?>"/>
                                         <input type="hidden" name="token" id="token"
                                                value="<?php echo Yii::app()->request->csrfToken?>">
                                     </div>
@@ -30,19 +30,19 @@
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="password" name="LoginCaptchaForm[password]" style="width:100%;"
-                                               class="txt" value="<?php echo $model->password;?>" placeholder="Пароль"/>
+                                               class="txt" value="<?php echo $model->password;?>" placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
                                     </div>
                                 </div>
                             </center>
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="dop-txt">Запомнить меня</span><input name="LoginCaptchaForm[rememberMe]"
+                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input name="LoginCaptchaForm[rememberMe]"
                                                                               type="checkbox" class="niceCheck"></td>
                     </tr>
                     <tr>
                 </table>
-                Пожалуйста введите код показанный на картинке
+                <?php echo Yii::t('user', 'Пожалуйста введите код показанный на картинке')?>
                 <table class="form">
                     <tr>
                         <td>
@@ -77,7 +77,7 @@
                             <center>
                                 <div class="round-btn" style="float:right">
                                     <div class="round-btn-cl">
-                                        <input type="submit" class="" value="Отправить"/>
+                                        <input type="submit" class="" value="<?php echo Yii::t('user', 'Отправить')?>"/>
                                     </div>
                                 </div>
                             </center>
