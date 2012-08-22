@@ -2,3 +2,11 @@ span.error {
     color: #f00;
     padding: 4px 0 4px 30px;
 }
+
+.selectBox-dropdown-menu {
+    position: absolute;
+    z-index: 99999;
+    max-height: 300px;
+    min-height: 1em;
+    overflow: auto;
+}
