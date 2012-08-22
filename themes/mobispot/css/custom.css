@@ -4,9 +4,62 @@ span.error {
 }
 
 .selectBox-dropdown-menu {
-    position: absolute;
-    z-index: 99999;
-    max-height: 300px;
-    min-height: 1em;
-    overflow: auto;
+    max-height:355px;
+    overflow-y:auto;
+    overflow-x:none;
 }
+
+.personal_photo {
+
+    color: #7d7d7d;
+    padding:0 0 0 5px;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+    text-align: center;
+    behavior: url(ie-css3.htc);
+}
+
+.round-btn-new {
+    background:url(../images/form/bnt_profile.png);
+    background-color: #F5F5F5;
+    width:120px;
+    height:28px;
+    margin:10px 0 20px 8px;
+    float:left
+}
+
+.uploadify-queue {
+    background-color: #F5F5F5;
+    margin-bottom: 1em;
+}
+.uploadify-queue-item {
+    background-color: #F5F5F5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font: 11px Verdana, Geneva, sans-serif;
+    margin-top: 5px;
+    max-width: 350px;
+    padding: 10px;
+}
+.uploadify-error {
+    background-color: #FDE5DD !important;
+}
+.uploadify-queue-item .cancel a {
+    background: url('../images/uploadify-cancel.png') 0 0 no-repeat;
+    float: right;
+    height:	16px;
+    text-indent: -9999px;
+    width: 16px;
+}
+.uploadify-queue-item.completed {
+    background-color: #E5E5E5;
+}
+.uploadify-progress {
+    background-color: #E5E5E5;
+    margin-top: 10px;
+    width: 100%;
+}
+
+

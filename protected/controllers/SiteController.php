@@ -82,11 +82,11 @@ class SiteController extends MController
 
                 $image = new CImageHandler();
                 $image->load($tempFile);
-                if ($image->thumb(95, 95, true)) {
+                if ($image->thumb(50, 50, true)) {
                     $image->save($targetPath . 'tmb_' . $fileName . '.jpg');
 
                     $image->reload();
-                    $image->thumb(300, 300, true);
+                    $image->thumb(136, 168, true);
                     $image->save($targetPath . $fileName . '.jpg');
                     echo $targetFileName;
                 } else echo Yii::t('images', 'Загруженный файл не фявляется изображением.');

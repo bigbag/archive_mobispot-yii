@@ -119,6 +119,8 @@ class UserController extends MController
             if (isset($_POST['UserProfile'])) {
                 if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)){
                     $profile->attributes = $_POST['UserProfile'];
+                    $sex = $profile->sex;
+                    if(isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
                     if ($profile->validate()) {
                         $profile->save();
                         $this->refresh();
