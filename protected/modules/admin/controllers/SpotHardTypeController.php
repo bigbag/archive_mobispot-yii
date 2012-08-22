@@ -16,7 +16,7 @@ class SpotHardTypeController extends Controller
     public function actionUpload()
     {
         if (!empty($_FILES)) {
-            $maxSize = 512;
+            $maxSize = Yii::app()->par->load('ImageSize');
             $action = $_POST['action'];
 
             $tempFile = $_FILES['Filedata']['tmp_name'];

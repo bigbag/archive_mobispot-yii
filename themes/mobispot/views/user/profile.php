@@ -128,19 +128,17 @@
         </div>
     </div>
 </div>
-
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/uploadify.css'); ?>
 
 <script type="text/javascript">
     $(function () {
-        $("#add_phoeto").uploadify({
+        $("#add_photo").uploadify({
             'width':'120',
             'height':'24',
             //'fileSizeLimit':'512KB',
             'fileTypeDesc':'Images',
             swf:'/themes/mobispot/js/uploadify.swf',
-            uploader:'/admin/spotHardType/upload/',
+            uploader:'/site/upload/',
             'formData':{'action':'personal'},
             'removeTimeout':10,
             'multi':false,

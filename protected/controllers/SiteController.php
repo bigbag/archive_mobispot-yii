@@ -63,4 +63,36 @@ class SiteController extends MController
         }
         $this->render('contact', array('model' => $model));
     }
+
+    public function actionUpload()
+    {
+        if (!empty($_FILES)) {
+            $maxSize = Yii::app()->par->load('ImageSize');
+            $action = $_POST['action'];
+
+            $tempFile = $_FILES['Filedata']['tmp_name'];
+
+            $fileParts = pathinfo($_FILES['Filedata']['name']);
+
+            $fileName = $action . '_' . md5(time() . $fileParts['basename']);
+            $targetFileName = $fileName . '.jpg';
+
+            if (filesize($tempFile) < $maxSize * 1024) {
+                $targetPath = Yii::getPathOfAlias('webroot.uploads.images.') . '/';
+
+                $image = new CImageHandler();
+                $image->load($tempFile);
+                if ($image->thumb(95, 95, true)) {
+                    $image->save($targetPath . 'tmb_' . $fileName . '.jpg');
+
+                    $image->reload();
+                    $image->thumb(300, 300, true);
+                    $image->save($targetPath . $fileName . '.jpg');
+                    echo $targetFileName;
+                } else echo Yii::t('images', 'Загруженный файл не фявляется изображением.');
+
+            } else echo Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024;
+        }
+    }
+
 }
