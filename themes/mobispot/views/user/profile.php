@@ -8,8 +8,9 @@
                     <noscript>
                         <p>Please enable JavaScript to use file uploader.</p>
                     </noscript>
-                    <?php echo CHtml::activeHiddenField($profile,'photo'); ?>
+
                 </div>
+                <?php echo CHtml::activeHiddenField($profile,'photo'); ?>
                 <div class="round-btn-new"><input type="submit" id="add_photo"
                                                      value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
                 </div>
