@@ -2,6 +2,7 @@
 
 class UserController extends MController
 {
+    public $defaultAction = 'profile';
 
     public function actions()
     {
