@@ -5,12 +5,13 @@
             <?php echo CHtml::beginForm('', 'post'); ?>
             <div id="lf-block">
                 <div class="photo-cont">
+                    <?php if (!empty($profile->photo)):?>
+                    <img src="/uploads/images/<?php echo $profile->photo?>" alt="personal"/>
+                    <?php endif;?>
                     <noscript>
                         <p>Please enable JavaScript to use file uploader.</p>
                     </noscript>
-
                 </div>
-                <?php echo CHtml::activeHiddenField($profile,'photo'); ?>
                 <div class="round-btn-new"><input type="submit" id="add_photo"
                                                      value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
                 </div>
@@ -134,12 +135,10 @@
         $("#add_photo").uploadify({
             'width':'120',
             'height':'28',
-            //'fileSizeLimit':'512KB',
-            'fileTypeDesc':'Images',
             swf:'/themes/mobispot/js/uploadify.swf',
             uploader:'/site/upload/',
-            'formData':{'action':'personal'},
-            'removeTimeout':1000,
+            'formData':{'action':'personal', 'user_id':<?php echo Yii::app()->user->id;?>},
+            'removeTimeout':10,
             'multi':false,
             'buttonClass' : 'personal_photo',
             'buttonText' : '<?php echo Yii::t('profile', 'Загрузить');?>',
@@ -148,9 +147,14 @@
                 alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
             },
             'onUploadSuccess':function (file, data, response) {
-                $('.photo-cont').html('<img src="/uploads/images/' + data + '" />');
-                $('#UserProfile_photo').val(data);
-                $('#photo-cont').hide();
+                var obj = jQuery.parseJSON(data);
+                var file_name = obj.file;
+                var error = obj.error;
+                if (file_name){
+                    $('.photo-cont').html('<img src="/uploads/images/' + file_name + '" />');
+                    $('#photo-cont').hide();
+                }
+                if (error) alert(error);
             }
         });
     });

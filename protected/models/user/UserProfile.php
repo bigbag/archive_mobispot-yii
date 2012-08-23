@@ -106,6 +106,7 @@ class UserProfile extends CActiveRecord
 
     public function beforeValidate()
     {
+        if(!$this->sex) $this->sex = self::SEX_UNKNOWN;
         return parent::beforeValidate();
     }
 

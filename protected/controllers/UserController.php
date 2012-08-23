@@ -116,6 +116,14 @@ class UserController extends MController
             $user = User::model()->findByPk(Yii::app()->user->id);
             $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
+            $user_id = Yii::app()->user->id;
+            $personal_photo = Yii::app()->cache->get('personal_photo_'.$user_id);
+
+            if ($personal_photo === false){
+                if (!empty($profile->photo)) Yii::app()->cache->set('personal_photo_'.$user_id, $profile->photo, 3600);
+            }
+            else $profile->photo = Yii::app()->cache->get('personal_photo_'.$user_id);
+
             if (isset($_POST['UserProfile'])) {
                 if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)){
                     $profile->attributes = $_POST['UserProfile'];
@@ -123,6 +131,7 @@ class UserController extends MController
                     if(isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
                     if ($profile->validate()) {
                         $profile->save();
+                        Yii::app()->cache->delete('personal_photo_'.$user_id);
                         $this->refresh();
                     }
                 }
