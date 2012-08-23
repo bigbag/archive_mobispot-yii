@@ -1,21 +1,17 @@
+<?php $this->pageTitle = 'Типы исполнения спотов'; ?>
 <?php
-/* @var $this SpotFieldController */
-/* @var $model SpotField */
-
 $this->breadcrumbs = array(
-    'Spot Fields' => array('index'),
-    $model->name => array('view', 'id' => $model->id),
-    'Update',
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Доступные поля' => array('/admin/spotField/'),
+    'Редактировать',
+    $model->name,
 );
-
 $this->menu = array(
-    array('label' => 'List SpotField', 'url' => array('index')),
-    array('label' => 'Create SpotField', 'url' => array('create')),
-    array('label' => 'View SpotField', 'url' => array('view', 'id' => $model->id)),
-    array('label' => 'Manage SpotField', 'url' => array('admin')),
+    array('label' => 'Добавить поле', 'url' => array('create')),
 );
 ?>
 
-<h1>Update SpotField <?php echo $model->id; ?></h1>
+<h1>Редактировать тип "<?php echo $model->name; ?>"</h1>
 
-<?php echo $this->renderPartial('_form', array('model' => $model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

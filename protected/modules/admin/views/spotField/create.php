@@ -1,18 +1,13 @@
+<?php $this->pageTitle = 'Доступные поля'; ?>
 <?php
-/* @var $this SpotFieldController */
-/* @var $model SpotField */
-
 $this->breadcrumbs = array(
-    'Spot Fields' => array('index'),
-    'Create',
-);
-
-$this->menu = array(
-    array('label' => 'List SpotField', 'url' => array('index')),
-    array('label' => 'Manage SpotField', 'url' => array('admin')),
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Доступные поля' => array('/admin/spotField/'),
+    'Добавить'
 );
 ?>
 
-<h1>Create SpotField</h1>
+<h1>Добавить поле</h1>
 
-<?php echo $this->renderPartial('_form', array('model' => $model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

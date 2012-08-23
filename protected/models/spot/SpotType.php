@@ -4,17 +4,19 @@
  * This is the model class for table "spot_type".
  *
  * The followings are the available columns in table 'spot_type':
- * @property integer $id
+ * @property integer $type_id
  * @property string $name
  * @property string $desc
- * @property string $field
  * @property integer $type
+ * @property string $widget
  */
 class SpotType extends CActiveRecord
 {
-
     const TYPE_PERSONA = Spot::TYPE_PERSONA;
     const TYPE_FIRM = Spot::TYPE_FIRM;
+
+    public $fields;
+    public $fields_flag;
 
     public function getTypeList()
     {
@@ -53,14 +55,15 @@ class SpotType extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, field, type', 'required'),
+            array('name, type', 'required'),
+            array('fields_flag', 'required', 'message' => 'Необходимо добавить хотя бы одно поле.'),
             array('name', 'length', 'max' => 150),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('name, desc', 'filter', 'filter' => 'trim'),
             array('name, desc', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, field, type', 'safe', 'on' => 'search'),
+            array('type_id, name, type, widget', 'safe', 'on' => 'search'),
         );
     }
 
@@ -72,7 +75,8 @@ class SpotType extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            //'field' => array(self::BELONGS_TO, 'SpotField', 'user_id'),
+            'fields' => array(self::MANY_MANY, 'SpotField',
+                'spot_link_type_field(type_id, field_id)'),
         );
     }
 
@@ -82,11 +86,12 @@ class SpotType extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'type_id' => 'ID',
             'name' => 'Название',
             'desc' => 'Описание',
             'type' => 'Физ. лиц/Юр. лиц',
-            'field' => 'Поля',
+            'fields' => 'Поля',
+            'widget' => 'Виджет'
         );
     }
 
@@ -114,6 +119,15 @@ class SpotType extends CActiveRecord
 
     protected function afterSave()
     {
+        if ($this->fields) {
+            $conn = Yii::app()->db;
+            $conn->createCommand()->delete(SpotLinkTypeField::tableName(), 'type_id=:type_id', array(':type_id' => $this->type_id));
+            foreach ($this->fields as $field) {
+                $field->type_id = $this->type_id;
+                $field->save();
+
+            }
+        }
         Yii::app()->cache->delete('spot_type_' . $this->type);
         Yii::app()->cache->delete('spot_type_all');
 
@@ -132,14 +146,15 @@ class SpotType extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
+        $criteria->compare('type_id', $this->type_id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);
-        $criteria->compare('field', $this->field, true);
         $criteria->compare('type', $this->type, true);
+        $criteria->compare('widget', $this->widget, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'sort' => array('defaultOrder' => 'type, name')
         ));
     }
 }

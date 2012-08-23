@@ -1,20 +1,29 @@
+<?php $this->pageTitle = 'Доступные поля'; ?>
 <?php
-/* @var $this SpotFieldController */
-/* @var $dataProvider CActiveDataProvider */
-
 $this->breadcrumbs = array(
-    'Spot Fields',
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Доступные поля' => array('/admin/spotField/'),
+    'Управление'
 );
-
 $this->menu = array(
-    array('label' => 'Create SpotField', 'url' => array('create')),
-    array('label' => 'Manage SpotField', 'url' => array('admin')),
+    array('label' => 'Добавить поле', 'url' => array('create')),
 );
 ?>
 
-<h1>Spot Fields</h1>
+<h1>Управление доступными для добавления полями</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider' => $dataProvider,
-    'itemView' => '_view',
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'spot-field-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
+        'name',
+        'desc',
+        'widget',
+        array(
+            'class' => 'CButtonColumn',
+            'template' => '{update}',
+        ),
+    ),
 )); ?>

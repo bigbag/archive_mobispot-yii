@@ -5,6 +5,18 @@
 ?>
 
 <div class="form">
+    <?php $this->widget('ext.jqrelcopy.JQRelcopy', array(
+    'id' => 'copylink',
+    'removeText' => CHtml::image('/themes/mobispot/images/form/delete.png'),
+    'removeHtmlOptions' => array('style' => 'color:red'),
+    'options' => array(
+        'copyClass' => 'newcopy',
+        'limit' => 10,
+        'clearInputs' => true,
+    )
+));?>
+
+
 
     <?php $form = $this->beginWidget('CActiveForm', array(
     'id' => 'spot-type-form',
@@ -23,14 +35,40 @@
             <th><?php echo $form->label($model, 'desc'); ?></th>
             <td><?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?></td>
         </tr>
-        <tr class="even">
-            <th><?php echo $form->labelEx($model, 'field'); ?></th>
-            <td><?php echo $form->textArea($model, 'field', array('rows' => 6, 'cols' => 50)); ?></td>
-        </tr>
         <tr class="odd">
             <th>
                 <?php echo $form->label($model, 'type'); ?></th>
             <td><?php echo $form->dropDownList($model, 'type', $model->getTypeList()); ?></td>
+        </tr>
+        <tr class="odd">
+            <th>
+                <?php echo $form->label($model, 'widget'); ?></th>
+            <td><?php echo $form->textField($model, 'widget', array('size' => 30, 'maxlength' => 150)); ?></td>
+        </tr>
+        <tr class="odd">
+            <th>
+                <?php echo $form->label($model, 'fields'); ?>
+                <a id="copylink" href="#" rel=".copy">Добавить</a>
+            </th>
+            <td><?php if ($model->fields):?>
+                <?php foreach($model->fields as $key=>$value):?>
+                <div class="row">
+                    <?php echo CHtml::textField('SpotType[fields][name][]', $key); ?>
+                    <?php echo $form->dropDownList(
+                        $model,
+                        'fields[field_id][]',
+                        CHtml::listData(SpotField::getSpotFields(), 'field_id', 'desc'),
+                        array('options' => array($value=>array('selected'=>true)))
+                ); ?>
+                <a onclick="$(this).parent().remove(); return false;" href="#"><img src="/themes/mobispot/images/form/delete.png" alt=""></a>
+                </div>
+                <?php endforeach;?>
+                <?php endif;?>
+                <div class="row copy">
+                    <?php echo CHtml::textField('SpotType[fields][name][]', ''); ?>
+                    <?php echo $form->dropDownList($model, 'fields[field_id][]', CHtml::listData(SpotField::getSpotFields(), 'field_id', 'desc')); ?>
+                </div>
+            </td>
         </tr>
     </table>
 

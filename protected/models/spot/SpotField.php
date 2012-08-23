@@ -4,7 +4,7 @@
  * This is the model class for table "spot_field".
  *
  * The followings are the available columns in table 'spot_field':
- * @property integer $id
+ * @property integer $field_id
  * @property string $name
  * @property string $desc
  * @property string $widget
@@ -39,9 +39,10 @@ class SpotField extends CActiveRecord
         return array(
             array('name, desc, widget', 'required'),
             array('name', 'length', 'max' => 300),
+            array('name', 'unique'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, desc, widget', 'safe', 'on' => 'search'),
+            array('field_id, name, desc, widget', 'safe', 'on' => 'search'),
         );
     }
 
@@ -62,11 +63,29 @@ class SpotField extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'desc' => 'Desc',
-            'widget' => 'Widget',
+            'field_id' => 'ID',
+            'name' => 'Название',
+            'desc' => 'Описание',
+            'widget' => 'Виджет',
         );
+    }
+
+    public static function getSpotFields()
+    {
+        $spot_fields = Yii::app()->cache->get('spot_fields');
+        if ($spot_fields === false) {
+            $spot_fields = SpotField::model()->findAll(array('order'=>'t.name'));
+
+            Yii::app()->cache->set('spot_fields', $spot_fields, 36000);
+        }
+        return $spot_fields;
+    }
+
+    protected function afterSave()
+    {
+        Yii::app()->cache->delete('spot_fields');
+        parent::afterSave();
+
     }
 
     /**
@@ -80,13 +99,17 @@ class SpotField extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
+        $criteria->compare('field_id', $this->field_id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);
         $criteria->compare('widget', $this->widget, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+            'sort' => array('defaultOrder' => 'name')
         ));
     }
 }

@@ -22,14 +22,37 @@ class SpotTypeController extends Controller
     {
         $model = new SpotType;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $fields = false;
 
         if (isset($_POST['SpotType'])) {
             $model->attributes = $_POST['SpotType'];
+
+            if ($_POST['SpotType']['fields']['name'][0] and $_POST['SpotType']['fields']['field_id'][0]) {
+                $fields = array();
+                $name = $_POST['SpotType']['fields']['name'];
+                $field_id = $_POST['SpotType']['fields']['field_id'];
+                $i = 0;
+                foreach ($field_id as $row) {
+                    if (isset($name[$i][1])) $fields[$name[$i]] = $row;
+                    $i++;
+                }
+
+                foreach ($fields as $key => $value) {
+                    $field = new SpotLinkTypeField();
+                    $field->name = $key;
+                    $field->field_id = $value;
+                    $model->fields[] = $field;
+                }
+                if ($fields) {
+                    $model->fields_flag = count($fields);
+                }
+            }
+
             if ($model->save())
-                $this->redirect('index');
+                $this->redirect(array('index'));
         }
+
+        $model->fields = $fields;
 
         $this->render('create', array(
             'model' => $model,
@@ -45,15 +68,41 @@ class SpotTypeController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $type_fields = SpotLinkTypeField::getSpotTypeField($id);
+        $fields = array();
+        foreach ($type_fields as $row) {
+            $fields[$row->name] = $row->field_id;
+        }
 
         if (isset($_POST['SpotType'])) {
             $model->attributes = $_POST['SpotType'];
-            if ($model->save())
-                $this->redirect('index');
-        }
 
+            if ($_POST['SpotType']['fields']['name'][0] and $_POST['SpotType']['fields']['field_id'][0]) {
+                $fields = array();
+                $name = $_POST['SpotType']['fields']['name'];
+                $field_id = $_POST['SpotType']['fields']['field_id'];
+                $i = 0;
+                foreach ($field_id as $row) {
+                    if (isset($name[$i][1])) $fields[$name[$i]] = $row;
+                    $i++;
+                }
+
+                foreach ($fields as $key => $value) {
+                    $field = new SpotLinkTypeField();
+                    $field->name = $key;
+                    $field->field_id = $value;
+                    $model->fields[] = $field;
+                }
+                if ($fields) {
+                    $model->fields_flag = count($fields);
+                }
+            }
+
+            if ($model->save()) {
+                $this->redirect(array('index'));
+            }
+        }
+        $model->fields = $fields;
         $this->render('update', array(
             'model' => $model,
         ));
