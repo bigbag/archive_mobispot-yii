@@ -7,6 +7,8 @@
                 <div class="photo-cont">
                     <?php if (!empty($profile->photo)):?>
                     <img src="/uploads/images/<?php echo $profile->photo?>" alt="personal"/>
+                    <?php else:?>
+                    <img src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
                     <?php endif;?>
                     <noscript>
                         <p>Please enable JavaScript to use file uploader.</p>
