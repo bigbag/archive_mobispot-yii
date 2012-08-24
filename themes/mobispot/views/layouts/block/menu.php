@@ -28,6 +28,10 @@
                 <div class="user-menu-hint">
                     <span class="hint-back-cursor"></span>
                     <div>
+                       <?php echo Yii::app()->user->name?>
+
+                    </div>
+                    <div>
                         <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">
                             <?php echo Yii::t('menu', 'Личные данные')?>
                         </a>

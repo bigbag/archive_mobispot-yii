@@ -212,10 +212,10 @@ span.error {
 }
 
 .user-menu-hint {
-    width: 150px;
+    width: 200px;
     position: absolute;
-    left: 75%;
-    bottom: -60px;
+    left: 70%;
+    bottom: -85px;
     margin-left: -100px;
 }
 
