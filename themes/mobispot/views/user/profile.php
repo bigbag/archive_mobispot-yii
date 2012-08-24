@@ -42,7 +42,7 @@
                         <td>
                             <div class="txt-form">
                                 <div class="txt-form-cl">
-                                    <?php echo CHtml::activeTextField($profile,'name', array('style=' => 'width:100%;')); ?>
+                                    <?php echo CHtml::activeTextField($profile,'name', array('style' => 'width:100%;')); ?>
                                 </div>
                             </div>
                         </td>
@@ -89,7 +89,7 @@
                         <td>
                             <div class="txt-form">
                                 <div class="txt-form-cl">
-                                    <?php echo CHtml::activeTextField($profile,'place', array('style=' => 'width:100%;')); ?>
+                                    <?php echo CHtml::activeTextField($profile,'place', array('style' => 'width:100%;')); ?>
                                 </div>
                             </div>
                         </td>

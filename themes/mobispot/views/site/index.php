@@ -106,7 +106,7 @@
 
                     <div style="text-align: right">
                         <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
-                               id="btn-lk"/>
+                               />
                     </div>
 
                 </form>

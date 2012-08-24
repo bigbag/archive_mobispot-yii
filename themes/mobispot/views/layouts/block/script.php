@@ -4,10 +4,8 @@
         $('#auth-user-name').click(function () {
             $(".user-menu-hint").show();
         });
-
         $('#main-container').on("click", function () {
             $(".user-menu-hint").hide();
-            return false;
         });
     });
     //Блок выбора языка
@@ -18,7 +16,6 @@
 
         $('#main-container, .lang-hint a').on("click", function () {
             $(".lang-hint").hide();
-            return false;
         });
     });
     //Блок авторизации
@@ -30,7 +27,7 @@
         $('#main-container').on("click", function () {
             $(".auth-hint").hide();
             $("#mistake-auth").hide();
-            return false;
+
         });
     });
     //Регистрация

@@ -4,7 +4,7 @@
 
 body {
     background: #f2ebe3 url("../images/bg.png");
-    color: #1e1e1e;
+    color: #666;
     font-size: 14px;
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
     margin: 0;
@@ -412,21 +412,6 @@ div#header {
 
 #registration-form .btn-30 input {
     color: #555
-}
-
-#registration-form #btn-lk {
-    float: right;
-    margin: 10px 0 0 0;
-    padding: 7px 20px;
-    border: 0;
-    color: #fff;
-    font: normal 14px Helvetica;
-    cursor: pointer;
-    background: #b6cf69;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    behavior: url(ie-css3.htc);
 }
 
 #circle-menu {

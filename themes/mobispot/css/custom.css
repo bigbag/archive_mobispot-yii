@@ -198,10 +198,11 @@ span.error {
     height: 47px;
     cursor: pointer;
     left: 90px;;
-    background: url(../images/form/down_white.gif) 100% 8px no-repeat
+    background: url(../images/form/down_white.gif) 100% 11px no-repeat
 }
 
 #authorization #auth-on #auth-user-name {
+    top: 5px;
     position: relative;
     float: right;
     text-align: right;
