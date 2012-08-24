@@ -4,35 +4,36 @@ span.error {
 }
 
 .selectBox-dropdown-menu {
-    max-height:355px;
-    overflow-y:auto;
-    overflow-x:none;
+    max-height: 355px;
+    overflow-y: auto;
+    overflow-x: none;
 }
 
 .personal_photo {
 
     color: #7d7d7d;
-    padding:0 0 0 5px;
+    padding: 0 0 0 5px;
     font-size: 14px;
     line-height: 16px;
-    font-family: "Open Sans","lucida grande","Segoe UI",arial,verdana,"lucida sans unicode",tahoma,sans-serif;
+    font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
     text-align: center;
     behavior: url(ie-css3.htc);
 }
 
 .round-btn-new {
-    background:url(../images/form/bnt_profile.png);
+    background: url(../images/form/bnt_profile.png);
     background-color: #F5F5F5;
-    width:120px;
-    height:28px;
-    margin:10px 0 20px 8px;
-    float:left
+    width: 120px;
+    height: 28px;
+    margin: 10px 0 20px 8px;
+    float: left
 }
 
 .uploadify-queue {
     background-color: #F5F5F5;
     margin-bottom: 1em;
 }
+
 .uploadify-queue-item {
     background-color: #F5F5F5;
     -webkit-border-radius: 3px;
@@ -43,91 +44,189 @@ span.error {
     max-width: 350px;
     padding: 10px;
 }
+
 .uploadify-error {
     background-color: #FDE5DD !important;
 }
+
 .uploadify-queue-item .cancel a {
     background: url('../images/uploadify-cancel.png') 0 0 no-repeat;
     float: right;
-    height:	16px;
+    height: 16px;
     text-indent: -9999px;
     width: 16px;
 }
+
 .uploadify-queue-item.completed {
     background-color: #E5E5E5;
 }
+
 .uploadify-progress {
     background-color: #E5E5E5;
     margin-top: 10px;
     width: 100%;
 }
 
-.auth-hint{
+.auth-hint, .lang-hint, .user-menu-hint {
     display: none;
     background-color: #fff;
-    width:280px;
-    position:absolute ;
-    left:50%;
-    bottom:-235px;
-    margin-left:-100px;
-    color:#797979;
-    font-size:14px;
-    padding:15px 10px;
-    z-index:999;
-    border-radius:5px;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
-    border: 1px solid #b7b7b7;
-    behavior: url(ie-css3.htc);
-}
-.auth-hint .hint-back-cursor{
-    background:url(../images/auth-hint-back-cursor.png) no-repeat;
-    width:14px;
-    height:11px;
-    position:absolute ;
-    left:70%;
-    top:-11px;
-    margin-left:-7px;
-}
-
-.auth-hint #forget-pass{padding-top:2px;font-size:12px;cursor:pointer;line-height:22px;text-decoration:underline}
-.auth-hint table.form {border: 0px none;margin:0;font-size:15px;width:272px}
-.auth-hint table.form td {color: #797979;height:20px;white-space:nowrap;text-align:left}
-.auth-hint .btn-30 {float:right;}
-.auth-hint .btn-30 div{background:url(../images/form/btn-30.png) 100% -30px no-repeat;height:30px;position:relative;right:-7px;margin:0 0 0 -7px;padding:0 15px 0 15px;display:block;}
-.auth-hint .btn-30 div input{border:0;background:transparent;text-align:center;line-height:25px;height:30px;font-size:16px;color:#888;cursor:pointer;padding:0}
-
-
-#sel-lang {position:absolute;top:14px;left:70px;cursor:pointer;padding:7px 0;height:25px;margin:0 0px;font-size:14px;color:#fff;line-height:25px;background: url(../images/form/down_white.gif) 100% 18px no-repeat}
-#sel-lang div.curent-lang{padding-right: 12px}
-
-.lang-hint{
-    display: none;
-    background-color: #fff;
-    width:100px;
-    position:absolute ;
-    left:130px;
-    bottom:-90px;
-    margin-left:-100px;
-    color:#797979;
-    font-size:14px;
-    padding:15px 10px;
-    z-index:999;
-    border-radius:5px;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
+    position: absolute;
+    color: #797979;
+    font-size: 14px;
+    padding: 15px 10px;
+    z-index: 999;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border: 1px solid #b7b7b7;
     behavior: url(ie-css3.htc);
 }
 
-.lang-hint a{color:#797979;text-decoration:none}
+.auth-hint .hint-back-cursor, .lang-hint .hint-back-cursor, .user-menu-hint .hint-back-cursor {
+    background: url(../images/auth-hint-back-cursor.png) no-repeat;
+    width: 14px;
+    height: 11px;
+    position: absolute;
+    margin-left: -7px;
+}
 
-.lang-hint .hint-back-cursor{
-    background:url(../images/auth-hint-back-cursor.png) no-repeat;
-    width:14px;
-    height:11px;
-    position:absolute ;
-    left:20px;
-    top:-11px;
-    margin-left:-7px;
+.auth-hint {
+    width: 280px;
+    left: 50%;
+    bottom: -235px;
+    margin-left: -100px;
+}
+
+.auth-hint .hint-back-cursor {
+    left: 70%;
+    top: -11px;
+}
+
+.auth-hint #forget-pass {
+    padding-top: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 22px;
+    text-decoration: underline
+}
+
+.auth-hint table.form {
+    border: 0px none;
+    margin: 0;
+    font-size: 15px;
+    width: 272px
+}
+
+.auth-hint table.form td {
+    color: #797979;
+    height: 20px;
+    white-space: nowrap;
+    text-align: left
+}
+
+.auth-hint .btn-30 {
+    float: right;
+}
+
+.auth-hint .btn-30 div {
+    background: url(../images/form/btn-30.png) 100% -30px no-repeat;
+    height: 30px;
+    position: relative;
+    right: -7px;
+    margin: 0 0 0 -7px;
+    padding: 0 15px 0 15px;
+    display: block;
+}
+
+.auth-hint .btn-30 div input {
+    border: 0;
+    background: transparent;
+    text-align: center;
+    line-height: 25px;
+    height: 30px;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    padding: 0
+}
+
+#sel-lang {
+    position: absolute;
+    top: 14px;
+    left: 70px;
+    cursor: pointer;
+    padding: 7px 0;
+    height: 25px;
+    margin: 0 0px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 25px;
+    background: url(../images/form/down_white.gif) 100% 19px no-repeat
+}
+
+#sel-lang div.curent-lang {
+    padding-right: 12px
+}
+
+.lang-hint {
+    width: 100px;
+    left: 130px;
+    bottom: -90px;
+    margin-left: -100px;
+}
+
+.lang-hint a {
+    color: #797979;
+    text-decoration: none
+}
+
+.lang-hint .hint-back-cursor {
+    left: 20px;
+    top: -11px;
+}
+
+#authorization {
+    position: relative;
+    top: 0px;
+    left: 600px;
+    padding: 19px 0 10px 0;
+    width: 350px;
+    height:47px;
+}
+
+#authorization #auth-on {
+    height: 47px;
+    cursor: pointer;
+    left: 90px;;
+    background: url(../images/form/down_white.gif) 100% 8px no-repeat
+}
+
+#authorization #auth-on #auth-user-name {
+    position: relative;
+    float: right;
+    text-align: right;
+    font-size: 14px;
+    color: #fff;
+    padding-right: 12px
+}
+
+.user-menu-hint {
+    width: 150px;
+    position: absolute;
+    left: 75%;
+    bottom: -60px;
+    margin-left: -100px;
+}
+
+.user-menu-hint .hint-back-cursor {
+    left: 70%;
+    top: -11px;
+}
+
+.user-menu-hint a {
+    text-decoration: none;
+}
+
+.user-menu-hint div {
+    padding-bottom: 10px
 }

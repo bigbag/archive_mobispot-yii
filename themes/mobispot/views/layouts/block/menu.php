@@ -24,10 +24,20 @@
             <?php else: ?>
             <?php $user_info = $this->userInfo(); ?>
             <div id="auth-on">
-                <div id="button-exit"><a href="/user/logout"><span><?php echo Yii::t('user', 'Выйти')?></span></a></div>
-		    <span id="auth-user-name"><?php echo $user_info->name;?><br/>
-			    <a href="/user/profile"><?php echo Yii::t('user', 'Изменить личные данные')?></a>
-			</span>
+    	        <span id="auth-user-name"><?php echo $user_info->name;?></span>
+                <div class="user-menu-hint">
+                    <span class="hint-back-cursor"></span>
+                    <div>
+                        <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">
+                            <?php echo Yii::t('menu', 'Личные данные')?>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/user/logout/" title="<?php echo Yii::t('menu', 'Выйти')?>">
+                            <strong><?php echo Yii::t('menu', 'Выйти')?>
+                        </a>
+                    </div>
+                </div>
             </div>
             <?php endif;?>
         </div>

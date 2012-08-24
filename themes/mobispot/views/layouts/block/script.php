@@ -1,11 +1,22 @@
 <script type="text/javascript">
+    //Блок меню пользователя
+    $(document).ready(function () {
+        $('#auth-user-name').click(function () {
+            $(".user-menu-hint").show();
+        });
+
+        $('#main-container').on("click", function () {
+            $(".user-menu-hint").hide();
+            return false;
+        });
+    });
     //Блок выбора языка
     $(document).ready(function () {
         $('#lang-select').click(function () {
             $(".lang-hint").show();
         });
 
-        $('#main-container').on("click", function () {
+        $('#main-container, .lang-hint a').on("click", function () {
             $(".lang-hint").hide();
             return false;
         });
