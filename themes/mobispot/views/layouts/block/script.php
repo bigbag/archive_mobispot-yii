@@ -98,8 +98,9 @@
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль не верен.')?>');
         }
         else if (responseText  == 'login_error_count'){
-            $('#login-captcha').modalPopLite({ openButton: '#button-auth', closeButton: '.close-btn' });
             $('#login-captcha').show();
+            $('#login-captcha').modalPopLite({ openButton: '#hint-button-auth', closeButton: '.close-btn' });
+
         }
         else if (responseText) {
             $().redirect('/', null, 'GET');

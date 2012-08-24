@@ -24,7 +24,7 @@
             <td>
                 <input name="LoginForm[rememberMe]" type="checkbox" class="niceCheck"><?php echo Yii::t('user', 'Запомнить меня')?>
                 <div class="btn-30">
-                    <div><input type="submit" value="<?php echo Yii::t('user', 'Отправить');?>"/></div>
+                    <div><input type="submit" id="hint-button-auth" value="<?php echo Yii::t('user', 'Отправить');?>"/></div>
                 </div>
             </td>
         </tr>
