@@ -93,12 +93,12 @@ span.error {
 .auth-hint {
     width: 280px;
     left: 35%;
-    bottom: -235px;
+    bottom: -230px;
     margin-left: -100px;
 }
 
 .auth-hint .hint-back-cursor {
-    left: 70%;
+    left: 80%;
     top: -11px;
 }
 
@@ -203,8 +203,8 @@ span.error {
 #authorization #auth-on {
     height: 47px;
     cursor: pointer;
-    left: 90px;;
-    background: url(../images/form/down_white.gif) 100% 11px no-repeat
+    left: 90px;
+    background: url(../images/form/down_white.gif) 90% 11px no-repeat
 }
 
 #authorization #auth-on #auth-user-name {
@@ -213,6 +213,7 @@ span.error {
     float: right;
     text-align: right;
     font-size: 14px;
+    left: -40px;
     color: #fff;
     padding-right: 12px
 }

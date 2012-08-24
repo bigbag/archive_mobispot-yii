@@ -15,7 +15,7 @@
             <td>
             <div class="txt-form">
                 <div class="txt-form-cl">
-                    <input type="password" name="LoginForm[password]" style="width:100%;" class="txt" placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
+                    <input type="password" name="LoginForm[password]" style="width:100%;"  placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
                 </div>
             </div>
             </td>
