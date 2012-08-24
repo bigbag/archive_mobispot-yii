@@ -5,10 +5,10 @@
 
             <div id="video-present">
                 <div id="video-shadow">
-                <iframe
-                    src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
-                    width="390" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen
-                    allowFullScreen></iframe>
+                    <iframe
+                        src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
+                        width="390" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen
+                        allowFullScreen></iframe>
                 </div>
             </div>
         </div>
@@ -104,8 +104,10 @@
                             <span></span></a></span>
                     <br/>
                     <br/>
+
                     <div class="btn-30">
-                        <div><input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/></div>
+                        <div><input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
+                        </div>
                     </div>
 
                 </form>
@@ -116,24 +118,29 @@
 
         <div class="clear"></div>
 
-        <div id="foo">
-            <img src="/uploads/blocks/1.png" width="82" height="82"/>
-            <img src="/uploads/blocks/2.png" width="82" height="82"/>
-            <img src="/uploads/blocks/3.png" width="82" height="82"/>
-            <img src="/uploads/blocks/4.png" width="82" height="82"/>
-            <img src="/uploads/blocks/5.png" width="82" height="82"/>
-            <img src="/uploads/blocks/1.png" width="82" height="82"/>
-            <img src="/uploads/blocks/2.png" width="82" height="82"/>
-            <img src="/uploads/blocks/3.png" width="82" height="82"/>
-            <img src="/uploads/blocks/4.png" width="82" height="82"/>
-            <img src="/uploads/blocks/5.png" width="82" height="82"/>
-            <img src="/uploads/blocks/1.png" width="82" height="82"/>
-            <img src="/uploads/blocks/2.png" width="82" height="82"/>
-            <img src="/uploads/blocks/3.png" width="82" height="82"/>
-            <img src="/uploads/blocks/4.png" width="82" height="82"/>
-            <img src="/uploads/blocks/5.png" width="82" height="82"/>
+        <div id="image_carousel">
+            <div id="foo">
+                <img src="/uploads/blocks/1.png" width="82" height="82"/>
+                <img src="/uploads/blocks/2.png" width="82" height="82"/>
+                <img src="/uploads/blocks/3.png" width="82" height="82"/>
+                <img src="/uploads/blocks/4.png" width="82" height="82"/>
+                <img src="/uploads/blocks/5.png" width="82" height="82"/>
+                <img src="/uploads/blocks/1.png" width="82" height="82"/>
+                <img src="/uploads/blocks/2.png" width="82" height="82"/>
+                <img src="/uploads/blocks/3.png" width="82" height="82"/>
+                <img src="/uploads/blocks/4.png" width="82" height="82"/>
+                <img src="/uploads/blocks/5.png" width="82" height="82"/>
+                <img src="/uploads/blocks/1.png" width="82" height="82"/>
+                <img src="/uploads/blocks/2.png" width="82" height="82"/>
+                <img src="/uploads/blocks/3.png" width="82" height="82"/>
+                <img src="/uploads/blocks/4.png" width="82" height="82"/>
+                <img src="/uploads/blocks/5.png" width="82" height="82"/>
+
+            </div>
+            <div class="clearfix"></div>
+            <a class="prev" id="foo_prev" href="#"><span>prev</span></a>
+            <a class="next" id="foo_next" href="#"><span>next</span></a>
         </div>
-        <div class="clear"></div>
         <div id="bottom-menu">
             <ul>
                 <li><a href="" id="but1"></a></li>
@@ -153,7 +160,13 @@
         infinite:false,
         padding:20,
         scroll:1,
-        auto:false
+        auto:false,
+        prev:{
+            button:"#foo_prev"
+        },
+        next:{
+            button:"#foo_next"
+        }
 
     });
 </script>
