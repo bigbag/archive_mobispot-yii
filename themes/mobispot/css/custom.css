@@ -63,12 +63,12 @@ span.error {
 }
 
 .auth-hint{
-    display: none;
+
     background-color: #fff;
     width:280px;
     position:absolute ;
     left:50%;
-    bottom:-235px;
+    bottom:-215px;
     margin-left:-100px;
     color:#fff;
     font:14px;

@@ -26,10 +26,6 @@
                 <div class="btn-30">
                     <div><input type="submit" value="<?php echo Yii::t('user', 'Отправить');?>"/></div>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <span id="mistake-auth" style="display:none"></span>
             </td>
         </tr>
