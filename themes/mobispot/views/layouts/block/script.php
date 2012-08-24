@@ -7,6 +7,7 @@
 
         $('#main-container').on("click", function () {
             $(".auth-hint").hide();
+            $("#mistake-auth").hide();
             return false;
         });
     });
