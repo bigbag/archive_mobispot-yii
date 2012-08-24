@@ -4,13 +4,11 @@
             <h2 style="text-align: center"><?php echo Yii::t('general', 'Храните и передавайте информацию<br /> по-новому. С помощью NFC')?></h2>
 
             <div id="video-present">
-                <div id="video-shadow">
-                    <iframe
-                        src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
-                        width="390" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen
-                        allowFullScreen></iframe>
+                <iframe
+                    src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
+                    width="410" height="240" frameborder="0" webkitAllowFullScreen mozallowfullscreen
+                    allowFullScreen></iframe>
 
-                </div>
             </div>
         </div>
         <div id="registration-block">
@@ -24,25 +22,29 @@
                         <div class="txt-form-cl">
                             <input type="text" id="email" style="width:325px;" class="txt"
                                    name="RegistrationForm[email]"
-                                   value="" placeholder="<?php echo Yii::t('user', 'Адрес электронной почты');?>" autocomplete="off"/></div>
+                                   value="" placeholder="<?php echo Yii::t('user', 'Адрес электронной почты');?>"
+                                   autocomplete="off"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="password" style="width:325px;" class="txt"
                                    name="RegistrationForm[password]"
-                                   value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off"/></div>
+                                   value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off"/>
+                        </div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="verifyPassword" style="width:325px;" class="txt"
                                    name="RegistrationForm[verifyPassword]"
-                                   value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>" autocomplete="off"/></div>
+                                   value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
+                                   autocomplete="off"/></div>
                     </div>
                     <div class="txt-form">
                         <div class="txt-form-cl">
                             <input type="text" id="activ_code" style="width:325px;" class="txt"
                                    name="RegistrationForm[activ_code]"
-                                   value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>" autocomplete="off"/></div>
+                                   value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
+                                   autocomplete="off"/></div>
                     </div>
                     <div id="registration_captcha" style="display: none">
                         <?php echo Yii::t('user', 'Пожалуйста введите код показанный на картинке');?>
@@ -80,7 +82,8 @@
                     </div>
                 </form>
                 <?php else: ?>
-                <h2><?php echo Yii::t('general', 'Мои споты');?></h2><span id="sort-spot"><span><?php echo Yii::t('general', 'По номерам')?></span> / <a
+                <h2><?php echo Yii::t('general', 'Мои споты');?></h2><span
+                    id="sort-spot"><span><?php echo Yii::t('general', 'По номерам')?></span> / <a
                     href=""><?php echo Yii::t('general', 'По названию')?></a></span>
                 <form action="/user/account" method="get">
                     <div class="btn-form">
@@ -98,12 +101,13 @@
 
                         <span class="dop-txt"><a href=""><?php echo Yii::t('general', 'Показать ещё')?>
                             <span></span></a></span>
-                        <br />
-                        <br />
-                        <div style="text-align: right">
-                            <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
-                                   id="btn-lk"/>
-                        </div>
+                    <br/>
+                    <br/>
+
+                    <div style="text-align: right">
+                        <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
+                               id="btn-lk"/>
+                    </div>
 
                 </form>
                 <?php endif;?>
@@ -115,11 +119,13 @@
 
         <div id="circle-menu">
             <ul>
-                <li><img src="/uploads/blocks/1.png"/><span class="name-circle">Личные споты</span><span class="circle-hint"><span
+                <li><img src="/uploads/blocks/1.png"/><span class="name-circle">Личные споты</span><span
+                    class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
 
-                <li><img src="/uploads/blocks/2.png"/><span class="name-circle">Быстрые ссылки</span><span class="circle-hint"><span
+                <li><img src="/uploads/blocks/2.png"/><span class="name-circle">Быстрые ссылки</span><span
+                    class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
 
@@ -128,11 +134,13 @@
                         <span class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
 
-                <li><img src="/uploads/blocks/4.png"/><span class="name-circle">Общение с клиентами</span><span class="circle-hint"><span
+                <li><img src="/uploads/blocks/4.png"/><span class="name-circle">Общение с клиентами</span><span
+                    class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
 
-                <li><img src="/uploads/blocks/5.png"/><span class="name-circle">Купоны и скидки</span><span class="circle-hint"><span
+                <li><img src="/uploads/blocks/5.png"/><span class="name-circle">Купоны и скидки</span><span
+                    class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
             </ul>
