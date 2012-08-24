@@ -92,7 +92,7 @@ span.error {
 
 .auth-hint {
     width: 280px;
-    left: 50%;
+    left: 35%;
     bottom: -235px;
     margin-left: -100px;
 }
@@ -102,12 +102,18 @@ span.error {
     top: -11px;
 }
 
-.auth-hint #forget-pass {
+.auth-hint .forget-pass {
     padding-top: 2px;
     font-size: 12px;
     cursor: pointer;
     line-height: 22px;
     text-decoration: underline
+}
+
+.auth-hint .remember-me {
+    position: absolute;
+    font-size: 12px;
+    line-height: 22px;
 }
 
 .auth-hint table.form {
@@ -188,7 +194,7 @@ span.error {
 #authorization {
     position: relative;
     top: 0px;
-    left: 600px;
+    left: 640px;
     padding: 19px 0 10px 0;
     width: 350px;
     height:47px;

@@ -155,5 +155,3 @@
         <div class="clear"></div>
     </div>
 </div>
-
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>
