@@ -26,12 +26,16 @@
                 <div class="btn-30">
                     <div><input type="submit" value="<?php echo Yii::t('user', 'Отправить');?>"/></div>
                 </div>
-                <span id="mistake-auth" style="display:none"></span>
             </td>
         </tr>
         <tr>
             <td style="text-align: right">
                 <span id="forget-pass"><?php echo Yii::t('user', 'Забыли пароль?')?></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="mistake-auth" style="display:none"></span>
             </td>
         </tr>
     </table>
