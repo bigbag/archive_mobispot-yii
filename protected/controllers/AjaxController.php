@@ -46,9 +46,7 @@ class AjaxController extends MController
                         } else {
                             if ($form->getErrors()) {
                                 Yii::app()->session['login_error_count'] = $login_error_count + 1;
-                                $error = $form->getErrors();
-                                if (isset($error['password'])) echo 'password_error';
-                                else if (isset($error['email'])) echo 'email_error';
+                                echo false;
                             }
                         }
                     } else echo false;

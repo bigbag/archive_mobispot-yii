@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td>
-                <span id="mistake-auth" style="display:none"></span>
+                <span id="mistake-auth" style="display:none;text-align: right"></span>
             </td>
         </tr>
         <tr>

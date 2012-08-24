@@ -101,20 +101,18 @@
     });
 
     function showLoginResponse(responseText) {
-        if (responseText == 'email_error') {
+        if (responseText === false) {
             $('#mistake-auth').show();
-            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пользователя с таким логином не существует.')?>');
-        }
-        else if (responseText == 'password_error') {
-            $('#mistake-auth').show();
-            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль не верен.')?>');
+            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
         else if (responseText  == 'login_error_count'){
+            $('#mistake-auth').show();
+            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
             $('#login-captcha').show();
             $('#login-captcha').modalPopLite({ openButton: '#hint-button-auth', closeButton: '.close-btn' });
 
         }
-        else if (responseText) {
+        else if (responseText === true) {
             $().redirect('/', null, 'GET');
         }
     }
