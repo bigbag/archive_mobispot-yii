@@ -63,7 +63,6 @@ span.error {
 }
 
 .auth-hint{
-    display: none;
     background-color: #fff;
     width:280px;
     position:absolute ;
@@ -96,6 +95,6 @@ span.error {
 
 .auth-hint table.form {border: 0px none;margin:0;font-size:15px;width:272px}
 .auth-hint table.form td {color: #797979;height:20px;white-space:nowrap;text-align:left}
-
+.auth-hint .btn-30 {float:right;}
 .auth-hint .btn-30 div{background:url(../images/form/btn-30.png) 100% -30px no-repeat;height:30px;position:relative;right:-7px;margin:0 0 0 -7px;padding:0 15px 0 15px;display:block;}
 .auth-hint .btn-30 div input{border:0;background:transparent;text-align:center;line-height:25px;height:30px;font-size:16px;color:#888;cursor:pointer;padding:0}
