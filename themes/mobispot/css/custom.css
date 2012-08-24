@@ -98,7 +98,8 @@ span.error {
 .auth-hint .btn-30 div input{border:0;background:transparent;text-align:center;line-height:25px;height:30px;font-size:16px;color:#888;cursor:pointer;padding:0}
 
 
-#sel-lang {position:absolute;top:14px;left:70px;cursor:pointer;padding:7px 0;height:25px;margin:0 0px;font-size:14px;color:#fff;line-height:25px;}
+#sel-lang {position:absolute;top:14px;left:70px;cursor:pointer;padding:7px 0;height:25px;margin:0 0px;font-size:14px;color:#fff;line-height:25px;background: url(../images/form/down_white.gif) 100% 18px no-repeat}
+#sel-lang div.curent-lang{padding-right: 12px}
 
 .lang-hint{
     display: none;

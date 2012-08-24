@@ -1,6 +1,6 @@
 <div class="center-rel">
     <div id="sel-lang">
-        <?php echo Yii::t('menu', 'Язык:')?><span id="lang-select"> <?php echo Yii::t('menu', 'Русский')?></span>
+        <div class="curent-lang" id="lang-select"><?php echo Yii::t('menu', 'Язык:')?><span> <?php echo Yii::t('menu', 'Русский')?></span></div>
         <div class="lang-hint">
             <span class="hint-back-cursor"></span>
             <div>
