@@ -1,4 +1,15 @@
 <script type="text/javascript">
+    //Блок выбора языка
+    $(document).ready(function () {
+        $('#lang-select').click(function () {
+            $(".lang-hint").show();
+        });
+
+        $('#main-container').on("click", function () {
+            $(".lang-hint").hide();
+            return false;
+        });
+    });
     //Блок авторизации
     $(document).ready(function () {
         $('#button-auth').click(function () {

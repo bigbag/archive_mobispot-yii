@@ -1,11 +1,15 @@
 <div class="center-rel">
     <div id="sel-lang">
-        <ul>
-            <li class="sel"><span><?php echo Yii::t('menu', 'Русский')?></span></li>
-            <li class="no-sel"><a href=""><?php echo Yii::t('menu', 'English')?></a></li>
-            <li class="no-sel"><a href=""><?php echo Yii::t('menu', 'French')?></a></li>
-        </ul>
+        <?php echo Yii::t('menu', 'Язык:')?><span id="lang-select"> <?php echo Yii::t('menu', 'Русский')?></span>
+        <div class="lang-hint">
+            <span class="hint-back-cursor"></span>
+            <div>
+                <a href="#"><?php echo Yii::t('menu', 'English')?></a><br/>
+                <a href="#"><?php echo Yii::t('menu', 'French')?></a>
+            </div>
+        </div>
     </div>
+
     <div id="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" alt="mobispot"></a></div>
     <?php ?>
     <div id="authorization">

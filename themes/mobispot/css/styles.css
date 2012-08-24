@@ -23,15 +23,6 @@ div.center-rel {margin: 0 auto;width: 1024px;position:relative;display:block}
 /* +++Header+++ */
 div#header {width:100%;background: url(../images/header-back.png) left bottom repeat-x ;}
 
-#sel-lang {position:absolute;top:14px;left:70px;overflow:hidden;cursor:pointer;padding:7px 0}
-#sel-lang:hover {background:#a0b859;overflow:visible;-moz-box-shadow: 0 0 5px rgba(70,70,70,1);-webkit-box-shadow: 0 0 5px rgba(70,70,70,1);box-shadow: 0 0 5px rgba(70,70,70,1);border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px;behavior: url(ie-css3.htc);}
-#sel-lang ul li {height:25px;padding:0 15px;margin:0 0px;font-size:14px;color:#fff;line-height:25px}
-#sel-lang ul li a{font-size:14px;color:#fff;line-height:25px}
-#sel-lang ul li.sel span {background: url(../images/underline.png) left bottom repeat-x;padding-bottom:3px}
-#sel-lang ul li.no-sel {display:none}
-#sel-lang ul li.no-sel:hover {background:#8ea44f}
-#sel-lang:hover ul li.no-sel {display:block}
-
 #logo {position:absolute;top:13px;left:50%;margin-left:-135px;width:270px;height:48px;display:block;}
 
 #authorization {position:relative;top:0;left:670px;padding:19px 0 10px 0;width:350px}
