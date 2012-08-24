@@ -120,22 +120,69 @@
 
         <div id="image_carousel">
             <div id="foo">
-                <img src="/uploads/blocks/1.png" width="82" height="82"/>
-                <img src="/uploads/blocks/2.png" width="82" height="82"/>
-                <img src="/uploads/blocks/3.png" width="82" height="82"/>
-                <img src="/uploads/blocks/4.png" width="82" height="82"/>
-                <img src="/uploads/blocks/5.png" width="82" height="82"/>
-                <img src="/uploads/blocks/1.png" width="82" height="82"/>
-                <img src="/uploads/blocks/2.png" width="82" height="82"/>
-                <img src="/uploads/blocks/3.png" width="82" height="82"/>
-                <img src="/uploads/blocks/4.png" width="82" height="82"/>
-                <img src="/uploads/blocks/5.png" width="82" height="82"/>
-                <img src="/uploads/blocks/1.png" width="82" height="82"/>
-                <img src="/uploads/blocks/2.png" width="82" height="82"/>
-                <img src="/uploads/blocks/3.png" width="82" height="82"/>
-                <img src="/uploads/blocks/4.png" width="82" height="82"/>
-                <img src="/uploads/blocks/5.png" width="82" height="82"/>
-
+                <div class="block">
+                    <img src="/uploads/blocks/1.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/2.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/3.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/4.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/5.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/1.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
+                <div class="block">
+                    <img src="/uploads/blocks/2.png" width="82" height="82"/>
+                    <span class="name-circle">Домашние животные</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span>
+                        <span class="hint-name">Личные споты</span><br />
+                        Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.
+                    </span>
+                </div>
             </div>
             <div class="clearfix"></div>
             <a class="prev" id="foo_prev" href="#"><span>prev</span></a>

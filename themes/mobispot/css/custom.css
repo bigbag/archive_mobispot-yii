@@ -245,22 +245,23 @@ span.error {
     margin: 0 auto;
     padding: 60px 0
 }
-#image_carousel img {
-    border: 1px solid #ccc;
+
+#image_carousel div.block {
     background-color: white;
-    padding: 9px;
-    margin: 7px;
+    padding: 0;
+    margin: 20px;
     display: block;
     float: left;
 }
+
 a.next {
     position: relative;
     background: url(../images/next.png) no-repeat transparent;
     width: 45px;
     height: 50px;
     display: block;
-    left: 600px;
-    top: -120px;
+    left: 645px;
+    top: -118px;
 }
 a.prev {
     position: relative;
@@ -269,7 +270,7 @@ a.prev {
     height: 50px;
     display: block;
     left: -35px;
-    top: -70px;
+    top: -68px;
 }
 a.prev span, a.next span {
     display: none;
@@ -278,4 +279,48 @@ a.prev span, a.next span {
 .clearfix {
     float: none;
     clear: both;
+}
+
+#circle-menu li .circle-hint {
+    display: none;
+    background: url(../images/hint-back.png) repeat;
+    width: 180px;
+    position: absolute;
+    left: 50%;
+    bottom: -155px;
+    margin-left: -100px;
+    color: #fff;
+    font: 14px;
+    padding: 15px 10px;
+    z-index: 999;
+    font-family: Helvetica;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    behavior: url(ie-css3.htc);
+}
+
+#image_carousel div .circle-hint .hint-back-cursor {
+    background: url(../images/hint-back-cursor.png) no-repeat;
+    width: 14px;
+    height: 11px;
+    position: absolute;
+    left: 50%;
+    top: -11px;
+    margin-left: -7px;
+}
+
+#image_carousel div .circle-hint .hint-name {
+    font-size: 20px
+}
+
+#image_carousel div.cml {
+    background: url(../images/circle-menu-liner.png) 50% 50px no-repeat;
+    width: 40px;
+    display: block
+}
+
+#image_carousel div .name-circle {
+    background: url(../images/underline-black.png) 0 100% repeat-x;
+    padding-bottom: 2px;
 }
