@@ -174,14 +174,6 @@
             $(this).parent().parent().css('background-position', '0 0');
         });
     });
-
-    $(document).ready(function () {
-        $('#circle-menu li').click(function () {
-
-            $(".circle-hint:visible").not($(this).children(".circle-hint")).hide();
-            $(this).children(".circle-hint").toggle();
-        });
-    });
     jQuery('input[placeholder], textarea[placeholder]').placeholder();
 
     $(document).ready(function() {
