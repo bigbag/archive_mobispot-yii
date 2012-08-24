@@ -105,7 +105,6 @@
                                    id="btn-lk"/>
                         </div>
 
-
                 </form>
                 <?php endif;?>
                 <div class="clear"></div>
@@ -116,23 +115,24 @@
 
         <div id="circle-menu">
             <ul>
-                <li id="circle1"><span class="name-circle">Личные споты</span><span class="circle-hint"><span
+                <li><img src="/uploads/blocks/1.png"/><span class="name-circle">Личные споты</span><span class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
-                <li class="cml"></li>
-                <li id="circle2"><span class="name-circle">Быстрые ссылки</span><span class="circle-hint"><span
+
+                <li><img src="/uploads/blocks/2.png"/><span class="name-circle">Быстрые ссылки</span><span class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
-                <li class="cml"></li>
-                <li id="circle3"><span class="name-circle">Домашние животные</span><span class="circle-hint"><span
+
+                <li><img src="/uploads/blocks/3.png"/><span class="name-circle">Файлы</span>
+                    <span class="circle-hint">
+                        <span class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
+                </li>
+
+                <li><img src="/uploads/blocks/4.png"/><span class="name-circle">Общение с клиентами</span><span class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
-                <li class="cml"></li>
-                <li id="circle4"><span class="name-circle">Общение с клиентами</span><span class="circle-hint"><span
-                    class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </li>
-                <li class="cml"></li>
-                <li id="circle5"><span class="name-circle">Купоны и скидки</span><span class="circle-hint"><span
+
+                <li><img src="/uploads/blocks/5.png"/><span class="name-circle">Купоны и скидки</span><span class="circle-hint"><span
                     class="hint-back-cursor"></span><span class="hint-name">Личные споты</span><br/>Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </li>
             </ul>
@@ -149,3 +149,5 @@
         <div class="clear"></div>
     </div>
 </div>
+
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>

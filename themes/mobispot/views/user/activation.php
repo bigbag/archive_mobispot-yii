@@ -2,6 +2,7 @@
 $this->pageTitle = $title;
 
 ?>
+<div id="main-container">
 <div style="text-align: center">
     <h2><?php echo $title; ?></h2>
 
@@ -9,4 +10,5 @@ $this->pageTitle = $title;
         <?php echo CHtml::encode($content); ?>
     </div>
 
+</div>
 </div>

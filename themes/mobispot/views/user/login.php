@@ -1,26 +1,28 @@
-<?php if (Yii::app()->user->hasFlash('loginMessage')): ?>
+<div id="main-container">
+    <?php if (Yii::app()->user->hasFlash('loginMessage')): ?>
 
-<div class="success">
-    <?php echo Yii::app()->user->getFlash('loginMessage'); ?>
-</div>
+    <div class="success">
+        <?php echo Yii::app()->user->getFlash('loginMessage'); ?>
+    </div>
 
-<?php endif; ?>
-<div class="modal">
-    <div class="cont-pop">
-        <?php echo CHtml::beginForm(); ?>
+    <?php endif; ?>
+    <div class="modal">
+        <div class="cont-pop">
+            <?php echo CHtml::beginForm(); ?>
             <span class="error"><?php echo CHtml::errorSummary($model); ?></span>
             <center><?php echo Yii::t('user', 'Вы не правильно ввели комбинацию логина<br/> и пароля. Пожалуйста повторите попытку')?>
                 <table class="form">
                     <tr>
                         <td>
-                                <div class="txt-form">
-                                    <div class="txt-form-cl">
-                                        <input type="text" name="LoginCaptchaForm[email]" style="width:100%;" class="txt"
-                                               value="<?php echo $model->email;?>" placeholder="<?php echo Yii::t('user', 'E-mail')?>"/>
-                                        <input type="hidden" name="token" id="token"
-                                               value="<?php echo Yii::app()->request->csrfToken?>">
-                                    </div>
+                            <div class="txt-form">
+                                <div class="txt-form-cl">
+                                    <input type="text" name="LoginCaptchaForm[email]" style="width:100%;" class="txt"
+                                           value="<?php echo $model->email;?>"
+                                           placeholder="<?php echo Yii::t('user', 'E-mail')?>"/>
+                                    <input type="hidden" name="token" id="token"
+                                           value="<?php echo Yii::app()->request->csrfToken?>">
                                 </div>
+                            </div>
 
                         </td>
                     </tr>
@@ -30,15 +32,17 @@
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
                                         <input type="password" name="LoginCaptchaForm[password]" style="width:100%;"
-                                               class="txt" value="<?php echo $model->password;?>" placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
+                                               class="txt" value="<?php echo $model->password;?>"
+                                               placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
                                     </div>
                                 </div>
                             </center>
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input name="LoginCaptchaForm[rememberMe]"
-                                                                              type="checkbox" class="niceCheck"></td>
+                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input
+                            name="LoginCaptchaForm[rememberMe]"
+                            type="checkbox" class="niceCheck"></td>
                     </tr>
                     <tr>
                 </table>
@@ -85,6 +89,7 @@
                     </tr>
                 </table>
             </center>
-        <?php echo CHtml::endForm(); ?>
+            <?php echo CHtml::endForm(); ?>
+        </div>
     </div>
 </div>

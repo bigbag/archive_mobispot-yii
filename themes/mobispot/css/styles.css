@@ -39,10 +39,6 @@ div#header {width:100%;background: url(../images/header-back.png) left bottom re
 #authorization #auth-on{height:47px;}
 #authorization #auth-on #auth-user-name {float:right;text-align:right;font-size:12px;color:#728637;padding-right:7px}
 #authorization #auth-on #auth-user-name a{font-size:12px;color:#728637;}
-#form-auth-login{background: url(../images/form-reg-login.png) no-repeat;width:132px;height:25px;float:left;margin:3px 12px 0 0;display:none}
-#form-auth-login input.txt-inp {border:0;width:125px;margin:3px;outline: none;}
-#form-auth-pass{background: url(../images/form-reg-pass.png) no-repeat;width:97px;height:25px;float:left;margin:3px 5px 0 0;display:none}
-#form-auth-pass input.txt-inp {border:0;width:90px;margin:3px;outline: none;}
 
 #button-auth {border-bottom: 1px solid #b2b2b2;border-left: 1px solid #b2b2b2;border-right: 1px solid #b2b2b2;border-top: 1px solid #b2b2b2;float:right;margin:0 30px 0 0;padding:5px 10px;color:#666;font:normal 16px  Helvetica;cursor:pointer;background:url(../images/headTableMail.png) 0 100% repeat-x;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;behavior: url(ie-css3.htc);-moz-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);-webkit-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);box-shadow: 1px 1px 1px rgba(150,150,150,0.5);}
 #button-exit {border-bottom: 1px solid #b2b2b2;border-left: 1px solid #b2b2b2;border-right: 1px solid #b2b2b2;border-top: 1px solid #b2b2b2;float:right;margin:0 30px 0 0;padding:5px 10px;color:#666;font:normal 16px  Helvetica;cursor:pointer;background:url(../images/headTableMail.png) 0 100% repeat-x;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;behavior: url(ie-css3.htc);-moz-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);-webkit-box-shadow: 1px 1px 1px rgba(150,150,150,0.5);box-shadow: 1px 1px 1px rgba(150,150,150,0.5);}
@@ -108,11 +104,8 @@ div#header {width:100%;background: url(../images/header-back.png) left bottom re
 #circle-menu li .circle-hint .hint-name {font-size:20px}
 #circle-menu li.cml {background:url(../images/circle-menu-liner.png) 50% 50px no-repeat;width:40px;display:block}
 #circle-menu li .name-circle {background:url(../images/underline-black.png) 0 100% repeat-x;padding-bottom: 2px;}
-#circle-menu li#circle1 {background: url(../images/circle-menu.png) 5px 0    no-repeat;}
-#circle-menu li#circle2 {background: url(../images/circle-menu.png) 5px -100px  no-repeat;}
-#circle-menu li#circle3 {background: url(../images/circle-menu.png) 5px -200px no-repeat;}
-#circle-menu li#circle4 {background: url(../images/circle-menu.png) 5px -300px no-repeat;}
-#circle-menu li#circle5 {background: url(../images/circle-menu.png) 5px -400px no-repeat;}
+#circle-menu li img {z-index: 1; margin-top: -82px }
+
 
 #bottom-menu {width:957px;margin:0 auto;padding:20px 0 0 0;overflow:hidden}
 #bottom-menu li {margin:0 24px;float:left}

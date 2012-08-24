@@ -32,7 +32,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input name="LoginCaptchaForm[rememberMe]"
+                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span>
+                            <input name="LoginCaptchaForm[rememberMe]"
                                                                               type="checkbox" class="niceCheck"></td>
                     </tr>
                     <tr>

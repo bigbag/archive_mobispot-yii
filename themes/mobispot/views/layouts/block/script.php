@@ -2,10 +2,12 @@
     //Блок авторизации
     $(document).ready(function () {
         $('#button-auth').click(function () {
-            $("#form-auth-login").show();
-            $("#form-auth-pass").show();
-            $("#button-auth input").show();
-            $("#button-auth span").hide();
+            $(".auth-hint").show();
+        });
+
+        $('#main-container').on("click", function () {
+            $(".auth-hint").hide();
+            return false;
         });
     });
     //Регистрация

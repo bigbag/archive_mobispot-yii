@@ -21,7 +21,7 @@
                 <?php echo CHtml::activeCheckBox($profile,'use_photo', array('class' => 'niceCheck')); ?>
                 <span class="dop-txt">
                         <?php echo Yii::t('profile', 'Использовать фото<br/>в моих личных спотах');?>
-                    </span>
+                </span>
                 <a href="" class="btn-30">
                     <span class="fb-ico ico"></span>
                     <span class="btn-30-txt"><?php echo Yii::t('profile', 'Connect with Facebook');?></span></a>
@@ -42,8 +42,7 @@
                         <td>
                             <div class="txt-form">
                                 <div class="txt-form-cl">
-                                    <input type="text" style="width:100%;" class="txt"
-                                           name="UserProfile[name]" value="<?php echo CHtml::encode($profile->name); ?>" placeholder=""/>
+                                    <?php echo CHtml::activeTextField($profile,'name', array('style=' => 'width:100%;')); ?>
                                 </div>
                             </div>
                         </td>
@@ -51,6 +50,7 @@
                     <tr>
                         <td class="field"><?php echo Yii::t('profile', 'Дата рождения');?></td>
                         <td>
+
                             <select name="UserProfile[birthday_day]">
                                 <option></option>
                                 <?php for ($i = 1; $i <= 31; $i++): ?>
