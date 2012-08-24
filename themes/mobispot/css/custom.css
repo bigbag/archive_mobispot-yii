@@ -90,6 +90,8 @@ span.error {
     top:-11px;
     margin-left:-7px;
 }
+
+.auth-hint #forget-pass{padding-top:2px;font-size:12px;cursor:pointer;line-height:22px;text-decoration:underline}
 .auth-hint .hint-name {font-size:20px}
 
 .auth-hint table.form {border: 0px none;margin:0;font-size:15px;width:272px}
