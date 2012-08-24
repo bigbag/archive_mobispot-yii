@@ -103,10 +103,8 @@
                             <span></span></a></span>
                     <br/>
                     <br/>
-
-                    <div style="text-align: right">
-                        <input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"
-                               />
+                    <div class="btn-30">
+                        <div><input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/></div>
                     </div>
 
                 </form>
