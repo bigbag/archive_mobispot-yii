@@ -101,7 +101,7 @@
     });
 
     function showLoginResponse(responseText) {
-        if (responseText === false) {
+        if (responseText == 0) {
             $('#mistake-auth').show();
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
@@ -112,7 +112,7 @@
             $('#login-captcha').modalPopLite({ openButton: '#hint-button-auth', closeButton: '.close-btn' });
 
         }
-        else if (responseText === true) {
+        else if (responseText == 1) {
             $().redirect('/', null, 'GET');
         }
     }
