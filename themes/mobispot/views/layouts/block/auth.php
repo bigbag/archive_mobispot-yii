@@ -1,5 +1,4 @@
 <div class="auth-hint">
-    <span class="hint-back-cursor"></span>
     <table class="form">
         <tr>
             <td>

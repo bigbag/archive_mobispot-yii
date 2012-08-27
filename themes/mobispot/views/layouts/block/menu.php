@@ -2,7 +2,6 @@
     <div id="sel-lang">
         <div class="curent-lang" id="lang-select"><?php echo Yii::t('menu', 'Язык:')?><span> <?php echo Yii::t('menu', 'Русский')?></span></div>
         <div class="lang-hint">
-            <span class="hint-back-cursor"></span>
             <div>
                 <a href="#"><?php echo Yii::t('menu', 'English')?></a><br/>
                 <a href="#"><?php echo Yii::t('menu', 'French')?></a>
@@ -26,7 +25,6 @@
             <div id="auth-on">
     	        <span id="auth-user-name"><?php echo $user_info->name;?></span>
                 <div class="user-menu-hint">
-                    <span class="hint-back-cursor"></span>
                     <div>
                        <?php echo Yii::app()->user->name?>
                     </div>

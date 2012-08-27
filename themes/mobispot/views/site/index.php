@@ -119,7 +119,6 @@
     <div class="clear"></div>
 
     <div id="circle-menu">
-        <div id="foo">
         <ul>
             <li>
                 <img src="/uploads/blocks/1.png" width="82" height="82"/>
@@ -190,11 +189,10 @@
     </div>
     <div class="clear"></div>
 </div>
-</div>
 
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.carousel.min.js'); ?>
 <script type="text/javascript">
-    $("#foo").carouFredSel({
+    $("#circle-menu").carouFredSel({
         items:5,
         circular:false,
         infinite:false,

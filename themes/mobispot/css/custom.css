@@ -91,7 +91,7 @@ span.error {
     left: 640px;
     padding: 19px 0 10px 0;
     width: 350px;
-    height:47px;
+    height: 47px;
 }
 
 #authorization #auth-on {
@@ -112,45 +112,19 @@ span.error {
     padding-right: 12px
 }
 
-.user-menu-hint {
-    width: 200px;
-    position: absolute;
-    left: 70%;
-    bottom: -85px;
-    margin-left: -100px;
-}
-
-.user-menu-hint .hint-back-cursor {
-    left: 70%;
-    top: -11px;
-}
-
-.user-menu-hint a {
-    text-decoration: none;
-}
-
-.user-menu-hint div {
-    padding-bottom: 10px
-}
-#image_carousel {
-    position: relative;
-    width: 710px;
-    height: 150px;
-    margin: 0 auto;
-    padding: 60px 0
-}
-
 a.next, a.prev {
     position: relative;
     width: 45px;
     height: 50px;
     display: block;
 }
+
 a.prev {
     background: url(../images/prev.png) no-repeat transparent;
     left: -35px;
     top: -68px;
 }
+
 a.next {
     background: url(../images/next.png) no-repeat transparent;
     left: 645px;
@@ -165,19 +139,74 @@ a.prev span, a.next span {
     float: none;
     clear: both;
 }
-#circle-menu {width:710px;margin:0 auto;padding:60px 0}
-#circle-menu ul{}
-#circle-menu li {float:left;text-align:center;height:10px;width:110px;padding:100px 0 0 0;cursor:pointer;position:relative;}
-#circle-menu li .circle-hint{display:block;background:url(../images/hint-back.png) repeat; width:180px;position:absolute ;left:50%;bottom:-155px;margin-left:-100px;color:#fff;font:14px;padding:15px 10px;z-index:999;font-family:Helvetica;        border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;behavior: url(ie-css3.htc);}
-#circle-menu li .circle-hint .hint-back-cursor{background:url(../images/hint-back-cursor.png) no-repeat; width:14px;height:11px;position:absolute ;left:50%;top:-11px;margin-left:-7px;}
-#circle-menu li .circle-hint .hint-name {font-size:20px}
-#circle-menu li.cml {background:url(../images/circle-menu-liner.png) 50% 50px no-repeat;width:40px;display:block}
-#circle-menu li .name-circle {background:url(../images/underline-black.png) 0 100% repeat-x;padding-bottom: 2px;}
+
+#circle-menu {
+    width: 710px;
+    margin: 0 auto;
+    padding: 15px 0 15px 40px;
+}
+
+#circle-menu ul {
+}
+
+#circle-menu li {
+    float: left;
+    text-align: center;
+    height: 10px;
+    width: 110px;
+    padding: 100px 0 0 0;
+    cursor: pointer;
+    position: relative;
+}
+
+#circle-menu li .circle-hint {
+    display: block;
+    background: url(../images/hint-back.png) repeat;
+    width: 180px;
+    position: absolute;
+    left: 50%;
+    bottom: -155px;
+    margin-left: -100px;
+    color: #fff;
+    font: 14px;
+    padding: 15px 10px;
+    z-index: 999;
+    font-family: Helvetica;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    behavior: url(ie-css3.htc);
+}
+
+#circle-menu li .circle-hint .hint-back-cursor {
+    background: url(../images/hint-back-cursor.png) no-repeat;
+    width: 14px;
+    height: 11px;
+    position: absolute;
+    left: 50%;
+    top: -11px;
+    margin-left: -7px;
+}
+
+#circle-menu li .circle-hint .hint-name {
+    font-size: 20px
+}
+
+#circle-menu li.cml {
+    background: url(../images/circle-menu-liner.png) 50% 50px no-repeat;
+    width: 40px;
+    display: block
+}
+
+#circle-menu li .name-circle {
+    background: url(../images/underline-black.png) 0 100% repeat-x;
+    padding-bottom: 2px;
+}
 
 .auth-hint, .user-menu-hint, .lang-hint {
     display: none;
     position: relative;
-    bottom: -48px;
+    bottom: -42px;
     left: 90px;
     width: 280px;
     padding: 10px;
@@ -199,8 +228,8 @@ a.prev span, a.next span {
     width: 0;
     height: 0;
     left: 170px;
-    top: -31px;
-    border: 15px solid;
+    top: -24px;
+    border: 12px solid;
     border-color: transparent transparent #fc905f transparent;
     behavior: url(ie-css3.htc)
 }
@@ -211,9 +240,9 @@ a.prev span, a.next span {
     width: 0;
     height: 0;
     left: 171px;
-    top: -28px;
-    border: 14px solid;
-    border-color: transparent transparent  #fff transparent;
+    top: -21px;
+    border: 11px solid;
+    border-color: transparent transparent #fff transparent;
     behavior: url(ie-css3.htc)
 }
 
@@ -271,26 +300,30 @@ a.prev span, a.next span {
     padding: 0
 }
 
-
 .user-menu-hint {
-    bottom: -40px;
-    left: 170px;
+    bottom: -32px;
+}
+
+.user-menu-hint a {
+    text-decoration: none;
+}
+
+.user-menu-hint div {
+    padding-bottom: 10px
 }
 
 .lang-hint {
-    bottom: -15px;
+    bottom: -10px;
     width: 100px;
     left: 10px;
 }
 
 .lang-hint:before {
     left: 10px;
-    top: -31px;
 }
 
 .lang-hint:after {
     left: 11px;
-    top: -28px;
 }
 
 .lang-hint a {
