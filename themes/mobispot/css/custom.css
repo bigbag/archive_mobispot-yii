@@ -187,9 +187,9 @@ a.prev span, a.next span {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    -webkit-box-shadow: 2px 2px 4px #888;
-    -moz-box-shadow: 2px 2px 4px #888;
-    box-shadow: 2px 2px 4px #888;
+    -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     behavior: url(ie-css3.htc)
 }
 
