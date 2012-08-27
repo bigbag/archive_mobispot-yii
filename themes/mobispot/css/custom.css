@@ -67,95 +67,6 @@ span.error {
     width: 100%;
 }
 
-.auth-hint, .lang-hint, .user-menu-hint {
-    display: none;
-    background-color: #fff;
-    position: absolute;
-    color: #797979;
-    font-size: 14px;
-    padding: 15px 10px;
-    z-index: 999;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border: 1px solid #b7b7b7;
-    behavior: url(ie-css3.htc);
-}
-
-.auth-hint .hint-back-cursor, .lang-hint .hint-back-cursor, .user-menu-hint .hint-back-cursor {
-    background: url(../images/auth-hint-back-cursor.png) no-repeat;
-    width: 14px;
-    height: 11px;
-    position: absolute;
-    margin-left: -7px;
-}
-
-.auth-hint {
-    width: 280px;
-    left: 35%;
-    bottom: -230px;
-    margin-left: -100px;
-}
-
-.auth-hint .hint-back-cursor {
-    left: 80%;
-    top: -11px;
-}
-
-.auth-hint .forget-pass {
-    padding-top: 2px;
-    font-size: 12px;
-    cursor: pointer;
-    line-height: 22px;
-    text-decoration: underline
-}
-
-.auth-hint .remember-me {
-    position: absolute;
-    font-size: 12px;
-    line-height: 22px;
-}
-
-.auth-hint table.form {
-    border: 0px none;
-    margin: 0;
-    font-size: 15px;
-    width: 272px
-}
-
-.auth-hint table.form td {
-    color: #797979;
-    height: 20px;
-    white-space: nowrap;
-    text-align: left
-}
-
-.auth-hint .btn-30 {
-    float: right;
-}
-
-.auth-hint .btn-30 div {
-    background: url(../images/form/btn-30.png) 100% -30px no-repeat;
-    height: 30px;
-    position: relative;
-    right: -7px;
-    margin: 0 0 0 -7px;
-    padding: 0 15px 0 15px;
-    display: block;
-}
-
-.auth-hint .btn-30 div input {
-    border: 0;
-    background: transparent;
-    text-align: center;
-    line-height: 25px;
-    height: 30px;
-    font-size: 16px;
-    color: #888;
-    cursor: pointer;
-    padding: 0
-}
-
 #sel-lang {
     position: absolute;
     top: 14px;
@@ -172,23 +83,6 @@ span.error {
 
 #sel-lang div.curent-lang {
     padding-right: 12px
-}
-
-.lang-hint {
-    width: 100px;
-    left: 130px;
-    bottom: -90px;
-    margin-left: -100px;
-}
-
-.lang-hint a {
-    color: #797979;
-    text-decoration: none
-}
-
-.lang-hint .hint-back-cursor {
-    left: 20px;
-    top: -11px;
 }
 
 #authorization {
@@ -246,32 +140,23 @@ span.error {
     padding: 60px 0
 }
 
-#image_carousel div.block {
-    background-color: white;
-    padding: 0;
-    margin: 20px;
-    display: block;
-    float: left;
-}
-
-a.next {
+a.next, a.prev {
     position: relative;
-    background: url(../images/next.png) no-repeat transparent;
     width: 45px;
     height: 50px;
     display: block;
-    left: 645px;
-    top: -118px;
 }
 a.prev {
-    position: relative;
     background: url(../images/prev.png) no-repeat transparent;
-    width: 45px;
-    height: 50px;
-    display: block;
     left: -35px;
     top: -68px;
 }
+a.next {
+    background: url(../images/next.png) no-repeat transparent;
+    left: 645px;
+    top: -118px;
+}
+
 a.prev span, a.next span {
     display: none;
 }
@@ -280,47 +165,140 @@ a.prev span, a.next span {
     float: none;
     clear: both;
 }
+#circle-menu {width:710px;margin:0 auto;padding:60px 0}
+#circle-menu ul{}
+#circle-menu li {float:left;text-align:center;height:10px;width:110px;padding:100px 0 0 0;cursor:pointer;position:relative;}
+#circle-menu li .circle-hint{display:block;background:url(../images/hint-back.png) repeat; width:180px;position:absolute ;left:50%;bottom:-155px;margin-left:-100px;color:#fff;font:14px;padding:15px 10px;z-index:999;font-family:Helvetica;        border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;behavior: url(ie-css3.htc);}
+#circle-menu li .circle-hint .hint-back-cursor{background:url(../images/hint-back-cursor.png) no-repeat; width:14px;height:11px;position:absolute ;left:50%;top:-11px;margin-left:-7px;}
+#circle-menu li .circle-hint .hint-name {font-size:20px}
+#circle-menu li.cml {background:url(../images/circle-menu-liner.png) 50% 50px no-repeat;width:40px;display:block}
+#circle-menu li .name-circle {background:url(../images/underline-black.png) 0 100% repeat-x;padding-bottom: 2px;}
 
-#circle-menu li .circle-hint {
+.auth-hint, .user-menu-hint, .lang-hint {
     display: none;
-    background: url(../images/hint-back.png) repeat;
-    width: 180px;
-    position: absolute;
-    left: 50%;
-    bottom: -155px;
-    margin-left: -100px;
-    color: #fff;
-    font: 14px;
-    padding: 15px 10px;
+    position: relative;
+    bottom: -48px;
+    left: 90px;
+    width: 280px;
+    padding: 10px;
     z-index: 999;
-    font-family: Helvetica;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    behavior: url(ie-css3.htc);
+    background-color: #fff;
+    border: 1px solid #fc905f;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 4px #888;
+    -moz-box-shadow: 2px 2px 4px #888;
+    box-shadow: 2px 2px 4px #888;
+    behavior: url(ie-css3.htc)
 }
 
-#image_carousel div .circle-hint .hint-back-cursor {
-    background: url(../images/hint-back-cursor.png) no-repeat;
-    width: 14px;
-    height: 11px;
+.auth-hint:before, .user-menu-hint:before, .lang-hint:before {
+    content: ' ';
     position: absolute;
-    left: 50%;
+    width: 0;
+    height: 0;
+    left: 170px;
+    top: -31px;
+    border: 15px solid;
+    border-color: transparent transparent #fc905f transparent;
+    behavior: url(ie-css3.htc)
+}
+
+.auth-hint:after, .user-menu-hint:after, .lang-hint:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 171px;
+    top: -28px;
+    border: 14px solid;
+    border-color: transparent transparent  #fff transparent;
+    behavior: url(ie-css3.htc)
+}
+
+.auth-hint .forget-pass {
+    padding-top: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 22px;
+    text-decoration: underline
+}
+
+.auth-hint .remember-me {
+    position: absolute;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.auth-hint table.form {
+    border: 0px none;
+    margin: 0;
+    font-size: 15px;
+    width: 272px
+}
+
+.auth-hint table.form td {
+    color: #797979;
+    height: 20px;
+    white-space: nowrap;
+    text-align: left
+}
+
+.auth-hint .btn-30 {
+    float: right;
+}
+
+.auth-hint .btn-30 div {
+    background: url(../images/form/btn-30.png) 100% -30px no-repeat;
+    height: 30px;
+    position: relative;
+    right: -7px;
+    margin: 0 0 0 -7px;
+    padding: 0 15px 0 15px;
+    display: block;
+}
+
+.auth-hint .btn-30 div input {
+    border: 0;
+    background: transparent;
+    text-align: center;
+    line-height: 25px;
+    height: 30px;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    padding: 0
+}
+
+
+.user-menu-hint {
+    bottom: -40px;
+    left: 170px;
+}
+
+.lang-hint {
+    bottom: -15px;
+    width: 100px;
+    left: 10px;
+}
+
+.lang-hint:before {
+    left: 10px;
+    top: -31px;
+}
+
+.lang-hint:after {
+    left: 11px;
+    top: -28px;
+}
+
+.lang-hint a {
+    color: #797979;
+    text-decoration: none
+}
+
+.lang-hint .hint-back-cursor {
+    left: 20px;
     top: -11px;
-    margin-left: -7px;
-}
-
-#image_carousel div .circle-hint .hint-name {
-    font-size: 20px
-}
-
-#image_carousel div.cml {
-    background: url(../images/circle-menu-liner.png) 50% 50px no-repeat;
-    width: 40px;
-    display: block
-}
-
-#image_carousel div .name-circle {
-    background: url(../images/underline-black.png) 0 100% repeat-x;
-    padding-bottom: 2px;
 }
