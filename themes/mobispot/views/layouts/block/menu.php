@@ -26,7 +26,7 @@
     	        <span id="auth-user-name"><?php echo $user_info->name;?></span>
                 <div class="user-menu-hint">
                     <div>
-                       <?php echo Yii::app()->user->name?>
+                       <?php echo CHtml::encode(Yii::app()->user->name)?>
                     </div>
                     <div>
                         <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">

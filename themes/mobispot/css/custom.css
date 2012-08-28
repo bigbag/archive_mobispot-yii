@@ -112,99 +112,9 @@ span.error {
     padding-right: 12px
 }
 
-a.next, a.prev {
-    position: relative;
-    width: 45px;
-    height: 50px;
-    display: block;
-}
-
-a.prev {
-    background: url(../images/prev.png) no-repeat transparent;
-    left: -35px;
-    top: -68px;
-}
-
-a.next {
-    background: url(../images/next.png) no-repeat transparent;
-    left: 645px;
-    top: -118px;
-}
-
-a.prev span, a.next span {
-    display: none;
-}
-
-.clearfix {
-    float: none;
-    clear: both;
-}
-
-#circle-menu {
-    width: 710px;
-    margin: 0 auto;
-    padding: 15px 0 15px 40px;
-}
-
-#circle-menu ul {
-}
-
-#circle-menu li {
-    float: left;
-    text-align: center;
-    height: 10px;
-    width: 110px;
-    padding: 100px 0 0 0;
-    cursor: pointer;
-    position: relative;
-}
-
-#circle-menu li .circle-hint {
-    display: block;
-    background: url(../images/hint-back.png) repeat;
-    width: 180px;
-    position: absolute;
-    left: 50%;
-    bottom: -155px;
-    margin-left: -100px;
-    color: #fff;
-    font: 14px;
-    padding: 15px 10px;
-    z-index: 999;
-    font-family: Helvetica;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    behavior: url(ie-css3.htc);
-}
-
-#circle-menu li .circle-hint .hint-back-cursor {
-    background: url(../images/hint-back-cursor.png) no-repeat;
-    width: 14px;
-    height: 11px;
-    position: absolute;
-    left: 50%;
-    top: -11px;
-    margin-left: -7px;
-}
-
-#circle-menu li .circle-hint .hint-name {
-    font-size: 20px
-}
-
-#circle-menu li.cml {
-    background: url(../images/circle-menu-liner.png) 50% 50px no-repeat;
-    width: 40px;
-    display: block
-}
-
-#circle-menu li .name-circle {
-    background: url(../images/underline-black.png) 0 100% repeat-x;
-    padding-bottom: 2px;
-}
-
 .auth-hint, .user-menu-hint, .lang-hint {
     display: none;
+    text-overflow: ellipsis;
     position: relative;
     bottom: -42px;
     left: 90px;
@@ -261,6 +171,7 @@ a.prev span, a.next span {
 }
 
 .auth-hint table.form {
+    position: relative;
     border: 0px none;
     margin: 0;
     font-size: 15px;
@@ -301,7 +212,17 @@ a.prev span, a.next span {
 }
 
 .user-menu-hint {
+    left: 120px;
     bottom: -32px;
+    width: 200px;
+}
+
+.user-menu-hint:before {
+    left: 140px;
+}
+
+.user-menu-hint:after {
+    left: 141px;
 }
 
 .user-menu-hint a {
@@ -334,4 +255,66 @@ a.prev span, a.next span {
 .lang-hint .hint-back-cursor {
     left: 20px;
     top: -11px;
+}
+
+
+a.next-slide, a.prev-slide {
+    position: relative;
+    width: 45px;
+    height: 50px;
+    display: block;
+}
+
+a.prev-slide {
+    background: url(../images/prev.png) no-repeat transparent;
+    left: 110px;
+    top: -120px;
+}
+
+a.next-slide {
+    background: url(../images/next.png) no-repeat transparent;
+    left: 870px;
+    top: -170px;
+}
+
+a.next-slide span, a.prev-slide span {
+    display: none;
+}
+
+#circle {
+    width: 710px;
+    margin: 0 auto;
+    position: relative;
+}
+#carousel {
+    margin-top: 60px
+
+}
+#carousel div {
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    float: left;
+    position: relative;
+}
+#carousel div img {
+    border: none;
+}
+#carousel div span {
+    display: none;
+}
+#carousel div:hover span {
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, Geneva, SunSans-Regular, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    display: inline-block;
+    width: 100px;
+    padding: 2px 0;
+    margin: 0 0 0 -50px;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    border-radius: 3px;
 }

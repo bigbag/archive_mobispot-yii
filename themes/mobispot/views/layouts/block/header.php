@@ -1,6 +1,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Mobispot</title>
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon.ico" />
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/styles.css' ); ?>
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/datepicker.css' ); ?>
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/custom.css' ); ?>
