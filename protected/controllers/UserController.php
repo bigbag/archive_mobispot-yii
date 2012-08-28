@@ -74,11 +74,11 @@ class UserController extends MController
         }
     }
 
-    public function actionActivation(){
+    public function actionActivation()
+    {
         if (Yii::app()->user->id) {
             $this->redirect('/');
-        }
-        else{
+        } else {
             $email = $_GET['email'];
             $activkey = $_GET['activkey'];
 
@@ -87,21 +87,19 @@ class UserController extends MController
                 if (isset($find->activkey) && ($find->activkey == $activkey)) {
                     $find->activkey = sha1(microtime());
                     $find->status = User::STATUS_ACTIVE;
-                    if ($find->save()){
+                    if ($find->save()) {
                         $this->render('activation',
                             array(
                                 'title' => Yii::t('user', "Активация пользователя"),
                                 'content' => Yii::t('user', "Вы успешно активировали учётную запись.")
                             ));
                     }
-                }
-                else $this->render('activation',
+                } else $this->render('activation',
                     array(
                         'title' => Yii::t('user', "Активация пользователя"),
                         'content' => Yii::t('user', "Неверная активационная ссылка.")
                     ));
-            }
-            else $this->render('activation',
+            } else $this->render('activation',
                 array(
                     'title' => Yii::t('user', "Активация пользователя"),
                     'content' => Yii::t('user', "Неверная активационная ссылка.")
@@ -109,34 +107,32 @@ class UserController extends MController
         }
     }
 
-    public function actionProfile(){
+    public function actionProfile()
+    {
         if (!Yii::app()->user->id) {
             $this->setAccess();
-        }
-        else{
+        } else {
             $user = User::model()->findByPk(Yii::app()->user->id);
             $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
             $user_id = Yii::app()->user->id;
-            $personal_photo = Yii::app()->cache->get('personal_photo_'.$user_id);
+            $personal_photo = Yii::app()->cache->get('personal_photo_' . $user_id);
 
-            if ($personal_photo === false){
-                if (!empty($profile->photo)) Yii::app()->cache->set('personal_photo_'.$user_id, $profile->photo, 3600);
-            }
-            else $profile->photo = Yii::app()->cache->get('personal_photo_'.$user_id);
+            if ($personal_photo === false) {
+                if (!empty($profile->photo)) Yii::app()->cache->set('personal_photo_' . $user_id, $profile->photo, 3600);
+            } else $profile->photo = Yii::app()->cache->get('personal_photo_' . $user_id);
 
             if (isset($_POST['UserProfile'])) {
-                if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)){
+                if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)) {
                     $profile->attributes = $_POST['UserProfile'];
                     $sex = $profile->sex;
-                    if(isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
+                    if (isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
                     if ($profile->validate()) {
                         $profile->save();
-                        Yii::app()->cache->delete('personal_photo_'.$user_id);
+                        Yii::app()->cache->delete('personal_photo_' . $user_id);
                         $this->refresh();
                     }
-                }
-                else{
+                } else {
                     Yii::app()->user->setFlash('profile', Yii::t('profile', "Для изменения профиля вы должны вести свой пароль."));
                 }
             }
@@ -146,13 +142,28 @@ class UserController extends MController
         }
     }
 
-    public function actionAccount(){
+    public function actionAccount()
+    {
         if (!Yii::app()->user->id) {
             $this->setAccess();
-        }
-        else{
-            $this->render('account');
-        }
+        } else {
+            $user_id = Yii::app()->user->id;
+            $user = User::model()->findByPk($user_id);
 
+            if ($user->status == User::STATUS_ACTIVE) $this->redirect('/');
+
+            $criteria = new CDbCriteria;
+            $criteria->compare('user_id', $user_id);
+            $dataProvider = new CActiveDataProvider(Spot::model(),
+                array(
+                    'criteria' => $criteria,
+                ));
+
+            $this->render('account', array(
+                'dataProvider' => $dataProvider,
+                'spot_type_persona' => SpotType::getSpotTypeArray(SpotType::TYPE_PERSONA),
+                'spot_type_firm' => SpotType::getSpotTypeArray(SpotType::TYPE_FIRM),
+            ));
+        }
     }
 }

@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $desc
  * @property integer $type
+ * @property text $slug
  * @property string $widget
  */
 class SpotType extends CActiveRecord
@@ -55,12 +56,12 @@ class SpotType extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, type', 'required'),
+            array('name, type, slug', 'required'),
             array('fields_flag', 'required', 'message' => 'Необходимо добавить хотя бы одно поле.'),
-            array('name', 'length', 'max' => 150),
+            array('name, slug', 'length', 'max' => 150),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
-            array('name, desc', 'filter', 'filter' => 'trim'),
-            array('name, desc', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
+            array('name, desc, slug', 'filter', 'filter' => 'trim'),
+            array('name, desc, slug', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('type_id, name, type, widget', 'safe', 'on' => 'search'),
@@ -90,6 +91,7 @@ class SpotType extends CActiveRecord
             'name' => 'Название',
             'desc' => 'Описание',
             'type' => 'Физ. лиц/Юр. лиц',
+            'slug' => 'Ссылка',
             'fields' => 'Поля',
             'widget' => 'Виджет'
         );
@@ -175,6 +177,7 @@ class SpotType extends CActiveRecord
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);
         $criteria->compare('type', $this->type, true);
+        $criteria->compare('slug', $this->slug, true);
         $criteria->compare('widget', $this->widget, true);
 
         return new CActiveDataProvider($this, array(

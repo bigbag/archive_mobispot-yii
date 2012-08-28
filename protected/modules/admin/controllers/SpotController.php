@@ -93,7 +93,7 @@ class SpotController extends Controller
         if (isset($_POST['Spot'])) {
             $model->attributes = $_POST['Spot'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(array('view', 'id' => $model->discodes_id));
         }
 
         $this->render('update', array(

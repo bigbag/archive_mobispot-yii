@@ -32,6 +32,11 @@
             <td><?php echo $form->textField($model, 'name', array('size' => 30, 'maxlength' => 150)); ?></td>
         </tr>
         <tr class="odd">
+
+            <th><?php echo $form->labelEx($model, 'slug'); ?></th>
+            <td><?php echo $form->textField($model, 'slug', array('size' => 30, 'maxlength' => 150)); ?></td>
+        </tr>
+        <tr class="even">
             <th><?php echo $form->label($model, 'desc'); ?></th>
             <td><?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?></td>
         </tr>
@@ -40,7 +45,7 @@
                 <?php echo $form->label($model, 'type'); ?></th>
             <td><?php echo $form->dropDownList($model, 'type', $model->getTypeList()); ?></td>
         </tr>
-        <tr class="odd">
+        <tr class="even">
             <th>
                 <?php echo $form->label($model, 'widget'); ?></th>
             <td><?php echo $form->textField($model, 'widget', array('size' => 30, 'maxlength' => 150)); ?></td>

@@ -4,7 +4,6 @@
  * This is the model class for table "spot".
  *
  * The followings are the available columns in table 'spot':
- * @property integer $id
  * @property string $code
  * @property string $name
  * @property integer $discodes_id
@@ -119,7 +118,7 @@ class Spot extends CActiveRecord
             array('code', 'length', 'max' => 10),
             array('spot_hard, nfc', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('id, code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, type, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, type, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -171,7 +170,6 @@ class Spot extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
             'code' => 'Код',
             'name' => 'Название',
             'discodes_id' => 'ДИС',
@@ -201,22 +199,6 @@ class Spot extends CActiveRecord
         return $user_spot;
     }
 
-    public static function firstSpot($user_id)
-    {
-        $dependency = new CDbCacheDependency("SELECT MAX(id) FROM runbee_tasks WHERE  status = ".RunbeeTasks::STATUS_INIT." and tasks_id = " . $tasks_id . "");
-        $conn = Yii::app()->db;
-        $result = $conn->cache(36000, $dependency)->createCommand()
-            ->select('runbee_id, price')
-            ->from('runbee_tasks')
-            ->where('tasks_id=:tasks_id', array(':tasks_id' => $tasks_id))
-            ->queryAll();
-        $id = array();
-        foreach ($result as $row){
-            $id[$row['runbee_id']]['price'] = $row['price'] ;
-        }
-        return $id;
-    }
-
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -238,7 +220,6 @@ class Spot extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->with = 'spot_type';
-        $criteria->compare('id', $this->id);
         $criteria->compare('code', $this->code, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('discodes_id', $this->discodes_id);

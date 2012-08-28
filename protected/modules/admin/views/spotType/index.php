@@ -20,6 +20,7 @@ $this->menu = array(
     'filter' => $model,
     'columns' => array(
         'name',
+        'slug',
         'desc',
         array(
             'name' => 'type',

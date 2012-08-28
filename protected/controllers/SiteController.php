@@ -18,10 +18,7 @@ class SiteController extends MController
         );
     }
 
-    /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
-     */
+
     public function actionIndex()
     {
         if (Yii::app()->user->id) {
@@ -29,7 +26,7 @@ class SiteController extends MController
 
 
             if (isset($_POST['discodes_id']) and isset($_POST['spot_type'])){
-                Spot::model()->updateAll(array('type' => (int)$_POST['spot_type']), 'discodes_id = '.$_POST['discodes_id']);
+                Spot::model()->updateByPk((int)$_POST['discodes_id'], array('spot_type_id' => (int)$_POST['spot_type']));
                 User::model()->updateByPk($user_id, array('status' => User::STATUS_VALID));
             }
 
@@ -65,9 +62,7 @@ class SiteController extends MController
         }
     }
 
-    /**
-     * This is the action to handle external exceptions.
-     */
+
     public function actionError()
     {
         if ($error = Yii::app()->errorHandler->error) {
