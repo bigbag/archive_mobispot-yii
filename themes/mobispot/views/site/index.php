@@ -188,7 +188,6 @@
     <div class="clear"></div>
 </div>
 
-
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jqurey.carousel.min.js'); ?>
 <script type="text/javascript">
     $(function () {

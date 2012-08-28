@@ -1,6 +1,6 @@
-<div id="recovery"  style="display: none">
+<div id="recovery"  class="reveal-modal">
     <div class="cont-pop">
-        <div class="close-btn"><?php echo Yii::t('user', 'Закрыть')?></div>
+        <a class="close-reveal-modal"><?php echo Yii::t('user', 'Закрыть')?></a>
         <div style="text-align: center">
             <form action="#" method="post" id="recovery_form">
                 <p>

@@ -53,7 +53,7 @@ span.error {
     background: url('../images/uploadify-cancel.png') 0 0 no-repeat;
     float: right;
     height: 16px;
-    text-indent: -9999px;
+    text-indent: -1009px;
     width: 16px;
 }
 
@@ -120,7 +120,7 @@ span.error {
     left: 90px;
     width: 280px;
     padding: 10px;
-    z-index: 999;
+    z-index: 100;
     background-color: #fff;
     border: 1px solid #fc905f;
     -webkit-border-radius: 5px;
@@ -323,7 +323,7 @@ a.prev span, a.next span {
     padding: 2px 0;
     margin: 0 0 0 -90px;
     position: relative;
-    z-index: 999;
+    z-index: 100;
     bottom: 30px;
     left: 50%;
     border-radius: 5px;

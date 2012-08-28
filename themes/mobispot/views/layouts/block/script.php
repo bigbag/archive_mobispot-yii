@@ -114,10 +114,7 @@
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
         else if (responseText  == 'login_error_count'){
-            $('#mistake-auth').show();
-            $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
-            $('#login-captcha').show();
-            $('#login-captcha').modalPopLite({ openButton: '#hint-button-auth', closeButton: '.close-btn' });
+            $('#login-captcha').reveal();
 
         }
         else if (responseText == 1) {
@@ -135,9 +132,11 @@
     }
 
     //Восстановление пароля
-    $(function () {
-        $('#recovery').modalPopLite({ openButton: '#forget-pass', closeButton: '.close-btn' });
-        $('#recovery').show();
+    $(document).ready(function() {
+        $('.forget-pass').click(function(e) {
+            e.preventDefault();
+            $('#recovery').reveal();
+        });
     });
 
     $(document).ready(function ()  {
