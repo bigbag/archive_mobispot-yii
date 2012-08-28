@@ -190,6 +190,33 @@ class Spot extends CActiveRecord
         );
     }
 
+    public static function getUserSpot($user_id)
+    {
+        $user_spot = Yii::app()->cache->get('user_spot_'.$user_id);
+        if ($user_spot === false) {
+            $user_spot = Spot::model()->findByAttributes(array('user_id' => $user_id));
+
+            Yii::app()->cache->set('user_spot_'.$user_id, $user_spot, 3600);
+        }
+        return $user_spot;
+    }
+
+    public static function firstSpot($user_id)
+    {
+        $dependency = new CDbCacheDependency("SELECT MAX(id) FROM runbee_tasks WHERE  status = ".RunbeeTasks::STATUS_INIT." and tasks_id = " . $tasks_id . "");
+        $conn = Yii::app()->db;
+        $result = $conn->cache(36000, $dependency)->createCommand()
+            ->select('runbee_id, price')
+            ->from('runbee_tasks')
+            ->where('tasks_id=:tasks_id', array(':tasks_id' => $tasks_id))
+            ->queryAll();
+        $id = array();
+        foreach ($result as $row){
+            $id[$row['runbee_id']]['price'] = $row['price'] ;
+        }
+        return $id;
+    }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

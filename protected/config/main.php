@@ -29,10 +29,8 @@ return array(
         ),
 
         'messages' => array(
-
             'class' => 'CPhpMessageSource',
             'cachingDuration' => 3600,
-
         ),
         'user' => array(
             'class' => 'CWebUser',

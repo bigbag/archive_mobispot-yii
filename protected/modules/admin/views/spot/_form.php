@@ -23,7 +23,7 @@
         </tr>
         <tr class="even">
             <th><?php echo $form->labelEx($model, 'spot_type_id'); ?></th>
-            <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType($model->type), 'type_id', 'name')); ?></td>
+            <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType($model->type), 'type_id', 'name'), array('empty' => '')); ?></td>
         </tr>
         <tr class="odd">
             <th>
@@ -37,7 +37,7 @@
         <tr class="odd">
             <th>
                 <?php echo $form->label($model, 'spot_hard_type_id'); ?></th>
-            <td><?php echo $form->dropDownList($model, 'spot_hard_type_id', CHtml::listData(SpotHardType::getSpotHardType(), 'id', 'name')); ?></td>
+            <td><?php echo $form->dropDownList($model, 'spot_hard_type_id', CHtml::listData(SpotHardType::getSpotHardType(), 'id', 'name'), array('empty' => '')); ?></td>
         </tr>
         <tr class="even">
             <th><?php echo $form->labelEx($model, 'spot_hard'); ?></th>

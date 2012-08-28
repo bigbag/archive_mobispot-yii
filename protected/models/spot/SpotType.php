@@ -106,6 +106,17 @@ class SpotType extends CActiveRecord
         return $spot_type;
     }
 
+    public static function getSpotTypeArray($type)
+    {
+        $spot_type = Yii::app()->cache->get('spot_type_array_' . $type);
+        if ($spot_type === false) {
+            $spot_type = CHtml::listData(SpotType::getSpotType($type), 'type_id', 'name');
+
+            Yii::app()->cache->set('spot_type_array_' . $type, $spot_type, 36000);
+        }
+        return $spot_type;
+    }
+
     public static function getSpotTypeAll()
     {
         $spot_type_all = Yii::app()->cache->get('spot_type_all');
@@ -113,6 +124,17 @@ class SpotType extends CActiveRecord
             $spot_type_all = SpotType::model()->findAll();
 
             Yii::app()->cache->set('spot_type_all', $spot_type_all, 36000);
+        }
+        return $spot_type_all;
+    }
+
+    public static function getSpotTypeAllArray()
+    {
+        $spot_type_all = Yii::app()->cache->get('spot_type_all_array');
+        if ($spot_type_all === false) {
+            $spot_type_all = CHtml::listData(SpotType::getSpotTypeAll(), 'type_id', 'name');
+
+            Yii::app()->cache->set('spot_type_all_array', $spot_type_all, 36000);
         }
         return $spot_type_all;
     }
@@ -128,8 +150,11 @@ class SpotType extends CActiveRecord
 
             }
         }
+
         Yii::app()->cache->delete('spot_type_' . $this->type);
+        Yii::app()->cache->delete('spot_type_array_' . $this->type);
         Yii::app()->cache->delete('spot_type_all');
+        Yii::app()->cache->delete('spot_type_all_array');
 
         parent::afterSave();
 

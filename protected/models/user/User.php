@@ -17,6 +17,7 @@ class User extends CActiveRecord
 {
     const STATUS_NOACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_VALID = 2;
     const STATUS_BANNED = -1;
 
     const TYPE_USER = 0;
@@ -27,6 +28,7 @@ class User extends CActiveRecord
         return array(
             self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
             self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
+            self::STATUS_VALID => Yii::t('user', 'Имеетхотя бы один спот'),
             self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
         );
     }

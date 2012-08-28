@@ -24,7 +24,45 @@ class SiteController extends MController
      */
     public function actionIndex()
     {
-        $this->render('index');
+        if (Yii::app()->user->id) {
+            $user_id = Yii::app()->user->id;
+
+
+            if (isset($_POST['discodes_id']) and isset($_POST['spot_type'])){
+                Spot::model()->updateAll(array('type' => (int)$_POST['spot_type']), 'discodes_id = '.$_POST['discodes_id']);
+                User::model()->updateByPk($user_id, array('status' => User::STATUS_VALID));
+            }
+
+            $user = User::model()->findByPk($user_id);
+
+            if ($user->status == User::STATUS_ACTIVE and $user->type != User::TYPE_ADMIN) {
+                $spot = Spot::model()->findByAttributes(array('user_id' => $user_id));
+                $spot_type = SpotType::getSpotTypeArray($spot->type);
+                $this->render('index', array(
+                    'first' => true,
+                    'spot_type' => $spot_type,
+                    'spot' => $spot,
+                    'user' => $user,
+                ));
+            } else {
+                $criteria = new CDbCriteria;
+                $criteria->compare('user_id', $user_id);
+                $dataProvider = new CActiveDataProvider(Spot::model(),
+                    array(
+                        'criteria' => $criteria,
+                        'pagination' => array(
+                            'pageSize' => 4,
+                        ),
+                    ));
+                $this->render('index', array(
+                    'first' => false,
+                    'dataProvider' => $dataProvider,
+                    'user' => $user,
+                ));
+            }
+        } else {
+            $this->render('index');
+        }
     }
 
     /**
@@ -89,19 +127,18 @@ class SiteController extends MController
                     $image->thumb(136, 168, true);
                     $image->save($targetPath . $fileName . '.jpg');
 
-                    $personal_photo = Yii::app()->cache->get('personal_photo_'.$user_id);
+                    $personal_photo = Yii::app()->cache->get('personal_photo_' . $user_id);
 
-                    if ($personal_photo !== false){
-                        @unlink($targetPath.$personal_photo);
-                        @unlink($targetPath.'tmb_'.$personal_photo);
+                    if ($personal_photo !== false) {
+                        @unlink($targetPath . $personal_photo);
+                        @unlink($targetPath . 'tmb_' . $personal_photo);
                     }
-                    Yii::app()->cache->set('personal_photo_'.$user_id, $targetFileName, 3600);
+                    Yii::app()->cache->set('personal_photo_' . $user_id, $targetFileName, 3600);
 
                     echo json_encode(array('file' => $targetFileName));
 
                 } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
-            }
-            else echo json_encode(array('error' => Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024 .' байт.'));
+            } else echo json_encode(array('error' => Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024 . ' байт.'));
         }
     }
 }
