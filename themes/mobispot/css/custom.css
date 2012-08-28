@@ -257,27 +257,26 @@ span.error {
     top: -11px;
 }
 
-
-a.next-slide, a.prev-slide {
-    position: relative;
+a.prev {
+    background: url(../images/prev.png) no-repeat transparent;
     width: 45px;
     height: 50px;
     display: block;
+    position: relative;
+    top: -110px;
+    right: 10%;
 }
-
-a.prev-slide {
-    background: url(../images/prev.png) no-repeat transparent;
-    left: 110px;
-    top: -120px;
-}
-
-a.next-slide {
+a.next {
     background: url(../images/next.png) no-repeat transparent;
-    left: 870px;
-    top: -170px;
+    width: 45px;
+    height: 50px;
+    display: block;
+    position: relative;
+    top: -160px;
+    left: 100%
 }
 
-a.next-slide span, a.prev-slide span {
+a.prev span, a.next span {
     display: none;
 }
 
@@ -286,35 +285,53 @@ a.next-slide span, a.prev-slide span {
     margin: 0 auto;
     position: relative;
 }
-#carousel {
-    margin-top: 60px
 
+#carousel {
+    margin-top: 80px;
 }
+
 #carousel div {
     text-align: center;
+    margin: 10px;
     width: 120px;
     height: 120px;
     float: left;
     position: relative;
 }
+
 #carousel div img {
     border: none;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    behavior: url(ie-css3.htc)
 }
+
 #carousel div span {
     display: none;
 }
+
 #carousel div:hover span {
     background-color: #333;
     color: #fff;
-    font-family: Arial, Geneva, SunSans-Regular, sans-serif;
+    font-family: Helvetica;
     font-size: 14px;
     line-height: 22px;
     display: inline-block;
-    width: 100px;
+    width: 180px;
     padding: 2px 0;
-    margin: 0 0 0 -50px;
-    position: absolute;
+    margin: 0 0 0 -90px;
+    position: relative;
+    z-index: 999;
     bottom: 30px;
     left: 50%;
-    border-radius: 3px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.clearfix {
+    float: none;
+    clear: both;
 }
