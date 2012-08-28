@@ -7,6 +7,7 @@
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/reveal.css' ); ?>
 
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery-pop.js' ); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.selectBox.min.js' ); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.form.min.js' ); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.redirect.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.js'); ?>

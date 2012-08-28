@@ -14,29 +14,30 @@
     </div>
     <div class="btn-30">
         <input type="hidden" name="discodes_id" value="<?php echo $spot->discodes_id;?>">
+
         <div><input type="submit" value="<?php echo Yii::t('general', 'Сохранить');?>"/></div>
     </div>
 </form>
 <?php else: ?>
 <h2><?php echo Yii::t('general', 'Мои споты');?></h2>
-<form action="/user/account" method="get">
-    <?php $this->widget('zii.widgets.CListView', array(
-    'dataProvider' => $dataProvider,
-    'itemView' => 'block/_spots_list',
-    'template' => '{items} {pager}',
-    'cssFile' => false,
-    'id' => 'spotslistview',
-)); ?>
-    <span class="dop-txt">
+<?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider' => $dataProvider,
+        'itemView' => 'block/_spots_list',
+        'template' => '{items} {pager}',
+        'cssFile' => false,
+        'id' => 'spotslistview',
+    )); ?>
+<span class="dop-txt">
         <a href=""><?php echo Yii::t('general', 'Показать ещё')?><span></span></a>
     </span>
-    <br/>
-    <br/>
+<br/>
+<br/>
 
-    <div class="btn-30">
-        <div><input type="submit" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
-        </div>
+<div class="btn-30">
+    <div>
+        <input type="submit" id="account" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
     </div>
-</form>
+</div>
+
 <?php endif; ?>
 

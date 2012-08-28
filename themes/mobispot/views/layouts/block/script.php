@@ -1,4 +1,9 @@
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#account').click(function () {
+            $().redirect('/user/account/', null, 'GET');
+        });
+    });
     //Блок меню пользователя
     $(document).ready(function () {
         $('#auth-user-name').click(function () {
