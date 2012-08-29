@@ -111,7 +111,7 @@
             $('#name_' + id + ' div.name').html(name);
             $('#name_' + id + ' div.rename').hide();
             $('#name_' + id + ' div.name').show();
-            $('#id_' + id + ' span').removeClass("niceChecked");
+            $('.noView').show();
         }
     }
 </script>
