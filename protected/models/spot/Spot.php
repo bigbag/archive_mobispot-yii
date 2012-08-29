@@ -36,6 +36,13 @@ class Spot extends CActiveRecord
     const STATUS_REMOVED_SYS = 5;
     const STATUS_INVISIBLE = 6;
 
+    const ACTION_ADD = 0;
+    const ACTION_COPY = 1;
+    const ACTION_EMPTY = 2;
+    const ACTION_REMOVE = 3;
+    const ACTION_CHANGE_NAME = 4;
+    const ACTION_CHANGE_TYPE = 5;
+
     public $spot_type_name;
 
     public function getTypeList()
@@ -62,6 +69,18 @@ class Spot extends CActiveRecord
     public function getPremiumList()
     {
         return Discodes::getPremiumList();
+    }
+
+    public function getActionList()
+    {
+        return array(
+            self::ACTION_ADD => Yii::t('account', 'Добавить спот'),
+            self::ACTION_COPY => Yii::t('account', 'Копировать'),
+            self::ACTION_EMPTY => Yii::t('account', 'Очистить'),
+            self::ACTION_REMOVE => Yii::t('account', 'Удалить'),
+            self::ACTION_CHANGE_NAME => Yii::t('account', 'Изменить название'),
+            self::ACTION_CHANGE_TYPE => Yii::t('account', 'Изменить тип'),
+        );
     }
 
     public function getType()

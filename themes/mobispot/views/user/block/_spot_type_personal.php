@@ -12,7 +12,7 @@
     <div class="yourName">
         <div class="txt-form">
             <div class="txt-form-cl">
-                <input type="text" class="txt" name="inputtext" value="" placeholder="<?php echo Yii::t('account', 'Имя');?>"/>
+                <input type="text" class="txt" name="inputtext" value="" placeholder="Your Name"/>
             </div>
         </div>
     </div>
@@ -27,45 +27,48 @@
                     </div>
             </div>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="mail-ico"></span><input type="text" class="txt"
-                                                                              name="inputtext" value=""
-                                                                              placeholder="example@example.com"/>
+                <div class="txt-form-cl">
+                    <span class="mail-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="example@example.com"/>
                 </div>
             </div>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="skype-ico"></span><input type="text" class="txt"
-                                                                               name="inputtext" value=""
-                                                                               placeholder="bulletgfx"/></div>
+                <div class="txt-form-cl">
+                    <span class="skype-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="bulletgfx"/>
+                </div>
             </div>
-            <a href="" class="r-btn-30"><span>Добавить</span></a>
+            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
         </div>
     </div>
     <div class="oneBlockSpotInfo">
         <div class="top-border ">
-            Социальные сети
+            <?php echo Yii::t('account', 'Социальные сети');?>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="fb-ico"></span><input type="text" class="txt"
-                                                                            name="inputtext" value=""
-                                                                            placeholder="www.facebook.com/example"/>
+                <div class="txt-form-cl">
+                    <span class="fb-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="www.facebook.com/example"/>
                 </div>
             </div>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="tw-ico"></span><input type="text" class="txt"
-                                                                            name="inputtext" value=""
-                                                                            placeholder="www.twitter.com/example"/>
+                <div class="txt-form-cl">
+                    <span class="tw-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="www.twitter.com/example"/>
                 </div>
             </div>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="vk-ico"></span><input type="text" class="txt"
-                                                                            name="inputtext" value=""
-                                                                            placeholder="www.link"/></div>
+                <div class="txt-form-cl">
+                    <span class="vk-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="www.link"/>
+                </div>
             </div>
             <div class="txt-form">
-                <div class="txt-form-cl"><span class="in-ico"></span><input type="text" class="txt"
-                                                                            name="inputtext" value=""
-                                                                            placeholder="www.link"/></div>
+                <div class="txt-form-cl">
+                    <span class="in-ico"></span>
+                    <input type="text" class="txt" name="inputtext" value="" placeholder="www.link"/>
+                </div>
             </div>
-            <a href="" class="r-btn-30"><span>Добавить</span></a>
+            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
         </div>
     </div>
     <div class="clear"></div>
@@ -73,42 +76,44 @@
         <div class="top-border ">
             <table class="oneBlockSpotInfoTbl" cellspacing="0">
                 <tr>
-                    <td class="field">Учебное заведение</td>
+                    <td class="field"><?php echo Yii::t('account', 'Учебное заведение');?></td>
                     <td>
                         <div class="txt-form">
-                            <div class="txt-form-cl"><input type="text" class="txt" name="inputtext" value=""
-                                                            placeholder=" "/></div>
+                            <div class="txt-form-cl">
+                                <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
+                            </div>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="field">Город</td>
+                    <td class="field"><?php echo Yii::t('account', 'Город');?></td>
                     <td>
                         <div class="txt-form">
-                            <div class="txt-form-cl"><input type="text" class="txt" name="inputtext" value=""
-                                                            placeholder=" "/></div>
+                            <div class="txt-form-cl">
+                                <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
+                            </div>
                         </div>
                     </td>
                 </tr>
             </table>
 
-            <a href="" class="r-btn-30"><span>Добавить</span></a>
+            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
         </div>
     </div>
     <div class="oneBlockSpotInfo">
         <div class="top-border ">
-            Язык отображения спота
+            <?php echo Yii::t('account', 'Язык отображения спота');?>
             <select>
-                <option>Русский</option>
-                <option>Английский</option>
+                <option><?php echo Yii::t('account', 'Русский');?></option>
+                <option><?php echo Yii::t('account', 'Английский');?></option>
             </select>
             <table class="oneBlockSpotInfoTbl">
                 <tr>
-                    <td>Разрешить комментарии к споту</td>
+                    <td><?php echo Yii::t('account', 'Разрешить комментарии к споту');?></td>
                     <td><input type="checkbox" class="niceCheck"></td>
                 </tr>
                 <tr>
-                    <td>Разрешить скачивать визитку</td>
+                    <td><?php echo Yii::t('account', 'Разрешить скачивать визитку');?></td>
                     <td><input type="checkbox" class="niceCheck"></td>
                 </tr>
             </table>

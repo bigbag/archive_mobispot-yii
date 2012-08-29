@@ -145,12 +145,23 @@ class AjaxController extends MController
                             }
                             unset(Yii::app()->session['registration_error_count']);
                         }
-                    }
-                    else {
+                    } else {
                         Yii::app()->session['registration_error_count'] = $registration_error_count + 1;
                         echo json_encode(array('error' => $model->getErrors()));
                     }
                 }
+            }
+        }
+    }
+
+    public function actionSpotRename()
+    {
+        if (isset($_POST['name']) and isset($_POST['discodes_id'])) {
+            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+            if ($spot) {
+                $spot->name = CHtml::encode($_POST['name']);
+                $spot->save();
+                echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => substr($spot->name,0, 45)));
             }
         }
     }

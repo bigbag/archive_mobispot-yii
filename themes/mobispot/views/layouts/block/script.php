@@ -102,7 +102,8 @@
     $(document).ready(function () {
         var options = {
             success:showLoginCaptchaResponse,
-            clearForm:false,
+            dataType: 'json',
+            clearForm:true,
             url:'/ajax/loginCaptcha/'
         };
 
