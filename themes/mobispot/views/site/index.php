@@ -97,7 +97,6 @@
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jqurey.carousel.min.js'); ?>
     <script type="text/javascript">
         $(function () {
-
             $('#carousel').carouFredSel({
                 auto:false,
                 infinite:false,

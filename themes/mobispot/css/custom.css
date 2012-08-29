@@ -335,3 +335,12 @@ a.prev span, a.next span {
     float: none;
     clear: both;
 }
+
+.correct-ico {
+    background: url(../images/form/sprite.png) -46px -100px no-repeat;
+    width: 16px;
+    height: 18px;
+    display: block;
+    margin-top: 2px;
+    float: left
+}

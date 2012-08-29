@@ -1,4 +1,4 @@
-<div id="login-captcha" class="reveal-modal">
+<div id="login_captcha_modal" class="reveal-modal">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('user', 'Закрыть')?></a>
         <form action="#" method="post" id="login_captcha_form">

@@ -161,7 +161,39 @@ class AjaxController extends MController
             if ($spot) {
                 $spot->name = CHtml::encode($_POST['name']);
                 $spot->save();
-                echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => substr($spot->name,0, 45)));
+                echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => substr($spot->name, 0, 45)));
+            }
+        }
+    }
+
+    public function actionSpotRetype()
+    {
+        if (isset($_POST['type']) and isset($_POST['discodes_id'])) {
+            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+            if ($spot) {
+                $spot->spot_type_id = (int)$_POST['type'];
+                $spot->save();
+                echo true;
+            }
+        }
+    }
+
+    public function actionSpotAdd()
+    {
+        if (isset($_POST['code'])) {
+            if (!isset($_POST['type'])) {
+                $spot = Spot::model()->findByAttributes(array('code' => $_POST['code'], 'status' => Spot::STATUS_ACTIVATED));
+                if ($spot) {
+                    echo $spot->type;
+                } else echo false;
+            } else {
+                $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
+                $spot->status = Spot::STATUS_REGISTERED;
+                $spot->user_id = Yii::app()->user->id;
+                $spot->spot_type_id = (int)$_POST['type'];
+                if ($spot->save()) {
+                    echo true;
+                }
             }
         }
     }

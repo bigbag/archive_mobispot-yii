@@ -120,7 +120,7 @@
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
         else if (responseText  == 'login_error_count'){
-            $('#login-captcha').reveal();
+            $('#login_captcha_modal').reveal();
 
         }
         else if (responseText == 1) {
@@ -141,7 +141,7 @@
     $(document).ready(function() {
         $('.forget-pass').click(function(e) {
             e.preventDefault();
-            $('#recovery').reveal();
+            $('#recovery_modal').reveal();
         });
     });
 
