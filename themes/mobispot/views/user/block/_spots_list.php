@@ -34,15 +34,15 @@
                     <div class="retype" style="display: none;">
                         <form action="" method="post" class="spot_retype_form">
                             <input type="hidden" name="discodes_id" value="<?php echo $data->discodes_id;?>">
-                            <select name="type">
-                                <?foreach (SpotType::getSpotTypeArray($data->type) as $key => $value): ?>
-                                <?php if ($data->spot_type_id == $key): ?>
-                                    <option value="<?php echo $key; ?>" selected><?php echo $value; ?></option>
-                                    <?php else: ?>
-                                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
+
+                            <?php
+                            echo CHtml::activeDropDownList(
+                                $data,
+                                'spot_type_id',
+                                SpotType::getSpotTypeArray($data->type),
+                                array('options' => array($data->spot_type_id => array('selected' => true)))
+                            );
+                            ?>
 
                             <div class="round-btn">
                                 <div class="round-btn-cl">
@@ -62,10 +62,12 @@
         <div class="btn-30">
             <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"/></div>
         </div>
-        <a href="" class="btn-30"><span class="preview-ico ico"></span><span
-            class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span></a>
-        <?php $file_path = '_spot_type_' . $data->spot_type->pattern . '.php';?>
-        <?php include($file_path)?>
+        <a href="" class="btn-30">
+            <span class="preview-ico ico"></span>
+            <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
+        </a>
+
+        <div class="spot_content_<?php echo $data->discodes_id;?>"></div>
         <div class="clear"></div>
         <div>
 </li>

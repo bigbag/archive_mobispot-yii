@@ -1,4 +1,4 @@
-<div id="spot_clear_modal" class="reveal-modal" xmlns="http://www.w3.org/1999/html">
+<div id="spot_clear_modal" class="reveal-modal">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
 

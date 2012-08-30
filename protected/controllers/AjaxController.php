@@ -168,6 +168,20 @@ class AjaxController extends MController
 
     public function actionSpotRetype()
     {
+        if (isset($_POST['Spot']) and isset($_POST['Spot']['spot_type_id']) and isset($_POST['discodes_id'])) {
+            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+            $spot_type_id = (int)$_POST['Spot']['spot_type_id'];
+            if ($spot) {
+                $spot->spot_type_id = $spot_type_id;
+                $spot->save();
+                $all_type = SpotType::getSpotTypeAllArray();
+                echo json_encode(array('discodes_id' => $spot->discodes_id, 'spot_type' => $all_type[$spot_type_id]));
+            }
+        }
+    }
+
+    public function actionSpotRemove()
+    {
         if (isset($_POST['type']) and isset($_POST['discodes_id'])) {
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {

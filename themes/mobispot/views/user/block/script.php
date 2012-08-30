@@ -105,6 +105,13 @@
                     $('b.spot_clear_id').text(id);
                     $('#spot_clear_modal').reveal();
                 }
+                else if (action == <?php echo Spot::ACTION_REMOVE; ?>){
+                    $('b.spot_clear_id').text(id);
+                    $('#spot_remove_modal input').val(id);
+                    $('#spot_remove_modal').reveal();
+                }
+                $('input[name=discodes_id]').attr('checked', false);
+                $('span.niceCheck').removeClass('niceChecked');
             }
             return false;
         });
@@ -130,12 +137,15 @@
         var id = obj.discodes_id;
 
         if (responseText) {
-            var name = obj.name;
+            if (obj.name){
+                var name = obj.name;
 
-            $('#name_' + id + ' div.name').html(name);
-            $('#name_' + id + ' div.rename').hide();
-            $('#name_' + id + ' div.name').show();
-            $('.noView').show();
+                $('#name_' + id + ' div.name').html(name);
+                $('#name_' + id + ' div.rename').hide();
+                $('#name_' + id + ' div.name').show();
+                $('.noView').show();
+            }
+            return false;
         }
     }
 
@@ -155,11 +165,27 @@
     });
 
     function showSpotRetypeResponse(responseText) {
-        var obj = jQuery.parseJSON(responseText);
-        var id = obj.discodes_id;
-
         if (responseText) {
-            $().redirect('/user/account/', null, 'GET');
+            var obj = jQuery.parseJSON(responseText);
+            var id = obj.discodes_id;
+
+            if (obj.spot_type){
+                var spot_type = obj.spot_type;
+
+                $('#type_' + id + ' div.type').html(spot_type);
+                $('#type_' + id + ' div.retype').hide();
+                $('#type_' + id + ' div.type').show();
+                $('.noView').show();
+            }
+            return false;
         }
     }
+
+    //удаление спота
+
+    $(document).ready(function () {
+        $('.spot_remove_modal a').click(function () {
+            $('.spot_remove_modal').submit();
+        });
+    });
 </script>

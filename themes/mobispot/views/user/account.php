@@ -55,4 +55,5 @@
 
 <?php include('block/script.php')?>
 <?php include('modal/spot_clear.php')?>
+<?php include('modal/spot_remove.php')?>
 <?php include('modal/spot_add.php')?>
