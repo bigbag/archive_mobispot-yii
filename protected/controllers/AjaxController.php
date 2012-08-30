@@ -160,7 +160,7 @@ class AjaxController extends MController
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
                 $spot->name = CHtml::encode($_POST['name']);
-                if ($spot->save()){
+                if ($spot->save()) {
                     echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => mb_substr($spot->name, 0, 45, 'utf-8')));
                 }
             }
@@ -174,7 +174,7 @@ class AjaxController extends MController
             $spot_type_id = (int)$_POST['Spot']['spot_type_id'];
             if ($spot) {
                 $spot->spot_type_id = $spot_type_id;
-                if ($spot->save()){
+                if ($spot->save()) {
                     $all_type = SpotType::getSpotTypeAllArray();
                     echo json_encode(array('discodes_id' => $spot->discodes_id, 'spot_type' => $all_type[$spot_type_id]));
                 }
@@ -188,7 +188,7 @@ class AjaxController extends MController
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
                 $spot->status = Spot::STATUS_REMOVED_USER;
-                if ($spot->save()){
+                if ($spot->save()) {
                     echo json_encode(array('discodes_id' => $spot->discodes_id));
                 }
             }
@@ -211,6 +211,21 @@ class AjaxController extends MController
                 if ($spot->save()) {
                     echo true;
                 }
+            }
+        }
+    }
+
+    public function actionSpotView()
+    {
+        if (isset($_POST['discodes_id'])) {
+            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+            if ($spot) {
+                $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
+                    array(
+                        'data' => $spot,
+                    ),
+                    true);
+                echo $txt;
             }
         }
     }

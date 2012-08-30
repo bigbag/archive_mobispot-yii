@@ -5,9 +5,20 @@
         $('#table-spots>ul>div>div>li>div.oneSpot').click(function (e) {
             th = $(this).parent();
             console.log(e.target);
-            if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
+            if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;
 
             if (ACCORDION_MODE && !th.hasClass('active')) {
+                var id = $(th).prop('id');
+
+                if(id){
+                    $.ajax({
+                        url:'/ajax/spotView',
+                        type:'POST',
+                        data:{discodes_id:id},
+                        success:function(result){
+                        }
+                    });
+                }
                 th.parent().find('>li>div.contSpot').slideUp(300);
                 th.parent().find('>li').removeClass('active');
             }
@@ -211,10 +222,9 @@
 
             if (obj.discodes_id){
                 var id = obj.discodes_id;
-                $('#spot_' + id).remove();
+                $('#' + id).remove();
                 $('.close-reveal-modal').click();
             }
-
         }
     }
 </script>
