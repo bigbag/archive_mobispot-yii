@@ -11,7 +11,7 @@
 <div class="yourName">
     <div class="txt-form">
         <div class="txt-form-cl">
-            <?php echo CHtml::activeTextField($content,'3_imya', array('placeholder'=>'Your Name', 'class' => 'text')); ?>
+            <?php echo CHtml::activeTextField($content, '3_imya', array('placeholder' => 'Your Name', 'class' => 'text')); ?>
         </div>
     </div>
 </div>
@@ -22,19 +22,19 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tel-ico"></span>
-                <input type="text" class="txt" name=3_telefon" value="" placeholder="Your Phone"/>
+                <?php echo CHtml::activeTextField($content, '3_telefon', array('placeholder' => 'Your Phone', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="mail-ico"></span>
-                <input type="text" class="txt" name="3_email" value="" placeholder="example@example.com"/>
+                <?php echo CHtml::activeTextField($content, '3_email', array('placeholder' => 'example@example.com', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="skype-ico"></span>
-                <input type="text" class="txt" name="3_skype" value="" placeholder="bulletgfx"/>
+                <?php echo CHtml::activeTextField($content, '3_skype', array('placeholder' => 'bulletgfx', 'class' => 'text')); ?>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
@@ -46,25 +46,26 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="fb-ico"></span>
-                <input type="text" class="txt" name="3_facebook" value="" placeholder="www.facebook.com/example"/>
+                <?php echo CHtml::activeTextField($content, '3_facebook', array('placeholder' => 'www.facebook.com/example', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tw-ico"></span>
+                <?php echo CHtml::activeTextField($content, '3_twitter', array('placeholder' => 'www.twitter.com/example', 'class' => 'text')); ?>
                 <input type="text" class="txt" name="3_twitter" value="" placeholder="www.twitter.com/example"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="vk-ico"></span>
-                <input type="text" class="txt" name="3_vk" value="" placeholder="www.link"/>
+                <?php echo CHtml::activeTextField($content, '3_vk', array('placeholder' => 'www.link', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="in-ico"></span>
-                <input type="text" class="txt" name="3_linkedin" value="" placeholder="www.link"/>
+                <?php echo CHtml::activeTextField($content, '3_linkedin', array('placeholder' => 'www.link', 'class' => 'text')); ?>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
@@ -79,7 +80,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
+                            <?php echo CHtml::activeTextField($content, '3_uchebnoe-zavedenie', array('placeholder' => 'www.link', 'class' => 'text')); ?>
                         </div>
                     </div>
                 </td>
@@ -89,6 +90,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
+                            <?php echo CHtml::activeTextField($content, '3_gorod', array('placeholder' => 'www.link', 'class' => 'text')); ?>
                             <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                         </div>
                     </div>
