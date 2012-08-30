@@ -76,7 +76,7 @@ class SpotLinkTypeField extends CActiveRecord
     public function beforeValidate()
     {
         if (!$this->slug)
-            $this->slug = $this->type_id . '_' . YText::translit($this->name);
+            $this->slug = YText::translit($this->name) . '_' . $this->type_id;
 
         return parent::beforeValidate();
     }

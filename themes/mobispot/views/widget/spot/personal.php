@@ -1,3 +1,6 @@
+<form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
+    <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
+    <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
 <div class="yourPhoto">
     <div class="photo-cont">
     </div>
@@ -11,7 +14,7 @@
 <div class="yourName">
     <div class="txt-form">
         <div class="txt-form-cl">
-            <?php echo CHtml::activeTextField($content, '3_imya', array('placeholder' => 'Your Name', 'class' => 'text')); ?>
+            <?php echo CHtml::activeTextField($content, 'imya_3', array('placeholder' => 'Your Name', 'class' => 'text')); ?>
         </div>
     </div>
 </div>
@@ -22,19 +25,19 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tel-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_telefon', array('placeholder' => 'Your Phone', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'telefon_3', array('placeholder' => 'Your Phone', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="mail-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_email', array('placeholder' => 'example@example.com', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'email_3', array('placeholder' => 'example@example.com', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="skype-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_skype', array('placeholder' => 'bulletgfx', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'skype_3', array('placeholder' => 'bulletgfx', 'class' => 'text')); ?>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
@@ -46,26 +49,25 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="fb-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_facebook', array('placeholder' => 'www.facebook.com/example', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'facebook_3', array('placeholder' => 'www.facebook.com/example', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tw-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_twitter', array('placeholder' => 'www.twitter.com/example', 'class' => 'text')); ?>
-                <input type="text" class="txt" name="3_twitter" value="" placeholder="www.twitter.com/example"/>
+                <?php echo CHtml::activeTextField($content, 'twitter_3', array('placeholder' => 'www.twitter.com/example', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="vk-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_vk', array('placeholder' => 'www.link', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'vk_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="in-ico"></span>
-                <?php echo CHtml::activeTextField($content, '3_linkedin', array('placeholder' => 'www.link', 'class' => 'text')); ?>
+                <?php echo CHtml::activeTextField($content, 'linkedin_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
@@ -80,7 +82,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <?php echo CHtml::activeTextField($content, '3_uchebnoe-zavedenie', array('placeholder' => 'www.link', 'class' => 'text')); ?>
+                            <?php echo CHtml::activeTextField($content, 'uchebnoe-zavedenie_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
                         </div>
                     </div>
                 </td>
@@ -90,7 +92,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <?php echo CHtml::activeTextField($content, '3_gorod', array('placeholder' => 'www.link', 'class' => 'text')); ?>
+                            <?php echo CHtml::activeTextField($content, 'gorod_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
                             <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                         </div>
                     </div>
@@ -120,4 +122,5 @@
         </table>
     </div>
 </div>
+</form>
 

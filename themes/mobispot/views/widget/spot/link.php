@@ -8,6 +8,7 @@
         <td>
             <div class="txt-form">
                 <div class="txt-form-cl">
+                    <?php echo CHtml::activeTextField($content, '5_nazvanie', array('class' => 'text')); ?>
                     <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                 </div>
             </div>
@@ -18,6 +19,7 @@
         <td>
             <div class="txt-form">
                 <div class="txt-form-cl">
+                    <?php echo CHtml::activeTextField($content, '5_adres', array('class' => 'text')); ?>
                     <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                 </div>
             </div>

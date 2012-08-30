@@ -225,8 +225,7 @@ class AjaxController extends MController
         if (isset($_POST['discodes_id'])) {
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
-                SpotModel::setDefault('1', $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-                $content = SpotModel::model()->findByAttributes(array('spot_id'=> $spot->discodes_id));
+                $content = SpotModel::getContent('1', $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
                 $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                     array(
                         'data' => $spot,
@@ -234,6 +233,24 @@ class AjaxController extends MController
                     ),
                     true);
                 echo $txt;
+            }
+        }
+    }
+
+    public function actionSpotEdit()
+    {
+        if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
+            $content = SpotModel::model()->findByAttributes(
+                array(
+                    'spot_id'=> $_POST['SpotModel']['spot_id'],
+                    'spot_type_id' => $_POST['SpotModel']['spot_type_id']
+                ));
+            if ($content){
+                $content->attributes = $_POST['SpotModel'];
+
+                if ($content->validate()) {
+                    $content->save();
+                }
             }
         }
     }

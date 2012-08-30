@@ -59,15 +59,16 @@
         </table>
     </div>
     <div class="contSpot">
+
         <div class="btn-30">
-            <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"/></div>
+            <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>" form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
         </div>
-        <a href="" class="btn-30">
+        <a href="#" class="btn-30">
             <span class="preview-ico ico"></span>
             <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
         </a>
 
         <div id="spot_content_<?php echo $data->discodes_id;?>" class="oneSpotInfo"></div>
         <div class="clear"></div>
-        <div>
+    <div>
 </li>
