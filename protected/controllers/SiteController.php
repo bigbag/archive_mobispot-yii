@@ -50,6 +50,7 @@ class SiteController extends MController
                         'pagination' => array(
                             'pageSize' => 4,
                         ),
+                        'sort' => array('defaultOrder' => 'registered_date desc',),
                     ));
                 $this->render('index', array(
                     'first' => false,

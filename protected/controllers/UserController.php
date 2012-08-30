@@ -157,6 +157,10 @@ class UserController extends MController
             $dataProvider = new CActiveDataProvider(Spot::model()->used(),
                 array(
                     'criteria' => $criteria,
+                    'pagination' => array(
+                        'pageSize' => 100,
+                    ),
+                    'sort' => array('defaultOrder' => 'registered_date desc'),
                 ));
 
             $this->render('account', array(

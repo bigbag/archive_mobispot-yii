@@ -2,14 +2,14 @@
     //аккардеон
     var ACCORDION_MODE = true;
     $(document).ready(function () {
-        $('#table-spots>ul>div>div>li>div.oneSpot').click(function (e) {
+        $('body').delegate('#table-spots>ul>div>div>li>div.oneSpot', 'click', function (e) {
             th = $(this).parent();
             console.log(e.target);
             if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;
 
             if (ACCORDION_MODE && !th.hasClass('active')) {
                 var id = $(th).prop('id');
-
+                //загрузка содержимого спота
                 if(id){
                     $.ajax({
                         url:'/ajax/spotView',
@@ -93,7 +93,8 @@
 
     function showSpotAddResponse(responseText) {
         if (responseText) {
-            $().redirect('/user/account/', null, 'GET');
+            $('#spotslistview').prepend(responseText);
+            $('.close-reveal-modal').click();
         }
     }
 

@@ -209,7 +209,12 @@ class AjaxController extends MController
                 $spot->user_id = Yii::app()->user->id;
                 $spot->spot_type_id = (int)$_POST['type'];
                 if ($spot->save()) {
-                    echo true;
+                    $txt = $this->renderPartial('/user/block/_spots_list',
+                        array(
+                            'data' => $spot,
+                        ),
+                        true);
+                    echo '<div class="items">' . $txt . '</div>';
                 }
             }
         }
