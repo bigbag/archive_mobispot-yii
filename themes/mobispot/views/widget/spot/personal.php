@@ -11,7 +11,7 @@
 <div class="yourName">
     <div class="txt-form">
         <div class="txt-form-cl">
-            <input type="text" class="txt" name="inputtext" value="" placeholder="Your Name"/>
+            <?php echo CHtml::activeTextField($content,'3_imya', array('placeholder'=>'Your Name', 'class' => 'text')); ?>
         </div>
     </div>
 </div>
@@ -22,19 +22,19 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tel-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="Your Name"/>
+                <input type="text" class="txt" name=3_telefon" value="" placeholder="Your Phone"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="mail-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="example@example.com"/>
+                <input type="text" class="txt" name="3_email" value="" placeholder="example@example.com"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="skype-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="bulletgfx"/>
+                <input type="text" class="txt" name="3_skype" value="" placeholder="bulletgfx"/>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
@@ -46,25 +46,25 @@
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="fb-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="www.facebook.com/example"/>
+                <input type="text" class="txt" name="3_facebook" value="" placeholder="www.facebook.com/example"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="tw-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="www.twitter.com/example"/>
+                <input type="text" class="txt" name="3_twitter" value="" placeholder="www.twitter.com/example"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="vk-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="www.link"/>
+                <input type="text" class="txt" name="3_vk" value="" placeholder="www.link"/>
             </div>
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
                 <span class="in-ico"></span>
-                <input type="text" class="txt" name="inputtext" value="" placeholder="www.link"/>
+                <input type="text" class="txt" name="3_linkedin" value="" placeholder="www.link"/>
             </div>
         </div>
         <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>

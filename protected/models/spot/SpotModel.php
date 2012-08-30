@@ -17,4 +17,13 @@ class SpotModel extends EMongoSoftDocument
     {
         return parent::model($className);
     }
+
+    public function setDefault($spot_id, $user_id, $spot_type_id){
+
+        $model = new SpotModel();
+        $model->spot_id = $spot_id;
+        $model->user_id = $user_id;
+        $model->initSoftAttributes(array('3_imya'));
+        $model->save();
+    }
 }

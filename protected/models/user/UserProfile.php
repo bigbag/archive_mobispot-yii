@@ -64,7 +64,7 @@ class UserProfile extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, sex, use_photo, photo', 'required'),
+			array('user_id, sex, use_photo', 'required'),
 			array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly'=>true),
             array('name, place', 'filter', 'filter' => 'trim'),
             array('name, place', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),

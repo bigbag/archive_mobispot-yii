@@ -225,9 +225,12 @@ class AjaxController extends MController
         if (isset($_POST['discodes_id'])) {
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
+                SpotModel::setDefault($spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
+                $content = SpotModel::model()->findByAttributes(array('spot_id'=> $spot->discodes_id));
                 $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                     array(
                         'data' => $spot,
+                        'content' => $content,
                     ),
                     true);
                 echo $txt;

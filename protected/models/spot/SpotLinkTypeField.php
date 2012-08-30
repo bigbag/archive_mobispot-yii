@@ -8,6 +8,7 @@
  * @property integer $type_id
  * @property integer $field_id
  * @property string $name
+ * @property string $slug
  */
 class SpotLinkTypeField extends CActiveRecord
 {
@@ -37,11 +38,11 @@ class SpotLinkTypeField extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type_id, field_id, name', 'required'),
+			array('type_id, field_id, name, slug', 'required'),
 			array('type_id, field_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, type_id, field_id, name', 'safe', 'on'=>'search'),
+			array('id, type_id, field_id, slug, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,9 +68,18 @@ class SpotLinkTypeField extends CActiveRecord
 			'id' => 'ID',
 			'type_id' => 'Тип',
 			'field_id' => 'Поле',
+            'slug' => 'Обозначение',
 			'name' => 'Название',
 		);
 	}
+
+    public function beforeValidate()
+    {
+        if (!$this->slug)
+            $this->slug = $this->type_id . '_'. YText::translit($this->name);
+
+        return parent::beforeValidate();
+    }
 
     public static function getSpotTypeFieldName($type_id)
     {
@@ -93,9 +103,28 @@ class SpotLinkTypeField extends CActiveRecord
         return $spot_type_field;
     }
 
+    public static function getSpotFieldSlug($type_id)
+    {
+        $spot_field_slug = Yii::app()->cache->get('spot_type_field_slug_' . $type_id);
+        if ($spot_field_slug === false) {
+            $criteria = new CDbCriteria;
+            $criteria->select = "slug";
+            $criteria->compare('type_id', $type_id);
+            $spot_field = SpotLinkTypeField::model()->findAll($criteria);
+
+            $spot_field_slug = array();
+            foreach ($spot_field as $row){
+                $spot_field_slug[] = $row['slug'];
+            }
+            Yii::app()->cache->set('spot_type_field_slug_' . $type_id, $spot_field_slug, 36000);
+        }
+        return $spot_field_slug;
+    }
+
     protected function afterSave()
     {
         Yii::app()->cache->delete('spot_type_field_' . $this->type_id);
+        Yii::app()->cache->delete('spot_type_field_slug_' . $this->type_id);
         Yii::app()->cache->delete('spot_type_field_name_' . $this->type_id);
 
         parent::afterSave();

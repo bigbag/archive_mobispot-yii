@@ -1,11 +1,12 @@
 <?php $this->widget('application.extensions.mbmenu.MbMenu', array(
     'items' => array(
-        array('label' => 'Общие', 'active' => ((in_array(Yii::app()->controller->id, array('settings'))) ? true : false),
+        array('label' => 'Общие', 'active' => ((in_array(Yii::app()->controller->id, array('settings, database'))) ? true : false),
             'items' => array(
                 array('label' => 'Настройки', 'url' => array('/admin/settings/')),
+                array('label' => 'База', 'url' => array('/admin/database/')),
             ),
         ),
-        array('label' => 'Пользователи', 'url' => array('/admin/user/'),
+        array('label' => 'Пользователи', 'url' => array('/admin/user/'), 'active' => ((in_array(Yii::app()->controller->id, array('user'))) ? true : false),
         ),
         array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id, array('pageCategory', 'page'))) ? true : false),
             'items' => array(

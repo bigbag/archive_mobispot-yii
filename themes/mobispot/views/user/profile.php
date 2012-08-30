@@ -132,6 +132,8 @@
     </div>
 </div>
 
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js' ); ?>
+
 <script type="text/javascript">
     $(function () {
         $("#add_photo").uploadify({
