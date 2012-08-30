@@ -154,8 +154,7 @@ class UserController extends MController
 
             $criteria = new CDbCriteria;
             $criteria->compare('user_id', $user_id);
-            $criteria->addNotInCondition('status', array(Spot::STATUS_REMOVED_USER));
-            $dataProvider = new CActiveDataProvider(Spot::model(),
+            $dataProvider = new CActiveDataProvider(Spot::model()->used(),
                 array(
                     'criteria' => $criteria,
                 ));

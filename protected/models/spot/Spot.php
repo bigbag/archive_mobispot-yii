@@ -141,6 +141,21 @@ class Spot extends CActiveRecord
         );
     }
 
+    public function scopes()
+    {
+        return array(
+            'all' => array(),
+            'used' => array(
+                'condition' => 'status = :status1 and status != :status2 and status != :status3',
+                'params' => array(
+                    ':status1' => self::STATUS_REGISTERED,
+                    ':status2' => self::STATUS_CLONES,
+                    ':status3' => self::STATUS_INVISIBLE,
+                ),
+            ),
+        );
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord) {

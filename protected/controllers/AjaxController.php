@@ -161,7 +161,7 @@ class AjaxController extends MController
             if ($spot) {
                 $spot->name = CHtml::encode($_POST['name']);
                 if ($spot->save()){
-                    echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => substr($spot->name, 0, 45)));
+                    echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => mb_substr($spot->name, 0, 45, 'utf-8')));
                 }
             }
         }

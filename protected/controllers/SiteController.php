@@ -44,7 +44,7 @@ class SiteController extends MController
             } else {
                 $criteria = new CDbCriteria;
                 $criteria->compare('user_id', $user_id);
-                $dataProvider = new CActiveDataProvider(Spot::model(),
+                $dataProvider = new CActiveDataProvider(Spot::model()->used(),
                     array(
                         'criteria' => $criteria,
                         'pagination' => array(

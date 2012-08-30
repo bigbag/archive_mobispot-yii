@@ -26,7 +26,7 @@
                         </form>
                     </div>
                     <div class="name">
-                        <?php echo substr($data->name, 0, 45);?>
+                        <?php echo mb_substr($data->name, 0, 45, 'utf-8');?>
                     </div>
                 </td>
                 <td class="td115"><span><?php echo $data->discodes_id;?></span></td>
