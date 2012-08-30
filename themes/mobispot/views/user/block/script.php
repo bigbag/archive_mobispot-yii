@@ -136,11 +136,11 @@
 
     function showSpotRenameResponse(responseText) {
         var obj = jQuery.parseJSON(responseText);
-        var id = obj.discodes_id;
 
         if (responseText) {
             if (obj.name){
                 var name = obj.name;
+                var id = obj.discodes_id;
 
                 $('#name_' + id + ' div.name').html(name);
                 $('#name_' + id + ' div.rename').hide();
@@ -169,10 +169,10 @@
     function showSpotRetypeResponse(responseText) {
         if (responseText) {
             var obj = jQuery.parseJSON(responseText);
-            var id = obj.discodes_id;
 
             if (obj.spot_type){
                 var spot_type = obj.spot_type;
+                var id = obj.discodes_id;
 
                 $('#type_' + id + ' div.type').html(spot_type);
                 $('#type_' + id + ' div.retype').hide();
@@ -186,8 +186,35 @@
     //удаление спота
 
     $(document).ready(function () {
-        $('.spot_remove_modal a').click(function () {
-            $('.spot_remove_modal').submit();
+        $('#spot_remove_modal span.remove').click(function () {
+            $('.spot_remove_form').submit();
         });
     });
+
+    $(document).ready(function () {
+        var options = {
+            success:showSpotRemoveResponse,
+            clearForm:false,
+            url:'/ajax/spotRemove/'
+        };
+
+        $('.spot_remove_form').submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+
+    });
+
+    function showSpotRemoveResponse(responseText) {
+        if (responseText) {
+            var obj = jQuery.parseJSON(responseText);
+
+            if (obj.discodes_id){
+                var id = obj.discodes_id;
+                $('#spot_' + id).remove();
+                $('.close-reveal-modal').click();
+            }
+
+        }
+    }
 </script>

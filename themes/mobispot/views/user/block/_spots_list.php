@@ -1,4 +1,4 @@
-<li class="oneSpotBlock">
+<li id="spot_<?php echo $data->discodes_id;?>" class="oneSpotBlock">
     <div class="oneSpot">
         <table class="formSpot">
             <tr>
