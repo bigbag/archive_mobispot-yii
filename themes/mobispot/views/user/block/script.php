@@ -16,6 +16,7 @@
                         type:'POST',
                         data:{discodes_id:id},
                         success:function(result){
+                            $('#spot_content_' + id).html(result);
                         }
                     });
                 }
@@ -24,6 +25,7 @@
             }
             th.find('>div.contSpot').slideToggle(300, function () {
                 th.toggleClass('active');
+
             });
             return false;
 

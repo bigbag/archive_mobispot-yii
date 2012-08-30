@@ -67,7 +67,7 @@
             <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
         </a>
 
-        <div class="spot_content_<?php echo $data->discodes_id;?>"></div>
+        <div id="spot_content_<?php echo $data->discodes_id;?>" class="oneSpotInfo"></div>
         <div class="clear"></div>
         <div>
 </li>

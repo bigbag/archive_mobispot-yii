@@ -48,7 +48,7 @@
             <th>
                 <?php echo $form->label($model, 'status'); ?>
             </th>
-            <td><?php echo $form->dropDownList($model, 'status', $model->getStatusList()); ?></td>
+            <td><?php echo $model->getStatus()?></td>
         </tr>
     </table>
 
