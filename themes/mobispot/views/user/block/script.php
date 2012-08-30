@@ -110,6 +110,8 @@
                     $('#spot_remove_modal input').val(id);
                     $('#spot_remove_modal').reveal();
                 }
+
+                resetSelect('#foot-cont-block');
                 $('input[name=discodes_id]').attr('checked', false);
                 $('span.niceCheck').removeClass('niceChecked');
             }

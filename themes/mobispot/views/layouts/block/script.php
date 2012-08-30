@@ -1,4 +1,12 @@
 <script type="text/javascript">
+    //сброс селекта
+    function resetSelect(selector) {
+        $('select option:first', selector).attr('selected',true);
+        $("select").selectBox('refresh');
+        $(selector +" select").selectBox('destroy');
+        $(selector +" select").selectBox('create');
+    }
+
     $(document).ready(function () {
         $('#account').click(function () {
             $().redirect('/user/account/', null, 'GET');
