@@ -30,7 +30,6 @@ class SpotModel extends EMongoSoftDocument
             $model->user_id = $user_id;
             $model->spot_type_id = $spot_type_id;
             $model->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($spot_type_id));
-            $model->save();
             $content = $model;
         }
         return $content;

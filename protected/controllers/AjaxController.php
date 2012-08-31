@@ -240,19 +240,18 @@ class AjaxController extends MController
     public function actionSpotEdit()
     {
         if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
-            $content = SpotModel::model()->findByAttributes(
-                array(
-                    'spot_id'=> $_POST['SpotModel']['spot_id'],
-                    'spot_type_id' => $_POST['SpotModel']['spot_type_id']
-                ));
+
+            $spot_id = ($_POST['SpotModel']['spot_id']);
+            $spot_type_id = ($_POST['SpotModel']['spot_type_id']);
+
+            $content = SpotModel::getContent('1', $spot_id, Yii::app()->user->id, $spot_type_id);
             if ($content){
                 $content->attributes = $_POST['SpotModel'];
+                $content->save();
+                print_r( $content);
 
-                if ($content->validate()) {
-                    $content->save();
-                }
             }
-        }
+        }echo 1;
     }
 
 }
