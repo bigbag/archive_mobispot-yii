@@ -18,10 +18,6 @@ $this->menu = array(
         <?php echo CHtml::dropDownList('SpotGenerate[premium]', 'premium', Spot::getPremiumList())?>
     </div>
     <div class="row">
-        <label>Выберите тип генерируемых спотов: </label>
-        <?php echo CHtml::dropDownList('SpotGenerate[type]', 'type', Spot::getTypeList())?>
-    </div>
-    <div class="row">
         <label>Введите количество генерируемых спотов: </label>
         <?php echo CHtml::textField('SpotGenerate[count]', '1', array('size' => 2, 'maxlength' => 3)); ?>
     </div>

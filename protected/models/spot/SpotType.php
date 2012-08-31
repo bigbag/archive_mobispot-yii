@@ -12,22 +12,8 @@
  */
 class SpotType extends CActiveRecord
 {
-    const TYPE_PERSONA = Spot::TYPE_PERSONA;
-    const TYPE_FIRM = Spot::TYPE_FIRM;
-
     public $fields;
     public $fields_flag;
-
-    public function getTypeList()
-    {
-        return Spot::getTypeList();
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
-    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -55,15 +41,14 @@ class SpotType extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, type, pattern', 'required'),
+            array('name, pattern', 'required'),
             array('fields_flag', 'required', 'message' => 'Необходимо добавить хотя бы одно поле.'),
             array('name, pattern', 'length', 'max' => 150),
-            array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('name, desc, pattern', 'filter', 'filter' => 'trim'),
             array('name, desc, pattern', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('type_id, name, type', 'safe', 'on' => 'search'),
+            array('type_id, name', 'safe', 'on' => 'search'),
         );
     }
 
@@ -89,54 +74,31 @@ class SpotType extends CActiveRecord
             'type_id' => 'ID',
             'name' => 'Название',
             'desc' => 'Описание',
-            'type' => 'Физ. лиц/Юр. лиц',
             'pattern' => 'Шаблон',
             'fields' => 'Поля',
         );
     }
 
-    public static function getSpotType($type)
+    public static function getSpotType()
     {
-        $spot_type = Yii::app()->cache->get('spot_type_' . $type);
+        $spot_type = Yii::app()->cache->get('spot_type');
         if ($spot_type === false) {
-            $spot_type = SpotType::model()->findAllByAttributes(array('type' => $type));
+            $spot_type = SpotType::model()->findAll();
 
-            Yii::app()->cache->set('spot_type_' . $type, $spot_type, 36000);
+            Yii::app()->cache->set('spot_type', $spot_type, 36000);
         }
         return $spot_type;
     }
 
-    public static function getSpotTypeArray($type)
+    public static function getSpotTypeArray()
     {
-        $spot_type = Yii::app()->cache->get('spot_type_array_' . $type);
+        $spot_type = Yii::app()->cache->get('spot_type_array');
         if ($spot_type === false) {
-            $spot_type = CHtml::listData(SpotType::getSpotType($type), 'type_id', 'name');
+            $spot_type = CHtml::listData(SpotType::getSpotType(), 'type_id', 'name');
 
-            Yii::app()->cache->set('spot_type_array_' . $type, $spot_type, 36000);
+            Yii::app()->cache->set('spot_type_array', $spot_type, 36000);
         }
         return $spot_type;
-    }
-
-    public static function getSpotTypeAll()
-    {
-        $spot_type_all = Yii::app()->cache->get('spot_type_all');
-        if ($spot_type_all === false) {
-            $spot_type_all = SpotType::model()->findAll();
-
-            Yii::app()->cache->set('spot_type_all', $spot_type_all, 36000);
-        }
-        return $spot_type_all;
-    }
-
-    public static function getSpotTypeAllArray()
-    {
-        $spot_type_all = Yii::app()->cache->get('spot_type_all_array');
-        if ($spot_type_all === false) {
-            $spot_type_all = CHtml::listData(SpotType::getSpotTypeAll(), 'type_id', 'name');
-
-            Yii::app()->cache->set('spot_type_all_array', $spot_type_all, 36000);
-        }
-        return $spot_type_all;
     }
 
     protected function afterSave()
@@ -151,10 +113,8 @@ class SpotType extends CActiveRecord
             }
         }
 
-        Yii::app()->cache->delete('spot_type_' . $this->type);
-        Yii::app()->cache->delete('spot_type_array_' . $this->type);
-        Yii::app()->cache->delete('spot_type_all');
-        Yii::app()->cache->delete('spot_type_all_array');
+        Yii::app()->cache->delete('spot_type');
+        Yii::app()->cache->delete('spot_type_array');
 
         parent::afterSave();
 
@@ -174,12 +134,11 @@ class SpotType extends CActiveRecord
         $criteria->compare('type_id', $this->type_id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);
-        $criteria->compare('type', $this->type, true);
         $criteria->compare('pattern', $this->pattern, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'sort' => array('defaultOrder' => 'type, name')
+            'sort' => array('defaultOrder' => 'name')
         ));
     }
 }

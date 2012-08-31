@@ -55,12 +55,6 @@ $this->widget('ext.selgridview.SelGridView', array(
             'value' => '($data->user)?$data->user->email:""',
         ),
         array(
-            'name' => 'type',
-            'type' => 'raw',
-            'value' => '$data->getType()',
-            'filter' => $model->getTypeList(),
-        ),
-        array(
             'name' => 'status',
             'type' => 'raw',
             'value' => '$data->getStatus()',

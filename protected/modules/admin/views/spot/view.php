@@ -62,11 +62,6 @@ $this->menu = $menu;
             'value' => $model->getPremium(),
         ),
         array(
-            'name' => 'type',
-            'type' => 'raw',
-            'value' => $model->getType(),
-        ),
-        array(
             'name' => 'status',
             'type' => 'raw',
             'value' => $model->getStatus(),

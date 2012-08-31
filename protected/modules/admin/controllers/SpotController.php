@@ -19,7 +19,7 @@ class SpotController extends Controller
         ));
     }
 
-    public function getDisId($premium, $type, $activate = 0, $count)
+    public function getDisId($premium, $activate = 0, $count)
     {
 
         $dis_cod = Discodes::model()->findAll(array(
@@ -36,8 +36,7 @@ class SpotController extends Controller
             foreach ($dis_cod as $row) {
 
                 $code = '';
-                if ($type == Spot::TYPE_PERSONA) $symbols = Spot::SYMBOL_PERSONA;
-                else $symbols = Spot::SYMBOL_FIRM;
+                $symbols = Spot::SYMBOL_ALL;
 
                 $id = $row->id;
 
@@ -70,7 +69,6 @@ class SpotController extends Controller
 
                 $spot->code = $code;
                 $spot->premium = $dis->premium;
-                $spot->type = $type;
                 $spot->save();
             }
             return true;
@@ -188,10 +186,9 @@ class SpotController extends Controller
             if ($count < 1) $count = 1;
 
             $premium = (int)$_POST['SpotGenerate']['premium'];
-            $type = (int)$_POST['SpotGenerate']['type'];
             $activate = (int)$_POST['SpotGenerate']['activate'];
 
-            if ($this->getDisId($premium, $type, $activate, $count)) {
+            if ($this->getDisId($premium, $activate, $count)) {
                 if ($activate == 1) $message = 'Споты сгенерированы и активированы.';
                 else $message = 'Споты сгенерированы.';
                 Yii::app()->user->setFlash('spot', $message);

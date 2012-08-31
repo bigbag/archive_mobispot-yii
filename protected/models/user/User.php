@@ -12,6 +12,8 @@
  * @property string $lastvisit
  * @property integer $type
  * @property integer $status
+ * @property string $vkontakte_id
+ * @property string $facebook_id
  */
 class User extends CActiveRecord
 {
@@ -198,6 +200,8 @@ class User extends CActiveRecord
         $criteria->compare('lastvisit', $this->lastvisit, true);
         $criteria->compare('type', $this->type);
         $criteria->compare('status', $this->status);
+        $criteria->compare('vkontakte_id', $this->vkontakte_id);
+        $criteria->compare('facebook_id', $this->facebook_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

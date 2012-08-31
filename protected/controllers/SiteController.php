@@ -34,7 +34,7 @@ class SiteController extends MController
 
             if ($user->status == User::STATUS_ACTIVE and $user->type != User::TYPE_ADMIN) {
                 $spot = Spot::model()->findByAttributes(array('user_id' => $user_id));
-                $spot_type = SpotType::getSpotTypeArray($spot->type);
+                $spot_type = SpotType::getSpotTypeArray();
                 $this->render('index', array(
                     'first' => true,
                     'spot_type' => $spot_type,

@@ -35,12 +35,6 @@
         <?php echo $form->label($model, 'premium'); ?>
         <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList(), array('empty' => '')); ?>
     </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'type'); ?>
-        <?php echo $form->dropDownList($model, 'type', $model->getTypeList(), array('empty' => '')); ?>
-    </div>
-
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
         <?php echo $form->dropDownList($model, 'status', $model->getStatusList(), array('empty' => '')); ?>

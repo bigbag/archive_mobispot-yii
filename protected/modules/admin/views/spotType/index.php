@@ -23,12 +23,6 @@ $this->menu = array(
         'pattern',
         'desc',
         array(
-            'name' => 'type',
-            'type' => 'raw',
-            'value' => '$data->getType()',
-            'filter' => $model->getTypeList(),
-        ),
-        array(
             'class' => 'CButtonColumn',
             'template' => '{update}',
         ),

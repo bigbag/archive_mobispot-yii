@@ -98,7 +98,7 @@
                             $('#spot_add_modal span.error').text('<?php echo Yii::t('account', 'Код неверен')?>');
                         }
                         else {
-                            $('#spot_add_modal .spot_type_' + result).show();
+                            $('#spot_add_modal .spot_type_all').show();
                             $("#spot_add_modal select").selectBox('destroy');
                             $("#spot_add_modal select").selectBox('create');
                         }

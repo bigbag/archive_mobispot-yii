@@ -175,7 +175,7 @@ class AjaxController extends MController
             if ($spot) {
                 $spot->spot_type_id = $spot_type_id;
                 if ($spot->save()) {
-                    $all_type = SpotType::getSpotTypeAllArray();
+                    $all_type = SpotType::getSpotTypeArray();
                     echo json_encode(array('discodes_id' => $spot->discodes_id, 'spot_type' => $all_type[$spot_type_id]));
                 }
             }
@@ -201,8 +201,8 @@ class AjaxController extends MController
             if (!isset($_POST['type'])) {
                 $spot = Spot::model()->findByAttributes(array('code' => $_POST['code'], 'status' => Spot::STATUS_ACTIVATED));
                 if ($spot) {
-                    echo $spot->type;
-                } else echo false;
+                    echo true;
+                }
             } else {
                 $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
                 $spot->status = Spot::STATUS_REGISTERED;

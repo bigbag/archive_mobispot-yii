@@ -165,8 +165,7 @@ class UserController extends MController
 
             $this->render('account', array(
                 'dataProvider' => $dataProvider,
-                'spot_type_persona' => SpotType::getSpotTypeArray(SpotType::TYPE_PERSONA),
-                'spot_type_firm' => SpotType::getSpotTypeArray(SpotType::TYPE_FIRM),
+                'spot_type_all' => SpotType::getSpotTypeArray(),
             ));
         }
     }

@@ -12,7 +12,6 @@
  * @property integer $spot_hard_type_id
  * @property string $spot_hard
  * @property string $nfc
- * @property integer $type
  * @property integer $premium
  * @property integer $status
  * @property string $generated_date
@@ -22,11 +21,9 @@
 class Spot extends CActiveRecord
 {
     const SYMBOL_LENGTH = 10;
+    const SYMBOL_ALL = 'AaEeIiUuYyBbCcDdFfGgHhJjKkLlMmNnPpQqRrSsTtVvWwXxZz';
     const SYMBOL_PERSONA = 'BbCcDdFfGgHhJjKkLlMmNnPpQqRrSsTtVvWwXxZz';
     const SYMBOL_FIRM = 'AaEeIiUuYy';
-
-    const TYPE_PERSONA = 0;
-    const TYPE_FIRM = 1;
 
     const STATUS_GENERATED = 0;
     const STATUS_ACTIVATED = 1;
@@ -44,14 +41,6 @@ class Spot extends CActiveRecord
     const ACTION_CHANGE_TYPE = 5;
 
     public $spot_type_name;
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_PERSONA => 'Физ. лиц',
-            self::TYPE_FIRM => 'Юр. лиц',
-        );
-    }
 
     public function getStatusList()
     {
@@ -81,12 +70,6 @@ class Spot extends CActiveRecord
             self::ACTION_CHANGE_NAME => Yii::t('account', 'Изменить название'),
             self::ACTION_CHANGE_TYPE => Yii::t('account', 'Изменить тип'),
         );
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
     }
 
     public function getStatus()
@@ -126,18 +109,17 @@ class Spot extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('discodes_id, code, type, status, premium, generated_date', 'required'),
-            array('discodes_id, spot_type_id, user_id, spot_hard_type_id, type, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, code, status, premium, generated_date', 'required'),
+            array('discodes_id, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
             array('spot_hard, nfc', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, type, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -213,7 +195,6 @@ class Spot extends CActiveRecord
             'spot_hard_type_id' => 'Тип исполнения',
             'spot_hard' => 'Заводской номер',
             'nfc' => 'NFC',
-            'type' => 'Физ. лиц/Юр. лиц',
             'status' => 'Статус',
             'premium' => 'Премиум',
             'generated_date' => 'Дата генерации',
@@ -263,7 +244,6 @@ class Spot extends CActiveRecord
         $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
         $criteria->compare('spot_hard', $this->spot_hard, true);
         $criteria->compare('nfc', $this->nfc, true);
-        $criteria->compare('type', $this->type);
         $criteria->compare('premium', $this->premium);
         $criteria->compare('status', $this->status);
         $criteria->compare('generated_date', $this->generated_date, true);

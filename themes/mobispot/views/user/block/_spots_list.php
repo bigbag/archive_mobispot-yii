@@ -39,7 +39,7 @@
                             echo CHtml::activeDropDownList(
                                 $data,
                                 'spot_type_id',
-                                SpotType::getSpotTypeArray($data->type),
+                                SpotType::getSpotTypeArray(),
                                 array('options' => array($data->spot_type_id => array('selected' => true)))
                             );
                             ?>

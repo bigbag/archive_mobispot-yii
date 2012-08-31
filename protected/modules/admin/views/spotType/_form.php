@@ -42,11 +42,6 @@
         </tr>
         <tr class="odd">
             <th>
-                <?php echo $form->label($model, 'type'); ?></th>
-            <td><?php echo $form->dropDownList($model, 'type', $model->getTypeList()); ?></td>
-        </tr>
-        <tr class="even">
-            <th>
                 <?php echo $form->label($model, 'fields'); ?>
                 <a id="copylink" href="#" rel=".copy">Добавить</a>
             </th>

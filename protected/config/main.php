@@ -76,6 +76,9 @@ return array(
         'loid' => array(
             'class' => 'ext.lightopenid.loid',
         ),
+        'detectMobileBrowser' => array(
+            'class' => 'ext.detectmobile.XDetectMobileBrowser',
+        ),
         'eauth' => array(
             'class' => 'ext.eauth.EAuth',
             'popup' => true, // Use the popup window instead of redirecting.

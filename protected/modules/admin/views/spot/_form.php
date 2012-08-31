@@ -23,7 +23,7 @@
         </tr>
         <tr class="even">
             <th><?php echo $form->labelEx($model, 'spot_type_id'); ?></th>
-            <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType($model->type), 'type_id', 'name'), array('empty' => '')); ?></td>
+            <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType(), 'type_id', 'name'), array('empty' => '')); ?></td>
         </tr>
         <tr class="odd">
             <th>
@@ -50,25 +50,20 @@
         </tr>
         <tr class="even">
             <th>
-                <?php echo $form->label($model, 'type'); ?></th>
-            <td><?php echo $model->getType() ?></td>
-        </tr>
-        <tr class="odd">
-            <th>
                 <?php echo $form->label($model, 'status'); ?></th>
             <td><?php echo $model->getStatus() ?></td>
         </tr>
-        <tr class="even">
+        <tr class="odd">
             <th>
                 <?php echo $form->label($model, 'generated_date'); ?></th>
             <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->generated_date) ?></td>
         </tr>
-        <tr class="odd">
+        <tr class="even">
             <th>
                 <?php echo $form->label($model, 'registered_date'); ?></th>
             <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->registered_date) ?></td>
         </tr>
-        <tr class="even">
+        <tr class="odd">
             <th>
                 <?php echo $form->label($model, 'removed_date'); ?></th>
             <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->removed_date) ?></td>
