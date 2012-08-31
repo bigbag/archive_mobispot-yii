@@ -409,6 +409,12 @@ div#header {
     margin: 8px 0 0 8px
 }
 
+#registration-form .btn-form-cl .name-spot {
+    float: right;
+    text-align: right;
+    margin-right: 12px
+}
+
 #registration-form .btn-30 {
     float: right;
     margin: 12px 8px 0 0;

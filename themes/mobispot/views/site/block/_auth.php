@@ -5,13 +5,17 @@
     <div class="btn-form">
         <div class="btn-form-cl">
             <a href=""><?php echo $spot->discodes_id;?></a>
-            <select name="spot_type" style="float: right; top: 5px">
-                <?php foreach ($spot_type as $key => $value): ?>
-                <option value='<?php echo $key;?>'><?php echo $value;?></option>
-                <?php endforeach; ?>
-            </select>
+            <div style="float: right; margin-top: 3px;">
+                <select name="spot_type" >
+                    <?php foreach ($spot_type as $key => $value): ?>
+                    <option value='<?php echo $key;?>'><?php echo $value;?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
         </div>
     </div>
+
     <div class="btn-30">
         <input type="hidden" name="discodes_id" value="<?php echo $spot->discodes_id;?>">
 

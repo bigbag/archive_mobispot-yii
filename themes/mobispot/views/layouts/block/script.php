@@ -52,6 +52,7 @@
         $('#email, #password, #verifyPassword, #activ_code').bind('focus', function(){
             if (count == 3){
                 $('#terms').show();
+                $('#registration-form').css("height", "auto");
             }
         });
     });
