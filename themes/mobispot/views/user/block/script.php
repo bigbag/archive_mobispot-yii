@@ -250,8 +250,6 @@
 
             if (obj.discodes_id){
                 var id = obj.discodes_id;
-                $('#' + id).remove();
-                $('.close-reveal-modal').click();
             }
         }
     }

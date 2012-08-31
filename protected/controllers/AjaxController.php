@@ -245,13 +245,14 @@ class AjaxController extends MController
             $spot_type_id = ($_POST['SpotModel']['spot_type_id']);
 
             $content = SpotModel::getContent('1', $spot_id, Yii::app()->user->id, $spot_type_id);
-            if ($content){
-                $content->attributes = $_POST['SpotModel'];
-                $content->save();
-                print_r( $content);
+            if ($content) {
+                $content = SpotModel::setField($content, $_POST['SpotModel']);
 
+                if ($content->update()) {
+                    echo json_encode(array('discodes_id' => $content->spot_id));
+                }
             }
-        }echo 1;
+        }
     }
 
 }

@@ -1,3 +1,6 @@
+<form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
+    <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
+    <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
 <p>
     <?php echo Yii::t('account', ' Разместите здесь ссылку на веб-страницу,<br/>которую Вы хотите показать
     кому-нибудь при помощи своего спота<br/>');?>
@@ -9,7 +12,6 @@
             <div class="txt-form">
                 <div class="txt-form-cl">
                     <?php echo CHtml::activeTextField($content, '5_nazvanie', array('class' => 'text')); ?>
-                    <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                 </div>
             </div>
         </td>
@@ -20,9 +22,9 @@
             <div class="txt-form">
                 <div class="txt-form-cl">
                     <?php echo CHtml::activeTextField($content, '5_adres', array('class' => 'text')); ?>
-                    <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
                 </div>
             </div>
         </td>
     </tr>
 </table>
+</form>
