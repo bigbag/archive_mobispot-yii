@@ -266,6 +266,7 @@ a.prev {
     top: -110px;
     right: 10%;
 }
+
 a.next {
     background: url(../images/next.png) no-repeat transparent;
     width: 45px;
@@ -344,3 +345,22 @@ a.prev span, a.next span {
     margin-top: 2px;
     float: left
 }
+
+.bnt-account {
+    position: absolute;
+    top: 360px;
+    width: 370px
+}
+
+a.prev_page, a.next_page{
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 22px;
+    color: #82817f;
+    text-decoration: underline
+}
+a.next_page {
+    margin-top: 0px;
+    float: right;
+}
+

@@ -26,18 +26,18 @@
         'template' => '{items} {pager}',
         'cssFile' => false,
         'id' => 'spotslistview',
+        'pager'=>array('cssFile'=>false,
+            'class'=>'MLinkPager',
+        ),
     )); ?>
-<span class="dop-txt">
-        <a href=""><?php echo Yii::t('general', 'Показать ещё')?><span></span></a>
-    </span>
-<br/>
-<br/>
-
-<div class="btn-30">
-    <div>
-        <input type="submit" id="account" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
+<div class="bnt-account">
+    <div class="btn-30">
+        <div>
+            <input type="submit" id="account" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
+        </div>
     </div>
 </div>
+
 
 <?php endif; ?>
 

@@ -32,6 +32,42 @@
         });
     });
 
+    //диспенчер выбора операций
+    $(document).ready(function () {
+        $("select").change(function () {
+            var action = $(this).val();
+            var id = $('input:checked').val()?$('input:checked').val():false;
+
+            if (id){
+                if (action == <?php echo Spot::ACTION_CHANGE_NAME; ?>){
+                    $('#name_' + id + ' div.rename').show();
+                    $('#name_' + id + ' div.name').hide();
+                }
+                else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>){
+                    $('#type_' + id + ' div.retype').show();
+                    $('#type_' + id + ' div.type').hide();
+                    $(".retype select").selectBox('destroy');
+                    $(".retype select").selectBox('create');
+                }
+                else if (action == <?php echo Spot::ACTION_EMPTY; ?>){
+                    $('b.spot_clear_id').text(id);
+                    $('#spot_clear_modal').reveal();
+                }
+                else if (action == <?php echo Spot::ACTION_REMOVE; ?>){
+                    $('b.spot_clear_id').text(id);
+                    $('#spot_remove_modal input').val(id);
+                    $('#spot_remove_modal').reveal();
+                }
+
+                resetSelect('#foot-cont-block');
+                $('input[name=discodes_id]').attr('checked', false);
+                $('span.niceCheck').removeClass('niceChecked');
+            }
+            return false;
+        });
+    });
+
+
     //добавление спота
     //модальное окно
     $(document).ready(function () {
@@ -80,7 +116,7 @@
     $(document).ready(function () {
         var options = {
             success:showSpotAddResponse,
-            clearForm:false,
+            clearForm:true,
             url:'/ajax/spotAdd/'
         };
 
@@ -97,41 +133,6 @@
             $('.close-reveal-modal').click();
         }
     }
-
-    //диспенчер выбора операций
-    $(document).ready(function () {
-        $("select").change(function () {
-            var action = $(this).val();
-            var id = $('input:checked').val()?$('input:checked').val():false;
-
-            if (id){
-                if (action == <?php echo Spot::ACTION_CHANGE_NAME; ?>){
-                    $('#name_' + id + ' div.rename').show();
-                    $('#name_' + id + ' div.name').hide();
-                }
-                else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>){
-                    $('#type_' + id + ' div.retype').show();
-                    $('#type_' + id + ' div.type').hide();
-                    $(".retype select").selectBox('destroy');
-                    $(".retype select").selectBox('create');
-                }
-                else if (action == <?php echo Spot::ACTION_EMPTY; ?>){
-                    $('b.spot_clear_id').text(id);
-                    $('#spot_clear_modal').reveal();
-                }
-                else if (action == <?php echo Spot::ACTION_REMOVE; ?>){
-                    $('b.spot_clear_id').text(id);
-                    $('#spot_remove_modal input').val(id);
-                    $('#spot_remove_modal').reveal();
-                }
-
-                resetSelect('#foot-cont-block');
-                $('input[name=discodes_id]').attr('checked', false);
-                $('span.niceCheck').removeClass('niceChecked');
-            }
-            return false;
-        });
-    });
 
     //переименование спота
     $(document).ready(function () {

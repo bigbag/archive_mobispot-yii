@@ -87,6 +87,7 @@
             error += "</ol>";
 
             $('#terms').show();
+            $('#registration-form').css("height", "auto");
             $('#registration_captcha').show();
             $('#registration-form span.error').empty() ;
             $('#registration-form span.error').html(error);
