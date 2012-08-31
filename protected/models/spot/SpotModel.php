@@ -25,12 +25,11 @@ class SpotModel extends EMongoSoftDocument
         $content = SpotModel::model()->findByAttributes(array('spot_id'=> $spot_id, 'spot_type_id' => $spot_type_id));
         if(!$content){
             $model = new SpotModel();
-            $model->lang_id = 1;
+            $model->lang_id = $lang_id;
             $model->spot_id = $spot_id;
             $model->user_id = $user_id;
             $model->spot_type_id = $spot_type_id;
             $model->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($spot_type_id));
-            $model->save();
             $content = $model;
         }
         return $content;
