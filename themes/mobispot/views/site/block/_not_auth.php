@@ -31,7 +31,7 @@
                    autocomplete="off"/></div>
     </div>
     <div id="registration_captcha" style="display: none">
-        <?php echo Yii::t('user', 'Пожалуйста введите код показанный на картинке');?>
+        <?php echo Yii::t('user', 'Введите код показанный на картинке');?>
         <div id="img-capt">
             <?php $this->widget('CCaptcha', array(
             'clickableImage' => true,
