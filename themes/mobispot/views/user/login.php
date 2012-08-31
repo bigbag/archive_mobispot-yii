@@ -1,16 +1,10 @@
 <div id="main-container">
-    <?php if (Yii::app()->user->hasFlash('loginMessage')): ?>
-
-    <div class="success">
-        <?php echo Yii::app()->user->getFlash('loginMessage'); ?>
-    </div>
-
-    <?php endif; ?>
-    <div class="modal">
-        <div class="cont-pop">
+    <div id="cont-block" class="center">
+        <div id="cont-block-760" class="center">
+            <div id="zag-cont-block"><?php echo Yii::t('user', 'Авторизация')?></div>
             <?php echo CHtml::beginForm(); ?>
             <span class="error"><?php echo CHtml::errorSummary($model); ?></span>
-            <center><?php echo Yii::t('user', 'Вы не правильно ввели комбинацию логина<br/> и пароля. Пожалуйста повторите попытку')?>
+            <center>
                 <table class="form">
                     <tr>
                         <td>
@@ -39,14 +33,10 @@
                             </center>
                         </td>
                     </tr>
-                    <tr>
-                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input
-                            name="LoginCaptchaForm[rememberMe]"
-                            type="checkbox" class="niceCheck"></td>
-                    </tr>
+
                     <tr>
                 </table>
-                <?php echo Yii::t('user', 'Пожалуйста введите код показанный на картинке')?>
+                <?php echo Yii::t('user', 'Введите код показанный на картинке')?>
                 <table class="form">
                     <tr>
                         <td>
@@ -75,6 +65,11 @@
                                 </div>
                             </center>
                         </td>
+                    </tr>
+                    <tr>
+                        <td><span class="dop-txt"><?php echo Yii::t('user', 'Запомнить меня')?></span><input
+                            name="LoginCaptchaForm[rememberMe]"
+                            type="checkbox" class="niceCheck"></td>
                     </tr>
                     <tr>
                         <td>

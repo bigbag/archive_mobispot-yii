@@ -107,6 +107,38 @@ class UserController extends MController
         }
     }
 
+    public function actionRecovery()
+    {
+        if (Yii::app()->user->id) {
+            $this->redirect('/');
+        } else {
+            $email = ((isset($_GET['email'])) ? $_GET['email'] : '');
+            $activkey = ((isset($_GET['activkey'])) ? $_GET['activkey'] : '');
+            if ($email && $activkey) {
+                $form = new UserChangePassword;
+                $find = User::model()->findByAttributes(array('email' => $email));
+                if (isset($find) && $find->activkey == $activkey) {
+                    if (isset($_POST['UserChangePassword'])) {
+                        $form->attributes = $_POST['UserChangePassword'];
+                        $soucePassword = $form->password;
+
+                        if ($form->validate()) {
+                            $find->password = Yii::app()->hasher->hashPassword($form->password);
+                            $find->activkey = sha1(microtime() . $form->password);
+                            $find->save();
+
+                            $identity = new UserIdentity($email, $soucePassword);
+                            $identity->authenticate();
+                            $this->lastVisit();
+                            $this->redirect('/');
+                        }
+                    }
+                    $this->render('changepassword', array('form' => $form));
+                } else  $this->redirect('/');
+            } else $this->redirect('/');
+        }
+    }
+
     public function actionProfile()
     {
         if (!Yii::app()->user->id) {

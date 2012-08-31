@@ -24,7 +24,7 @@ Class MMail
 
     public function recovery($email, $activkey)
     {
-        $activation_url = Yii::app()->request->hostInfo . '/user/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->request->hostInfo . '/user/recovery/activkey/' . $activkey . '/email/' . $email;
         $subject = Yii::t('mail', 'Востановление пароля на сайте ') . Yii::app()->par->load('siteTitle');
         $message = Yii::t('mail', 'Для востановления пароля вам необходимо перейти по ссылке<br/> ') . $activation_url;
 
