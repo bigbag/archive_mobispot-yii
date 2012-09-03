@@ -2,14 +2,14 @@
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
-    'Модели',
+    'Содержимое',
     'Страницы' => array('index'),
     $model->title,
     'Редактировать',
 );
 
 $this->menu = array(
-    array('label' => 'Создать страницу', 'url' => array('create')),
+    array('label' => 'Добавить страницу', 'url' => array('create')),
     array('label' => 'Управление страницами', 'url' => array('index')),
 );
 ?>

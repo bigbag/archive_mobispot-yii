@@ -8,10 +8,17 @@
         ),
         array('label' => 'Пользователи', 'url' => array('/admin/user/'), 'active' => ((in_array(Yii::app()->controller->id, array('user'))) ? true : false),
         ),
-        array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id, array('pageCategory', 'page'))) ? true : false),
+        array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id, array('pageCategory', 'pageTemplate', 'bannerGeneral', 'footerLink'))) ? true : false),
             'items' => array(
-                array('label' => 'Типы страниц', 'url' => array('/admin/pageCategory/')),
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
+                array('label' => 'Шаблоны страниц', 'url' => array('/admin/pageTemplate/')),
+                array('label' => 'Баннеры на главной', 'url' => array('/admin/bannerGeneral/')),
+                array('label' => 'Ссылки в подвале', 'url' => array('/admin/footerLink/'))
+            ),
+        ),
+        array('label' => 'Почта', 'active' => ((in_array(Yii::app()->controller->id, array('mailEvent', 'mailTemplate'))) ? true : false),
+            'items' => array(
+                array('label' => 'Шаблоны', 'url' => array('/admin/mailTemplate/')),
             ),
         ),
         array('label' => 'Споты', 'url' => array('/admin/spot/'), 'active' => ((in_array(Yii::app()->controller->id, array(

@@ -57,7 +57,11 @@
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                     </span>
     </div>
-    <?php Yii::app()->eauth->renderWidget(); ?>
+    <span class="auth-service">
+         <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
+         <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
+         <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google"><img src="/themes/mobispot/images/auth_google.png" alt="g"></a>
+    </span>
     <div class="btn-30">
         <input type="hidden" name="token" id="token"
                value="<?php echo Yii::app()->request->csrfToken?>">
