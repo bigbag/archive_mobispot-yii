@@ -83,7 +83,7 @@ class SpotType extends CActiveRecord
     {
         $spot_type = Yii::app()->cache->get('spot_type');
         if ($spot_type === false) {
-            $spot_type = SpotType::model()->findAll();
+            $spot_type = SpotType::model()->findAll(array('order' => 'name'));
 
             Yii::app()->cache->set('spot_type', $spot_type, 36000);
         }

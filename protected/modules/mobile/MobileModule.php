@@ -20,10 +20,9 @@ class MobileModule extends CWebModule
 		{
 			// this method is called before any module controller action is performed
 			// you may place customized code here
-			if (!Yii::app()->detectMobileBrowser->showMobile) {
-		            Yii::app()->getRequest()->redirect('http://mobispot.spb4.webdoka.ru');
-		        }
-
+            if (!Yii::app()->detectMobileBrowser->showMobile) {
+                Yii::app()->getRequest()->redirect('http://m.mobispot.test');
+            }
 			return true;
 		}
 		else

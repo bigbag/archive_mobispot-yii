@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'spot':
  * @property string $code
+ * @property string $url
  * @property string $name
  * @property integer $discodes_id
  * @property integer $spot_type_id
@@ -35,10 +36,11 @@ class Spot extends CActiveRecord
 
     const ACTION_ADD = 0;
     const ACTION_COPY = 1;
-    const ACTION_EMPTY = 2;
+    const ACTION_CLEAR = 2;
     const ACTION_REMOVE = 3;
     const ACTION_CHANGE_NAME = 4;
     const ACTION_CHANGE_TYPE = 5;
+    const ACTION_INVISIBLE = 6;
 
     public $spot_type_name;
 
@@ -65,7 +67,8 @@ class Spot extends CActiveRecord
         return array(
             self::ACTION_ADD => Yii::t('account', 'Добавить спот'),
             self::ACTION_COPY => Yii::t('account', 'Копировать'),
-            self::ACTION_EMPTY => Yii::t('account', 'Очистить'),
+            self::ACTION_INVISIBLE => Yii::t('account', 'Невидимость'),
+            self::ACTION_CLEAR => Yii::t('account', 'Очистить'),
             self::ACTION_REMOVE => Yii::t('account', 'Удалить'),
             self::ACTION_CHANGE_NAME => Yii::t('account', 'Изменить название'),
             self::ACTION_CHANGE_TYPE => Yii::t('account', 'Изменить тип'),
@@ -115,6 +118,7 @@ class Spot extends CActiveRecord
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
+            array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
             array('spot_hard, nfc', 'length', 'max' => 32),
@@ -128,7 +132,7 @@ class Spot extends CActiveRecord
         return array(
             'all' => array(),
             'used' => array(
-                'condition' => 'status = :status1 and status != :status2 and status != :status3',
+                'condition' => 'status = :status1 or status = :status2 or status = :status3',
                 'params' => array(
                     ':status1' => self::STATUS_REGISTERED,
                     ':status2' => self::STATUS_CLONES,
@@ -142,6 +146,7 @@ class Spot extends CActiveRecord
     {
         if ($this->isNewRecord) {
             $this->generated_date = new CDbExpression('NOW()');
+            if (!$this->url) $this->url = sha1($this->code.$this->generated_date);
             $this->status == self::STATUS_GENERATED;
         }
 
@@ -186,9 +191,10 @@ class Spot extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'code' => 'Код',
+            'code' => 'ДИС',
+            'url' => 'Ссылка',
             'name' => 'Название',
-            'discodes_id' => 'ДИС',
+            'discodes_id' => 'ID',
             'spot_type_id' => 'Тип спота',
             'spot_type_name' => 'Тип спота',
             'user_id' => 'Пользователь',
@@ -205,11 +211,11 @@ class Spot extends CActiveRecord
 
     public static function getUserSpot($user_id)
     {
-        $user_spot = Yii::app()->cache->get('user_spot_'.$user_id);
+        $user_spot = Yii::app()->cache->get('user_spot_' . $user_id);
         if ($user_spot === false) {
             $user_spot = Spot::model()->findByAttributes(array('user_id' => $user_id));
 
-            Yii::app()->cache->set('user_spot_'.$user_id, $user_spot, 3600);
+            Yii::app()->cache->set('user_spot_' . $user_id, $user_spot, 3600);
         }
         return $user_spot;
     }

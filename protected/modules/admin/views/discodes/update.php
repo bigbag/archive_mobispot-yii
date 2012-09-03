@@ -1,9 +1,9 @@
-<?php $this->pageTitle = 'ДИС'; ?>
+<?php $this->pageTitle = 'ID'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
     'Споты' => array('/admin/spot/'),
-    'ДИС' => array('index'),
+    'ID' => array('index'),
     $model->id,
     'Редактировать',
 );

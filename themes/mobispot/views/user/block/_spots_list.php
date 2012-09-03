@@ -7,6 +7,9 @@
                         <input type="checkbox" name="discodes_id" value="<?php echo $data->discodes_id;?>"
                                class="niceCheck">
                     </center>
+                    <span id="status_<?php echo $data->discodes_id;?>">
+                        <input type="hidden" name="status" value="<?php echo $data->status;?>">
+                    </span>
                 </td>
                 <td id="name_<?php echo $data->discodes_id;?>" class="td100p">
                     <div class="rename" style="display: none;">
@@ -29,7 +32,10 @@
                         <?php echo mb_substr($data->name, 0, 45, 'utf-8');?>
                     </div>
                 </td>
-                <td class="td115"><span><?php echo $data->discodes_id;?></span></td>
+                <td class="td115">
+                    <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
+                    <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
+                </td>
                 <td id="type_<?php echo $data->discodes_id;?>" class="td180">
                     <div class="retype" style="display: none;">
                         <form action="" method="post" class="spot_retype_form">
@@ -59,16 +65,19 @@
         </table>
     </div>
     <div class="contSpot">
+        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
         <div class="btn-30">
-            <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>" form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
+            <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
+                        form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
         </div>
         <a href="#" class="btn-30">
             <span class="preview-ico ico"></span>
             <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
         </a>
 
+
         <div id="spot_content_<?php echo $data->discodes_id;?>" class="oneSpotInfo"></div>
         <div class="clear"></div>
-    <div>
+        <div>
 </li>
