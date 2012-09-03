@@ -32,7 +32,7 @@
                        value=""/></div>
         </div>
     </div>
-    <div id="terms" style="display: none;">
+    <div id="terms">
         <input type="checkbox" name="RegistrationForm[terms]" value="1" class="niceCheck">
                     <span class="dop-txt">
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
