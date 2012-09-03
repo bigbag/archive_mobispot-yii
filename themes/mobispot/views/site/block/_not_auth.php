@@ -57,7 +57,26 @@
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                     </span>
     </div>
-    <?php Yii::app()->eauth->renderWidget(); ?>
+    <div class="services">
+        <ul class="auth-services clear">
+
+            <li class="auth-service facebook">
+                <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook">
+                    <span class="auth-icon facebook"><i></i></span>
+                </a>
+            </li>
+            <li class="auth-service twitter">
+                <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter">
+                    <span class="auth-icon twitter"><i></i></span>
+                </a>
+            </li>
+            <li class="auth-service google_oauth">
+                <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google">
+                    <span class="auth-icon google_oauth"><i></i></span>
+                </a>
+            </li>
+        </ul>
+    </div>
     <div class="btn-30">
         <input type="hidden" name="token" id="token"
                value="<?php echo Yii::app()->request->csrfToken?>">

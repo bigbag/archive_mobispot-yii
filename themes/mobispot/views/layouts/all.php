@@ -13,10 +13,21 @@
 <div class="center-rel">
     <?php include('block/footer.php');?>
 </div>
+
 <?php include('block/script.php');?>
+
 <?php if (Yii::app()->user->isGuest): ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.js'); ?>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(".auth-service.twitter a").eauth({"popup":{"width":900, "height":550}, "id":"twitter"});
+        $(".auth-service.google_oauth a").eauth({"popup":{"width":500, "height":450}, "id":"google_oauth"});
+        $(".auth-service.facebook a").eauth({"popup":{"width":585, "height":290}, "id":"facebook"});
+    });
+</script>
+
     <?php include('modal/recovery.php'); ?>
     <?php include('modal/login_captcha.php'); ?>
-<?php endif;?>
+    <?php endif;?>
 </body>
 </html>
