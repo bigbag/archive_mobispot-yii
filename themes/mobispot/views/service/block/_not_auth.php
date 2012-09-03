@@ -57,7 +57,7 @@
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                     </span>
     </div>
-    <?php Yii::app()->eauth->renderWidget(); ?>
+  
     <div class="btn-30">
         <input type="hidden" name="token" id="token"
                value="<?php echo Yii::app()->request->csrfToken?>">

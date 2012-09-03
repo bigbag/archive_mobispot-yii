@@ -124,6 +124,21 @@ class AjaxController extends MController
 
                 if (isset($_POST['RegistrationForm'])) {
                     $model->attributes = $_POST['RegistrationForm'];
+                    
+                    if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
+                        switch(Yii::app()->request->cookies['service_name']->value) {
+                            case 'facebook':
+                                $model->facebook_id = Yii::app()->request->cookies['service_id']->value;
+                            break;
+                            case 'google_oauth':
+                                $model->google_oauth_id = Yii::app()->request->cookies['service_id']->value;
+                            break;
+                            case 'twitter':
+                                $model->twitter_id = Yii::app()->request->cookies['service_id']->value;
+                            break;                          
+                        }
+                    }                
+                    
                     if ($model->validate()) {
                         if (!empty($model->password) && $model->password == $model->verifyPassword) {
                             $model->activkey = sha1(microtime() . $model->password);
