@@ -20,9 +20,9 @@
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.js'); ?>
 <script type="text/javascript">
     jQuery(function ($) {
-        $(".auth-service.twitter a").eauth({"popup":{"width":900, "height":550}, "id":"twitter"});
-        $(".auth-service.google_oauth a").eauth({"popup":{"width":500, "height":450}, "id":"google_oauth"});
-        $(".auth-service.facebook a").eauth({"popup":{"width":585, "height":290}, "id":"facebook"});
+        $("a.twitter").eauth({"popup":{"width":900, "height":550}, "id":"twitter"});
+        $("a.google_oauth").eauth({"popup":{"width":500, "height":450}, "id":"google_oauth"});
+        $("a.facebook").eauth({"popup":{"width":585, "height":290}, "id":"facebook"});
     });
 </script>
 

@@ -417,7 +417,7 @@ div#header {
 
 #registration-form .btn-30 {
     float: right;
-    margin: 12px 8px 0 0;
+    margin: -20px 8px 0 0;
     border: 0;
     cursor: pointer;
     display: block;
