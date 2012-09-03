@@ -1,28 +1,9 @@
 <h2><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></h2>
 <span class="error"></span>
 <form action="#" method="post" id="registration">
-
-    <div class="txt-form">
-        <div class="txt-form-cl">
-            <input type="text" id="email" style="width:325px;" class="txt"
-                   name="RegistrationForm[email]"
-                   value="" placeholder="<?php echo Yii::t('user', 'Адрес электронной почты');?>"
-                   autocomplete="off"/></div>
-    </div>
-    <div class="txt-form">
-        <div class="txt-form-cl">
-            <input type="text" id="password" style="width:325px;" class="txt"
-                   name="RegistrationForm[password]"
-                   value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off"/>
-        </div>
-    </div>
-    <div class="txt-form">
-        <div class="txt-form-cl">
-            <input type="text" id="verifyPassword" style="width:325px;" class="txt"
-                   name="RegistrationForm[verifyPassword]"
-                   value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
-                   autocomplete="off"/></div>
-    </div>
+    <input type="hidden" name="RegistrationForm[email]" value="<?=$email?>" />
+    <input type="hidden" name="RegistrationForm[password]" value="<?=$password?>" />
+    <input type="hidden" name="RegistrationForm[verifyPassword]" value="<?=$password?>" />
     <div class="txt-form">
         <div class="txt-form-cl">
             <input type="text" id="activ_code" style="width:325px;" class="txt"
@@ -57,7 +38,7 @@
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                     </span>
     </div>
-    <?php Yii::app()->eauth->renderWidget(); ?>
+
     <div class="btn-30">
         <input type="hidden" name="token" id="token"
                value="<?php echo Yii::app()->request->csrfToken?>">

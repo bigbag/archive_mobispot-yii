@@ -91,7 +91,7 @@ class User extends CActiveRecord
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, email, password, activkey, creation_date, lastvisit, type, status', 'safe', 'on' => 'search'),
+            array('id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -207,4 +207,11 @@ class User extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+    
+    public function socialCheck($service, $soc_id)
+    {
+        $field = $service.'_id';
+        return User::model()->findAllByAttributes(array($field => $soc_id));
+    }
+    
 }

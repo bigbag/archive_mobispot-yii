@@ -1,4 +1,4 @@
-*.log
+4*.log
 *.bin
 *.settings
 *.ai
@@ -9,7 +9,6 @@
 protected/config/params.php
 protected/config/db.php
 protected/config/rc.php
-protected/config/eauth.php
 protected/runtime/*
 uploads/
 *.ykomodoproject
