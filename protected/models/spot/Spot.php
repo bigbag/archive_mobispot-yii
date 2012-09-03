@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'spot':
  * @property string $code
+ * @property string $url
  * @property string $name
  * @property integer $discodes_id
  * @property integer $spot_type_id
@@ -117,6 +118,7 @@ class Spot extends CActiveRecord
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
+            array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
             array('spot_hard, nfc', 'length', 'max' => 32),
@@ -144,6 +146,7 @@ class Spot extends CActiveRecord
     {
         if ($this->isNewRecord) {
             $this->generated_date = new CDbExpression('NOW()');
+            if (!$this->url) $this->url = sha1($this->code.$this->generated_date);
             $this->status == self::STATUS_GENERATED;
         }
 
@@ -189,6 +192,7 @@ class Spot extends CActiveRecord
     {
         return array(
             'code' => 'ДИС',
+            'url' => 'Ссылка',
             'name' => 'Название',
             'discodes_id' => 'ID',
             'spot_type_id' => 'Тип спота',

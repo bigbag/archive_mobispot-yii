@@ -32,7 +32,10 @@
                         <?php echo mb_substr($data->name, 0, 45, 'utf-8');?>
                     </div>
                 </td>
-                <td class="td115"><span><?php echo $data->discodes_id;?></span></td>
+                <td class="td115">
+                    <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
+                    <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
+                </td>
                 <td id="type_<?php echo $data->discodes_id;?>" class="td180">
                     <div class="retype" style="display: none;">
                         <form action="" method="post" class="spot_retype_form">

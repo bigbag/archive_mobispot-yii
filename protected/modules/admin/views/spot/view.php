@@ -38,6 +38,7 @@ $this->menu = $menu;
     'data' => $model,
     'attributes' => array(
         'name',
+        'url',
         'discodes_id',
         array(
             'name' => 'spot_type_id',
