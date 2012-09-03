@@ -195,6 +195,37 @@ class AjaxController extends MController
         }
     }
 
+    public function actionSpotClear()
+    {
+        if (isset($_POST['discodes_id'])) {
+            $spot_id = $_POST['discodes_id'];
+            $spot = Spot::model()->findByPk($spot_id);
+            if ($spot) {
+
+                $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot->spot_type_id));
+                $content->delete();
+                echo json_encode(array('discodes_id' => $spot->discodes_id));
+            }
+        }
+    }
+
+    public function actionSpotInvisible()
+    {
+        if (isset($_POST['discodes_id'])) {
+            $spot_id = $_POST['discodes_id'];
+            $spot = Spot::model()->findByPk($spot_id);
+
+            if ($spot) {
+                if ($spot->status == Spot::STATUS_INVISIBLE) $spot->status = Spot::STATUS_REGISTERED;
+                else $spot->status = Spot::STATUS_INVISIBLE;
+                $spot->save();
+                echo json_encode(array('discodes_id' => $spot->discodes_id, 'status' => $spot->status));
+
+            }
+        }
+    }
+
+
     public function actionSpotAdd()
     {
         if (isset($_POST['code'])) {

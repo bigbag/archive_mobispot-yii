@@ -4,7 +4,7 @@
 
         <form action="" method="POST" class="spot_remove_form">
             <p>
-                <?php echo Yii::t('account', 'Удалить спот ')?> <b class="spot_clear_id"></b>
+                <?php echo Yii::t('account', 'Удалить спот ')?> <b class="spot_remove_id"></b>
                 <br/>
                 <br/>
             </p>

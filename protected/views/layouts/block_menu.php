@@ -17,7 +17,7 @@
         array('label' => 'Споты', 'url' => array('/admin/spot/'), 'active' => ((in_array(Yii::app()->controller->id, array(
             'discodes', 'spot', 'spotType', 'spotHardType', 'spotField', 'spotComment'))) ? true : false),
             'items' => array(
-                array('label' => 'ДИС', 'url' => array('/admin/discodes')),
+                array('label' => 'ID', 'url' => array('/admin/discodes')),
                 array('label' => 'Типы спотов', 'url' => array('/admin/spotType/')),
                 array('label' => 'Доступные Поля', 'url' => array('/admin/spotField/')),
                 array('label' => 'Типы исполнения спотов', 'url' => array('/admin/spotHardType/')),

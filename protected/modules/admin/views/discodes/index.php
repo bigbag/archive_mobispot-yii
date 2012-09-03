@@ -1,9 +1,9 @@
-<?php $this->pageTitle = 'ДИС'; ?>
+<?php $this->pageTitle = 'ID'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
     'Споты',
-    'ДИС',
+    'ID',
     'Управление',
 );
 ?>
