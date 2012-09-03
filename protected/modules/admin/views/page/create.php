@@ -2,9 +2,9 @@
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
-    'Модели',
+    'Содержимое',
     'Страницы' => array('index'),
-    'Создать',
+    'Добавление',
 );
 
 $this->menu = array(
@@ -12,6 +12,6 @@ $this->menu = array(
 );
 ?>
 
-<h1>Создать страницу</h1>
+<h1>Добавить страницу</h1>
 
 <?php echo $this->renderPartial('_form', array('model' => $model)); ?>

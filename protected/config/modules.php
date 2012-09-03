@@ -15,4 +15,5 @@ return array(
         'defaultController' => 'settings',
     ),
     'mobile',
+
 );

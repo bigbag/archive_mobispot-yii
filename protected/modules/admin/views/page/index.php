@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Создать страницу', 'url' => array('create')),
+    array('label' => 'Добавить страницу', 'url' => array('create')),
 );
 ?>
 
@@ -21,14 +21,18 @@ $this->menu = array(
     'filter' => $model,
     'columns' => array(
         'slug',
-        'creation_date',
-        'change_date',
         array(
             'name' => 'user_id',
             'type' => 'raw',
             'value' => '($data->user)?$data->user->email:""',
         ),
         'title',
+        array(
+            'name' => 'lang_id',
+            'type' => 'raw',
+            'value' => '$data->getLang()',
+            'filter' => Lang::getLangArray(),
+        ),
         array(
             'name' => 'status',
             'type' => 'raw',

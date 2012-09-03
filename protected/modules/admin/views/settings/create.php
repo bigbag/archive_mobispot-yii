@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
     'Общие',
     'Настройки' => array('index'),
     $model->name,
-    'Создать',
+    'Добавление',
 );
 ?>
 <?php echo $this->renderPartial('_form', array('model' => $model)); ?>

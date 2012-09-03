@@ -9,6 +9,7 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Mobispot',
     'theme' => 'mobispot',
+    'sourceLanguage' => 'en_US',
     'language' => 'ru',
     'charset' => 'UTF-8',
     'preload' => array('log'),
@@ -30,7 +31,7 @@ return array(
 
         'messages' => array(
             'class' => 'CPhpMessageSource',
-            'cachingDuration' => 3600,
+            //'cachingDuration' => 3600,
         ),
         'user' => array(
             'class' => 'CWebUser',

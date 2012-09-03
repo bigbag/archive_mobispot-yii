@@ -6,7 +6,7 @@ return array(
     'application.models.spot.form.*',
     'application.models.user.*',
     'application.models.user.form.*',
-    'application.models.page.*',
+    'application.models.content.*',
     'application.components.*',
     'application.helpers.*',
     //'ext.eoauth.*',

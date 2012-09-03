@@ -2,7 +2,7 @@
 
     <?php $form = $this->beginWidget('CActiveForm', array(
     'id' => 'page-form',
-    'enableAjaxValidation' => true,
+    'enableAjaxValidation' => false,
 )); ?>
 
     <p class="note">Поля, отмеченные <span class="required">*</span> обязательны к заполнению.</p>
@@ -55,9 +55,21 @@
     </div>
 
     <div class="row">
+        <?php echo $form->labelEx($model, 'lang_id'); ?>
+        <?php echo $form->dropDownList($model, 'lang_id', Lang::getLangArray()); ?>
+        <?php echo $form->error($model, 'lang_id'); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model, 'status'); ?>
-        <?php echo $form->dropDownList($model, 'status', $model->getStatusList()); ?>
+        <?php echo $form->dropDownList($model, 'status', $model->getStatusList()) ; ?>
         <?php echo $form->error($model, 'status'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model, 'template_id'); ?>
+        <?php echo $form->dropDownList($model, 'template_id', PageTemplate::getTemplateArray()) ; ?>
+        <?php echo $form->error($model, 'template_id'); ?>
     </div>
 
     <div class="row buttons">
