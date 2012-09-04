@@ -188,7 +188,6 @@ class ServiceController extends MController
                         $password = md5(time());
                         $model->activkey = sha1(microtime() . $password);
                         $model->password = Yii::app()->hasher->hashPassword($password);
-                        $model->lastvisit = time();
 
                         $model->type = User::TYPE_USER;
                         $model->status = User::STATUS_NOACTIVE;
