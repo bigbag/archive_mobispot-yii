@@ -19,13 +19,12 @@ class ServiceController extends MController
 
     public function actionSocial()
     {
-
         $service = Yii::app()->request->getQuery('service');
         if (isset($service)) {
 
             $authIdentity = Yii::app()->eauth->getIdentity($service);
 
-            $authIdentity->cancelUrl = $this->createAbsoluteUrl('site/index');
+            $authIdentity->cancelUrl = '/site/index';
 
             if ($authIdentity->authenticate()) {
                 $identity = new EAuthUserIdentity($authIdentity);
@@ -38,9 +37,11 @@ class ServiceController extends MController
                         $this->setCookies('service_id', $social_id);
                         $authIdentity->redirectUrl = '/service/social';
                     } else {
-                        $find = User::model()->findByAttributes(array($service . '_id' => $social_id, 'status' => User::STATUS_ACTIVE));
+                        $find = User::model()->findByAttributes(array($service . '_id' => $social_id));
                         $identity = new SUserIdentity($find->email, $find->password);
                         $identity->authenticate();
+                        $this->lastVisit();
+                        Yii::app()->user->login($identity);
 
                         if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
                             $authIdentity->redirect(Yii::app()->session['referer']);

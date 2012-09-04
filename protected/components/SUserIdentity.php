@@ -5,21 +5,18 @@
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class UserIdentity extends CUserIdentity
+class SUserIdentity extends CUserIdentity
 {
     private $_id;
     private $_email;
-    private $_password;
 
     const ERROR_EMAIL_INVALID = 3;
     const ERROR_STATUS_NOTACTIV = 4;
     const ERROR_STATUS_BAN = 5;
 
-    public function __construct($email, $password)
+    public function __construct($email)
     {
         $this->_email = $email;
-        $this->_password = $password;
-
     }
 
 
@@ -37,7 +34,6 @@ class UserIdentity extends CUserIdentity
             $this->_id = $user->id;
             $this->_email = $user->email;
             $this->username = $user->email;
-            $this->password = $user->password;
             $this->errorCode = self::ERROR_NONE;
         }
         return !$this->errorCode;
@@ -56,8 +52,4 @@ class UserIdentity extends CUserIdentity
         return $this->_email;
     }
 
-    public function getPassword()
-    {
-        return $this->_password;
-    }
 }
