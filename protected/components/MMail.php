@@ -10,7 +10,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->slug,
+        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->lang_id.'_'.$mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -29,7 +29,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->slug,
+        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->lang_id.'_'.$mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),

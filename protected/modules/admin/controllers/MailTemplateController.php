@@ -27,7 +27,7 @@ class MailTemplateController extends Controller
 		{
 			$model->attributes=$_POST['MailTemplate'];
             if($model->save()){
-                $file_name = $this->getTempatePath().$model->slug.'.php';
+                $file_name = $this->getTempatePath().$model->lang_id.'_'.$model->slug.'.php';
                 file_put_contents($file_name, $model->content);
                 $this->redirect(array('index'));
             }
@@ -54,7 +54,7 @@ class MailTemplateController extends Controller
 		{
 			$model->attributes=$_POST['MailTemplate'];
 			if($model->save()){
-                $file_name = $this->getTempatePath().$model->slug.'.php';
+                $file_name = $this->getTempatePath().$model->lang_id.'_'.$model->slug.'.php';
                 file_put_contents($file_name, $model->content);
                 $this->redirect(array('index'));
             }
