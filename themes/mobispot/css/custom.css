@@ -379,5 +379,5 @@ a.next_page {
     height: 30px;
 }
 .selectBox {
-    overflow-y: hidden;
+    overflow-x: hidden;
 }
