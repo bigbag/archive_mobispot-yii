@@ -31,6 +31,6 @@
                 array('label' => 'Комментарии', 'url' => array('/admin/spotComment/')),
             ),
         ),
-        array('label' => 'Выйти (' . Yii::app()->user->name . ')', 'url' => array('/user/logout'), 'visible' => !Yii::app()->user->isGuest)
+        array('label' => 'Выйти (' . Yii::app()->user->name . ')', 'url' => array('/service/logout'), 'visible' => !Yii::app()->user->isGuest)
     ),
 )); ?>
