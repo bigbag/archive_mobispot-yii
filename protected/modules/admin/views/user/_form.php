@@ -13,10 +13,6 @@
 
     <?php echo $form->errorSummary($model); ?>
     <table class="detail-view" id="yw0">
-        <tr class="even">
-            <th><?php echo $form->label($model, 'email'); ?></th>
-            <td><?php echo $model->email ?></td>
-        </tr>
         <tr class="odd">
             <th><?php echo $form->label($model, 'name'); ?></th>
             <td><?php echo (!empty($model->profile->name))?$model->profile->name:'' ?></td>
