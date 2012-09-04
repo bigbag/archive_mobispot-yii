@@ -89,7 +89,14 @@
 
             $('#terms').show();
             $('#registration-form').css("height", "auto");
-            $('#registration_captcha').show();
+            $.ajax({
+                url:'/ajax/getCaptcha',
+                type:'POST',
+                success:function (result) {
+                    $('div#registration_captcha div#img-capt').html(result);
+                }
+            });
+            $('#registration-form #registration_captcha').show();
             $('#registration-form span.error').empty();
             $('#registration-form span.error').html(error);
         }
@@ -130,6 +137,13 @@
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
         else if (responseText == 'login_error_count') {
+            $.ajax({
+                url:'/ajax/getCaptcha',
+                type:'POST',
+                success:function (result) {
+                    $('#login_captcha_modal div#img-capt').html(result);
+                }
+            });
             $('#login_captcha_modal').reveal({animation:'none'});
 
         }

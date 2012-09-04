@@ -3,8 +3,8 @@ return array( // You can change the providers and their classes.
     'twitter' => array(
         // register your app here: https://dev.twitter.com/apps/new
         'class' => 'TwitterOAuthService',
-        'key' => 'VkQWh3ZxgLyiqUHaPnabmg',
-        'secret' => 'cBfZQlyB0mpCaBd4g7EMT39d8apCAMbhnKGyqBXUefQ',
+        'key' => 'eX4XJnsIVOpXwNlo8xIxQ',
+        'secret' => 'Z3jH7SAFzc8bRNXaif8rLSKZcA17lSYC9AjW9qJwO0',
     ),
     'google_oauth' => array(
         // register your app here: https://code.google.com/apis/console/
@@ -16,9 +16,9 @@ return array( // You can change the providers and their classes.
     ),
     'facebook' => array(
         // register your app here: https://developers.facebook.com/apps/
-        'class' => 'CustomFacebookOAuthService',
         'scope' => 'email',
-        'client_id' => '140494639427206',
-        'client_secret' => 'c9b670a2463410131fd49ec4e217da89',
+        'class' => 'FacebookOAuthService',
+        'client_id' => '313883902043541',
+        'client_secret' => 'fb0e23f54c4c58db4f6fcfb473508462',
     ),
 );

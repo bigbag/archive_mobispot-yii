@@ -2,12 +2,6 @@
 
 class AjaxController extends MController
 {
-    public function filters()
-    {
-        return array(
-            'ajaxOnly',
-        );
-    }
 
     public function actions()
     {
@@ -20,6 +14,18 @@ class AjaxController extends MController
                 'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
             ),
         );
+    }
+
+    public function actionGetCaptcha()
+    {
+        if (Yii::app()->request->isAjaxRequest) {
+            $text = $this->renderPartial('/user/block/captcha',
+                array(
+
+                ),
+                true);
+            echo $text;
+        }
     }
 
     public function actionLogin()
@@ -124,21 +130,13 @@ class AjaxController extends MController
 
                 if (isset($_POST['RegistrationForm'])) {
                     $model->attributes = $_POST['RegistrationForm'];
-                    
+
                     if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
-                        switch(Yii::app()->request->cookies['service_name']->value) {
-                            case 'facebook':
-                                $model->facebook_id = Yii::app()->request->cookies['service_id']->value;
-                            break;
-                            case 'google_oauth':
-                                $model->google_oauth_id = Yii::app()->request->cookies['service_id']->value;
-                            break;
-                            case 'twitter':
-                                $model->twitter_id = Yii::app()->request->cookies['service_id']->value;
-                            break;                          
-                        }
-                    }                
-                    
+                        $service_name = Yii::app()->request->cookies['service_name']->value;
+                        $service_name = $service_name . '_id';
+                        $model->{$service_name} = Yii::app()->request->cookies['service_id']->value;
+                    }
+
                     if ($model->validate()) {
                         if (!empty($model->password) && $model->password == $model->verifyPassword) {
                             $model->activkey = sha1(microtime() . $model->password);

@@ -47,16 +47,7 @@
                     <tr>
                         <td>
                             <div id="img-capt">
-                                <?php $this->widget('CCaptcha', array(
-                                'clickableImage' => true,
-                                'showRefreshButton' => true,
-                                'buttonType' => 'button',
-                                'buttonOptions' =>
-                                array('type' => 'image',
-                                    'src' => "/themes/mobispot/images/ico-refresh.png",
-                                    'width' => 21,
-                                ),
-                            ));?>
+
                             </div>
                         </td>
                     </tr>

@@ -33,16 +33,7 @@
     <div id="registration_captcha" style="display: none">
         <?php echo Yii::t('user', 'Введите код показанный на картинке');?>
         <div id="img-capt">
-            <?php $this->widget('CCaptcha', array(
-            'clickableImage' => true,
-            'showRefreshButton' => true,
-            'buttonType' => 'button',
-            'buttonOptions' =>
-            array('type' => 'image',
-                'src' => "/themes/mobispot/images/ico-refresh.png",
-                'width' => 21,
-            ),
-        ));?>
+
         </div>
         <div class="txt-form">
             <div class="txt-form-cl">
@@ -50,6 +41,7 @@
                        name="RegistrationForm[verifyCode]"
                        value=""/></div>
         </div>
+
     </div>
     <div id="terms" style="display: none;">
         <input type="checkbox" name="RegistrationForm[terms]" value="1" class="niceCheck">
