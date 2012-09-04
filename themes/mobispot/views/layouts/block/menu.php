@@ -36,7 +36,7 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/user/logout/" title="<?php echo Yii::t('menu', 'Выйти')?>">
+                        <a href="/service/logout/" title="<?php echo Yii::t('menu', 'Выйти')?>">
                             <strong><?php echo Yii::t('menu', 'Выйти')?></strong>
                         </a>
                     </div>

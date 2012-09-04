@@ -17,6 +17,129 @@ class ServiceController extends MController
         );
     }
 
+    public function actionLogin()
+    {
+        if (Yii::app()->user->isGuest) {
+            $model = new LoginCaptchaForm;
+            if (isset($_POST['LoginCaptchaForm'])) {
+                $model->attributes = $_POST['LoginCaptchaForm'];
+                if ($model->rememberMe == 'on') $model->rememberMe = 1;
+                else $model->rememberMe = 0;
+                if ($model->validate()) {
+                    $this->redirect(Yii::app()->user->returnUrl);
+                }
+            }
+            $this->render('login', array('model' => $model));
+        } else
+            $this->redirect(Yii::app()->user->returnUrl);
+    }
+
+    public function actionLogout()
+    {
+        Yii::app()->user->logout();
+        $this->redirect(Yii::app()->homeUrl);
+    }
+
+    public function actionRegistration()
+    {
+        $model = new RegistrationForm;
+
+        // ajax validator
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'registration-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+
+        if (Yii::app()->user->id) {
+            $this->redirect(Yii::app()->user->returnUrl);
+        } else {
+            if (isset($_POST['RegistrationForm'])) {
+                $model->attributes = $_POST['RegistrationForm'];
+                if ($model->validate()) {
+                    if (!empty($model->password) && $model->password == $model->verifyPassword) {
+                        $model->activkey = sha1(microtime() . $model->password);
+                        $model->password = Yii::app()->hasher->hashPassword($model->password);
+                        $model->verifyPassword = $model->password;
+                    }
+                    if ($model->save()) {
+
+                        $activation_url = $this->createAbsoluteUrl('/user/activation/activation', array("activkey" => $model->activkey, "email" => $model->email));
+                        //UserModule::sendMail($model->email, Yii::t('user', "You registered from {site_name}", array('{site_name}' => Yii::app()->name)), Yii::t('user', "Please activate you account go to {activation_url}", array('{activation_url}' => $activation_url)));
+                        Yii::app()->user->setFlash('registration', Yii::t('user', "Thank you for your registration. Please check your email."));
+                        $this->refresh();
+                    }
+                }
+            }
+            $this->render('registration', array('model' => $model));
+        }
+    }
+
+    public function actionActivation()
+    {
+        if (Yii::app()->user->id) {
+            $this->redirect('/');
+        } else {
+            $email = $_GET['email'];
+            $activkey = $_GET['activkey'];
+
+            if ($email && $activkey) {
+                $find = User::model()->findByAttributes(array('email' => $email));
+                if (isset($find->activkey) && ($find->activkey == $activkey)) {
+                    $find->activkey = sha1(microtime());
+                    $find->status = User::STATUS_ACTIVE;
+                    if ($find->save()) {
+                        $this->render('activation',
+                            array(
+                                'title' => Yii::t('user', "Активация пользователя"),
+                                'content' => Yii::t('user', "Вы успешно активировали учётную запись.")
+                            ));
+                    }
+                } else $this->render('activation',
+                    array(
+                        'title' => Yii::t('user', "Активация пользователя"),
+                        'content' => Yii::t('user', "Неверная активационная ссылка.")
+                    ));
+            } else $this->render('activation',
+                array(
+                    'title' => Yii::t('user', "Активация пользователя"),
+                    'content' => Yii::t('user', "Неверная активационная ссылка.")
+                ));
+        }
+    }
+
+    public function actionRecovery()
+    {
+        if (Yii::app()->user->id) {
+            $this->redirect('/');
+        } else {
+            $email = ((isset($_GET['email'])) ? $_GET['email'] : '');
+            $activkey = ((isset($_GET['activkey'])) ? $_GET['activkey'] : '');
+            if ($email && $activkey) {
+                $form = new UserChangePassword;
+                $find = User::model()->findByAttributes(array('email' => $email));
+                if (isset($find) && $find->activkey == $activkey) {
+                    if (isset($_POST['UserChangePassword'])) {
+                        $form->attributes = $_POST['UserChangePassword'];
+                        $soucePassword = $form->password;
+
+                        if ($form->validate()) {
+                            $find->password = Yii::app()->hasher->hashPassword($form->password);
+                            $find->activkey = sha1(microtime() . $form->password);
+                            $find->save();
+
+                            $identity = new UserIdentity($email, $soucePassword);
+                            $identity->authenticate();
+                            $this->lastVisit();
+                            $this->redirect('/');
+                        }
+                    }
+                    $this->render('changepassword', array('form' => $form));
+                } else  $this->redirect('/');
+            } else $this->redirect('/');
+        }
+    }
+
+
     public function actionSocial()
     {
         $service = Yii::app()->request->getQuery('service');
@@ -76,6 +199,15 @@ class ServiceController extends MController
                         unset(Yii::app()->request->cookies['service_id']);
 
                         if ($model->save()) {
+                            $spot = Spot::model()->findByAttributes(array(
+                                'code' => $model->activ_code,
+                                'status' => Spot::STATUS_ACTIVATED,
+                            ));
+
+                            $spot->user_id = $model->id;
+                            $spot->status = Spot::STATUS_REGISTERED;
+                            $spot->save();
+
                             MMail::activation($model->email, $model->activkey);
 
                             if (Yii::app()->request->cookies['social_referer']) {

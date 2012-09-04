@@ -5,5 +5,3 @@
 <?php include('../site/block/_auth.php'); ?>
 <?php endif; ?>
 <?php $this->endContent(); ?>
-
-
