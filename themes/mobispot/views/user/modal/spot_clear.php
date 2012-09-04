@@ -13,6 +13,7 @@
             </p>
             <input type="hidden" name="discodes_id" value="">
             <span class="r-btn-30 clear"><span><?php echo Yii::t('account', 'Продолжить')?></span></span>
+
             <div class="clear"></div>
         </form>
     </div>

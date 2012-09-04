@@ -1,9 +1,17 @@
 <h2><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></h2>
 <span class="error"></span>
 <form action="#" method="post" id="registration">
-    <input type="hidden" name="RegistrationForm[email]" value="<?=$email?>" />
-    <input type="hidden" name="RegistrationForm[password]" value="<?=$password?>" />
-    <input type="hidden" name="RegistrationForm[verifyPassword]" value="<?=$password?>" />
+
+    <input type="hidden" name="RegistrationForm[password]" value="<?=$password?>"/>
+    <input type="hidden" name="RegistrationForm[verifyPassword]" value="<?=$password?>"/>
+
+    <div class="txt-form">
+        <div class="txt-form-cl">
+            <input type="text" id="email" style="width:325px;" class="txt"
+                   name="RegistrationForm[email]"
+                   value="" placeholder="<?php echo Yii::t('user', 'Адрес электронной почты');?>"
+                   autocomplete="off"/></div>
+    </div>
     <div class="txt-form">
         <div class="txt-form-cl">
             <input type="text" id="activ_code" style="width:325px;" class="txt"
@@ -32,7 +40,7 @@
                        value=""/></div>
         </div>
     </div>
-    <div id="terms" style="display: none;">
+    <div id="terms">
         <input type="checkbox" name="RegistrationForm[terms]" value="1" class="niceCheck">
                     <span class="dop-txt">
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>

@@ -6,7 +6,7 @@
         <div class="txt-form-cl">
             <input type="text" id="email" style="width:325px;" class="txt"
                    name="RegistrationForm[email]"
-                   value="" placeholder="<?php echo Yii::t('user', 'Адрес электронной почты');?>"
+                   value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
                    autocomplete="off"/></div>
     </div>
     <div class="txt-form">
@@ -58,10 +58,14 @@
                     </span>
     </div>
     <span class="auth-service">
-         <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
-         <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
-         <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google"><img src="/themes/mobispot/images/auth_google.png" alt="g"></a>
+         <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img
+             src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
+         <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img
+             src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
+         <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google"><img
+             src="/themes/mobispot/images/auth_google.png" alt="g"></a>
     </span>
+
     <div class="btn-30">
         <input type="hidden" name="token" id="token"
                value="<?php echo Yii::app()->request->csrfToken?>">

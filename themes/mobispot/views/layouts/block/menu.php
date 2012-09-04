@@ -1,6 +1,7 @@
 <div class="center-rel">
     <div id="sel-lang">
-        <div class="curent-lang" id="lang-select"><?php echo Yii::t('menu', 'Язык:')?><span> <?php echo Yii::t('menu', 'Русский')?></span></div>
+        <div class="curent-lang" id="lang-select"><?php echo Yii::t('menu', 'Язык:')?>
+            <span> <?php echo Yii::t('menu', 'Русский')?></span></div>
         <div class="lang-hint">
             <div>
                 <a href="#"><?php echo Yii::t('menu', 'English')?></a><br/>
@@ -23,10 +24,11 @@
             <?php else: ?>
             <?php $user_info = $this->userInfo(); ?>
             <div id="auth-on">
-    	        <span id="auth-user-name"><?php echo $user_info->name;?></span>
+                <span id="auth-user-name"><?php echo $user_info->name;?></span>
+
                 <div class="user-menu-hint">
                     <div>
-                       <?php echo CHtml::encode(Yii::app()->user->name)?>
+                        <?php echo CHtml::encode(Yii::app()->user->name)?>
                     </div>
                     <div>
                         <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">

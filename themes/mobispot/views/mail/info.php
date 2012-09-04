@@ -2,7 +2,8 @@
     <tr>
         <td align="center">
             <a href="<?php echo Yii::app()->request->getBaseUrl(true);?>">
-                <img src="<?php echo Yii::app()->request->getBaseUrl(true);?>/themes/mobispot/images/mail/logotype.png" alt=""/>
+                <img src="<?php echo Yii::app()->request->getBaseUrl(true);?>/themes/mobispot/images/mail/logotype.png"
+                     alt=""/>
             </a>
         </td>
     </tr>

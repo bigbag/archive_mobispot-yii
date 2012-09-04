@@ -1,10 +1,10 @@
 <script type="text/javascript">
     //сброс селекта
     function resetSelect(selector) {
-        $('select option:first', selector).attr('selected',true);
+        $('select option:first', selector).attr('selected', true);
         $("select").selectBox('refresh');
-        $(selector +" select").selectBox('destroy');
-        $(selector +" select").selectBox('create');
+        $(selector + " select").selectBox('destroy');
+        $(selector + " select").selectBox('create');
     }
 
     $(document).ready(function () {
@@ -46,11 +46,11 @@
     //Регистрация
     $(function () {
         var count = 0;
-        $('#email, #password, #verifyPassword, #activ_code').bind('change', function(){
+        $('#email, #password, #verifyPassword, #activ_code').bind('change', function () {
             count++;
         });
-        $('#email, #password, #verifyPassword, #activ_code').bind('focus', function(){
-            if (count == 3){
+        $('#email, #password, #verifyPassword, #activ_code').bind('focus', function () {
+            if (count == 3) {
                 $('#terms').show();
                 $('#registration-form').css("height", "auto");
             }
@@ -90,7 +90,7 @@
             $('#terms').show();
             $('#registration-form').css("height", "auto");
             $('#registration_captcha').show();
-            $('#registration-form span.error').empty() ;
+            $('#registration-form span.error').empty();
             $('#registration-form span.error').html(error);
         }
     }
@@ -112,7 +112,7 @@
     $(document).ready(function () {
         var options = {
             success:showLoginCaptchaResponse,
-            dataType: 'json',
+            dataType:'json',
             clearForm:true,
             url:'/ajax/loginCaptcha/'
         };
@@ -129,8 +129,8 @@
             $('#mistake-auth').show();
             $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
         }
-        else if (responseText  == 'login_error_count'){
-            $('#login_captcha_modal').reveal({animation: 'none'});
+        else if (responseText == 'login_error_count') {
+            $('#login_captcha_modal').reveal({animation:'none'});
 
         }
         else if (responseText == 1) {
@@ -148,14 +148,14 @@
     }
 
     //Восстановление пароля
-    $(document).ready(function() {
-        $('.forget-pass').click(function(e) {
+    $(document).ready(function () {
+        $('.forget-pass').click(function (e) {
             e.preventDefault();
-            $('#recovery_modal').reveal({animation: 'none'});
+            $('#recovery_modal').reveal({animation:'none'});
         });
     });
 
-    $(document).ready(function ()  {
+    $(document).ready(function () {
         var options = {
             success:showRecoveryResponse,
             clearForm:true,
@@ -191,7 +191,7 @@
     });
     jQuery('input[placeholder], textarea[placeholder]').placeholder();
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("select").selectBox();
     });
 </script>

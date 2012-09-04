@@ -5,12 +5,12 @@ $this->breadcrumbs = array(
 );
 ?>
 <div id="main-container">
-<div style="text-align: center">
-    <h2>Error <?php echo $code; ?></h2>
+    <div style="text-align: center">
+        <h2>Error <?php echo $code; ?></h2>
 
-    <div class="error">
-        <?php echo CHtml::encode($message); ?>
+        <div class="error">
+            <?php echo CHtml::encode($message); ?>
+        </div>
+
     </div>
-
-</div>
 </div>

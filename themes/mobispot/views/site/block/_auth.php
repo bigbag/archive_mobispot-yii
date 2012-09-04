@@ -5,8 +5,9 @@
     <div class="btn-form">
         <div class="btn-form-cl">
             <a href=""><?php echo $spot->discodes_id;?></a>
+
             <div style="float: right; margin-top: 3px;">
-                <select name="spot_type" >
+                <select name="spot_type">
                     <?php foreach ($spot_type as $key => $value): ?>
                     <option value='<?php echo $key;?>'><?php echo $value;?></option>
                     <?php endforeach; ?>
@@ -30,8 +31,8 @@
         'template' => '{items} {pager}',
         'cssFile' => false,
         'id' => 'spotslistview',
-        'pager'=>array('cssFile'=>false,
-            'class'=>'MLinkPager',
+        'pager' => array('cssFile' => false,
+            'class' => 'MLinkPager',
         ),
     )); ?>
 <div class="bnt-account">

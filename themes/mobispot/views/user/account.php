@@ -35,12 +35,18 @@
             <div id="foot-cont-block">
                 <select name='action' class='action'>
                     <option selected><?php echo Yii::t('account', 'Выберите действие');?></option>
-                    <option value="<?php echo Spot::ACTION_CHANGE_NAME;?>"><?php echo Yii::t('account', 'Изменить название'); ?></option>
-                    <option value="<?php echo Spot::ACTION_CHANGE_TYPE;?>"><?php echo Yii::t('account', 'Изменить тип'); ?></option>
-                    <option value="<?php echo Spot::ACTION_COPY;?>"><?php echo Yii::t('account', 'Копировать'); ?></option>
-                    <option value="<?php echo Spot::ACTION_INVISIBLE;?>"><?php echo Yii::t('account', 'Невидимость'); ?></option>
-                    <option value="<?php echo Spot::ACTION_CLEAR;?>"><?php echo Yii::t('account', 'Очистить'); ?></option>
-                    <option value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_CHANGE_NAME;?>"><?php echo Yii::t('account', 'Изменить название'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_CHANGE_TYPE;?>"><?php echo Yii::t('account', 'Изменить тип'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_COPY;?>"><?php echo Yii::t('account', 'Копировать'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_INVISIBLE;?>"><?php echo Yii::t('account', 'Невидимость'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_CLEAR;?>"><?php echo Yii::t('account', 'Очистить'); ?></option>
+                    <option
+                        value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
                 </select>
 
                 <a href="#" class="r-btn-30 spot_add_modal">
@@ -54,8 +60,8 @@
     </div>
 </div>
 
-<?php include('block/script.php')?>
-<?php include('modal/spot_clear.php')?>
-<?php include('modal/spot_invisible.php')?>
-<?php include('modal/spot_remove.php')?>
-<?php include('modal/spot_add.php')?>
+<?php include('block/script.php') ?>
+<?php include('modal/spot_clear.php') ?>
+<?php include('modal/spot_invisible.php') ?>
+<?php include('modal/spot_remove.php') ?>
+<?php include('modal/spot_add.php') ?>

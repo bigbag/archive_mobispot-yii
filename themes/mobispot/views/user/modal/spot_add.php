@@ -14,15 +14,16 @@
             </div>
             <br/>
 
-                <input type="hidden" name="code" class="code" value="">
-                <div class="spot_type_all" style="display: none">
-                    <select name="type">
-                        <option class="noView">Тип</option>
-                        <?foreach ($spot_type_all as $key => $value): ?>
-                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+            <input type="hidden" name="code" class="code" value="">
+
+            <div class="spot_type_all" style="display: none">
+                <select name="type">
+                    <option class="noView">Тип</option>
+                    <?foreach ($spot_type_all as $key => $value): ?>
+                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <br/>
 
             <div class="round-btn" style="float:left">
