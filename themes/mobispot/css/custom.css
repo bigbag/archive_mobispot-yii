@@ -378,3 +378,6 @@ a.next_page {
     float: right;
     height: 30px;
 }
+.selectBox {
+    overflow-y: hidden;
+}

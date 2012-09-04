@@ -29,7 +29,7 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'slug'); ?>
-        <?php echo $form->textField($model,'slug',array('size'=>100,'maxlength'=>300)); ?>
+        <?php echo $form->textField($model,'slug',array('size'=>60,'maxlength'=>300)); ?>
         <?php echo $form->error($model,'slug'); ?>
     </div>
 
@@ -41,13 +41,13 @@
 
     <div class="row">
         <?php echo $form->labelEx($model,'subject'); ?>
-        <?php echo $form->textField($model,'subject',array('size'=>100,'maxlength'=>150)); ?>
+        <?php echo $form->textField($model,'subject',array('size'=>60,'maxlength'=>150)); ?>
         <?php echo $form->error($model,'subject'); ?>
     </div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'content'); ?>
-		<?php echo $form->textArea($model,'content',array('rows'=>20, 'cols'=>80)); ?>
+		<?php echo $form->textArea($model,'content',array('rows'=>30, 'cols'=>100, 'id' => 'code', 'class' => 'code')); ?>
 		<?php echo $form->error($model,'content'); ?>
 	</div>
 
@@ -57,4 +57,16 @@
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+</div>
+
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/codemirror.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/codemirror.css'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/javascript.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/htmlmixed.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/css.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/xml.js'); ?>
+
+
+<script type="text/javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode: "text/html", tabMode: "indent", lineNumbers: true});
+</script>
