@@ -49,31 +49,18 @@
                         <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                     </span>
     </div>
+    <span class="auth-service">
+         <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img
+             src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
+         <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img
+             src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
+         <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google"><img
+             src="/themes/mobispot/images/auth_google.png" alt="g"></a>
+    </span>
+    <div class="btn-30">
+        <input type="hidden" name="token" id="token"
+               value="<?php echo Yii::app()->request->csrfToken?>">
 
-    <table style="width: 100%; vertical-align: top">
-        <tr>
-            <td>
-                <div class="auth-service">
-                    <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img
-                        src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
-                    <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img
-                        src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
-                    <a class="auth-link google_oauth" href="/service/social?service=google_oauth" title="google"><img
-                        src="/themes/mobispot/images/auth_google.png" alt="g"></a>
-                </div>
-                <div class="fb-like" data-href="http://www.mobispot.com" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false" data-font="lucida grande"></div>
-                <div id="fb-root"></div>
-            </td>
-            <td>
-                <div class="btn-30" style="float: right;">
-                    <input type="hidden" name="token" id="token"
-                           value="<?php echo Yii::app()->request->csrfToken?>">
-
-                    <div><input type="submit" value="<?php echo Yii::t('user', 'Зарегистрироваться');?>"/></div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-
+        <div><input type="submit" value="<?php echo Yii::t('user', 'Зарегистрироваться');?>"/></div>
+    </div>
 </form>

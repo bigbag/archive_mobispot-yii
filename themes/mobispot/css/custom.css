@@ -368,8 +368,13 @@ a.next_page {
     color: #a3bb5b;
 }
 
-.auth-service{
+.auth-service img{
     margin-left: 2px;
-    margin-top: 2px;
+    margin-top: 15px;
     text-decoration: none;
+}
+
+#set_like {
+    float: right;
+    height: 30px;
 }
