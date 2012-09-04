@@ -66,6 +66,25 @@ class MailTemplate extends CActiveRecord
         return parent::beforeValidate();
     }
 
+    public static function getTemplate($slug)
+    {
+        $mail_template = Yii::app()->cache->get('mail_template_' . $slug);
+        if ($mail_template === false) {
+            $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug));
+
+            Yii::app()->cache->set('mail_template_' . $slug, $mail_template, 36000);
+        }
+        return $mail_template;
+    }
+
+    protected function afterSave()
+    {
+        Yii::app()->cache->delete('mail_template_' . $this->slug);
+
+        parent::afterSave();
+
+    }
+
     /**
      * @return array relational rules.
      */
@@ -74,6 +93,7 @@ class MailTemplate extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang_id'),
         );
     }
 

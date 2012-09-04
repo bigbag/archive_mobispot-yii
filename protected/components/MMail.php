@@ -3,20 +3,15 @@ Class MMail
 {
     public function activation($email, $activkey)
     {
+        $mail_template = MailTemplate::getTemplate('activation');
         $activation_url = Yii::app()->request->hostInfo . '/service/activation/activkey/' . $activkey . '/email/' . $email;
-        $subject = Yii::t('mail','Вы зарегистрировались на сайте ') . Yii::app()->par->load('siteTitle');
-        $message = Yii::t('mail','Для активации вашей учётной записи вам необходимо перейти по ссылке<br/> ') . $activation_url;
+        $body = $mail_template->content;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
-        $stack->subject = $subject;
-        $stack->body = $this->renderPartial('/mail/info',
-            array(
-                'title' => $subject,
-                'message' => $message,
-            ),
-            true);
+        $stack->subject = $mail_template->subject;
+        $stack->body = $body;
 
         if ($stack->save()) return true;
         else return false;
@@ -24,20 +19,15 @@ Class MMail
 
     public function recovery($email, $activkey)
     {
+        $mail_template = MailTemplate::getTemplate('recovery');
         $activation_url = Yii::app()->request->hostInfo . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
-        $subject = Yii::t('mail', 'Востановление пароля на сайте ') . Yii::app()->par->load('siteTitle');
-        $message = Yii::t('mail', 'Для востановления пароля вам необходимо перейти по ссылке<br/> ') . $activation_url;
+        $body = $mail_template->content;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
-        $stack->subject = $subject;
-        $stack->body = $this->renderPartial('/mail/info',
-            array(
-                'title' => $subject,
-                'message' => $message,
-            ),
-            true);
+        $stack->subject = $mail_template->subject;
+        $stack->body = $body;
 
         if ($stack->save()) return true;
         else return false;
