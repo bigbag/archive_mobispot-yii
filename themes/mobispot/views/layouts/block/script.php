@@ -72,8 +72,11 @@ $(document).ready(function () {
 
 function showRegistrationResponse(responseText) {
     if (responseText == 1) {
-        alert('<?php echo Yii::t("user", "Спасибо за регистрацию на нашем сайте, на указанную вами email была отправлено письмо с инструкцией по активации вашей учётной записи.")?>');
-        $().redirect('/', null, 'GET');
+        $('#messages_modal div.messages').html('<?php echo Yii::t("user", "Спасибо за регистрацию на нашем сайте,<br /> на указанный вами Email была отправлено письмо<br /> с инструкцией по активации вашей учётной записи.")?>');
+        $('#messages_modal').reveal({animation:'none'});
+        setTimeout(function () {
+            $().redirect('/', null, 'GET');
+        }, 3000);
     }
     else {
         var obj = jQuery.parseJSON(responseText);
@@ -184,9 +187,14 @@ $(document).ready(function () {
 
 function showRecoveryResponse(responseText) {
     if (responseText == 1) {
-        $('#recovery').hide();
-        alert('<?php echo Yii::t("user", "По указанному вами адресу отправлено письмо с информацией о востановлении пароля.")?>');
-        $().redirect('/', null, 'GET');
+        $('#recovery_modal').hide();
+        $('#messages_modal div.messages').html('<?php echo Yii::t("user", "По указанному вами адресу отправлено письмо<br/> с информацией о востановлении пароля.")?>');
+        $('#messages_modal').reveal({animation:'none'});
+
+        setTimeout(function () {
+            $().redirect('/', null, 'GET');
+        }, 3000);
+
     }
     else if (responseText == 0) {
         $('#recovery_form span').text('<?php echo Yii::t("user", "Hа сайте не зарегистрирован пользователь с таким Email.")?>');

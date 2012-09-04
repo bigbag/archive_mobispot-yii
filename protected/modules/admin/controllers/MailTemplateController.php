@@ -8,6 +8,10 @@ class MailTemplateController extends Controller
 	 */
     public $layout = '//layouts/admin_column2';
 
+    public function  getTempatePath(){
+        return Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/';
+    }
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -22,8 +26,11 @@ class MailTemplateController extends Controller
 		if(isset($_POST['MailTemplate']))
 		{
 			$model->attributes=$_POST['MailTemplate'];
-			if($model->save())
-				$this->redirect(array('index'));
+            if($model->save()){
+                $file_name = $this->getTempatePath().$model->slug.'.php';
+                file_put_contents($file_name, $model->content);
+                $this->redirect(array('index'));
+            }
 		}
 
 		$this->render('create',array(
@@ -46,8 +53,12 @@ class MailTemplateController extends Controller
 		if(isset($_POST['MailTemplate']))
 		{
 			$model->attributes=$_POST['MailTemplate'];
-			if($model->save())
-				$this->redirect(array('index'));
+			if($model->save()){
+                $file_name = $this->getTempatePath().$model->slug.'.php';
+                file_put_contents($file_name, $model->content);
+                $this->redirect(array('index'));
+            }
+
 		}
 
 		$this->render('update',array(

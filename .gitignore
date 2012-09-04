@@ -21,3 +21,4 @@ nbproject/
 /.idea/
 index.php
 protected/modules/mobile/MobileModule.php
+themes/mobispot/views/mail/

@@ -88,11 +88,12 @@ class ServiceController extends MController
                     $find->activkey = sha1(microtime());
                     $find->status = User::STATUS_ACTIVE;
                     if ($find->save()) {
-                        $this->render('activation',
-                            array(
-                                'title' => Yii::t('user', "Активация пользователя"),
-                                'content' => Yii::t('user', "Вы успешно активировали учётную запись.")
-                            ));
+
+                        $identity = new SUserIdentity($find->email, $find->password);
+                        $identity->authenticate();
+                        $this->lastVisit();
+                        Yii::app()->user->login($identity);
+                        $this->redirect('/');
                     }
                 } else $this->render('activation',
                     array(
@@ -188,6 +189,7 @@ class ServiceController extends MController
                         $password = md5(time());
                         $model->activkey = sha1(microtime() . $password);
                         $model->password = Yii::app()->hasher->hashPassword($password);
+
 
                         $model->type = User::TYPE_USER;
                         $model->status = User::STATUS_NOACTIVE;
