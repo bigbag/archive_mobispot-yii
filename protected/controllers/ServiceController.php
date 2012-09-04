@@ -28,57 +28,64 @@ class ServiceController extends MController
             $authIdentity->cancelUrl = $this->createAbsoluteUrl('site/index');
 
             if ($authIdentity->authenticate()) {
-
-                $identity = new CEAuthUserIdentity($authIdentity);
+                $identity = new EAuthUserIdentity($authIdentity);
 
                 if ($identity->authenticate()) {
 
                     $social_id = $identity->getId();
-                    $service_email = $identity->getState('email', '');
-
                     if (!User::socialCheck($service, $social_id)) {
                         $this->setCookies('service_name', $service);
                         $this->setCookies('service_id', $social_id);
-                        $this->setCookies('service_email', $service_email);
                         $authIdentity->redirectUrl = '/service/social';
                     } else {
-                        $identity = new ServiceUserIdentity($identity);
-
-                        $duration = 0; // 30 days
-                        Yii::app()->user->login($identity, $duration);
-                        $this->lastVisit();
+                        $find = User::model()->findByAttributes(array($service . '_id' => $social_id, 'status' => User::STATUS_ACTIVE));
+                        $identity = new SUserIdentity($find->email, $find->password);
+                        $identity->authenticate();
 
                         if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
                             $authIdentity->redirect(Yii::app()->session['referer']);
                             unset(Yii::app()->session['referer']);
                         } else $authIdentity->redirect();
                     }
-
                     $authIdentity->redirect();
 
                 } else {
                     $authIdentity->cancel();
                 }
             }
-
             $this->redirect(array($authIdentity->cancelUrl));
         } else {
-            $model = new RegistrationForm();
-
+            $model = new RegistrationSocialForm;
             if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
+                if (isset($_POST['RegistrationSocialForm'])) {
+                    $model->attributes = $_POST['RegistrationSocialForm'];
 
-                $email = '';
-                if (!empty(Yii::app()->request->cookies['service_email']->value)) {
-                    $email = Yii::app()->request->cookies['service_email']->value;
+                    if ($model->validate()) {
+                        $password = md5(time());
+                        $model->activkey = sha1(microtime() . $password);
+                        $model->password = Yii::app()->hasher->hashPassword($password);
+                        $model->lastvisit = time();
+
+                        $model->type = User::TYPE_USER;
+                        $model->status = User::STATUS_NOACTIVE;
+
+                        $service = Yii::app()->request->cookies['service_name']->value . '_id';
+                        $model->{$service} = Yii::app()->request->cookies['service_id']->value;
+                        unset(Yii::app()->request->cookies['service_name']);
+                        unset(Yii::app()->request->cookies['service_id']);
+
+                        if ($model->save()) {
+                            MMail::activation($model->email, $model->activkey);
+
+                            if (Yii::app()->request->cookies['social_referer']) {
+                                $this->redirect(Yii::app()->request->cookies['social_referer']);
+                            } else {
+                                $this->redirect('/');
+                            }
+                        }
+                    }
                 }
-
-                $this->render('social', array(
-                        'model' => $model,
-                        'service_name' => Yii::app()->request->cookies['service_name']->value,
-                        'email' => $email,
-                        'password' => time()
-                    )
-                );
+                $this->render('social', array('model' => $model));
 
             } else {
                 if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
