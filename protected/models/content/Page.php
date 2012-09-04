@@ -39,8 +39,8 @@ class Page extends CActiveRecord
 
     public function getLang()
     {
-        $data = Lang::getLang();
-        return  $data[$this->status];
+        $data = Lang::getLangArray();
+        return  $data[$this->lang_id];
     }
 
 

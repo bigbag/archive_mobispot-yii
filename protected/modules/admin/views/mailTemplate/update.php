@@ -14,6 +14,6 @@ $this->menu = array(
 );
 ?>
 
-<h1>Редактировать шаблон "<?php echo $model->title; ?>"</h1>
+<h1>Редактировать шаблон "<?php echo $model->name; ?>"</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

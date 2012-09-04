@@ -24,6 +24,13 @@ class MailTemplate extends CActiveRecord
         return parent::model($className);
     }
 
+    public function getLang()
+    {
+        $data = Lang::getLangArray();
+        return  $data[$this->lang_id];
+    }
+
+
     /**
      * @return string the associated database table name
      */
