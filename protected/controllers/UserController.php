@@ -74,7 +74,7 @@ class UserController extends MController
 
             $tempFile = $_FILES['Filedata']['tmp_name'];
             $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $targetFileName = $spot_id . '_' . $_FILES['Filedata']['name'];
+            $targetFileName = $spot_id . '_' . time() . '_' . $_FILES['Filedata']['name'];
             $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
 
             move_uploaded_file($tempFile, $targetFile);
