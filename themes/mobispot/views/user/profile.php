@@ -132,8 +132,6 @@
     </div>
 </div>
 
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>
-
 <script type="text/javascript">
     $(function () {
         $("#add_photo").uploadify({
@@ -144,7 +142,7 @@
             'formData':{'action':'personal', 'user_id':<?php echo Yii::app()->user->id;?>},
             'removeTimeout':10,
             'multi':false,
-            'buttonClass':'personal_photo',
+            'buttonClass':'uploadify_personal',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onUploadError':function (file, errorCode, errorMsg, errorString) {

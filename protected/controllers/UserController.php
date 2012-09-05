@@ -66,4 +66,20 @@ class UserController extends MController
             ));
         }
     }
+
+    public function actionUploadFile()
+    {
+        if (!empty($_FILES)) {
+            $spot_id = $_POST['spot_id'];
+
+            $tempFile = $_FILES['Filedata']['tmp_name'];
+            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            $targetFileName = $spot_id . '_' . $_FILES['Filedata']['name'];
+            $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+
+            move_uploaded_file($tempFile, $targetFile);
+
+            echo json_encode(array('file' => $targetFileName));
+        }
+    }
 }

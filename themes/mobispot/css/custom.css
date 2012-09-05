@@ -9,13 +9,25 @@ span.error {
     overflow-x: none;
 }
 
-.personal_photo {
+.uploadify_personal {
 
     color: #7d7d7d;
     padding: 0 0 0 5px;
     font-size: 14px;
     line-height: 16px;
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
+    text-align: center;
+    cursor: pointer;
+    behavior: url(ie-css3.htc);
+}
+
+.uploadify_file {
+    color: #7d7d7d;
+    padding: 0;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
     text-align: center;
     behavior: url(ie-css3.htc);
 }
@@ -25,6 +37,15 @@ span.error {
     background-color: #F5F5F5;
     width: 120px;
     height: 28px;
+    margin: 10px 0 20px 8px;
+    float: left
+}
+
+.round-btn-upload {
+    background: url(../images/form/bnt_spot_upload.png);
+    background-color: #F5F5F5;
+    width: 110px;
+    height: 30px;
     margin: 10px 0 20px 8px;
     float: left
 }
