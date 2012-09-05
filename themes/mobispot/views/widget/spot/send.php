@@ -3,11 +3,13 @@
     <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
     <p><?php echo Yii::t('account', 'Отправьте важные файлы тому, кто просканирует Ваш спот. Ему будет <br />
     достаточно ввести свой адрес элетронной почты, и он их незамедлительно получит.<br />
-    Загрузите до 3 разных файлов (общий размер - до 10 Мб), и они будут отправлены тому, кто об этом попросит.<br />');?>
+    Загрузите до 5 разных файлов (общий размер - до 10 Мб), и они будут отправлены тому, кто об этом попросит.<br />');?>
     </p>
     <?php echo CHtml::activeHiddenField($content, 'fayl-1_10', array('id' => 'spot_send_field1_' . $data->discodes_id)); ?>
     <?php echo CHtml::activeHiddenField($content, 'fayl-2_10', array('id' => 'spot_send_field2_' . $data->discodes_id)); ?>
     <?php echo CHtml::activeHiddenField($content, 'fayl-3_10', array('id' => 'spot_send_field3_' . $data->discodes_id)); ?>
+    <?php echo CHtml::activeHiddenField($content, 'fayl-4_10', array('id' => 'spot_send_field4_' . $data->discodes_id)); ?>
+    <?php echo CHtml::activeHiddenField($content, 'fayl-5_10', array('id' => 'spot_send_field5_' . $data->discodes_id)); ?>
 
     <div class="round-btn-upload">
         <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
@@ -26,7 +28,7 @@
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'removeTimeout':10,
             'multi':true,
-            'uploadLimit':3,
+            'uploadLimit':5,
             'buttonClass':'uploadify_file',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
