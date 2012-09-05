@@ -1,4 +1,4 @@
-4*.log
+*.log
 *.bin
 *.settings
 *.ai
@@ -10,6 +10,7 @@ protected/config/params.php
 protected/config/db.php
 protected/config/rc.php
 protected/config/eauth.php
+protected/config/routes.php
 protected/runtime/*
 uploads/
 *.ykomodoproject
@@ -20,5 +21,5 @@ uploads/
 nbproject/
 /.idea/
 index.php
-protected/modules/mobile/MobileModule.php
 themes/mobispot/views/mail/
+protected/modules/mobile/MobileModule.php
