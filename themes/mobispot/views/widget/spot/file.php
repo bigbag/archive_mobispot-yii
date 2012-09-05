@@ -18,6 +18,7 @@
             'width':'110',
             'height':'30',
             swf:'/themes/mobispot/js/uploadify.swf',
+            'fileTypeExts' : '*.pdf; *.gif; *.jpg; *.png',
             uploader:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'removeTimeout':10,

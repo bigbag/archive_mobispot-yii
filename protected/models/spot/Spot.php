@@ -144,9 +144,10 @@ class Spot extends CActiveRecord
 
     public function beforeValidate()
     {
+        $this->url = abs(crc32($this->code));
         if ($this->isNewRecord) {
             $this->generated_date = new CDbExpression('NOW()');
-            if (!$this->url) $this->url = sha1($this->code.$this->generated_date);
+            if (!$this->url) $this->url = abs(crc32($this->code));
             $this->status == self::STATUS_GENERATED;
         }
 

@@ -8,10 +8,12 @@
     </div>
     <div id="errors"></div>
     <?php echo $content; ?>
-</div>
-<div class="center-rel">
     <?php include('block/footer.php');?>
 </div>
+
+<script>
+    jQuery('input[placeholder], textarea[placeholder]').placeholder();
+</script>
 </body>
 </html>
 

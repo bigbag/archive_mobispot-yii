@@ -14,6 +14,8 @@ return array(
     'admin' => array(
         'defaultController' => 'settings',
     ),
-    'mobile',
+    'mobile' => array(
+        'defaultController' => 'user',
+    ),
 
 );
