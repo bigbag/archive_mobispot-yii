@@ -338,9 +338,10 @@ function showSpotEditResponse(responseText) {
         if (obj.discodes_id) {
             var id = obj.discodes_id;
             if (id) {
-                $('span#message_' + id).html('<?php echo Yii::t('account', 'Изменения успешно сохранены.')?>');
+                $('span#message_' + id).text('<?php echo Yii::t('account', 'Изменения успешно сохранены.')?>');
+                $('span#message_' + id).show();
                 setTimeout(function () {
-                    $('span#message_' + id).fadeOut('fast')
+                    $('span#message_' + id).hide();
                 }, 3000);
             }
 

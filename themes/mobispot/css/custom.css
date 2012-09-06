@@ -50,44 +50,6 @@ span.error {
     float: left
 }
 
-.uploadify-queue {
-    background-color: #F5F5F5;
-    margin-bottom: 1em;
-}
-
-.uploadify-queue-item {
-    background-color: #F5F5F5;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    font: 11px Verdana, Geneva, sans-serif;
-    margin-top: 5px;
-    max-width: 350px;
-    padding: 10px;
-}
-
-.uploadify-error {
-    background-color: #FDE5DD !important;
-}
-
-.uploadify-queue-item .cancel a {
-    background: url('../images/uploadify-cancel.png') 0 0 no-repeat;
-    float: right;
-    height: 16px;
-    text-indent: -1009px;
-    width: 16px;
-}
-
-.uploadify-queue-item.completed {
-    background-color: #E5E5E5;
-}
-
-.uploadify-progress {
-    background-color: #E5E5E5;
-    margin-top: 10px;
-    width: 100%;
-}
-
 #sel-lang {
     position: absolute;
     top: 14px;
@@ -401,4 +363,23 @@ a.next_page {
 }
 .selectBox {
     overflow-x: hidden;
+}
+
+.result_upload{
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+.result_upload span.cancel {
+    background: url(../images/cancel_red.png) no-repeat;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    left: 100%;
+    top: -5px;
+    padding: 0;
+    float: left
 }

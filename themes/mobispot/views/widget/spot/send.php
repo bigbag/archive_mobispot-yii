@@ -11,10 +11,19 @@
     <?php echo CHtml::activeHiddenField($content, 'fayl-4_10', array('id' => 'spot_send_field4_' . $data->discodes_id)); ?>
     <?php echo CHtml::activeHiddenField($content, 'fayl-5_10', array('id' => 'spot_send_field5_' . $data->discodes_id)); ?>
 
-    <div class="round-btn-upload">
-        <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
-               value="<?php echo Yii::t('account', 'Загрузить');?>"/>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <div class="round-btn-upload">
+                    <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
+                           value="<?php echo Yii::t('account', 'Загрузить');?>"/>
+                </div>
+            </td>
+            <td>
+                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>"></div>
+            </td>
+        </tr>
+    </table>
 </form>
 
 <script type="text/javascript">
@@ -27,14 +36,14 @@
             uploader:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'fileSizeLimit' : '10MB',
-            'removeTimeout':10,
             'multi':true,
             'uploadLimit':5,
             'buttonClass':'uploadify_file',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onUploadError':function (file, errorCode, errorMsg, errorString) {
-                alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                $('#messages_modal').reveal({animation:'none'});
             },
             'onUploadSuccess':function (file, data, response) {
                 var obj = jQuery.parseJSON(data);
@@ -43,6 +52,7 @@
                 if (error) alert(error);
                 if (file_name) {
                     $('#spot_send_field' + i + '_<?php echo $data->discodes_id; ?>').val(file_name);
+                    $('#result_<?php echo $data->discodes_id; ?>').html(file.name + '<span class="cancel"></div>');
                     i = i + 1;
                 }
             }
