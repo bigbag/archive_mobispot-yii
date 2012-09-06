@@ -134,21 +134,22 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#add_photo").uploadify({
+        $("#add_photo").uploadifive({
             'width':'120',
             'height':'28',
             swf:'/themes/mobispot/js/uploadify.swf',
-            uploader:'/site/upload/',
+            uploadScript:'/site/upload/',
             'formData':{'action':'personal', 'user_id':<?php echo Yii::app()->user->id;?>},
             'removeTimeout':10,
             'multi':false,
             'buttonClass':'uploadify_personal',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-            'onUploadError':function (file, errorCode, errorMsg, errorString) {
-                alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            'onError':function (file, errorCode, errorMsg, errorString) {
+                $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                $('#messages_modal').reveal({animation:'none'});
             },
-            'onUploadSuccess':function (file, data, response) {
+            'onUploadComplete':function (file, data, response) {
                 var obj = jQuery.parseJSON(data);
                 var file_name = obj.file;
                 var error = obj.error;

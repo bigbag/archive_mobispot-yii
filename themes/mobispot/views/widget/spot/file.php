@@ -15,7 +15,12 @@
                 </div>
             </td>
             <td>
-                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>"></div>
+                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>">
+                    <?php if (!empty($content->fayl_6)): ?>
+                        <?php $file_name = explode('_', $content->fayl_6)?>
+                        <?php echo $file_name[2];?><span class="cancel"></span>
+                    <?php endif; ?>
+                </div>
             </td>
         </tr>
     </table>
@@ -27,30 +32,29 @@
         });
 
         $(function () {
-            $("#add_file_<?php echo($data->discodes_id)?>").uploadify({
+            $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
                 'width':'110',
                 'height':'30',
-                swf:'/themes/mobispot/js/uploadify.swf',
                 'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
-                uploader:'/user/uploadFile/',
+                uploadScript:'/user/uploadFile/',
                 'formData':{'spot_id':<?php echo($data->discodes_id)?>},
                 'fileSizeLimit' : '10MB',
                 'multi':false,
                 'buttonClass':'uploadify_file',
                 'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-                'onUploadError':function (file, errorCode, errorMsg, errorString) {
+                'onError':function (file, errorCode, errorMsg, errorString) {
                     $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
                     $('#messages_modal').reveal({animation:'none'});
                 },
-                'onUploadSuccess':function (file, data, response) {
+                'onUploadComplete':function (file, data, response) {
                     var obj = jQuery.parseJSON(data);
                     var file_name = obj.file;
                     var error = obj.error;
                     if (error) alert(error);
                     if (file_name) {
                         $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
-                        $('#result_<?php echo $data->discodes_id; ?>').html(file.name + '<span class="cancel"></div>');
+                        $('#result_<?php echo $data->discodes_id; ?>').html(file.name + '<span class="cancel"></span>');
                     }
                 }
             });

@@ -20,7 +20,8 @@
                 </div>
             </td>
             <td>
-                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>"></div>
+                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>">
+                </div>
             </td>
         </tr>
     </table>
@@ -29,11 +30,16 @@
 <script type="text/javascript">
     $(function () {
         var i = 1;
-        $("#add_file_<?php echo($data->discodes_id)?>").uploadify({
+
+        $('body').delegate('#result_<?php echo $data->discodes_id; ?> span.cancel', 'click', function () {
+            $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
+            $('#result_<?php echo $data->discodes_id; ?>').empty();
+        });
+
+        $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
             'width':'110',
             'height':'30',
-            swf:'/themes/mobispot/js/uploadify.swf',
-            uploader:'/user/uploadFile/',
+            uploadScript:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'fileSizeLimit' : '10MB',
             'multi':true,
@@ -41,11 +47,11 @@
             'buttonClass':'uploadify_file',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-            'onUploadError':function (file, errorCode, errorMsg, errorString) {
+            'onError':function (file, errorCode, errorMsg, errorString) {
                 $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 $('#messages_modal').reveal({animation:'none'});
             },
-            'onUploadSuccess':function (file, data, response) {
+            'onUploadComplete':function (file, data, response) {
                 var obj = jQuery.parseJSON(data);
                 var file_name = obj.file;
                 var error = obj.error;
