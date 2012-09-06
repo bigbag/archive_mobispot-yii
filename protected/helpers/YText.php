@@ -338,4 +338,12 @@ class YText
 
         return $str;
     }
+
+    public function formatUrl($value)
+    {
+        $url = $value;
+        if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0 && strpos($url, 'ftp://') !== 0)
+            $url = 'http://' . $url;
+        return $url;
+    }
 }

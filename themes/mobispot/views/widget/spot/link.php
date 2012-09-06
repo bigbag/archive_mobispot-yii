@@ -11,7 +11,7 @@
             <td>
                 <div class="txt-form">
                     <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField($content, '5_nazvanie', array('class' => 'text')); ?>
+                        <?php echo CHtml::activeTextField($content, 'nazvanie_5', array('class' => 'text')); ?>
                     </div>
                 </div>
             </td>
@@ -21,7 +21,7 @@
             <td>
                 <div class="txt-form">
                     <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField($content, '5_adres', array('class' => 'text')); ?>
+                        <?php echo CHtml::activeTextField($content, 'adres_5', array('class' => 'text')); ?>
                     </div>
                 </div>
             </td>

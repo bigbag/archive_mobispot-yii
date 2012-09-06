@@ -15,9 +15,11 @@ class SpotController extends MController
 
                 if ($spot->spot_type->pattern == 'file') {
                     $url = Yii::app()->request->getBaseUrl(true) . '/uploads/spot/' . $content->fayl_6;
-
                     header("Location: " . $url);
-                } else {
+                } elseif ($spot->spot_type->pattern == 'link') {
+                    header("Location: " . YText::formatUrl($content->adres_5));
+                }
+                else {
 
                     $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                         array(
@@ -30,7 +32,6 @@ class SpotController extends MController
                         'spot' => $spot,
                         'content' => $content,
                     ));
-
                 }
             } else
                 throw new CHttpException(404, 'The requested page does not exist.');

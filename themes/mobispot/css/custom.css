@@ -17,6 +17,7 @@ span.error {
     line-height: 16px;
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
     text-align: center;
+    cursor: pointer;
     behavior: url(ie-css3.htc);
 }
 
