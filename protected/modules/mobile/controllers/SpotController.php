@@ -8,7 +8,7 @@ class SpotController extends MController
     {
         if (Yii::app()->request->getQuery('url', 0)) {
             $url = Yii::app()->request->getQuery('url', 0);
-            $spot = Spot::model()->findByAttributes(array('url' => $url));
+            $spot = Spot::model()->used()->findByAttributes(array('url' => $url));
             if ($spot) {
                 $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
                 $txt = '';
