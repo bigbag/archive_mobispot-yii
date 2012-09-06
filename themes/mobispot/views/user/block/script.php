@@ -207,10 +207,15 @@ function showSpotRetypeResponse(responseText) {
 
         if (obj.spot_type) {
             var spot_type = obj.spot_type;
+            var spot_type_id = obj.spot_type_id;
             var id = obj.discodes_id;
+            
+            $("#Spot_spot_type_id [value='" + spot_type_id + "']").attr("selected", "selected");
+            $("#Spot_spot_type_id select").selectBox('destroy');
+            $("#Spot_spot_type_id select").selectBox('create');
 
-            $('#type_' + id + ' div.type').html(spot_type);
             $('#type_' + id + ' div.retype').hide();
+            $('#type_' + id + ' div.type').html(spot_type);
             $('#type_' + id + ' div.type').show();
             $('.noView').show();
         }

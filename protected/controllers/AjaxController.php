@@ -189,7 +189,12 @@ class AjaxController extends MController
                 $spot->spot_type_id = $spot_type_id;
                 if ($spot->save()) {
                     $all_type = SpotType::getSpotTypeArray();
-                    echo json_encode(array('discodes_id' => $spot->discodes_id, 'spot_type' => $all_type[$spot_type_id]));
+                    echo json_encode(
+                        array(
+                            'discodes_id' => $spot->discodes_id,
+                            'spot_type' => $all_type[$spot_type_id],
+                            'spot_type_id' => $spot_type_id,
+                        ));
                 }
             }
         }
