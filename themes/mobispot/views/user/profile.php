@@ -105,18 +105,6 @@
 
                         </td>
                     </tr>
-                    <tr>
-                        <td class="field"><?php echo Yii::t('profile', 'Пароль');?></td>
-                        <td>
-                            <div class="txt-form">
-                                <div class="txt-form-cl">
-                                    <input type="text" style="width:100%;" class="txt"
-                                           name="password" value="" placeholder=""/>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
                 </table>
             </div>
             <div class="clear"></div>

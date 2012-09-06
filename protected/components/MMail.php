@@ -10,7 +10,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->lang_id.'_'.$mail_template->slug,
+        $stack->body = $stack->body = $this->renderPartial('/mail/' . $mail_template->lang_id . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -29,7 +29,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('/mail/'.$mail_template->lang_id.'_'.$mail_template->slug,
+        $stack->body = $stack->body = $this->renderPartial('/mail/' . $mail_template->lang_id . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -38,5 +38,28 @@ Class MMail
         if ($stack->save()) return true;
         else return false;
     }
+
+    public function spot_feedback($email, $data)
+    {
+        $mail_template = MailTemplate::getTemplate('spot_feedback');
+
+        $stack = new MailStack;
+        $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->to = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = $stack->body = $this->renderPartial('//mail/' . $mail_template->lang_id . '_' . $mail_template->slug,
+            array(
+                'spot_name' => (isset($data['spot_name'])) ? $data['name'] : '',
+                'name' => (isset($data['name'])) ? $data['name'] : '',
+                'email' => (isset($data['email'])) ? $data['email'] : '',
+                'phone' => (isset($data['phone'])) ? $data['phone'] : '',
+                'comment' => (isset($data['comment'])) ? $data['comment'] : '',
+            ),
+            true);
+
+        if ($stack->save()) return true;
+        else return false;
+    }
+
 
 }

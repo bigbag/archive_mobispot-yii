@@ -20,7 +20,6 @@ class UserController extends MController
             } else $profile->photo = Yii::app()->cache->get('personal_photo_' . $user_id);
 
             if (isset($_POST['UserProfile'])) {
-                if (isset($_POST['password']) and Yii::app()->hasher->checkPassword($_POST['password'], $user->password)) {
                     $profile->attributes = $_POST['UserProfile'];
                     $sex = $profile->sex;
                     if (isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
@@ -29,9 +28,6 @@ class UserController extends MController
                         Yii::app()->cache->delete('personal_photo_' . $user_id);
                         $this->refresh();
                     }
-                } else {
-                    Yii::app()->user->setFlash('profile', Yii::t('profile', "Для изменения профиля вы должны вести свой пароль."));
-                }
             }
             $this->render('profile', array(
                 'profile' => $profile,
