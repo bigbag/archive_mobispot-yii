@@ -44,9 +44,7 @@ class SpotController extends MController
                                     $params['comment'] = $feedback->comment;
                                     MMail::spot_feedback($spot->user->email, $params);
 
-                                    $this->render('success', array(
-
-                                    ));
+                                    $this->redirect(array('/spot/success'));
                                 }
 
                             }
@@ -83,5 +81,12 @@ class SpotController extends MController
             } else
                 throw new CHttpException(404, 'The requested page does not exist.');
         } else throw new CHttpException(404, 'The requested page does not exist.');
+    }
+
+    public function actionSuccess()
+    {
+        $this->render('success', array(
+
+        ));
     }
 }
