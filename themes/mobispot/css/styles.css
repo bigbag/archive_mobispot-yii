@@ -828,11 +828,7 @@ textarea.txtarea:focus {
 .photo-cont {
     float: left;
     border-top: 1px #fbfbfb solid;
-    background: #dadada;
     width: 136px;
-    -moz-box-shadow: inset 1px 1px 3px rgba(150, 150, 150, 0.5);
-    -webkit-box-shadow: inset 1px 1px 3px rgba(150, 150, 150, 0.5);
-    box-shadow: inset 1px 1px 3px rgba(150, 150, 150, 0.5);
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
