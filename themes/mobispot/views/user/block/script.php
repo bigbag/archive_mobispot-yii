@@ -150,6 +150,10 @@ $(document).ready(function () {
 function showSpotAddResponse(responseText) {
     if (responseText) {
         $('#spotslistview').prepend(responseText);
+        jQuery(".niceCheck").each(
+            function () {
+                changeCheckStart(jQuery(this));
+            });
         $('.close-reveal-modal').click();
     }
 }
@@ -209,7 +213,7 @@ function showSpotRetypeResponse(responseText) {
             var spot_type = obj.spot_type;
             var spot_type_id = obj.spot_type_id;
             var id = obj.discodes_id;
-            
+
             $("#Spot_spot_type_id [value='" + spot_type_id + "']").attr("selected", "selected");
             $("#Spot_spot_type_id select").selectBox('destroy');
             $("#Spot_spot_type_id select").selectBox('create');
@@ -333,7 +337,6 @@ $(document).ready(function () {
         $(this).ajaxSubmit(options);
         return false;
     });
-
 });
 
 function showSpotEditResponse(responseText) {
