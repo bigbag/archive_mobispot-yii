@@ -15,7 +15,7 @@
                 </div>
             </td>
             <td>
-                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>">
+                <div class="result_upload">
                     <?php if (!empty($content->fayl_6)): ?>
                         <?php $file_name = explode('_', $content->fayl_6)?>
                         <?php echo $file_name[2];?><span class="cancel"></span>
@@ -26,9 +26,9 @@
     </table>
 
     <script type="text/javascript">
-        $('body').delegate('#result_<?php echo $data->discodes_id; ?> span.cancel', 'click', function () {
+        $('body').delegate('.result_upload span.cancel', 'click', function () {
             $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
-            $('#result_<?php echo $data->discodes_id; ?>').empty();
+            $('.result_upload').empty();
         });
 
         $(function () {
@@ -43,8 +43,8 @@
                 'buttonClass':'uploadify_file',
                 'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-                'onError':function (file, errorCode, errorMsg, errorString) {
-                    $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                'onError':function (errorType) {
+                    $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
                     $('#messages_modal').reveal({animation:'none'});
                 },
                 'onUploadComplete':function (file, data, response) {
@@ -54,7 +54,7 @@
                     if (error) alert(error);
                     if (file_name) {
                         $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
-                        $('#result_<?php echo $data->discodes_id; ?>').html(file.name + '<span class="cancel"></span>');
+                        $('.result_upload').html(file.name + '<span class="cancel"></span>');
                     }
                 }
             });

@@ -133,8 +133,8 @@
             'buttonClass':'uploadify_personal',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-            'onError':function (file, errorCode, errorMsg, errorString) {
-                $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            'onError':function (errorType) {
+                $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
                 $('#messages_modal').reveal({animation:'none'});
             },
             'onUploadComplete':function (file, data, response) {

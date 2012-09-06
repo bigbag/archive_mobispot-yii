@@ -10,7 +10,6 @@
     <?php echo CHtml::activeHiddenField($content, 'fayl-3_10', array('id' => 'spot_send_field3_' . $data->discodes_id)); ?>
     <?php echo CHtml::activeHiddenField($content, 'fayl-4_10', array('id' => 'spot_send_field4_' . $data->discodes_id)); ?>
     <?php echo CHtml::activeHiddenField($content, 'fayl-5_10', array('id' => 'spot_send_field5_' . $data->discodes_id)); ?>
-
     <table>
         <tr>
             <td>
@@ -20,7 +19,7 @@
                 </div>
             </td>
             <td>
-                <div class="result_upload" id="result_<?php echo $data->discodes_id;?>">
+                <div class="result">
                 </div>
             </td>
         </tr>
@@ -31,9 +30,12 @@
     $(function () {
         var i = 1;
 
-        $('body').delegate('#result_<?php echo $data->discodes_id; ?> span.cancel', 'click', function () {
-            $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
-            $('#result_<?php echo $data->discodes_id; ?>').empty();
+        $('body').delegate('.result_upload span.cancel', 'click', function () {
+            var id = this.id;
+            if (id){
+                $('#spot_send_field' + id + '_<?php echo $data->discodes_id; ?>').val('');
+                $('#file_' + id).empty();
+            }
         });
 
         $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
@@ -47,8 +49,8 @@
             'buttonClass':'uploadify_file',
             'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
 
-            'onError':function (file, errorCode, errorMsg, errorString) {
-                $('#messages_modal div.messages').html('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            'onError':function (errorType) {
+                $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
                 $('#messages_modal').reveal({animation:'none'});
             },
             'onUploadComplete':function (file, data, response) {
@@ -58,7 +60,7 @@
                 if (error) alert(error);
                 if (file_name) {
                     $('#spot_send_field' + i + '_<?php echo $data->discodes_id; ?>').val(file_name);
-                    $('#result_<?php echo $data->discodes_id; ?>').html(file.name + '<span class="cancel"></div>');
+                    $('.result').prepend('<div class="result_upload" id="file_' + i + '">' + file.name + '<span class="cancel" id="' + i +'"></span></div>');
                     i = i + 1;
                 }
             }
