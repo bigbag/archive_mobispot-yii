@@ -83,9 +83,9 @@
 
         <div id="bottom-menu">
             <ul>
-                <li><a href="" id="but1"></a></li>
-                <li><a href="" id="but2"></a></li>
-                <li><a href="" id="but3"></a></li>
+                <li><a href="" id="but1"><img src="/uploads/blocks/ban1.png" alt="" width="271" height="82"/></a></li>
+                <li><a href="" id="but2"><img src="/uploads/blocks/ban2.png" alt="" width="271" height="82"/></a></li>
+                <li><a href="" id="but3"><img src="/uploads/blocks/ban3.png" alt="" width="271" height="82"/></a></li>
             </ul>
         </div>
         <div class="clear"></div>

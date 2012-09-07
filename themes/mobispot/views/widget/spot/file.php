@@ -23,7 +23,7 @@
                 <tr>
                     <td>
                         <div class="round-btn-upload">
-                            <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
+                            <input type="submit" class="add_file"
                                    value="<?php echo Yii::t('account', 'Загрузить');?>"/>
                         </div>
                     </td>
@@ -37,8 +37,6 @@
                     </td>
                 </tr>
             </table>
-
-
         </form>
     </div>
     <div class="clear"></div>
@@ -50,7 +48,7 @@
             });
 
             $(function () {
-                $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
+                $(".add_file").uploadifive({
                     'width':'110',
                     'height':'30',
                     'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',

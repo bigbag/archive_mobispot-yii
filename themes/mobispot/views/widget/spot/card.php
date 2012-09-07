@@ -73,11 +73,25 @@
                 </tr>
                 <tr>
                     <td>
-                        <?php echo CHtml::activeHiddenField($content, 'aktsiya-kartinka_8', array('id' => 'spot_card_field_' . $data->discodes_id)); ?>
-                        <div class="round-btn-upload">
-                            <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
-                                   value="<?php echo Yii::t('account', 'Загрузить');?>"/>
-                        </div>
+                        <?php echo CHtml::activeHiddenField($content, 'kartinka_8[]', array('id' => 'spot_card_field_' . $data->discodes_id)); ?>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="round-btn-upload">
+                                        <input type="submit" class="add_file"
+                                               value="<?php echo Yii::t('account', 'Загрузить');?>"/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="result_upload">
+                                        <?php if (!empty($content->kartinka_8)): ?>
+                                        <?php $file_name = explode('_', $content->fayl_6) ?>
+                                        <?php echo $file_name[2]; ?><span class="cancel"></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
                 <tr>
@@ -168,7 +182,9 @@
 
     <script type="text/javascript">
         $(function () {
-            $('a.copy').relCopy();
+            $('a.copy').relCopy({
+                'clearInputs': true
+            });
         });
 
 
@@ -178,7 +194,8 @@
         });
 
         $(function () {
-            $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
+            var i = 1;
+            $(".add_file").uploadifive({
                 'width':'110',
                 'height':'30',
                 'fileTypeExts':'*.gif; *.jpg; *.png',
@@ -200,7 +217,7 @@
                     if (error) alert(error);
                     if (file_name) {
                         $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
-                        $('.result_upload').html(file.name + '<span class="cancel"></span>');
+                        $('.result_upload_'+ i).html(file.name + '<span class="cancel"></span>');
                     }
                 }
             });

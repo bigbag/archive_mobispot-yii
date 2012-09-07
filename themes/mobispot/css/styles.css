@@ -439,25 +439,6 @@ div#header {
     float: left
 }
 
-#bottom-menu a {
-    background: url(../images/bottom-menu.png) 0 0 no-repeat;
-    display: block;
-    width: 271px;
-    height: 65px
-}
-
-#bottom-menu a#but1 {
-    background-position: 0 0;
-}
-
-#bottom-menu a#but2 {
-    background-position: -271px 0;
-}
-
-#bottom-menu a#but3 {
-    background-position: -542px 0;
-}
-
 /* ---Main--- */
 
 /* +++Form+++ */
