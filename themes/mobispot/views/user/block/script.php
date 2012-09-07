@@ -37,8 +37,6 @@ $(document).ready(function () {
     $("select").change(function () {
         var action = $(this).val();
         var id = $('input:checked').val() ? $('input:checked').val() : false;
-        alert(id);
-
 
         if (id) {
             var status = $('#status_' + id + ' input').val() ? $('#status_' + id + ' input').val() : false;
