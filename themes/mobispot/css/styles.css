@@ -439,6 +439,19 @@ div#header {
     float: left
 }
 
+
+#bottom-menu li {
+    margin: 0 24px;
+    float: left
+}
+
+#bottom-menu img {
+    border: none;
+    -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    behavior: url(ie-css3.htc)
+}
 /* ---Main--- */
 
 /* +++Form+++ */
