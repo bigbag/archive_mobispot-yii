@@ -27,8 +27,8 @@
     </div>
 
     <div class="row">
-        <?php echo $form->label($model, 'nfc'); ?>
-        <?php echo $form->textField($model, 'nfc', array('size' => 32, 'maxlength' => 32)); ?>
+        <?php echo $form->label($model, 'barcode'); ?>
+        <?php echo $form->textField($model, 'barcode', array('size' => 32, 'maxlength' => 32)); ?>
     </div>
 
     <div class="row">

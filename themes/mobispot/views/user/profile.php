@@ -120,6 +120,7 @@
     </div>
 </div>
 
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <script type="text/javascript">
     $(function () {
         $("#add_photo").uploadifive({

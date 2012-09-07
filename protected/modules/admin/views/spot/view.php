@@ -11,10 +11,6 @@ if ($model->status == Spot::STATUS_GENERATED) {
     array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->discodes_id)));
 }
 
-if (!$model->nfc) {
-    array_push($menu, array('label' => 'Сгенерировать NFC', 'url' => array('nfc', 'id' => $model->discodes_id)));
-}
-
 array_push($menu, array('label' => 'Редактировать спот', 'url' => array('update', 'id' => $model->discodes_id)));
 
 if ($model->status == Spot::STATUS_ACTIVATED or $model->status == Spot::STATUS_GENERATED) {

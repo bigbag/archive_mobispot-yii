@@ -65,3 +65,5 @@
 <?php include('modal/spot_invisible.php') ?>
 <?php include('modal/spot_remove.php') ?>
 <?php include('modal/spot_add.php') ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>

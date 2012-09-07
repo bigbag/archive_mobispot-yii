@@ -201,7 +201,7 @@ class Spot extends CActiveRecord
             'user_id' => 'Пользователь',
             'spot_hard_type_id' => 'Тип исполнения',
             'spot_hard' => 'Заводской номер',
-            'barcode' => 'NFC',
+            'barcode' => 'BarCod',
             'status' => 'Статус',
             'premium' => 'Премиум',
             'generated_date' => 'Дата генерации',

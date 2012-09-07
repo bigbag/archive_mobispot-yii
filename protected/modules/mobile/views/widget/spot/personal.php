@@ -1,126 +1,29 @@
-<form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
-    <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
-    <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
-    <div class="yourPhoto">
-        <div class="photo-cont">
-        </div>
-        <div class="round-btn">
-            <div class="round-btn-cl">
-                <input type="submit" class="" value="<?php echo Yii::t('account', 'Загрузить');?>"/>
-            </div>
-        </div>
-        <a href=""><?php echo Yii::t('account', 'Показать все');?></a>
+<div id="main-container">
+    <div>
+        <img src="images/temp/photo-mob-vers.jpg" id="userPhoto" />
     </div>
-    <div class="yourName">
-        <div class="txt-form">
-            <div class="txt-form-cl">
-                <?php echo CHtml::activeTextField($content, 'imya_3', array('placeholder' => 'Your Name', 'class' => 'text')); ?>
-            </div>
-        </div>
+    <a class="btn-round rad12 shadow">Сохранить визитку</a>
+    <br />
+    <div class="whitePlash rad12">
+        Булат Шайдуллин
     </div>
-
-    <div class="oneBlockSpotInfo">
-        <div class="top-border ">
-            <?php echo Yii::t('account', 'Контактные данные');?>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="tel-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'telefon_3', array('placeholder' => 'Your Phone', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="mail-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'email_3', array('placeholder' => 'example@example.com', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="skype-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'skype_3', array('placeholder' => 'bulletgfx', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
-        </div>
+    <div class="whitePlash rad12 frightBlock">
+        КФУ, Казань
     </div>
-    <div class="oneBlockSpotInfo">
-        <div class="top-border ">
-            <?php echo Yii::t('account', 'Социальные сети');?>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="fb-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'facebook_3', array('placeholder' => 'www.facebook.com/example', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="tw-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'twitter_3', array('placeholder' => 'www.twitter.com/example', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="vk-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'vk_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <span class="in-ico"></span>
-                    <?php echo CHtml::activeTextField($content, 'linkedin_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
-                </div>
-            </div>
-            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
-        </div>
+    <div id="userContact" class="clr">
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-phone"></span>+79376166766</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-mail"></span>bulletgfx@ya.ru</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-skype"></span>bulletgfx</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-fb"></span>bulat. shaydullin.14</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-tw"></span>nobulletpl</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-in"></span>bulletgfx</span></a>
+        <a href="" class="btn-dig rad6 shadow"><span class="small-txt"><span class="ico ico-med"></span>Allergic to cats, apples and hipsters</span></a>
     </div>
-    <div class="clear"></div>
-    <div class="oneBlockSpotInfo" style="width:431px;margin:0">
-        <div class="top-border ">
-            <table class="oneBlockSpotInfoTbl" cellspacing="0">
-                <tr>
-                    <td class="field"><?php echo Yii::t('account', 'Учебное заведение');?></td>
-                    <td>
-                        <div class="txt-form">
-                            <div class="txt-form-cl">
-                                <?php echo CHtml::activeTextField($content, 'uchebnoe-zavedenie_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="field"><?php echo Yii::t('account', 'Город');?></td>
-                    <td>
-                        <div class="txt-form">
-                            <div class="txt-form-cl">
-                                <?php echo CHtml::activeTextField($content, 'gorod_3', array('placeholder' => 'www.link', 'class' => 'text')); ?>
-                                <input type="text" class="txt" name="inputtext" value="" placeholder=" "/>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-
-            <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
-        </div>
+    <div class="grayAllBlock rad6 shadow">
+        <div class="grayHead radTop6">Оставить комментарий</div>
+        <form>
+            <textarea class="txt-100p txtArea rad6" ></textarea>
+            <input type="submit" class="btn-round fright rad12 shadow" value="Отправить" />
+        </form>
     </div>
-    <div class="oneBlockSpotInfo">
-        <div class="top-border ">
-            <?php echo Yii::t('account', 'Язык отображения спота');?>
-            <select>
-                <option><?php echo Yii::t('account', 'Русский');?></option>
-                <option><?php echo Yii::t('account', 'Английский');?></option>
-            </select>
-            <table class="oneBlockSpotInfoTbl">
-                <tr>
-                    <td><?php echo Yii::t('account', 'Разрешить комментарии к споту');?></td>
-                    <td><input type="checkbox" class="niceCheck"></td>
-                </tr>
-                <tr>
-                    <td><?php echo Yii::t('account', 'Разрешить скачивать визитку');?></td>
-                    <td><input type="checkbox" class="niceCheck"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</form>
-
+</div>

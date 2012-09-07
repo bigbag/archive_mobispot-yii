@@ -45,12 +45,12 @@
         </tr>
         <tr class="odd">
             <th><?php echo $form->labelEx($model, 'spot_hard'); ?></th>
-            <td><?php echo $form->textField($model, 'spot_hard', array('size' => 32, 'maxlength' => 32)); ?></td>
+            <td><?php echo $model->spot_hard ?></td>
         </tr>
         <tr class="even">
             <th>
-                <?php echo $form->label($model, 'nfc'); ?></th>
-            <td><?php echo $model->nfc ?></td>
+                <?php echo $form->label($model, 'barcode'); ?></th>
+            <td><?php echo $model->barcode ?></td>
         </tr>
         <tr class="odd">
             <th>
