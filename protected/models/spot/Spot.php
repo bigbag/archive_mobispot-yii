@@ -12,7 +12,7 @@
  * @property integer $user_id
  * @property integer $spot_hard_type_id
  * @property string $spot_hard
- * @property string $nfc
+ * @property string $barcode
  * @property integer $premium
  * @property integer $status
  * @property string $generated_date
@@ -121,9 +121,9 @@ class Spot extends CActiveRecord
             array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
-            array('spot_hard, nfc', 'length', 'max' => 32),
+            array('spot_hard, barcode', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, nfc, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -201,7 +201,7 @@ class Spot extends CActiveRecord
             'user_id' => 'Пользователь',
             'spot_hard_type_id' => 'Тип исполнения',
             'spot_hard' => 'Заводской номер',
-            'nfc' => 'NFC',
+            'barcode' => 'NFC',
             'status' => 'Статус',
             'premium' => 'Премиум',
             'generated_date' => 'Дата генерации',
@@ -250,7 +250,7 @@ class Spot extends CActiveRecord
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
         $criteria->compare('spot_hard', $this->spot_hard, true);
-        $criteria->compare('nfc', $this->nfc, true);
+        $criteria->compare('barcode', $this->barcode, true);
         $criteria->compare('premium', $this->premium);
         $criteria->compare('status', $this->status);
         $criteria->compare('generated_date', $this->generated_date, true);
