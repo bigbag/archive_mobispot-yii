@@ -13,52 +13,47 @@
                 <?php endif; ?>
                 <?php echo CHtml::errorSummary($feedback); ?>
                 <table class="proc100">
-                    <?php if ($content->imya_9): ?>
                     <tr>
                         <td>
-
                             <?php echo CHtml::activeTextField($feedback, 'name',
                             array(
                                 'placeholder' => Yii::t('mobile', 'Имя'),
-                                'class' => 'txt-100p rad6'
+                                'class' => 'txt-100p rad6',
+                                'style' => 'display:' . (($content->imya_9 == 1) ? 'block' : 'none'),
                             )); ?>
                         </td>
                     </tr>
-                    <?php endif; ?>
-                    <?php if ($content->telefon_9): ?>
                     <tr>
                         <td>
                             <?php echo CHtml::activeTextField($feedback, 'phone',
                             array(
                                 'placeholder' => Yii::t('mobile', 'Телефон'),
-                                'class' => 'txt-100p rad6'
+                                'class' => 'txt-100p rad6',
+                                'style' => 'display:' . (($content->telefon_9 == 1) ? 'block' : 'none'),
                             )); ?>
                         </td>
                     </tr>
-                    <?php endif; ?>
-                    <?php if ($content->email_9): ?>
                     <tr>
                         <td>
                             <?php echo CHtml::activeTextField($feedback, 'email',
                             array(
                                 'placeholder' => Yii::t('mobile', 'Email'),
-                                'class' => 'txt-100p rad6'
+                                'class' => 'txt-100p rad6',
+                                'style' => 'display:' . (($content->email_9 == 1) ? 'block' : 'none'),
                             )); ?>
                         </td>
                     </tr>
-                    <?php endif; ?>
-                    <?php if ($content->kommentariy_9): ?>
                     <tr>
                         <td>
                             <?php echo CHtml::activeTextArea($feedback, 'comment',
                             array(
                                 'placeholder' => Yii::t('mobile', 'Комментарий'),
                                 'rows' => 3,
-                                'class' => 'txt-100p txtArea rad6'
+                                'class' => 'txt-100p txtArea rad6',
+                                'style' => 'display:' . (($content->kommentariy_9 == 1) ? 'block' : 'none'),
                             )); ?>
                         </td>
                     </tr>
-                    <?php endif; ?>
                 </table>
                 <input type="submit" class="btn-round fright rad12 shadow"
                        value="<?php echo Yii::t('mobile', 'Отправить');?>"/>

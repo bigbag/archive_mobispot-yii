@@ -27,16 +27,14 @@ class SpotController extends MController
                         $feedback = new FeedbackContent();
                         $error = false;
                         if (isset($_POST['FeedbackContent'])) {
-                            $flag = $content->getAttributes();
-                            if ($flag['imya_9'] == 1 and empty($_POST['FeedbackContent']['name'])) $error = true;
-                            if ($flag['email_9'] == 1 and empty($_POST['FeedbackContent']['email'])) $error = true;
-                            if ($flag['telefon_9'] == 1 and empty($_POST['FeedbackContent']['phone'])) $error = true;
-                            if ($flag['kommentariy_9'] == 1 and empty($_POST['FeedbackContent']['comment'])) $error = true;
+
+                            $post_string = implode('', $_POST['FeedbackContent']);
+                            if (!isset($post_string[1])) $error = true;
 
                             $feedback->attributes = $_POST['FeedbackContent'];
                             $feedback->spot_id = $spot->discodes_id;
                             if (!$error and $feedback->validate()) {
-                                if ($feedback->save()){
+                                if ($feedback->save()) {
                                     $params['spot_name'] = $spot->name;
                                     $params['name'] = $feedback->name;
                                     $params['email'] = $feedback->email;
@@ -44,11 +42,10 @@ class SpotController extends MController
                                     $params['comment'] = $feedback->comment;
                                     MMail::spot_feedback($spot->user->email, $params);
 
-                                    $this->redirect(array('/spot/success'));
+                                    $txt = $this->renderPartial('/widget/success', array(), true);
+                                    break;
                                 }
-
                             }
-
                         }
                         $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                             array(

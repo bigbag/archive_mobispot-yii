@@ -58,7 +58,7 @@
                         </form>
                     </div>
                     <div class="type">
-                        <?php echo $data->spot_type->name;?>
+                        <?php echo (!empty($data->spot_type->name))?$data->spot_type->name:'';?>
                     </div>
                 </td>
             </tr>

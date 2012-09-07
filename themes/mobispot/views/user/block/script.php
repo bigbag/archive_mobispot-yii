@@ -38,6 +38,8 @@ $(document).ready(function () {
     $("select").change(function () {
         var action = $(this).val();
         var id = $('input:checked').val() ? $('input:checked').val() : false;
+        alert(id);
+
 
         if (id) {
             var status = $('#status_' + id + ' input').val() ? $('#status_' + id + ' input').val() : false;
@@ -48,7 +50,8 @@ $(document).ready(function () {
                 $('#name_' + id + ' div.rename').show();
                 $('#name_' + id + ' div.name').hide();
             }
-            else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>) {
+            else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>
+                ) {
                 $('#type_' + id + ' div.retype').show();
                 $('#type_' + id + ' div.type').hide();
                 $(".retype select").selectBox('destroy');

@@ -44,8 +44,4 @@
     </table>
 </form>
 <script type="text/javascript">
-    jQuery(".niceCheck").each(
-        function () {
-            changeCheckStart(jQuery(this));
-        });
 </script>
