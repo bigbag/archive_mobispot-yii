@@ -78,16 +78,13 @@
                             <tr>
                                 <td>
                                     <div class="round-btn-upload">
-                                        <input type="submit" class="add_file"
+                                        <input type="submit" id="add_file"
                                                value="<?php echo Yii::t('account', 'Загрузить');?>"/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="result_upload">
-                                        <?php if (!empty($content->kartinka_8)): ?>
-                                        <?php $file_name = explode('_', $content->fayl_6) ?>
-                                        <?php echo $file_name[2]; ?><span class="cancel"></span>
-                                        <?php endif; ?>
+
                                     </div>
                                 </td>
                             </tr>
@@ -116,8 +113,10 @@
         <table class="visitInfoTbl" cellspacing="0">
             <tbody>
             <tr>
-                <td><a href="" class="r-btn-30 copy"
-                       rel=".action"><span><?php echo Yii::t('account', 'Добавить предложение');?></span></a>
+                <td>
+                    <a href="1" class="r-btn-30 copy" id="copy_action" rel=".action">
+                        <span><?php echo Yii::t('account', 'Добавить предложение');?></span>
+                    </a>
                 </td>
             </tr>
             </tbody>
@@ -179,23 +178,32 @@
 </div>
 <div class="clear"></div>
 <div>
-
     <script type="text/javascript">
         $(function () {
             $('a.copy').relCopy({
-                'clearInputs': true
+                'clearInputs':true
             });
-        });
 
+            $('a#copy_action').click(function () {
+                var id = $('a#copy_action').attr('href');
+                if (id){
+                    alert(id);
+                    $('.result_upload').first().attr('class', 'result_upload_'+ id);
+                    $('a#copy_action').attr('href', (id * 1) + 1);
+                }
+            });
 
-        $('body').delegate('.result_upload span.cancel', 'click', function () {
-            $('#spot_card_field_<?php echo $data->discodes_id; ?>').val('');
-            $('.result_upload').empty();
+            $('body').delegate('.result_upload span.cancel', 'click', function () {
+                $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
+                $('.result_upload').empty();
+            });
+
+            return false;
         });
 
         $(function () {
             var i = 1;
-            $(".add_file").uploadifive({
+            $("#add_file").uploadifive({
                 'width':'110',
                 'height':'30',
                 'fileTypeExts':'*.gif; *.jpg; *.png',
@@ -217,9 +225,12 @@
                     if (error) alert(error);
                     if (file_name) {
                         $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
-                        $('.result_upload_'+ i).html(file.name + '<span class="cancel"></span>');
+                        $('.result_upload_' + i).html(file.name + '<span class="cancel"></span>');
                     }
                 }
+
             });
+            i = i + 1;
+            return false;
         });
     </script>

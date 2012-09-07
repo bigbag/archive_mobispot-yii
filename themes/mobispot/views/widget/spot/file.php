@@ -42,9 +42,13 @@
     <div class="clear"></div>
     <div>
         <script type="text/javascript">
-            $('body').delegate('.result_upload span.cancel', 'click', function () {
-                $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
-                $('.result_upload').empty();
+
+            $(function () {
+                $('body').delegate('.result_upload span.cancel', 'click', function () {
+                    $('#spot_file_field_<?php echo $data->discodes_id; ?>').val('');
+                    $('.result_upload').empty();
+                });
+                return false;
             });
 
             $(function () {
@@ -74,5 +78,6 @@
                         }
                     }
                 });
+                return false;
             });
         </script>
