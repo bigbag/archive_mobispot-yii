@@ -11,7 +11,7 @@
 </a>
 
 <div class="oneSpotInfo">
-    <br><br>
+    <form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
     <table class="visitInfoTbl" cellspacing="0">
         <tbody>
         <tr>
@@ -159,6 +159,7 @@
         </tr>
         </tbody>
     </table>
+    </form>
 </div>
 <div class="clear"></div>
 <div>
