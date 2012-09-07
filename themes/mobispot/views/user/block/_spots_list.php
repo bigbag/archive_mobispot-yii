@@ -58,13 +58,13 @@
                         </form>
                     </div>
                     <div class="type">
-                        <?php echo (!empty($data->spot_type->name))?$data->spot_type->name:'';?>
+                        <?php echo (!empty($data->spot_type->name)) ? $data->spot_type->name : '';?>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
-    <div class="contSpot">
+    <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
         <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
         <div class="btn-30">
@@ -76,8 +76,7 @@
             <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
         </a>
 
-
-        <div id="spot_content_<?php echo $data->discodes_id;?>" class="oneSpotInfo"></div>
+        <div  class="oneSpotInfo"></div>
         <div class="clear"></div>
-        <div>
+    <div>
 </li>

@@ -275,7 +275,7 @@ class AjaxController extends MController
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
                 $content = SpotModel::getContent('1', $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-                $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
+                $txt = $this->renderPartial('//widget/spot/' . $spot->spot_type->pattern,
                     array(
                         'data' => $spot,
                         'content' => $content,
@@ -301,6 +301,19 @@ class AjaxController extends MController
                     echo json_encode(array('discodes_id' => $content->spot_id));
                 }
             }
+        }
+    }
+    
+    public function actionSpotFeedbackContent(){
+        if (isset($_POST['discodes_id'])) {
+            $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
+            $txt = $this->renderPartial('//widget/spot/feedback_content',
+                array(
+                    'discodes_id' => (int)$_POST['discodes_id'],
+                    'spot' => $spot,
+                ),
+                true);
+            echo $txt;
         }
     }
 
