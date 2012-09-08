@@ -187,9 +187,10 @@
             $('a#copy_action').click(function () {
                 var id = $('a#copy_action').attr('href');
                 if (id){
-                    alert(id);
                     $('.result_upload').first().attr('class', 'result_upload_'+ id);
+                    $('.round-btn-upload').first().attr('id', id);
                     $('a#copy_action').attr('href', (id * 1) + 1);
+
                 }
             });
 
@@ -202,8 +203,7 @@
         });
 
         $(function () {
-            var i = 1;
-            $("#add_file").uploadifive({
+            $(".round-btn-upload #add_file").uploadifive({
                 'width':'110',
                 'height':'30',
                 'fileTypeExts':'*.gif; *.jpg; *.png',
@@ -224,13 +224,13 @@
                     var error = obj.error;
                     if (error) alert(error);
                     if (file_name) {
+                        alert($(this).closest('.round-btn-upload').attr('id'));
                         $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
                         $('.result_upload_' + i).html(file.name + '<span class="cancel"></span>');
                     }
                 }
 
             });
-            i = i + 1;
             return false;
         });
     </script>

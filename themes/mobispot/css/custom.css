@@ -360,8 +360,9 @@ a.next_page {
 }
 
 #set_like {
-    float: right;
     height: 30px;
+    text-align: right;
+
 }
 .selectBox {
     overflow-x: hidden;
