@@ -49,6 +49,11 @@
     </tr>
     </tbody>
 </table>
+<?php if(!empty($content->kartinka_8)):?>
+<?php foreach($content->kartinka_8 as $row):?>
+    <?php echo $row;?>
+<?php endforeach;?>
+<?php endif;?>
 <div class="action">
     <br/>
     <br/>
@@ -61,7 +66,7 @@
                     <div class="txt-form-cl">
                         <?php echo CHtml::activeTextField(
                         $content,
-                        'aktsiya-nazvanie_8[]',
+                        'nazvanie_8[]',
                         array(
                             'class' => 'text',
                             'placeholder' => Yii::t('account', 'Название'),
@@ -96,7 +101,7 @@
                     <div class="txt-form-cl">
                         <?php echo CHtml::activeTextField(
                         $content,
-                        'aktsiya-ssyilka_8[]',
+                        'ssyilka_8[]',
                         array(
                             'class' => 'text',
                             'placeholder' => Yii::t('account', 'Ссылка на веб-страницу'),
@@ -121,7 +126,7 @@
                     <div class="txt-form-cl">
                         <?php echo CHtml::activeTextField(
                         $content,
-                        'aktsiya-nazvanie_8[]',
+                        'nazvanie_8[]',
                         array(
                             'class' => 'text',
                             'placeholder' => Yii::t('account', 'Название'),
@@ -157,7 +162,7 @@
                     <div class="txt-form-cl">
                         <?php echo CHtml::activeTextField(
                         $content,
-                        'aktsiya-ssyilka_8[]',
+                        'ssyilka_8[]',
                         array(
                             'class' => 'text',
                             'placeholder' => Yii::t('account', 'Ссылка на веб-страницу'),
