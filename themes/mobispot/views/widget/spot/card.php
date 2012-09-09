@@ -266,6 +266,15 @@
         });
 
         $(function () {
+            $('body').delegate('#remove_action', 'click', function () {
+                $('.new_action').empty();
+                $('.bnt_action').show();
+            });
+            return false;
+        });
+
+
+        $(function () {
             $('body').delegate('#save_action', 'click', function () {
                 var action_name = $('.new_action input.name').val();
                 var action_link = $('.new_action input.link').val();
