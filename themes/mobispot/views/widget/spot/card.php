@@ -65,7 +65,7 @@
             <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
             <div class="spot_action">
                 <span class="edit"></span>
-                <?php echo $name[$i]; ?><br/>
+                <?php echo $name ?><br/>
                 <?php echo $link[$i]; ?><br/>
                 <?php echo $file_view ?>
                 <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name[$i] ?>">
@@ -107,8 +107,9 @@
             </tr>
             </tbody>
         </table>
-        <?php $i = 0; ?>
+
         <?php if (count($content['tochka-nazvanie_8']) > 0): ?>
+        <?php $i = 0; ?>
         <?php foreach ($content['tochka-nazvanie_8'] as $name): ?>
             <?php if (isset($name[1])): ?>
                 <?php $karta = $content['tochka-karta_8']; ?>
