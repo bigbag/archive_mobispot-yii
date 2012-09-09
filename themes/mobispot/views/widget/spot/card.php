@@ -11,283 +11,281 @@
 </a>
 
 <div class="oneSpotInfo">
-<form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
-<?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
-<?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
-<table class="visitInfoTbl" cellspacing="0">
-    <tbody>
-    <tr>
-        <td class="field"><?php echo Yii::t('account', 'Название бизнеса');?></td>
-        <td>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class' => 'text')); ?>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="field"><?php echo Yii::t('account', 'Веб сайт');?></td>
-        <td>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <?php echo CHtml::activeTextField($content, 'sayt_8', array('class' => 'text')); ?>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="field"><?php echo Yii::t('account', 'Контактное лицо');?></td>
-        <td>
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class' => 'text')); ?>
-                    <input class="txt" name="inputtext" value="" placeholder=" " type="text">
-                </div>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<?php if(!empty($content->kartinka_8)):?>
-<?php foreach($content->kartinka_8 as $row):?>
-    <?php echo $row;?>
-<?php endforeach;?>
-<?php endif;?>
-<div class="action">
-    <br/>
-    <br/>
-    <table class="visitInfoTbl" cellspacing="0">
-        <tbody>
-        <tr>
-            <td class="field vatop" rowspan="4"><?php echo Yii::t('account', 'Интересное предложение');?></td>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'nazvanie_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Название'),
-                        ));
-                        ?>
+    <form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
+        <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
+        <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
+        <table class="visitInfoTbl" cellspacing="0">
+            <tbody>
+            <tr>
+                <td class="field"><?php echo Yii::t('account', 'Название бизнеса');?></td>
+                <td>
+                    <div class="txt-form">
+                        <div class="txt-form-cl">
+                            <?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class' => 'text')); ?>
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input value="" class="spot_card_field_1" name="SpotModel[kartinka_8][]" type="hidden">
-                <table>
+                </td>
+            </tr>
+            <tr>
+                <td class="field"><?php echo Yii::t('account', 'Веб сайт');?></td>
+                <td>
+                    <div class="txt-form">
+                        <div class="txt-form-cl">
+                            <?php echo CHtml::activeTextField($content, 'sayt_8', array('class' => 'text')); ?>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="field"><?php echo Yii::t('account', 'Контактное лицо');?></td>
+                <td>
+                    <div class="txt-form">
+                        <div class="txt-form-cl">
+                            <?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class' => 'text')); ?>
+                            <input class="txt" name="inputtext" value="" placeholder=" " type="text">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="visitInfoTbl" cellspacing="0">
+            <tbody>
+            <tr>
+                <td class="field vatop" rowspan="4"><?php echo Yii::t('account', 'Предложения');?></td>
+            </tr>
+            </tbody>
+        </table>
+        <?php if (!empty($content->nazvanie_8)): ?>
+        <?php $i = 0; ?>
+        <?php foreach ($content->nazvanie_8 as $name): ?>
+            <?php $link = $content->ssyilka_8; ?>
+            <?php $file = $content->kartinka_8; ?>
+            <?php $file_view = explode('_', $file[$i]) ?>
+            <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
+            <div class="spot_action">
+                <span class="edit"></span>
+                <?php echo $name[$i]; ?><br/>
+                <?php echo $link[$i]; ?><br/>
+                <?php echo $file_view ?>
+                <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name[$i] ?>">
+                <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="<?php echo $link[$i] ?>">
+                <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="<?php echo $file[$i] ?>">
+                <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
+            </div>
+
+            <?php $i = $i + 1; ?>
+            <?php endforeach; ?>
+        <?php endif;?>
+        <span class="view_action"> </span>
+
+        <div class="clear"></div>
+
+        <div class="new_action">
+
+        </div>
+        <div class="bnt_action">
+            <table class="visitInfoTbl" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <span class="r-btn-30" id="add_action">
+                            <span><?php echo Yii::t('account', 'Добавить предложение');?></span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <table class="visitInfoTbl" cellspacing="0">
+            <tbody>
+            <tr>
+                <td class="field vatop"
+                    rowspan="3"><?php echo Yii::t('account', 'Ближайшие точки продаж');?></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <?php $i = 0; ?>
+        <?php if (count($content['tochka-nazvanie_8']) > 0): ?>
+        <?php foreach ($content['tochka-nazvanie_8'] as $name): ?>
+            <?php if (isset($name[1])): ?>
+                <?php $karta = $content['tochka-karta_8']; ?>
+                <div class="place">
+                    <span class="remove"></span>
+                <table class="visitInfoTbl" cellspacing="0">
+                    <tbody>
                     <tr>
+                        <td class="field vatop" rowspan="3"></td>
                         <td>
-                            <div class="round-btn-upload">
-                                <input type="submit" class="add_file"
-                                       value="<?php echo Yii::t('account', 'Загрузить');?>" id="1"/>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="result_upload file_1">
+                            <div class="txt-form">
+                                <div class="txt-form-cl">
+                                    <input class="text"
+                                           placeholder="<?php echo Yii::t('account', 'Название и адрес');?>"
+                                           name="SpotModel[tochka-nazvanie_8][]" value="<?php echo $name;?>"
+                                           type="text">
+                                </div>
                             </div>
                         </td>
                     </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'ssyilka_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Ссылка на веб-страницу'),
-                        ));
-                        ?>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div class="action">
-    <br/>
-    <br/>
-    <table class="visitInfoTbl" cellspacing="0">
-        <tbody>
-        <tr>
-            <td class="field vatop" rowspan="4"><?php echo Yii::t('account', 'Интересное предложение');?></td>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'nazvanie_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Название'),
-                        ));
-                        ?>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input value="" class="spot_card_field_2" name="SpotModel[kartinka_8][]" type="hidden">
-                <table>
                     <tr>
                         <td>
-                            <div class="round-btn-upload">
-                                <input type="submit" class="add_file"
-                                       value="<?php echo Yii::t('account', 'Загрузить');?>" id="2"/>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="result_upload file_2">
-
+                            <div class="txt-form">
+                                <div class="txt-form-cl">
+                                    <input class="text" placeholder="<?php echo Yii::t('account', 'Ссылка на карту');?>"
+                                           name="SpotModel[tochka-karta_8][]" value="<?php echo $karta[$i];?>"
+                                           type="text">
+                                </div>
                             </div>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'ssyilka_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Ссылка на веб-страницу'),
-                        ));
-                        ?>
-                    </div>
                 </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<table class="visitInfoTbl" cellspacing="0">
-    <tbody>
-    <tr>
-        <td>
-            <a href="1" class="r-btn-30 copy" id="copy_action" rel=".action">
-                <span><?php echo Yii::t('account', 'Добавить предложение');?></span>
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                <br/>
+                <?php endif; ?>
+            <?php $i = $i + 1; ?>
+            <?php endforeach; ?>
+        <?php endif;?>
 
-<div class="place">
-    <br/>
-    <br/>
-    <table class="visitInfoTbl" cellspacing="0">
-        <tbody>
-        <tr>
-            <td class="field vatop" rowspan="3"><?php echo Yii::t('account', 'Ближайшие точки продаж');?></td>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'tochka-nazvanie_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Название и адрес'),
-                        ));
-                        ?>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <?php echo CHtml::activeTextField(
-                        $content,
-                        'tochka-karta_8[]',
-                        array(
-                            'class' => 'text',
-                            'placeholder' => Yii::t('account', 'Ссылка на карту'),
-                        ));
-                        ?>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<table class="visitInfoTbl" cellspacing="0">
-    <tbody>
-    <tr>
-        <td>
-            <a href="" class="r-btn-30 copy" rel=".place">
-                <span><?php echo Yii::t('account', 'Добавить точку продаж');?></span>
-            </a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-</form>
+        <div class="place add_place">
+            <table class="visitInfoTbl" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td class="field vatop" rowspan="3"></td>
+                    <td>
+                        <div class="txt-form">
+                            <div class="txt-form-cl">
+                                <?php echo CHtml::activeTextField(
+                                $content,
+                                'tochka-nazvanie_8[]',
+                                array(
+                                    'class' => 'text',
+                                    'placeholder' => Yii::t('account', 'Название и адрес'),
+                                ));
+                                ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="txt-form">
+                            <div class="txt-form-cl">
+                                <?php echo CHtml::activeTextField(
+                                $content,
+                                'tochka-karta_8[]',
+                                array(
+                                    'class' => 'text',
+                                    'placeholder' => Yii::t('account', 'Ссылка на карту'),
+                                ));
+                                ?>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+        </div>
+        <table class="visitInfoTbl" cellspacing="0">
+            <tbody>
+            <tr>
+                <td>
+                    <a href="" class="r-btn-30 copy" rel=".add_place">
+                        <span><?php echo Yii::t('account', 'Добавить точку продаж');?></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 </div>
 <div class="clear"></div>
 <div>
+
     <script type="text/javascript">
+        $('a.copy').relCopy({
+            'clearInputs':true
+        });
+
         $(function () {
-            $('body').delegate('.result_upload span.cancel', 'click', function () {
-                var id = $(this).attr('key');
-                if(id){
-                    $('.file_' + id).empty();
-                    $('.spot_card_field_' + id).val('');
-
-
-                }
-
+            $('body').delegate('.place .remove', 'click', function () {
+                $(this).parent().remove();
             });
             return false;
         });
 
-        jQuery(".round-btn-upload .add_file").each(function () {
-            jQuery(this).uploadifive({
-                'width':'110',
-                'height':'30',
-                'fileTypeExts':'*.gif; *.jpg; *.png',
-                uploadScript:'/user/uploadFile/',
-                'formData':{'spot_id':<?php echo($data->discodes_id)?>},
-                'fileSizeLimit':'10MB',
-                'multi':false,
-                'buttonClass':'uploadify_file',
-                'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
-
-                'onError':function (errorType) {
-                    $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
-                    $('#messages_modal').reveal({animation:'none'});
-                },
-                'onUploadComplete':function (file, data, response) {
-                    var obj = jQuery.parseJSON(data);
-                    var file_name = obj.file;
-                    var error = obj.error;
-                    if (error) alert(error);
-                    if (file_name) {
-                        var id = $(this).attr('id');
-                        if (id) {
-                            $('.spot_card_field_' + id).val(file_name);
-                            $('.file_' + id).html(file.name + '<span class="cancel" key=' + id +'></span>');
-                        }
-
+        $(function () {
+            $('body').delegate('.bnt_action #add_action', 'click', function () {
+                $.ajax({
+                    url:'/ajax/getContent',
+                    type:'POST',
+                    data:{content:'card_action', discodes_id:<?php echo $data->discodes_id;?>},
+                    success:function (result) {
+                        $('.bnt_action').hide();
+                        $('.new_action').html(result);
                     }
-                }
+                });
             });
+            return false;
+        });
+
+        $(function () {
+            $('body').delegate('.spot_action .edit', 'click', function () {
+                var general = $(this).parent();
+                if (general) {
+                    var file = general.find('.action_file').val();
+                    var file_view = general.find('.action_file_view').val();
+                    var name = general.find('.action_name').val();
+                    var link = general.find('.action_link').val();
+
+                    $.ajax({
+                        url:'/ajax/getContent',
+                        type:'POST',
+                        data:{
+                            content:'card_action',
+                            file:file,
+                            file_view:file_view,
+                            name:name,
+                            link:link,
+                            discodes_id:<?php echo $data->discodes_id;?>
+                        },
+                        success:function (result) {
+                            $('.bnt_action').hide();
+                            $('.new_action').html(result);
+                        }
+                    });
+                }
+
+                $(this).parent().remove();
+            });
+            return false;
+        });
+
+        $(function () {
+            $('body').delegate('#save_action', 'click', function () {
+                var action_name = $('.new_action input.name').val();
+                var action_link = $('.new_action input.link').val();
+                var action_file = $('.new_action input.spot_card_file').val();
+                var action_file_view = $('.new_action input.spot_card_file_view').val();
+
+                var action = '';
+                if (action_name || action_link || action_file) {
+                    action = '<div class="spot_action"><span class="edit"></span>' +
+                        '<input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="' + action_name + '">' +
+                        '<input name="SpotModel[kartinka_8][]" class="action_link" type="hidden" value="' + action_file + '">' +
+                        '<input name="SpotModel[ssyilka_8][]" class="action_file" type="hidden" value="' + action_link + '">' +
+                        '<input class="action_file_view" type="hidden" value="' + action_file_view + '">' +
+                        action_name + '<br />' +
+                        action_link + '<br />' +
+                        action_file_view + '</div>';
+                }
+                $('.view_action').before(action);
+                $('.new_action').empty();
+                $('.bnt_action').show();
+            });
+            return false;
         });
     </script>

@@ -85,6 +85,27 @@ class AjaxController extends MController
         }
     }
 
+    public function actionGetContent()
+    {
+        if (Yii::app()->request->isAjaxRequest and isset($_POST['content']) and isset($_POST['discodes_id'])) {
+
+            $data = array();
+            $data['name'] = (isset($_POST['name']))?$_POST['name']:'';
+            $data['link'] = (isset($_POST['link']))?$_POST['link']:'';
+            $data['file'] = (isset($_POST['file']))?$_POST['file']:'';
+            $data['file_view'] = (isset($_POST['file_view']))?$_POST['file_view']:'';
+
+            $txt = $this->renderPartial('//widget/spot/'.$_POST['content'],
+                array(
+                    'discodes_id' => (int)$_POST['discodes_id'],
+                    'data' => $data,
+                ),
+                true);
+            echo $txt;
+
+        }
+    }
+
 
     public function actionLogout()
     {

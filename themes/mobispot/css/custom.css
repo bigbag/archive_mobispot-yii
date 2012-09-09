@@ -375,7 +375,7 @@ a.next_page {
 }
 
 .result_upload span.cancel {
-    background: url(../images/cancel_red.png) no-repeat;
+    background: url(../images/form/cancel_red.png) no-repeat;
     height: 10px;
     width: 10px;
     margin: 0;
@@ -390,4 +390,42 @@ a.next_page {
 
 .uploadifive-queue{
     display: none;
+}
+
+.spot_action {
+    width: 372px;
+    margin-left: 130px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px #cdcdcd solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    -webkit-box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    behavior: url(ie-css3.htc);
+}
+.spot_action span.edit{
+    background: url(../images/form/edit.png) no-repeat;
+    left: 365px;
+    top: -10px;
+    height: 16px;
+    width: 16px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+}
+
+.place span.remove{
+    background: url(../images/form/cancel_red.png) no-repeat;
+    left: 510px;
+    top: 5px;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
 }

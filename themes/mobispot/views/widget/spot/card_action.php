@@ -1,54 +1,99 @@
-<div class="action">
-    <br>
-    <br>
-    <table class="visitInfoTbl" cellspacing="0">
-        <tbody>
-        <tr>
-            <td class="field vatop" rowspan="4">Интересное предложение</td>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <input class="text" placeholder="Название" name="SpotModel[nazvanie_8][]"
-                               id="SpotModel_nazvanie_8" type="text"></div>
+<table class="visitInfoTbl" cellspacing="0">
+    <tbody>
+    <tr>
+        <td class="field vatop" rowspan="4"><?php echo Yii::t('account', 'Добавить предложение');?></td>
+        <td>
+            <div class="txt-form">
+                <div class="txt-form-cl">
+                    <input class="text name" placeholder="<?php echo Yii::t('account', 'Название');?>" type="text" value="<?php echo $data['name']?>">
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input value="" class="spot_card_field_2" name="SpotModel[kartinka_8][]" type="hidden">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="round-btn-upload">
-                                <div
-                                    style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 110px;"
-                                    id="uploadifive-2" class="uploadifive-button uploadify_file">Загрузить<input
-                                    style="display: none;" class="add_file" value="Загрузить" id="2"
-                                    type="submit"><input style="opacity: 0; position: absolute; z-index: 999;"
-                                                         type="file"></div>
-                                <div id="uploadifive-2-queue" class="uploadifive-queue"></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="result_upload file_2">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input class="spot_card_file" type="hidden" value="<?php echo $data['file']?>">
+            <input class="spot_card_file_view" type="hidden" value="<?php echo $data['file_view']?>">
+            <table>
+                <tr>
+                    <td>
+                        <div class="round-btn-upload">
+                            <input type="submit" class="add_file" value="<?php echo Yii::t('account', 'Загрузить'); ?>" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="result_upload">
+                            <?php if(isset($data['file_view'][1])):?>
+                            <?php echo $data['file_view']?><span class="cancel"></span>
+                            <?php endif;?>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="txt-form">
+                <div class="txt-form-cl">
+                    <input class="text link" placeholder="<?php echo Yii::t('account', 'Ссылка на веб-страницу');?>"
+                           type="text" value="<?php echo $data['link']?>">
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                <a class="r-btn-30" id="save_action">
+                    <span><?php echo Yii::t('account', 'Сохранить');?></span>
+                </a>
+                <a class="r-btn-30" id="remove_action">
+                    <span><?php echo Yii::t('account', 'Удалить');?></span>
+                </a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="txt-form">
-                    <div class="txt-form-cl">
-                        <input class="text" placeholder="Ссылка на веб-страницу" name="SpotModel[ssyilka_8][]"
-                               id="SpotModel_ssyilka_8" type="text"></div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<script type="text/javascript">
+    $(function () {
+        $('body').delegate('.result_upload span.cancel', 'click', function () {
+            $('.result_upload').empty();
+            $('.spot_card_file').val('');
+            $('.spot_card_file_view').val('');
+        });
+        return false;
+    });
+
+    jQuery(".add_file").each(function () {
+        jQuery(this).uploadifive({
+            'width':'110',
+            'height':'30',
+            'fileTypeExts':'*.gif; *.jpg; *.png',
+            uploadScript:'/user/uploadFile/',
+            'formData':{'spot_id':<?php echo $discodes_id;?>},
+            'fileSizeLimit':'10MB',
+            'multi':false,
+            'buttonClass':'uploadify_file',
+            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+
+            'onError':function (errorType) {
+                $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
+                $('#messages_modal').reveal({animation:'none'});
+            },
+            'onUploadComplete':function (file, data, response) {
+                var obj = jQuery.parseJSON(data);
+                var file_name = obj.file;
+                var error = obj.error;
+                if (error) alert(error);
+                if (file_name) {
+                    $('.spot_card_file').val(file_name);
+                    $('.spot_card_file_view').val(file.name);
+                    $('.result_upload').html(file.name + '<span class="cancel"></span>');
+                }
+            }
+        });
+    });
+</script>

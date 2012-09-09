@@ -49,7 +49,7 @@
                         value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
                 </select>
 
-                <a href="#" class="r-btn-30 spot_add_modal">
+                <a class="r-btn-30 spot_add_modal">
                     <span>
                         <span class="plus-ico"></span><?php echo Yii::t('account', 'Добавить спот'); ?>
                     </span>
