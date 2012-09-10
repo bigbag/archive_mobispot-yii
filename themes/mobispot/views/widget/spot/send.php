@@ -21,7 +21,7 @@
             <table>
                 <tr>
                     <td>
-                        <div class="round-btn-upload">
+                        <div class="round-btn-upload" id="<?php echo count($content->fayl_10);?>">
                             <input type="submit" id="add_file" class=""
                                    value="<?php echo Yii::t('account', 'Загрузить');?>"/>
                         </div>
@@ -55,12 +55,18 @@
             $(function () {
                 $('body').delegate('.result_upload span.cancel', 'click', function () {
                     $(this).parent().remove();
+                    var count = $('.round-btn-upload').attr('id');
+                    if (count){
+                        $('.round-btn-upload').attr('id', count - 1);
+                        if (count == 6) $('.round-btn-upload').show();
+                    }
                 });
                 return false;
             });
 
             $(function () {
                 var i = <?php echo count($content->fayl_10);?>;
+                if (i == 6) $('.round-btn-upload').hide();
                 $("#add_file").uploadifive({
                     'width':'110',
                     'height':'30',
@@ -90,8 +96,12 @@
                                 txt += '<span class="cancel"></span></div>';
                                 $('.view_file').before(txt);
                             }
+                            if (i == 5) {
+                                $('.round-btn-upload').hide();
+                            }
 
                             i = i + 1;
+                            $('.round-btn-upload').attr('id', i);
                         }
                     }
                 });

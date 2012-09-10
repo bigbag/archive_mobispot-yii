@@ -15,7 +15,7 @@ class MailCommand extends CConsoleCommand
         if ($attachFile) {
             if (count($attachFile) > 0) {
                 foreach ($attachFile as $file) {
-                    $message->attach(Swift_Attachment::fromPath($file));
+                    $message->attach(Swift_Attachment::fromPath('/uploads/spot/'.$file));
                 }
             }
         }
@@ -41,7 +41,7 @@ class MailCommand extends CConsoleCommand
         foreach ($result as $row) {
             $conn->createCommand()->update('mail_stack', array('lock' => 1), 'id=:id', array(':id' => $row['id']));
 
-            $attach = unserialize($row['body']);
+            $attach = unserialize($row['attach']);
             if (count($attach) == 0) $attach = false;
 
             $test = $this->SendMail(unserialize($row['from']), unserialize($row['to']), $row['subject'], $row['body'], $attach);

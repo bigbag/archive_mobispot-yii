@@ -66,7 +66,13 @@ class SpotController extends MController
                             if ($form->validate()){
 
                                 if (!empty($content->fayl_10)){
-
+                                    $file = $content->fayl_10;
+                                    if (isset($file[1])){
+                                        $data['spot_id'] = $spot->discodes_id;
+                                        $data['spot_name'] = $spot->name;
+                                        $data['files'] = $file;
+                                        MMail::spot_send($form->email, $data);
+                                    }
                                 }
                                 $txt = $this->renderPartial('/widget/success_email', array(), true);
                             }
