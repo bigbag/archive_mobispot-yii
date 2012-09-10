@@ -18,22 +18,27 @@
     достаточно ввести свой адрес элетронной почты, и он их незамедлительно получит.<br />
     Загрузите до 5 разных файлов (общий размер - до 10 Мб), и они будут отправлены тому, кто об этом попросит.<br />');?>
             </p>
-            <?php echo CHtml::activeHiddenField($content, 'fayl-1_10', array('id' => 'spot_send_field1_' . $data->discodes_id)); ?>
-            <?php echo CHtml::activeHiddenField($content, 'fayl-2_10', array('id' => 'spot_send_field2_' . $data->discodes_id)); ?>
-            <?php echo CHtml::activeHiddenField($content, 'fayl-3_10', array('id' => 'spot_send_field3_' . $data->discodes_id)); ?>
-            <?php echo CHtml::activeHiddenField($content, 'fayl-4_10', array('id' => 'spot_send_field4_' . $data->discodes_id)); ?>
-            <?php echo CHtml::activeHiddenField($content, 'fayl-5_10', array('id' => 'spot_send_field5_' . $data->discodes_id)); ?>
             <table>
                 <tr>
                     <td>
                         <div class="round-btn-upload">
-                            <input type="submit" id="add_file_<?php echo($data->discodes_id)?>" class=""
+                            <input type="submit" id="add_file" class=""
                                    value="<?php echo Yii::t('account', 'Загрузить');?>"/>
                         </div>
                     </td>
                     <td>
-                        <div class="result">
-                        </div>
+                        <?php if (!empty($content->fayl_10)): ?>
+                        <?php foreach ($content->fayl_10 as $file): ?>
+                            <div class="result_upload">
+                                <input name="SpotModel[fayl_10][]" type="hidden" value="<?php echo $file ?>">
+                                <?php $file_name = explode('_', $file) ?>
+                                <?php echo $file_name[2]; ?>
+                                <span class="cancel"></span>
+
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endif;?>
+                        <span class="view_file"></span>
                     </td>
                 </tr>
             </table>
@@ -44,17 +49,14 @@
 
         <script type="text/javascript">
             $(function () {
-                var i = 1;
-
                 $('body').delegate('.result_upload span.cancel', 'click', function () {
-                    var id = this.id;
-                    if (id) {
-                        $('#spot_send_field' + id + '_<?php echo $data->discodes_id; ?>').val('');
-                        $('#file_' + id).empty();
-                    }
+                    $(this).parent().remove();
                 });
+                return false;
+            });
 
-                $("#add_file_<?php echo($data->discodes_id)?>").uploadifive({
+            $(function () {
+                $("#add_file").uploadifive({
                     'width':'110',
                     'height':'30',
                     uploadScript:'/user/uploadFile/',
@@ -75,9 +77,12 @@
                         var error = obj.error;
                         if (error) alert(error);
                         if (file_name) {
-                            $('#spot_send_field' + i + '_<?php echo $data->discodes_id; ?>').val(file_name);
-                            $('.result').prepend('<div class="result_upload" id="file_' + i + '">' + file.name + '<span class="cancel" id="' + i + '"></span></div>');
-                            i = i + 1;
+                            var txt = '';
+                            txt += '<div class="result_upload">';
+                            txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
+                            txt +=  file.name;
+                            txt +='<span class="cancel"></span></div>';
+                            $('.view_file').before(txt);
                         }
                     }
                 });
