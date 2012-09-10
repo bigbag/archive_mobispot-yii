@@ -21,7 +21,8 @@
             <table>
                 <tr>
                     <td>
-                        <div class="round-btn-upload" id="<?php echo count($content->fayl_10);?>">
+                        <input type="hidden" class="file_count" value="<?php echo count($content->fayl_10);?>">
+                        <div class="round-btn-upload">
                             <input type="submit" id="add_file" class=""
                                    value="<?php echo Yii::t('account', 'Загрузить');?>"/>
                         </div>
@@ -52,21 +53,28 @@
     <div>
 
         <script type="text/javascript">
+            $(document).ready(function () {
+                var count = $('.file_count').val();
+                if (count > 4) $('.round-btn-upload').hide();
+
+            });
+
             $(function () {
-                $('body').delegate('.result_upload span.cancel', 'click', function () {
+                $('.result_upload span.cancel').live("click", function () {
                     $(this).parent().remove();
-                    var count = $('.round-btn-upload').attr('id');
+                    var count = $('.file_count').val();
                     if (count){
-                        $('.round-btn-upload').attr('id', count - 1);
-                        if (count == 6) $('.round-btn-upload').show();
+                        $('.file_count').val(count - 1);
+                        if (count == 5) $('.round-btn-upload').show();
                     }
                 });
                 return false;
             });
 
             $(function () {
-                var i = <?php echo count($content->fayl_10);?>;
-                if (i == 6) $('.round-btn-upload').hide();
+                var count = $('.file_count').val();
+                if (count == 5) $('.round-btn-upload').hide();
+
                 $("#add_file").uploadifive({
                     'width':'110',
                     'height':'30',
@@ -88,20 +96,13 @@
                         var error = obj.error;
                         if (error) alert(error);
                         if (file_name) {
-                            if (i < 6) {
-                                var txt = '';
-                                txt += '<div class="result_upload">';
-                                txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
-                                txt += file.name;
-                                txt += '<span class="cancel"></span></div>';
-                                $('.view_file').before(txt);
-                            }
-                            if (i == 5) {
-                                $('.round-btn-upload').hide();
-                            }
 
-                            i = i + 1;
-                            $('.round-btn-upload').attr('id', i);
+                            var txt = '';
+                            txt += '<div class="result_upload">';
+                            txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
+                            txt += file.name;
+                            txt += '<span class="cancel"></span></div>';
+                            $('.view_file').before(txt);
                         }
                     }
                 });
