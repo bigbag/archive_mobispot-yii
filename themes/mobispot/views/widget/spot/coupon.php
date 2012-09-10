@@ -1,5 +1,6 @@
 <div class="oneSpot">
     <div class="contSpot">
+        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
         <div class="btn-30">
             <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
                         form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
@@ -27,14 +28,18 @@
 
                 <div class="noUploadImg">
                     <?php if (!empty($content->kupon_4)): ?>
-                    <img src="/uploads/spot/<?php echo $content->kupon_4?>" height="192px" alt="coupon"/>
+                    <img src="/uploads/spot/<?php echo $content->kupon_4?>" width="321px" alt="coupon"/>
+                    <span class="cancel"></span>
+                    <?php else: ?>
+                    <img src="/themes/mobispot/images/coupon_no_image.png" alt="coupon"/>
                     <?php endif;?>
                     <noscript>
                         <p>Please enable JavaScript to use file uploader.</p>
                     </noscript>
                 </div>
+                <?php echo CHtml::activeHiddenField($content, 'kupon_4', array('id' => 'spot_coupon_field')); ?>
                 <div class="round-btn-new">
-                    <input type="submit" id="add_photo" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
+                    <input type="submit" id="add_images" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
                 </div>
 
             </form>
@@ -63,13 +68,22 @@
     });
 
     $(function () {
-        $("#add_photo").uploadifive({
+        $('body').delegate('.noUploadImg span.cancel', 'click', function () {
+            $('#spot_coupon_field').val('');
+            $('.noUploadImg').html('<img src="/themes/mobispot/images/coupon_no_image.png" alt="coupon"/>');
+        });
+        return false;
+    });
+
+
+    $(function () {
+        $("#add_images").uploadifive({
             'width':'120',
             'height':'28',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
             uploadScript:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
-            'fileSizeLimit':'10MB',
+            'fileSizeLimit':'512KB',
             'removeTimeout':10,
             'multi':false,
             'buttonClass':'uploadify_personal',
@@ -84,7 +98,9 @@
                 var file_name = obj.file;
                 var error = obj.error;
                 if (file_name) {
-                    $('.noUploadImg').html('<img src="/uploads/spot/' + file_name + '" height="192px"  alt="coupon"/>');
+                    $('#spot_coupon_field').val(file_name);
+                    $('.noUploadImg').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
+                        '<span class="cancel"></span>');
                 }
                 if (error) alert(error);
             }

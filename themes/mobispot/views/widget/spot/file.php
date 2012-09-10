@@ -18,7 +18,7 @@
         отсканировавшие Ваш спот увидят его в браузере своего мобильного телефона.');?>
 
             </p>
-            <?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id' => 'spot_file_field_' . $data->discodes_id)); ?>
+            <?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id' => 'spot_file_field')); ?>
             <table>
                 <tr>
                     <td>
@@ -73,7 +73,7 @@
                         var error = obj.error;
                         if (error) alert(error);
                         if (file_name) {
-                            $('#spot_file_field_<?php echo $data->discodes_id; ?>').val(file_name);
+                            $('#spot_file_field').val(file_name);
                             $('.result_upload').html(file.name + '<span class="cancel"></span>');
                         }
                     }

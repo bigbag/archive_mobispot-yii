@@ -429,3 +429,17 @@ a.next_page {
     cursor: pointer;
     position: relative;
 }
+
+.noUploadImg span.cancel {
+    background: url(../images/form/cancel_red.png) no-repeat;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    left: 335px;
+    top: -10px;
+    padding: 0;
+    float: left
+}

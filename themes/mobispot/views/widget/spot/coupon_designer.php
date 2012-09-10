@@ -20,9 +20,8 @@
     <tr>
         <td class="field">Ваш лого</td>
         <td>
-            <div class="txt-form">
-                <div class="txt-form-cl"><input class="txt" name="inputtext" value="" placeholder=" "
-                                                type="text"></div>
+            <div class="round-btn-new">
+                <input type="submit" id="add_logo" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
             </div>
         </td>
     </tr>
@@ -120,6 +119,37 @@
 </table>
 
 <script type="text/javascript">
+    $(function () {
+        $("#add_logo").uploadifive({
+            'width':'120',
+            'height':'28',
+            'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
+            uploadScript:'/user/uploadFile/',
+            'formData':{'spot_id':1},
+            'fileSizeLimit':'512KB',
+            'removeTimeout':10,
+            'multi':false,
+            'buttonClass':'uploadify_personal',
+            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+
+            'onError':function (errorType) {
+                $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
+                $('#messages_modal').reveal({animation:'none'});
+            },
+            'onUploadComplete':function (file, data, response) {
+                var obj = jQuery.parseJSON(data);
+                var file_name = obj.file;
+                var error = obj.error;
+                if (file_name) {
+                    $('#spot_coupon_field').val(file_name);
+                    $('.noUploadImg').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
+                        '<span class="cancel"></span>');
+                }
+                if (error) alert(error);
+            }
+        });
+    });
+
     $(document).ready(function () {
         $('.upload-img').click(function () {
             var id = $(this).attr("href");

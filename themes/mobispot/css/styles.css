@@ -1805,11 +1805,6 @@ div.contSpot .btn-30 {
     background: url(../images/form/sprite.png) -7px -79px no-repeat;
 }
 
-.noUploadImg {
-    background: url(../images/no-img.png) 0 0 repeat;
-    border: 2px #999 dashed
-}
-
 .visitInfoTbl {
     width: 100%;
 }
