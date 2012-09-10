@@ -21,7 +21,7 @@
         <td class="field">Ваш лого</td>
         <td>
             <div class="round-btn-new">
-                <input type="submit" id="add_logo" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
+                <input type="submit" class="add_logo" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
             </div>
         </td>
     </tr>
@@ -120,7 +120,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#add_logo").uploadifive({
+        $(".add_logo").uploadifive({
             'width':'120',
             'height':'28',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',

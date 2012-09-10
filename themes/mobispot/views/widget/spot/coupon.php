@@ -1,6 +1,6 @@
 <div class="oneSpot">
     <div class="contSpot">
-        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
+
         <div class="btn-30">
             <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
                         form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
