@@ -58,6 +58,28 @@ class SpotController extends MController
 
                         break;
 
+                    case ('send'):
+                        $form = new SendForm();
+                        if (isset($_POST['SendForm'])) {
+                            $form->attributes = $_POST['SendForm'];
+
+                            if ($form->validate()){
+
+                                if (!empty($content->fayl_10)){
+
+                                }
+                                $txt = $this->renderPartial('/widget/success_email', array(), true);
+                            }
+
+                        }
+                        if (!isset($txt[1])) {
+                            $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
+                                array(
+                                    'form' => $form,
+                                ),
+                                true);
+                        }
+                        break;
                     default:
                         $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                             array(

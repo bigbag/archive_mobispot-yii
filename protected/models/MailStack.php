@@ -9,8 +9,10 @@
  * @property string $to
  * @property string $subject
  * @property string $body
+ * @property string $attach
  * @property string $creation_date
  * @property integer $lock
+ *
  */
 class MailStack extends CActiveRecord
 {
@@ -44,7 +46,7 @@ class MailStack extends CActiveRecord
             array('lock', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, from, to, subject, body, creation_date, lock', 'safe', 'on' => 'search'),
+            array('id, from, to, subject, body, attach, creation_date, lock', 'safe', 'on' => 'search'),
         );
     }
 
@@ -77,6 +79,7 @@ class MailStack extends CActiveRecord
             'to' => 'Кому',
             'subject' => 'Тема',
             'body' => 'Сообщение',
+            'attach' => 'Вложения',
             'creation_date' => 'Дата создания',
             'lock' => 'Флаг',
         );
@@ -98,6 +101,7 @@ class MailStack extends CActiveRecord
         $criteria->compare('to', $this->to, true);
         $criteria->compare('subject', $this->subject, true);
         $criteria->compare('body', $this->body, true);
+        $criteria->compare('attach', $this->attach, true);
         $criteria->compare('creation_date', $this->creation_date, true);
         $criteria->compare('lock', $this->lock);
 

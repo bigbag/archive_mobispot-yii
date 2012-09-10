@@ -60,7 +60,7 @@
             });
 
             $(function () {
-                var i = 1;
+                var i = <?php echo count($content->fayl_10);?>;
                 $("#add_file").uploadifive({
                     'width':'110',
                     'height':'30',

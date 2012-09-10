@@ -1,7 +1,7 @@
 <?php
 class MailCommand extends CConsoleCommand
 {
-    public function SendMail($from, $to, $subject, $body)
+    public function SendMail($from, $to, $subject, $body, $attachFile = false)
     {
         spl_autoload_unregister(array('YiiBase', 'autoload'));
         Yii::import('application.vendors.swift.swift_required', true);
@@ -12,6 +12,13 @@ class MailCommand extends CConsoleCommand
         $message->setBody($body, 'text/html', 'utf-8');
         $message->setFrom($from);
         $message->setTo($to);
+        if ($attachFile) {
+            if (count($attachFile) > 0) {
+                foreach ($attachFile as $file) {
+                    $message->attach(Swift_Attachment::fromPath($file));
+                }
+            }
+        }
 
         $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
             ->setUsername('bilbo.kem@gmail.com')
@@ -34,7 +41,10 @@ class MailCommand extends CConsoleCommand
         foreach ($result as $row) {
             $conn->createCommand()->update('mail_stack', array('lock' => 1), 'id=:id', array(':id' => $row['id']));
 
-            $test = $this->SendMail(unserialize($row['from']), unserialize($row['to']), $row['subject'], $row['body']);
+            $attach = unserialize($row['body']);
+            if (count($attach) == 0) $attach = false;
+
+            $test = $this->SendMail(unserialize($row['from']), unserialize($row['to']), $row['subject'], $row['body'], $attach);
 
             if ($test === NULL) {
                 $conn->createCommand()->delete('mail_stack', 'id=:id', array(':id' => $row['id']));
