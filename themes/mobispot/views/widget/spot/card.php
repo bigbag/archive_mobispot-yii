@@ -68,7 +68,7 @@
                 <?php echo $name ?><br/>
                 <?php echo $link[$i]; ?><br/>
                 <?php echo $file_view ?>
-                <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name[$i] ?>">
+                <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name ?>">
                 <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="<?php echo $link[$i] ?>">
                 <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="<?php echo $file[$i] ?>">
                 <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
