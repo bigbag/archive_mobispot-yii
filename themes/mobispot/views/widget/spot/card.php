@@ -79,9 +79,9 @@
                            value="<?php echo $file[$i] ?>">
                     <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
                 </div>
-
-                <?php $i = $i + 1; ?>
                 <?php endif; ?>
+                <?php $i = $i + 1; ?>
+
             <?php endforeach; ?>
         <?php endif;?>
         <span class="view_action"> </span>
