@@ -27,15 +27,19 @@
                         </div>
                     </td>
                     <td>
+                        <input name="SpotModel[fayl_10][]" type="hidden" value="">
                         <?php if (!empty($content->fayl_10)): ?>
                         <?php foreach ($content->fayl_10 as $file): ?>
-                            <div class="result_upload">
-                                <input name="SpotModel[fayl_10][]" type="hidden" value="<?php echo $file ?>">
-                                <?php $file_name = explode('_', $file) ?>
-                                <?php echo $file_name[2]; ?>
-                                <span class="cancel"></span>
+                            <?php if (!empty($file)): ?>
+                                <div class="result_upload">
+                                    <input name="SpotModel[fayl_10][]" type="hidden" value="<?php echo $file ?>">
+                                    <?php $file_name = explode('_', $file) ?>
+                                    <?php $file_name = (isset($file_name[2])) ? $file_name[2] : '' ?>
+                                    <?php echo $file_name; ?>
+                                    <span class="cancel"></span>
 
-                            </div>
+                                </div>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         <?php endif;?>
                         <span class="view_file"></span>
@@ -56,13 +60,14 @@
             });
 
             $(function () {
+                var i = 1;
                 $("#add_file").uploadifive({
                     'width':'110',
                     'height':'30',
                     uploadScript:'/user/uploadFile/',
                     'formData':{'spot_id':<?php echo($data->discodes_id)?>},
                     'fileSizeLimit':'10MB',
-                    'multi':true,
+                    'multi':false,
                     'uploadLimit':5,
                     'buttonClass':'uploadify_file',
                     'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
@@ -77,12 +82,16 @@
                         var error = obj.error;
                         if (error) alert(error);
                         if (file_name) {
-                            var txt = '';
-                            txt += '<div class="result_upload">';
-                            txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
-                            txt +=  file.name;
-                            txt +='<span class="cancel"></span></div>';
-                            $('.view_file').before(txt);
+                            if (i < 6) {
+                                var txt = '';
+                                txt += '<div class="result_upload">';
+                                txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
+                                txt += file.name;
+                                txt += '<span class="cancel"></span></div>';
+                                $('.view_file').before(txt);
+                            }
+
+                            i = i + 1;
                         }
                     }
                 });

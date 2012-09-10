@@ -56,6 +56,9 @@
             </tr>
             </tbody>
         </table>
+        <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="">
+        <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="">
+        <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="">
         <?php if (!empty($content->nazvanie_8)): ?>
         <?php $i = 0; ?>
         <?php foreach ($content->nazvanie_8 as $name): ?>
