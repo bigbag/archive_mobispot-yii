@@ -65,4 +65,21 @@
     <div class="clear"></div>
     <div>
         <script type="text/javascript">
+            $(document).ready(function () {
+                $('#feedback_content').click(function () {
+                    var id = $('#feedback_content a').attr("href");
+
+                    if (id) {
+                        $.ajax({
+                            url:'/ajax/spotFeedbackContent',
+                            type:'POST',
+                            data:{discodes_id:id},
+                            success:function (result) {
+                                $('#spot_content_' + id).html(result);
+                            }
+                        });
+                    }
+                    return false;
+                });
+            });
         </script>

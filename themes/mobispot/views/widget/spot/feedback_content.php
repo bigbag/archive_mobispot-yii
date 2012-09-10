@@ -1,4 +1,4 @@
-<div style="display: block;" class="contSpot">
+<div class="contSpot">
     <div id="feedback">
         <a href="<?php echo $discodes_id;?>" class="btn-30">
             <span class="back-ico ico"></span>
@@ -17,7 +17,7 @@
                 <td>E-mail</td>
                 <td>Комментарий</td>
             </tr>
-            <?php foreach($spot as $row):?>
+            <?php foreach ($spot as $row): ?>
             <tr>
                 <td><?php echo Yii::app()->dateFormatter->format("dd.MM.yyyy", $row['creation_date']);?>
                 <td><?php echo mb_substr($row['name'], 0, 45, 'utf-8'); ?></td>
@@ -25,9 +25,30 @@
                 <td><?php echo $row['email']; ?></td>
                 <td><?php echo CHtml::encode($row['comment'])?></td>
             </tr>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
     <div class="clear"></div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#feedback').click(function () {
+            var id = $('#feedback a').attr("href");
+
+            if (id) {
+                $.ajax({
+                    url:'/ajax/spotView',
+                    type:'POST',
+                    data:{discodes_id:id},
+                    success:function (result) {
+                        $('#spot_content_' + id).html(result);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+</script>

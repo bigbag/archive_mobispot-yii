@@ -356,43 +356,4 @@ function showSpotEditResponse(responseText) {
         }
     }
 }
-
-//Просмотр отзывов на спот "Связь"
-$(document).ready(function () {
-    $('body').delegate('#feedback_content a', 'click', function () {
-        var id = $('#feedback_content a').attr("href");
-
-        if (id){
-            $.ajax({
-                url:'/ajax/spotFeedbackContent',
-                type:'POST',
-                data:{discodes_id:id},
-                success:function (result) {
-                    $('#spot_content_' + id).html(result);
-                }
-            });
-        }
-        return false;
-    });
-});
-
-//Возврат в спот после просмотра коментов
-$(document).ready(function () {
-    $('body').delegate('#feedback a', 'click', function () {
-        var id = $('#feedback a').attr("href");
-
-        if (id){
-            $.ajax({
-                url:'/ajax/spotView',
-                type:'POST',
-                data:{discodes_id:id},
-                success:function (result) {
-                    $('#spot_content_' + id).html(result);
-                }
-            });
-        }
-        return false;
-    });
-});
-
 </script>
