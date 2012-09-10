@@ -55,7 +55,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 var count = $('.file_count').val();
-                if (count > 4) $('.round-btn-upload').hide();
+                if (count > 5) $('.round-btn-upload').hide();
 
             });
 
@@ -72,8 +72,9 @@
             });
 
             $(function () {
-                var count = $('.file_count').val();
-                if (count == 5) $('.round-btn-upload').hide();
+                var count = <?php echo count($content->fayl_10);?>;
+                if (count == 6) $('.round-btn-upload').hide();
+                count = count + 1;
 
                 $("#add_file").uploadifive({
                     'width':'110',
@@ -96,7 +97,7 @@
                         var error = obj.error;
                         if (error) alert(error);
                         if (file_name) {
-
+                            if (count == 6) $('.round-btn-upload').hide();
                             var txt = '';
                             txt += '<div class="result_upload">';
                             txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
