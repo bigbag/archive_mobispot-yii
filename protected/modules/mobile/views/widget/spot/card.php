@@ -18,7 +18,7 @@
             <?php $link = $content->ssyilka_8; ?>
             <?php $file = $content->kartinka_8; ?>
 
-            <img src="/uploads/spot/<?php echo $file[$i] ?>" class="fleft" alt="" width="400px"/>
+            <img src="/uploads/spot/<?php echo $file[$i] ?>" class="fleft" alt="" width="100%"/>
             <div class="infoViz proc100 clr txtFLeft">
                 <p><a href="<?php echo YText::formatUrl($link[$i])?>"> <?php echo $link[$i]; ?>2</a></p>
 

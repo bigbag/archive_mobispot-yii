@@ -62,22 +62,26 @@
         <?php if (!empty($content->nazvanie_8)): ?>
         <?php $i = 0; ?>
         <?php foreach ($content->nazvanie_8 as $name): ?>
-            <?php $link = $content->ssyilka_8; ?>
-            <?php $file = $content->kartinka_8; ?>
-            <?php $file_view = explode('_', $file[$i]) ?>
-            <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
-            <div class="spot_action">
-                <span class="edit"></span>
-                <?php echo $name ?><br/>
-                <?php echo $link[$i]; ?><br/>
-                <?php echo $file_view ?>
-                <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name ?>">
-                <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="<?php echo $link[$i] ?>">
-                <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="<?php echo $file[$i] ?>">
-                <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
-            </div>
+            <?php if (!empty($name)): ?>
+                <?php $link = $content->ssyilka_8; ?>
+                <?php $file = $content->kartinka_8; ?>
+                <?php $file_view = explode('_', $file[$i]) ?>
+                <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
+                <div class="spot_action">
+                    <span class="edit"></span>
+                    <?php echo $name ?><br/>
+                    <?php echo $link[$i]; ?><br/>
+                    <?php echo $file_view ?>
+                    <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name ?>">
+                    <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden"
+                           value="<?php echo $link[$i] ?>">
+                    <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden"
+                           value="<?php echo $file[$i] ?>">
+                    <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
+                </div>
 
-            <?php $i = $i + 1; ?>
+                <?php $i = $i + 1; ?>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif;?>
         <span class="view_action"> </span>
@@ -118,34 +122,35 @@
                 <?php $karta = $content['tochka-karta_8']; ?>
                 <div class="place">
                     <span class="remove"></span>
-                <table class="visitInfoTbl" cellspacing="0">
-                    <tbody>
-                    <tr>
-                        <td class="field vatop" rowspan="3"></td>
-                        <td>
-                            <div class="txt-form">
-                                <div class="txt-form-cl">
-                                    <input class="text"
-                                           placeholder="<?php echo Yii::t('account', 'Название и адрес');?>"
-                                           name="SpotModel[tochka-nazvanie_8][]" value="<?php echo $name;?>"
-                                           type="text">
+                    <table class="visitInfoTbl" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td class="field vatop" rowspan="3"></td>
+                            <td>
+                                <div class="txt-form">
+                                    <div class="txt-form-cl">
+                                        <input class="text"
+                                               placeholder="<?php echo Yii::t('account', 'Название и адрес');?>"
+                                               name="SpotModel[tochka-nazvanie_8][]" value="<?php echo $name;?>"
+                                               type="text">
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="txt-form">
-                                <div class="txt-form-cl">
-                                    <input class="text" placeholder="<?php echo Yii::t('account', 'Ссылка на карту');?>"
-                                           name="SpotModel[tochka-karta_8][]" value="<?php echo $karta[$i];?>"
-                                           type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="txt-form">
+                                    <div class="txt-form-cl">
+                                        <input class="text"
+                                               placeholder="<?php echo Yii::t('account', 'Ссылка на карту');?>"
+                                               name="SpotModel[tochka-karta_8][]" value="<?php echo $karta[$i];?>"
+                                               type="text">
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <br/>
                 <?php endif; ?>
