@@ -227,7 +227,7 @@
         });
 
         $(function () {
-            $('body').delegate('.bnt_action #add_action', 'click', function () {
+            $('.bnt_action #add_action').live("click", function () {
                 $.ajax({
                     url:'/ajax/getContent',
                     type:'POST',
@@ -242,7 +242,7 @@
         });
 
         $(function () {
-            $('body').delegate('.spot_action .edit', 'click', function () {
+            $('.spot_action span.edit').live("click", function () {
                 var general = $(this).parent();
                 if (general) {
                     var file = general.find('.action_file').val();
@@ -283,7 +283,7 @@
 
 
         $(function () {
-            $('body').delegate('#save_action', 'click', function () {
+            $('#save_action').live("click", function () {
                 var action_name = $('.new_action input.name').val();
                 var action_link = $('.new_action input.link').val();
                 var action_file = $('.new_action input.spot_card_file').val();
@@ -293,8 +293,8 @@
                 if (action_name || action_link || action_file) {
                     action = '<div class="spot_action"><span class="edit"></span>' +
                         '<input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="' + action_name + '">' +
-                        '<input name="SpotModel[kartinka_8][]" class="action_link" type="hidden" value="' + action_file + '">' +
-                        '<input name="SpotModel[ssyilka_8][]" class="action_file" type="hidden" value="' + action_link + '">' +
+                        '<input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="' + action_file + '">' +
+                        '<input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="' + action_link + '">' +
                         '<input class="action_file_view" type="hidden" value="' + action_file_view + '">' +
                         action_name + '<br />' +
                         action_link + '<br />' +
