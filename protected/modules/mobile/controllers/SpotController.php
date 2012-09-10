@@ -64,13 +64,18 @@ class SpotController extends MController
                             $form->attributes = $_POST['SendForm'];
 
                             if ($form->validate()){
+                                $data = array();
 
                                 if (!empty($content->fayl_10)){
                                     $file = $content->fayl_10;
                                     if (isset($file[1])){
+                                        foreach($file as $row){
+                                            if (isset($row[1])){
+                                                $data['files'][] = $row;
+                                            }
+                                        }
                                         $data['spot_id'] = $spot->discodes_id;
                                         $data['spot_name'] = $spot->name;
-                                        $data['files'] = $file;
                                         MMail::spot_send($form->email, $data);
                                     }
                                 }
