@@ -78,4 +78,25 @@ class UserController extends MController
             echo json_encode(array('file' => $targetFileName));
         }
     }
+
+    public function actionUploadCouponLogo()
+    {
+        if (!empty($_FILES)) {
+
+            $spot_id = $_POST['spot_id'];
+            $tempFile = $_FILES['Filedata']['tmp_name'];
+
+            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            $targetFileName = $spot_id . '_' . time(). '.png';
+            $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+
+                $image = new CImageHandler();
+                $image->load($tempFile);
+                if ($image->thumb(70, 70, true)) {
+                    $image->save($targetFile, 3);
+                    echo json_encode(array('file' => $targetFileName));
+
+                } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+        }
+    }
 }

@@ -342,24 +342,21 @@ class AjaxController extends MController
         if (isset($_POST['Coupon']) and isset($_POST['Coupon']['spot_id'])) {
             $spot_id = $_POST['Coupon']['spot_id'];
             $body_color = ($_POST['Coupon']['body_color'])?'0x'.substr($_POST['Coupon']['body_color'],1):0xFFFFFF;
-            $text_color = ($_POST['Coupon']['text_color'])?'0x'.substr($_POST['Coupon']['text_color'],1):0xFFFFFF;
+            $text_color = ($_POST['Coupon']['text_color'])?'0x'.substr($_POST['Coupon']['text_color'],1):0x000000;
             $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text_color']):'';
             $logo = ($_POST['Coupon']['logo'])?trim($_POST['Coupon']['logo']):false;
             $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text_color']):'';
 
-            if ($logo) $image_logo = imagecreatefromgd(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
-
-            $image = imagecreatetruecolor(300,180);
+            $image = imagecreatetruecolor(300,200);
             imagefill($image, 0, 0, $body_color);
-            // Нарисуем желтый контурный эллипс...
-            imageellipse($image, 40, 30, 50, 50, 0xFFFF00);
-            // ...и еще пару, но сплошных...
-            imagefilledellipse($image, 30, 20, 10, 10, 0xFFFF00);
-            imagefilledellipse($image, 50, 20, 10, 10, 0xFFFF00);
-            // ...вертикальную линию...
-            imageline($image, 40, 28, 40, 38, 0xFFFF00);
-            // ...и дугу.
-            imagearc($image, 40, 30, 40, 40, 45, 135, 0xFFFF00);
+
+            if ($logo) {
+                $logo = imagecreatefrompng(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
+                $logo_x = imagesx($logo);
+                $logo_y = imagesy($logo);
+                imagecopymerge($image, $logo, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
+            }
+
             $file_path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
             $file_name =  $spot_id . '_' . time() . '_coupon.png';
             imagepng($image, $file_path.$file_name);

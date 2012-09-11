@@ -97,7 +97,7 @@
             'width':'120',
             'height':'28',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
-            uploadScript:'/user/uploadFile/',
+            uploadScript:'/user/uploadCouponLogo/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'fileSizeLimit':'512KB',
             'removeTimeout':10,
