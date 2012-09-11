@@ -343,9 +343,8 @@ class AjaxController extends MController
             $spot_id = $_POST['Coupon']['spot_id'];
             $body_color = ($_POST['Coupon']['body_color'])?'0x'.substr($_POST['Coupon']['body_color'],1):0xFFFFFF;
             $text_color = ($_POST['Coupon']['text_color'])?'0x'.substr($_POST['Coupon']['text_color'],1):0x000000;
-            $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text_color']):'';
+            $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text']):false;
             $logo = ($_POST['Coupon']['logo'])?trim($_POST['Coupon']['logo']):false;
-            $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text_color']):'';
 
             $image = imagecreatetruecolor(300,200);
             imagefill($image, 0, 0, $body_color);
@@ -355,6 +354,11 @@ class AjaxController extends MController
                 $logo_x = imagesx($logo);
                 $logo_y = imagesy($logo);
                 imagecopymerge($image, $logo, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
+            }
+
+            if ($text) {
+                $font_file = Yii::getPathOfAlias('webroot.fonts.').'/helveticaneuecyr-roman-webfont.ttf';
+                imagefttext($image, 12, 0, 10, 110, $text_color, $font_file, $text);
             }
 
             $file_path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';

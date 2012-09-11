@@ -126,7 +126,7 @@
     $(document).ready(function () {
         var options = {
             success:showCouponGenerateResponse,
-            clearForm:true,
+            clearForm:false,
             url:'/ajax/couponGenerate/'
         };
 
