@@ -380,6 +380,7 @@ class AjaxController extends MController
                 $logo_x = imagesx($logo_file);
                 $logo_y = imagesy($logo_file);
                 imagecopymerge($image, $logo_file, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
+                unlink(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
             }
 
             if ($text) {
