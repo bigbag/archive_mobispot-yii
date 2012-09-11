@@ -17,7 +17,7 @@
 <?php include('block/script.php');?>
 <?php include('modal/messages.php'); ?>
 
-<?php if (Yii::app()->user->isGuest): ?>
+<?php if (!isset(Yii::app()->user->id)): ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.min.js'); ?>
 <script type="text/javascript">
     jQuery(function ($) {

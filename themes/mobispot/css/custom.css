@@ -6,7 +6,7 @@ span.error {
 .selectBox-dropdown-menu {
     max-height: 355px;
     overflow-y: auto;
-    overflow-x: none;
+    overflow-x: auto;
 }
 
 .uploadify_personal {

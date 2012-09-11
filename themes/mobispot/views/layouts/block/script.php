@@ -226,4 +226,15 @@ $(document).ready(function () {
     js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+$(document).ready(function() {
+    $('input.txt').bind('focus',function() {
+        $(this).parent().css('background-position','100% -105px');
+        $(this).parent().parent().css('background-position','0 -70px');
+    });
+    $('input.txt').bind('blur',function() {
+        $(this).parent().css('background-position','100% -35px');
+        $(this).parent().parent().css('background-position','0 0');
+    });
+});
 </script>

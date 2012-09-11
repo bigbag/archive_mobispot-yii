@@ -24,7 +24,7 @@
                     <td>
                         <div class="txt-form">
                             <div class="txt-form-cl">
-                                <?php echo CHtml::activeTextField($content, 'nazvanie_5', array('class' => 'text')); ?>
+                                <?php echo CHtml::activeTextField($content, 'nazvanie_5', array('class' => 'txt')); ?>
                             </div>
                         </div>
                     </td>
@@ -34,7 +34,7 @@
                     <td>
                         <div class="txt-form">
                             <div class="txt-form-cl">
-                                <?php echo CHtml::activeTextField($content, 'adres_5', array('class' => 'text')); ?>
+                                <?php echo CHtml::activeTextField($content, 'adres_5', array('class' => 'txt')); ?>
                             </div>
                         </div>
                     </td>
@@ -44,3 +44,14 @@
     </div>
     <div class="clear"></div>
     <div>
+
+     <script type="text/javascript">
+         $('input.txt').bind('focus', function () {
+             $(this).parent().css('background-position', '100% -105px');
+             $(this).parent().parent().css('background-position', '0 -70px');
+         });
+         $('input.txt').bind('blur', function () {
+             $(this).parent().css('background-position', '100% -35px');
+             $(this).parent().parent().css('background-position', '0 0');
+         });
+     </script>

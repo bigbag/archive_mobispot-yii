@@ -21,7 +21,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class' => 'text')); ?>
+                            <?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class' => 'txt')); ?>
                         </div>
                     </div>
                 </td>
@@ -31,7 +31,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <?php echo CHtml::activeTextField($content, 'sayt_8', array('class' => 'text')); ?>
+                            <?php echo CHtml::activeTextField($content, 'sayt_8', array('class' => 'txt')); ?>
                         </div>
                     </div>
                 </td>
@@ -41,7 +41,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class' => 'text')); ?>
+                            <?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class' => 'txt')); ?>
                             <input class="txt" name="inputtext" value="" placeholder=" " type="text">
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                                 $content,
                                 'tochka-nazvanie_8[]',
                                 array(
-                                    'class' => 'text',
+                                    'class' => 'txt',
                                     'placeholder' => Yii::t('account', 'Название и адрес'),
                                 ));
                                 ?>
@@ -186,7 +186,7 @@
                                 $content,
                                 'tochka-karta_8[]',
                                 array(
-                                    'class' => 'text',
+                                    'class' => 'txt',
                                     'placeholder' => Yii::t('account', 'Ссылка на карту'),
                                 ));
                                 ?>
@@ -305,5 +305,14 @@
                 $('.bnt_action').show();
             });
             return false;
+        });
+
+        $('input.txt').bind('focus', function () {
+            $(this).parent().css('background-position', '100% -105px');
+            $(this).parent().parent().css('background-position', '0 -70px');
+        });
+        $('input.txt').bind('blur', function () {
+            $(this).parent().css('background-position', '100% -35px');
+            $(this).parent().parent().css('background-position', '0 0');
         });
     </script>

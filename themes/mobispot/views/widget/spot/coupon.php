@@ -33,6 +33,9 @@
         $('a#desinger').click(function () {
             $('.coupon_simple').hide();
             $('.coupon_desinger').show();
+            $("select").selectBox('destroy');
+            $("select").selectBox('refresh');
+            $("select").selectBox('create');
             return false;
         });
     });
@@ -144,4 +147,13 @@
             $('.time-form .fright').html('<img src="/uploads/spot/' + file_name + '" alt="coupon"/>');
         }
     }
+
+    $('input.txt').bind('focus', function () {
+        $(this).parent().css('background-position', '100% -105px');
+        $(this).parent().parent().css('background-position', '0 -70px');
+    });
+    $('input.txt').bind('blur', function () {
+        $(this).parent().css('background-position', '100% -35px');
+        $(this).parent().parent().css('background-position', '0 0');
+    });
 </script>

@@ -21,7 +21,7 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" name="Coupon[text]" value="" placeholder=" " type="text">
+                            <input class="txt" name="Coupon[text]" autocomplete="off" value="" placeholder=" " type="text">
                         </div>
                     </div>
                 </td>
