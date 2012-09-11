@@ -33,8 +33,6 @@
         $('a#desinger').click(function () {
             $('.coupon_simple').hide();
             $('.coupon_desinger').show();
-            $("select").selectBox('destroy');
-            $("select").selectBox('refresh');
             $("select").selectBox('create');
             return false;
         });

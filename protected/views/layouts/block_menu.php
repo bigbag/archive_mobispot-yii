@@ -25,8 +25,7 @@
             'discodes', 'spot', 'spotType', 'spotHardType', 'spotField', 'spotComment'))) ? true : false),
             'items' => array(
                 array('label' => 'ID', 'url' => array('/admin/discodes')),
-                array('label' => 'Типы спотов', 'url' => array('/admin/spotType/')),
-                array('label' => 'Доступные Поля', 'url' => array('/admin/spotField/')),
+
                 array('label' => 'Типы исполнения спотов', 'url' => array('/admin/spotHardType/')),
                 array('label' => 'Комментарии', 'url' => array('/admin/spotComment/')),
             ),

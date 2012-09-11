@@ -345,7 +345,7 @@ class AjaxController extends MController
         $text_new = '';
         foreach($text as $word){
             $box = imagettfbbox($font_size, 0, $font, $text_new.' '.$word);
-            if($box[2] > $width_text){
+            if($box[2] > $width_text - 10){
                 $text_new .= "\n".$word;
             } else {
                 $text_new .= " ".$word;
@@ -380,14 +380,13 @@ class AjaxController extends MController
                 $logo_x = imagesx($logo_file);
                 $logo_y = imagesy($logo_file);
                 imagecopymerge($image, $logo_file, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
-                unlink(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
+                //unlink(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
             }
 
             if ($text) {
                 $font_size = 12;
-                $width_text = 100;
 
-                $data = $this->formatText($text, $font, 12, $width_text);
+                $data = $this->formatText($text, $font, 12, 290);
                 imagefttext($image, $font_size, 0, ($width - $data['width'])/2, 100, $text_color, $font, $data['text']);
             }
 
@@ -410,7 +409,7 @@ class AjaxController extends MController
             if (!empty($month_up)) $date_text .= $month_up;
             if (!empty($year_up) and !empty($month_up)) $date_text .= '.';
             if (!empty($year_up)) $date_text .= $year_up;
-            if (!empty($month_up) or !empty($day_up) or !empty($year_up) or !empty($month_down) or !empty($day_down) or !empty($year_down)) $date_text .= '-';
+            if ((!empty($month_up) or !empty($day_up) or !empty($year_up) )and (!empty($month_down) or !empty($day_down) or !empty($year_down))) $date_text .= '-';
             if (!empty($day_down)) $date_text .= $day_down;
             if (!empty($month_down) and !empty($day_down)) $date_text .= '.';
             if (!empty($month_down)) $date_text .= $month_down;

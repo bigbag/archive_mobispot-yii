@@ -140,6 +140,7 @@
     <div class="clear"></div>
     <div>
         <script type="txt/javascript">
+            $("select").selectBox('create');
             $('input.txt').bind('focus', function () {
                 $(this).parent().css('background-position', '100% -105px');
                 $(this).parent().parent().css('background-position', '0 -70px');
