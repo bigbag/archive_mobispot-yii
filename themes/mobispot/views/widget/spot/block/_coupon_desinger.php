@@ -95,7 +95,7 @@
                 <td class="time-form">
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" maxlength="2" name="Coupon[time_up][]" value="" placeholder=" "
+                            <input class="txt" maxlength="2" name="Coupon[hour_up]" value="" placeholder=" "
                                    type="text">
                         </div>
                     </div>
@@ -103,7 +103,7 @@
 
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" maxlength="2" name="Coupon[time_up][]" value="" placeholder=" "
+                            <input class="txt" maxlength="2" name="Coupon[minute_up]" value="" placeholder=" "
                                    type="text">
                         </div>
                     </div>
@@ -111,7 +111,7 @@
 
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" maxlength="2" name="Coupon[time_down][]" value="" placeholder=" "
+                            <input class="txt" maxlength="2" name="Coupon[hour_down]" value="" placeholder=" "
                                    type="text">
                         </div>
                     </div>
@@ -119,7 +119,7 @@
 
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" maxlength="2" name="Coupon[time_down][]" value="" placeholder=" "
+                            <input class="txt" maxlength="2" name="Coupon[minute_down]" value="" placeholder=" "
                                    type="text">
                         </div>
                     </div>

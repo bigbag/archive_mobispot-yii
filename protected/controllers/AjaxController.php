@@ -338,29 +338,86 @@ class AjaxController extends MController
         }
     }
 
+    public function formatText($text, $font, $font_size, $width_text){
+        $data = array();
+
+        $text = explode(' ', $text);
+        $text_new = '';
+        foreach($text as $word){
+            $box = imagettfbbox($font_size, 0, $font, $text_new.' '.$word);
+            if($box[2] > $width_text){
+                $text_new .= "\n".$word;
+            } else {
+                $text_new .= " ".$word;
+            }
+        }
+        $text_new = trim($text_new);
+        $box = imagettfbbox($font_size, 0, $font, $text_new);
+
+        $data['width'] = $box[2] - $box[1];
+        $data['text'] = $text_new;
+        return $data;
+    }
+
     public function actionCouponGenerate(){
         if (isset($_POST['Coupon']) and isset($_POST['Coupon']['spot_id'])) {
-            $spot_id = $_POST['Coupon']['spot_id'];
+            foreach ($_POST['Coupon'] as $key=>$value){
+                ${$key} = $value;
+            }
+
             $body_color = ($_POST['Coupon']['body_color'])?'0x'.substr($_POST['Coupon']['body_color'],1):0xFFFFFF;
             $text_color = ($_POST['Coupon']['text_color'])?'0x'.substr($_POST['Coupon']['text_color'],1):0x000000;
-            $text = ($_POST['Coupon']['text'])?trim($_POST['Coupon']['text']):false;
-            $logo_file = ($_POST['Coupon']['logo'])?trim($_POST['Coupon']['logo']):false;
 
-            $image = imagecreatetruecolor(300,200);
+            $width = 300;
+            $height = 200;
+            $font = Yii::getPathOfAlias('webroot.fonts.').'/helveticaneuecyr-roman-webfont.ttf';
+
+            $image = imagecreatetruecolor($width, $height);
             imagefill($image, 0, 0, $body_color);
 
-            if ($logo_file) {
-                $logo = imagecreatefrompng(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo_file);
-                $logo_x = imagesx($logo);
-                $logo_y = imagesy($logo);
-                imagecopymerge($image, $logo, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
-                //unlink(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo_file);
+            if ($logo) {
+                $logo_file = imagecreatefrompng(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
+                $logo_x = imagesx($logo_file);
+                $logo_y = imagesy($logo_file);
+                imagecopymerge($image, $logo_file, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
             }
 
             if ($text) {
-                $font_file = Yii::getPathOfAlias('webroot.fonts.').'/helveticaneuecyr-roman-webfont.ttf';
-                imagefttext($image, 12, 0, 10, 110, $text_color, $font_file, $text);
+                $font_size = 12;
+                $width_text = 100;
+
+                $data = $this->formatText($text, $font, 12, $width_text);
+                imagefttext($image, $font_size, 0, ($width - $data['width'])/2, 100, $text_color, $font, $data['text']);
             }
+
+            $time_text = '';
+            if (!empty($hour_up)) $time_text .= $hour_up;
+            if (!empty($hour_up) and !empty($minute_up)) $time_text .= ':';
+            if (!empty($minute_up)) $time_text .= $minute_up;
+            if (!empty($hour_up) or !empty($minute_up) or!empty($hour_down) or !empty($minute_down)) $time_text .= '-';
+            if (!empty($hour_down)) $time_text .= $hour_down;
+            if (!empty($hour_down) and !empty($minute_down)) $time_text .= ':';
+            if (!empty($minute_down)) $time_text .= $minute_down;
+
+
+            $data = $this->formatText($time_text, $font, 10, 300);
+            imagefttext($image, 10, 0, ($width - $data['width'])/2, 190, $text_color, $font, $data['text']);
+
+            $date_text = '';
+            if (!empty($day_up)) $date_text .= $day_up;
+            if (!empty($month_up) and !empty($day_up)) $date_text .= '.';
+            if (!empty($month_up)) $date_text .= $month_up;
+            if (!empty($year_up) and !empty($month_up)) $date_text .= '.';
+            if (!empty($year_up)) $date_text .= $year_up;
+            if (!empty($month_up) or !empty($day_up) or !empty($year_up) or !empty($month_down) or !empty($day_down) or !empty($year_down)) $date_text .= '-';
+            if (!empty($day_down)) $date_text .= $day_down;
+            if (!empty($month_down) and !empty($day_down)) $date_text .= '.';
+            if (!empty($month_down)) $date_text .= $month_down;
+            if (!empty($year_down) and !empty($month_down)) $date_text .= '.';
+            if (!empty($year_down)) $date_text .= $year_down;
+
+            $data = $this->formatText($date_text, $font, 10, 300);
+            imagefttext($image, 10, 0, ($width - $data['width'])/2, 160, $text_color, $font, $data['text']);
 
             $file_path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
             $file_name =  $spot_id . '_' . time() . '_coupon.png';
