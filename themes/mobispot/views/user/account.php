@@ -67,3 +67,5 @@
 <?php include('modal/spot_add.php') ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.miniColors.min.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/jquery.miniColors.css'); ?>

@@ -1793,18 +1793,6 @@ div.contSpot .btn-30 {
     background-position: -69px -136px
 }
 
-.color-palit-cl span {
-    position: absolute;
-    left: auto;
-    right: 2px;
-    top: 11px;
-    width: 13px;
-    height: 9px;
-    overflow: hidden;
-    cursor: pointer;
-    background: url(../images/form/sprite.png) -7px -79px no-repeat;
-}
-
 .visitInfoTbl {
     width: 100%;
 }

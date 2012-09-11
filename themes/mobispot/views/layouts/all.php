@@ -18,7 +18,7 @@
 <?php include('modal/messages.php'); ?>
 
 <?php if (Yii::app()->user->isGuest): ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.js'); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.min.js'); ?>
 <script type="text/javascript">
     jQuery(function ($) {
         $("a.twitter").eauth({"popup":{"width":900, "height":550}, "id":"twitter"});

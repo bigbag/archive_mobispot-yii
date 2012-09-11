@@ -1,5 +1,6 @@
 <div class="oneSpot">
     <div class="contSpot">
+        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
         <div class="btn-30">
             <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
@@ -15,54 +16,31 @@
                   id="spot_edit_content_<?php echo $content->spot_id?>">
                 <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
                 <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
-                <span class="upload-img active"><?php echo Yii::t('account', 'Загрузка картинки');?></span>
-                <a href="<?php echo $data->discodes_id;?>" class="constr"
-                   id="desinger"><?php echo Yii::t('account', 'Конструктор');?></a>
-                <br/>
-                <br/>
-
-                <p><?php echo Yii::t('account', 'Подгрузите сюда картинку с Вашим купоном (любой графический формат, объем - до 512 Кб),<br>
-                и Ваш потенциальный покупатель получит его прямо в телефон. Не забудьте указать на купоне<br> сроки его
-                действия и правила использования.');?></p>
-                <br/>
-
-                <div class="noUploadImg">
-                    <?php if (!empty($content->kupon_4)): ?>
-                    <img src="/uploads/spot/<?php echo $content->kupon_4?>" width="321px" alt="coupon"/>
-                    <span class="cancel"></span>
-                    <?php else: ?>
-                    <img src="/themes/mobispot/images/coupon_no_image.png" alt="coupon"/>
-                    <?php endif;?>
-                    <noscript>
-                        <p>Please enable JavaScript to use file uploader.</p>
-                    </noscript>
-                </div>
                 <?php echo CHtml::activeHiddenField($content, 'kupon_4', array('id' => 'spot_coupon_field')); ?>
-                <div class="round-btn-new">
-                    <input type="submit" id="add_images" value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
-                </div>
-
             </form>
+            <?php include('block/_coupon_simple.php'); ?>
+            <?php include('block/_coupon_desinger.php'); ?>
         </div>
-
         <div class="clear"></div>
     </div>
 </div>
-
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <script type="text/javascript">
+
+    $('#body_color').miniColors();
+    $('#text_color').miniColors();
+
     $(document).ready(function () {
         $('a#desinger').click(function () {
-            var id = <?php echo $data->discodes_id;?>;
-            $.ajax({
-                url:'/ajax/getContent',
-                type:'POST',
-                data:{discodes_id:id, 'content':'coupon_designer'},
-                success:function (result) {
-                    $('.oneSpotInfo').html(result);
-                    $('.upload-img').attr('href', id);
-                }
-            });
+            $('.coupon_simple').hide();
+            $('.coupon_desinger').show();
+            return false;
+        });
+    });
+
+    $(document).ready(function () {
+        $('.upload-img').click(function () {
+            $('.coupon_simple').show();
+            $('.coupon_desinger').hide();
             return false;
         });
     });
@@ -75,9 +53,8 @@
         return false;
     });
 
-
     $(function () {
-        $("#add_images").uploadifive({
+        $("#add_file_simple").uploadifive({
             'width':'120',
             'height':'28',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
@@ -106,4 +83,65 @@
             }
         });
     });
+
+    $(function () {
+        $('body').delegate('.result_upload span.cancel', 'click', function () {
+            $('.coupon_logo').val('');
+            $('.result_upload').empty();
+        });
+        return false;
+    });
+
+    $(function () {
+        $("#add_file_desinger").uploadifive({
+            'width':'120',
+            'height':'28',
+            'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
+            uploadScript:'/user/uploadFile/',
+            'formData':{'spot_id':<?php echo($data->discodes_id)?>},
+            'fileSizeLimit':'512KB',
+            'removeTimeout':10,
+            'multi':false,
+            'buttonClass':'uploadify_personal',
+            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+
+            'onError':function (errorType) {
+                $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
+                $('#messages_modal').reveal({animation:'none'});
+            },
+            'onUploadComplete':function (file, data, response) {
+                var obj = jQuery.parseJSON(data);
+                var file_name = obj.file;
+                var error = obj.error;
+                if (file_name) {
+                    $('.coupon_logo').val(file_name);
+                    $('.result_upload').html(file.name + '<span class="cancel"></span>');
+                }
+                if (error) alert(error);
+            }
+        });
+    });
+
+    //Генерация купона
+    $(document).ready(function () {
+        var options = {
+            success:showCouponGenerateResponse,
+            clearForm:true,
+            url:'/ajax/couponGenerate/'
+        };
+
+        $('.generation_coupon').submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+    });
+
+    function showCouponGenerateResponse(responseText) {
+        var obj = jQuery.parseJSON(responseText);
+        var file_name = obj.file;
+        if (file_name) {
+            $('#spot_coupon_field').val(file_name);
+            $('.time-form .fright').html('<img src="/uploads/spot/' + file_name + '" alt="coupon"/>');
+        }
+    }
 </script>
