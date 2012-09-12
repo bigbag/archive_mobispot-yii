@@ -90,12 +90,12 @@ class AjaxController extends MController
         if (Yii::app()->request->isAjaxRequest and isset($_POST['content']) and isset($_POST['discodes_id'])) {
 
             $data = array();
-            $data['name'] = (isset($_POST['name']))?$_POST['name']:'';
-            $data['link'] = (isset($_POST['link']))?$_POST['link']:'';
-            $data['file'] = (isset($_POST['file']))?$_POST['file']:'';
-            $data['file_view'] = (isset($_POST['file_view']))?$_POST['file_view']:'';
+            $data['name'] = (isset($_POST['name'])) ? $_POST['name'] : '';
+            $data['link'] = (isset($_POST['link'])) ? $_POST['link'] : '';
+            $data['file'] = (isset($_POST['file'])) ? $_POST['file'] : '';
+            $data['file_view'] = (isset($_POST['file_view'])) ? $_POST['file_view'] : '';
 
-            $txt = $this->renderPartial('//widget/spot/'.$_POST['content'],
+            $txt = $this->renderPartial('//widget/spot/' . $_POST['content'],
                 array(
                     'discodes_id' => (int)$_POST['discodes_id'],
                     'data' => $data,
@@ -311,7 +311,7 @@ class AjaxController extends MController
     {
         if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
 
-            $spot_id = ($_POST['SpotModel']['spot_id']);
+            $spot_id = $_POST['SpotModel']['spot_id'];
             $spot_type_id = ($_POST['SpotModel']['spot_type_id']);
 
             $content = SpotModel::getContent('1', $spot_id, Yii::app()->user->id, $spot_type_id);
@@ -324,8 +324,9 @@ class AjaxController extends MController
             }
         }
     }
-    
-    public function actionSpotFeedbackContent(){
+
+    public function actionSpotFeedbackContent()
+    {
         if (isset($_POST['discodes_id'])) {
             $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
             $txt = $this->renderPartial('//widget/spot/feedback_content',
@@ -338,34 +339,52 @@ class AjaxController extends MController
         }
     }
 
-    public function actionSpotPersonalContent(){
+    public function actionSpotPersonalContent()
+    {
         if (isset($_POST['discodes_id']) and isset($_POST['type_id'])) {
-            $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
+            $select_field = UserPersonalField::getField($_POST['discodes_id']);
 
-            $field = SpotPersonalField::getPersonalField((int)$_POST['type_id']);
+            if (!$select_field) $select_field = false;
+
+            $all_field = SpotPersonalField::getPersonalField((int)$_POST['type_id']);
             $txt = $this->renderPartial('//widget/spot/personal_field',
                 array(
                     'discodes_id' => (int)$_POST['discodes_id'],
-                    'field' => $field,
+                    'all_field' => $all_field,
+                    'select_field' => $select_field,
                     'type_id' => (int)$_POST['type_id'],
-                    'spot' => $spot,
                 ),
                 true);
             echo $txt;
         }
     }
 
-    public function formatText($text, $font, $font_size, $width_text){
+    public function actionSpotPersonalField()
+    {
+        if (isset($_POST['discodes_id']) and isset($_POST['Fields']) and isset($_POST['type_id'])) {
+
+            $data = array();
+            foreach ($_POST['Fields'] as $key => $value) {
+                $data[] = $key;
+            }
+
+            UserPersonalField::setField($_POST['discodes_id'], $_POST['type_id'], $data);
+            echo true;
+        }
+    }
+
+    public function formatText($text, $font, $font_size, $width_text)
+    {
         $data = array();
 
         $text = explode(' ', $text);
         $text_new = '';
-        foreach($text as $word){
-            $box = imagettfbbox($font_size, 0, $font, $text_new.' '.$word);
-            if($box[2] > $width_text - 10){
-                $text_new .= "\n".$word;
+        foreach ($text as $word) {
+            $box = imagettfbbox($font_size, 0, $font, $text_new . ' ' . $word);
+            if ($box[2] > $width_text - 10) {
+                $text_new .= "\n" . $word;
             } else {
-                $text_new .= " ".$word;
+                $text_new .= " " . $word;
             }
         }
         $text_new = trim($text_new);
@@ -376,27 +395,28 @@ class AjaxController extends MController
         return $data;
     }
 
-    public function actionCouponGenerate(){
+    public function actionCouponGenerate()
+    {
         if (isset($_POST['Coupon']) and isset($_POST['Coupon']['spot_id'])) {
-            foreach ($_POST['Coupon'] as $key=>$value){
+            foreach ($_POST['Coupon'] as $key => $value) {
                 ${$key} = $value;
             }
 
-            $body_color = ($_POST['Coupon']['body_color'])?'0x'.substr($_POST['Coupon']['body_color'],1):0xFFFFFF;
-            $text_color = ($_POST['Coupon']['text_color'])?'0x'.substr($_POST['Coupon']['text_color'],1):0x000000;
+            $body_color = ($_POST['Coupon']['body_color']) ? '0x' . substr($_POST['Coupon']['body_color'], 1) : 0xFFFFFF;
+            $text_color = ($_POST['Coupon']['text_color']) ? '0x' . substr($_POST['Coupon']['text_color'], 1) : 0x000000;
 
             $width = 300;
             $height = 200;
-            $font = Yii::getPathOfAlias('webroot.fonts.').'/helveticaneuecyr-roman-webfont.ttf';
+            $font = Yii::getPathOfAlias('webroot.fonts.') . '/helveticaneuecyr-roman-webfont.ttf';
 
             $image = imagecreatetruecolor($width, $height);
             imagefill($image, 0, 0, $body_color);
 
             if ($logo) {
-                $logo_file = imagecreatefrompng(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
+                $logo_file = imagecreatefrompng(Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $logo);
                 $logo_x = imagesx($logo_file);
                 $logo_y = imagesy($logo_file);
-                imagecopymerge($image, $logo_file, (imagesx($image) - $logo_x)/2, 10, 0, 0, $logo_x, $logo_y, 100);
+                imagecopymerge($image, $logo_file, (imagesx($image) - $logo_x) / 2, 10, 0, 0, $logo_x, $logo_y, 100);
                 //unlink(Yii::getPathOfAlias('webroot.uploads.spot.') . '/'.$logo);
             }
 
@@ -404,7 +424,7 @@ class AjaxController extends MController
                 $font_size = 12;
 
                 $data = $this->formatText($text, $font, 12, 290);
-                imagefttext($image, $font_size, 0, ($width - $data['width'])/2, 100, $text_color, $font, $data['text']);
+                imagefttext($image, $font_size, 0, ($width - $data['width']) / 2, 100, $text_color, $font, $data['text']);
             }
 
             $time_text = '';
@@ -418,7 +438,7 @@ class AjaxController extends MController
 
 
             $data = $this->formatText($time_text, $font, 10, 300);
-            imagefttext($image, 10, 0, ($width - $data['width'])/2, 190, $text_color, $font, $data['text']);
+            imagefttext($image, 10, 0, ($width - $data['width']) / 2, 190, $text_color, $font, $data['text']);
 
             $date_text = '';
             if (!empty($day_up)) $date_text .= $day_up;
@@ -426,7 +446,7 @@ class AjaxController extends MController
             if (!empty($month_up)) $date_text .= $month_up;
             if (!empty($year_up) and !empty($month_up)) $date_text .= '.';
             if (!empty($year_up)) $date_text .= $year_up;
-            if ((!empty($month_up) or !empty($day_up) or !empty($year_up) )and (!empty($month_down) or !empty($day_down) or !empty($year_down))) $date_text .= '-';
+            if ((!empty($month_up) or !empty($day_up) or !empty($year_up))and (!empty($month_down) or !empty($day_down) or !empty($year_down))) $date_text .= '-';
             if (!empty($day_down)) $date_text .= $day_down;
             if (!empty($month_down) and !empty($day_down)) $date_text .= '.';
             if (!empty($month_down)) $date_text .= $month_down;
@@ -434,11 +454,11 @@ class AjaxController extends MController
             if (!empty($year_down)) $date_text .= $year_down;
 
             $data = $this->formatText($date_text, $font, 10, 300);
-            imagefttext($image, 10, 0, ($width - $data['width'])/2, 160, $text_color, $font, $data['text']);
+            imagefttext($image, 10, 0, ($width - $data['width']) / 2, 160, $text_color, $font, $data['text']);
 
             $file_path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $file_name =  $spot_id . '_' . time() . '_coupon.png';
-            imagepng($image, $file_path.$file_name);
+            $file_name = $spot_id . '_' . time() . '_coupon.png';
+            imagepng($image, $file_path . $file_name);
             echo json_encode(array('file' => $file_name));
 
         }

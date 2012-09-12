@@ -1,3 +1,4 @@
+<?php $select_field = UserPersonalField::getField($_POST['discodes_id']); ?>
 <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
     <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
@@ -35,19 +36,21 @@
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Контактные данные');?>
                     <?php foreach (SpotPersonalField::getPersonalField(0) as $row): ?>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
+                    <?php if (isset($select_field[$row['id']])):?>
+                        <div class="txt-form">
+                            <div class="txt-form-cl">
                             <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
                                        height="23"> </span>
-                            <?php echo CHtml::activeTextField(
-                            $content,
-                            'kontaktyi_3[' . $row['id'] . ']',
-                            array(
-                                'placeholder' => $row['placeholder'],
-                                'class' => 'txt'
-                            )); ?>
+                                <?php echo CHtml::activeTextField(
+                                $content,
+                                'kontaktyi_3[' . $row['id'] . ']',
+                                array(
+                                    'placeholder' => $row['placeholder'],
+                                    'class' => 'txt'
+                                )); ?>
+                            </div>
                         </div>
-                    </div>
+                        <?php endif; ?>
                     <?php endforeach;?>
                     <div class="add_field">
                         <a href="0" class="r-btn-30">
@@ -60,19 +63,21 @@
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Социальные сети');?>
                     <?php foreach (SpotPersonalField::getPersonalField(1) as $row): ?>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
+                    <?php if (isset($select_field[$row['id']])):?>
+                        <div class="txt-form">
+                            <div class="txt-form-cl">
                             <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
                                        height="23"> </span>
-                            <?php echo CHtml::activeTextField(
-                            $content,
-                            'sotsseti_3[' . $row['id'] . ']',
-                            array(
-                                'placeholder' => $row['placeholder'],
-                                'class' => 'txt'
-                            )); ?>
+                                <?php echo CHtml::activeTextField(
+                                $content,
+                                'sotsseti_3[' . $row['id'] . ']',
+                                array(
+                                    'placeholder' => $row['placeholder'],
+                                    'class' => 'txt'
+                                )); ?>
+                            </div>
                         </div>
-                    </div>
+                        <?php endif; ?>
                     <?php endforeach;?>
                     <div class="add_field">
                         <a href="1" class="r-btn-30">
@@ -86,22 +91,24 @@
                 <div class="top-border ">
                     <table class="oneBlockSpotInfoTbl" cellspacing="0">
                         <?php foreach (SpotPersonalField::getPersonalField(2) as $row): ?>
-                        <tr>
-                            <td class="field"><?php echo Yii::t('account', $row['name']);?></td>
-                            <td>
-                                <div class="txt-form">
-                                    <div class="txt-form-cl">
-                                        <?php echo CHtml::activeTextField(
-                                        $content,
-                                        'opisanie_3[' . $row['id'] . ']',
-                                        array(
-                                            'placeholder' => $row['placeholder'],
-                                            'class' => 'txt'
-                                        )); ?>
+                        <?php if (isset($select_field[$row['id']])):?>
+                            <tr>
+                                <td class="field"><?php echo Yii::t('account', $row['name']);?></td>
+                                <td>
+                                    <div class="txt-form">
+                                        <div class="txt-form-cl">
+                                            <?php echo CHtml::activeTextField(
+                                            $content,
+                                            'opisanie_3[' . $row['id'] . ']',
+                                            array(
+                                                'placeholder' => $row['placeholder'],
+                                                'class' => 'txt'
+                                            )); ?>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
                         <?php endforeach;?>
                     </table>
 
@@ -150,13 +157,13 @@
             $(document).ready(function () {
                 $('.add_field').click(function () {
                     var id = <?php echo $data->discodes_id;?>;
-                    var type_id= $(this).children('a').attr("href");
+                    var type_id = $(this).children('a').attr("href");
 
                     if (id && type_id) {
                         $.ajax({
                             url:'/ajax/spotPersonalContent',
                             type:'POST',
-                            data:{discodes_id:id, type_id: type_id},
+                            data:{discodes_id:id, type_id:type_id},
                             success:function (result) {
                                 $('#spot_content_' + id).html(result);
                             }
