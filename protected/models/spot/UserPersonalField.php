@@ -50,7 +50,7 @@ class UserPersonalField extends CActiveRecord
     {
         $field = UserPersonalField::model()->findByPk($spot_id);
 
-        $data = array();
+        $data = array(9999);
         if (!empty($field->contacts)) $data = array_merge($data, unserialize($field->contacts));
         if (!empty($field->social)) $data = array_merge($data, unserialize($field->social));
         if (!empty($field->text)) $data = array_merge($data, unserialize($field->text));
