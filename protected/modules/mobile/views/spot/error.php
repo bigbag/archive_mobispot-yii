@@ -28,6 +28,9 @@
                         <div style="width: 200px; margin: 0 auto;">
                             <input type="text" class="txt-100p rad6"  value="" name="ErrorForm[verifyCode]"/>
                         </div>
+                        <div style="display: none;">
+                            <input type="text" class="txt-100p rad6"  value="" name="email"/>
+                        </div>
                     </td>
                 </tr>
             </table>

@@ -23,7 +23,7 @@ class SpotController extends MController
         if (Yii::app()->request->getQuery('url', 0)) {
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->used()->findByAttributes(array('url' => $url));
-            if ($spot) {
+            if (!isset(Yii::app()->session['spot_view_error']) and $spot) {
                 $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
                 $txt = '';
 
@@ -122,16 +122,16 @@ class SpotController extends MController
                     'content' => $content,
                 ));
 
-            } else
-                $session = Yii::app()->session;
-            $session->open();
-            if (isset(Yii::app()->session['spot_view_error'])) {
-                $this->redirect(array('error'));
             } else {
-                Yii::app()->session['spot_view_error'] = 1;
-                throw new CHttpException(404, 'The requested page does not exist.');
+                $session = Yii::app()->session;
+                $session->open();
+                if (isset(Yii::app()->session['spot_view_error'])) {
+                    $this->redirect(array('error'));
+                } else {
+                    Yii::app()->session['spot_view_error'] = 1;
+                    throw new CHttpException(404, 'The requested page does not exist.');
+                }
             }
-
 
         } else throw new CHttpException(404, 'The requested page does not exist.');
     }
@@ -142,16 +142,16 @@ class SpotController extends MController
             $form = new ErrorForm();
             if (isset($_POST['ErrorForm'])) {
                 $form->attributes = $_POST['ErrorForm'];
-                if ($form->validate()) {
+                if ($form->validate() and (!isset($_POST['email'][1]))) {
                     unset(Yii::app()->session['spot_view_error']);
+                    unset(Yii::app()->session['Yii_Captcha']);
                     $this->redirect('/');
                 }
             }
             $this->render('error', array(
                 'form' => $form,
             ));
-        }
-        else $this->redirect('/');
+        } else $this->redirect('/');
 
     }
 }
