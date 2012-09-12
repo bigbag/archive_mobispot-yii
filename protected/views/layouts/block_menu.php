@@ -22,11 +22,11 @@
             ),
         ),
         array('label' => 'Споты', 'url' => array('/admin/spot/'), 'active' => ((in_array(Yii::app()->controller->id, array(
-            'discodes', 'spot', 'spotType', 'spotHardType', 'spotField', 'spotComment'))) ? true : false),
+            'discodes', 'spot', 'spotHardType', 'spotPersonalField', 'spotComment'))) ? true : false),
             'items' => array(
                 array('label' => 'ID', 'url' => array('/admin/discodes')),
-
                 array('label' => 'Типы исполнения спотов', 'url' => array('/admin/spotHardType/')),
+                array('label' => 'Персональный спот, поля,', 'url' => array('/admin/spotPersonalField')),
                 array('label' => 'Комментарии', 'url' => array('/admin/spotComment/')),
             ),
         ),

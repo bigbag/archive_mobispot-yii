@@ -475,7 +475,6 @@ div#header {
 }
 
 .txt-form-cl span {
-    background: url(../images/form/sprite.png) 0 0 no-repeat;
     position: relative;
     top: 5px;
     left: -4px;
@@ -483,50 +482,6 @@ div#header {
     height: 23px;
     display: block;
     float: left
-}
-
-.txt-form-cl span.tel-ico {
-    background-position: 0 -23px;
-}
-
-.txt-form-cl span.fb-ico {
-    background-position: 0 0;
-}
-
-.txt-form-cl span.tw-ico {
-    background-position: -23px 0;
-}
-
-.txt-form-cl span.mail-ico {
-    background-position: -46px 0;
-}
-
-.txt-form-cl span.skype-ico {
-    background-position: -69px 0;
-}
-
-.txt-form-cl span.in-ico {
-    background-position: -69px -23px;
-}
-
-.txt-form-cl span.vk-ico {
-    background-position: -46px -23px;
-}
-
-.txt-form-cl span.ms-ico {
-    background-position: -23px -23px;
-}
-
-.txt-form-cl span.any-ico {
-    background-position: -46px -46px;
-}
-
-.txt-form-cl span.weibo-ico {
-    background-position: -23px -46px;
-}
-
-.txt-form-cl span.viadeo-ico {
-    background-position: 0 -46px;
 }
 
 .txtarea-form {

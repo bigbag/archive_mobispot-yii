@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Типы исполнения спотов'; ?>
+<?php $this->pageTitle = 'Доступные поля'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
@@ -12,6 +12,6 @@ $this->menu = array(
 );
 ?>
 
-<h1>Редактировать тип "<?php echo $model->name; ?>"</h1>
+<h1>Редактировать поле "<?php echo $model->name; ?>"</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -31,58 +31,43 @@
                     </div>
                 </div>
             </div>
-
-            <div class="oneBlockSpotInfo">
+             <div class="oneBlockSpotInfo">
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Контактные данные');?>
+                    <?php foreach (SpotPersonalField::getPersonalField(0) as $row): ?>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <span class="tel-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'telefon_3', array('placeholder' => 'Your Phone', 'class' => 'txt')); ?>
+                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23"> </span>
+                            <?php echo CHtml::activeTextField(
+                            $content,
+                            'kontaktyi_3[' . $row['id'] . ']',
+                            array(
+                                'placeholder' => $row['placeholder'],
+                                'class' => 'txt'
+                            )); ?>
                         </div>
                     </div>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
-                            <span class="mail-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'email_3', array('placeholder' => 'example@example.com', 'class' => 'txt')); ?>
-                        </div>
-                    </div>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
-                            <span class="skype-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'skype_3', array('placeholder' => 'bulletgfx', 'class' => 'txt')); ?>
-                        </div>
-                    </div>
+                    <?php endforeach;?>
                     <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
                 </div>
             </div>
             <div class="oneBlockSpotInfo">
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Социальные сети');?>
+                    <?php foreach (SpotPersonalField::getPersonalField(1) as $row): ?>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <span class="fb-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'facebook_3', array('placeholder' => 'www.facebook.com/example', 'class' => 'txt')); ?>
+                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23"> </span>
+                            <?php echo CHtml::activeTextField(
+                            $content,
+                            'sotsseti_3[' . $row['id'] . ']',
+                            array(
+                                'placeholder' => $row['placeholder'],
+                                'class' => 'txt'
+                            )); ?>
                         </div>
                     </div>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
-                            <span class="tw-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'twitter_3', array('placeholder' => 'www.twitter.com/example', 'class' => 'txt')); ?>
-                        </div>
-                    </div>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
-                            <span class="vk-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'vk_3', array('placeholder' => 'www.link', 'class' => 'txt')); ?>
-                        </div>
-                    </div>
-                    <div class="txt-form">
-                        <div class="txt-form-cl">
-                            <span class="in-ico"></span>
-                            <?php echo CHtml::activeTextField($content, 'linkedin_3', array('placeholder' => 'www.link', 'class' => 'txt')); ?>
-                        </div>
-                    </div>
+                    <?php endforeach;?>
                     <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
                 </div>
             </div>
@@ -90,27 +75,24 @@
             <div class="oneBlockSpotInfo" style="width:431px;margin:0">
                 <div class="top-border ">
                     <table class="oneBlockSpotInfoTbl" cellspacing="0">
+                        <?php foreach (SpotPersonalField::getPersonalField(2) as $row): ?>
                         <tr>
-                            <td class="field"><?php echo Yii::t('account', 'Учебное заведение');?></td>
+                            <td class="field"><?php echo Yii::t('account', $row['name']);?></td>
                             <td>
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
-                                        <?php echo CHtml::activeTextField($content, 'uchebnoe-zavedenie_3', array('placeholder' => 'www.link', 'class' => 'txt')); ?>
+                                        <?php echo CHtml::activeTextField(
+                                        $content,
+                                        'opisanie_3[' . $row['id'] . ']',
+                                        array(
+                                            'placeholder' => $row['placeholder'],
+                                            'class' => 'txt'
+                                        )); ?>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="field"><?php echo Yii::t('account', 'Город');?></td>
-                            <td>
-                                <div class="txt-form">
-                                    <div class="txt-form-cl">
-                                        <?php echo CHtml::activeTextField($content, 'gorod_3', array('placeholder' => 'www.link', 'class' => 'txt')); ?>
-                                        <input type="txt" class="txt" name="inputtxt" value="" placeholder=" "/>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php endforeach;?>
                     </table>
 
                     <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
