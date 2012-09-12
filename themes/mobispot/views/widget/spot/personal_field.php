@@ -16,7 +16,7 @@
         <ul class="addSocSet">
             <?php foreach ($all_field as $row): ?>
             <li>
-                <?php if(isset($select_field[$row['id']])):?>
+                <?php if (in_array($row['id'], $select_field)):?>
                     <input type="checkbox" class="niceCheck" name="Fields[<?php echo $row['id'];?>]" checked="checked">
                 <?php else:?>
                     <input type="checkbox" class="niceCheck" name="Fields[<?php echo $row['id'];?>]">

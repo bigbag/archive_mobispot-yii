@@ -1,4 +1,4 @@
-<?php $select_field = UserPersonalField::getField($_POST['discodes_id']); ?>
+<?php $select_field = UserPersonalField::getField($data->discodes_id); ?>
 <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
     <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
@@ -36,7 +36,7 @@
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Контактные данные');?>
                     <?php foreach (SpotPersonalField::getPersonalField(0) as $row): ?>
-                    <?php if (isset($select_field[$row['id']])):?>
+                    <?php if (in_array($row['id'], $select_field)):?>
                         <div class="txt-form">
                             <div class="txt-form-cl">
                             <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
@@ -63,7 +63,7 @@
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Социальные сети');?>
                     <?php foreach (SpotPersonalField::getPersonalField(1) as $row): ?>
-                    <?php if (isset($select_field[$row['id']])):?>
+                    <?php if (in_array($row['id'], $select_field)):?>
                         <div class="txt-form">
                             <div class="txt-form-cl">
                             <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
@@ -91,7 +91,7 @@
                 <div class="top-border ">
                     <table class="oneBlockSpotInfoTbl" cellspacing="0">
                         <?php foreach (SpotPersonalField::getPersonalField(2) as $row): ?>
-                        <?php if (isset($select_field[$row['id']])):?>
+                        <?php if (in_array($row['id'], $select_field)):?>
                             <tr>
                                 <td class="field"><?php echo Yii::t('account', $row['name']);?></td>
                                 <td>
