@@ -4,7 +4,7 @@ return array(
     'urlFormat' => 'path',
     'rules' => array(
         'http://m.mobispot.test/' => 'mobile',
-        http://m.mobispot.test/<url:\d{8,10}>'=>'/mobile/spot/',
+        http://m.mobispot.test/<url:\w{15}>'=>'/mobile/spot/',
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

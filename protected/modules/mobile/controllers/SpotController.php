@@ -4,6 +4,20 @@ class SpotController extends MController
 {
     public $layout = '//layouts/mobile';
 
+
+    public function actions()
+    {
+        return array(
+            'captcha' => array(
+                'class' => 'application.extensions.kcaptcha.KCaptchaAction',
+                'maxLength' => 6,
+                'minLength' => 5,
+                'foreColor' => array(mt_rand(0, 100), mt_rand(0, 100), mt_rand(0, 100)),
+                'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
+            ),
+        );
+    }
+
     public function actionIndex()
     {
         if (Yii::app()->request->getQuery('url', 0)) {
@@ -63,14 +77,14 @@ class SpotController extends MController
                         if (isset($_POST['SendForm'])) {
                             $form->attributes = $_POST['SendForm'];
 
-                            if ($form->validate()){
+                            if ($form->validate()) {
                                 $data = array();
 
-                                if (!empty($content->fayl_10)){
+                                if (!empty($content->fayl_10)) {
                                     $file = $content->fayl_10;
-                                    if (isset($file[1])){
-                                        foreach($file as $row){
-                                            if (isset($row[1])){
+                                    if (isset($file[1])) {
+                                        foreach ($file as $row) {
+                                            if (isset($row[1])) {
                                                 $data['files'][] = $row;
                                             }
                                         }
@@ -109,14 +123,35 @@ class SpotController extends MController
                 ));
 
             } else
+                $session = Yii::app()->session;
+            $session->open();
+            if (isset(Yii::app()->session['spot_view_error'])) {
+                $this->redirect(array('error'));
+            } else {
+                Yii::app()->session['spot_view_error'] = 1;
                 throw new CHttpException(404, 'The requested page does not exist.');
+            }
+
+
         } else throw new CHttpException(404, 'The requested page does not exist.');
     }
 
-    public function actionSuccess()
+    public function actionError()
     {
-        $this->render('success', array(
+        if (isset(Yii::app()->session['spot_view_error'])) {
+            $form = new ErrorForm();
+            if (isset($_POST['ErrorForm'])) {
+                $form->attributes = $_POST['ErrorForm'];
+                if ($form->validate()) {
+                    unset(Yii::app()->session['spot_view_error']);
+                    $this->redirect('/');
+                }
+            }
+            $this->render('error', array(
+                'form' => $form,
+            ));
+        }
+        else $this->redirect('/');
 
-        ));
     }
 }

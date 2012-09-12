@@ -4,7 +4,7 @@
 <body>
 <div id="wrapper">
     <div id="header">
-        <a href="#" id="logo"><img src="/themes/mobile/images/logo.png" alt=""></a>
+        <a href="/" id="logo"><img src="/themes/mobile/images/logo.png" alt=""></a>
     </div>
     <div id="errors"></div>
     <?php echo $content; ?>
