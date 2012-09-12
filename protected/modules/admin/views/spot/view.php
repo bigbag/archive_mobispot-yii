@@ -52,7 +52,6 @@ $this->menu = $menu;
             'value' => ($model->spot_hard_type) ? $model->spot_hard_type->name : "",
         ),
         'spot_hard',
-        'nfc',
         array(
             'name' => 'premium',
             'type' => 'raw',

@@ -91,7 +91,7 @@ class SpotController extends Controller
         if (isset($_POST['Spot'])) {
             $model->attributes = $_POST['Spot'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->discodes_id));
+                $this->redirect(array('index'));
         }
 
         $this->render('update', array(
@@ -129,7 +129,6 @@ class SpotController extends Controller
             if ($flag) Yii::app()->user->setFlash('spot', 'Спот ID ' . $dis_id . ' удалён.');
             $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/admin/spot');
         }
-
     }
 
     /**
@@ -168,14 +167,6 @@ class SpotController extends Controller
             Yii::app()->user->setFlash('spot', 'Спот активирован.');
             $referer = Yii::app()->request->getUrlReferrer();
             $this->redirect($referer);
-        }
-    }
-
-    public function actionNfc()
-    {
-        if (Yii::app()->request->getQuery('id', 0)) {
-            $id = (int)Yii::app()->request->getQuery('id', 0);
-
         }
     }
 

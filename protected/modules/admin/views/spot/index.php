@@ -60,6 +60,7 @@ $this->widget('ext.selgridview.SelGridView', array(
             'value' => '$data->getStatus()',
             'filter' => $model->getStatusList(),
         ),
+        'url',
         array(
             'class' => 'CButtonColumn',
             'template' => '{view} {update}',

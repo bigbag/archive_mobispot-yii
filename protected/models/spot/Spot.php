@@ -142,9 +142,18 @@ class Spot extends CActiveRecord
         );
     }
 
+    public function getUrl()
+    {
+        $new_url = substr(sha1($this->code.$this->discodes_id.time()), 0 , 15);
+        $spot = Spot::model()->findByAttributes(array('url' => $new_url));
+        if ($spot) $this->getUrl();
+        else return $new_url;
+    }
+
     public function beforeValidate()
     {
-        $this->url = abs(crc32($this->code));
+
+        if (!$this->url) $this->url = $this->getUrl();
         if ($this->isNewRecord) {
             $this->generated_date = new CDbExpression('NOW()');
             if (!$this->url) $this->url = abs(crc32($this->code));
@@ -227,15 +236,6 @@ class Spot extends CActiveRecord
      */
     public function search()
     {
-        $sort = new CSort;
-        $sort->attributes = array(
-            'defaultOrder' => 'generated_date desc',
-            'spot_type_name' => array(
-                'asc' => 'spot_type.name',
-                'desc' => 'spot_type.name DESC',
-            ),
-
-        );
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -262,7 +262,9 @@ class Spot extends CActiveRecord
             'pagination' => array(
                 'pageSize' => 20,
             ),
-            'sort' => $sort,
+            'sort' => array(
+                'defaultOrder' => 'generated_date DESC',),
+
         ));
     }
 }
