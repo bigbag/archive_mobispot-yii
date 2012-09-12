@@ -339,11 +339,15 @@ class AjaxController extends MController
     }
 
     public function actionSpotPersonalContent(){
-        if (isset($_POST['discodes_id'])) {
+        if (isset($_POST['discodes_id']) and isset($_POST['type_id'])) {
             $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
+
+            $field = SpotPersonalField::getPersonalField((int)$_POST['type_id']);
             $txt = $this->renderPartial('//widget/spot/personal_field',
                 array(
                     'discodes_id' => (int)$_POST['discodes_id'],
+                    'field' => $field,
+                    'type_id' => (int)$_POST['type_id'],
                     'spot' => $spot,
                 ),
                 true);

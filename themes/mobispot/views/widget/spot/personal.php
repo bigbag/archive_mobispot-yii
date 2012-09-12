@@ -49,8 +49,11 @@
                         </div>
                     </div>
                     <?php endforeach;?>
-                    <span id="add_contacts_field"
-                          class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
+                    <div class="add_field">
+                        <a href="0" class="r-btn-30">
+                            <span><?php echo Yii::t('account', 'Добавить');?></span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="oneBlockSpotInfo">
@@ -71,8 +74,11 @@
                         </div>
                     </div>
                     <?php endforeach;?>
-                    <span id="add_social_field"
-                          class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
+                    <div class="add_field">
+                        <a href="1" class="r-btn-30">
+                            <span><?php echo Yii::t('account', 'Добавить');?></span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="clear"></div>
@@ -99,7 +105,11 @@
                         <?php endforeach;?>
                     </table>
 
-                    <span id="add_text_field" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
+                    <div class="add_field">
+                        <a href="2" class="r-btn-30">
+                            <span><?php echo Yii::t('account', 'Добавить');?></span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="oneBlockSpotInfo">
@@ -138,14 +148,15 @@
             });
 
             $(document).ready(function () {
-                $('#add_contacts_field').click(function () {
+                $('.add_field').click(function () {
                     var id = <?php echo $data->discodes_id;?>;
+                    var type_id= $(this).children('a').attr("href");
 
-                    if (id) {
+                    if (id && type_id) {
                         $.ajax({
                             url:'/ajax/spotPersonalContent',
                             type:'POST',
-                            data:{discodes_id:id},
+                            data:{discodes_id:id, type_id: type_id},
                             success:function (result) {
                                 $('#spot_content_' + id).html(result);
                             }
