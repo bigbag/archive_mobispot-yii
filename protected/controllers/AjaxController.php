@@ -338,6 +338,19 @@ class AjaxController extends MController
         }
     }
 
+    public function actionSpotPersonalContent(){
+        if (isset($_POST['discodes_id'])) {
+            $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
+            $txt = $this->renderPartial('//widget/spot/personal_field',
+                array(
+                    'discodes_id' => (int)$_POST['discodes_id'],
+                    'spot' => $spot,
+                ),
+                true);
+            echo $txt;
+        }
+    }
+
     public function formatText($text, $font, $font_size, $width_text){
         $data = array();
 

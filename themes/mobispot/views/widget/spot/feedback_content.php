@@ -2,7 +2,7 @@
     <div id="feedback">
         <a href="<?php echo $discodes_id;?>" class="btn-30">
             <span class="back-ico ico"></span>
-            <span class="btn-30-txt">Вернуться в спот</span>
+            <span class="btn-30-txt"><?php echo Yii::t('account', 'Вернуться в спот');?></span>
         </a>
     </div>
 
@@ -11,11 +11,11 @@
         <table class="feedbackMailInfo" cellpadding="6" cellspacing="0">
             <tbody>
             <tr class="headTBL">
-                <td>Дата и время</td>
-                <td>Имя</td>
-                <td>Телефон</td>
-                <td>E-mail</td>
-                <td>Комментарий</td>
+                <td><?php echo Yii::t('account', 'Дата и время');?></td>
+                <td><?php echo Yii::t('account', 'Имя');?></td>
+                <td><?php echo Yii::t('account', 'Телефон');?></td>
+                <td><?php echo Yii::t('account', 'E-mail');?></td>
+                <td><?php echo Yii::t('account', 'Комментарий');?></td>
             </tr>
             <?php foreach ($spot as $row): ?>
             <tr>

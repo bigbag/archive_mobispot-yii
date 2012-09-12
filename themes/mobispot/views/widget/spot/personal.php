@@ -31,13 +31,14 @@
                     </div>
                 </div>
             </div>
-             <div class="oneBlockSpotInfo">
+            <div class="oneBlockSpotInfo">
                 <div class="top-border ">
                     <?php echo Yii::t('account', 'Контактные данные');?>
                     <?php foreach (SpotPersonalField::getPersonalField(0) as $row): ?>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23"> </span>
+                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
+                                       height="23"> </span>
                             <?php echo CHtml::activeTextField(
                             $content,
                             'kontaktyi_3[' . $row['id'] . ']',
@@ -48,7 +49,8 @@
                         </div>
                     </div>
                     <?php endforeach;?>
-                    <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
+                    <span id="add_contacts_field"
+                          class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
                 </div>
             </div>
             <div class="oneBlockSpotInfo">
@@ -57,7 +59,8 @@
                     <?php foreach (SpotPersonalField::getPersonalField(1) as $row): ?>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23"> </span>
+                            <span><img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23"
+                                       height="23"> </span>
                             <?php echo CHtml::activeTextField(
                             $content,
                             'sotsseti_3[' . $row['id'] . ']',
@@ -68,7 +71,8 @@
                         </div>
                     </div>
                     <?php endforeach;?>
-                    <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
+                    <span id="add_social_field"
+                          class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
                 </div>
             </div>
             <div class="clear"></div>
@@ -95,7 +99,7 @@
                         <?php endforeach;?>
                     </table>
 
-                    <a href="#" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></a>
+                    <span id="add_text_field" class="r-btn-30"><span><?php echo Yii::t('account', 'Добавить');?></span></span>
                 </div>
             </div>
             <div class="oneBlockSpotInfo">
@@ -127,8 +131,27 @@
                 $(this).parent().css('background-position', '100% -105px');
                 $(this).parent().parent().css('background-position', '0 -70px');
             });
+
             $('input.txt').bind('blur', function () {
                 $(this).parent().css('background-position', '100% -35px');
                 $(this).parent().parent().css('background-position', '0 0');
+            });
+
+            $(document).ready(function () {
+                $('#add_contacts_field').click(function () {
+                    var id = <?php echo $data->discodes_id;?>;
+
+                    if (id) {
+                        $.ajax({
+                            url:'/ajax/spotPersonalContent',
+                            type:'POST',
+                            data:{discodes_id:id},
+                            success:function (result) {
+                                $('#spot_content_' + id).html(result);
+                            }
+                        });
+                    }
+                    return false;
+                });
             });
         </script>
