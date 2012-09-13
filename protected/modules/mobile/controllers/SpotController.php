@@ -136,6 +136,38 @@ class SpotController extends MController
         } else throw new CHttpException(404, 'The requested page does not exist.');
     }
 
+    public function actionGetCard()
+    {
+        $url = Yii::app()->request->getQuery('id');
+        $spot = Spot::model()->findByAttributes(array('url' => $url));
+        if ($spot and $spot->spot_type->pattern == 'personal') {
+            $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
+            if (isset($content['razreshit-skachivat-vizitku_3'][0])) {
+
+                $data = $content['kontaktyi_3'] + $content['sotsseti_3'] + $content['opisanie_3'];
+
+                $all_field = SpotPersonalField::getPersonalFieldAll();
+                $select_field = UserPersonalField::getField($spot->discodes_id);
+
+                if (!$select_field) $select_field = array(9999);
+
+                $text = $this->renderPartial('/widget/vcard',
+                    array(
+                        'content' => $content,
+                        'spot' => $spot,
+                        'all_field' => $all_field,
+                        'data' => $data,
+                        'select_field' => $select_field,
+                    ),
+                    true);
+                header('Content-type: application/text');
+                header('Content-Disposition: attachment; filename="card.vcf"');
+                echo $text;
+            } else $this->redirect('/');
+
+        } else $this->redirect('/');
+    }
+
     public function actionError()
     {
         if (isset(Yii::app()->session['spot_view_error'])) {

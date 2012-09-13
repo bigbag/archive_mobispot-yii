@@ -13,7 +13,8 @@
     <?php endif; ?>
     <br/>
     <?php if (isset($content['razreshit-skachivat-vizitku_3'][0])): ?>
-    <a href="/spot/getCard/" class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку')?></a>
+    <a href="/spot/getCard/<?php echo $data->url;?>"
+       class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку')?></a>
     <br/>
     <?php endif;?>
 
@@ -26,14 +27,14 @@
             <span class="txt-24">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
-                        <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
-                        <?php endif; ?>
+                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                    <?php endif; ?>
                 </span>
                 <?php echo $value; ?>
             </span>
-        </a>
+                    </a>
                     <?php else: ?>
-                <span class="btn-dig rad6 shadow">
+                    <span class="btn-dig rad6 shadow">
             <span class="txt-24">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
@@ -43,10 +44,9 @@
                 <?php echo $value; ?>
             </span>
         </span>
-                <?php endif; ?>
+                    <?php endif; ?>
 
-            <?php endif
-            ; ?>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
 

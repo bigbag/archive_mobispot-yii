@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $ico
  * @property integer $type
+ * @property string  $vcard
  * @property string $placeholder
  */
 class SpotPersonalField extends CActiveRecord
@@ -58,13 +59,13 @@ class SpotPersonalField extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, type', 'required'),
-			array('name, ico, placeholder', 'length', 'max'=>300),
+			array('name, ico, placeholder, vcard', 'length', 'max'=>300),
             array('name', 'filter', 'filter' => 'trim'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, ico, placeholder', 'safe', 'on'=>'search'),
+			array('id, name, ico, vcard, placeholder', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,6 +98,7 @@ class SpotPersonalField extends CActiveRecord
 			'ico' => 'Иконка',
 			'placeholder' => 'Подсказка',
             'type' => 'Тип',
+            'vcard' => 'vCard',
 		);
 	}
 
@@ -172,6 +174,7 @@ class SpotPersonalField extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('ico',$this->ico,true);
         $criteria->compare('type',$this->type,true);
+        $criteria->compare('vcard',$this->vcard,true);
 		$criteria->compare('placeholder',$this->placeholder,true);
 
         return new CActiveDataProvider(get_class($this), array(
