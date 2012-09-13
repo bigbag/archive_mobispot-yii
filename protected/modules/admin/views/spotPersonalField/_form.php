@@ -32,11 +32,6 @@
 		<?php echo $form->textField($model,'placeholder',array('size'=>60,'maxlength'=>300)); ?>
 		<?php echo $form->error($model,'placeholder'); ?>
 	</div>
-    <div class="row">
-        <?php echo $form->labelEx($model,'vcard'); ?>
-        <?php echo $form->textField($model,'vcard',array('size'=>60,'maxlength'=>300)); ?>
-        <?php echo $form->error($model,'vcard'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'type'); ?>
