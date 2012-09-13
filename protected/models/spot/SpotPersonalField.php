@@ -122,12 +122,36 @@ class SpotPersonalField extends CActiveRecord
         return $personal_field;
     }
 
+    public static function getPersonalFieldAll()
+    {
+        $personal_field = Yii::app()->cache->get('personal_field_all');
+        if ($personal_field=== false) {
+            $personal_field = SpotPersonalField::model()->findAll();
+
+            Yii::app()->cache->set('personal_field_all', $personal_field, 36000);
+        }
+        return $personal_field;
+    }
+
+    public static function getPersonalFieldAllIco()
+    {
+        $personal_field = Yii::app()->cache->get('personal_field_all_ico');
+        if ($personal_field=== false) {
+            $personal_field = CHtml::listData(SpotPersonalField::getPersonalFieldAll(), 'id', 'ico');
+
+            Yii::app()->cache->set('personal_field_all_ico', $personal_field, 36000);
+        }
+        return $personal_field;
+    }
+
 
 
     protected function afterSave()
     {
         Yii::app()->cache->delete('personal_field_id_' . $this->type);
         Yii::app()->cache->delete('personal_field_array_' . $this->type);
+        Yii::app()->cache->delete('personal_field_all');
+        Yii::app()->cache->delete('personal_field_all_ico');
 
         parent::afterSave();
 

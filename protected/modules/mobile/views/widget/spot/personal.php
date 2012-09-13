@@ -1,29 +1,78 @@
+<?php $all_field_ico = SpotPersonalField::getPersonalFieldAllIco(); ?>
+
 <div id="main-container">
+    <?php if (!empty($content->fotografiya_3)): ?>
     <div>
-        <img src="images/temp/photo-mob-vers.jpg" id="userPhoto" />
+        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" id="userPhoto" width="220" height="270"/>
     </div>
-    <a class="btn-round rad12 shadow">Сохранить визитку</a>
-    <br />
+    <?php endif;?>
+    <?php if ($content->imya_3): ?>
     <div class="whitePlash rad12">
-        Булат Шайдуллин
+        <?php echo $content->imya_3;?>
     </div>
-    <div class="whitePlash rad12 frightBlock">
-        КФУ, Казань
-    </div>
+    <?php endif; ?>
+    <?php if (isset($content['razreshit-skachivat-vizitku_3'][0])): ?>
+    <a class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку')?></a>
+    <br/>
+    <?php endif;?>
+
     <div id="userContact" class="clr">
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-phone"></span>+79376166766</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-mail"></span>bulletgfx@ya.ru</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-skype"></span>bulletgfx</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-fb"></span>bulat. shaydullin.14</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-tw"></span>nobulletpl</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="txt-24"><span class="ico ico-in"></span>bulletgfx</span></a>
-        <a href="" class="btn-dig rad6 shadow"><span class="small-txt"><span class="ico ico-med"></span>Allergic to cats, apples and hipsters</span></a>
+        <?php if ($content->kontaktyi_3): ?>
+        <?php foreach ($content->kontaktyi_3 as $key => $value): ?>
+            <span class="btn-dig rad6 shadow">
+            <span class="txt-24">
+                <span class="ico ico-phone">
+                    <?php if (!empty($all_field_ico[$key])): ?>
+                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                    <?php endif;?>
+                </span>
+                <?php echo $value; ?>
+            </span>
+        </span>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if ($content->sotsseti_3): ?>
+        <?php foreach ($content->sotsseti_3 as $key => $value): ?>
+            <span class="btn-dig rad6 shadow">
+            <span class="txt-24">
+                <span class="ico ico-phone">
+                    <?php if (!empty($all_field_ico[$key])): ?>
+                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                    <?php endif;?>
+                </span>
+                <?php echo $value; ?>
+            </span>
+        </span>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if ($content->opisanie_3): ?>
+        <?php foreach ($content->opisanie_3 as $key => $value): ?>
+            <span class="btn-dig rad6 shadow">
+                <span class="ico ico-phone">
+                    <?php if (!empty($all_field_ico[$key])): ?>
+                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                    <?php endif;?>
+                </span>
+            <span class="small-txt">
+                <?php echo $value; ?>
+            </span>
+        </span>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+
     </div>
+    <?php if (isset($content['razreshit-kommentarii_3'][0])): ?>
     <div class="grayAllBlock rad6 shadow">
-        <div class="grayHead radTop6">Оставить комментарий</div>
+        <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Оставить комментарий')?></div>
         <form>
-            <textarea class="txt-100p txtArea rad6" ></textarea>
-            <input type="submit" class="btn-round fright rad12 shadow" value="Отправить" />
+            <textarea class="txt-100p txtArea rad6"></textarea>
+            <input type="submit" class="btn-round fright rad12 shadow" value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
         </form>
     </div>
+    <br/>
+    <?php endif;?>
+
 </div>

@@ -46,7 +46,8 @@
                                 'kontaktyi_3[' . $row['id'] . ']',
                                 array(
                                     'placeholder' => $row['placeholder'],
-                                    'class' => 'txt'
+                                    'class' => 'txt',
+                                    'maxlength' => 60,
                                 )); ?>
                             </div>
                         </div>
@@ -73,7 +74,8 @@
                                 'sotsseti_3[' . $row['id'] . ']',
                                 array(
                                     'placeholder' => $row['placeholder'],
-                                    'class' => 'txt'
+                                    'class' => 'txt',
+                                    'maxlength' => 60,
                                 )); ?>
                             </div>
                         </div>
@@ -102,7 +104,8 @@
                                             'opisanie_3[' . $row['id'] . ']',
                                             array(
                                                 'placeholder' => $row['placeholder'],
-                                                'class' => 'txt'
+                                                'class' => 'txt',
+                                                'maxlength' => 150,
                                             )); ?>
                                         </div>
                                     </div>
@@ -121,19 +124,28 @@
             </div>
             <div class="oneBlockSpotInfo">
                 <div class="top-border ">
-                    <?php echo Yii::t('account', 'Язык отображения спота');?>
-                    <select>
-                        <option><?php echo Yii::t('account', 'Русский');?></option>
-                        <option><?php echo Yii::t('account', 'Английский');?></option>
-                    </select>
                     <table class="oneBlockSpotInfoTbl">
                         <tr>
                             <td><?php echo Yii::t('account', 'Разрешить комментарии к споту');?></td>
-                            <td><input type="checkbox" class="niceCheck"></td>
+                            <td>
+                                <input type="hidden" name="SpotModel[razreshit-kommentarii_3]" value="" checked="checked">
+                                <?php if (isset($content['razreshit-kommentarii_3'][0])): ?>
+                                    <input type="checkbox" name="SpotModel[razreshit-kommentarii_3]" value="1" class="niceCheck" checked="checked">
+                                <?php else:?>
+                                    <input type="checkbox" name="SpotModel[razreshit-kommentarii_3]" value="1" class="niceCheck">
+                                <?php endif;?>
+                            </td>
                         </tr>
                         <tr>
                             <td><?php echo Yii::t('account', 'Разрешить скачивать визитку');?></td>
-                            <td><input type="checkbox" class="niceCheck"></td>
+                            <td>
+                                <input type="hidden" name="SpotModel[razreshit-skachivat-vizitku_3]" value="" checked="checked">
+                                <?php if (isset($content['razreshit-skachivat-vizitku_3'][0])): ?>
+                                <input type="checkbox" name="SpotModel[razreshit-skachivat-vizitku_3]" value="1" class="niceCheck" checked="checked">
+                                <?php else:?>
+                                <input type="checkbox" name="SpotModel[razreshit-skachivat-vizitku_3]" value="1" class="niceCheck">
+                                <?php endif;?>
+                            </td>
                         </tr>
                     </table>
                 </div>

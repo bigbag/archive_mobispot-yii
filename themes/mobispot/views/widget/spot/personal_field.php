@@ -31,11 +31,13 @@
                     'Fields[' . $row['id'] . ']',
                     $checked = false,
                     array('class' => 'niceCheck',
-                )); ?>
+                    )); ?>
                 <?php endif;?>
 
                 <span>
-                <img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23">
+                    <?php if (!empty($row['ico'])): ?>
+                    <img src="/uploads/ico/<?php echo $row['ico']?>" alt="" width="23" height="23">
+                    <?php endif;?>
             </span><?php echo $row['name']; ?>
             </li>
             <?php endforeach;?>

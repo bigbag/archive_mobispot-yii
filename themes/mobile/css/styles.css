@@ -326,43 +326,18 @@ div#wrapper {
     padding: 0 0 0 40px;
 }
 
+.btn-dig span.name-txt {
+    display: block;
+}
+
 .btn-dig .ico {
-    background: url(../images/sprite2.png) 0 0 no-repeat;
-    width: 37px;
-    height: 37px;
+    width: 30px;
+    height: 30px;
     display: block;
     position: absolute;
     top: 50%;
     left: 6px;
-    margin-top: -18px
-}
-
-.btn-dig .ico-phone {
-    background-position: 0 0;
-}
-
-.btn-dig .ico-mail {
-    background-position: -74px 0;
-}
-
-.btn-dig .ico-skype {
-    background-position: -37px 0;
-}
-
-.btn-dig .ico-fb {
-    background-position: -37px -37px;
-}
-
-.btn-dig .ico-tw {
-    background-position: -111px 0;
-}
-
-.btn-dig .ico-in {
-    background-position: -74px -37px;
-}
-
-.btn-dig .ico-med {
-    background-position: 0 -37px;
+    margin-top: -15px
 }
 
 .big-txt {
