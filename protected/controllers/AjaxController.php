@@ -242,8 +242,10 @@ class AjaxController extends MController
             if ($spot) {
 
                 $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot->spot_type_id));
-                $content->delete();
-                echo json_encode(array('discodes_id' => $spot->discodes_id));
+                if ($content->delete()){
+                    UserPersonalField::model()->deleteByPk($spot->discodes_id);
+                    echo json_encode(array('discodes_id' => $spot->discodes_id));
+                }
             }
         }
     }
