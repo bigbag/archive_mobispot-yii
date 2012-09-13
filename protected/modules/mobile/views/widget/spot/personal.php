@@ -21,7 +21,18 @@
         <?php if ($content->kontaktyi_3): ?>
         <?php foreach ($content->kontaktyi_3 as $key => $value): ?>
             <?php if (!empty($value)): ?>
-
+                <?php if (strpos($value, '@')): ?>
+                    <a href="mailto:<?php echo $value;?>" class="btn-dig rad6 shadow">
+            <span class="txt-24">
+                <span class="ico ico-phone">
+                    <?php if (!empty($all_field_ico[$key])): ?>
+                        <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                        <?php endif; ?>
+                </span>
+                <?php echo $value; ?>
+            </span>
+        </a>
+                    <?php else: ?>
                 <span class="btn-dig rad6 shadow">
             <span class="txt-24">
                 <span class="ico ico-phone">
@@ -33,22 +44,25 @@
             </span>
         </span>
                 <?php endif; ?>
+
+            <?php endif
+            ; ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
         <?php if ($content->sotsseti_3): ?>
         <?php foreach ($content->sotsseti_3 as $key => $value): ?>
             <?php if (!empty($value)): ?>
-                <span class="btn-dig rad6 shadow">
+                <a href="<?php echo YText::formatUrl($value)?>" class="btn-dig rad6 shadow">
             <span class="txt-24">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
                     <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
-                    <?php endif;?>
+                    <?php endif; ?>
                 </span>
                 <?php echo $value; ?>
             </span>
-        </span>
+                </a>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
