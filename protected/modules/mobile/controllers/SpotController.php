@@ -160,7 +160,7 @@ class SpotController extends MController
                         'select_field' => $select_field,
                     ),
                     true);
-                header('Content-type: application/text');
+                header('Content-type: text/x-vcard');
                 header('Content-Disposition: attachment; filename="card.vcf"');
                 echo $text;
             } else $this->redirect('/');
