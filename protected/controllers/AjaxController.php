@@ -295,6 +295,7 @@ class AjaxController extends MController
         if (isset($_POST['discodes_id'])) {
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
+
                 $content = SpotModel::getContent('1', $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
                 $txt = $this->renderPartial('//widget/spot/' . $spot->spot_type->pattern,
                     array(
@@ -369,6 +370,7 @@ class AjaxController extends MController
             }
 
             UserPersonalField::setField($_POST['discodes_id'], $_POST['type_id'], $data);
+            Yii::app()->cache->delete('spot_personal_field_' . $_POST['discodes_id']);
             echo true;
         }
     }

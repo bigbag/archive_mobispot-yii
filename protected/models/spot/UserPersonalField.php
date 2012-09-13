@@ -48,13 +48,16 @@ class UserPersonalField extends CActiveRecord
 
     public function getField($spot_id)
     {
-        $field = UserPersonalField::model()->findByPk($spot_id);
 
-        $data = array(9999);
-        if (!empty($field->contacts)) $data = array_merge($data, unserialize($field->contacts));
-        if (!empty($field->social)) $data = array_merge($data, unserialize($field->social));
-        if (!empty($field->text)) $data = array_merge($data, unserialize($field->text));
+        $data = Yii::app()->cache->get('spot_personal_field_' . $spot_id);
+        if ($data === false) {
+            $field = UserPersonalField::model()->findByPk($spot_id);
 
+            $data = array(9999);
+            if (!empty($field->contacts)) $data = array_merge($data, unserialize($field->contacts));
+            if (!empty($field->social)) $data = array_merge($data, unserialize($field->social));
+            if (!empty($field->text)) $data = array_merge($data, unserialize($field->text));
+        }
         return $data;
     }
 
@@ -80,6 +83,14 @@ class UserPersonalField extends CActiveRecord
                 break;
         }
         $field->save();
+    }
+
+    protected function afterSave()
+    {
+        Yii::app()->cache->delete('spot_personal_field_' . $this->spot_id);
+
+        parent::afterSave();
+
     }
 
     /**
