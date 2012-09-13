@@ -11,15 +11,18 @@
         <?php echo $content->imya_3;?>
     </div>
     <?php endif; ?>
+    <br/>
     <?php if (isset($content['razreshit-skachivat-vizitku_3'][0])): ?>
-    <a class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку')?></a>
+    <a href="/spot/getCard/" class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку')?></a>
     <br/>
     <?php endif;?>
 
     <div id="userContact" class="clr">
         <?php if ($content->kontaktyi_3): ?>
         <?php foreach ($content->kontaktyi_3 as $key => $value): ?>
-            <span class="btn-dig rad6 shadow">
+            <?php if (!empty($value)): ?>
+
+                <span class="btn-dig rad6 shadow">
             <span class="txt-24">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
@@ -29,12 +32,14 @@
                 <?php echo $value; ?>
             </span>
         </span>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
         <?php if ($content->sotsseti_3): ?>
         <?php foreach ($content->sotsseti_3 as $key => $value): ?>
-            <span class="btn-dig rad6 shadow">
+            <?php if (!empty($value)): ?>
+                <span class="btn-dig rad6 shadow">
             <span class="txt-24">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
@@ -44,12 +49,14 @@
                 <?php echo $value; ?>
             </span>
         </span>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
         <?php if ($content->opisanie_3): ?>
         <?php foreach ($content->opisanie_3 as $key => $value): ?>
-            <span class="btn-dig rad6 shadow">
+            <?php if (!empty($value)): ?>
+                <span class="btn-dig rad6 shadow">
                 <span class="ico ico-phone">
                     <?php if (!empty($all_field_ico[$key])): ?>
                     <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
@@ -59,6 +66,7 @@
                 <?php echo $value; ?>
             </span>
         </span>
+                <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
 
@@ -69,7 +77,8 @@
         <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Оставить комментарий')?></div>
         <form>
             <textarea class="txt-100p txtArea rad6"></textarea>
-            <input type="submit" class="btn-round fright rad12 shadow" value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
+            <input type="submit" class="btn-round fright rad12 shadow"
+                   value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
         </form>
     </div>
     <br/>
