@@ -139,12 +139,19 @@ class Spot extends CActiveRecord
                     ':status3' => self::STATUS_INVISIBLE,
                 ),
             ),
+            'mobil' => array(
+                'condition' => 'status = :status1 or status = :status2',
+                'params' => array(
+                    ':status1' => self::STATUS_REGISTERED,
+                    ':status2' => self::STATUS_CLONES,
+                ),
+            ),
         );
     }
 
     public function getUrl()
     {
-        $new_url = substr(sha1($this->code.$this->discodes_id.time()), 0 , 15);
+        $new_url = substr(sha1($this->code . $this->discodes_id . time()), 0, 15);
         $spot = Spot::model()->findByAttributes(array('url' => $new_url));
         if ($spot) $this->getUrl();
         else return $new_url;
