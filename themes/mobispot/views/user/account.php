@@ -66,6 +66,7 @@
 <?php include('modal/spot_remove.php') ?>
 <?php include('modal/spot_add.php') ?>
 <?php include('modal/spot_copy.php') ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/lightbox.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.miniColors.min.js'); ?>

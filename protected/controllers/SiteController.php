@@ -120,7 +120,7 @@ class SiteController extends MController
                 if ($image->thumb(50, 50, true)) {
                     $image->save($targetPath . 'tmb_' . $fileName . '.jpg');
                     $image->reload();
-                    $image->thumb(136, 168, true);
+                    $image->thumb(260, 300, true);
                     $image->save($targetPath . $fileName . '.jpg');
 
                     $personal_photo = Yii::app()->cache->get('personal_photo_' . $user_id);

@@ -3,7 +3,7 @@
 <div id="main-container">
     <?php if (!empty($content->fotografiya_3)): ?>
     <div>
-        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" id="userPhoto" width="220" height="270"/>
+        <img src="/uploads/images/<?php echo $content->fotografiya_3;?>" id="userPhoto"/>
     </div>
     <?php endif;?>
     <?php if ($content->imya_3): ?>

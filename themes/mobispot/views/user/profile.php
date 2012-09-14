@@ -126,7 +126,6 @@
         $("#add_photo").uploadifive({
             'width':'120',
             'height':'28',
-            swf:'/themes/mobispot/js/uploadify.swf',
             uploadScript:'/site/upload/',
             'formData':{'action':'personal', 'user_id':<?php echo Yii::app()->user->id;?>},
             'removeTimeout':10,

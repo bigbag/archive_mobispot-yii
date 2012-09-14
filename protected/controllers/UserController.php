@@ -20,14 +20,14 @@ class UserController extends MController
             } else $profile->photo = Yii::app()->cache->get('personal_photo_' . $user_id);
 
             if (isset($_POST['UserProfile'])) {
-                    $profile->attributes = $_POST['UserProfile'];
-                    $sex = $profile->sex;
-                    if (isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
-                    if ($profile->validate()) {
-                        $profile->save();
-                        Yii::app()->cache->delete('personal_photo_' . $user_id);
-                        $this->refresh();
-                    }
+                $profile->attributes = $_POST['UserProfile'];
+                $sex = $profile->sex;
+                if (isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
+                if ($profile->validate()) {
+                    $profile->save();
+                    Yii::app()->cache->delete('personal_photo_' . $user_id);
+                    $this->refresh();
+                }
             }
             $this->render('profile', array(
                 'profile' => $profile,
@@ -87,16 +87,16 @@ class UserController extends MController
             $tempFile = $_FILES['Filedata']['tmp_name'];
 
             $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $targetFileName = $spot_id . '_' . time(). '.png';
+            $targetFileName = $spot_id . '_' . time() . '.png';
             $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
 
-                $image = new CImageHandler();
-                $image->load($tempFile);
-                if ($image->thumb(70, 70, true)) {
-                    $image->save($targetFile, 3);
-                    echo json_encode(array('file' => $targetFileName));
+            $image = new CImageHandler();
+            $image->load($tempFile);
+            if ($image->thumb(70, 70, true)) {
+                $image->save($targetFile, 3);
+                echo json_encode(array('file' => $targetFileName));
 
-                } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+            } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
         }
     }
 }
