@@ -24,23 +24,34 @@
             <?php if (!empty($value)): ?>
                 <?php if (strpos($value, '@')): ?>
                     <a href="mailto:<?php echo $value;?>" class="btn-dig rad6 shadow">
-            <span class="txt-24">
-                <span class="ico ico-phone">
+                        <span class="txt-24">
+                        <span class="ico">
                     <?php if (!empty($all_field_ico[$key])): ?>
-                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                            <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
                     <?php endif; ?>
-                </span>
-                <?php echo $value; ?>
-            </span>
+                        </span>
+                        <?php echo $value; ?>
+                        </span>
+                    </a>
+                    <?php elseif($key == 15): ?>
+                    <a href="<?php echo YText::formatUrl($value)?>" class="btn-dig rad6 shadow">
+                        <span class="txt-24">
+                        <span class="ico">
+                    <?php if (!empty($all_field_ico[$key])): ?>
+                            <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                            <?php endif; ?>
+                        </span>
+                            <?php echo $value; ?>
+                        </span>
                     </a>
                     <?php else: ?>
                     <span class="btn-dig rad6 shadow">
-            <span class="txt-24">
-                <span class="ico ico-phone">
+                    <span class="txt-24">
+                        <span class="ico">
                     <?php if (!empty($all_field_ico[$key])): ?>
-                    <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                        <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
                     <?php endif;?>
-                </span>
+                    </span>
                 <?php echo $value; ?>
             </span>
         </span>

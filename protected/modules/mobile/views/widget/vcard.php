@@ -9,7 +9,7 @@ EMAIL;TYPE=INTERNET:<?php echo $content['kontaktyi_3'][2]; ?><? echo "\r\n" ?>
 TEL:<?php echo $content['kontaktyi_3'][1]; ?><? echo "\r\n" ?>
 <?php endif;?>
 <?php if (!empty($content->kontaktyi_3) and !empty($content['kontaktyi_3'][15])):?>
-URL:<?php echo $content['kontaktyi_3'][15]; ?><? echo "\r\n" ?>
+URL:<?php echo YText::formatUrl($content['kontaktyi_3'][15])?><? echo "\r\n" ?>
 <?php endif;?>
 <?php if (!empty($content->kontaktyi_3) and !empty($content['kontaktyi_3'][13])):?>
 X-ICQ:<?php echo $content['kontaktyi_3'][13]; ?><? echo "\r\n" ?>
