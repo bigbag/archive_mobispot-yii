@@ -234,6 +234,53 @@ class AjaxController extends MController
         }
     }
 
+    public function actionSpotCopy()
+    {
+        if (isset($_POST['discodes_id_from']) and isset($_POST['discodes_id_to'])) {
+            $spot_id_from = $_POST['discodes_id_from'];
+            $spot_id_to = trim($_POST['discodes_id_to']);
+
+            $spot_from = Spot::model()->findByAttributes(
+                array(
+                    'discodes_id' => $spot_id_from,
+                    'user_id' => Yii::app()->user->id
+                ));
+            $spot_to = Spot::model()->findByAttributes(
+                array(
+                    'discodes_id' => $spot_id_to,
+                    'user_id' => Yii::app()->user->id
+                ));
+            if ($spot_from and $spot_to) {
+                $spot_to->delete();
+                $spot_new = new Spot();
+                $spot_new->attributes = $spot_from->attributes;
+                $spot_new->discodes_id = $spot_id_to;
+                 if ($spot_new->save()){
+                     $to = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_to));
+                     foreach($to as $row){
+                         $row->delete();
+                     }
+                     $from = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_from));
+                     foreach($from as $row){
+                         $to = new SpotModel();
+                         $to->attributes = $row->attributes;
+                         $to->spot_id = $spot_id_to;
+                         $to->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id));
+
+                         $soft_field = SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id);
+                         foreach ($soft_field as $slug){
+                             $to->__set($slug, $row->__get($slug));
+                         }
+
+                         $to->save();
+
+                     }
+                     echo 1;
+                 }
+            }
+        }
+    }
+
     public function actionSpotClear()
     {
         if (isset($_POST['discodes_id'])) {

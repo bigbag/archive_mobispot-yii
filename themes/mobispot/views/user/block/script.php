@@ -34,7 +34,7 @@ $(document).ready(function () {
 
 //диспетчер выбора операций
 $(document).ready(function () {
-    $("select").change(function () {
+    $("#foot-cont-block select").change(function () {
         var action = $(this).val();
         var id = $('input:checked').val() ? $('input:checked').val() : false;
 
@@ -63,6 +63,11 @@ $(document).ready(function () {
                 $('b.spot_remove_id').text(id);
                 $('#spot_remove_modal input').val(id);
                 $('#spot_remove_modal').reveal({animation:'none'});
+            }
+            else if (action == <?php echo Spot::ACTION_COPY; ?>) {
+                $('b.spot_copy_id').text(id);
+                $('#spot_copy_modal input[name=discodes_id_from]').val(id);
+                $('#spot_copy_modal').reveal({animation:'none'});
             }
             else if (action == <?php echo Spot::ACTION_INVISIBLE; ?>) {
                 if (status) {
@@ -354,6 +359,27 @@ function showSpotEditResponse(responseText) {
             }
 
         }
+    }
+}
+
+//копирование спота
+$(document).ready(function () {
+    var options = {
+        success:showSpotCopyResponse,
+        clearForm:true,
+        url:'/ajax/spotCopy/'
+    };
+
+    $('.spot_copy_form').submit(function () {
+        $(this).ajaxSubmit(options);
+        return false;
+    });
+
+});
+
+function showSpotCopyResponse(responseText) {
+    if (responseText == 1) {
+        $().redirect('/user/account/', null, 'GET');
     }
 }
 </script>

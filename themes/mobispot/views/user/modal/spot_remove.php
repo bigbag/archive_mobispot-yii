@@ -2,7 +2,7 @@
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
 
-        <form action="" method="POST" class="spot_remove_form">
+        <form action="" method="post" class="spot_remove_form">
             <p>
                 <?php echo Yii::t('account', 'Удалить спот ')?> <b class="spot_remove_id"></b>
                 <br/>
