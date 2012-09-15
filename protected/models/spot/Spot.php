@@ -8,6 +8,7 @@
  * @property string $url
  * @property string $name
  * @property integer $discodes_id
+ * @property integer $lang
  * @property integer $spot_type_id
  * @property integer $user_id
  * @property integer $spot_hard_type_id
@@ -113,7 +114,7 @@ class Spot extends CActiveRecord
         // will receive user inputs.
         return array(
             array('discodes_id, code, status, premium, generated_date', 'required'),
-            array('discodes_id, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, lang, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
@@ -161,6 +162,7 @@ class Spot extends CActiveRecord
     {
 
         if (!$this->url) $this->url = $this->getUrl();
+        if (!$this->lang) $this->lang = 0;
         if ($this->isNewRecord) {
             $this->generated_date = new CDbExpression('NOW()');
             if (!$this->url) $this->url = abs(crc32($this->code));
@@ -199,6 +201,7 @@ class Spot extends CActiveRecord
             'spot_type' => array(self::BELONGS_TO, 'SpotType', 'spot_type_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'spot_hard_type' => array(self::BELONGS_TO, 'SpotHardType', 'spot_hard_type_id'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
@@ -217,6 +220,7 @@ class Spot extends CActiveRecord
             'user_id' => 'Пользователь',
             'spot_hard_type_id' => 'Тип исполнения',
             'spot_hard' => 'Заводской номер',
+            'lang' => 'Язык',
             'barcode' => 'BarCod',
             'status' => 'Статус',
             'premium' => 'Премиум',

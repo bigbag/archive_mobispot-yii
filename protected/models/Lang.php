@@ -80,11 +80,11 @@ class Lang extends CActiveRecord
 
     public static function getLangArray()
     {
-        $lang = Yii::app()->cache->get('lang_array');
+        $lang = Yii::app()->cache->get('lang_desc');
         if ($lang === false) {
-            $lang = CHtml::listData(Lang::getLang(), 'id', 'name');
+            $lang = CHtml::listData(Lang::getLang(), 'name', 'desc');
 
-            Yii::app()->cache->set('lang_array', $lang, 36000);
+            Yii::app()->cache->set('lang_desc', $lang, 36000);
         }
         return $lang;
     }

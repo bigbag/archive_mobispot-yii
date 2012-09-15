@@ -16,6 +16,25 @@ class AjaxController extends MController
         );
     }
 
+
+    public function actionSetLang()
+    {
+        if (isset($_POST['lang'])) {
+            $lang = $_POST['lang'];
+            Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
+
+            if (!isset(Yii::app()->user->id)) {
+                $user = User::model()->findByPk(Yii::app()->user->id);
+                if (isset($user)) {
+                    $user->lang = $lang;
+                    $user->save();
+
+                }
+            }
+            echo true;
+        }
+    }
+
     public function actionGetCaptcha()
     {
         if (Yii::app()->request->isAjaxRequest) {
@@ -127,7 +146,7 @@ class AjaxController extends MController
                     $form->email = $_POST['email'];
                     if ($form->validate()) {
                         $user = User::model()->findByAttributes(array('email' => $form->email));
-                        MMail::recovery($user->email, $user->activkey);
+                        MMail::recovery($user->email, $user->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
 
                         echo true;
                     } else echo false;
@@ -169,10 +188,11 @@ class AjaxController extends MController
                                 ));
 
                                 $spot->user_id = $model->id;
+                                $spot->lang = (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en';
                                 $spot->status = Spot::STATUS_REGISTERED;
                                 $spot->save();
 
-                                MMail::activation($model->email, $model->activkey);
+                                MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
                                 echo true;
                             }
                             unset(Yii::app()->session['registration_error_count']);
@@ -289,7 +309,11 @@ class AjaxController extends MController
             $spot = Spot::model()->findByPk($spot_id);
             if ($spot) {
 
-                $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot->spot_type_id));
+                $content = SpotModel::model()->findByAttributes(array(
+                    'spot_id' => $spot_id,
+                    'spot_type_id' => $spot->spot_type_id,
+                    'lang' => $spot->lang,
+                ));
                 if ($content->delete()) {
                     UserPersonalField::model()->deleteByPk($spot->discodes_id);
                     echo json_encode(array('discodes_id' => $spot->discodes_id));
@@ -326,6 +350,7 @@ class AjaxController extends MController
             } else {
                 $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
                 $spot->status = Spot::STATUS_REGISTERED;
+                $spot->lang = (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en';
                 $spot->user_id = Yii::app()->user->id;
                 $spot->spot_type_id = (int)$_POST['type'];
                 if ($spot->save()) {
@@ -346,7 +371,7 @@ class AjaxController extends MController
             $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
             if ($spot) {
 
-                $content = SpotModel::getContent('1', $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
+                $content = SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
                 $txt = $this->renderPartial('//widget/spot/' . $spot->spot_type->pattern,
                     array(
                         'data' => $spot,
@@ -364,8 +389,9 @@ class AjaxController extends MController
 
             $spot_id = $_POST['SpotModel']['spot_id'];
             $spot_type_id = ($_POST['SpotModel']['spot_type_id']);
+            $spot = Spot::model()->findByPk($spot_id);
 
-            $content = SpotModel::getContent('1', $spot_id, Yii::app()->user->id, $spot_type_id);
+            $content = SpotModel::getContent($spot->lang, $spot_id, Yii::app()->user->id, $spot_type_id);
             if ($content) {
                 $content = SpotModel::setField($content, $_POST['SpotModel']);
 

@@ -54,7 +54,7 @@ class SpotController extends MController
                                     $params['email'] = $feedback->email;
                                     $params['phone'] = $feedback->phone;
                                     $params['comment'] = $feedback->comment;
-                                    MMail::spot_feedback($spot->user->email, $params);
+                                    MMail::spot_feedback($spot->user->email, $params, $spot->lang);
 
                                     $txt = $this->renderPartial('/widget/success', array(), true);
                                     break;
@@ -90,7 +90,7 @@ class SpotController extends MController
                                         }
                                         $data['spot_id'] = $spot->discodes_id;
                                         $data['spot_name'] = $spot->name;
-                                        MMail::spot_send($form->email, $data);
+                                        MMail::spot_send($form->email, $data, $spot->lang);
                                     }
                                 }
                                 $txt = $this->renderPartial('/widget/success_email', array(), true);

@@ -8,7 +8,7 @@
  * @property string $name
  * @property string $desc
  * @property string $content
- * @property integer $lang_id
+ * @property integer $lang
  * @property string $subject
  * @property string $slug
  */
@@ -27,7 +27,7 @@ class MailTemplate extends CActiveRecord
     public function getLang()
     {
         $data = Lang::getLangArray();
-        return $data[$this->lang_id];
+        return $data[$this->lang];
     }
 
 
@@ -47,14 +47,14 @@ class MailTemplate extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, desc, content, lang_id, slug, subject', 'required'),
-            array('name, desc, lang_id, slug', 'filter', 'filter' => 'trim'),
+            array('name, desc, content, lang, slug, subject', 'required'),
+            array('name, desc, lang, slug', 'filter', 'filter' => 'trim'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('name', 'length', 'max' => 150),
             array('slug', 'length', 'max' => 300),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, desc, content, lang_id, slug, subject', 'safe', 'on' => 'search'),
+            array('id, name, desc, content, lang, slug, subject', 'safe', 'on' => 'search'),
         );
     }
 
@@ -66,11 +66,11 @@ class MailTemplate extends CActiveRecord
         return parent::beforeValidate();
     }
 
-    public static function getTemplate($slug)
+    public static function getTemplate($slug, $lang)
     {
         $mail_template = Yii::app()->cache->get('mail_template_' . $slug);
         if ($mail_template === false) {
-            $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug));
+            $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug, 'lang' => $lang));
 
             Yii::app()->cache->set('mail_template_' . $slug, $mail_template, 36000);
         }
@@ -93,7 +93,7 @@ class MailTemplate extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'lang' => array(self::BELONGS_TO, 'Lang', 'lang_id'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
@@ -107,7 +107,7 @@ class MailTemplate extends CActiveRecord
             'name' => 'Название',
             'slug' => 'Код',
             'desc' => 'Описание',
-            'lang_id' => 'Язык',
+            'lang' => 'Язык',
             'subject' => 'Тема',
             'content' => 'Содержимое',
         );
@@ -125,7 +125,7 @@ class MailTemplate extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('lang_id', $this->lang_id);
+        $criteria->compare('lang', $this->lang);
         $criteria->compare('slug', $this->slug);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);

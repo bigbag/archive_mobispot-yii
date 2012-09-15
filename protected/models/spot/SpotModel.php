@@ -5,7 +5,7 @@ class SpotModel extends EMongoSoftDocument
     // like in normal EMongoDocument, but this is optional
     public $spot_id;
     public $user_id;
-    public $lang_id;
+    public $lang;
     public $spot_type_id;
 
     // As always define the getCollectionName() and model() methods !
@@ -43,7 +43,7 @@ class SpotModel extends EMongoSoftDocument
     public function rules()
     {
         return array(
-            array('spot_id, user_id, lang_id, spot_type_id', 'required'),
+            array('spot_id, user_id, lang, spot_type_id', 'required'),
         );
     }
 
@@ -55,13 +55,13 @@ class SpotModel extends EMongoSoftDocument
         return $obj;
     }
 
-    public function getContent($lang_id, $spot_id, $user_id, $spot_type_id)
+    public function getContent($lang, $spot_id, $user_id, $spot_type_id)
     {
 
         $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot_type_id));
         if (!$content) {
             $model = new SpotModel();
-            $model->lang_id = $lang_id;
+            $model->lang = $lang;
             $model->spot_id = $spot_id;
             $model->user_id = $user_id;
             $model->spot_type_id = $spot_type_id;

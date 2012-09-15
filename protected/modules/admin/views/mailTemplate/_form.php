@@ -34,9 +34,9 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'lang_id'); ?>
-        <?php echo $form->dropDownList($model, 'lang_id', Lang::getLangArray()); ?>
-        <?php echo $form->error($model, 'lang_id'); ?>
+        <?php echo $form->labelEx($model, 'lang'); ?>
+        <?php echo $form->dropDownList($model, 'lang', Lang::getLangArray()); ?>
+        <?php echo $form->error($model, 'lang'); ?>
     </div>
 
     <div class="row">

@@ -209,7 +209,7 @@ class ServiceController extends MController
                             $spot->status = Spot::STATUS_REGISTERED;
                             $spot->save();
 
-                            MMail::activation($model->email, $model->activkey);
+                            MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
 
                             if (Yii::app()->request->cookies['social_referer']) {
                                 $this->redirect(Yii::app()->request->cookies['social_referer']);

@@ -28,7 +28,7 @@ $this->menu = array(
         ),
         'title',
         array(
-            'name' => 'lang_id',
+            'name' => 'lang',
             'type' => 'raw',
             'value' => '$data->getLang()',
             'filter' => Lang::getLangArray(),

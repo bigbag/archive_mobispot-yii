@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'user':
  * @property integer $id
+ * @property integer $lang
  * @property string $email
  * @property string $password
  * @property string $activkey
@@ -14,6 +15,8 @@
  * @property integer $status
  * @property string $vkontakte_id
  * @property string $facebook_id
+ * @property string $google_oauth_id
+ * @property string $twitter_id
  */
 class User extends CActiveRecord
 {
@@ -85,13 +88,13 @@ class User extends CActiveRecord
             array('email', 'email'),
             array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
             array('password', 'length', 'max' => 128, 'min' => 10, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
-            array('type, status', 'numerical', 'integerOnly' => true),
+            array('type, status, lang', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id', 'safe', 'on' => 'search'),
+            array('id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id, google_oauth_id, twitter_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -102,6 +105,8 @@ class User extends CActiveRecord
             $this->status = self::STATUS_NOACTIVE;
             $this->type = self::TYPE_USER;
         }
+
+        if (!$this->lang) $this->lang = 0;
 
         return parent::beforeValidate();
     }
@@ -136,6 +141,7 @@ class User extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'profile' => array(self::BELONGS_TO, 'UserProfile', 'id'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
@@ -202,6 +208,10 @@ class User extends CActiveRecord
         $criteria->compare('status', $this->status);
         $criteria->compare('vkontakte_id', $this->vkontakte_id);
         $criteria->compare('facebook_id', $this->facebook_id);
+        $criteria->compare('google_oauth_id', $this->google_oauth_id);
+        $criteria->compare('twitter_id', $this->twitter_id);
+
+        $criteria->compare('lang', $this->lang);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

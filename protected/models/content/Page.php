@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'page':
  * @property integer $id
- * @property integer $lang_id
+ * @property integer $lang
  * @property string $creation_date
  * @property string $change_date
  * @property integer $user_id
@@ -40,7 +40,7 @@ class Page extends CActiveRecord
     public function getLang()
     {
         $data = Lang::getLangArray();
-        return $data[$this->lang_id];
+        return $data[$this->lang];
     }
 
 
@@ -70,10 +70,10 @@ class Page extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('lang_id, creation_date, change_date, user_id, title, slug, body, template_id', 'required'),
+            array('lang, creation_date, change_date, user_id, title, slug, body, template_id', 'required'),
             array('title, slug, description, keywords', 'filter', 'filter' => 'trim'),
             array('title, slug, description, keywords', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('user_id, lang_id, status', 'numerical', 'integerOnly' => true),
+            array('user_id, lang, status', 'numerical', 'integerOnly' => true),
             array('title, slug', 'length', 'max' => 150),
             array('template_id', 'length', 'max' => 300),
             array('keywords, description', 'safe'),
@@ -108,7 +108,7 @@ class Page extends CActiveRecord
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'template' => array(self::BELONGS_TO, 'PageTemplate', 'template_id'),
-            'lang' => array(self::BELONGS_TO, 'Lang', 'lang_id'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
@@ -125,7 +125,7 @@ class Page extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'lang_id' => 'Язык',
+            'lang' => 'Язык',
             'creation_date' => 'Дата создания',
             'change_date' => 'Дата изменения',
             'user_id' => 'Пользователь',
@@ -151,7 +151,7 @@ class Page extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('lang_id', $this->lang_id);
+        $criteria->compare('lang', $this->lang);
         $criteria->compare('creation_date', $this->creation_date, true);
         $criteria->compare('change_date', $this->change_date, true);
         $criteria->compare('user_id', $this->user_id);
