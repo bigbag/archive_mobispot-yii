@@ -31,6 +31,8 @@ return array(
 
         'messages' => array(
             'class' => 'CPhpMessageSource',
+            'onMissingTranslation' => array('Translation', 'missing'),
+
             //'cachingDuration' => 3600,
         ),
         'user' => array(
@@ -62,6 +64,11 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'translation',
+                    'logFile'=>'translations.log',
+                ),
                 array(
                     'class' => 'CWebLogRoute',
                     'levels' => 'trace',
