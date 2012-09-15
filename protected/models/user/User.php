@@ -88,7 +88,7 @@ class User extends CActiveRecord
             array('email', 'email'),
             array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
             array('password', 'length', 'max' => 128, 'min' => 10, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
-            array('type, status, lang', 'numerical', 'integerOnly' => true),
+            array('type, status', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),

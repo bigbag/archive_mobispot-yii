@@ -347,6 +347,7 @@ class AjaxController extends MController
                 if ($spot) {
                     echo true;
                 }
+                echo 1;
             } else {
                 $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
                 $spot->status = Spot::STATUS_REGISTERED;

@@ -73,7 +73,7 @@ class Page extends CActiveRecord
             array('lang, creation_date, change_date, user_id, title, slug, body, template_id', 'required'),
             array('title, slug, description, keywords', 'filter', 'filter' => 'trim'),
             array('title, slug, description, keywords', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('user_id, lang, status', 'numerical', 'integerOnly' => true),
+            array('user_id, status', 'numerical', 'integerOnly' => true),
             array('title, slug', 'length', 'max' => 150),
             array('template_id', 'length', 'max' => 300),
             array('keywords, description', 'safe'),

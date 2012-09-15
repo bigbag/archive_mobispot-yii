@@ -114,7 +114,7 @@ class Spot extends CActiveRecord
         // will receive user inputs.
         return array(
             array('discodes_id, code, status, premium, generated_date', 'required'),
-            array('discodes_id, lang, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
