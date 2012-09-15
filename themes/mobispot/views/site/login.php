@@ -19,10 +19,11 @@
                 Войти через социальные сети:<br/>
                 <a href="/service/social?service=facebook" class="facebook"><img src="/themes/runbee/images/soc_fb.png"
                                                                                  alt=""></a> <a
-                href="/service/social?service=vkontakte" class="vkontakte"><img src="/themes/runbee/images/soc_vk.png"
-                                                                                alt=""></a> <a
-                href="/service/social?service=odnoklassniki" class="vkontakte" class="odnoklassniki"><img
-                src="/themes/runbee/images/soc_od.png" alt=""></a>
+                    href="/service/social?service=vkontakte" class="vkontakte"><img
+                    src="/themes/runbee/images/soc_vk.png"
+                    alt=""></a> <a
+                    href="/service/social?service=odnoklassniki" class="vkontakte" class="odnoklassniki"><img
+                    src="/themes/runbee/images/soc_od.png" alt=""></a>
             </div>
         </div>
     </div>

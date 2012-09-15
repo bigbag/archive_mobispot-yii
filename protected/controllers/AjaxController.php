@@ -20,9 +20,7 @@ class AjaxController extends MController
     {
         if (Yii::app()->request->isAjaxRequest) {
             $text = $this->renderPartial('/user/block/captcha',
-                array(
-
-                ),
+                array(),
                 true);
             echo $text;
         }
@@ -251,32 +249,35 @@ class AjaxController extends MController
                     'user_id' => Yii::app()->user->id
                 ));
             if ($spot_from and $spot_to) {
-                $spot_to->delete();
-                $spot_new = new Spot();
-                $spot_new->attributes = $spot_from->attributes;
-                $spot_new->discodes_id = $spot_id_to;
-                 if ($spot_new->save()){
-                     $to = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_to));
-                     foreach($to as $row){
-                         $row->delete();
-                     }
-                     $from = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_from));
-                     foreach($from as $row){
-                         $to = new SpotModel();
-                         $to->attributes = $row->attributes;
-                         $to->spot_id = $spot_id_to;
-                         $to->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id));
+                $spot_to->name = $spot_from->name;
+                $spot_to->spot_type_id = $spot_from->spot_type_id;
+                $spot_to->status = Spot::STATUS_CLONES;
+                if ($spot_to->save()) {
+                    $to = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_to));
+                    foreach ($to as $row) {
+                        $row->delete();
+                    }
+                    $from = SpotModel::model()->findAllByAttributes(array('spot_id' => $spot_id_from));
+                    foreach ($from as $row) {
+                        $to = new SpotModel();
+                        $to->attributes = $row->attributes;
+                        $to->spot_id = $spot_id_to;
+                        $to->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id));
 
-                         $soft_field = SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id);
-                         foreach ($soft_field as $slug){
-                             $to->__set($slug, $row->__get($slug));
-                         }
+                        $soft_field = SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id);
+                        foreach ($soft_field as $slug) {
+                            $to->__set($slug, $row->__get($slug));
+                        }
 
-                         $to->save();
+                        $to->save();
 
-                     }
-                     echo 1;
-                 }
+                    }
+                    echo json_encode(array(
+                        'discodes_id' => $spot_to->discodes_id,
+                        'spot_type' => $spot_to->spot_type->name,
+                        'spot_name' => $spot_to->name,
+                    ));
+                }
             }
         }
     }
@@ -289,7 +290,7 @@ class AjaxController extends MController
             if ($spot) {
 
                 $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot->spot_type_id));
-                if ($content->delete()){
+                if ($content->delete()) {
                     UserPersonalField::model()->deleteByPk($spot->discodes_id);
                     echo json_encode(array('discodes_id' => $spot->discodes_id));
                 }
@@ -421,6 +422,30 @@ class AjaxController extends MController
             UserPersonalField::setField($_POST['discodes_id'], $_POST['type_id'], $data);
             Yii::app()->cache->delete('spot_personal_field_' . $_POST['discodes_id']);
             echo true;
+        }
+    }
+
+    public function actionSpotPersonalPhoto()
+    {
+        if (isset($_POST['user_id']) and isset($_POST['file_name'])) {
+            $user_id = $_POST['user_id'];
+
+            $photo = UserPersonalPhoto::getPhoto($user_id);
+            if (count($photo) > 9) unset($photo[0]);
+            $photo[] = $_POST['file_name'];
+            echo UserPersonalPhoto::setPhoto($user_id, array_values($photo));
+        }
+    }
+
+    public function actionSpotGetGallery()
+    {
+        if (isset($_POST['user_id'])) {
+            $user_id = $_POST['user_id'];
+
+            $text = $this->renderPartial('/widget/spot/personal_gallery',
+                array('photo' => UserPersonalPhoto::getPhoto($user_id)),
+                true);
+            echo $text;
         }
     }
 

@@ -32,6 +32,21 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('body').delegate('.td115', 'click', function () {
+        var id = $(this).attr('id');
+        if ($('#' + id + ' .spot_code_view').is(':visible')) {
+            $('#' + id + ' .spot_id_view').show();
+            $('#' + id + ' .spot_code_view').hide();
+        }
+        else {
+            $('#' + id + ' .spot_id_view').hide();
+            $('#' + id + ' .spot_code_view').show();
+        }
+
+    })
+});
+
 //диспетчер выбора операций
 $(document).ready(function () {
     $("#foot-cont-block select").change(function () {
@@ -48,7 +63,7 @@ $(document).ready(function () {
                 $('#name_' + id + ' div.name').hide();
             }
             else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>
-                ) {
+                    ) {
                 $('#type_' + id + ' div.retype').show();
                 $('#type_' + id + ' div.type').hide();
                 $(".retype select").selectBox('destroy');
@@ -156,9 +171,9 @@ function showSpotAddResponse(responseText) {
     if (responseText) {
         $('#spotslistview').prepend(responseText);
         jQuery(".niceCheck").each(
-            function () {
-                changeCheckStart(jQuery(this));
-            });
+                function () {
+                    changeCheckStart(jQuery(this));
+                });
         $('.close-reveal-modal').click();
     }
 }
@@ -378,8 +393,18 @@ $(document).ready(function () {
 });
 
 function showSpotCopyResponse(responseText) {
-    if (responseText == 1) {
-        $().redirect('/user/account/', null, 'GET');
+    if (responseText) {
+        var obj = jQuery.parseJSON(responseText);
+
+        var id = obj.discodes_id;
+        var spot_type = obj.spot_type;
+        var spot_name = obj.spot_name;
+
+        if (id && spot_type && spot_name){
+            $('#name_' + id + ' div.name').html(spot_name);
+            $('#type_' + id + ' div.type').html(spot_type);
+            $('.close-reveal-modal').click();
+        }
     }
 }
 </script>

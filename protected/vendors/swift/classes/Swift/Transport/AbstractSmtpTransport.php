@@ -185,8 +185,7 @@ abstract class Swift_Transport_AbstractSmtpTransport
                 $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
             } elseif ($sent > 0) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_TENTATIVE);
-            }
-            else {
+            } else {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_FAILED);
             }
             $evt->setFailedRecipients($failedRecipients);
@@ -345,8 +344,7 @@ abstract class Swift_Transport_AbstractSmtpTransport
             // Don't use array_keys
             reset($sender); // Reset Pointer to first pos
             $path = key($sender); // Get key
-        }
-        elseif (!empty($from)) {
+        } elseif (!empty($from)) {
             reset($from); // Reset Pointer to first pos
             $path = key($from); // Get key
         }

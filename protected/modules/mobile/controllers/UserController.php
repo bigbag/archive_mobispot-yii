@@ -6,7 +6,6 @@ class UserController extends MController
 
     public function actionIndex()
     {
-        $this->render('index', array(
-        ));
+        $this->render('index', array());
     }
 }

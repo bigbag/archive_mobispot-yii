@@ -55,8 +55,7 @@ class Swift_ByteStream_ArrayByteStream
             $this->_arraySize = count($stack);
         } elseif (is_string($stack)) {
             $this->write($stack);
-        }
-        else {
+        } else {
             $this->_array = array();
         }
     }

@@ -122,7 +122,7 @@ class User extends CActiveRecord
     protected function afterDelete()
     {
         UserProfile::model()->deleteByPk($this->id);
-        Spot::model()->updateAll(array('status' => Spot::STATUS_REMOVED_SYS, 'removed_date' => new CDbExpression('NOW()')), 'user_id = '.$this->id );
+        Spot::model()->updateAll(array('status' => Spot::STATUS_REMOVED_SYS, 'removed_date' => new CDbExpression('NOW()')), 'user_id = ' . $this->id);
         parent::afterDelete();
     }
 
@@ -207,11 +207,11 @@ class User extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-    
+
     public function socialCheck($service, $soc_id)
     {
-        $field = $service.'_id';
+        $field = $service . '_id';
         return User::model()->findAllByAttributes(array($field => $soc_id));
     }
-    
+
 }

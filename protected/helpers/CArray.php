@@ -204,8 +204,7 @@ class CArray
                     } elseif (is_int($key)) {
                         // Indexed arrays are appended
                         array_push($result, $val);
-                    }
-                    else {
+                    } else {
                         // Associative arrays are replaced
                         $result[$key] = $val;
                     }

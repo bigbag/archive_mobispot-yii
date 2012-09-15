@@ -10,11 +10,24 @@
     background: url("../images/auth.png") no-repeat;
 }
 
-.auth-icon.twitter{ background-position: 0 0; width: 24px; height: 24px; }
-.auth-icon.google,
-.auth-icon.google_oauth{ background-position: 0 -54px; width: 24px; height: 24px; }
-.auth-icon.facebook{ background-position: 0 -108px; width: 24px; height: 24px; }
+.auth-icon.twitter {
+    background-position: 0 0;
+    width: 24px;
+    height: 24px;
+}
 
+.auth-icon.google,
+.auth-icon.google_oauth {
+    background-position: 0 -54px;
+    width: 24px;
+    height: 24px;
+}
+
+.auth-icon.facebook {
+    background-position: 0 -108px;
+    width: 24px;
+    height: 24px;
+}
 
 .auth-services {
     margin: 0 0 1em;

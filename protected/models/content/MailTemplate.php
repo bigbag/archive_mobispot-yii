@@ -27,7 +27,7 @@ class MailTemplate extends CActiveRecord
     public function getLang()
     {
         $data = Lang::getLangArray();
-        return  $data[$this->lang_id];
+        return $data[$this->lang_id];
     }
 
 
@@ -102,7 +102,7 @@ class MailTemplate extends CActiveRecord
      */
     public function attributeLabels()
     {
-		return array(
+        return array(
             'id' => 'ID',
             'name' => 'Название',
             'slug' => 'Код',
@@ -110,8 +110,8 @@ class MailTemplate extends CActiveRecord
             'lang_id' => 'Язык',
             'subject' => 'Тема',
             'content' => 'Содержимое',
-		);
-	}
+        );
+    }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.

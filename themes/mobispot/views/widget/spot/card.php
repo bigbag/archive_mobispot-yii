@@ -80,7 +80,7 @@
                     <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
                 </div>
                 <?php endif; ?>
-                <?php $i = $i + 1; ?>
+            <?php $i = $i + 1; ?>
 
             <?php endforeach; ?>
         <?php endif;?>
@@ -292,13 +292,13 @@
                 var action = '';
                 if (action_name || action_link || action_file) {
                     action = '<div class="spot_action"><span class="edit"></span>' +
-                        '<input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="' + action_name + '">' +
-                        '<input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="' + action_file + '">' +
-                        '<input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="' + action_link + '">' +
-                        '<input class="action_file_view" type="hidden" value="' + action_file_view + '">' +
-                        action_name + '<br />' +
-                        action_link + '<br />' +
-                        action_file_view + '</div>';
+                            '<input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="' + action_name + '">' +
+                            '<input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="' + action_file + '">' +
+                            '<input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="' + action_link + '">' +
+                            '<input class="action_file_view" type="hidden" value="' + action_file_view + '">' +
+                            action_name + '<br />' +
+                            action_link + '<br />' +
+                            action_file_view + '</div>';
                 }
                 $('.view_action').before(action);
                 $('.new_action').empty();

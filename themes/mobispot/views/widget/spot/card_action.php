@@ -5,7 +5,8 @@
         <td>
             <div class="txt-form">
                 <div class="txt-form-cl">
-                    <input class="text name" placeholder="<?php echo Yii::t('account', 'Название');?>" type="text" value="<?php echo $data['name']?>">
+                    <input class="text name" placeholder="<?php echo Yii::t('account', 'Название');?>" type="text"
+                           value="<?php echo $data['name']?>">
                 </div>
             </div>
         </td>
@@ -18,13 +19,14 @@
                 <tr>
                     <td>
                         <div class="round-btn-upload">
-                            <input type="submit" class="add_file" value="<?php echo Yii::t('account', 'Загрузить'); ?>" />
+                            <input type="submit" class="add_file"
+                                   value="<?php echo Yii::t('account', 'Загрузить'); ?>"/>
                         </div>
                     </td>
                     <td>
                         <div class="result_upload">
-                            <?php if(isset($data['file_view'][1])):?>
-                            <?php echo $data['file_view']?><span class="cancel"></span>
+                            <?php if (isset($data['file_view'][1])): ?>
+                            <?php echo $data['file_view'] ?><span class="cancel"></span>
                             <?php endif;?>
                         </div>
                     </td>

@@ -282,8 +282,7 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_MimeEntity
                     $grandchildren = array_merge($grandchildren, $immediateChildren);
                     //Set new children
                     $immediateChildren = array($child);
-                }
-                else {
+                } else {
                     $grandchildren[] = $child;
                 }
             }

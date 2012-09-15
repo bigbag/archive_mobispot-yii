@@ -32,7 +32,7 @@
                         <?php echo mb_substr($data->name, 0, 45, 'utf-8');?>
                     </div>
                 </td>
-                <td class="td115">
+                <td id="discodes_<?php echo $data->discodes_id;?>" class="td115">
                     <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
                     <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
                 </td>
@@ -76,7 +76,7 @@
             <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
         </a>
 
-        <div  class="oneSpotInfo"></div>
+        <div class="oneSpotInfo"></div>
         <div class="clear"></div>
-    <div>
+        <div>
 </li>

@@ -191,8 +191,7 @@ class Swift_ByteStream_FileByteStream
             /* We have opened a php:// Stream Should work without problem */
         } elseif (function_exists('sys_get_temp_dir') && is_writable(sys_get_temp_dir()) && ($tmpFile = tmpfile())) {
             /* We have opened a tmpfile */
-        }
-        else {
+        } else {
             throw new Swift_IoException('Unable to copy the file to make it seekable, sys_temp_dir is not writable, php://memory not available');
         }
         $currentPos = ftell($this->_reader);

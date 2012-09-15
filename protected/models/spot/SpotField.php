@@ -53,8 +53,7 @@ class SpotField extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-        );
+        return array();
     }
 
     /**
@@ -74,7 +73,7 @@ class SpotField extends CActiveRecord
     {
         $spot_fields = Yii::app()->cache->get('spot_fields');
         if ($spot_fields === false) {
-            $spot_fields = SpotField::model()->findAll(array('order'=>'t.name'));
+            $spot_fields = SpotField::model()->findAll(array('order' => 't.name'));
 
             Yii::app()->cache->set('spot_fields', $spot_fields, 36000);
         }

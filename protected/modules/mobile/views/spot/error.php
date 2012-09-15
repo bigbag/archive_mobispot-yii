@@ -26,15 +26,16 @@
                 <tr>
                     <td>
                         <div style="width: 200px; margin: 0 auto;">
-                            <input type="text" class="txt-100p rad6"  value="" name="ErrorForm[verifyCode]"/>
+                            <input type="text" class="txt-100p rad6" value="" name="ErrorForm[verifyCode]"/>
                         </div>
                         <div style="display: none;">
-                            <input type="text" class="txt-100p rad6"  value="" name="email"/>
+                            <input type="text" class="txt-100p rad6" value="" name="email"/>
                         </div>
                     </td>
                 </tr>
             </table>
-            <input type="submit" class="btn-round txtFCenter rad12 shadow" value="<?php echo Yii::t('mobile', 'Отправить');?>"/>
+            <input type="submit" class="btn-round txtFCenter rad12 shadow"
+                   value="<?php echo Yii::t('mobile', 'Отправить');?>"/>
         </form>
     </div>
 </div>

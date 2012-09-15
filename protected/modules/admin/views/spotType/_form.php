@@ -45,19 +45,20 @@
                 <?php echo $form->label($model, 'fields'); ?>
                 <a id="copylink" href="#" rel=".copy">Добавить</a>
             </th>
-            <td><?php if ($model->fields):?>
-                <?php foreach($model->fields as $key=>$value):?>
-                <div class="row">
-                    <?php echo CHtml::textField('SpotType[fields][name][]', $key); ?>
-                    <?php echo $form->dropDownList(
+            <td><?php if ($model->fields): ?>
+                <?php foreach ($model->fields as $key => $value): ?>
+                    <div class="row">
+                        <?php echo CHtml::textField('SpotType[fields][name][]', $key); ?>
+                        <?php echo $form->dropDownList(
                         $model,
                         'fields[field_id][]',
                         CHtml::listData(SpotField::getSpotFields(), 'field_id', 'desc'),
-                        array('options' => array($value=>array('selected'=>true)))
-                ); ?>
-                <a onclick="$(this).parent().remove(); return false;" href="#"><img src="/themes/mobispot/images/form/delete.png" alt=""></a>
-                </div>
-                <?php endforeach;?>
+                        array('options' => array($value => array('selected' => true)))
+                    ); ?>
+                        <a onclick="$(this).parent().remove(); return false;" href="#"><img
+                                src="/themes/mobispot/images/form/delete.png" alt=""></a>
+                    </div>
+                    <?php endforeach; ?>
                 <?php endif;?>
                 <div class="row copy">
                     <?php echo CHtml::textField('SpotType[fields][name][]', ''); ?>

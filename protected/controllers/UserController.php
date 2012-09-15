@@ -9,7 +9,6 @@ class UserController extends MController
         if (!Yii::app()->user->id) {
             $this->setAccess();
         } else {
-            $user = User::model()->findByPk(Yii::app()->user->id);
             $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
             $user_id = Yii::app()->user->id;

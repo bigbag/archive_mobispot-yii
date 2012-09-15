@@ -1,33 +1,36 @@
 <?php
-class ServiceUserIdentity extends CUserIdentity {
+class ServiceUserIdentity extends CUserIdentity
+{
     const ERROR_NOT_AUTHENTICATED = 3;
 
     private $_id;
     private $_email;
-    private $_password;    
-    
+    private $_password;
+
     /**
      * @var EAuthServiceBase the authorization service instance.
      */
     protected $service;
-    
+
     /**
      * Constructor.
      * @param EAuthServiceBase $service the authorization service instance.
      */
-    public function __construct($service) {
+    public function __construct($service)
+    {
         $this->service = $service;
     }
-    
+
     /**
      * Authenticates a user based on {@link username}.
      * This method is required by {@link IUserIdentity}.
      * @return boolean whether authentication succeeds.
      */
-    public function authenticate() {        
-      
+    public function authenticate()
+    {
+
         $user = User::model()->findByAttributes(array('email' => $this->service->email));
-        
+
         if ($this->service->isAuthenticated) {
             //$this->username = $this->service->getAttribute('name');
             //$this->setState('id', $this->service->id);
@@ -40,8 +43,7 @@ class ServiceUserIdentity extends CUserIdentity {
             $this->username = $user->email;
             $this->password = $user->password;
             $this->errorCode = self::ERROR_NONE;
-        }
-        else {
+        } else {
             $this->errorCode = self::ERROR_NOT_AUTHENTICATED;
         }
         return !$this->errorCode;
@@ -63,6 +65,6 @@ class ServiceUserIdentity extends CUserIdentity {
     public function getPassword()
     {
         return $this->_password;
-    }    
-    
+    }
+
 }

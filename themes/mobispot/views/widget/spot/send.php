@@ -22,6 +22,7 @@
                 <tr>
                     <td>
                         <input type="hidden" class="file_count" value="<?php echo count($content->fayl_10);?>">
+
                         <div class="round-btn-upload">
                             <input type="submit" id="add_file" class=""
                                    value="<?php echo Yii::t('account', 'Загрузить');?>"/>
@@ -63,7 +64,7 @@
                 $('.result_upload span.cancel').live("click", function () {
                     $(this).parent().remove();
                     var count = $('.file_count').val();
-                    if (count){
+                    if (count) {
                         $('.file_count').val(count - 1);
                         if (count == 5) $('.round-btn-upload').show();
                     }

@@ -1,1 +1,10 @@
-{indexes:[{ "v" : 1, "key" : { "_id" : 1 }, "ns" : "mobispot.mixed_collection", "name" : "_id_" }]}
+{indexes:[
+    {
+        "v":1,
+        "key":{
+            "_id":1
+        },
+        "ns":"mobispot.mixed_collection",
+        "name":"_id_"
+    }
+]}

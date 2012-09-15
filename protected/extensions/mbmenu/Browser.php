@@ -21,14 +21,11 @@ class Browser
             $name = 'opera';
         } elseif (preg_match('/webkit/', $userAgent)) {
             $name = 'safari';
-        }
-        elseif (preg_match('/msie/', $userAgent)) {
+        } elseif (preg_match('/msie/', $userAgent)) {
             $name = 'msie';
-        }
-        elseif (preg_match('/mozilla/', $userAgent) && !preg_match('/compatible/', $userAgent)) {
+        } elseif (preg_match('/mozilla/', $userAgent) && !preg_match('/compatible/', $userAgent)) {
             $name = 'mozilla';
-        }
-        else {
+        } else {
             $name = 'unrecognized';
         }
 
@@ -44,11 +41,9 @@ class Browser
             $platform = 'linux';
         } elseif (preg_match('/macintosh|mac os x/', $userAgent)) {
             $platform = 'mac';
-        }
-        elseif (preg_match('/windows|win32/', $userAgent)) {
+        } elseif (preg_match('/windows|win32/', $userAgent)) {
             $platform = 'windows';
-        }
-        else {
+        } else {
             $platform = 'unrecognized';
         }
 

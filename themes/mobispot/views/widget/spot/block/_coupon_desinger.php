@@ -21,7 +21,8 @@
                 <td>
                     <div class="txt-form">
                         <div class="txt-form-cl">
-                            <input class="txt" name="Coupon[text]" autocomplete="off" value="" placeholder=" " type="text">
+                            <input class="txt" name="Coupon[text]" autocomplete="off" value="" placeholder=" "
+                                   type="text">
                         </div>
                     </div>
                 </td>
@@ -128,14 +129,16 @@
             <tr>
 
                 <td class="field" style="vertical-align:top">
-                    <div class="color-palit" >
+                    <div class="color-palit">
                         <div class="color color-palit-cl"><?php echo Yii::t('account', 'Выберите фон');?>
-                            <input type="hidden" name="Coupon[body_color]" class="color-picker" size="7" value="#FFFFFF" id="body_color"/>
+                            <input type="hidden" name="Coupon[body_color]" class="color-picker" size="7" value="#FFFFFF"
+                                   id="body_color"/>
                         </div>
                     </div>
                     <div class="color-palit">
                         <div class="color-palit-cl color-alpha"><?php echo Yii::t('account', 'Цвет текста');?>
-                            <input type="hidden" name="Coupon[text_color]" class="color-picker" size="7" value="#000000" id="text_color"/>
+                            <input type="hidden" name="Coupon[text_color]" class="color-picker" size="7" value="#000000"
+                                   id="text_color"/>
                         </div>
                     </div>
                 </td>

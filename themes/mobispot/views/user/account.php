@@ -36,17 +36,17 @@
                 <select name='action' class='action'>
                     <option selected><?php echo Yii::t('account', 'Выберите действие');?></option>
                     <option
-                        value="<?php echo Spot::ACTION_CHANGE_NAME;?>"><?php echo Yii::t('account', 'Изменить название'); ?></option>
+                            value="<?php echo Spot::ACTION_CHANGE_NAME;?>"><?php echo Yii::t('account', 'Изменить название'); ?></option>
                     <option
-                        value="<?php echo Spot::ACTION_CHANGE_TYPE;?>"><?php echo Yii::t('account', 'Изменить тип'); ?></option>
+                            value="<?php echo Spot::ACTION_CHANGE_TYPE;?>"><?php echo Yii::t('account', 'Изменить тип'); ?></option>
                     <option
-                        value="<?php echo Spot::ACTION_COPY;?>"><?php echo Yii::t('account', 'Копировать'); ?></option>
+                            value="<?php echo Spot::ACTION_COPY;?>"><?php echo Yii::t('account', 'Копировать'); ?></option>
                     <option
-                        value="<?php echo Spot::ACTION_INVISIBLE;?>"><?php echo Yii::t('account', 'Невидимость'); ?></option>
+                            value="<?php echo Spot::ACTION_INVISIBLE;?>"><?php echo Yii::t('account', 'Невидимость'); ?></option>
                     <option
-                        value="<?php echo Spot::ACTION_CLEAR;?>"><?php echo Yii::t('account', 'Очистить'); ?></option>
+                            value="<?php echo Spot::ACTION_CLEAR;?>"><?php echo Yii::t('account', 'Очистить'); ?></option>
                     <option
-                        value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
+                            value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
                 </select>
 
                 <a class="r-btn-30 spot_add_modal">
@@ -66,8 +66,9 @@
 <?php include('modal/spot_remove.php') ?>
 <?php include('modal/spot_add.php') ?>
 <?php include('modal/spot_copy.php') ?>
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/lightbox.min.js'); ?>
+<?php include('modal/spot_gallery.php') ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.miniColors.min.js'); ?>
+
 <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/jquery.miniColors.css'); ?>

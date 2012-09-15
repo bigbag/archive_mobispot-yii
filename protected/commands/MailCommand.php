@@ -15,7 +15,7 @@ class MailCommand extends CConsoleCommand
         if ($attachFile) {
             if (count($attachFile) > 0) {
                 foreach ($attachFile as $file) {
-                    $file_name = Yii::getPathOfAlias('webroot.uploads.spot.').'/'.$file;
+                    $file_name = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $file;
                     $attachment = Swift_Attachment::fromPath($file_name);
                     $message->attach($attachment);
                 }

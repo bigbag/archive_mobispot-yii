@@ -15,7 +15,7 @@
     <table class="detail-view" id="yw0">
         <tr class="odd">
             <th><?php echo $form->label($model, 'name'); ?></th>
-            <td><?php echo (!empty($model->profile->name))?$model->profile->name:'' ?></td>
+            <td><?php echo (!empty($model->profile->name)) ? $model->profile->name : '' ?></td>
         </tr>
         <tr class="even">
             <th><?php echo $form->label($model, 'email'); ?></th>

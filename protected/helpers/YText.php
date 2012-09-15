@@ -319,8 +319,7 @@ class YText
                 } elseif ($digits < 2048) {
                     $out .= chr(192 + (($digits - ($digits % 64)) / 64));
                     $out .= chr(128 + ($digits % 64));
-                }
-                else {
+                } else {
                     $out .= chr(224 + (($digits - ($digits % 4096)) / 4096));
                     $out .= chr(128 + ((($digits % 4096) - ($digits % 64)) / 64));
                     $out .= chr(128 + ($digits % 64));

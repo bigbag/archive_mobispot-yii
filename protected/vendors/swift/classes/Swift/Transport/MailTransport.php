@@ -219,8 +219,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
         } elseif (!empty($sender)) {
             $keys = array_keys($sender);
             $path = array_shift($keys);
-        }
-        elseif (!empty($from)) {
+        } elseif (!empty($from)) {
             $keys = array_keys($from);
             $path = array_shift($keys);
         }

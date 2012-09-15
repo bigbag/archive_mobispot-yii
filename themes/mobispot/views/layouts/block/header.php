@@ -7,6 +7,7 @@
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/reveal.css'); ?>
 
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/plugin.js'); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/angular/angular.min.js'); ?>
 
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery');?>
 </head>

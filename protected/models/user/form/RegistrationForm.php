@@ -33,7 +33,7 @@ class RegistrationForm extends User
             $spot = Spot::model()->findByAttributes(array('code' => $this->activ_code, 'status' => Spot::STATUS_ACTIVATED));
 
             if ($spot === null)
-            $this->addError("activ_code", Yii::t('user', "Код активации спота неверен"));
+                $this->addError("activ_code", Yii::t('user', "Код активации спота неверен"));
         }
     }
 

@@ -62,13 +62,13 @@
 
     <div class="row">
         <?php echo $form->labelEx($model, 'status'); ?>
-        <?php echo $form->dropDownList($model, 'status', $model->getStatusList()) ; ?>
+        <?php echo $form->dropDownList($model, 'status', $model->getStatusList()); ?>
         <?php echo $form->error($model, 'status'); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'template_id'); ?>
-        <?php echo $form->dropDownList($model, 'template_id', PageTemplate::getTemplateArray()) ; ?>
+        <?php echo $form->dropDownList($model, 'template_id', PageTemplate::getTemplateArray()); ?>
         <?php echo $form->error($model, 'template_id'); ?>
     </div>
 

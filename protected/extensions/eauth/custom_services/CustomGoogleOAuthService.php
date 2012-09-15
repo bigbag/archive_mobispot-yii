@@ -23,17 +23,17 @@ class CustomGoogleOAuthService extends GoogleOAuthService
             $this->attributes['url'] = $info['link'];
 
         if (!empty($info['email']))
-            $this->attributes['email'] = $info['email'];        
+            $this->attributes['email'] = $info['email'];
 
         /*if (!empty($info['gender']))
-              $this->attributes['gender'] = $info['gender'] == 'male' ? 'M' : 'F';
+         $this->attributes['gender'] = $info['gender'] == 'male' ? 'M' : 'F';
 
-          if (!empty($info['picture']))
-              $this->attributes['photo'] = $info['picture'];
+     if (!empty($info['picture']))
+         $this->attributes['photo'] = $info['picture'];
 
-          $info['given_name']; // first name
-          $info['family_name']; // last name
-          $info['birthday']; // format: 0000-00-00
-          $info['locale']; // format: en*/
+     $info['given_name']; // first name
+     $info['family_name']; // last name
+     $info['birthday']; // format: 0000-00-00
+     $info['locale']; // format: en*/
     }
 }

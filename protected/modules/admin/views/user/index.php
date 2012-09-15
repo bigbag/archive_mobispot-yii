@@ -19,7 +19,7 @@ $this->widget('ext.selgridview.SelGridView', array(
     'dataProvider' => $model->search(),
     'selectableRows' => 2,
     'filter' => $model,
-    'afterAjaxUpdate'=>"function(){jQuery('#creation_date_search').datepicker({'dateFormat': 'yy-mm-dd'})}",
+    'afterAjaxUpdate' => "function(){jQuery('#creation_date_search').datepicker({'dateFormat': 'yy-mm-dd'})}",
     'columns' => array(
         array(
             'class' => 'CCheckBoxColumn',

@@ -78,7 +78,7 @@
                 if (file_name) {
                     $('#spot_coupon_field').val(file_name);
                     $('.noUploadImg').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
-                        '<span class="cancel"></span>');
+                            '<span class="cancel"></span>');
                 }
                 if (error) alert(error);
             }

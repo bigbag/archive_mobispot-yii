@@ -7,5 +7,6 @@
  * See http://google-api-dfp-php.googlecode.com.
  *
  */
-class OAuthException extends CException {
+class OAuthException extends CException
+{
 }

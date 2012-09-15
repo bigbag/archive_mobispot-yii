@@ -6,7 +6,7 @@
 </div>
 <div id="add_field">
     <a href="<?php echo $discodes_id;?>" class="btn-30">
-        <span class="btn-30-txt"><?php echo Yii::t('account', 'Добавить в спот');?></span>
+        <span class="btn-30-txt"><?php echo Yii::t('account', 'Использовать');?></span>
     </a>
 </div>
 <div style="">

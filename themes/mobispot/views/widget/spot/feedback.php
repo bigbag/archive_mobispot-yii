@@ -54,7 +54,7 @@
                         <div id="feedback_content">
                             <a href="<?php echo $data->discodes_id;?>" class="btn-30">
                             <span
-                                class="btn-30-txt"><?php echo Yii::t('account', 'Смотреть отзывы к этому споту');?></span>
+                                    class="btn-30-txt"><?php echo Yii::t('account', 'Смотреть отзывы к этому споту');?></span>
                             </a>
                         </div>
                     </td>

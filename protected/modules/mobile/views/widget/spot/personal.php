@@ -28,12 +28,12 @@
                         <span class="ico">
                     <?php if (!empty($all_field_ico[$key])): ?>
                             <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
-                    <?php endif; ?>
+                            <?php endif; ?>
                         </span>
-                        <?php echo $value; ?>
+                            <?php echo $value; ?>
                         </span>
                     </a>
-                    <?php elseif($key == 15): ?>
+                    <?php elseif ($key == 15): ?>
                     <a href="<?php echo YText::formatUrl($value)?>" class="btn-dig rad6 shadow">
                         <span class="txt-24">
                         <span class="ico">
@@ -49,10 +49,10 @@
                     <span class="txt-24">
                         <span class="ico">
                     <?php if (!empty($all_field_ico[$key])): ?>
-                        <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
-                    <?php endif;?>
+                            <img src="/uploads/ico/<?php echo $all_field_ico[$key]?>" alt="" width="30" height="30">
+                            <?php endif;?>
                     </span>
-                <?php echo $value; ?>
+                        <?php echo $value; ?>
             </span>
         </span>
                     <?php endif; ?>

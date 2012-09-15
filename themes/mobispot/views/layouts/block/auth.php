@@ -31,12 +31,12 @@
                     <tr>
                         <td>
                             <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img
-                                src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
+                                    src="/themes/mobispot/images/auth_facebook.png" alt="fb"></a>
                             <a class="auth-link twitter" href="/service/social?service=twitter" title="twitter"><img
-                                src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
+                                    src="/themes/mobispot/images/auth_twitter.png" alt="tw"></a>
                             <a class="auth-link google_oauth" href="/service/social?service=google_oauth"
                                title="google"><img
-                                src="/themes/mobispot/images/auth_google.png" alt="g"></a>
+                                    src="/themes/mobispot/images/auth_google.png" alt="g"></a>
 
                         </td>
                         <td>

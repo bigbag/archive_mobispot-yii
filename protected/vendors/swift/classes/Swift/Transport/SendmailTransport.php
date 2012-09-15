@@ -135,8 +135,7 @@ class Swift_Transport_SendmailTransport
             $message->generateId();
         } elseif (false !== strpos($command, ' -bs')) {
             $count = parent::send($message, $failedRecipients);
-        }
-        else {
+        } else {
             $this->_throwException(new Swift_TransportException(
                 'Unsupported sendmail command flags [' . $command . ']. ' .
                     'Must be one of "-bs" or "-t" but can include additional flags.'

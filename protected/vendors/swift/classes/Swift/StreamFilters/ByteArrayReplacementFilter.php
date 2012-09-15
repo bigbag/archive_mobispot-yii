@@ -150,8 +150,7 @@ class Swift_StreamFilters_ByteArrayReplacementFilter
 
                     // We start the next loop
                     continue 2;
-                }
-                else {
+                } else {
                     // this byte is not in a pattern and we haven't found another pattern
                     break;
                 }

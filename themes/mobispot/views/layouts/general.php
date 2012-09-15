@@ -7,9 +7,9 @@
             <div id="video-present">
                 <div id="video-shadow">
                     <iframe
-                        src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
-                        width="390" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen
-                        allowFullScreen></iframe>
+                            src="<?php echo Yii::app()->par->load('videoDesktopUrl'); ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff"
+                            width="390" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen
+                            allowFullScreen></iframe>
                 </div>
             </div>
         </div>

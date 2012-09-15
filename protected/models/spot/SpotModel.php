@@ -47,7 +47,8 @@ class SpotModel extends EMongoSoftDocument
         );
     }
 
-    public function setField($obj, $data){
+    public function setField($obj, $data)
+    {
         foreach ($data as $key => $value) {
             $obj->{$key} = $value;
         }

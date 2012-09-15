@@ -25,7 +25,7 @@ class SiteController extends MController
             $user_id = Yii::app()->user->id;
 
 
-            if (isset($_POST['discodes_id']) and isset($_POST['spot_type'])){
+            if (isset($_POST['discodes_id']) and isset($_POST['spot_type'])) {
                 Spot::model()->updateByPk((int)$_POST['discodes_id'], array('spot_type_id' => (int)$_POST['spot_type']));
                 User::model()->updateByPk($user_id, array('status' => User::STATUS_VALID));
             }

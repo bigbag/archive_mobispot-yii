@@ -79,10 +79,10 @@ class UserController extends Controller
     public function actionBanned()
     {
         if (isset($_GET['id'])) {
-             $id = explode('|', $_GET['id']);
+            $id = explode('|', $_GET['id']);
             if (isset($id[0])) {
                 foreach ($id as $row) {
-                    if ($row != 1){
+                    if ($row != 1) {
                         $user = User::model()->findByPk((int)$row);
                         if ($user) {
                             $user->status = User::STATUS_BANNED;

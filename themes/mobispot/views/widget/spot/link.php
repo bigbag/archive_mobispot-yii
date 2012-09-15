@@ -45,13 +45,13 @@
     <div class="clear"></div>
     <div>
 
-     <script type="text/javascript">
-         $('input.txt').bind('focus', function () {
-             $(this).parent().css('background-position', '100% -105px');
-             $(this).parent().parent().css('background-position', '0 -70px');
-         });
-         $('input.txt').bind('blur', function () {
-             $(this).parent().css('background-position', '100% -35px');
-             $(this).parent().parent().css('background-position', '0 0');
-         });
-     </script>
+        <script type="text/javascript">
+            $('input.txt').bind('focus', function () {
+                $(this).parent().css('background-position', '100% -105px');
+                $(this).parent().parent().css('background-position', '0 -70px');
+            });
+            $('input.txt').bind('blur', function () {
+                $(this).parent().css('background-position', '100% -35px');
+                $(this).parent().parent().css('background-position', '0 0');
+            });
+        </script>

@@ -10,7 +10,7 @@
             </p>
             <input type="hidden" name="discodes_id" value="">
             <span class="r-btn-30 remove"><span><span
-                class="ico del-ico"></span><?php echo Yii::t('account', 'Удалить')?></span></span>
+                    class="ico del-ico"></span><?php echo Yii::t('account', 'Удалить')?></span></span>
 
             <div class="clear"></div>
         </form>
