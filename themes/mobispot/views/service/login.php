@@ -76,7 +76,7 @@
                             <center>
                                 <div class="round-btn" style="float:right">
                                     <div class="round-btn-cl">
-                                        <input type="submit" class="" value="<?php echo Yii::t('user', 'Отправить')?>"/>
+                                        <?php echo CHtml::button(Yii::t('mobile', 'Отправить')); ?>
                                     </div>
                                 </div>
                             </center>

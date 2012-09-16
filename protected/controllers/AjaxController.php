@@ -28,7 +28,6 @@ class AjaxController extends MController
                 if (isset($user)) {
                     $user->lang = $lang;
                     $user->save();
-
                 }
             }
             echo true;

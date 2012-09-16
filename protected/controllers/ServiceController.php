@@ -140,7 +140,6 @@ class ServiceController extends MController
         }
     }
 
-
     public function actionSocial()
     {
         $service = Yii::app()->request->getQuery('service');

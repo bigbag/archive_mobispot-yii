@@ -22,7 +22,7 @@ $(document).ready(function () {
             type:'POST',
             data:{lang:lang},
             success:function (result) {
-                $().redirect('/', null, 'GET');
+                $().redirect('', null, 'GET');
             }
         });
     });
