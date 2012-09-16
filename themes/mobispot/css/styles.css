@@ -609,6 +609,7 @@ textarea.txtarea:focus {
     background: url(../images/form/btn-30.png) 100% -30px no-repeat;
     height: 30px;
     position: relative;
+    cursor: pointer;
     right: -7px;
     margin: 0 0 0 -7px;
     padding: 0 10px 0 10px;
@@ -2131,18 +2132,20 @@ div.cont-pop {
     width: 70px
 }
 
-.cont-pop #galleryPhoto #left {
+.cont-pop #galleryPhoto span#left {
     position: absolute;
     top: 50%;
     left: 0;
+    cursor: pointer;
     background-position: 0 0;
     margin-top: -32px
 }
 
-.cont-pop #galleryPhoto #right {
+.cont-pop #galleryPhoto span#right {
     position: absolute;
     top: 50%;
     right: 0;
+    cursor: pointer;
     background-position: -70px 0;
     margin-top: -32px
 }

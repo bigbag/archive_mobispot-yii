@@ -98,4 +98,27 @@ class UserController extends MController
             } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
         }
     }
+
+    public function actionUpload()
+    {
+        if (!empty($_FILES)) {
+            $action = $_POST['action'];
+            $tempFile = $_FILES['Filedata']['tmp_name'];
+
+            $fileParts = pathinfo($_FILES['Filedata']['name']);
+
+            $fileName = $action . '_' . md5(time() . $fileParts['basename']);
+            $targetFileName = $fileName . '.jpg';
+
+            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+
+            $image = new CImageHandler();
+            $image->load($tempFile);
+            if ($image->thumb(400, 600, true)) {
+                $image->save($targetPath . $fileName . '.jpg');
+                echo json_encode(array('file' => $targetFileName));
+
+            } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+        }
+    }
 }

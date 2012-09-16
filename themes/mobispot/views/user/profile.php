@@ -6,7 +6,7 @@
             <div id="lf-block">
                 <div class="photo-cont">
                     <?php if (!empty($profile->photo)): ?>
-                    <img src="/uploads/images/<?php echo $profile->photo?>" alt="personal"/>
+                    <img src="/uploads/images/<?php echo $profile->photo?>" width="200px" alt="personal"/>
                     <?php else: ?>
                     <img src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
                     <?php endif;?>
@@ -38,7 +38,7 @@
                 <?php endif; ?>
                 <table id="ld-block-form">
                     <tr>
-                        <td class="field">Имя</td>
+                        <td class="field"><?php echo Yii::t('profile', 'Имя');?></td>
                         <td>
                             <div class="txt-form">
                                 <div class="txt-form-cl">

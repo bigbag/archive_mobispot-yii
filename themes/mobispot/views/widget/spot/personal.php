@@ -12,6 +12,7 @@
 </a>
 
 <div class="oneSpotInfo">
+    <span class="view_gallery"></span>
     <form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
         <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
         <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
@@ -19,7 +20,7 @@
             <?php echo CHtml::activeHiddenField($content, 'fotografiya_3', array('id' => 'personal_photo')); ?>
             <div class="photo-cont">
                 <?php if (!empty($content->fotografiya_3)): ?>
-                <img width="130" src="/uploads/images/<?php echo $content->fotografiya_3?>" alt="personal"/>
+                <img width="130" src="/uploads/spot/<?php echo $content->fotografiya_3?>" alt="personal"/>
                 <?php else: ?>
                 <img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
                 <?php endif;?>
@@ -236,16 +237,23 @@
 
     $(document).ready(function () {
         $('a#get_gallery').click(function () {
-            $('#gallery_modal').reveal({animation:'none'});
+            $.ajax({
+                url:'/ajax/spotGetGallery',
+                type:'POST',
+                data:{user_id:<?php echo Yii::app()->user->id;?>},
+                success:function (result) {
+                    $('.view_gallery').html(result);
+                    $('#gallery_modal').reveal({animation:'none'});
+                }
+            });
         });
-
     });
 
     $(function () {
         $("#add_photo").uploadifive({
             'width':'120',
             'height':'28',
-            uploadScript:'/site/upload/',
+            uploadScript:'/user/upload/',
             'formData':{'action':'spot_personal', 'user_id':<?php echo Yii::app()->user->id;?>},
             'removeTimeout':10,
             'multi':false,
@@ -262,7 +270,7 @@
                 var error = obj.error;
                 if (file_name) {
                     $('#personal_photo').val(file_name);
-                    $('.photo-cont').html('<img width="130" src="/uploads/images/' + file_name + '" />');
+                    $('.photo-cont').html('<img width="130" src="/uploads/spot/' + file_name + '" />');
 
                     $.ajax({
                         url:'/ajax/spotPersonalPhoto',
