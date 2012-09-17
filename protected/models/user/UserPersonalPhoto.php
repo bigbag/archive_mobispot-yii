@@ -55,6 +55,15 @@ class UserPersonalPhoto extends CActiveRecord
         else return false;
     }
 
+    public function removePhoto($user_id, $data){
+        $photo = UserPersonalPhoto::model()->findByPk($user_id);
+        if (!empty($photo->photo_data)) {
+            return unserialize($photo->photo_data);
+        }
+        else return false;
+
+    }
+
     public function getPhoto($user_id){
         $photo = UserPersonalPhoto::model()->findByPk($user_id);
         if (!empty($photo->photo_data)) return unserialize($photo->photo_data);

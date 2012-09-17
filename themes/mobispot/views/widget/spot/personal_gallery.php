@@ -45,6 +45,7 @@
                 var file_array = file_path.split('/');
                 if (file_array[3]){
                     var file = file_array[3];
+
                     $('.close-reveal-modal').click();
                 }
             }
