@@ -1,4 +1,6 @@
+<?php $photo_gallery = UserPersonalPhoto::getPhoto(Yii::app()->user->id)?>
 <?php $select_field = UserPersonalField::getField($data->discodes_id); ?>
+
 <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
 <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
 
@@ -31,7 +33,9 @@
             <div class="round-btn-new" style="text-align: center">
                 <input type="submit" id="add_photo"
                        value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
-                <a id="get_gallery" href="#"><?php echo Yii::t('account', 'Показать все');?></a>
+                <div class="get_gallery" style="<?php echo (count($photo_gallery) > 0)?'':'display: none;';?>">
+                    <a id="get_gallery" class="link"><?php echo Yii::t('account', 'Показать все');?></a>
+                </div>
             </div>
         </div>
         <div class="yourName">
@@ -271,6 +275,7 @@
                 if (file_name) {
                     $('#personal_photo').val(file_name);
                     $('.photo-cont').html('<img width="130" src="/uploads/spot/' + file_name + '" />');
+                    $('.get_gallery').show();
 
                     $.ajax({
                         url:'/ajax/spotPersonalPhoto',
