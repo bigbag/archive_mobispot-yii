@@ -20,91 +20,102 @@
             </div>
         </div>
         <div class="clear"></div>
+        <div id="cap" style="margin-top: 50px;"></div>
+        <div class="prev" id="foo_prev" style="display: none;"></div>
         <div id="circle">
             <div id="carousel">
-                <div>
+                <div class="circle_image" id="1">
                     <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
                     <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/2.png" alt="fruit2" width="82" height="82"/>
-                    <br/>
-                    Быстрые сслыки
-                    <span><h3> Быстрые сслыки</h3></span>
+                <div class="circle_image" id="2">
+                    <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/3.png" alt="fruit3" width="82" height="82"/>
-                    <br/>
-                    Файлы
-                    <span><h3>Файлы</h3></span>
+                <div class="circle_image" id="3">
+                    <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/4.png" alt="fruit4" width="82" height="82"/>
-                    <br/>
-                    Общение с клиентами
-                    <span><h3>Общение с клиентами</h3></span>
+                <div class="circle_image" id="4">
+                    <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/5.png" alt="fruit5" width="82" height="82"/>
-                    <br/>
-                    Купоны и скидки
-                    <span><h3>Купоны и скидки</h3></span>
+                <div class="circle_image" id="5">
+                    <img src="/uploads/blocks/5.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
+                <div class="circle_image" id="6" style="display: none;">
                     <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
                     <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/2.png" alt="fruit2" width="82" height="82"/>
-                    <br/>
-                    Быстрые сслыки
-                    <span><h3> Быстрые сслыки</h3></span>
+                <div class="circle_image" id="7" style="display: none;">
+                    <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/3.png" alt="fruit3" width="82" height="82"/>
-                    <br/>
-                    Файлы
-                    <span><h3>Файлы</h3></span>
+                <div class="circle_image" id="8" style="display: none;">
+                    <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
-                <div>
-                    <img src="/uploads/blocks/4.png" alt="fruit4" width="82" height="82"/>
-                    <br/>
-                    Общение с клиентами
-                    <span><h3>Общение с клиентами</h3></span>
+                <div class="circle_image" id="9" style="display: none;">
+                    <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
+                    Личные споты
+                    <span><h3>Личные споты</h3></span>
                 </div>
             </div>
-            <div class="clearfix"></div>
-            <a class="prev" id="foo_prev" href="#"><span>prev</span></a>
-            <a class="next" id="foo_next" href="#"><span>next</span></a>
         </div>
-        <div class="clear"></div>
 
-        <div id="bottom-menu">
-            <ul>
-                <li><a href="" id="but1"><img src="/uploads/blocks/ban1.png" alt="" width="271" height="82"/></a></li>
-                <li><a href="" id="but2"><img src="/uploads/blocks/ban2.png" alt="" width="271" height="82"/></a></li>
-                <li><a href="" id="but3"><img src="/uploads/blocks/ban3.png" alt="" width="271" height="82"/></a></li>
-            </ul>
-        </div>
-        <div class="clear"></div>
+        <div class="next" id="foo_next"></div>
     </div>
+    <input type="hidden" id="counter" value="1">
 
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jqurey.carousel.min.js'); ?>
-    <script type="text/javascript">
-        $(function () {
-            $('#carousel').carouFredSel({
-                auto:false,
-                infinite:false,
-                align:false,
-                prev:"#foo_prev",
-                next:"#foo_next",
-                items:5,
-                scroll:{
-                    items:1
-                }
-            });
+    <div class="clear"></div>
+
+    <div id="bottom-menu">
+        <ul>
+            <li><a href="" id="but1"><img src="/uploads/blocks/ban1.png" alt="" width="271" height="82"/></a></li>
+            <li><a href="" id="but2"><img src="/uploads/blocks/ban2.png" alt="" width="271" height="82"/></a></li>
+            <li><a href="" id="but3"><img src="/uploads/blocks/ban3.png" alt="" width="271" height="82"/></a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('div#foo_prev').click(function () {
+            $('div#foo_next').show();
+            var counter = $('input#counter').val() - 1;
+            $('#carousel div#' + counter).show();
+            $('#carousel div#' + (counter * 1 + 5)).hide();
+            $('input#counter').val(counter);
+            if (counter == 1) {
+                $('div#foo_prev').hide();
+                $('div#cap').show();
+            }
+            else $('div#foo_prev').show();
         });
-    </script>
+        return false;
+    });
+
+    $(document).ready(function () {
+        $('div#foo_next').click(function () {
+            $('div#cap').hide();
+            $('div#foo_prev').show();
+            var counter = $('input#counter').val();
+            $('#carousel div#' + counter).hide();
+            $('#carousel div#' + (counter * 1 + 5)).show();
+            $('input#counter').val(counter * 1 + 1);
+            if (counter == 9 - 5) $('div#foo_next').hide();
+        });
+        return false;
+    });
+</script>
 <?php $this->endContent(); ?>

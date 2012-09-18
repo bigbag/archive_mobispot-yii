@@ -429,12 +429,13 @@ div#header {
 
 #bottom-menu {
     margin: 0 auto;
-    padding-left: 24px;
-    overflow: hidden
+    width: 900px;
+    padding-top: 40px;
+    padding-left: 12px;
 }
 
 #bottom-menu li {
-    margin: 0 24px;
+    margin: 0 12px;
     float: left
 }
 

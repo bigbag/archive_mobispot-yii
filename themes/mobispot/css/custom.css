@@ -242,28 +242,24 @@ span.error {
     top: -11px;
 }
 
-a.prev {
+div.prev {
     background: url(../images/prev.png) no-repeat transparent;
     width: 45px;
     height: 50px;
     display: block;
     position: relative;
-    top: -110px;
-    right: 10%;
+    top: 80px;
+    left: 10%;
 }
 
-a.next {
+div.next {
     background: url(../images/next.png) no-repeat transparent;
     width: 45px;
     height: 50px;
     display: block;
     position: relative;
-    top: -160px;
-    left: 100%
-}
-
-a.prev span, a.next span {
-    display: none;
+    top: 30px;
+    left: 84%
 }
 
 #circle {
@@ -273,7 +269,7 @@ a.prev span, a.next span {
 }
 
 #carousel {
-    margin-top: 80px;
+    margin-top: 0px;
 }
 
 #carousel div {
