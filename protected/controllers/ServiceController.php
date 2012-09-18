@@ -26,7 +26,7 @@ class ServiceController extends MController
                 Yii::app()->session['lang'] = 'value';
                 Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
 
-                if (!isset(Yii::app()->user->id)) {
+                if (isset(Yii::app()->user->id)) {
                     $user = User::model()->findByPk(Yii::app()->user->id);
                     if (isset($user)) {
                         $user->lang = $lang;
@@ -52,7 +52,7 @@ class ServiceController extends MController
             }
             $this->render('login', array('model' => $model));
         } else
-            $this->redirect(Yii::app()->user->returnUrl);
+            $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
     }
 
     public function actionLogout()

@@ -12,7 +12,7 @@ class ServiceController extends MController
             if (isset($all_lang[$lang])) {
                 Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
 
-                if (!isset(Yii::app()->user->id)) {
+                if (isset(Yii::app()->user->id)) {
                     $user = User::model()->findByPk(Yii::app()->user->id);
                     if (isset($user)) {
                         $user->lang = $lang;
