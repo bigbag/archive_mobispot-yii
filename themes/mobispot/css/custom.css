@@ -292,11 +292,22 @@ div.next {
     behavior: url(ie-css3.htc)
 }
 
+#carousel div:hover h3 {
+    font-size:20px;
+}
+
 #carousel div span {
     display: none;
 }
-#carousel div:hover h3 {
-    font-size:20px;
+#carousel div:hover span:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 90px;
+    top: -28px;
+    border: 15px solid;
+    border-color: transparent transparent #333 transparent;
 }
 #carousel div:hover span {
     padding:15px 10px;
@@ -312,7 +323,7 @@ div.next {
     z-index: 100;
     bottom: 30px;
     top: 10px;
-    left: 40%;
+    left: 35%;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
