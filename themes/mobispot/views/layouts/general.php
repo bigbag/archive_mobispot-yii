@@ -24,65 +24,23 @@
         <div class="prev" id="foo_prev" style="display: none;"></div>
         <div id="circle">
             <div id="carousel">
-                <div class="circle_image" id="1">
-                    <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
+                <?php $carousel = ContentCarousel::getCarousel()?>
+                <?php $count_carousel = count($carousel)?>
+                <?php $i= 1;?>
+                <?php foreach ($carousel as $row): ?>
+                <div class="circle_image" id="<?php echo $i ?>" style="<?php echo ($i > 5)?'display: none;':'';?>">
+                    <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="fruit1" width="82" height="82"/><br/>
+                    <?php echo $row['name']; ?>
+                    <span><h3><?php echo $row['name']; ?></h3>
+                        <?php echo $row['desc']; ?></span>
                 </div>
-                <div class="circle_image" id="2">
-                    <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
+                <?php $i = $i + 1;?>
+                <?php endforeach;?>
 
-                </div>
-                <div class="circle_image" id="3">
-                    <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="4">
-                    <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="5">
-                    <img src="/uploads/blocks/5.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="6" style="display: none;">
-                    <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="7" style="display: none;">
-                    <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="8" style="display: none;">
-                    <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
-                <div class="circle_image" id="9" style="display: none;">
-                    <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
-                    Личные споты
-                    <span><h3>Личные споты</h3>
-                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
-                </div>
             </div>
         </div>
 
-        <div class="next" id="foo_next"></div>
+        <div class="next" id="foo_next" style="<?php echo ($count_carousel< 6)?'display: none;':'';?>"></div>
     </div>
     <input type="hidden" id="counter" value="1">
 
@@ -128,7 +86,7 @@
             $('#carousel div#' + counter).hide();
             $('#carousel div#' + (counter * 1 + 5)).show();
             $('input#counter').val(counter * 1 + 1);
-            if (counter == 9 - 5) $('div#foo_next').hide();
+            if (counter == <?php echo $count_carousel?> - 5) $('div#foo_next').hide();
         });
         return false;
     });

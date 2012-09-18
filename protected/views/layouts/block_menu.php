@@ -8,12 +8,12 @@
         ),
         array('label' => 'Пользователи', 'url' => array('/admin/user/'), 'active' => ((in_array(Yii::app()->controller->id, array('user'))) ? true : false),
         ),
-        array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id, array('pageCategory', 'pageTemplate', 'bannerGeneral', 'footerLink'))) ? true : false),
+        array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id, array('pageCategory', 'pageTemplate', 'contentBannerFooter', 'contentCarousel'))) ? true : false),
             'items' => array(
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
                 array('label' => 'Шаблоны страниц', 'url' => array('/admin/pageTemplate/')),
                 array('label' => 'Баннеры на главной', 'url' => array('/admin/contentBannerFooter/')),
-                array('label' => 'Ссылки в подвале', 'url' => array('/admin/footerLink/'))
+                array('label' => 'Карусель', 'url' => array('/admin/contentCarousel/'))
             ),
         ),
         array('label' => 'Почта', 'active' => ((in_array(Yii::app()->controller->id, array('mailEvent', 'mailTemplate'))) ? true : false),
