@@ -27,47 +27,57 @@
                 <div class="circle_image" id="1">
                     <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="2">
                     <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
+
                 </div>
                 <div class="circle_image" id="3">
                     <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="4">
                     <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="5">
                     <img src="/uploads/blocks/5.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="6" style="display: none;">
                     <img src="/uploads/blocks/1.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="7" style="display: none;">
                     <img src="/uploads/blocks/2.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="8" style="display: none;">
                     <img src="/uploads/blocks/3.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
                 <div class="circle_image" id="9" style="display: none;">
                     <img src="/uploads/blocks/4.png" alt="fruit1" width="82" height="82"/><br/>
                     Личные споты
-                    <span><h3>Личные споты</h3></span>
+                    <span><h3>Личные споты</h3>
+                    Размещайте в спотах информацию о себе и делитесь ей с теми, с кем считаете нужным.</span>
                 </div>
             </div>
         </div>
@@ -80,9 +90,14 @@
 
     <div id="bottom-menu">
         <ul>
-            <li><a href="" id="but1"><img src="/uploads/blocks/ban1.png" alt="" width="271" height="82"/></a></li>
-            <li><a href="" id="but2"><img src="/uploads/blocks/ban2.png" alt="" width="271" height="82"/></a></li>
-            <li><a href="" id="but3"><img src="/uploads/blocks/ban3.png" alt="" width="271" height="82"/></a></li>
+            <?php $all_banner = ContentBannerFooter::getBanner()?>
+            <?php foreach ($all_banner as $row): ?>
+            <li>
+                <a href="<?php echo $row['link']; ?>" title="<?php echo $row['title']; ?>">
+                    <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>" width="271" height="82"/>
+                </a>
+            </li>
+            <?php endforeach;?>
         </ul>
     </div>
     <div class="clear"></div>

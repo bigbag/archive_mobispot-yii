@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'page':
  * @property integer $id
- * @property integer $lang
+ * @property string $lang
  * @property string $creation_date
  * @property string $change_date
  * @property integer $user_id

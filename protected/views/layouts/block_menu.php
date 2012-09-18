@@ -12,7 +12,7 @@
             'items' => array(
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
                 array('label' => 'Шаблоны страниц', 'url' => array('/admin/pageTemplate/')),
-                array('label' => 'Баннеры на главной', 'url' => array('/admin/bannerGeneral/')),
+                array('label' => 'Баннеры на главной', 'url' => array('/admin/contentBannerFooter/')),
                 array('label' => 'Ссылки в подвале', 'url' => array('/admin/footerLink/'))
             ),
         ),

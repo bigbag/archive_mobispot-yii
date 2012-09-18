@@ -79,4 +79,3 @@
     <?php $this->endWidget(); ?>
 
 </div>
-

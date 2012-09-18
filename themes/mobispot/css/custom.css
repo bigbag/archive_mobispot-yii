@@ -247,6 +247,7 @@ div.prev {
     width: 45px;
     height: 50px;
     display: block;
+    cursor: pointer;
     position: relative;
     top: 80px;
     left: 10%;
@@ -257,6 +258,7 @@ div.next {
     width: 45px;
     height: 50px;
     display: block;
+    cursor: pointer;
     position: relative;
     top: 30px;
     left: 84%
@@ -307,7 +309,8 @@ div.next {
     position: relative;
     z-index: 100;
     bottom: 30px;
-    left: 50%;
+    top: 10px;
+    left: 40%;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

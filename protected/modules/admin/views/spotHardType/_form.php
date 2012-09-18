@@ -47,8 +47,8 @@
 
 </div>
 
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadify.min.js'); ?>
-<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/uploadify.css'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/uploadifive.css'); ?>
 
 <script type="text/javascript">
     $(function () {
@@ -57,16 +57,14 @@
             'height':'21',
             'fileSizeLimit':'512KB',
             'fileTypeDesc':'Images',
-            swf:'/themes/mobispot/js/uploadify.swf',
-            uploader:'/admin/spotHardType/upload/',
+            uploadScript:'/admin/spotHardType/upload/',
             'formData':{'action':'hard_image'},
             'removeTimeout':10,
             'multi':false,
-            'buttonImage':'/themes/mobispot/images/upload.png',
-            'onUploadError':function (file, errorCode, errorMsg, errorString) {
+            'onError':function (file, errorCode, errorMsg, errorString) {
                 alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
             },
-            'onUploadSuccess':function (file, data, response) {
+            'onUploadComplete':function (file, data, response) {
                 $('.hard_photo').html('<img src="/uploads/images/' + data + '" />');
                 $('#SpotHardType_photo').val(data);
                 $('#hard_photo').hide();

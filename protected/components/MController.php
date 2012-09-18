@@ -78,10 +78,6 @@ class MController extends Controller
         throw new CHttpException(403, Yii::t('user', 'У вас не хватает прав для доступа.'));
     }
 
-    public function setLang(){
-
-    }
-
     public function init()
     {
         if (isset(Yii::app()->request->cookies['lang'])) {
