@@ -13,21 +13,6 @@ $(document).ready(function () {
     });
 });
 
-//Смена языка
-$(document).ready(function () {
-    $('#sel-lang .lang-hint a').click(function () {
-        var lang = $(this).attr('id');
-        $.ajax({
-            url:'/ajax/setLang',
-            type:'POST',
-            data:{lang:lang},
-            success:function (result) {
-                $().redirect('', null, 'GET');
-            }
-        });
-    });
-});
-
 //Блок меню пользователя
 $(document).ready(function () {
     $('#auth-user-name').click(function () {

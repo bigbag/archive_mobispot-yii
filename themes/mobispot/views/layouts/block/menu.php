@@ -7,7 +7,7 @@
             <div>
                 <?php foreach(Lang::getLang() as $row):?>
                     <?php if($row['name'] != Yii::app()->language):?>
-                        <a id="<?php echo $row['name']?>" href=""><?php echo $row['desc']?></a><br/>
+                        <a href="/service/lang/<?php echo $row['name']?>"><?php echo $row['desc']?></a><br/>
                     <?php endif;?>
                 <?php endforeach;?>
             </div>
