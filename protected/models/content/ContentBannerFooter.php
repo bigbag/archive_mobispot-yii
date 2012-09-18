@@ -69,7 +69,13 @@ class ContentBannerFooter extends CActiveRecord
     public function getBanner()
     {
         $dependency = new CDbCacheDependency("SELECT MAX(id) FROM content_banner_footer WHERE lang = '" . Yii::app()->language . "'");
-        return ContentBannerFooter::model()->cache(600, $dependency)->findAllByAttributes(array('lang' => Yii::app()->language));
+        $criteria = new CDbCriteria;
+        $criteria->condition = 'lang=:lang';
+        $criteria->params = array('lang' => Yii::app()->language);
+        $criteria->order = "id desc";
+        $criteria->limit = 3;
+
+        return ContentBannerFooter::model()->cache(600, $dependency)->findAll($criteria);
     }
 
 	/**

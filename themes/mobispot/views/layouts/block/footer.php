@@ -1,6 +1,14 @@
 <div id="footer">
-    <div id="foot-menu"><a href="">О компании</a> | <a href="">Тех. поддержка</a> | <a href="">Юридическая
-        информация</a></div>
+    <div id="foot-menu">
+        <?php $all_link = ContentLinksFooter::getLinks();?>
+        <?php $count_links = count($all_link);?>
+        <?php $i = 1;?>
+        <?php foreach ($all_link as $row):?>
+            <a href="<?php echo $row['link'];?>" target="_blank"><?php echo $row['name'];?></a>
+             <?php echo ($i < $count_links)?'|':''?>
+        <?php $i = $i + 1;?>
+        <?php endforeach;?>
+    </div>
     <div id="foot-copyright"><?php echo Yii::app()->par->load('copyright'); ?></div>
     <span id="soc-seti">
         <a href="<?php echo Yii::app()->par->load('urlFacebook'); ?>" id="fut-facebook" target="_blank"></a>

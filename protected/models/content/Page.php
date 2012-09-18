@@ -115,7 +115,7 @@ class Page extends CActiveRecord
     public function findBySlug($slug)
     {
         $dependency = new CDbCacheDependency("SELECT change_date FROM page WHERE slug LIKE '" . $slug . "'");
-        return $this->cache(36000, $dependency)->find('slug = :slug', array(':slug' => trim($slug)));
+        return $this->cache(36000, $dependency)->find('slug=:slug and lang=:lang', array('slug' => trim($slug), 'lang' => Yii::app()->language));
     }
 
     /**
