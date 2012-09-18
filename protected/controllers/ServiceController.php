@@ -23,6 +23,7 @@ class ServiceController extends MController
         if (isset($lang[0])) {
             $all_lang = Lang::getLangArray();
             if (isset($all_lang[$lang])) {
+
                 Yii::app()->session['lang'] = 'value';
                 Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
 
