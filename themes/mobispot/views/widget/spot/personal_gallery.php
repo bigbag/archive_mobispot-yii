@@ -46,7 +46,21 @@
                 if (file_array[3]){
                     var file = file_array[3];
 
-                    $('.close-reveal-modal').click();
+                    if(file){
+                        $.ajax({
+                            url:'/ajax/spotRemovePhoto',
+                            type:'POST',
+                            data:{user_id:<?php echo $user_id?>, file:file},
+                            success:function (result) {
+                                var curent_file = $('#personal_photo').val();
+                                if (curent_file == result){
+                                    $('#personal_photo').val('');
+                                    $('.photo-cont').html('<img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" />');
+                                }
+                                $('.close-reveal-modal').click();
+                            }
+                        });
+                    }
                 }
             }
         });

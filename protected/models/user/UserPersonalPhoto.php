@@ -43,7 +43,8 @@ class UserPersonalPhoto extends CActiveRecord
         );
     }
 
-    public function setPhoto($user_id, $data){
+    public function setPhoto($user_id, $data)
+    {
 
         $photo = UserPersonalPhoto::model()->findByPk($user_id);
         if (!$photo) $photo = new UserPersonalPhoto();
@@ -55,19 +56,26 @@ class UserPersonalPhoto extends CActiveRecord
         else return false;
     }
 
-    public function removePhoto($user_id, $data){
-        $photo = UserPersonalPhoto::model()->findByPk($user_id);
-        if (!empty($photo->photo_data)) {
-            return unserialize($photo->photo_data);
-        }
-        else return false;
-
-    }
-
-    public function getPhoto($user_id){
+    public function getPhoto($user_id)
+    {
         $photo = UserPersonalPhoto::model()->findByPk($user_id);
         if (!empty($photo->photo_data)) return unserialize($photo->photo_data);
         else return array();
+
+    }
+
+    public function removePhoto($user_id, $data)
+    {
+        $photo = UserPersonalPhoto::model()->findByPk($user_id);
+        if (!empty($photo->photo_data)) {
+            $photo_array = unserialize($photo->photo_data);
+
+            if (($key = array_search($data, $photo_array)) !== FALSE) {
+                unset($photo_array[$key]);
+                $photo->photo_data = serialize($photo_array);
+                if ($photo->save()) return true;
+            }
+        } else return false;
 
     }
 

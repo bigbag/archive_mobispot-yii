@@ -469,9 +469,20 @@ class AjaxController extends MController
             $user_id = $_POST['user_id'];
 
             $text = $this->renderPartial('/widget/spot/personal_gallery',
-                array('photo' => UserPersonalPhoto::getPhoto($user_id)),
+                array(
+                    'photo' => UserPersonalPhoto::getPhoto($user_id),
+                    'user_id' => $user_id,
+                ),
                 true);
             echo $text;
+        }
+    }
+
+    public function actionSpotRemovePhoto()
+    {
+        if (isset($_POST['user_id']) and isset($_POST['file'])) {
+            #UserPersonalPhoto::removePhoto($_POST['user_id'], $_POST['file']);
+            echo $_POST['file'];
         }
     }
 
