@@ -10,7 +10,7 @@ return array(
     'name' => 'Mobispot',
     'theme' => 'mobispot',
     'sourceLanguage' => 'en_US',
-    'language' => 'ru',
+    'language' => 'en',
     'charset' => 'UTF-8',
     'preload' => array('log'),
     'import' => require(dirname(__FILE__) . '/import.php'),

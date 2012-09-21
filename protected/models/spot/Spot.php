@@ -11,8 +11,6 @@
  * @property integer $lang
  * @property integer $spot_type_id
  * @property integer $user_id
- * @property integer $spot_hard_type_id
- * @property string $spot_hard
  * @property string $barcode
  * @property integer $premium
  * @property integer $status
@@ -114,7 +112,7 @@ class Spot extends CActiveRecord
         // will receive user inputs.
         return array(
             array('discodes_id, code, status, premium, generated_date', 'required'),
-            array('discodes_id, spot_type_id, user_id, spot_hard_type_id, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, spot_type_id, user_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
@@ -122,9 +120,9 @@ class Spot extends CActiveRecord
             array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
-            array('spot_hard, barcode', 'length', 'max' => 32),
+            array(' barcode', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, spot_hard_type_id, spot_hard, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -218,8 +216,6 @@ class Spot extends CActiveRecord
             'spot_type_id' => 'Тип спота',
             'spot_type_name' => 'Тип спота',
             'user_id' => 'Пользователь',
-            'spot_hard_type_id' => 'Тип исполнения',
-            'spot_hard' => 'Заводской номер',
             'lang' => 'Язык',
             'barcode' => 'BarCod',
             'status' => 'Статус',
@@ -259,8 +255,6 @@ class Spot extends CActiveRecord
         $criteria->compare('spot_type_id', $this->spot_type_id);
         $criteria->compare('spot_type.name', $this->spot_type_name, true);
         $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
-        $criteria->compare('spot_hard', $this->spot_hard, true);
         $criteria->compare('barcode', $this->barcode, true);
         $criteria->compare('premium', $this->premium);
         $criteria->compare('status', $this->status);

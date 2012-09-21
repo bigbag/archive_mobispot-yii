@@ -47,12 +47,6 @@ $this->menu = $menu;
             'value' => ($model->user) ? $model->user->email : "",
         ),
         array(
-            'name' => 'spot_hard_type_id',
-            'type' => 'raw',
-            'value' => ($model->spot_hard_type) ? $model->spot_hard_type->name : "",
-        ),
-        'spot_hard',
-        array(
             'name' => 'premium',
             'type' => 'raw',
             'value' => $model->getPremium(),

@@ -285,12 +285,20 @@ div.next {
 
 #carousel div img {
     border: none;
+    background-color: #9E9E9E;
     margin-bottom: 10px;
     -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     behavior: url(ie-css3.htc)
 }
+
+#carousel div img:active {
+    border: none;
+    background-color: #fb8f60;
+}
+
+
 
 #carousel div:hover h3 {
     font-size:20px;
