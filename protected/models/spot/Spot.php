@@ -198,7 +198,6 @@ class Spot extends CActiveRecord
             'discodes' => array(self::BELONGS_TO, 'Discodes', 'discodes_id'),
             'spot_type' => array(self::BELONGS_TO, 'SpotType', 'spot_type_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-            'spot_hard_type' => array(self::BELONGS_TO, 'SpotHardType', 'spot_hard_type_id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
