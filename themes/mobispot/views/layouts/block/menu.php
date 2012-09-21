@@ -1,7 +1,7 @@
 <?php $all_lang = Lang::getLangArray()?>
 <div class="center-rel">
     <div id="sel-lang">
-        <div class="curent-lang" id="lang-select"><?php echo Yii::t('menu', 'Язык:')?>
+        <div class="curent-lang" id="lang-select">
             <span><?php echo $all_lang[Yii::app()->language];?></span></div>
         <div class="lang-hint">
             <div>
