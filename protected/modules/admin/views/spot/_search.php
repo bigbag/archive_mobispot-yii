@@ -17,16 +17,6 @@
     </div>
 
     <div class="row">
-        <?php echo $form->label($model, 'spot_hard_type_id'); ?>
-        <?php echo $form->dropDownList($model, 'spot_hard_type_id', CHtml::listData(SpotHardType::getSpotHardType(), 'id', 'name'), array('empty' => '')); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'spot_hard'); ?>
-        <?php echo $form->textField($model, 'spot_hard', array('size' => 32, 'maxlength' => 32)); ?>
-    </div>
-
-    <div class="row">
         <?php echo $form->label($model, 'barcode'); ?>
         <?php echo $form->textField($model, 'barcode', array('size' => 32, 'maxlength' => 32)); ?>
     </div>
