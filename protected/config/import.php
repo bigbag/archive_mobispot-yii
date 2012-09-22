@@ -7,6 +7,7 @@ return array(
     'application.models.user.*',
     'application.models.user.form.*',
     'application.models.content.*',
+    'application.models.content.form.*',
     'application.components.*',
     'application.helpers.*',
     'ext.eoauth.*',

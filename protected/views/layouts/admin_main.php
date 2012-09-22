@@ -30,7 +30,7 @@
     </div>
     <!-- header -->
 
-    <div id="mainMbMenu"><?php include('block_menu.php');?></div>
+    <div id="mainMbMenu"><?php include('block/menu.php');?></div>
     <?php if (isset($this->breadcrumbs)): ?>
     <?php $this->widget('zii.widgets.CBreadcrumbs', array(
         'links' => $this->breadcrumbs,

@@ -1909,7 +1909,7 @@ div.contSpot .btn-30 {
     list-style: none;
 }
 
-#blockFAQ li.mmenu a {
+#blockFAQ li.mmenu a.akordeon {
     font-size: 15px;
     font-weight: bold;
     color: #5b5b5b;

@@ -4,7 +4,7 @@
         <?php $count_links = count($all_link);?>
         <?php $i = 1;?>
         <?php foreach ($all_link as $row):?>
-            <a href="<?php echo $row['link'];?>" target="_blank"><?php echo $row['name'];?></a>
+            <a href="<?php echo $row['link'];?>"><?php echo $row['name'];?></a>
              <?php echo ($i < $count_links)?'|':''?>
         <?php $i = $i + 1;?>
         <?php endforeach;?>

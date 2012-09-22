@@ -1,0 +1,17 @@
+<?php
+return array(
+    'showScriptName' => false,
+    'urlFormat' => 'path',
+    'rules' => array(
+        'http://mobile.mobispot.spb4.webdoka.ru' => 'mobile',
+        'http://mobile.mobispot.spb4.webdoka.ru/<url:\w{15}>'=>'/mobile/spot/',
+        'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<id:\d+>' => '/mobile/<controller>/view',
+        'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<action:\w+>/<id:\d+>' => '/mobile/<controller>/<action>',
+        'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<action:\w+>/<id:\w+>' => '/mobile/<controller>/<action>',
+        'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<action:\w+>' => '/mobile/<controller>/<action>',
+        'service/lang/<id:\w+>' => 'service/lang',
+        '<controller:\w+>/<id:\d+>' => '<controller>/view',
+        '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+        '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+    ),
+);

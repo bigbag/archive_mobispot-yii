@@ -11,14 +11,14 @@
     </div>
     <div class="txt-form">
         <div class="txt-form-cl">
-            <input type="text" id="password" style="width:325px;" class="txt"
+            <input type="password" id="password" style="width:325px;" class="txt"
                    name="RegistrationForm[password]"
                    value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off"/>
         </div>
     </div>
     <div class="txt-form">
         <div class="txt-form-cl">
-            <input type="text" id="verifyPassword" style="width:325px;" class="txt"
+            <input type="password" id="verifyPassword" style="width:325px;" class="txt"
                    name="RegistrationForm[verifyPassword]"
                    value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
                    autocomplete="off"/></div>
