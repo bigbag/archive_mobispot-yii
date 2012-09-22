@@ -31,8 +31,7 @@
                 <div class="circle_image" id="<?php echo $i ?>" style="<?php echo ($i > 5)?'display: none;':'';?>">
                     <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="fruit1" width="82" height="82"/><br/>
                     <?php echo $row['name']; ?>
-                    <span><h3><?php echo $row['name']; ?></h3>
-                        <?php echo $row['desc']; ?></span>
+                    <span><?php echo $row['desc']; ?></span>
                 </div>
                 <?php $i = $i + 1;?>
                 <?php endforeach;?>
