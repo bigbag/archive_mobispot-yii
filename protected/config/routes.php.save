@@ -10,6 +10,7 @@ return array(
         'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<action:\w+>/<id:\w+>' => '/mobile/<controller>/<action>',
         'http://mobile.mobispot.spb4.webdoka.ru/<controller:\w+>/<action:\w+>' => '/mobile/<controller>/<action>',
         'service/lang/<id:\w+>' => 'service/lang',
+        'pages/<id:\w+>' => 'pages/index',
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
