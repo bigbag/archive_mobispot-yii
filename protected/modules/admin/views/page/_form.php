@@ -22,6 +22,15 @@
     </div>
 
     <div class="row">
+        <a class="get_menu" href="#"><?php echo $form->labelEx($model, 'menu'); ?></a>
+        <div class="menu" style="display: none;">
+            <?php echo $form->textArea($model, 'menu', array('rows' => 10, 'cols' => 100, 'id' => 'code', 'class' => 'code')); ?>
+            <?php echo $form->error($model, 'menu'); ?>
+        </div>
+
+    </div>
+
+    <div class="row">
         <?php echo $form->labelEx($model, 'body'); ?>
         <?php $this->widget('ImperaviRedactorWidget', array(
         'model' => $model,
@@ -66,12 +75,6 @@
         <?php echo $form->error($model, 'status'); ?>
     </div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'template_id'); ?>
-        <?php echo $form->dropDownList($model, 'template_id', PageTemplate::getTemplateArray()); ?>
-        <?php echo $form->error($model, 'template_id'); ?>
-    </div>
-
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
     </div>
@@ -79,3 +82,26 @@
     <?php $this->endWidget(); ?>
 
 </div>
+
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/codemirror.js'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/codemirror.css'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/javascript.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/htmlmixed.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/css.js'); ?>
+<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/xml.js'); ?>
+
+
+<script type="text/javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode:"text/html", tabMode:"indent", lineNumbers:true});
+    $(document).ready(function () {
+        $('a.get_menu').click(function () {
+            if( $('div.menu').is(':visible') ) {
+                $('div.menu').hide();
+            }
+            else {
+                $('div.menu').show();
+            }
+
+        });
+    });
+</script>

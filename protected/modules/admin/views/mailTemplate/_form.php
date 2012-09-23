@@ -1,72 +1,38 @@
-<?php
-/* @var $this MailTemplateController */
-/* @var $model MailTemplate */
-/* @var $form CActiveForm */
-?>
+<p>We will help you create online advertising campaigns and new
+    ways of communication with customers using spots. Now, the Mobispot for
+    Business service has the following spot kinds:<br>
 
-<div class="form">
+    1. Online discount programs;<br>
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'mail-template-form',
-    'enableAjaxValidation' => false,
-)); ?>
+    2. Customer feedback collecting;<br>
 
-    <p class="note">Поля, отмеченные <span class="required">*</span> обязательны к заполнению.</p>
+    3. More information on advertisers or their goods;<br>
 
-    <?php echo $form->errorSummary($model); ?>
+    4. Staff work assessment.</p>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'name'); ?>
-        <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 150)); ?>
-        <?php echo $form->error($model, 'name'); ?>
-    </div>
+<p><img style="vertical-align: baseline;" src="/uploads/page/business/metro_en.png" alt="" height="320" width="400"></p>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'desc'); ?>
-        <?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?>
-        <?php echo $form->error($model, 'desc'); ?>
-    </div>
+<p>Organize the distribution of discount coupons without a promoter. Use
+    existing advertising materials or create new ones. A potential customer
+    simply downloads a coupon in his or her mobile phone and presents it at
+    a shop.</p>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'slug'); ?>
-        <?php echo $form->textField($model, 'slug', array('size' => 60, 'maxlength' => 300)); ?>
-        <?php echo $form->error($model, 'slug'); ?>
-    </div>
+<p><img style="vertical-align: baseline;" src="/uploads/page/business/phone_scan_en.png" alt="" height="300" width="400"></p>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'lang'); ?>
-        <?php echo $form->dropDownList($model, 'lang', Lang::getLangArray()); ?>
-        <?php echo $form->error($model, 'lang'); ?>
-    </div>
+<p>Create an electronic complaint or offer books. Information is
+    promptly uploaded by a customer and delivered to your email address.
+    Feel certain that all unsatisfied customers will be detected, and no
+    potential customers will pass unnoticed.<br>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'subject'); ?>
-        <?php echo $form->textField($model, 'subject', array('size' => 60, 'maxlength' => 150)); ?>
-        <?php echo $form->error($model, 'subject'); ?>
-    </div>
+    <br>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'content'); ?>
-        <?php echo $form->textArea($model, 'content', array('rows' => 30, 'cols' => 100, 'id' => 'code', 'class' => 'code')); ?>
-        <?php echo $form->error($model, 'content'); ?>
-    </div>
+    Provide customers with
+    more information about yourself or your goods than can be presented on a
+    billboard. A customer will promptly call or email you by way of one
+    click on a mobile phone screen without rewriting, typing in a browser,
+    or remembering anything.<br>
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
-    </div>
+    <br>
 
-    <?php $this->endWidget(); ?>
+    Apply for the connection to the Mobispot service by email <a href="mailto:sales@mobispot.com">sales@mobispot.com</a>.<span rel="pastemarkerend" id="pastemarkerend8526">&nbsp;</span></p>
 
-</div>
-
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/codemirror.js'); ?>
-<?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/css/codemirror.css'); ?>
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/javascript.js'); ?>
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/htmlmixed.js'); ?>
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/css.js'); ?>
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/codemirror/xml.js'); ?>
-
-
-<script type="text/javascript">
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode:"text/html", tabMode:"indent", lineNumbers:true});
-</script>

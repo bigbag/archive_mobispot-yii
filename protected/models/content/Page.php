@@ -11,8 +11,8 @@
  * @property integer $user_id
  * @property string $title
  * @property string $slug
+ * @property string $menu
  * @property string $body
- * @property string $template_id
  * @property string $keywords
  * @property string $description
  * @property integer $status
@@ -70,17 +70,16 @@ class Page extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('lang, creation_date, change_date, user_id, title, slug, body, template_id', 'required'),
+            array('lang, creation_date, change_date, user_id, title, slug, body', 'required'),
             array('title, slug, description, keywords', 'filter', 'filter' => 'trim'),
             array('title, slug, description, keywords', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('user_id, status', 'numerical', 'integerOnly' => true),
             array('title, slug', 'length', 'max' => 150),
-            array('template_id', 'length', 'max' => 300),
             array('keywords, description', 'safe'),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('slug', 'match', 'pattern' => '/^[a-zA-Z0-9_\-]+$/', 'message' => 'Запрещенные символы в поле {attribute}'),
             array('slug', 'unique'),
-            array('id, creation_date, change_date, user_id, title, slug, body, template_id, keywords, description, status', 'safe', 'on' => 'search'),
+            array('id, creation_date, change_date, user_id, title, slug, menu, body, keywords, description, status', 'safe', 'on' => 'search'),
         );
     }
 
@@ -107,15 +106,14 @@ class Page extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-            'template' => array(self::BELONGS_TO, 'PageTemplate', 'template_id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
     public function findBySlug($slug)
     {
-        $dependency = new CDbCacheDependency("SELECT change_date FROM page WHERE slug LIKE '" . $slug . "'");
-        return $this->cache(36000, $dependency)->find('slug=:slug and lang=:lang', array('slug' => trim($slug), 'lang' => Yii::app()->language));
+        $dependency = new CDbCacheDependency("SELECT change_date FROM page WHERE slug LIKE '" . $slug . "' and lang = '".Yii::app()->language."'");
+        return Page::model()->cache(36000, $dependency)->find('slug=:slug and lang=:lang', array('slug' => trim($slug), 'lang' => Yii::app()->language));
     }
 
     /**
@@ -129,9 +127,9 @@ class Page extends CActiveRecord
             'creation_date' => 'Дата создания',
             'change_date' => 'Дата изменения',
             'user_id' => 'Пользователь',
-            'template_id' => 'Шаблон',
             'title' => 'Заголовок',
             'slug' => 'URL',
+            'menu' => 'Меню',
             'body' => 'Текст',
             'keywords' => 'Ключевые слова',
             'description' => 'Описание',
@@ -157,8 +155,8 @@ class Page extends CActiveRecord
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('title', $this->title, true);
         $criteria->compare('slug', $this->slug, true);
+        $criteria->compare('menu', $this->menu, true);
         $criteria->compare('body', $this->body, true);
-        $criteria->compare('template_id', $this->template_id, true);
         $criteria->compare('keywords', $this->keywords, true);
         $criteria->compare('description', $this->description, true);
         $criteria->compare('status', $this->status);

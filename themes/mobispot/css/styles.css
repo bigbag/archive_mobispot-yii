@@ -1894,6 +1894,13 @@ div.contSpot .btn-30 {
 
 /* ---Spot Table--- */
 
+#blockPage {
+    padding: 20px 20px 20px 20px;
+}
+
+#blockPage p{
+    padding: 10px 0 10px 0;
+}
 /* +++FAQ+++ */
 #blockFAQ {
     padding: 0 15px 15px 15px
