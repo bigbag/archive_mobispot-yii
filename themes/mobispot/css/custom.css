@@ -63,11 +63,13 @@ span.error {
     font-size: 14px;
     color: #fff;
     line-height: 25px;
-    background: url(../images/form/down_white.gif) 100% 19px no-repeat
+
 }
 
 #sel-lang div.curent-lang {
-    padding-right: 12px
+    display: inline-block;
+    padding-right: 12px;
+    background: url(../images/form/down_white.gif) 100% 10px no-repeat
 }
 
 #authorization {
