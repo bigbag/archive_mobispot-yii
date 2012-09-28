@@ -63,12 +63,12 @@ return array(
                     'levels'=>'translation',
                     'logFile'=>'translations.log',
                 ),
-                //array(
-                //    'class' => 'CWebLogRoute',
-                //    'levels' => 'trace',
-                //    'categories' => 'vardump',
-                //    'showInFireBug' => true
-                //),
+                array(
+                    'class' => 'CWebLogRoute',
+                    'levels' => 'trace',
+                    'categories' => 'vardump',
+                    'showInFireBug' => true
+                ),
                 array(
                     'class' => 'CFileLogRoute',
                     'categories' => 'application',

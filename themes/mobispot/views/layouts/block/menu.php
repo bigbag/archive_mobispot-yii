@@ -2,7 +2,8 @@
 <div class="center-rel">
     <div id="sel-lang">
         <div class="curent-lang" id="lang-select">
-            <span><?php echo $all_lang[Yii::app()->language];?></span></div>
+            <span><?php echo $all_lang[Yii::app()->language];?></span>
+        </div>
         <div class="lang-hint">
             <div>
                 <?php foreach(Lang::getLang() as $row):?>
