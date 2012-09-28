@@ -48,12 +48,6 @@ return array(
             'useCursor' => false,
         ),
 
-        //'clientScript' => array(
-        //    'class' => 'ext.nlsclient.NLSClientScript',
-        //'excludePattern' => '/\.tpl/i', //js regexp, files with matching paths won't be filtered is set to other than 'null'
-        //'includePattern' => '/\.php/' //js regexp, only files with matching paths will be filtered if set to other than 'null'
-        //),
-
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
         'db' => require(dirname(__FILE__) . '/db.php'),
 
@@ -69,12 +63,12 @@ return array(
                     'levels'=>'translation',
                     'logFile'=>'translations.log',
                 ),
-                array(
-                    'class' => 'CWebLogRoute',
-                    'levels' => 'trace',
-                    'categories' => 'vardump',
-                    'showInFireBug' => true
-                ),
+                //array(
+                //    'class' => 'CWebLogRoute',
+                //    'levels' => 'trace',
+                //    'categories' => 'vardump',
+                //    'showInFireBug' => true
+                //),
                 array(
                     'class' => 'CFileLogRoute',
                     'categories' => 'application',

@@ -50,7 +50,7 @@
             <?php $all_banner = ContentBannerFooter::getBanner()?>
             <?php foreach ($all_banner as $row): ?>
             <li>
-                <a href="<?php echo $row['link']; ?>" title="<?php echo $row['title']; ?>" target="_blank">
+                <a href="<?php echo $row['link']; ?>" title="<?php echo $row['title']; ?>">
                     <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>" width="271" height="82"/>
                 </a>
             </li>

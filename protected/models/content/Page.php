@@ -78,15 +78,13 @@ class Page extends CActiveRecord
             array('keywords, description', 'safe'),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('slug', 'match', 'pattern' => '/^[a-zA-Z0-9_\-]+$/', 'message' => 'Запрещенные символы в поле {attribute}'),
-            array('slug', 'unique'),
             array('id, creation_date, change_date, user_id, title, slug, menu, body, keywords, description, status', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if (!$this->slug)
-            $this->slug = YText::translit($this->title);
+        if (!$this->slug) $this->slug = YText::translit($this->title);
 
         if ($this->isNewRecord) $this->creation_date = new CDbExpression('NOW()');
         if (!$this->change_date) $this->change_date = new CDbExpression('NOW()');

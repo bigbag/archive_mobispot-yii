@@ -1,10 +1,10 @@
 <?php
 Class MMail
 {
-    public function activation($email, $activkey)
+    public function activation($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('activation', $lang);
-        $activation_url = Yii::app()->request->hostInfo . '/service/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->par->load('siteUrl') . '/service/activation/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
@@ -23,7 +23,7 @@ Class MMail
     public function recovery($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('recovery', $lang);
-        $activation_url = Yii::app()->request->hostInfo . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->par->load('siteUrl') . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));

@@ -100,7 +100,7 @@ class PageController extends Controller
         if (!empty($_FILES)) {
             $maxSize = Yii::app()->par->load('pageImageSize');
 
-            $dir = Yii::getPathOfAlias('webroot.uploads.page');
+            $dir = Yii::getPathOfAlias('webroot.uploads.page').'/';
 
             $file = md5(date('YmdHis')) . '.jpg';
             $fileSize = filesize($_FILES['file']['tmp_name']);

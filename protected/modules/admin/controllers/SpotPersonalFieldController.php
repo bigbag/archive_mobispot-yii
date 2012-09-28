@@ -94,6 +94,21 @@ class SpotPersonalFieldController extends Controller
         ));
     }
 
+    public function actionUpload()
+    {
+        if (!empty($_FILES)) {
+            $action = $_POST['action'];
+            $tempFile = $_FILES['Filedata']['tmp_name'];
+            $targetPath = Yii::getPathOfAlias('webroot.uploads.ico.') . '/';
+            $targetFileName = $action . '_' . time() . '_' . $_FILES['Filedata']['name'];
+            $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+
+            move_uploaded_file($tempFile, $targetFile);
+
+            echo $targetFileName;
+        }
+    }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
