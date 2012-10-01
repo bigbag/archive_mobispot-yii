@@ -32,12 +32,6 @@ class ServiceUserIdentity extends CUserIdentity
         $user = User::model()->findByAttributes(array('email' => $this->service->email));
 
         if ($this->service->isAuthenticated) {
-            //$this->username = $this->service->getAttribute('name');
-            //$this->setState('id', $this->service->id);
-            //$this->setState('name', $this->username);
-            //$this->setState('service', $this->service->serviceName);
-            //$this->setState('email', $this->service->email);
-            //$this->errorCode = self::ERROR_NONE;
             $this->_id = $user->id;
             $this->_email = $user->email;
             $this->username = $user->email;

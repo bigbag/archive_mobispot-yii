@@ -5,7 +5,7 @@
         <div class="txt-form-cl">
             <input type="text" id="email" style="width:325px;" class="txt"
                    name="RegistrationSocialForm[email]"
-                   value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
+                   value="<?php echo $email?>" placeholder="<?php echo Yii::t('user', 'Email');?>"
                    autocomplete="off"/></div>
     </div>
     <div class="txt-form">

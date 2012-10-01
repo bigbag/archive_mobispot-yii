@@ -177,9 +177,12 @@ class ServiceController extends MController
                 if ($identity->authenticate()) {
 
                     $social_id = $identity->getId();
+                    $service_email = $identity->getState('email', '');
+
                     if (!User::socialCheck($service, $social_id)) {
                         $this->setCookies('service_name', $service);
                         $this->setCookies('service_id', $social_id);
+                        $this->setCookies('service_email', $service_email);
                         $authIdentity->redirectUrl = '/service/social';
                     } else {
                         $find = User::model()->findByAttributes(array($service . '_id' => $social_id));
@@ -203,6 +206,11 @@ class ServiceController extends MController
         } else {
             $model = new RegistrationSocialForm;
             if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
+
+                $email = '';
+                if (!empty(Yii::app()->request->cookies['service_email']->value)) {
+                    $email = Yii::app()->request->cookies['service_email']->value;
+                }
                 if (isset($_POST['RegistrationSocialForm'])) {
                     $model->attributes = $_POST['RegistrationSocialForm'];
 
@@ -230,7 +238,7 @@ class ServiceController extends MController
                             $spot->status = Spot::STATUS_REGISTERED;
                             $spot->save();
 
-                            MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
+                            MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en');
 
                             if (Yii::app()->request->cookies['social_referer']) {
                                 $this->redirect(Yii::app()->request->cookies['social_referer']);
@@ -240,7 +248,12 @@ class ServiceController extends MController
                         }
                     }
                 }
-                $this->render('social', array('model' => $model));
+                $this->render('social',
+                    array(
+                        'model' => $model,
+                        'service' => Yii::app()->request->cookies['service_name'],
+                        'email' => $email,
+                    ));
 
             } else {
                 if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
