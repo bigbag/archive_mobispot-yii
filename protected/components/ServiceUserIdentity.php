@@ -36,6 +36,10 @@ class ServiceUserIdentity extends CUserIdentity
             $this->_email = $user->email;
             $this->username = $user->email;
             $this->password = $user->password;
+
+            $this->setState('id', $this->id);
+            $this->setState('service', $this->service->serviceName);
+            $this->setState('email', $this->email);
             $this->errorCode = self::ERROR_NONE;
         } else {
             $this->errorCode = self::ERROR_NOT_AUTHENTICATED;

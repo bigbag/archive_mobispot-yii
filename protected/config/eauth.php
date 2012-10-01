@@ -10,16 +10,16 @@ return array( // You can change the providers and their classes.
     'google_oauth' => array(
         // register your app here: https://code.google.com/apis/console/
         'class' => 'CustomGoogleOAuthService',
-        'client_id' => '510457098983.apps.googleusercontent.com',
-        'client_secret' => 'qGZivEcZ3icszUdhKOyW9uP3',
+        'client_id' => 'bilbo.kem@gmail.com',
+        'client_secret' => 'AIzaSyDzzzMZPCl8lbOO-jdVCoP5QiS7dVhL4eI',
         'scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         'title' => 'Google (OAuth)',
     ),
     'facebook' => array(
         // register your app here: https://developers.facebook.com/apps/
         'class' => 'FacebookOAuthService',
-        'client_id' => '313883902043541',
+        'client_id' => '472011422832770',
         'scope' => 'email',
-        'client_secret' => '6a0cc2538ecb92a57f0dbf3834ee7bd0',
+        'client_secret' => '00952f4e8282368025d8f4a04cd38a4e',
     ),
 );
