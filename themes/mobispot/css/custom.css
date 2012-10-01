@@ -276,7 +276,9 @@ div.next {
     margin-top: 0px;
 }
 
-#carousel div {
+
+
+#carousel div.circle_image {
     text-align: center;
     margin: 10px;
     width: 120px;
@@ -285,9 +287,13 @@ div.next {
     position: relative;
 }
 
-#carousel div img {
+#carousel div.circle_image div.focus{
+    margin-top: -92px;
+    display: none;
+}
+
+#carousel div.circle_image img {
     border: none;
-    background-color: #9E9E9E;
     margin-bottom: 10px;
     -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);

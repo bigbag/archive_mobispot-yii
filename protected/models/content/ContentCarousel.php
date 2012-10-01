@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $desc
  * @property string $image
+ * @property string $image_focus
  * @property string $lang
  */
 class ContentCarousel extends CActiveRecord
@@ -44,13 +45,13 @@ class ContentCarousel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, desc, image', 'required'),
+			array('name, desc, image, image_focus', 'required'),
 			array('name', 'length', 'max'=>150),
 			array('desc, image', 'length', 'max'=>300),
 			array('lang', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, desc, image, lang', 'safe', 'on'=>'search'),
+			array('id, name, desc, image, image_focus, lang', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -82,6 +83,7 @@ class ContentCarousel extends CActiveRecord
 			'name' => 'Название',
 			'desc' => 'Описание',
 			'image' => 'Иконка',
+            'image_focus' => 'Активная иконка',
 			'lang' => 'Язык',
 		);
 	}
@@ -101,6 +103,8 @@ class ContentCarousel extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('desc',$this->desc,true);
 		$criteria->compare('image',$this->image,true);
+        $criteria->compare('image_focuse',$this->image_focus,true);
+
 		$criteria->compare('lang',$this->lang,true);
 
 		return new CActiveDataProvider($this, array(
