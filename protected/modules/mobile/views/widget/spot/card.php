@@ -1,17 +1,17 @@
 <div id="main-container">
     <div id="userContact" class="clr">
-        <?php if (!empty($content['nazvanie-biznesa_8'])):?>
+        <?php if (!empty($content['nazvanie-biznesa_8'][0])):?>
         <span class="btn-dig rad6 shadow">
             <span class="txtFCenter"><?php echo $content['nazvanie-biznesa_8']; ?>
             </span>
         </span>
         <?php endif;?>
-        <?php if (!empty($content['sayt_8'])):?>
+        <?php if (!empty($content['sayt_8'][0])):?>
         <a href="<?php echo YText::formatUrl($content['sayt_8'])?>" class="btn-dig rad6 shadow">
             <span class="txtFCenter"><?php echo $content['sayt_8']; ?></span>
         </a>
         <?php endif;?>
-        <?php if (!empty($content['kontaktnoe-litso_8'])):?>
+        <?php if (!empty($content['kontaktnoe-litso_8'][0])):?>
         <span class="btn-dig rad6 shadow"><?php echo $content['kontaktnoe-litso_8']; ?>
         </span>
         <?php endif;?>
