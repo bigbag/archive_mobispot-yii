@@ -172,7 +172,7 @@ class ServiceController extends MController
             $authIdentity->cancelUrl = '/site/index';
 
             if ($authIdentity->authenticate()) {
-                $identity = new EAuthUserIdentity($authIdentity);
+                $identity = new CEAuthUserIdentity($authIdentity);
 
                 if ($identity->authenticate()) {
 
