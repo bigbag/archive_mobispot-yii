@@ -23,7 +23,7 @@ return array(
             'class' => 'CDbHttpSession',
             'connectionID' => 'db',
             'sessionTableName' => 'session',
-            'useTransparentSessionID' => ($_POST['PHPSESSID']) ? true : false,
+            'useTransparentSessionID' => false,
             'autoStart' => 'false',
             'cookieMode' => 'only',
             'timeout' => 3600
@@ -74,11 +74,11 @@ return array(
                     'categories' => 'application',
                     'levels' => 'error, warning, trace, profile, info',
                 ),
-                //array(
-                //    'class' => 'ext.db_profiler.DbProfileLogRoute',
-                //    'countLimit' => 1,
-                //    'slowQueryMin' => 0.01,
-                //),
+                array(
+                   'class' => 'ext.db_profiler.DbProfileLogRoute',
+                    'countLimit' => 1,
+                    'slowQueryMin' => 0.01,
+                ),
             ),
         ),
         'loid' => array(
