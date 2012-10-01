@@ -69,10 +69,10 @@
                 <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
                 <div class="spot_action">
                     <span class="edit"></span>
-                    <?php echo $name ?><br/>
+                    <?php echo CHtml::encode($name) ?><br/>
                     <?php echo $link[$i]; ?><br/>
                     <?php echo $file_view ?>
-                    <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo $name ?>">
+                    <input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="<?php echo CHtml::encode($name) ?>">
                     <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden"
                            value="<?php echo $link[$i] ?>">
                     <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden"
@@ -129,10 +129,15 @@
                             <td>
                                 <div class="txt-form">
                                     <div class="txt-form-cl">
-                                        <input class="text"
-                                               placeholder="<?php echo Yii::t('account', 'Название и адрес');?>"
-                                               name="SpotModel[tochka-nazvanie_8][]" value="<?php echo $name;?>"
-                                               type="text">
+                                        <?php echo CHtml::activeTextField(
+                                        $content,
+                                        'tochka-nazvanie_8[]',
+                                        array(
+                                            'class' => 'txt',
+                                            'placeholder' => Yii::t('account', 'Название и адрес'),
+                                            'value' => $name,
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                             </td>
@@ -145,6 +150,7 @@
                                                placeholder="<?php echo Yii::t('account', 'Ссылка на карту');?>"
                                                name="SpotModel[tochka-karta_8][]" value="<?php echo $karta[$i];?>"
                                                type="text">
+
                                     </div>
                                 </div>
                             </td>
@@ -247,7 +253,7 @@
                 if (general) {
                     var file = general.find('.action_file').val();
                     var file_view = general.find('.action_file_view').val();
-                    var name = general.find('.action_name').val();
+                    var name = general.find('.action_name').val().replace(/"/g, "&quot;");
                     var link = general.find('.action_link').val();
 
                     $.ajax({
@@ -284,7 +290,7 @@
 
         $(function () {
             $('#save_action').live("click", function () {
-                var action_name = $('.new_action input.name').val();
+                var action_name = $('.new_action input.name').val().replace(/"/g, "&quot;");
                 var action_link = $('.new_action input.link').val();
                 var action_file = $('.new_action input.spot_card_file').val();
                 var action_file_view = $('.new_action input.spot_card_file_view').val();

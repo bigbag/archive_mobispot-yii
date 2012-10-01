@@ -51,7 +51,7 @@
             <?php foreach ($content['tochka-nazvanie_8'] as $name): ?>
                 <?php if (isset($name[1])): ?>
                     <?php $karta = $content['tochka-karta_8']; ?>
-                    <p><?php echo $name;?></p>
+                    <p><?php echo CHtml::encode($name);?></p>
                     <?php if (!empty($karta[$i])):?>
                     <p><a href="<?php echo YText::formatUrl($karta[$i])?>"
                           class="btn-cent ico rad4 shadow txtFLeft"><span></span><?php echo Yii::t('account', 'На карте');?>
