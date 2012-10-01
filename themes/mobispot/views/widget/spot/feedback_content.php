@@ -23,7 +23,7 @@
                 <td><?php echo mb_substr($row['name'], 0, 45, 'utf-8'); ?></td>
                 <td><?php echo $row['phone']; ?></td>
                 <td><?php echo $row['email']; ?></td>
-                <td><?php echo CHtml::encode($row['comment'])?></td>
+                <td><?php echo nl2br(CHtml::encode($row['comment']))?></td>
             </tr>
                 <?php endforeach; ?>
             </tbody>
