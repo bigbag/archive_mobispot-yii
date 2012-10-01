@@ -98,8 +98,11 @@
     });
 
     $(document).ready(function () {
+
+        $('.circle_image').live('mouseleave', function () {
+            $(this).children('div.focus').hide();
+        });
         $('.circle_image').live('mouseenter', function () {
-            $('.circle_image div.focus').hide();
             $(this).children('div.focus').show();
         });
         return false;
