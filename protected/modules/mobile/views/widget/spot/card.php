@@ -52,9 +52,11 @@
                 <?php if (isset($name[1])): ?>
                     <?php $karta = $content['tochka-karta_8']; ?>
                     <p><?php echo $name;?></p>
+                    <?php if (!empty($karta[$i])):?>
                     <p><a href="<?php echo YText::formatUrl($karta[$i])?>"
                           class="btn-cent ico rad4 shadow txtFLeft"><span></span><?php echo Yii::t('account', 'На карте');?>
                     </a></p><br/>
+                        <?php endif;?>
                     <?php endif; ?>
                 <?php $i = $i + 1; ?>
                 <?php endforeach; ?>
