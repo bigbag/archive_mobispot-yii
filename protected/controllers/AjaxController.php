@@ -16,16 +16,16 @@ class AjaxController extends MController
         );
     }
 
-    public function actionSetQuestion(){
+    public function actionSetQuestion()
+    {
         if (Yii::app()->request->isAjaxRequest and (isset($_POST['QuestionForm']))) {
             $form = new QuestionForm();
             $form->attributes = $_POST['QuestionForm'];
             if ($form->validate()) {
+                MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
                 echo true;
-            }
-            else echo false;
-        }
-        else echo false;
+            } else echo false;
+        } else echo false;
     }
 
     public function actionSetLang()
@@ -156,7 +156,7 @@ class AjaxController extends MController
                     $form->email = $_POST['email'];
                     if ($form->validate()) {
                         $user = User::model()->findByAttributes(array('email' => $form->email));
-                        MMail::recovery($user->email, $user->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
+                        MMail::recovery($user->email, $user->activkey,  $this->getLang());
 
                         echo true;
                     } else echo false;
@@ -198,11 +198,11 @@ class AjaxController extends MController
                                 ));
 
                                 $spot->user_id = $model->id;
-                                $spot->lang = (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en';
+                                $spot->lang =  $this->getLang;
                                 $spot->status = Spot::STATUS_REGISTERED;
                                 $spot->save();
 
-                                MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en');
+                                MMail::activation($model->email, $model->activkey,  $this->getLang());
                                 echo true;
                             }
                             unset(Yii::app()->session['registration_error_count']);
@@ -361,7 +361,7 @@ class AjaxController extends MController
             } else {
                 $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
                 $spot->status = Spot::STATUS_REGISTERED;
-                $spot->lang = (Yii::app()->request->cookies['lang'])?Yii::app()->request->cookies['lang']->value:'en';
+                $spot->lang =  $this->getLang();
                 $spot->user_id = Yii::app()->user->id;
                 $spot->spot_type_id = (int)$_POST['type'];
                 if ($spot->save()) {

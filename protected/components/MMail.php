@@ -110,5 +110,25 @@ Class MMail
         else return false;
     }
 
+    public function faq_question($email, $data, $lang)
+    {
+        $mail_template = MailTemplate::getTemplate('faq_question', $lang);
+
+        $stack = new MailStack;
+        $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->to = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
+            array(
+                'name' => $data->name,
+                'email' => $data->email,
+                'question' => $data->question,
+            ),
+            true);
+
+        if ($stack->save()) return true;
+        else return false;
+    }
+
 
 }

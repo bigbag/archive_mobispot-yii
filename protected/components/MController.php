@@ -94,4 +94,9 @@ class MController extends Controller
         }
         else  Yii::app()->language = 'en';
     }
+
+    public function  getLang()
+    {
+        return (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en';
+    }
 }
