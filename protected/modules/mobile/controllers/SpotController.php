@@ -142,7 +142,7 @@ class SpotController extends MController
         $spot = Spot::model()->findByAttributes(array('url' => $url));
         if ($spot and $spot->spot_type->pattern == 'personal') {
             $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
-            if (isset($content['razreshit-skachivat-vizitku_3'][0])) {
+            if ($content and isset($content['razreshit-skachivat-vizitku_3'][0])) {
 
                 $data = $content['kontaktyi_3'] + $content['sotsseti_3'] + $content['opisanie_3'];
 
