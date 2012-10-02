@@ -19,9 +19,9 @@
  * @version $Id: $
  */
 return array (
-  'Invalid response format.' => '',
-  'Invalid response http code: {code}.' => '',
-  'Unable to complete the authentication because the required data was not received.' => '',
-  'Unable to complete the request because the user was not authenticated.' => '',
-  'Undefined service name: {service}.' => '',
+  'Invalid response format.' => 'Invalid response format.',
+  'Invalid response http code: {code}.' => 'Invalid response http code: {code}.',
+  'Unable to complete the authentication because the required data was not received.' => 'Unable to complete the authentication because the required data was not received.',
+  'Unable to complete the request because the user was not authenticated.' => 'Unable to complete the request because the user was not authenticated.',
+  'Undefined service name: {service}.' => 'Undefined service name: {service}.',
 );

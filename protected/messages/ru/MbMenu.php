@@ -19,5 +19,5 @@
  * @version $Id: $
  */
 return array (
-  'baseUrl must be set. This is done automatically by calling publishAssets()' => '',
+    'baseUrl must be set. This is done automatically by calling publishAssets()' => 'baseUrl must be set. This is done automatically by calling publishAssets()',
 );

@@ -19,9 +19,9 @@
  * @version $Id: $
  */
 return array (
-  'Can not access a property of a non existent object' => '',
-  'Can not call a method of a non existent object' => '',
-  'Can not set a property of a non existent object' => '',
-  'pathLayouts must be a Yii alias path' => '',
-  'pathViews must be a Yii alias path' => '',
+  'Can not access a property of a non existent object' => 'Can not access a property of a non existent object',
+  'Can not call a method of a non existent object' => 'Can not call a method of a non existent object',
+  'Can not set a property of a non existent object' => 'Can not set a property of a non existent object',
+  'pathLayouts must be a Yii alias path' => 'pathLayouts must be a Yii alias path',
+  'pathViews must be a Yii alias path' => 'pathViews must be a Yii alias path',
 );

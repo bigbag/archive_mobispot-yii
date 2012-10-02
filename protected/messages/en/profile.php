@@ -19,14 +19,14 @@
  * @version $Id: $
  */
 return array (
-  'Connect with Facebook' => '',
-  'Connect with Twitter' => '',
-  'Город' => '',
-  'Дата рождения' => '',
-  'Загрузить' => '',
-  'Имя' => '',
-  'Использовать фото<br/>в моих личных спотах' => '',
-  'Личные данные' => '',
-  'Пол' => '',
-  'Сохранить' => '',
+  'Connect with Facebook' => 'Connect with Facebook',
+  'Connect with Twitter' => 'Connect with Twitter',
+  'Город' => 'City',
+  'Дата рождения' => 'Date of birth',
+  'Загрузить' => 'Upload',
+  'Имя' => 'Name',
+  'Использовать фото<br/>в моих личных спотах' => 'Use photos in my personal <br/> spots',
+  'Личные данные' => 'Personal data',
+  'Пол' => 'Sex',
+  'Сохранить' => 'Save',
 );

@@ -1,37 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "content_faq".
+ * This is the model class for table "content_translation".
  *
- * The followings are the available columns in table 'content_faq':
+ * The followings are the available columns in table 'content_translation':
  * @property integer $id
- * @property string $question
- * @property string $answer
- * @property string $lang
+ * @property string $name
+ * @property string $desc
  */
-class ContentFaq extends CActiveRecord
+class ContentTranslation extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ContentFaq the static model class
+	 * @return ContentTranslation the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-    public function getLang()
-    {
-        $data = Lang::getLangArray();
-        return $data[$this->lang];
-    }
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'content_faq';
+		return 'content_translation';
 	}
 
 	/**
@@ -42,11 +36,11 @@ class ContentFaq extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('question, answer', 'required'),
-			array('lang', 'length', 'max'=>2),
+			array('name, desc', 'required'),
+			array('name', 'length', 'max'=>300),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, question, answer, lang', 'safe', 'on'=>'search'),
+			array('id, name, desc', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,14 +52,9 @@ class ContentFaq extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
 		);
 	}
 
-    public function getFaq()
-    {
-        return ContentFaq::model()->findAll('lang=:lang', array('lang' => Yii::app()->language));
-    }
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
@@ -73,9 +62,8 @@ class ContentFaq extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'question' => 'Вопрос',
-			'answer' => 'Ответ',
-			'lang' => 'Язык',
+			'name' => 'Название',
+			'desc' => 'Описание',
 		);
 	}
 
@@ -91,15 +79,11 @@ class ContentFaq extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('question',$this->question,true);
-		$criteria->compare('answer',$this->answer,true);
-		$criteria->compare('lang',$this->lang,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('desc',$this->desc,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-            'pagination' => array(
-                'pageSize' => 50,
-            ),
 		));
 	}
 }

@@ -23,7 +23,6 @@ return array (
   'E-mail не валиден' => '',
   'Email' => '',
   'Email is incorrect.' => '',
-  'Fields with <span class="required">*</span> are required.' => '',
   'Hа сайте не зарегистрирован пользователь с таким Email.' => '',
   'Id' => '',
   'Incorrect password (minimal length 5 symbols).' => '',
