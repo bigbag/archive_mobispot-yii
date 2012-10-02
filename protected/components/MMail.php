@@ -1,6 +1,15 @@
 <?php
 Class MMail
 {
+
+    public function render($template, array $data = array())
+    {
+        $path = Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/' . $template . '.php';
+        if (!file_exists($path)) throw new Exception('Template ' . $path . ' does not exist.');
+        return $this->renderFile($path, $data, true);
+    }
+
+
     public function activation($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('activation', $lang);
@@ -10,7 +19,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -29,7 +38,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -47,7 +56,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'spot_name' => (isset($data['spot_name'])) ? $data['spot_name'] : '',
                 'name' => (isset($data['name'])) ? $data['name'] : '',

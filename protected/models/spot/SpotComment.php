@@ -38,8 +38,8 @@ class SpotComment extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, spot_id, body, creation_date', 'required'),
-            array('user_id, spot_id', 'numerical', 'integerOnly' => true),
+            array('spot_id, body, creation_date', 'required'),
+            array('spot_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, user_id, spot_id, body, creation_date', 'safe', 'on' => 'search'),

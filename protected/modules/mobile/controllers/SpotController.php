@@ -105,6 +105,19 @@ class SpotController extends MController
                                 true);
                         }
                         break;
+                    case ('personal'):
+                        if (isset($_POST['comment']) and !empty($_POST['comment'])) {
+                            $txt = $this->renderPartial('/widget/success_comment', array(), true);
+                        }
+                        else {
+                            $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
+                                array(
+                                    'data' => $spot,
+                                    'content' => $content,
+                                ),
+                                true);
+                        }
+                        break;
                     default:
                         $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                             array(

@@ -100,8 +100,13 @@
     <?php if (isset($content['razreshit-kommentarii_3'][0])): ?>
     <div class="grayAllBlock rad6 shadow">
         <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Оставить комментарий')?></div>
-        <form>
-            <textarea class="txt-100p txtArea rad6"></textarea>
+        <form action="" method="post">
+            <?php echo CHtml::TextArea('comment', '',
+            array(
+                'rows' => 3,
+                'class' => 'txt-100p txtArea rad6',
+
+            )); ?>
             <input type="submit" class="btn-round fright rad12 shadow"
                    value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
         </form>
