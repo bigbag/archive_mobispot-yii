@@ -107,6 +107,14 @@ class SpotController extends MController
                         break;
                     case ('personal'):
                         if (isset($_POST['comment']) and !empty($_POST['comment'])) {
+
+                            $comment = new SpotComment();
+                            $comment->spot_id = $spot->discodes_id;
+                            $comment->comment_user_id = (Yii::app()->user->id)?Yii::app()->user->id:'';
+                            $comment->spot_user_id = $spot->user_id;
+                            $comment->body = $_POST['comment'];
+                            $comment->save();
+
                             $txt = $this->renderPartial('/widget/success_comment', array(), true);
                         }
                         else {
