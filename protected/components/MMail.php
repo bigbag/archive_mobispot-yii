@@ -90,5 +90,25 @@ Class MMail
         else return false;
     }
 
+    public function spot_comment($email, $data, $lang)
+    {
+        $mail_template = MailTemplate::getTemplate('spot_comment', $lang);
+
+        $stack = new MailStack;
+        $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->to = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
+            array(
+                'comment_user_id' => (!empty($data->comment_user_id)) ? $data->comment_user_id : '',
+                'comment' => $data->body,
+                'spot_id' => $data->spot_id,
+            ),
+            true);
+
+        if ($stack->save()) return true;
+        else return false;
+    }
+
 
 }

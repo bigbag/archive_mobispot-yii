@@ -113,7 +113,10 @@ class SpotController extends MController
                             $comment->comment_user_id = (Yii::app()->user->id)?Yii::app()->user->id:'';
                             $comment->spot_user_id = $spot->user_id;
                             $comment->body = $_POST['comment'];
-                            $comment->save();
+
+                            if ($comment->save()){
+                                MMail::spot_comment($spot->user->email, $comment, $spot->lang);
+                            }
 
                             $txt = $this->renderPartial('/widget/success_comment', array(), true);
                         }

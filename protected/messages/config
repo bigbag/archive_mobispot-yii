@@ -4,11 +4,12 @@
  * for the Yii framework. It is used by the 'yiic message' command.
  */
 return array(
-	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'messagePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'messages',
+	'sourcePath'=>'/home/bigbag/dev/mobispot/',
+	'messagePath'=>'/home/bigbag/dev/mobispot/protected/messages/',
 	'languages'=>array('ru','en'),
 	'fileTypes'=>array('php'),
 	'overwrite'=>true,
+	'sort'=>true,
 	'exclude'=>array(
 		'.svn',
 		'.gitignore',
@@ -18,5 +19,7 @@ return array(
 		'/messages',
 		'/vendors',
 		'/web/js',
+		'/yii',
+		'/themes/mobile/images/'
 	),
 );
