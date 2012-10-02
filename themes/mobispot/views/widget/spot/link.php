@@ -16,7 +16,7 @@
             <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
             <p>
                 <?php echo Yii::t('account', ' Разместите здесь ссылку на веб-страницу,<br/>которую Вы хотите показать
-    кому-нибудь при помощи своего спота<br/>');?>
+    кому-нибудь при помощи своего спота');?><br/>
             </p>
             <table class="urlInfoTbl" cellspacing="0">
                 <tr>
