@@ -16,6 +16,17 @@ class AjaxController extends MController
         );
     }
 
+    public function actionSetQuestion(){
+        if (Yii::app()->request->isAjaxRequest and (isset($_POST['QuestionForm']))) {
+            $form = new QuestionForm();
+            $form->attributes = $_POST['QuestionForm'];
+            if ($form->validate()) {
+                echo true;
+            }
+            else echo false;
+        }
+        else echo false;
+    }
 
     public function actionSetLang()
     {

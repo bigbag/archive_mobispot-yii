@@ -105,7 +105,6 @@
             array(
                 'rows' => 3,
                 'class' => 'txt-100p txtArea rad6',
-
             )); ?>
             <input type="submit" class="btn-round fright rad12 shadow"
                    value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
