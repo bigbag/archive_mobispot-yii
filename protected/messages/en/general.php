@@ -22,7 +22,7 @@ return array (
   'Вам необходимо выбрать тип вашего первого спота.' => 'You need to select the type of your first spot.',
   'Мои споты' => 'My Spots',
   'Назад' => 'Back',
-  'Начните использовать Ваш спот<br /> прямо сейчас' => 'Start using your spot right now',
+  'Начните использовать Ваш спот<br /> прямо сейчас' => 'Start using your spot<br /> right now',
   'Перейти в личный кабинет' => 'Go to your personal cabinet',
   'Показать ещё' => 'how more',
   'Сохранить' => 'Save',
