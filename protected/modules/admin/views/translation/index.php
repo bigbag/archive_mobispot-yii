@@ -1,4 +1,4 @@
-<?php $this->pageTitle = 'Почтовые шаблоны'; ?>
+<?php $this->pageTitle = 'Переводы'; ?>
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
