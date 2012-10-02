@@ -24,11 +24,25 @@ class TranslationController extends Controller
         $content_en = require($path_en);
         $content_ru = require($path_ru);
 
-
-
         if ((isset($_POST['Translation_ru'])) and (isset($_POST['Translation_en']))) {
-            file_put_contents($path_en, $content);
-            file_put_contents($path_ru, $content);
+
+            $array_ru = str_replace("\r", '', var_export($_POST['Translation_ru'], true));
+            $array_en = str_replace("\r", '', var_export($_POST['Translation_en'], true));
+
+            $content_ru = <<<EOD
+<?php
+return $array_ru;
+
+EOD;
+            $content_en = <<<EOD
+<?php
+return $array_en;
+
+EOD;
+
+            file_put_contents($path_en, $content_en);
+            file_put_contents($path_ru, $content_ru);
+            $this->redirect('/admin/translation/');
 
         }
 
