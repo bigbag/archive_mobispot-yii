@@ -25,3 +25,4 @@ themes/mobispot/views/mail/
 protected/modules/mobile/MobileModule.php
 /stats/*
 protected/controllers/SpotController.php
+protected/messages
