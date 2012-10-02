@@ -144,7 +144,10 @@ class SpotController extends MController
             $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
             if ($content and isset($content['razreshit-skachivat-vizitku_3'][0])) {
 
-                $data = $content['kontaktyi_3'] + $content['sotsseti_3'] + $content['opisanie_3'];
+                $data = array();
+                if ($content['kontaktyi_3'] !== null) $data = $data + $content['kontaktyi_3'];
+                if ($content['sotsseti_3'] !== null) $data = $data + $content['sotsseti_3'];
+                if ($content['opisanie_3'] !== null) $data = $data + $content['opisanie_3'];
 
                 $all_field = SpotPersonalField::getPersonalFieldAll();
                 $select_field = UserPersonalField::getField($spot->discodes_id);
