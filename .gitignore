@@ -20,7 +20,7 @@ uploads/
 *.properties
 nbproject/
 /.idea/
-index.php
+/index.php
 themes/mobispot/views/mail/
 protected/modules/mobile/MobileModule.php
 /stats/*
