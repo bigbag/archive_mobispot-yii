@@ -3,8 +3,13 @@
 <div id="main-container">
     <?php if (!empty($content->fotografiya_3)): ?>
     <div>
-        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" id="userPhoto" width="100%"/>
+        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" width="100%"/>
     </div>
+    <?php else:?>
+    <?php $profile = UserProfile::model()->findByPk($content->user_id)?>
+    <?php if ($profile->use_photo == 1 and (!empty($profile->photo))):?>
+        <img src="/uploads/spot/<?php echo $profile->photo?>" width="100%"/>
+        <?php endif;?>
     <?php endif;?>
     <?php if ($content->imya_3): ?>
     <div class="whitePlash rad12">

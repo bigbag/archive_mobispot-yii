@@ -69,7 +69,7 @@ class UserProfile extends CActiveRecord
             array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly' => true),
             array('name, place', 'filter', 'filter' => 'trim'),
             array('name, place', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('name, place', 'length', 'max' => 300),
+            array('name, place, photo', 'length', 'max' => 300),
         );
     }
 
