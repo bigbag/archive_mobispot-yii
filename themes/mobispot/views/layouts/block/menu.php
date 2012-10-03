@@ -36,13 +36,13 @@
                         <?php echo CHtml::encode(Yii::app()->user->name)?>
                     </div>
                     <div>
-                        <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">
-                            <?php echo Yii::t('menu', 'Личные данные')?>
+                        <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>" target="_blank">
+                            <?php echo Yii::t('user', 'Личные данные')?>
                         </a>
                     </div>
                     <div>
-                        <a href="/service/logout/" title="<?php echo Yii::t('menu', 'Выйти')?>">
-                            <strong><?php echo Yii::t('menu', 'Выйти')?></strong>
+                        <a href="/service/logout/" title="<?php echo Yii::t('user', 'Выйти')?>">
+                            <strong><?php echo Yii::t('user', 'Выйти')?></strong>
                         </a>
                     </div>
                 </div>

@@ -23,10 +23,10 @@ $this->breadcrumbs = array(
         </tr>
         <tr>
             <td>
-                <textarea cols="60" rows="5" name="Translation_en[<?php echo $key; ?>]"><?php echo $value; ?></textarea>
+                <textarea cols="50" rows="5" name="Translation_en[<?php echo $key; ?>]"><?php echo $value; ?></textarea>
             </td>
             <td>
-                <textarea cols="60" rows="5" name="Translation_ru[<?php echo $key; ?>]"><?php echo $content_ru[$key]; ?></textarea>
+                <textarea cols="50" rows="5" name="Translation_ru[<?php echo $key; ?>]"><?php echo $content_ru[$key]; ?></textarea>
             </td>
         </tr>
         <?php endforeach;?>

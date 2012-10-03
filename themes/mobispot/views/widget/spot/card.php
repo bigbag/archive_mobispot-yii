@@ -65,8 +65,7 @@
             <?php if (!empty($name)): ?>
                 <?php $link = $content->ssyilka_8; ?>
                 <?php $file = $content->kartinka_8; ?>
-                <?php $file_view = explode('_', $file[$i]) ?>
-                <?php $file_view = (isset($file_view[2])) ? $file_view[2] : '' ?>
+                <?php $file_view = (isset($file[$i][1]))?substr($file[$i], strpos($file[$i], '_', 10) + 1, 40):'' ?>
                 <div class="spot_action">
                     <span class="edit"></span>
                     <?php echo CHtml::encode($name) ?><br/>
@@ -77,7 +76,7 @@
                            value="<?php echo $link[$i] ?>">
                     <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden"
                            value="<?php echo $file[$i] ?>">
-                    <input class="action_file_view" type="hidden" value="<?php echo $file_view ?>">
+                    <input class="action_file_view" type="hidden" value="<?php echo CHtml::encode($file_view) ?>">
                 </div>
                 <?php endif; ?>
             <?php $i = $i + 1; ?>
