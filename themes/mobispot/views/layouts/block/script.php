@@ -24,21 +24,21 @@ $(document).ready(function () {
 });
 //Блок выбора языка
 $(document).ready(function () {
-    $('#lang-select').click(function () {
+    $('.lang').click(function () {
         $(".lang-hint").show();
     });
 
-    $('#main-container, .lang-hint a').on("click", function () {
+    $('.content, .lang-hint a').on("click", function () {
         $(".lang-hint").hide();
     });
 });
 //Блок авторизации
 $(document).ready(function () {
-    $('#button-auth').click(function () {
+    $('.button-auth').click(function () {
         $(".auth-hint").show();
     });
 
-    $('#main-container').on("click", function () {
+    $('.content').on("click", function () {
         $(".auth-hint").hide();
         $("#mistake-auth").hide();
 
@@ -52,8 +52,8 @@ $(function () {
     });
     $('#email, #password, #verifyPassword, #activ_code').bind('focus', function () {
         if (count == 3) {
-            $('#terms').show();
-            $('#registration-form').css("height", "auto");
+            $('.terms').show();
+            $('.registration .form').css("height", "320px");
         }
     });
 });
@@ -229,14 +229,12 @@ $(document).ready(function () {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-$(document).ready(function () {
-    $('input.txt').bind('focus', function () {
-        $(this).parent().css('background-position', '100% -105px');
-        $(this).parent().parent().css('background-position', '0 -70px');
-    });
-    $('input.txt').bind('blur', function () {
-        $(this).parent().css('background-position', '100% -35px');
-        $(this).parent().parent().css('background-position', '0 0');
-    });
-});
+$(".footer, .push").height($(".footer .row").height() + "px");
+$(".wrapper").css({'margin-bottom':(-1 * $(".footer .row").height()) + "px"});
+
+window.onresize = function () {
+    $(".footer, .push").height($(".footer .row").height() + "px");
+    $(".wrapper").css({'margin-bottom':(-1 * $(".footer .row").height()) + "px"});
+}
+
 </script>

@@ -1,17 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app>
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+
 <?php include('block/header.php');?>
 <body>
-<div id="wrapper">
-    <div id="header">
-        <?php include('block/menu.php');?>
+<div class="wrap">
+    <div class="top-bar header">
+        <div class="row">
+            <?php include('block/menu.php');?>
+        </div>
     </div>
-    <div id="errors"></div>
-    <?php echo $content; ?>
+    <div class="row">
+        <div class="twelve columns content">
+            <?php echo $content; ?>
+        </div>
+    </div>
+    <div class="main"></div>
 </div>
-<div class="center-rel">
-    <?php include('block/footer.php');?>
+<div class="footer">
+    <div class="footer-bar">
+        <div class="row">
+            <div class="twelve columns centered">
+                <?php include('block/footer.php');?>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php include('block/script.php');?>
