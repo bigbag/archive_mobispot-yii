@@ -284,13 +284,13 @@ textarea::-moz-placeholder {
 .registration .form  .block .social {
     float: left;
     padding-top: 4px;
-    width: 80px;
+    width: 100px;
 }
 
 .registration .form  .block .reg-button {
     float: right;
     text-align: right;
-    width: 250px;
+    width: 235px;
 }
 
 .registration .form .terms .dop-txt {
@@ -485,15 +485,16 @@ div.next {
 }
 
 .auth-hint  .block .social {
+    text-align: left;
     float: left;
     padding-top: 4px;
-    width: 80px;
+    width: 100px;
 }
 
 .auth-hint  .block .reg-button {
     float: right;
     text-align: right;
-    width: 180px;
+    width: 160px;
 }
 
 .auth-hint .forget-pass {
