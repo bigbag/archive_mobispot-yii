@@ -28,24 +28,20 @@
             </form>
             <?php else: ?>
             <?php $user_info = $this->userInfo(); ?>
-            <div id="auth-on">
-                <span id="auth-user-name"><?php echo $user_info->name;?></span>
+            <div class="auth-on">
+                <span class="auth-user-name"><?php echo $user_info->name;?></span>
 
                 <div class="user-menu-hint">
-                    <div>
-                        <?php echo CHtml::encode(Yii::app()->user->name)?>
-                    </div>
-                    <div>
-                        <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>"
-                           target="_blank">
-                            <?php echo Yii::t('user', 'Личные данные')?>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/service/logout/" class="button-auth" title="<?php echo Yii::t('user', 'Выйти')?>">
-                            <strong><?php echo Yii::t('user', 'Выйти')?></strong>
-                        </a>
-                    </div>
+                    <?php echo CHtml::encode(Yii::app()->user->name)?><br />
+
+                    <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>"
+                       target="_blank">
+                        <?php echo Yii::t('user', 'Личные данные')?>
+                    </a><br />
+
+                    <a href="/service/logout/" title="<?php echo Yii::t('user', 'Выйти')?>">
+                        <strong><?php echo Yii::t('user', 'Выйти')?></strong>
+                    </a>
                 </div>
             </div>
             <?php endif;?>

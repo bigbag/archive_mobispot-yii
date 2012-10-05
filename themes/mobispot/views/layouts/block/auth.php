@@ -29,5 +29,4 @@
         </div>
     </div>
     <div class="forget-pass"><?php echo Yii::t('user', 'Забыли пароль?')?></div>
-
 </div>

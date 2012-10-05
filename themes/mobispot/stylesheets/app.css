@@ -134,6 +134,13 @@ a:hover {
     padding-right: 30px;
 }
 
+.menu .user .auth-user-name {
+    display: inline-block;
+    padding-right: 12px;
+    cursor: pointer;
+    background: url(../images/form/down_white.gif) 100% 20px no-repeat
+}
+
 .logo {
     text-align: center;
     margin: 0 auto;
@@ -295,6 +302,13 @@ textarea::-moz-placeholder {
     color: #585858
 }
 
+.registration .bnt-account {
+    position: absolute;
+    text-align: right;
+    top: 260px;
+    width: 360px
+}
+
 /* Video ---------------------- */
 .video {
     padding-top: 12px;
@@ -427,6 +441,7 @@ div.next {
     width: 280px;
     padding: 10px;
     z-index: 100;
+    color: #666;
     background-color: #fff;
     border: 1px solid #fc905f;
     -webkit-border-radius: 5px;
@@ -463,7 +478,6 @@ div.next {
 .auth-hint {
     bottom: -5px;
     left: -30px;
-    color: #666;
 }
 
 .auth-hint  .block {
@@ -499,9 +513,12 @@ div.next {
 
 /* User menu hint ---------------------- */
 .user-menu-hint {
-    left: 120px;
-    bottom: -32px;
+    left: 0;
+    bottom: 0;
     width: 200px;
+    text-align: left;
+    padding: 10px;
+    line-height: 24px;
 }
 
 .user-menu-hint:before {

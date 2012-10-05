@@ -1,6 +1,6 @@
 <?php if ($first): ?>
 
-<h2><?php echo Yii::t('general', 'Вам необходимо выбрать тип вашего первого спота.')?></h2>
+<div class="title"><?php echo Yii::t('general', 'Вам необходимо выбрать тип вашего первого спота.')?></div>
 <form action="" method="post">
     <div class="btn-form">
         <div class="btn-form-cl">
@@ -24,7 +24,7 @@
     </div>
 </form>
 <?php else: ?>
-<h2><?php echo Yii::t('general', 'Мои споты');?></h2>
+<div class="title"><?php echo Yii::t('general', 'Мои споты');?></div>
 <?php $this->widget('zii.widgets.CListView', array(
         'dataProvider' => $dataProvider,
         'itemView' => 'block/_spots_list',
@@ -36,11 +36,8 @@
         ),
     )); ?>
 <div class="bnt-account">
-    <div class="btn-30">
-        <div>
-            <input type="submit" id="account" value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
-        </div>
-    </div>
+    <input type="submit" id="account" class="button-auth"
+           value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
 </div>
 
 

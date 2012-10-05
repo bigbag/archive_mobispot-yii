@@ -15,10 +15,10 @@ $(document).ready(function () {
 
 //Блок меню пользователя
 $(document).ready(function () {
-    $('#auth-user-name').click(function () {
+    $('.auth-user-name').click(function () {
         $(".user-menu-hint").show();
     });
-    $('#main-container').on("click", function () {
+    $('.content').on("click", function () {
         $(".user-menu-hint").hide();
     });
 });
@@ -236,5 +236,9 @@ window.onresize = function () {
     $(".footer, .push").height($(".footer .row").height() + "px");
     $(".wrapper").css({'margin-bottom':(-1 * $(".footer .row").height()) + "px"});
 }
+
+
+$(document).foundationAlerts();
+
 
 </script>
