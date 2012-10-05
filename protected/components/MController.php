@@ -86,13 +86,17 @@ class MController extends Controller
             if (isset($all_lang[$lang])) Yii::app()->language = $lang;
             else  Yii::app()->language = 'en';
 
-        }
-        else if (Yii::app()->user->id){
+        } else if (Yii::app()->user->id) {
             $user = User::model()->findByPk(Yii::app()->user->id);
             Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $user->lang);
             Yii::app()->language = $user->lang;
+        } else {
+            $browser_lang = Yii::app()->request->getPreferredLanguage();
+            $all_lang = Lang::getLangArray();
+            if (isset($all_lang[$browser_lang])) {
+                Yii::app()->language = $browser_lang;
+            } else Yii::app()->language = 'en';
         }
-        else  Yii::app()->language = 'en';
     }
 
     public function  getLang()

@@ -1,4 +1,5 @@
 <?php $all_lang = Lang::getLangArray()?>
+
 <div class="center-rel">
     <div id="sel-lang">
         <div class="curent-lang" id="lang-select">
