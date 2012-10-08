@@ -17,52 +17,22 @@ a {
     text-decoration: underline;
 }
 
-a:hover {
-    color: #232323;
-    text-decoration: none;
-}
 
 * {
     margin: 0;
-    padding: 0;
 }
 
-html, body, .wrap {
+html, body {
     height: 100%;
 }
 
-body > .wrap {
-    height: auto;
+.wrapper {
     min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -130px;
 }
 
-.main {
-    padding-bottom: 190px;
-}
-
-/* CLEAR FIX*/
-.clearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.clearfix {
-    display: inline-block;
-}
-
-/* Hides from IE-mac \*/
-* html .clearfix {
-    height: 1%;
-}
-
-.clearfix {
-    display: block;
-}
-
-/* End hide from IE-mac */
 
 /* Normal Buttons ---------------------- */
 .button-auth {
@@ -118,6 +88,7 @@ a:hover {
 /* Header ---------------------- */
 .header {
     position: absolute;
+    z-index: 10;
     background: url("../images/header-back.png") left bottom repeat-x;
     height: 76px;
     color: #fff;
@@ -158,7 +129,9 @@ a:hover {
 
 /* Body ---------------------- */
 .content {
-    top: 95px;
+    padding-top: 95px;
+    padding-bottom: 20px;
+
 }
 
 /* Footter Banner ---------------------- */
@@ -185,25 +158,20 @@ a:hover {
 }
 
 /* Footer ---------------------- */
-.footer {
-    margin-top: -190px; /* negative value of footer height */
-    height: 190px;
-    clear: both;
-
+.footer, .push {
+    height: 130px;
 }
 
 .footer-bar {
-    margin-top: 40px;
     background: #ffffff url("../images/footer-back.png") repeat-x;
-    padding-top: 10px;
-    height: 150px;
-    width: 100%;
+    height: 129px;
+
 }
 
 .footer-bar span a {
     display: block;
     text-decoration: none;
-    margin-top: 10px;
+    padding-top: 10px;
 }
 
 .footer-bar .copyright {
@@ -214,6 +182,7 @@ a:hover {
 .footer-bar .set_like {
     position: relative;
     float: right;
+    margin-top: -5px;
 }
 
 /* Input ---------------------- */

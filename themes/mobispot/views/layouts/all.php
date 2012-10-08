@@ -11,7 +11,7 @@
 
 <?php include('block/header.php');?>
 <body>
-<div class="wrap">
+<div class="wrapper">
     <div class="top-bar header">
         <div class="row">
             <?php include('block/menu.php');?>
@@ -20,9 +20,11 @@
     <div class="row">
         <div class="twelve columns content">
             <?php echo $content; ?>
+
         </div>
+
     </div>
-    <div class="main"></div>
+    <div class="push"></div>
 </div>
 <div class="footer">
     <div class="footer-bar">
