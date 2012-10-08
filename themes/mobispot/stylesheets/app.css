@@ -317,6 +317,45 @@ textarea::-moz-placeholder {
     width: 360px
 }
 
+.registration .btn-form {
+    background: url(../images/form/btn-big.png) 0 0 no-repeat;
+    height: 35px;
+    position: relative;
+    margin: 14px 12px 0 0
+}
+
+.registration .btn-form-cl {
+    background: url(../images/form/btn-big.png) 100% -35px no-repeat;
+    width: 100%;
+    height: 35px;
+    position: absolute;
+    right: -12px
+}
+
+.registration .btn-form-cl a, .registration .btn-form-cl span{
+    text-decoration: none;
+    line-height: 35px
+}
+
+.registration .btn-form-cl .name-spot {
+    float: right;
+    text-align: right;
+    margin-right: 12px
+}
+
+.registration .pager {
+    padding-top: 5px;
+    width: 100%;
+}
+
+.registration .pager .pages .next{
+    float: right;
+}
+
+.registration .pager .pages .prev{
+    float: left;
+}
+
 /* Video ---------------------- */
 .video {
     padding-top: 12px;

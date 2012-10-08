@@ -22,14 +22,14 @@ class MLinkPager extends CLinkPager
         if (($page = $currentPage - 1) < 0)
             $page = 0;
         if ($currentPage > 0) {
-            $buttons[] = '<a href="' . $this->createPageUrl($page) . '" class="prev_page">&larr;&nbsp;' . Yii::t('general', 'Назад') . '</a>';
+            $buttons[] = '<span class="prev"><a href="' . $this->createPageUrl($page) . '" >&larr;&nbsp;' . Yii::t('general', 'Назад') . '</a></span>';
         }
 
         // next page
         if (($page = $currentPage + 1) >= $pageCount - 1)
             $page = $pageCount - 1;
         if ($currentPage < $pageCount - 1) {
-            $buttons[] = '<a href="' . $this->createPageUrl($page) . '" class="next_page">' . Yii::t('general', 'Показать ещё') . '&nbsp;&rarr;</a>';
+            $buttons[] = '<span class="next"><a href="' . $this->createPageUrl($page) . '" >' . Yii::t('general', 'Показать ещё') . '&nbsp;&rarr;</a></span>';
         }
 
         return $buttons;

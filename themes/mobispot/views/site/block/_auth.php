@@ -33,8 +33,9 @@
         ),
     )); ?>
 <div class="bnt-account">
-    <input type="submit" id="account" class="m-button"
-           value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
+    <a class="m-button" href="/user/account/">
+        <?php echo Yii::t('general', 'Перейти в личный кабинет')?>
+    </a>
 </div>
 
 <?php endif; ?>

@@ -7,12 +7,6 @@ function resetSelect(selector) {
     $(selector + " select").selectBox('create');
 }
 
-$(document).ready(function () {
-    $('#account').click(function () {
-        $().redirect('/user/account/', null, 'GET');
-    });
-});
-
 //Блок меню пользователя
 $(document).ready(function () {
     $('.auth-user-name').click(function () {
