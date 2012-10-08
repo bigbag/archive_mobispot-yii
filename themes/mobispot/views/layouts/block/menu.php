@@ -19,9 +19,7 @@
         </div>
         <div class="three columns user">
             <?php if (Yii::app()->user->isGuest): ?>
-            <div class="button-auth">
-                <span><?php echo Yii::t('user', 'Войти')?></span>
-            </div>
+            <div class="m-button"><?php echo Yii::t('user', 'Войти')?></div>
             <form action="" method="post" id="login_form">
 
                 <?php include('auth.php'); ?>

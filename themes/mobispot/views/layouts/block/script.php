@@ -34,7 +34,7 @@ $(document).ready(function () {
 });
 //Блок авторизации
 $(document).ready(function () {
-    $('.button-auth').click(function () {
+    $('div.m-button').click(function () {
         $(".auth-hint").show();
     });
 
@@ -231,7 +231,7 @@ $(document).ready(function () {
 
 
 
-$(document).foundationAlerts();
+
 
 
 </script>

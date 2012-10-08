@@ -17,11 +17,8 @@
         </div>
     </div>
 
-    <div class="btn-30">
-        <input type="hidden" name="discodes_id" value="<?php echo $spot->discodes_id;?>">
-
-        <div><input type="submit" value="<?php echo Yii::t('general', 'Сохранить');?>"/></div>
-    </div>
+    <input type="hidden" name="discodes_id" value="<?php echo $spot->discodes_id;?>">
+    <input type="submit"  class="m-button" value="<?php echo Yii::t('general', 'Сохранить');?>"/>
 </form>
 <?php else: ?>
 <div class="title"><?php echo Yii::t('general', 'Мои споты');?></div>
@@ -36,10 +33,9 @@
         ),
     )); ?>
 <div class="bnt-account">
-    <input type="submit" id="account" class="button-auth"
+    <input type="submit" id="account" class="m-button"
            value="<?php echo Yii::t('general', 'Перейти в личный кабинет')?>"/>
 </div>
-
 
 <?php endif; ?>
 

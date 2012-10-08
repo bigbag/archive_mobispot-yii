@@ -37,7 +37,7 @@
             <div class="reg-button">
                 <input type="hidden" name="token" id="token"
                        value="<?php echo Yii::app()->request->csrfToken?>">
-                <input type="submit" class="button-auth" value="<?php echo Yii::t('user', 'Зарегистрироваться');?>"/>
+                <input type="submit" class="m-button" value="<?php echo Yii::t('user', 'Зарегистрироваться');?>"/>
             </div>
         </div>
     </form>

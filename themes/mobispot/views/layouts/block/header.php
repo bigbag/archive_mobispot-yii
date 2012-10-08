@@ -11,7 +11,6 @@
 
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery');?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery.foundation.alerts.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/modernizr.foundation.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/app.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.form.min.js'); ?>

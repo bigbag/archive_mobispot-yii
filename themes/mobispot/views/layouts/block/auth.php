@@ -24,7 +24,7 @@
         </div>
         <div class="reg-button">
 
-            <input class="button-auth" type="submit" id="hint-button-auth"
+            <input class="m-button" type="submit" id="hint-button"
                    value="<?php echo Yii::t('user', 'Отправить');?>"/>
         </div>
     </div>

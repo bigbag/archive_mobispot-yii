@@ -12,15 +12,16 @@
             </li>
             <?php endforeach;?>
         </ul>
+        <div class="get-question">
+            <a href="" class="m-button">
+                <?php echo Yii::t('faq', 'Задать свой вопрос');?>
+            </a>
+        </div>
 
-        <a href="" class="btn-30">
-                        <span class="btn-30-txt">
-                            <?php echo Yii::t('faq', 'Задать свой вопрос');?>
-                        </span>
-        </a>
+        <div class="row question-form" style="display: none;">
+            <div class="seven mobile-four columns columns">
 
-        <div class="row">
-            <div class="seven columns">
+
                 <form action="" method="post" id="set_question">
                     <?php echo CHtml::activeTextArea($form, 'question',
                     array(
@@ -30,14 +31,14 @@
                     )); ?>
 
                     <div class="row">
-                        <div class="five columns">
+                        <div class="five mobile-two columns">
                             <?php echo CHtml::activeTextField($form, 'name',
                             array(
                                 'class' => 'txt',
                                 'placeholder' => Yii::t('faq', 'Имя'),
                             )); ?>
                         </div>
-                        <div class="seven columns">
+                        <div class="seven mobile-two columns">
                             <?php echo CHtml::activeTextField($form, 'email',
                             array(
                                 'class' => 'txt',
@@ -46,30 +47,15 @@
                         </div>
 
                     </div>
-                </form>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="seven columns">
-                <form action="" method="post" id="set_question">
-
-
-
-                    <div class="row">
-                        <div class="three columns">
-
-                        </div>
-                        <div class="four columns">
-
-                        </div>
-                    </div>
-                    <input type="submit"
+                    <div class="send">
+                        <input type="submit" class="m-button"
                            value="<?php echo Yii::t('faq', 'Отправить');?>"/>
+                       </div>
                 </form>
+
+
             </div>
         </div>
-
 
     </div>
 </div>
@@ -90,10 +76,10 @@
     });
 
     $(document).ready(function () {
-        $('#myQuestion a').click(function () {
-            $('#myQuestion-form').show();
+        $('.get-question a.m-button').click(function () {
+            $('.question-form').show();
 
-            $('#myQuestion a.btn-30').hide();
+            $('.get-question a.m-button').hide();
             return false;
         });
     });
@@ -105,9 +91,9 @@
             url:'/ajax/setQuestion/'
         };
 
-        $('#set_question').submit(function () {
+        $('.question-form').submit(function () {
             $(this).ajaxSubmit(options);
-            $('#myQuestion-form span.error').hide();
+            $('.question-form span.error').hide();
             return false;
         });
     });
@@ -118,8 +104,8 @@
             $('span.error').html('<?php echo Yii::t('faq', 'Необходимо корректно заполнить все поля.');?>' + '<br /><br />');
         }
         else if (responseText == 1) {
-            $('#myQuestion a.btn-30').show();
-            $('#myQuestion-form').hide();
+            $('.get-question a.m-button').show();
+            $('.question-form').hide();
             $('span.message').html('<?php echo Yii::t('account', 'Ваш вопрос отправлен.')?>' + '<br /><br />');
 
             setTimeout(function () {
