@@ -12,6 +12,26 @@ body {
     height: 100%;
 }
 
+input::-webkit-input-placeholder {
+    font-style: italic;
+    color: #999
+}
+
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, input[type="date"]:-moz-placeholder, input[type="datetime"]:-moz-placeholder, input[type="email"]:-moz-placeholder, input[type="number"]:-moz-placeholder, input[type="search"]:-moz-placeholder, input[type="tel"]:-moz-placeholder, input[type="time"]:-moz-placeholder, input[type="url"]:-moz-placeholder, textarea {
+    font-style: italic;
+    color: #999
+}
+
+textarea::-webkit-input-placeholder {
+    font-style: italic;
+    color: #999
+}
+
+textarea::-moz-placeholder {
+    font-style: italic;
+    color: #999
+}
+
 div.clear {
     clear: both;
     font-size: 0;
