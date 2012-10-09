@@ -22,10 +22,10 @@ class MailCommand extends CConsoleCommand
             }
         }
 
-        $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
-            ->setUsername('bilbo.kem@gmail.com')
-            ->setPassword('djkrfyjubrjhvzn')
-            ->setTimeout(20);
+       $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
+            ->setUsername('no-reply@mobispot.com')
+            ->setPassword('!yvM83kd')
+            ->setTimeout(60);
         $mailer = Swift_Mailer::newInstance($transport);
         $mailer->send($message);
     }

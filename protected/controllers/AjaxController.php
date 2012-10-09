@@ -198,7 +198,7 @@ class AjaxController extends MController
                                 ));
 
                                 $spot->user_id = $model->id;
-                                $spot->lang =  $this->getLang;
+                                $spot->lang =  $this->getLang();
                                 $spot->status = Spot::STATUS_REGISTERED;
                                 $spot->save();
 
