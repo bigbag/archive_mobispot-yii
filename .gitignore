@@ -27,3 +27,4 @@ protected/modules/mobile/MobileModule.php
 protected/controllers/SpotController.php
 protected/messages
 mobispot.sublime*
+.phptidy-cache

@@ -32,8 +32,7 @@
                 <div class="user-menu-hint">
                     <?php echo CHtml::encode(Yii::app()->user->name)?><br />
 
-                    <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>"
-                       target="_blank">
+                    <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>">
                         <?php echo Yii::t('user', 'Личные данные')?>
                     </a><br />
 
@@ -46,3 +45,4 @@
         </div>
     </div>
 </div>
+

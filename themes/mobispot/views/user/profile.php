@@ -1,9 +1,18 @@
-<div id="main-container">
-    <div id="cont-block" class="center">
-        <div id="cont-block-760" class="center">
-            <div id="zag-cont-block"><?php echo Yii::t('profile', 'Личные данные');?></div>
-            <?php echo CHtml::beginForm('', 'post'); ?>
-            <div id="lf-block">
+<?php
+/**
+ * /tmp/phptidy-sublime-buffer.php
+ *
+ * @package default
+ */
+
+
+?>
+<div class="page">
+    <div class="title"><?php echo Yii::t('faq', 'Личные данные');?></div>
+    <?php echo CHtml::beginForm('', 'post'); ?>
+    <div class="profile">
+        <div class="row">
+            <div class="four columns">
                 <div class="photo-cont">
                     <?php if (!empty($profile->photo)): ?>
                     <img src="/uploads/images/<?php echo $profile->photo?>" width="200px" alt="personal"/>
@@ -29,96 +38,94 @@
                     <span class="tw-ico ico"></span>
                     <span class="btn-30-txt"><?php echo Yii::t('profile', 'Connect with Twitter');?></span></a>
             </div>
-            <div id="ld-block">
-                <?php if (Yii::app()->user->hasFlash('profile')): ?>
-                <br/>
-                <span class="error">
-                    <?php echo Yii::app()->user->getFlash('profile'); ?>
-                    </span>
-                <?php endif; ?>
-                <table id="ld-block-form">
-                    <tr>
-                        <td class="field"><?php echo Yii::t('profile', 'Имя');?></td>
-                        <td>
-                            <div class="txt-form">
-                                <div class="txt-form-cl">
-                                    <?php echo CHtml::activeTextField($profile, 'name', array('style' => 'width:100%;', 'class' => 'txt')); ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="field"><?php echo Yii::t('profile', 'Дата рождения');?></td>
-                        <td>
-
-                            <select name="UserProfile[birthday_day]">
-                                <option></option>
-                                <?php for ($i = 1; $i <= 31; $i++): ?>
+            <div class="seven columns body">
+                <div class="row name">
+                    <div class="four columns">
+                        <label class="left inline"><?php echo Yii::t('profile', 'Имя');?></label>
+                    </div>
+                    <div class="eight columns">
+                        <?php echo CHtml::activeTextField($profile, 'name', array('class' => 'nine' )); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="four columns">
+                        <label class="left inline"><?php echo Yii::t('profile', 'Дата рождения');?></label>
+                    </div>
+                    <div class="row">
+                        <div class="six columns">
+                        <div class="three columns birthday">
+                        <select name="UserProfile[birthday_day]">
+                            <option></option>
+                            <?php for ($i = 1; $i <= 31; $i++): ?>
                                 <?php if (!empty($profile->birthday_day) and $i == $profile->birthday_day): ?>
                                     <option value="<?php echo $i?>" selected><?php echo $i?></option>
-                                    <?php else: ?>
+                                <?php else: ?>
                                     <option value="<?php echo $i?>"><?php echo $i?></option>
-                                    <?php endif; ?>
-                                <?php endfor;?>
-                            </select>
-                            <select name="UserProfile[birthday_month]">
-                                <option></option>
-                                <?php foreach (MDate::month() as $key => $value): ?>
+                                <?php endif; ?>
+                            <?php endfor;?>
+                        </select>
+                        </div>
+
+                        <div class="five columns" />
+                        <select name="UserProfile[birthday_month]">
+                            <option></option>
+                            <?php foreach (MDate::month() as $key => $value): ?>
                                 <?php if (!empty($profile->birthday_month) and $key == $profile->birthday_month): ?>
                                     <option value="<?php echo $key?>" selected><?php echo $value?></option>
-                                    <?php else: ?>
+                                <?php else: ?>
                                     <option value="<?php echo $key?>"><?php echo $value?></option>
-                                    <?php endif; ?>
-                                <?php endforeach;?>
-                            </select>
-                            <select name="UserProfile[birthday_year]">
-                                <option></option>
-                                <?php for ($i = date("Y") - 100; $i <= date("Y"); $i++): ?>
+                                <?php endif; ?>
+                            <?php endforeach;?>
+                        </select>
+                        </div>
+                        <div class="four columns">
+                        <select name="UserProfile[birthday_year]">
+                            <option></option>
+                            <?php for ($i = date("Y") - 100; $i <= date("Y"); $i++): ?>
                                 <?php if (!empty($profile->birthday_year) and $i == $profile->birthday_year): ?>
                                     <option value="<?php echo $i?>" selected><?php echo $i?></option>
-                                    <?php else: ?>
+                                <?php else: ?>
                                     <option value="<?php echo $i?>"><?php echo $i?></option>
-                                    <?php endif; ?>
-                                <?php endfor;?>
-                            </select>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="field"><?php echo Yii::t('profile', 'Город');?></td>
-                        <td>
-                            <div class="txt-form">
-                                <div class="txt-form-cl">
-                                    <?php echo CHtml::activeTextField($profile, 'place', array('style' => 'width:100%;', 'class' => 'txt')); ?>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="field"><?php echo Yii::t('profile', 'Пол');?></td>
-                        <td>
-                            <?php echo CHtml::activeCheckBoxList($profile, 'sex', UserProfile::getSexList(), array(
-                            'class' => 'niceCheck',
-                            'separator' => '',
-                            'template' => '{input}&nbsp;{label}&nbsp;&nbsp;'
-                        )); ?>
-
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="clear"></div>
-            <div id="foot-cont-block">
-                <div class="btn-30">
-                    <div><input type="submit" class="" value="<?php echo Yii::t('profile', 'Сохранить');?>"/></div>
+                                <?php endif; ?>
+                            <?php endfor;?>
+                        </select>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="four columns">
+                        <label class="left inline"><?php echo Yii::t('profile', 'Город');?></label>
+                    </div>
+                    <div class="eight columns">
+                        <?php echo CHtml::activeTextField($profile, 'place', array('class' => 'nine' )); ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="four columns">
+                        <label class="left inline"><?php echo Yii::t('profile', 'Пол');?></label>
+                    </div>
+                    <div class="eight columns sex">
+                        <input type="hidden" value="0" name="UserProfile[sex][]" />
+                        <input value="1" type="checkbox" name="UserProfile[sex][]" />&nbsp;
+                        <?php echo Yii::t('profile', 'Male');?>&nbsp;&nbsp;
+                        <input value="2" type="checkbox" name="UserProfile[sex][]" />&nbsp;
+                        <?php echo Yii::t('profile', 'Female');?>
+                    </div>
                 </div>
             </div>
-            <?php echo CHtml::endForm(); ?>
-
-            <div class="clear"></div>
         </div>
+
+        <div class="save">
+
+                <input type="submit" class="m-button" value="<?php echo Yii::t('profile', 'Сохранить');?>"/>
+
+        </div>
+
     </div>
+    <?php echo CHtml::endForm(); ?>
 </div>
+
 
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <script type="text/javascript">

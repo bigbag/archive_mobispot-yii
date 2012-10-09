@@ -12,11 +12,19 @@ body {
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
 }
 
+input {
+    vertical-align:middle;
+}
+
 a {
     color: #232323;
     text-decoration: underline;
 }
 
+a:hover {
+    color: #232323;
+    text-decoration: none;
+}
 
 * {
     margin: 0;
@@ -611,6 +619,37 @@ div.next {
     left: 20px;
     top: -11px;
 }
+
+/* User profile ---------------------- */
+.profile {
+
+}
+
+.profile .body {
+    border-left: 1px #dadada solid;
+
+}
+
+.profile .save {
+    width: 100%;
+    border-top: 1px #dadada solid;
+    text-align: right;
+    padding: 10px;
+
+}
+
+.profile .body .name{
+    margin-top: 20px
+}
+
+.profile .body .birthday{
+    margin-left: -6px
+}
+
+.profile .sex input{
+    vertical-align:middle;
+}
+
 
 /* Page FAQ ---------------------- */
 .page {

@@ -18,7 +18,7 @@ $(document).ready(function () {
 });
 //Блок выбора языка
 $(document).ready(function () {
-    $('.lang').click(function () {
+    $('.curent-lang').click(function () {
         $(".lang-hint").show();
     });
 
@@ -222,10 +222,6 @@ $(document).ready(function () {
     js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
-
-
-
 
 
 </script>

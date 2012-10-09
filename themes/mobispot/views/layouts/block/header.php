@@ -13,8 +13,10 @@
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/modernizr.foundation.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/app.js'); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.form.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.redirect.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.placeholder.min.js'); ?>
+
 
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>
