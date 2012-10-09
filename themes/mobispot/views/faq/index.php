@@ -1,6 +1,6 @@
 <div class="page">
     <div class="title"><?php echo Yii::t('faq', 'Часто задаваемые вопросы');?></div>
-    <div class="content faq">
+    <div class="faq">
         <ul>
             <?php foreach ($model as $row): ?>
             <li class="mmenu">
