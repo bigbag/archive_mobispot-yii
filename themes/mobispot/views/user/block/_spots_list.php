@@ -1,18 +1,12 @@
-<li id="<?php echo $data->discodes_id;?>" class="oneSpotBlock">
-    <div class="oneSpot">
-        <table class="formSpot">
-            <tr>
-                <td id="id_<?php echo $data->discodes_id;?>" class="td60">
-                    <center>
-                        <input type="checkbox" name="discodes_id" value="<?php echo $data->discodes_id;?>"
-                               class="niceCheck">
-                    </center>
-                    <span id="status_<?php echo $data->discodes_id;?>">
-                        <input type="hidden" name="status" value="<?php echo $data->status;?>">
-                    </span>
-                </td>
-                <td id="name_<?php echo $data->discodes_id;?>" class="td100p">
-                    <div class="rename" style="display: none;">
+<div class="body">
+    <div class="one columns spot-id">
+        <input type="checkbox" name="discodes_id" value="<?php echo $data->discodes_id;?>"/>
+        <span id="status_<?php echo $data->discodes_id;?>">
+            <input type="hidden" name="status" value="<?php echo $data->status;?>">
+        </span>
+    </div>
+    <div class="six columns">
+        <div class="rename" style="display: none;">
                         <form action="" method="post" class="spot_rename_form">
                             <div style="background-position: 0px 0px;" class="txt-form">
                                 <div style="background-position: 100% -35px;" class="txt-form-cl">
@@ -31,13 +25,13 @@
                     <div class="name">
                         <?php echo mb_substr($data->name, 0, 45, 'utf-8');?>
                     </div>
-                </td>
-                <td id="discodes_<?php echo $data->discodes_id;?>" class="td115">
-                    <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
-                    <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
-                </td>
-                <td id="type_<?php echo $data->discodes_id;?>" class="td180">
-                    <div class="retype" style="display: none;">
+    </div>
+    <div class="two columns spot-id">
+        <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
+        <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
+    </div>
+    <div class="three columns">
+        <div class="retype" style="display: none;">
                         <form action="" method="post" class="spot_retype_form">
                             <input type="hidden" name="discodes_id" value="<?php echo $data->discodes_id;?>">
 
@@ -60,14 +54,10 @@
                     <div class="type">
                         <?php echo (!empty($data->spot_type->name)) ? $data->spot_type->name : '';?>
                     </div>
-                </td>
-            </tr>
-        </table>
     </div>
-    <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
-        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
-
-        <div class="btn-30">
+</div>
+<div class="twelve columns spot-content">
+    <div class="btn-30">
             <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
                         form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
         </div>
@@ -77,6 +67,4 @@
         </a>
 
         <div class="oneSpotInfo"></div>
-        <div class="clear"></div>
-        <div>
-</li>
+</div>

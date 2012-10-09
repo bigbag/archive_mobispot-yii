@@ -744,6 +744,7 @@ div.next {
 }
 
 .page .account .body .spot-id {
+    text-align: center;
     background: #EBEBEB;
 }
 
