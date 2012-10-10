@@ -733,7 +733,7 @@ div.next {
 /* User Account ---------------------- */
 .page .account .table-title .columns{
     background: url(../images/headTable.png) 0 0 repeat-x;
-    padding: 15px;
+    padding-top: 15px;
     text-align: center;
     color: #888;
     height: 45px;
@@ -741,14 +741,33 @@ div.next {
     border-left: 1px #ebebeb solid;
 }
 
-.page .account .spot-title .columns .name, .page .account .spot-title .columns .type {
+.spot-title .spot-name, .spot-title .spot-checkbox, .spot-title .spot-type, .spot-title .spot-id {
     font-size: 16px;
-}
-.page .account .spot-title .columns {
-    font-size: 16px;
-    padding: 15px;
     height: 45px;
     text-align: left;background: #f5f5f5;
+}
+
+.spot-title .spot-name .name, .spot-title .spot-type .type, .spot-title .spot-checkbox, .spot-title .spot-id {
+    padding: 15px;
+    font-size: 16px;
+}
+
+.spot-title .spot-name .rename, .spot-title .spot-type .retype{
+    padding-top: 10px;
+    font-size: 16px;
+}
+
+.spot-title .spot-type{
+    width: 220px;
+}
+.spot-title .spot-type .type-list{
+    float: left;
+    width: 120px;
+}
+.spot-title .spot-type .send{
+    float: right;
+    margin-right: 12px;
+    width: 50px;
 }
 
 .page .account .spot-title .spot-id, .page .account .spot-title .spot-checkbox{
@@ -766,8 +785,9 @@ div.next {
     background: #EBEBEB;
     text-align: center;
 }
-.spot-name {
+.page .account .spot-title .spot-name {
     cursor: pointer;
+    padding: 0;
 }
 
 .page .account .spot-content {

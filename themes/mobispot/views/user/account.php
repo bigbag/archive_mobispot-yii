@@ -27,7 +27,7 @@
             <div class="action-menu">
                 <div class="tree columns">
                     <select name='action' class='action'>
-                    <option selected><?php echo Yii::t('account', 'Выберите действие');?></option>
+                    <option selected disabled="disabled"><?php echo Yii::t('account', 'Выберите действие');?></option>
                     <option
                             value="<?php echo Spot::ACTION_CHANGE_NAME;?>"><?php echo Yii::t('account', 'Изменить название'); ?></option>
                     <option

@@ -5,6 +5,7 @@ $(document).ready(function () {
     $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
         var spot = $(this).parent().parent();
         var spot_content = spot.find('div.twelve.columns.spot-content');
+        if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
 
         if (spot_content.is(":hidden")) {
             var id = spot.attr('id');
@@ -47,7 +48,7 @@ $(document).ready(function () {
 
 //диспетчер выбора операций
 $(document).ready(function () {
-    $("#foot-cont-block select").change(function () {
+    $(".action-menu select.action").change(function () {
         var action = $(this).val();
         var id = $('input:checked').val() ? $('input:checked').val() : false;
 
@@ -57,15 +58,13 @@ $(document).ready(function () {
 
         if (id) {
             if (action == <?php echo Spot::ACTION_CHANGE_NAME; ?>) {
-                $('#name_' + id + ' div.rename').show();
-                $('#name_' + id + ' div.name').hide();
+                $('#' + id + ' .spot-name div.rename').show();
+                $('#' + id + ' .spot-name div.name').hide();
             }
             else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>
                     ) {
-                $('#type_' + id + ' div.retype').show();
-                $('#type_' + id + ' div.type').hide();
-                $(".retype select").selectBox('destroy');
-                $(".retype select").selectBox('create');
+                $('#' + id + ' .spot-type div.retype').show();
+                $('#' + id + ' .spot-type div.type').hide();
             }
             else if (action == <?php echo Spot::ACTION_CLEAR; ?>) {
                 $('b.spot_clear_id').text(id);
@@ -100,8 +99,7 @@ $(document).ready(function () {
             }
 
             resetSelect('#foot-cont-block');
-            $('input[name=discodes_id]').attr('checked', false);
-            $('span.niceCheck').removeClass('niceChecked');
+            $('#' + id + ' .spot-checkbox input[name=discodes_id]').attr('checked', false);
         }
         return false;
     });
@@ -199,10 +197,9 @@ function showSpotRenameResponse(responseText) {
             var name = obj.name;
             var id = obj.discodes_id;
 
-            $('#name_' + id + ' div.name').html(name);
-            $('#name_' + id + ' div.rename').hide();
-            $('#name_' + id + ' div.name').show();
-            $('.noView').show();
+            $('#' + id + ' .spot-name div.name').html(name);
+            $('#' + id + ' .spot-name div.rename').hide();
+            $('#' + id + ' .spot-name div.name').show();
         }
         return false;
     }
@@ -232,14 +229,11 @@ function showSpotRetypeResponse(responseText) {
             var spot_type_id = obj.spot_type_id;
             var id = obj.discodes_id;
 
-            $("#Spot_spot_type_id [value='" + spot_type_id + "']").attr("selected", "selected");
-            $("#Spot_spot_type_id select").selectBox('destroy');
-            $("#Spot_spot_type_id select").selectBox('create');
+            $("#" + id + " .spot-type #Spot_spot_type_id [value='" + spot_type_id + "']").attr("selected", "selected");
 
-            $('#type_' + id + ' div.retype').hide();
-            $('#type_' + id + ' div.type').html(spot_type);
-            $('#type_' + id + ' div.type').show();
-            $('.noView').show();
+            $('#' + id + ' .spot-type div.retype').hide();
+            $('#' + id + ' .spot-type div.type').html(spot_type);
+            $('#' + id + ' .spot-type div.type').show();
         }
         return false;
     }
