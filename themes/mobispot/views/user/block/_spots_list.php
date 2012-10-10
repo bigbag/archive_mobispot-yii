@@ -6,7 +6,7 @@
             <input type="hidden" name="status" value="<?php echo $data->status;?>">
         </span>
     </div>
-    <div class="six columns">
+    <div class="six columns spot-name">
         <div class="rename" style="display: none;">
                         <form action="" method="post" class="spot_rename_form">
                             <div style="background-position: 0px 0px;" class="txt-form">
@@ -69,6 +69,6 @@
     <div class="seven columns">
 
     </div>
-    <div class="oneSpotInfo"></div>
+    <div class="spot-content-body"></div>
 </div>
 </div>

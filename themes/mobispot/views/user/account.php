@@ -24,8 +24,8 @@
                     'cssFile' => false,
                     'id' => 'spotslistview',
                 )); ?>
-        <div class="row">
-                <div class="two columns">
+            <div class="action-menu">
+                <div class="tree columns">
                     <select name='action' class='action'>
                     <option selected><?php echo Yii::t('account', 'Выберите действие');?></option>
                     <option
@@ -42,11 +42,12 @@
                             value="<?php echo Spot::ACTION_REMOVE;?>"><?php echo Yii::t('account', 'Удалить'); ?></option>
                 </select>
                 </div>
-                <div class="nine columns">
+                <div class="six columns">
 
                 </div>
-                <div class="two columns">
-                    <?php echo Yii::t('account', 'Добавить спот'); ?>
+                <div class="three columns add-spot">
+                    <a href="#" class="m-button"><?php echo Yii::t('account', 'Добавить спот'); ?></a>
+
                 </div>
             </div>
         </div>

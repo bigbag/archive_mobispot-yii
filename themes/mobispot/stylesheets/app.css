@@ -95,6 +95,14 @@ html, body {
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
 }
 
+.add-spot .m-button {
+    background: url(../images/headTableMail.png) 0 100% repeat-x;
+    color: #888;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
 .m-button:hover  {
     color: #232323;
     background-color: #fff;
@@ -758,6 +766,9 @@ div.next {
     background: #EBEBEB;
     text-align: center;
 }
+.spot-name {
+    cursor: pointer;
+}
 
 .page .account .spot-content {
     display: none;
@@ -767,5 +778,12 @@ div.next {
     border-bottom: 1px #dadada solid;
 }
 
+.page .account .action-menu .columns{
+    padding: 15px;
+    border-top: 1px #dadada solid;
+}
 
+.page .account .action-menu .add-spot {
+    text-align: right;
+}
 

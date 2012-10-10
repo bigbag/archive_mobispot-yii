@@ -1,15 +1,13 @@
 <script type="text/javascript">
 //аккардеон
-var ACCORDION_MODE = true;
 $(document).ready(function () {
 
     $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
-        th = $(this).parent().parent();
-        console.log(e.target);
-        if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;
+        var spot = $(this).parent().parent();
+        var spot_content = spot.find('div.twelve.columns.spot-content');
 
-        if (ACCORDION_MODE && !th.hasClass('active')) {
-            var id = $(th).prop('id');
+        if (spot_content.is(":hidden")) {
+            var id = spot.attr('id');
             //загрузка содержимого спота
             if (id) {
                 $.ajax({
@@ -17,18 +15,16 @@ $(document).ready(function () {
                     type:'POST',
                     data:{discodes_id:id},
                     success:function (result) {
-                        $('#spot_content_' + id).html(result);
+                        $('#' + id  + ' .spot-content-body').html(result);
                     }
                 });
             }
-            th.find('div.twelve.columns.spot-content').slideUp(300);
-            th.parent().find('div.twelve.columns.spot-content').removeClass('active');
+            $('div.twelve.columns.spot-content').hide();
+            spot_content.slideToggle(300);
+
 
         }
-        th.find('div.twelve.columns.spot-content').slideToggle(300, function () {
-            th.toggleClass('active');
-
-        });
+        else spot_content.slideUp(300);
         return false;
 
     });
