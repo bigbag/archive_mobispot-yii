@@ -2,8 +2,9 @@
 //аккардеон
 var ACCORDION_MODE = true;
 $(document).ready(function () {
-    $('body').delegate('#table-spots>ul>div>div>li>div.oneSpot', 'click', function (e) {
-        th = $(this).parent();
+
+    $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
+        th = $(this).parent().parent();
         console.log(e.target);
         if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;
 
@@ -20,10 +21,11 @@ $(document).ready(function () {
                     }
                 });
             }
-            th.parent().find('>li>div.contSpot').slideUp(300);
-            th.parent().find('>li').removeClass('active');
+            th.find('div.twelve.columns.spot-content').slideUp(300);
+            th.parent().find('div.twelve.columns.spot-content').removeClass('active');
+
         }
-        th.find('>div.contSpot').slideToggle(300, function () {
+        th.find('div.twelve.columns.spot-content').slideToggle(300, function () {
             th.toggleClass('active');
 
         });
@@ -33,8 +35,8 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $('body').delegate('.td115', 'click', function () {
-        var id = $(this).attr('id');
+    $('body').delegate('.spot-id', 'click', function () {
+        var id = $(this).parent().parent().attr('id');
         if ($('#' + id + ' .spot_code_view').is(':visible')) {
             $('#' + id + ' .spot_id_view').show();
             $('#' + id + ' .spot_code_view').hide();

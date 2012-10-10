@@ -1,5 +1,6 @@
-<div class="body">
-    <div class="one columns spot-id">
+<div class="spot" id="<?php echo $data->discodes_id;?>">
+    <div class="spot-title">
+    <div class="one columns spot-checkbox">
         <input type="checkbox" name="discodes_id" value="<?php echo $data->discodes_id;?>"/>
         <span id="status_<?php echo $data->discodes_id;?>">
             <input type="hidden" name="status" value="<?php echo $data->status;?>">
@@ -67,7 +68,7 @@
     </div>
     <div class="seven columns">
 
-    </form>
     </div>
     <div class="oneSpotInfo"></div>
+</div>
 </div>
