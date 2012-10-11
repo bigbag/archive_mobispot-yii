@@ -46,7 +46,7 @@
 
                 </div>
                 <div class="three columns add-spot">
-                    <a href="#" class="m-button"><i class="icon-plus"></i>&nbsp;<?php echo Yii::t('account', 'Добавить спот'); ?></a>
+                    <span class="m-button"><i class="icon-plus"></i>&nbsp;<?php echo Yii::t('account', 'Добавить спот'); ?></span>
 
                 </div>
             </div>

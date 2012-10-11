@@ -113,7 +113,7 @@ $(document).ready(function () {
 //добавление спота
 //модальное окно
 $(document).ready(function () {
-    $('.spot_add_modal').click(function () {
+    $('.add-spot').click(function () {
         $('#spot_add_modal').reveal({animation:'none'});
     });
 });

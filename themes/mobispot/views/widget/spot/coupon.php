@@ -1,61 +1,47 @@
-<div class="oneSpot">
-    <div class="contSpot">
-        <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
-
-        <div class="btn-30">
-            <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
-                        form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
-        </div>
-        <a href="#" class="btn-30">
-            <span class="preview-ico ico"></span>
-            <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
-        </a>
-
-        <div class="oneSpotInfo">
             <form action="" method="post" class="spot_edit_content"
                   id="spot_edit_content_<?php echo $content->spot_id?>">
                 <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
                 <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
                 <?php echo CHtml::activeHiddenField($content, 'kupon_4', array('id' => 'spot_coupon_field')); ?>
             </form>
-            <?php include('block/_coupon_simple.php'); ?>
-            <?php include('block/_coupon_desinger.php'); ?>
-        </div>
-        <div class="clear"></div>
-    </div>
-</div>
+            <div class="coupon">
+                <?php include('block/_coupon_simple.php'); ?>
+                <?php include('block/_coupon_desinger.php'); ?>
+            </div>
+
 <script type="text/javascript">
 
     $('#body_color').miniColors();
     $('#text_color').miniColors();
 
     $(document).ready(function () {
-        $('a#desinger').click(function () {
-            $('.coupon_simple').hide();
-            $('.coupon_desinger').show();
-            $("select").selectBox('create');
+        $('.constr').click(function () {
+            alert(1);
+
+            $('.coupon-simple').hide();
+            $('.coupon-desinger').show();
             return false;
         });
     });
 
     $(document).ready(function () {
         $('.upload-img').click(function () {
-            $('.coupon_simple').show();
-            $('.coupon_desinger').hide();
+            $('.coupon-simple').show();
+            $('.coupon-desinger').hide();
             return false;
         });
     });
 
     $(function () {
-        $('body').delegate('.noUploadImg span.cancel', 'click', function () {
+        $('body').delegate('.coupon-simple .image i.icon-remove', 'click', function () {
             $('#spot_coupon_field').val('');
-            $('.noUploadImg').html('<img src="/themes/mobispot/images/coupon_no_image.png" alt="coupon"/>');
+            $('.coupon-simple .image').html('<img src="/themes/mobispot/images/coupon_no_image.png" alt="coupon"/>');
         });
         return false;
     });
 
     $(function () {
-        $("#add_file_simple").uploadifive({
+        $("#add-file").uploadifive({
             'width':'120',
             'height':'28',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
@@ -77,8 +63,8 @@
                 var error = obj.error;
                 if (file_name) {
                     $('#spot_coupon_field').val(file_name);
-                    $('.noUploadImg').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
-                            '<span class="cancel"></span>');
+                    $('.coupon-simple .image').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
+                            '<i class="icon-large icon-remove"></i>');
                 }
                 if (error) alert(error);
             }
@@ -86,7 +72,7 @@
     });
 
     $(function () {
-        $('body').delegate('.result_upload span.cancel', 'click', function () {
+        $('body').delegate('.result_upload i.icon-remove', 'click', function () {
             $('.coupon_logo').val('');
             $('.result_upload').empty();
         });
@@ -116,7 +102,7 @@
                 var error = obj.error;
                 if (file_name) {
                     $('.coupon_logo').val(file_name);
-                    $('.result_upload').html(file.name + '<span class="cancel"></span>');
+                    $('.result_upload').html(file.name + '<i class="icon-large icon-remove"></i>');
                 }
                 if (error) alert(error);
             }
