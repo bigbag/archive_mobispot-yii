@@ -53,16 +53,18 @@
     </div>
 </div>
 <div class="twelve columns spot-content">
-    <div class="five columns">
-        <form action="/user/preview" method="get">
-            <input type="hidden" name="discodes_id" value="<?php echo $data->discodes_id;?>">
-            <input type="submit" class="m-button" value="<?php echo Yii::t('account', 'Сохранить');?>"
-                        form="spot_edit_content_<?php echo $data->discodes_id;?>"/>&nbsp;&nbsp;
-            <input type="submit" class="m-button" value="<?php echo Yii::t('account', 'Предпросмотр');?>"/>
-    </form>
-    </div>
-    <div class="seven columns">
+    <div class="row">
+        <div class="five columns">
+            <a href="<?php echo $data->discodes_id;?>" class="m-button save-spot">
+                <?php echo Yii::t('account', 'Сохранить');?>
+            </a>&nbsp;&nbsp;
+            <a href="<?php echo $data->discodes_id;?>" class="m-button preview-spot">
+                <i class="icon-search"></i>&nbsp;<?php echo Yii::t('account', 'Предпросмотр');?>
+            </a>
+        </div>
+        <div class="seven columns">
 
+        </div>
     </div>
     <div class="spot-content-body"></div>
 </div>

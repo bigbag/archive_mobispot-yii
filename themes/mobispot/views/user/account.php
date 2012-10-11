@@ -25,7 +25,7 @@
                     'id' => 'spotslistview',
                 )); ?>
             <div class="action-menu">
-                <div class="tree columns">
+                <div class="three columns">
                     <select name='action' class='action'>
                     <option selected disabled="disabled"><?php echo Yii::t('account', 'Выберите действие');?></option>
                     <option
@@ -46,7 +46,7 @@
 
                 </div>
                 <div class="three columns add-spot">
-                    <a href="#" class="m-button"><?php echo Yii::t('account', 'Добавить спот'); ?></a>
+                    <a href="#" class="m-button"><i class="icon-plus"></i>&nbsp;<?php echo Yii::t('account', 'Добавить спот'); ?></a>
 
                 </div>
             </div>

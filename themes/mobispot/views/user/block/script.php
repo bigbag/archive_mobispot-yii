@@ -98,8 +98,12 @@ $(document).ready(function () {
                 $('#spot_invisible_modal').reveal({animation:'none'});
             }
 
-            resetSelect('#foot-cont-block');
-            $('#' + id + ' .spot-checkbox input[name=discodes_id]').attr('checked', false);
+            $(".action-menu .action option:first").attr('selected','selected');
+            $("select.action").select2({
+                'width':'element',
+                'minimumResultsForSearch': 100,
+            });
+            $('.spot-checkbox input[name=discodes_id]').attr('checked', false);
         }
         return false;
     });

@@ -12,6 +12,10 @@ body {
     font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
 }
 
+label {
+    color: #666;
+}
+
 input {
     vertical-align:middle;
 }
@@ -114,6 +118,9 @@ html, body {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
 }
 
+.m-button-char {
+    font-family: "FontAwesome";
+}
 /* Links ---------------------- */
 a {
     color: #232323;
@@ -788,6 +795,10 @@ div.next {
 .page .account .spot-title .spot-name {
     cursor: pointer;
     padding: 0;
+}
+
+.page .account .spot-content .spot-content-body {
+    margin-top: 15px;
 }
 
 .page .account .spot-content {
