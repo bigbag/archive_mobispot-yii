@@ -23,7 +23,7 @@
                 value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
                 autocomplete="off" activation-code/>
 
-        <div class="terms" style="display: none;">
+        <div class="terms"  ng-show="user.email && user.password && user.verifyPassword && user.activ_code">
             <span class="dop-txt">
                 <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                 <input ng-model="user.terms" type="checkbox" name="RegistrationForm[terms]" value="1" required>
