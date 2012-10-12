@@ -1,4 +1,5 @@
 <script type="text/javascript">
+
 //сброс селекта
 function resetSelect(selector) {
     $('select option:first', selector).attr('selected', true);

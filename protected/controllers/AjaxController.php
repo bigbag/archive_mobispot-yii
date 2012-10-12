@@ -57,34 +57,34 @@ class AjaxController extends MController
 
     public function actionLogin()
     {
-        if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
-            if ($_POST['token'] == Yii::app()->request->csrfToken) {
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $data = $this->getJson();
+
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
+
                 if (isset(Yii::app()->session['login_error_count'])) {
                     $login_error_count = Yii::app()->session['login_error_count'];
                 } else $login_error_count = 0;
 
                 if ($login_error_count > 2) {
-                    echo 'login_error_count';
+                    $error = 'login_error_count';
                 } else {
                     $form = new LoginForm;
-                    if (isset($_POST['LoginForm'])) {
-                        $form->attributes = $_POST['LoginForm'];
-                        $form->rememberMe = true;
+                    if (isset($data['email']) and isset($data['password'])) {
+                        $form->attributes = $data;
                         if ($form->validate()) {
                             $identity = new UserIdentity($form->email, $form->password);
                             $identity->authenticate();
                             $this->lastVisit();
+                            Yii::app()->user->login($identity);
                             unset(Yii::app()->session['login_error_count']);
-                            echo true;
-                        } else {
-                            if ($form->getErrors()) {
-                                Yii::app()->session['login_error_count'] = $login_error_count + 1;
-                                echo false;
-                            }
+                            $error = "no";
                         }
-                    } else echo false;
+                    }
                 }
             }
+            echo json_encode(array('error' => $error));
         }
     }
 
@@ -149,7 +149,7 @@ class AjaxController extends MController
 
     public function actionRecovery()
     {
-        if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
+        if (Yii::app()->request->isAjaxRequest) {
             if ($_POST['token'] == Yii::app()->request->csrfToken) {
                 $form = new RecoveryForm;
                 if (isset($_POST['email'])) {
@@ -167,8 +167,12 @@ class AjaxController extends MController
 
     public function actionRegistration()
     {
-        if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
-            if ($_POST['token'] == Yii::app()->request->csrfToken) {
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $data = $this->getJson();
+
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
+
                 if (isset(Yii::app()->session['registration_error_count'])) {
                     $registration_error_count = Yii::app()->session['registration_error_count'];
                 } else $registration_error_count = 0;
@@ -176,8 +180,8 @@ class AjaxController extends MController
                 if ($registration_error_count == 0) $model = new RegistrationForm;
                 else $model = new RegistrationCaptchaForm;
 
-                if (isset($_POST['RegistrationForm'])) {
-                    $model->attributes = $_POST['RegistrationForm'];
+                if (isset($data['email']) and isset($data['password'])) {
+                    $model->attributes = $data;
 
                     if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
                         $service_name = Yii::app()->request->cookies['service_name']->value;
@@ -203,17 +207,18 @@ class AjaxController extends MController
                                 $spot->save();
 
                                 MMail::activation($model->email, $model->activkey,  $this->getLang());
-                                echo true;
+                                $error = "no";
                             }
                             unset(Yii::app()->session['registration_error_count']);
                         }
                     } else {
                         Yii::app()->session['registration_error_count'] = $registration_error_count + 1;
-                        echo json_encode(array('error' => $model->getErrors()));
                     }
                 }
+                $error = $model->getErrors();
             }
         }
+        echo json_encode(array('error' => $error));
     }
 
     public function actionSpotRename()

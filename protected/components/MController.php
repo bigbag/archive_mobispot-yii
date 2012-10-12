@@ -99,4 +99,10 @@ class MController extends Controller
     {
         return (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en';
     }
+
+    public function getJson ()
+    {
+        $post = file_get_contents("php://input");
+        return CJSON::decode($post, true);
+    }
 }

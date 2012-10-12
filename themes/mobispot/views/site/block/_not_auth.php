@@ -1,27 +1,32 @@
 <div class="title"><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></div>
-<div class="area">
-    <form action="#" method="post" id="registration">
-        <input type="text" id="email"
-               name="RegistrationForm[email]"
-               value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
-               autocomplete="off"/>
-        <input type="password" id="password"
-               name="RegistrationForm[password]"
-               value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off"/>
+<div class="area registration-form" ng-controller="RegistrationController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+    <form action=""  name="form">
+        <input type="hidden" name="token" value="<?php echo Yii::app()->request->csrfToken?>">
+        <input type="email"
+                ng-model="user.email"
+                name="RegistrationForm[email]"
+                value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
+                autocomplete="off" required/>
+        <input type="password"
+                ng-model="user.password"
+                name="RegistrationForm[password]"
+                value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off" required/>
 
-        <input type="password" id="verifyPassword"
-               name="RegistrationForm[verifyPassword]"
-               value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
-               autocomplete="off"/>
-        <input type="text" id="activ_code"
-               name="RegistrationForm[activ_code]"
-               value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
-               autocomplete="off"/>
+        <input type="password"
+                ng-model="user.verifyPassword"
+                name="RegistrationForm[verifyPassword]"
+                value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
+                autocomplete="off" required/>
+        <input type="text"
+                ng-model="user.activ_code"
+                name="RegistrationForm[activ_code]"
+                value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
+                autocomplete="off" activation-code/>
 
         <div class="terms" style="display: none;">
             <span class="dop-txt">
                 <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
-                <input type="checkbox" name="RegistrationForm[terms]" value="1">
+                <input ng-model="user.terms" type="checkbox" name="RegistrationForm[terms]" value="1" required>
             </span>
 
         </div>
@@ -35,9 +40,9 @@
                         src="/themes/mobispot/images/auth_google.png" alt="google"></a>
             </div>
             <div class="reg-button">
-                <input type="hidden" name="token" id="token"
-                       value="<?php echo Yii::app()->request->csrfToken?>">
-                <input type="submit" class="m-button" value="<?php echo Yii::t('user', 'Зарегистрироваться');?>"/>
+              <button class="m-button" ng-click="registration(user)" ng-disabled="form.$invalid">
+                  <?php echo Yii::t('user', 'Зарегистрироваться');?>
+              </button>
             </div>
         </div>
     </form>

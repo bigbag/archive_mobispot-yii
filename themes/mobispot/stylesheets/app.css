@@ -45,6 +45,35 @@ html, body {
     margin: 0 auto -130px;
 }
 
+/* AngularJS form ---------------------- */
+
+input.ng-invalid.ng-dirty {
+    background-color: #FA787E;
+}
+input.ng-valid.ng-dirty {
+    background-color: #78FA89;
+}
+
+input.ng-invalid.ng-dirty::-webkit-input-placeholder {
+    font-style: italic;
+    color: #fff;
+}
+
+input.ng-invalid.ng-dirty[type="text"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="password"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="date"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="datetime"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="email"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="number"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="search"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="tel"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="time"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="url"]:-moz-placeholder, textarea.ng-invalid.ng-dirty {
+    font-style: italic;
+    color: #fff;
+}
+
+textarea.ng-invalid.ng-dirty::-webkit-input-placeholder {
+    font-style: italic;
+    color: #fff;
+}
+
+textarea.ng-invalid.ng-dirty::-moz-placeholder {
+    font-style: italic;
+    color: #fff;
+}
+
 /* Reveal Modals ---------------------- */
 .reveal-modal-bg {
     position: fixed;
@@ -179,6 +208,20 @@ html, body {
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
     -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+}
+
+.m-button.disabled, .m-button[disabled] {
+    color: #666;
+    opacity: 0.6;
+    cursor: default;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.m-button.disabled :hover, .m-button[disabled] :hover {
+    color: #666;
+    background: #2ba6cb;
 }
 
 .m-button-char {
@@ -319,22 +362,22 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus
 
 input::-webkit-input-placeholder {
     font-style: italic;
-    color: #999
+    color: #999;
 }
 
 input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, input[type="date"]:-moz-placeholder, input[type="datetime"]:-moz-placeholder, input[type="email"]:-moz-placeholder, input[type="number"]:-moz-placeholder, input[type="search"]:-moz-placeholder, input[type="tel"]:-moz-placeholder, input[type="time"]:-moz-placeholder, input[type="url"]:-moz-placeholder, textarea {
     font-style: italic;
-    color: #999
+    color: #999;
 }
 
 textarea::-webkit-input-placeholder {
     font-style: italic;
-    color: #999
+    color: #999;
 }
 
 textarea::-moz-placeholder {
     font-style: italic;
-    color: #999
+    color: #999;
 }
 
 /* Center block ---------------------- */
@@ -566,7 +609,7 @@ div.next {
 
 /* Hint ---------------------- */
 .auth-hint, .user-menu-hint, .lang-hint {
-    display: block;
+    display: none;
     text-overflow: ellipsis;
     position: relative;
     bottom: -42px;

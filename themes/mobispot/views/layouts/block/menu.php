@@ -20,10 +20,7 @@
         <div class="three columns user">
             <?php if (Yii::app()->user->isGuest): ?>
             <div class="m-button"><?php echo Yii::t('user', 'Войти')?></div>
-            <form action="" method="post" id="login_form">
-
-                <?php include('auth.php'); ?>
-            </form>
+            <?php include('auth.php'); ?>
             <?php else: ?>
             <?php $user_info = $this->userInfo(); ?>
             <div class="auth-on">

@@ -1,15 +1,14 @@
-<div class="auth-hint">
+<div class="auth-hint" ng-controller="LoginController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+<form class="login-form" name="form" action="" method="post">
 
-    <input type="text" name="LoginForm[email]" style="width:100%;" class="txt"
-           placeholder="<?php echo Yii::t('user', 'E-mail')?>"/>
-    <input type="hidden" name="token" value="<?php echo Yii::app()->request->csrfToken?>">
+    <input type="email" autocomplete="off" ng-model="user.email" name="LoginForm[email]" placeholder="<?php echo Yii::t('user', 'E-mail')?>" required />
+    <input type="hidden" value="<?php echo Yii::app()->request->csrfToken?>" name="token"/>
 
-    <input type="password" name="LoginForm[password]" style="width:100%;"
-           placeholder="<?php echo Yii::t('user', 'Пароль')?>"/>
+    <input type="password" autocomplete="off" ng-model="user.password" name="LoginForm[password]" placeholder="<?php echo Yii::t('user', 'Пароль')?>" required />
 
 
     <div class="remember-me">
-        <input name="LoginForm[rememberMe]" type="checkbox">
+        <input type="checkbox" ng-model="user.rememberMe" name="LoginForm[rememberMe]" ng-init="user.rememberMe=false"/>
         <?php echo Yii::t('user', 'Запомнить меня')?>
     </div>
 
@@ -23,10 +22,12 @@
                     src="/themes/mobispot/images/auth_google.png" alt="google"></a>
         </div>
         <div class="reg-button">
-
-            <input class="m-button" type="submit" id="hint-button"
-                   value="<?php echo Yii::t('user', 'Отправить');?>"/>
+             <button class="m-button" ng-click="login(user)" ng-disabled="form.$invalid">
+                <?php echo Yii::t('user', 'Отправить'); ?>
+            </button>
         </div>
     </div>
     <div class="forget-pass"><?php echo Yii::t('user', 'Забыли пароль?')?></div>
+
+</form>
 </div>

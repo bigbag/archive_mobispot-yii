@@ -13,9 +13,10 @@
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/stylesheets/app.css'); ?>
 
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery');?>
+
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/foundation.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/modernizr.foundation.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/app.js'); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/jquery.foundation.reveal.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/select2/select2.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.form.min.js'); ?>

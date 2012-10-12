@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" ng-app> <![endif]-->
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" ng-app="mobispot"> <![endif]-->
 <!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8" lang="en" ng-app> <![endif]-->
+<html class="no-js lt-ie9 lt-ie8" lang="en" ng-app="mobispot"> <![endif]-->
 <!--[if IE 8]>
-<html class="no-js lt-ie9" lang="en" ng-app> <![endif]-->
+<html class="no-js lt-ie9" lang="en" ng-app="mobispot"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang="en" ng-app> <!--<![endif]-->
+<html class="no-js" lang="en" ng-app="mobispot"> <!--<![endif]-->
 
 <?php include('block/header.php');?>
 <body>
@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<?php include('block/script.php');?>
+
 <?php include('modal/messages.php'); ?>
 
 <?php if (!isset(Yii::app()->user->id)): ?>
@@ -52,5 +52,14 @@
     <?php include('modal/recovery.php'); ?>
     <?php include('modal/login_captcha.php'); ?>
     <?php endif;?>
+
+
+
+    <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
+    <script src="/themes/mobispot/javascripts/angular/app/services.js"></script>
+    <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
+    <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
+    <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
+    <?php include('block/script.php');?>
 </body>
 </html>
