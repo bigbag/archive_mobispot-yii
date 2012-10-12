@@ -173,12 +173,7 @@ class AjaxController extends MController
 
             if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
 
-                if (isset(Yii::app()->session['registration_error_count'])) {
-                    $registration_error_count = Yii::app()->session['registration_error_count'];
-                } else $registration_error_count = 0;
-
-                if ($registration_error_count == 0) $model = new RegistrationForm;
-                else $model = new RegistrationCaptchaForm;
+                $model = new RegistrationForm;
 
                 if (isset($data['email']) and isset($data['password'])) {
                     $model->attributes = $data;
@@ -209,10 +204,7 @@ class AjaxController extends MController
                                 MMail::activation($model->email, $model->activkey,  $this->getLang());
                                 $error = "no";
                             }
-                            unset(Yii::app()->session['registration_error_count']);
                         }
-                    } else {
-                        Yii::app()->session['registration_error_count'] = $registration_error_count + 1;
                     }
                 }
                 $error = $model->getErrors();
