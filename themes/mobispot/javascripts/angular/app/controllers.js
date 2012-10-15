@@ -18,10 +18,10 @@ function LoginController($scope, $http)
                     $('#login_captcha_modal').reveal({animation:'none'});
             }
             else if (data.error == 'yes'){
-                $('.login-form input').removeClass('ng-valid');
-                $('.login-form input').addClass('ng-invalid');
                 $('.auth-hint .alert-box.alert.messages').show();
-
+                    setTimeout(function () {
+                        $('.auth-hint .alert-box.alert.messages').hide();
+                    }, 3000);
             }
             else {
                 $('.auth-hint').hide();
