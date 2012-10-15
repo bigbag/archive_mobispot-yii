@@ -1,81 +1,65 @@
 'use strict';
 
-function LoginController($scope) {
+function LoginController($scope, $http)
+{
+    $scope.login = function(user)
+    {
+        $http.post('/ajax/login', user).success(function(data)
+        {
+            if(data.error == 'login_error_count')
+            {
+                $.ajax({
+                    url:'/ajax/getCaptcha',
+                    type:'POST',
+                        success:function (result) {
+                            $('#login_captcha_modal div#img-capt').html(result);
+                        }
+                    });
+                    $('#login_captcha_modal').reveal({animation:'none'});
+            }
+            else if (data.error == 'yes'){
+                $('.login-form input').removeClass('ng-valid');
+                $('.login-form input').addClass('ng-invalid');
+                $('.auth-hint .alert-box.alert.messages').show();
 
-    $scope.login = function(user) {
-        if(user){
-            $.ajax({
-                url:'/ajax/login',
-                dataType:"json",
-                type:'POST',
-                data:angular.toJson(user),
-                success:function (result) {
-                    var messages = angular.fromJson(result);
-                    if(messages.error == 'login_error_count'){
-                        $.ajax({
-                            url:'/ajax/getCaptcha',
-                            type:'POST',
-                            success:function (result) {
-                                $('#login_captcha_modal div#img-capt').html(result);
-                            }
-                        });
-                        $('#login_captcha_modal').reveal({animation:'none'});
-                    }
-                    else if (messages.error == 'yes'){
-                        $('.login-form input').removeClass('ng-valid');
-                        $('.login-form input').addClass('ng-invalid');
-                    }
-                    else {
-                        $('.auth-hint').hide();
-                        $().redirect('', null, 'GET');
-                    }
-                }
-            });
-        }
+            }
+            else {
+                $('.auth-hint').hide();
+                $().redirect('', null, 'GET');
+            }
+        });
     };
-
 }
 
-function RegistrationController($scope) {
+function RegistrationController($scope, $http)
+{
+    $scope.question = function(user)
+    {
+        $http.post('/ajax/registration/', user).success(function(data)
+        {
+            if(data.error == 'no')
+            {
 
-    $scope.registration = function(user) {
-        if(user){
-            $.ajax({
-                url:'/ajax/registration/',
-                dataType:"json",
-                type:'POST',
-                data:angular.toJson(user),
-                success:function (result) {
-
-                }
-            });
-        }
+            }
+        });
     };
-
 }
 
-function FaqController($scope) {
-
-    $scope.question = function(faq) {
-        if(faq){
-            $.ajax({
-                url:'/ajax/setQuestion/',
-                dataType:"json",
-                type:'POST',
-                data:angular.toJson(faq),
-                success:function (result) {
-                    var messages = angular.fromJson(result);
-                    if(messages.error == 'no'){
-                        $('.question-form').hide();
-                        $('.messages').show();
-                        setTimeout(function () {
-                            $('.messages').hide();
-                            $('.get-question a.m-button').show();
-                        }, 3000);
-                    }
-                }
-            });
-        }
+function FaqController($scope, $http)
+{
+    $scope.question = function(faq)
+    {
+        $http.post('/ajax/setQuestion/', faq).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                $('.question-form').hide();
+                $('.messages').show();
+                    setTimeout(function () {
+                        $('.messages').hide();
+                        $('.get-question a.m-button').show();
+                    }, 3000);
+            }
+        });
     };
-
 }

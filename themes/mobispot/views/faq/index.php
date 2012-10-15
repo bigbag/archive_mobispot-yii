@@ -18,8 +18,6 @@
                 <?php echo Yii::t('faq', 'Задать свой вопрос');?>
             </a>
         </div>
-
-
         <div class="row">
             <div class="seven columns columns">
                 <div class="alert-box success messages" style="display: none;">
@@ -48,6 +46,7 @@
 
     </div>
 </div>
+
 <script type="text/javascript">
     var ACCORDION_MODE = false;
     $(document).ready(function () {

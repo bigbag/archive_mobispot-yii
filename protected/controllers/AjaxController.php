@@ -26,7 +26,7 @@ class AjaxController extends MController
                 $form = new QuestionForm();
                 $form->attributes = $data;
                 if ($form->validate()) {
-                    //MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
+                    MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
                     $error = "no";
                 }
             }
@@ -87,6 +87,7 @@ class AjaxController extends MController
                             unset(Yii::app()->session['login_error_count']);
                             $error = "no";
                         }
+                        else Yii::app()->session['login_error_count'] = $login_error_count + 1;
                     }
                 }
             }
@@ -213,7 +214,7 @@ class AjaxController extends MController
                         }
                     }
                 }
-                $error = $model->getErrors();
+                $error = 'yes';
             }
             echo json_encode(array('error' => $error));
         }

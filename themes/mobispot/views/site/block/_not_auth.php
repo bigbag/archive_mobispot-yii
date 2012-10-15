@@ -1,27 +1,26 @@
 <div class="title"><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></div>
 <div class="area registration-form" ng-controller="RegistrationController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
     <form action=""  name="form">
-        <input type="hidden" name="token" value="<?php echo Yii::app()->request->csrfToken?>">
         <input type="email"
                 ng-model="user.email"
                 name="RegistrationForm[email]"
                 value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
-                autocomplete="off" required/>
+                autocomplete="off" required />
         <input type="password"
                 ng-model="user.password"
                 name="RegistrationForm[password]"
-                value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off" required/>
+                value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off" required />
 
         <input type="password"
                 ng-model="user.verifyPassword"
                 name="RegistrationForm[verifyPassword]"
                 value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
-                autocomplete="off" required/>
+                autocomplete="off" required />
         <input type="text"
                 ng-model="user.activ_code"
                 name="RegistrationForm[activ_code]"
                 value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
-                autocomplete="off" activation-code/>
+                autocomplete="off"  activation-code />
 
         <div class="terms"  ng-show="user.email && user.password && user.verifyPassword && user.activ_code">
             <span class="dop-txt">

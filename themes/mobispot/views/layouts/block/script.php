@@ -1,13 +1,4 @@
 <script type="text/javascript">
-
-//сброс селекта
-function resetSelect(selector) {
-    $('select option:first', selector).attr('selected', true);
-    $("select").selectBox('refresh');
-    $(selector + " select").selectBox('destroy');
-    $(selector + " select").selectBox('create');
-}
-
 //Блок меню пользователя
 $(document).ready(function () {
     $('.auth-user-name').click(function () {
@@ -40,18 +31,7 @@ $(document).ready(function () {
     });
 });
 //Регистрация
-$(function () {
-    var count = 0;
-    $('#email, #password, #verifyPassword, #activ_code').bind('change', function () {
-        count++;
-    });
-    $('#email, #password, #verifyPassword, #activ_code').bind('focus', function () {
-        if (count == 3) {
-            $('.terms').show();
-            $('.registration .form').css("height", "320px");
-        }
-    });
-});
+
 
 $(document).ready(function () {
     var options = {
@@ -98,66 +78,6 @@ function showRegistrationResponse(responseText) {
         $('#registration-form #registration_captcha').show();
         $('#registration-form span.error').empty();
         $('#registration-form span.error').html(error);
-    }
-}
-//Вход
-$(document).ready(function () {
-    var options = {
-        success:showLoginResponse,
-        clearForm:true,
-        url:'/ajax/login/'
-    };
-
-    $('#login_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-$(document).ready(function () {
-    var options = {
-        success:showLoginCaptchaResponse,
-        dataType:'json',
-        clearForm:true,
-        url:'/ajax/loginCaptcha/'
-    };
-
-    $('#login_captcha_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showLoginResponse(responseText) {
-    if (responseText == 0) {
-        $('#mistake-auth').show();
-        $('#mistake-auth').text('<?php echo Yii::t('user', 'Пароль или логин не верен.')?>');
-    }
-    else if (responseText == 'login_error_count') {
-        $.ajax({
-            url:'/ajax/getCaptcha',
-            type:'POST',
-            success:function (result) {
-                $('#login_captcha_modal div#img-capt').html(result);
-            }
-        });
-        $('#login_captcha_modal').reveal({animation:'none'});
-
-    }
-    else if (responseText == 1) {
-        $('#login_captcha_modal').hide();
-        $().redirect('/', null, 'GET');
-    }
-}
-
-function showLoginCaptchaResponse(responseText) {
-    if (responseText == 1) {
-        $().redirect('/', null, 'GET');
-    }
-    else {
-        $('#login_captcha_form span.error').text('<?php echo Yii::t("user", "Вы не правильно заполнили поля.")?>');
     }
 }
 

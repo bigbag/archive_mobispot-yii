@@ -666,6 +666,12 @@ div.next {
     line-height: 22px;
 }
 
+.auth-hint .messages {
+    line-height: 16px;
+    font-size: 14px;
+    text-align: left;
+}
+
 /* User menu hint ---------------------- */
 .user-menu-hint {
     left: 0;
