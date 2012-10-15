@@ -1,5 +1,5 @@
 <div class="title"><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></div>
-<div class="area registration-form" ng-controller="RegistrationController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+<div class="area registration-form" ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
     <form action=""  name="form">
         <input type="email"
                 ng-model="user.email"

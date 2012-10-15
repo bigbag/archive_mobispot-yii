@@ -26,68 +26,10 @@ $(document).ready(function () {
 
     $('.content').on("click", function () {
         $(".auth-hint").hide();
-        $("#mistake-auth").hide();
 
     });
 });
-//Регистрация
 
-
-$(document).ready(function () {
-    var options = {
-        success:showRegistrationResponse,
-        clearForm:false,
-        url:'/ajax/registration/'
-    };
-
-    $('#registration').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-});
-
-function showRegistrationResponse(responseText) {
-    if (responseText == 1) {
-        $('#messages_modal div.messages').html('<?php echo Yii::t("user", "Спасибо за регистрацию на нашем сайте,<br /> на указанный вами Email была отправлено письмо<br /> с инструкцией по активации вашей учётной записи.")?>');
-        $('#messages_modal').reveal({animation:'none'});
-        setTimeout(function () {
-            $().redirect('/', null, 'GET');
-        }, 3000);
-    }
-    else {
-        var obj = jQuery.parseJSON(responseText);
-
-        var error = "<ol>";
-        if (obj.error.email) error += "<li>" + obj.error.email + "</li>";
-        if (obj.error.password) error += "<li>" + obj.error.password + "</li>";
-        if (obj.error.verifyPassword) error += "<li>" + obj.error.verifyPassword + "</li>";
-        if (obj.error.terms) error += "<li>" + obj.error.terms + "</li>";
-        if (obj.error.activ_code) error += "<li>" + obj.error.activ_code + "</li>";
-        if (obj.error.verifyCode) error += "<li>" + obj.error.verifyCode + "</li>";
-        error += "</ol>";
-
-        $('#terms').show();
-        $('#registration-form').css("height", "auto");
-        $.ajax({
-            url:'/ajax/getCaptcha',
-            type:'POST',
-            success:function (result) {
-                $('div#registration_captcha div#img-capt').html(result);
-            }
-        });
-        $('#registration-form #registration_captcha').show();
-        $('#registration-form span.error').empty();
-        $('#registration-form span.error').html(error);
-    }
-}
-
-//Восстановление пароля
-$(document).ready(function () {
-    $('.forget-pass').click(function (e) {
-        e.preventDefault();
-        $('#recovery_modal').reveal({animation:'none'});
-    });
-});
 
 $(document).ready(function () {
     var options = {
@@ -118,22 +60,6 @@ function showRecoveryResponse(responseText) {
     }
 }
 
-$(document).ready(function () {
-    $('input.txt').bind('focus', function () {
-        $(this).parent().css('background-position', '100% -105px');
-        $(this).parent().parent().css('background-position', '0 -70px');
-    });
-    $('input.txt').bind('blur', function () {
-        $(this).parent().css('background-position', '100% -35px');
-        $(this).parent().parent().css('background-position', '0 0');
-    });
-});
-jQuery('input[placeholder], textarea[placeholder]').placeholder();
-
-$(document).ready(function () {
-    $("select").selectBox();
-});
-
 //like facebook
 (function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -144,7 +70,7 @@ $(document).ready(function () {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-
+jQuery('input[placeholder], textarea[placeholder]').placeholder();
 
 $(document).foundationAlerts();
 

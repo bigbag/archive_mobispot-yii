@@ -53,6 +53,9 @@ input.ng-invalid.ng-dirty {
 
 
 /* Reveal Modals ---------------------- */
+.reveal-modal {
+    text-align: center;
+}
 .reveal-modal-bg {
     position: fixed;
     height: 100%;
@@ -107,7 +110,7 @@ input.ng-invalid.ng-dirty {
     top: 8px;
     right: 11px;
     color: #aaa;
-    text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+    text-shadow: none;
     font-weight: bold;
     cursor: pointer;
 }

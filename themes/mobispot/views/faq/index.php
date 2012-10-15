@@ -39,6 +39,7 @@
                         <button class="m-button" ng-click="question(faq)" ng-disabled="form.$invalid">
                             <?php echo Yii::t('faq', 'Отправить'); ?>
                         </button>
+                    </div>
                 </form>
                 </div>
             </div>

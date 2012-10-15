@@ -51,16 +51,6 @@ class AjaxController extends MController
         }
     }
 
-    public function actionGetCaptcha()
-    {
-        if (Yii::app()->request->isAjaxRequest) {
-            $text = $this->renderPartial('/user/block/captcha',
-                array(),
-                true);
-            echo $text;
-        }
-    }
-
     public function actionLogin()
     {
         if (Yii::app()->request->isAjaxRequest) {
@@ -111,11 +101,32 @@ class AjaxController extends MController
                         unset(Yii::app()->session['login_error_count']);
                         echo true;
                     } else {
-                        //echo json_encode(array('error' => $form->getErrors()));
                         echo false;
                     }
                 }
             }
+        }
+    }
+
+    public function actionGetCaptcha()
+    {
+        if (Yii::app()->request->isAjaxRequest) {
+            $text = $this->renderPartial('/user/block/captcha',
+                array(),
+                true);
+            echo $text;
+        }
+    }
+
+    public function actionModal()
+    {
+        if (Yii::app()->request->isAjaxRequest and (isset($_POST['content']))) {
+            $txt = $this->renderPartial('//modal/' . $_POST['content'],
+                array(
+                ),
+                true);
+            echo $txt;
+
         }
     }
 
@@ -139,7 +150,6 @@ class AjaxController extends MController
 
         }
     }
-
 
     public function actionLogout()
     {
