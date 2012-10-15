@@ -1,3 +1,5 @@
+'use strict';
+
 var app = angular.module('mobispot', []);
 
 var CODE_REGEXP = /^\-?\w{10}$/;

@@ -18,14 +18,20 @@ class AjaxController extends MController
 
     public function actionSetQuestion()
     {
-        if (Yii::app()->request->isAjaxRequest and (isset($_POST['QuestionForm']))) {
-            $form = new QuestionForm();
-            $form->attributes = $_POST['QuestionForm'];
-            if ($form->validate()) {
-                MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
-                echo true;
-            } else echo false;
-        } else echo false;
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $data = $this->getJson();
+
+            if (count($data) == 3) {
+                $form = new QuestionForm();
+                $form->attributes = $data;
+                if ($form->validate()) {
+                    //MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
+                    $error = "no";
+                }
+            }
+            echo json_encode(array('error' => $error));
+        }
     }
 
     public function actionSetLang()
@@ -209,8 +215,8 @@ class AjaxController extends MController
                 }
                 $error = $model->getErrors();
             }
+            echo json_encode(array('error' => $error));
         }
-        echo json_encode(array('error' => $error));
     }
 
     public function actionSpotRename()

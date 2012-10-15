@@ -12,48 +12,37 @@
             </li>
             <?php endforeach;?>
         </ul>
+
         <div class="get-question">
             <a href="" class="m-button">
                 <?php echo Yii::t('faq', 'Задать свой вопрос');?>
             </a>
         </div>
 
-        <div class="row question-form" style="display: none;">
-            <div class="seven mobile-four columns columns">
 
-
-                <form action="" method="post" id="set_question">
-                    <?php echo CHtml::activeTextArea($form, 'question',
-                    array(
-                        'rows' => 3,
-                        'class' => 'txtarea',
-                        'placeholder' => Yii::t('faq', 'Вопрос'),
-                    )); ?>
+        <div class="row">
+            <div class="seven columns columns">
+                <div class="alert-box success messages" style="display: none;">
+                    <?php echo Yii::t('account', 'Ваш вопрос отправлен.')?><a href="" class="close">&times;</a>
+                </div>
+                <div class="question-form" style="display: none;" ng-controller="FaqController">
+                    <form action="" name="form">
+                    <textarea rows="3" autocomplete="off" ng-model="faq.question" placeholder="<?php echo Yii::t('faq', 'Отправить'); ?>" name="QuestionForm[question]" required ></textarea>
 
                     <div class="row">
                         <div class="five mobile-two columns">
-                            <?php echo CHtml::activeTextField($form, 'name',
-                            array(
-                                'class' => 'txt',
-                                'placeholder' => Yii::t('faq', 'Имя'),
-                            )); ?>
+                            <input autocomplete="off" ng-model="faq.name" placeholder="<?php echo Yii::t('faq', 'Имя'); ?>" name="QuestionForm[name]" type="text" required/>
                         </div>
                         <div class="seven mobile-two columns">
-                            <?php echo CHtml::activeTextField($form, 'email',
-                            array(
-                                'class' => 'txt',
-                                'placeholder' => Yii::t('faq', 'Email'),
-                            )); ?>
+                            <input autocomplete="off" ng-model="faq.email" placeholder="<?php echo Yii::t('faq', 'Email'); ?>" name="QuestionForm[email]" type="email" required/>
                         </div>
-
                     </div>
                     <div class="send">
-                        <input type="submit" class="m-button"
-                           value="<?php echo Yii::t('faq', 'Отправить');?>"/>
-                       </div>
+                        <button class="m-button" ng-click="question(faq)" ng-disabled="form.$invalid">
+                            <?php echo Yii::t('faq', 'Отправить'); ?>
+                        </button>
                 </form>
-
-
+                </div>
             </div>
         </div>
 
@@ -84,35 +73,4 @@
         });
     });
 
-    $(document).ready(function () {
-        var options = {
-            success:showsQuestionResponse,
-            clearForm:false,
-            url:'/ajax/setQuestion/'
-        };
-
-        $('.question-form').submit(function () {
-            $(this).ajaxSubmit(options);
-            $('.question-form span.error').hide();
-            return false;
-        });
-    });
-
-    function showsQuestionResponse(responseText) {
-        if (responseText == 0) {
-
-            $('span.error').html('<?php echo Yii::t('faq', 'Необходимо корректно заполнить все поля.');?>' + '<br /><br />');
-        }
-        else if (responseText == 1) {
-            $('.get-question a.m-button').show();
-            $('.question-form').hide();
-            $('span.message').html('<?php echo Yii::t('account', 'Ваш вопрос отправлен.')?>' + '<br /><br />');
-
-            setTimeout(function () {
-                $('span.message').hide();
-
-            }, 3000);
-        }
-
-    }
 </script>

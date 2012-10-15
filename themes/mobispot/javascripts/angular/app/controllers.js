@@ -1,3 +1,5 @@
+'use strict';
+
 function LoginController($scope) {
 
     $scope.login = function(user) {
@@ -45,6 +47,32 @@ function RegistrationController($scope) {
                 data:angular.toJson(user),
                 success:function (result) {
 
+                }
+            });
+        }
+    };
+
+}
+
+function FaqController($scope) {
+
+    $scope.question = function(faq) {
+        if(faq){
+            $.ajax({
+                url:'/ajax/setQuestion/',
+                dataType:"json",
+                type:'POST',
+                data:angular.toJson(faq),
+                success:function (result) {
+                    var messages = angular.fromJson(result);
+                    if(messages.error == 'no'){
+                        $('.question-form').hide();
+                        $('.messages').show();
+                        setTimeout(function () {
+                            $('.messages').hide();
+                            $('.get-question a.m-button').show();
+                        }, 3000);
+                    }
                 }
             });
         }

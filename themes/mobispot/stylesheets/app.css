@@ -50,29 +50,7 @@ html, body {
 input.ng-invalid.ng-dirty {
     background-color: #FA787E;
 }
-input.ng-valid.ng-dirty {
-    background-color: #78FA89;
-}
 
-input.ng-invalid.ng-dirty::-webkit-input-placeholder {
-    font-style: italic;
-    color: #fff;
-}
-
-input.ng-invalid.ng-dirty[type="text"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="password"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="date"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="datetime"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="email"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="number"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="search"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="tel"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="time"]:-moz-placeholder, input.ng-invalid.ng-dirty[type="url"]:-moz-placeholder, textarea.ng-invalid.ng-dirty {
-    font-style: italic;
-    color: #fff;
-}
-
-textarea.ng-invalid.ng-dirty::-webkit-input-placeholder {
-    font-style: italic;
-    color: #fff;
-}
-
-textarea.ng-invalid.ng-dirty::-moz-placeholder {
-    font-style: italic;
-    color: #fff;
-}
 
 /* Reveal Modals ---------------------- */
 .reveal-modal-bg {
