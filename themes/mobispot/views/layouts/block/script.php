@@ -31,19 +31,6 @@ $(document).ready(function () {
 });
 
 
-$(document).ready(function () {
-    var options = {
-        success:showRecoveryResponse,
-        clearForm:true,
-        url:'/ajax/recovery/'
-    };
-
-    $('#recovery_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-});
-
 function showRecoveryResponse(responseText) {
     if (responseText == 1) {
         $('#recovery_modal').hide();

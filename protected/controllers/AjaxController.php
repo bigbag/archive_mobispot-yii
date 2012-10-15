@@ -188,7 +188,7 @@ class AjaxController extends MController
             $error = "yes";
             $data = $this->getJson();
 
-            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken and (empty($data['name']))) {
 
                 $model = new RegistrationForm;
 

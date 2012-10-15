@@ -19,8 +19,8 @@ function UserController($scope, $http)
                             url:'/ajax/getCaptcha',
                             type:'POST',
                             success:function (result) {
-                                    $('#login_captcha_modal div#img-capt').html(result);
-                                    $('#login_captcha_modal').reveal({animation:'none'});
+                                $('#login_captcha_modal .img-capt').html(result);
+                                $('#login_captcha_modal').reveal({animation:'none'});
                             }
                         });
                     }
@@ -40,13 +40,18 @@ function UserController($scope, $http)
         });
     };
 
+
+
     //Регистрация
     $scope.registration = function(user)
     {
         $http.post('/ajax/registration/', user).success(function(data)
         {
-            if(data.error == 'no')
+            if(data.error == 'yes')
             {
+
+                $(".registration .form").css("height", "350px");
+                $(".login.alert-box.alert.messages").show();
 
             }
         });
@@ -63,6 +68,18 @@ function UserController($scope, $http)
                 $(".auth-hint").hide();
                 $('.general-modal').html(result);
                 $('#recovery_modal').reveal({animation:'none'});
+            }
+        });
+    };
+
+    //Восстановление пароля
+    $scope.recovery = function(user)
+    {
+        $http.post('/ajax/recovery', user).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+
             }
         });
     };

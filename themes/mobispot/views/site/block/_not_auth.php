@@ -1,6 +1,14 @@
 <div class="title"><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></div>
+<div class="login alert-box alert messages" style="display: none;">
+    <?php echo Yii::t('user', 'Введённые данные не верны.')?>
+</div>
 <div class="area registration-form" ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
     <form action=""  name="form">
+        <input type="text"
+                ng-model="user.name"
+                name="RegistrationForm[name]"
+                value="" placeholder=""
+                autocomplete="off" />
         <input type="email"
                 ng-model="user.email"
                 name="RegistrationForm[email]"
@@ -21,14 +29,13 @@
                 name="RegistrationForm[activ_code]"
                 value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
                 autocomplete="off"  activation-code />
-
         <div class="terms"  ng-show="user.email && user.password && user.verifyPassword && user.activ_code">
             <span class="dop-txt">
                 <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
                 <input ng-model="user.terms" type="checkbox" name="RegistrationForm[terms]" value="1" required>
             </span>
-
         </div>
+
         <div class="block">
             <div class="social">
                 <a class="auth-link facebook" href="/service/social?service=facebook" title="facebook"><img
