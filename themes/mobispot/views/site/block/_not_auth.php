@@ -8,7 +8,8 @@
                 ng-model="user.name"
                 name="RegistrationForm[name]"
                 value="" placeholder=""
-                autocomplete="off" />
+                autocomplete="off"
+                style="display: none;"/>
         <input type="email"
                 ng-model="user.email"
                 name="RegistrationForm[email]"
