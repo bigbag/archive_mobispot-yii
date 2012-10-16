@@ -111,10 +111,19 @@ class AjaxController extends MController
     public function actionGetCaptcha()
     {
         if (Yii::app()->request->isAjaxRequest) {
-            $text = $this->renderPartial('/user/block/captcha',
-                array(),
-                true);
-            echo $text;
+            $error = "yes";
+            $content = "";
+
+            $data = $this->getJson();
+            if(isset($data['content']))
+            {
+                $content = $this->renderPartial('/user/block/captcha',
+                    array(),
+                    true
+                    );
+                $error = "no";
+            }
+            echo json_encode(array('error' => $error, 'content' => $content));
         }
     }
 
@@ -129,10 +138,11 @@ class AjaxController extends MController
             if(isset($data['content']))
             {
                 $content = $this->renderPartial('//modal/' . $data['content'],
-                array(
-                ),
-                true);
-            $error = "no";
+                    array(
+                    ),
+                    true
+                    );
+                $error = "no";
             }
 
             echo json_encode(array('error' => $error, 'content' => $content));
@@ -176,18 +186,22 @@ class AjaxController extends MController
     public function actionRecovery()
     {
         if (Yii::app()->request->isAjaxRequest) {
-            if ($_POST['token'] == Yii::app()->request->csrfToken) {
+            $error = "yes";
+            $data = $this->getJson();
+
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
                 $form = new RecoveryForm;
-                if (isset($_POST['email'])) {
-                    $form->email = $_POST['email'];
+                if (isset($data['email'])) {
+                    $form->email = $data['email'];
                     if ($form->validate()) {
                         $user = User::model()->findByAttributes(array('email' => $form->email));
                         MMail::recovery($user->email, $user->activkey,  $this->getLang());
 
-                        echo true;
-                    } else echo false;
+                        $error = "no";
+                    }
                 }
             }
+            echo json_encode(array('error' => $error));
         }
     }
 

@@ -31,23 +31,6 @@ $(document).ready(function () {
 });
 
 
-function showRecoveryResponse(responseText) {
-    if (responseText == 1) {
-        $('#recovery_modal').hide();
-        $('#messages_modal div.messages').html('<?php echo Yii::t("user", "По указанному вами адресу отправлено письмо<br/> с информацией о востановлении пароля.")?>');
-        $('#messages_modal').reveal({animation:'none'});
-
-        setTimeout(function () {
-            $().redirect('/', null, 'GET');
-        }, 3000);
-
-    }
-    else if (responseText == 0) {
-        $('#recovery_form span').text('<?php echo Yii::t("user", "Hа сайте не зарегистрирован пользователь с таким Email.")?>');
-    }
-}
-
-
 //like facebook
 (function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];

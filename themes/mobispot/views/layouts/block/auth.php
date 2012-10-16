@@ -1,11 +1,11 @@
-<div class="auth-hint" ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
-<form class="login-form" name="form" action="" method="post">
+<div class="auth-hint" ng-controller="UserController" ng-init="aUser.token='<?php echo Yii::app()->request->csrfToken?>'">
+<form class="login-form" name="aForm">
 
-    <input type="email" autocomplete="off" ng-model="user.email" name="LoginForm[email]" placeholder="<?php echo Yii::t('user', 'E-mail')?>" required />
-    <input type="password" autocomplete="off" ng-model="user.password" name="LoginForm[password]" placeholder="<?php echo Yii::t('user', 'Пароль')?>" required />
+    <input type="email" autocomplete="off" ng-model="aUser.email" name="LoginForm[email]" placeholder="<?php echo Yii::t('user', 'E-mail')?>" required />
+    <input type="password" autocomplete="off" ng-model="aUser.password" name="LoginForm[password]" placeholder="<?php echo Yii::t('user', 'Пароль')?>" required />
 
     <div class="remember-me">
-        <input type="checkbox" ng-model="user.rememberMe" name="LoginForm[rememberMe]" ng-init="user.rememberMe=false"/>
+        <input type="checkbox" ng-model="aUser.rememberMe" name="LoginForm[rememberMe]" ng-init="aUser.rememberMe=false"/>
         <?php echo Yii::t('user', 'Запомнить меня')?>
     </div>
 
@@ -19,7 +19,7 @@
                     src="/themes/mobispot/images/auth_google.png" alt="google"></a>
         </div>
         <div class="reg-button">
-             <button class="m-button" ng-click="login(user)" ng-disabled="form.$invalid">
+             <button class="m-button" ng-click="login(aUser)" ng-disabled="aForm.$invalid">
                 <?php echo Yii::t('user', 'Отправить'); ?>
             </button>
         </div>

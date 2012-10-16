@@ -15,15 +15,14 @@ function UserController($scope, $http, $compile, $timeout, $location)
                     {
                         angular.element('.auth-hint').hide();
                         angular.element('.general-modal').html(data.content);
-
-                        $.ajax({
-                            url:'/ajax/getCaptcha',
-                            type:'POST',
-                            success:function (result) {
-                                angular.element('#login_captcha_modal .img-capt').html(result);
+                        $http.post('/ajax/getCaptcha', {content:1}).success(function(data)
+                        {
+                            if(data.error == 'no')
+                            {
+                                angular.element('#login_captcha_modal .img-capt').html(data.content);
+                                angular.element('#login_captcha_modal').reveal({animation:'none'});
                             }
                         });
-                        angular.element('#login_captcha_modal').reveal({animation:'none'});
                     }
                 });
             }
@@ -64,7 +63,7 @@ function UserController($scope, $http, $compile, $timeout, $location)
             if(data.error == 'no')
             {
                 angular.element('.auth-hint').hide();
-                angular.element('.general-modal').html(data.content);
+                angular.element('.general-modal').html($compile(data.content)($scope) );
                 angular.element('#recovery_modal').reveal({animation:'none'});
             }
         });
@@ -77,7 +76,25 @@ function UserController($scope, $http, $compile, $timeout, $location)
         {
             if(data.error == 'no')
             {
-
+                $http.post('/ajax/modal', {content:'messages'}).success(function(data)
+                {
+                    if(data.error == 'no')
+                    {
+                        angular.element('#recovery_modal').hide();
+                        angular.element('.auth-hint').hide();
+                        angular.element('.general-modal').html(data.content);
+                        angular.element('#messages_modal .messages .recovery').show();
+                        angular.element('#messages_modal').reveal({animation:'none'});
+                    }
+                });
+            }
+            else if (data.error == 'yes')
+            {
+                angular.element('.reveal-modal .messages').show();
+                $timeout(function()
+                {
+                    angular.element('.reveal-modal .messages').hide();
+                }, 3000);
             }
         });
     };
