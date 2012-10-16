@@ -120,13 +120,22 @@ class AjaxController extends MController
 
     public function actionModal()
     {
-        if (Yii::app()->request->isAjaxRequest and (isset($_POST['content']))) {
-            $txt = $this->renderPartial('//modal/' . $_POST['content'],
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $content = "";
+
+            $data = $this->getJson();
+
+            if(isset($data['content']))
+            {
+                $content = $this->renderPartial('//modal/' . $data['content'],
                 array(
                 ),
                 true);
-            echo $txt;
+            $error = "no";
+            }
 
+            echo json_encode(array('error' => $error, 'content' => $content));
         }
     }
 

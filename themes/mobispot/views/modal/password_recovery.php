@@ -15,6 +15,9 @@
                         <?php echo Yii::t('user', 'Восстановить')?>
                 </button>
             </div>
+            <div class="test"></div>
         </form>
+        <h1>Hello {{yourName}}!</h1>
     </div>
 </div>
+

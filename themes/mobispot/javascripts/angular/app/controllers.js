@@ -1,6 +1,6 @@
 'use strict';
 
-function UserController($scope, $http)
+function UserController($scope, $http, $compile, $timeout, $location)
 {
     //Авторизация
     $scope.login = function(user)
@@ -9,37 +9,38 @@ function UserController($scope, $http)
         {
             if(data.error == 'login_error_count')
             {
-                $.ajax({
-                    url:'/ajax/modal',
-                    type:'POST',
-                    data:{content:'login_captcha'},
-                    success:function (result) {
-                        $('.general-modal').html(result);
+                $http.post('/ajax/modal', {content:'login_captcha'}).success(function(data)
+                {
+                    if(data.error == 'no')
+                    {
+                        angular.element('.auth-hint').hide();
+                        angular.element('.general-modal').html(data.content);
+
                         $.ajax({
                             url:'/ajax/getCaptcha',
                             type:'POST',
                             success:function (result) {
-                                $('#login_captcha_modal .img-capt').html(result);
-                                $('#login_captcha_modal').reveal({animation:'none'});
+                                angular.element('#login_captcha_modal .img-capt').html(result);
                             }
                         });
+                        angular.element('#login_captcha_modal').reveal({animation:'none'});
                     }
                 });
-
             }
-            else if (data.error == 'yes'){
-                $('.auth-hint .alert-box.alert.messages').show();
-                    setTimeout(function () {
-                        $('.auth-hint .alert-box.alert.messages').hide();
-                    }, 3000);
+            else if (data.error == 'yes')
+            {
+                angular.element('.auth-hint .alert-box.alert.messages').show();
+                $timeout(function()
+                {
+                    angular.element('.auth-hint .alert-box.alert.messages').hide();
+                }, 3000);
             }
             else {
-                $('.auth-hint').hide();
+                angular.element('.auth-hint').hide();
                 $().redirect('', null, 'GET');
             }
         });
     };
-
 
 
     //Регистрация
@@ -49,10 +50,8 @@ function UserController($scope, $http)
         {
             if(data.error == 'yes')
             {
-
-                $(".registration .form").css("height", "350px");
-                $(".login.alert-box.alert.messages").show();
-
+                angular.element(".registration .form").css("height", "350px");
+                angular.element(".login.alert-box.alert.messages").show();
             }
         });
     };
@@ -60,14 +59,13 @@ function UserController($scope, $http)
     //Вызов формы востановления пароля
     $scope.rmodal = function()
     {
-        $.ajax({
-            url:'/ajax/modal',
-            type:'POST',
-            data:{content:'password_recovery'},
-            success:function (result) {
-                $(".auth-hint").hide();
-                $('.general-modal').html(result);
-                $('#recovery_modal').reveal({animation:'none'});
+        $http.post('/ajax/modal', {content:'password_recovery'}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element('.auth-hint').hide();
+                angular.element('.general-modal').html(data.content);
+                angular.element('#recovery_modal').reveal({animation:'none'});
             }
         });
     };
@@ -85,7 +83,7 @@ function UserController($scope, $http)
     };
 }
 
-function FaqController($scope, $http)
+function FaqController($scope, $http, $timeout)
 {
     $scope.question = function(faq)
     {
@@ -93,12 +91,13 @@ function FaqController($scope, $http)
         {
             if(data.error == 'no')
             {
-                $('.question-form').hide();
-                $('.messages').show();
-                    setTimeout(function () {
-                        $('.messages').hide();
-                        $('.get-question a.m-button').show();
-                    }, 3000);
+                angular.element('.question-form').hide();
+                angular.element('.messages').show();
+                $timeout(function()
+                {
+                    angular.element('.messages').hide();
+                        angular.element('.get-question a.m-button').show();
+                }, 3000);
             }
         });
     };

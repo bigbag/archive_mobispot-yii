@@ -1,0 +1,1 @@
+var mobispot = angular.module('mobispot', []);
