@@ -14,7 +14,7 @@ function UserController($scope, $http, $compile, $timeout, $location)
                     if(data.error == 'no')
                     {
                         angular.element('.auth-hint').hide();
-                        angular.element('.general-modal').html(data.content);
+                        angular.element('.general-modal').html($compile(data.content)($scope));
                         $http.post('/ajax/getCaptcha', {content:1}).success(function(data)
                         {
                             if(data.error == 'no')
@@ -41,6 +41,25 @@ function UserController($scope, $http, $compile, $timeout, $location)
         });
     };
 
+    //Авторизация с каптчей
+    $scope.clogin = function(user)
+    {
+        $http.post('/ajax/loginCaptcha/', user).success(function(data)
+        {
+            if(data.error == 'yes')
+            {
+                angular.element('#login_captcha_modal .messages').show();
+                $timeout(function()
+                {
+                    angular.element('#login_captcha_modal .messages').hide();
+                }, 3000);
+            }
+            else if(data.error == 'no')
+            {
+                $().redirect('', null, 'GET');
+            }
+        });
+    };
 
     //Регистрация
     $scope.registration = function(user)
@@ -63,7 +82,7 @@ function UserController($scope, $http, $compile, $timeout, $location)
             if(data.error == 'no')
             {
                 angular.element('.auth-hint').hide();
-                angular.element('.general-modal').html($compile(data.content)($scope) );
+                angular.element('.general-modal').html($compile(data.content)($scope));
                 angular.element('#recovery_modal').reveal({animation:'none'});
             }
         });

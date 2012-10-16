@@ -87,24 +87,24 @@ class AjaxController extends MController
 
     public function actionLoginCaptcha()
     {
-        if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
-            if ($_POST['token'] == Yii::app()->request->csrfToken) {
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $data = $this->getJson();
+
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
                 $form = new LoginCaptchaForm();
-                if (isset($_POST['LoginCaptchaForm'])) {
-                    $form->attributes = $_POST['LoginCaptchaForm'];
-                    if ($form->rememberMe == 'on') $form->rememberMe = 1;
-                    else $form->rememberMe = 0;
-                    if ($form->validate()) {
-                        $identity = new UserIdentity($form->email, $form->password);
-                        $identity->authenticate();
-                        $this->lastVisit();
-                        unset(Yii::app()->session['login_error_count']);
-                        echo true;
-                    } else {
-                        echo false;
-                    }
+
+                $form->attributes = $data;
+                if ($form->validate()) {
+                    $identity = new UserIdentity($form->email, $form->password);
+                    $identity->authenticate();
+                    Yii::app()->user->login($identity);
+                    $this->lastVisit();
+                    unset(Yii::app()->session['login_error_count']);
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error));
         }
     }
 
