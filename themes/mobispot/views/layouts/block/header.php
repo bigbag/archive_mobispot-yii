@@ -13,7 +13,6 @@
     <?php Yii::app()->getClientScript()->registerCssFile('/themes/mobispot/stylesheets/app.css'); ?>
 
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery');?>
-    <?php Yii::app()->getClientScript()->registerCoreScript('jquery-ui');?>
 
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/foundation.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/modernizr.foundation.js'); ?>
@@ -21,7 +20,7 @@
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/foundation/jquery.foundation.alerts.js'); ?>
 
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular-ui/build/angular-ui.min.js'); ?>
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular-resource.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/select2/select2.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.form.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.redirect.min.js'); ?>
@@ -37,5 +36,8 @@
             'width':'element',
             'minimumResultsForSearch': 100,
         }); });
+        jQuery('input[placeholder], textarea[placeholder]').placeholder();
+
+        $(document).foundationAlerts();
     </script>
 </head>

@@ -12,31 +12,42 @@
         <input type="email"
                 ng-model="rUser.email"
                 name="email"
-                value="" placeholder="<?php echo Yii::t('user', 'Email');?>"
-                autocomplete="off" required />
+                value=""
+                placeholder="<?php echo Yii::t('user', 'Email');?>"
+                autocomplete="off"
+                ng-required="true" />
         <input type="password"
                 ng-model="rUser.password"
                 name="password"
                 class="password-form"
-                value="" placeholder="<?php echo Yii::t('user', 'Пароль');?>" autocomplete="off" required />
+                value=""
+                placeholder="<?php echo Yii::t('user', 'Пароль');?>"
+                autocomplete="off"
+                ng-minlength="4"
+                ng-required="true" />
         <input type="password"
                 ng-model="rUser.verifyPassword"
                 name="verifyPassword"
-                value="" placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
-                autocomplete="off" required  ui-validate-equals="rUser.password"/>
+                value=""
+                placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
+                autocomplete="off"
+                ng-minlength="4"
+                ng-required="true"
+                data-equal="rUser.password"/>
         <input type="text"
                 ng-model="rUser.activ_code"
                 name="activ_code"
-                value="" placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
-                autocomplete="off" ng-minlength="10" ng-maxlength="10" required/>
-
-        <input ng-model="email" ui-validate='{blacklist : notBlackListed}'>
-        <span ng-show='rForm.email.$error.blacklist'>This e-mail is black-listed!</span>
+                value=""
+                placeholder="<?php echo Yii::t('user', 'Код активации спота');?>"
+                autocomplete="off"
+                ng-minlength="10"
+                ng-maxlength="10"
+                ng-required="true"/>
 
         <div class="terms"  ng-show="rUser.email && rUser.password && rUser.verifyPassword && rUser.activ_code">
             <span class="dop-txt">
                 <?php echo Yii::t('user', 'Я согласен с условиями предоставления сервиса');?>
-                <input ng-model="rUser.terms" type="checkbox" name="RegistrationForm[terms]" value="1" required>
+                <input ng-model="rUser.terms" type="checkbox" name="RegistrationForm[terms]" value="1" ng-required="true">
             </span>
         </div>
         <div class="block">

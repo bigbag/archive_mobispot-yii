@@ -1,5 +1,35 @@
 'use strict';
 
+$(document).ready(function () {
+    $('.content').on("click", function () {
+        $(".user-menu-hint").hide();
+        $(".auth-hint").hide();
+        $(".lang-hint").hide();
+    });
+
+    $('.lang-hint a').on("click", function () {
+        $(".lang-hint").hide();
+    });
+});
+
+function MenuController($scope, $http)
+{
+    $scope.menu = function()
+    {
+        angular.element('.user-menu-hint').show();
+    }
+
+    $scope.lang = function()
+    {
+        angular.element('.lang-hint').show();
+    }
+
+    $scope.auth = function()
+    {
+        angular.element('.auth-hint').show();
+    }
+}
+
 function UserController($scope, $http, $compile, $timeout, $location)
 {
     //Авторизация

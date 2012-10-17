@@ -1,9 +1,9 @@
 <?php $all_lang = Lang::getLangArray() ?>
 
-<div class="twelve columns centered menu">
+<div class="twelve columns centered menu" ng-controller="MenuController">
     <div class="row">
         <div class="three columns lang">
-            <div class="curent-lang">
+            <div class="curent-lang" ng-click="lang()">
                 <span><?php echo $all_lang[Yii::app()->language];?></span>
             </div>
             <div class="lang-hint">
@@ -19,12 +19,12 @@
         </div>
         <div class="three columns user">
             <?php if (Yii::app()->user->isGuest): ?>
-            <div class="m-button"><?php echo Yii::t('user', 'Войти')?></div>
+            <div class="m-button"  ng-click="auth()"><?php echo Yii::t('user', 'Войти')?></div>
             <?php include('auth.php'); ?>
             <?php else: ?>
             <?php $user_info = $this->userInfo(); ?>
             <div class="auth-on">
-                <span class="auth-user-name"><?php echo $user_info->name;?></span>
+                <span class="auth-user-name" ng-click="menu()"><?php echo $user_info->name;?></span>
 
                 <div class="user-menu-hint">
                     <?php echo CHtml::encode(Yii::app()->user->name)?><br />

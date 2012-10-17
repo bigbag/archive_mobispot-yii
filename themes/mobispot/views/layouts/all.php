@@ -54,6 +54,5 @@
     <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
     <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
     <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
-    <?php include('block/script.php');?>
 </body>
 </html>

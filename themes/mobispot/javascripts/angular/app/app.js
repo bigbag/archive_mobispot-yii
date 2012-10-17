@@ -1,1 +1,1 @@
-angular.module('mobispot', []);
+'use strict';
