@@ -1,1 +1,1 @@
-var mobispot = angular.module('mobispot', []);
+angular.module('mobispot', []);
