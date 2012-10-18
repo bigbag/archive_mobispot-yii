@@ -36,6 +36,7 @@
             'width':'element',
             'minimumResultsForSearch': 100,
         }); });
+
         jQuery('input[placeholder], textarea[placeholder]').placeholder();
 
         $(document).foundationAlerts();

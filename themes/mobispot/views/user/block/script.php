@@ -31,83 +31,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $('body').delegate('.spot-id', 'click', function () {
-        var id = $(this).parent().parent().attr('id');
-        if ($('#' + id + ' .spot_code_view').is(':visible')) {
-            $('#' + id + ' .spot_id_view').show();
-            $('#' + id + ' .spot_code_view').hide();
-        }
-        else {
-            $('#' + id + ' .spot_id_view').hide();
-            $('#' + id + ' .spot_code_view').show();
-        }
-
-    })
-});
-
-//диспетчер выбора операций
-$(document).ready(function () {
-    $(".action-menu select.action").change(function () {
-        var action = $(this).val();
-        var id = $('input:checked').val() ? $('input:checked').val() : false;
-
-        if (id) {
-            var status = $('#status_' + id + ' input').val() ? $('#status_' + id + ' input').val() : false;
-        }
-
-        if (id) {
-            if (action == <?php echo Spot::ACTION_CHANGE_NAME; ?>) {
-                $('#' + id + ' .spot-name div.rename').show();
-                $('#' + id + ' .spot-name div.name').hide();
-            }
-            else if (action == <?php echo Spot::ACTION_CHANGE_TYPE; ?>
-                    ) {
-                $('#' + id + ' .spot-type div.retype').show();
-                $('#' + id + ' .spot-type div.type').hide();
-            }
-            else if (action == <?php echo Spot::ACTION_CLEAR; ?>) {
-                $('b.spot_clear_id').text(id);
-                $('#spot_clear_modal input').val(id);
-                $('#spot_clear_modal').reveal({animation:'none'});
-            }
-            else if (action == <?php echo Spot::ACTION_REMOVE; ?>) {
-                $('b.spot_remove_id').text(id);
-                $('#spot_remove_modal input').val(id);
-                $('#spot_remove_modal').reveal({animation:'none'});
-            }
-            else if (action == <?php echo Spot::ACTION_COPY; ?>) {
-                $('b.spot_copy_id').text(id);
-                $('#spot_copy_modal input[name=discodes_id_from]').val(id);
-                $('#spot_copy_modal').reveal({animation:'none'});
-            }
-            else if (action == <?php echo Spot::ACTION_INVISIBLE; ?>) {
-                if (status) {
-                    if (status == <?php echo Spot::STATUS_INVISIBLE; ?>) {
-                        $('.spot_invisible_off').show();
-                        $('.spot_invisible_on').hide();
-                    }
-                    else {
-                        $('.spot_invisible_off').hide();
-                        $('.spot_invisible_on').show();
-                    }
-                }
-
-                $('b.spot_invisible_id').text(id);
-                $('#spot_invisible_modal input').val(id);
-                $('#spot_invisible_modal').reveal({animation:'none'});
-            }
-
-            $(".action-menu .action option:first").attr('selected','selected');
-            $("select.action").select2({
-                'width':'element',
-                'minimumResultsForSearch': 100,
-            });
-            $('.spot-checkbox input[name=discodes_id]').attr('checked', false);
-        }
-        return false;
-    });
-});
 
 
 //добавление спота
@@ -139,8 +62,6 @@ $(document).ready(function () {
                     }
                     else {
                         $('#spot_add_modal .spot_type_all').show();
-                        $("#spot_add_modal select").selectBox('destroy');
-                        $("#spot_add_modal select").selectBox('create');
                     }
                 }
             });

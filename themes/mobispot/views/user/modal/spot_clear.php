@@ -4,17 +4,10 @@
 
         <form action="" method="POST" class="spot_clear_form">
             <p>
-                <?php echo Yii::t('account', 'Указанное действие уничтожит всю информацию в споте')?>
-                <b class="spot_clear_id"></b>
-                <br/>
-                <?php echo Yii::t('account', 'Продолжить?')?>
-                <br/>
-                <br/>
+               <?php echo Yii::t('account', 'Указанное действие уничтожит всю информацию в споте')?> <b class="spot_clear_id"></b>
             </p>
             <input type="hidden" name="discodes_id" value="">
-            <span class="r-btn-30 clear"><span><?php echo Yii::t('account', 'Продолжить')?></span></span>
-
-            <div class="clear"></div>
+            <span class="m-button clear"><?php echo Yii::t('account', 'Продолжить')?></span>
         </form>
     </div>
 </div>

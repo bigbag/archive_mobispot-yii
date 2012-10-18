@@ -1,13 +1,16 @@
 'use strict';
 
-$(document).ready(function () {
-    $('.content').on("click", function () {
+$(document).ready(function ()
+{
+    $('.content').on("click", function ()
+    {
         $(".user-menu-hint").hide();
         $(".auth-hint").hide();
         $(".lang-hint").hide();
     });
 
-    $('.lang-hint a').on("click", function () {
+    $('.lang-hint a').on("click", function ()
+    {
         $(".lang-hint").hide();
     });
 });
@@ -28,6 +31,79 @@ function MenuController($scope, $http)
     {
         angular.element('.auth-hint').show();
     }
+}
+
+function SpotController($scope, $http)
+{
+    $scope.action = false;
+    $scope.discodes = false;
+    $scope.status = false;
+
+    //диспетчер выбора операций
+    $scope.$watch('action', function(action)
+    {
+        if ($scope.action && $scope.discodes && $scope.status)
+        {
+            angular.element('.spot-checkbox input[name=discodes_id]').attr('checked', false);
+            angular.element('.action-menu .action option:first').attr('selected','selected');
+            $("select.action").select2({
+                'width':'element',
+                'minimumResultsForSearch': 100,
+            });
+
+            switch ($scope.action) {
+                case 'rename':
+                    angular.element('#' + $scope.discodes + ' .spot-name div.rename').show();
+                    angular.element('#' + $scope.discodes + ' .spot-name div.name').hide();
+                    break
+
+                case 'retype':
+                    angular.element('#' + $scope.discodes + ' .spot-type div.retype').show();
+                    angular.element('#' + $scope.discodes + ' .spot-type div.type').hide();
+                    break
+
+                case 'copy':
+                    angular.element('b.spot_copy_id').text($scope.discodes);
+                    angular.element('#spot_copy_modal input[name=discodes_id_from]').val($scope.discodes);
+                    angular.element('#spot_copy_modal').reveal({animation:'none'});
+                    break
+
+                case 'invisible':
+                    if (status) {
+                        if (status == $scope.status) {
+                            angular.element('.spot_invisible_off').show();
+                            angular.element('.spot_invisible_on').hide();
+                        }
+                        else {
+                            angular.element('.spot_invisible_off').hide();
+                            angular.element('.spot_invisible_on').show();
+                        }
+                    }
+                    angular.element('b.spot_invisible_id').text($scope.discodes);
+                    angular.element('#spot_invisible_modal input').val($scope.discodes);
+                    angular.element('#spot_invisible_modal').reveal({animation:'none'});
+
+                    break
+
+                case 'clear':
+                    angular.element('b.spot_clear_id').text($scope.discodes);
+                    angular.element('#spot_clear_modal input').val($scope.discodes);
+                    angular.element('#spot_clear_modal').reveal({animation:'none'});
+                    break
+
+                case 'remove':
+                    angular.element('b.spot_remove_id').text($scope.discodes);
+                    angular.element('#spot_remove_modal input').val($scope.discodes);
+                    angular.element('#spot_remove_modal').reveal({animation:'none'});
+                    break
+
+                case 'add':
+
+                    break
+            }
+        }
+    });
+
 }
 
 function UserController($scope, $http, $compile, $timeout, $location)
@@ -100,6 +176,10 @@ function UserController($scope, $http, $compile, $timeout, $location)
             {
                 angular.element(".registration .form").css("height", "350px");
                 angular.element(".login.alert-box.alert.messages").show();
+            }
+            else if(data.error == 'no')
+            {
+                $().redirect('', null, 'GET');
             }
         });
     };

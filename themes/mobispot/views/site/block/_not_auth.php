@@ -23,7 +23,7 @@
                 value=""
                 placeholder="<?php echo Yii::t('user', 'Пароль');?>"
                 autocomplete="off"
-                ng-minlength="4"
+                ng-minlength="6"
                 ng-required="true" />
         <input type="password"
                 ng-model="rUser.verifyPassword"
@@ -31,7 +31,7 @@
                 value=""
                 placeholder="<?php echo Yii::t('user', 'Подтверждение пароля');?>"
                 autocomplete="off"
-                ng-minlength="4"
+                ng-minlength="6"
                 ng-required="true"
                 data-equal="rUser.password"/>
         <input type="text"

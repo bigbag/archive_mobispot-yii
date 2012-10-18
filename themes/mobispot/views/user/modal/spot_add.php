@@ -3,34 +3,32 @@
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
 
         <form action="" method="post" class="spot_add_form">
-            <?php echo Yii::t('account', 'Введите код спота')?><br/>
+            <p>
+                <?php echo Yii::t('account', 'Введите код спота')?>
+            </p>
             <span class="error"></span>
 
-            <div class="txt-form spot_code">
-                <div class="txt-form-cl">
-                    <input type="text" style="width:100%;" maxlength="10" class="txt" id="spot_add_code"
-                           name="code" value="" placeholder=""/>
+            <div class="row">
+                <div class="seven columns centered">
+                    <input type="text" maxlength="10" id="spot_add_code" name="code" value="" placeholder="" autocomplete="off"/>
                 </div>
             </div>
-            <br/>
-
-            <input type="hidden" name="code" class="code" value="">
-
-            <div class="spot_type_all" style="display: none">
-                <select name="type">
-                    <?foreach ($spot_type_all as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <br/>
-
-            <div class="round-btn" style="float:left">
-                <div class="round-btn-cl"><input type="submit" class=""
-                                                 value="<?php echo Yii::t('account', 'Сохранить')?>"/>
+            <div class="row spot_type_all" style="display: none">
+                <div class="seven columns centered">
+                    <select name="type">
+                        <?foreach ($spot_type_all as $key => $value): ?>
+                        <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
-            <div class="clear"></div>
+            <div class="row">
+                <div class="seven columns centered">
+                    <button class="m-button">
+                        <?php echo Yii::t('account', 'Сохранить')?>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

@@ -1,10 +1,7 @@
 <div class="spot" id="<?php echo $data->discodes_id;?>">
     <div class="spot-title">
     <div class="one columns spot-checkbox">
-        <input type="checkbox" name="discodes_id" value="<?php echo $data->discodes_id;?>"/>
-        <span id="status_<?php echo $data->discodes_id;?>">
-            <input type="hidden" name="status" value="<?php echo $data->status;?>">
-        </span>
+        <input type="checkbox" name="discodes_id" ng-model="discodes" ng-true-value="<?php echo $data->discodes_id;?>" ng-change="status = <?php echo $data->status;?>"/>
     </div>
     <div class="six columns spot-name">
         <div class="rename" style="display: none;">
@@ -24,8 +21,8 @@
         </div>
     </div>
     <div class="two columns spot-id">
-        <span class="spot_id_view"><?php echo $data->discodes_id;?></span>
-        <span class="spot_code_view" style="display: none"><?php echo $data->code;?></span>
+        <span class="spot_id_view" ng-click="selected_<?php echo $data->discodes_id;?> = true" ng-model="selected_<?php echo $data->discodes_id;?>" ng-hide="selected_<?php echo $data->discodes_id;?>"><?php echo $data->discodes_id;?></span>
+        <span class="spot_code_view" ng-click="selected_<?php echo $data->discodes_id;?> = false" ng-model="selected_<?php echo $data->discodes_id;?>" ng-show="selected_<?php echo $data->discodes_id;?>"><?php echo $data->code;?></span>
     </div>
     <div class="three columns spot-type">
         <div class="retype" style="display: none;">
