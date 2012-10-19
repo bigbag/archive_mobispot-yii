@@ -276,21 +276,27 @@ class AjaxController extends MController
 
     public function actionSpotRetype()
     {
-        if (isset($_POST['Spot']) and isset($_POST['Spot']['spot_type_id']) and isset($_POST['discodes_id'])) {
-            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
-            $spot_type_id = (int)$_POST['Spot']['spot_type_id'];
+        $error = "yes";
+        $discodes = "";
+        $type = "";
+        $type_id = "";
+        $data = $this->getJson();
+
+        if (isset($data['type_id']) and isset($data['discodes'])) {
+            $spot = Spot::model()->findByPk($data['discodes']);
+            $spot_type_id = $data['type_id'];
             if ($spot) {
                 $spot->spot_type_id = $spot_type_id;
                 if ($spot->save()) {
                     $all_type = SpotType::getSpotTypeArray();
-                    echo json_encode(
-                        array(
-                            'discodes_id' => $spot->discodes_id,
-                            'spot_type' => $all_type[$spot_type_id],
-                            'spot_type_id' => $spot_type_id,
-                        ));
+
+                    $discodes = $spot->discodes_id;
+                    $type_id = $spot_type_id;
+                    $type = $all_type[$spot_type_id];
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error, 'discodes' => $discodes, 'type' => $type));
         }
     }
 

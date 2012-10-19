@@ -5,17 +5,17 @@
     </div>
     <div class="six columns spot-name">
         <div class="rename" style="display: none;">
-            <form class="spot_rename_form"  name="renameForm"  ng-init="discodes=discodes; name_<?php echo $data->discodes_id;?>='<?php echo $data->name;?>'">
+            <form class="spot_rename_form"  name="renameForm"  ng-init="discodes=discodes; spot_name_<?php echo $data->discodes_id;?>='<?php echo $data->name;?>'">
                 <div class="nine columns">
                     <input
                         name="name"
                         maxlength="300"
                         value="<?php echo $data->name;?>"
-                        ng-model="name_<?php echo $data->discodes_id;?>"
+                        ng-model="spot_name_<?php echo $data->discodes_id;?>"
                         type="text">
                 </div>
                 <div class="three columns send">
-                    <button class="m-button" ng-click="rename(name_<?php echo $data->discodes_id;?>)">
+                    <button class="m-button" ng-click="rename(spot_name_<?php echo $data->discodes_id;?>)">
                        <?php echo Yii::t('account', 'Сохр.')?>
                     </button>
                 </div>
@@ -31,27 +31,34 @@
     </div>
     <div class="three columns spot-type">
         <div class="retype" style="display: none;">
-            <form action="" method="post" class="spot_retype_form">
-                <input type="hidden" name="discodes_id" value="<?php echo $data->discodes_id;?>">
+            <form class="spot_retype_form" name="retypeForm"  ng-init="discodes=<?php echo $data->discodes_id;?>; spot_type_id_<?php echo $data->discodes_id;?>=<?php echo $data->spot_type_id;?>">
             <div class="type-list">
                 <?php
                     echo CHtml::activeDropDownList(
                         $data,
                         'spot_type_id',
-                        SpotType::getSpotTypeArray(),
-                        array('options' => array($data->spot_type_id => array('selected' => true)))
+                        Spot::getAllSpot(),
+                        array(
+                            'options' => array(
+                                $data->spot_type_id => array('selected' => true),
+                            ),
+                            'ng-model' => "spot_type_id_" . $data->discodes_id,
+                        )
                     );
                 ?>
             </div>
             <div class="send">
-                    <input class="m-button" value="<?php echo Yii::t('account', 'Сохр.');?>" type="submit">
+                <button class="m-button" ng-click="retype(spot_type_id_<?php echo $data->discodes_id;?>)">
+                    <?php echo Yii::t('account', 'Сохр.')?>
+                </button>
             </div>
             </form>
         </div>
-
         <div class="type">
             <?php echo (!empty($data->spot_type->name)) ? $data->spot_type->name : '';?>
         </div>
+
+
     </div>
 </div>
 <div class="twelve columns spot-content">

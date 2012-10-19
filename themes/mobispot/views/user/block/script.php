@@ -26,40 +26,6 @@ function showSpotAddResponse(responseText) {
     }
 }
 
-//изменение типа спота
-$(document).ready(function () {
-    var options = {
-        success:showSpotRetypeResponse,
-        clearForm:false,
-        url:'/ajax/spotRetype/'
-    };
-
-    $('.spot_retype_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotRetypeResponse(responseText) {
-    if (responseText) {
-        var obj = jQuery.parseJSON(responseText);
-
-        if (obj.spot_type) {
-            var spot_type = obj.spot_type;
-            var spot_type_id = obj.spot_type_id;
-            var id = obj.discodes_id;
-
-            $("#" + id + " .spot-type #Spot_spot_type_id [value='" + spot_type_id + "']").attr("selected", "selected");
-
-            $('#' + id + ' .spot-type div.retype').hide();
-            $('#' + id + ' .spot-type div.type').html(spot_type);
-            $('#' + id + ' .spot-type div.type').show();
-        }
-        return false;
-    }
-}
-
 //невидимость спота спота
 $(document).ready(function () {
     $('#spot_invisible_modal span.invisible').click(function () {
