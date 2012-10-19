@@ -255,14 +255,22 @@ class AjaxController extends MController
 
     public function actionSpotRename()
     {
-        if (isset($_POST['name']) and isset($_POST['discodes_id'])) {
-            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+        $error = "yes";
+        $discodes = "";
+        $name = "";
+        $data = $this->getJson();
+
+        if (isset($data['name']) and isset($data['discodes'])) {
+            $spot = Spot::model()->findByPk($data['discodes']);
             if ($spot) {
-                $spot->name = CHtml::encode($_POST['name']);
+                $spot->name = CHtml::encode($data['name']);
                 if ($spot->save()) {
-                    echo json_encode(array('discodes_id' => $spot->discodes_id, 'name' => mb_substr($spot->name, 0, 45, 'utf-8')));
+                    $discodes = $data['discodes'];
+                    $name = mb_substr($spot->name, 0, 45, 'utf-8');
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error, 'discodes' => $discodes, 'name' => $name));
         }
     }
 

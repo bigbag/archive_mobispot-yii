@@ -5,14 +5,19 @@
     </div>
     <div class="six columns spot-name">
         <div class="rename" style="display: none;">
-            <form action="" method="post" class="spot_rename_form">
-                <input type="hidden" name="discodes_id" value="<?php echo $data->discodes_id;?>">
+            <form class="spot_rename_form"  name="renameForm"  ng-init="discodes=discodes; name_<?php echo $data->discodes_id;?>='<?php echo $data->name;?>'">
                 <div class="nine columns">
-                    <input class="txt" name="name" maxlength="300" value="<?php echo $data->name;?>"
-                                           placeholder=" " type="text">
+                    <input
+                        name="name"
+                        maxlength="300"
+                        value="<?php echo $data->name;?>"
+                        ng-model="name_<?php echo $data->discodes_id;?>"
+                        type="text">
                 </div>
                 <div class="three columns send">
-                    <input class="m-button" value="<?php echo Yii::t('account', 'Сохр.');?>" type="submit">
+                    <button class="m-button" ng-click="rename(name_<?php echo $data->discodes_id;?>)">
+                       <?php echo Yii::t('account', 'Сохр.')?>
+                    </button>
                 </div>
             </form>
         </div>

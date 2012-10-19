@@ -1,7 +1,7 @@
 <div id="spot_clear_modal" class="reveal-modal medium">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
-        <form name="clearForm" ng-init="discodes = discodes">
+        <form name="clearForm" ng-init="discodes=discodes">
             <p>
                 <?php echo Yii::t('account', 'Указанное действие уничтожит всю информацию в споте')?> <b>{{discodes}}</b>
             </p>
