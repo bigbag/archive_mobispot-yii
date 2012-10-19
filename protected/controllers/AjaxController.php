@@ -321,9 +321,15 @@ class AjaxController extends MController
 
     public function actionSpotCopy()
     {
-        if (isset($_POST['discodes_id_from']) and isset($_POST['discodes_id_to'])) {
-            $spot_id_from = $_POST['discodes_id_from'];
-            $spot_id_to = trim($_POST['discodes_id_to']);
+        $error = "yes";
+        $name = "";
+        $type = "";
+        $discodes = "";
+        $data = $this->getJson();
+
+        if (isset($data['discodes_from']) and isset($data['discodes_to'])) {
+            $spot_id_from = $data['discodes_from'];
+            $spot_id_to = trim($data['discodes_to']);
 
             $spot_from = Spot::model()->findByAttributes(
                 array(
@@ -359,13 +365,14 @@ class AjaxController extends MController
                         $to->save();
 
                     }
-                    echo json_encode(array(
-                        'discodes_id' => $spot_to->discodes_id,
-                        'spot_type' => $spot_to->spot_type->name,
-                        'spot_name' => $spot_to->name,
-                    ));
+
+                    $type = $spot_to->spot_type->name;
+                    $name = $spot_to->name;
+                    $discodes = $spot_to->discodes_id;
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error, 'discodes' => $discodes, 'name' => $name, 'type' => $type));
         }
     }
 

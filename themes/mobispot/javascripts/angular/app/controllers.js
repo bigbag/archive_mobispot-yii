@@ -75,7 +75,21 @@ function SpotController($scope, $http, $compile, $timeout)
         {
             if(data.error == 'no')
             {
+                angular.element('.close-reveal-modal').click();
                 $().redirect('', null, 'GET');
+            }
+        });
+        $scope.discodes = false;
+    }
+
+    //Копирование спота
+    $scope.copy = function()
+    {
+        $http.post('/ajax/spotCopy/', {discodes_from:$scope.discodes_from, discodes_to:$scope.discodes_to}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+
             }
         });
         $scope.discodes = false;
@@ -163,26 +177,38 @@ function SpotController($scope, $http, $compile, $timeout)
                     break
 
                 case 'copy':
-                    angular.element('b.spot_copy_id').text($scope.discodes);
-                    angular.element('#spot_copy_modal input[name=discodes_id_from]').val($scope.discodes);
-                    angular.element('#spot_copy_modal').reveal({animation:'none'});
+                    $http.post('/ajax/modal', {content:'spot_copy'}).success(function(data)
+                    {
+                        if(data.error == 'no')
+                        {
+                            angular.element('.general-modal').html($compile(data.content)($scope));
+                            angular.element('#spot_copy_modal input[name=discodes_id_from]').val($scope.discodes);
+                            angular.element('#spot_copy_modal').reveal({animation:'none'});
+                        }
+                    });
                     break
 
                 case 'invisible':
-                    if (status) {
-                        if (status == $scope.status) {
-                            angular.element('.spot_invisible_off').show();
-                            angular.element('.spot_invisible_on').hide();
-                        }
-                        else {
-                            angular.element('.spot_invisible_off').hide();
-                            angular.element('.spot_invisible_on').show();
-                        }
-                    }
-                    angular.element('b.spot_invisible_id').text($scope.discodes);
-                    angular.element('#spot_invisible_modal input').val($scope.discodes);
-                    angular.element('#spot_invisible_modal').reveal({animation:'none'});
+                    $http.post('/ajax/modal', {content:'spot_invisible'}).success(function(data)
+                    {
+                        if(data.error == 'no')
+                        {
+                            if (status) {
+                                if (status == $scope.status) {
+                                    angular.element('.spot_invisible_off').show();
+                                    angular.element('.spot_invisible_on').hide();
+                                }
+                                else {
+                                    angular.element('.spot_invisible_off').hide();
+                                    angular.element('.spot_invisible_on').show();
+                                }
+                            }
 
+                            angular.element('.general-modal').html($compile(data.content)($scope));
+                            angular.element('#spot_invisible_modal input').val($scope.discodes);
+                            angular.element('#spot_invisible_modal').reveal({animation:'none'});
+                        }
+                    });
                     break
 
                 case 'clear':
@@ -202,7 +228,7 @@ function SpotController($scope, $http, $compile, $timeout)
                         if(data.error == 'no')
                         {
                             angular.element('.general-modal').html($compile(data.content)($scope));
-                            angular.element('#spot_remove_modal').reveal({animation:'none'});;
+                            angular.element('#spot_remove_modal').reveal({animation:'none'});
                         }
                     });
                     break
