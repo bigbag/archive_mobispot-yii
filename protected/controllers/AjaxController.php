@@ -288,14 +288,20 @@ class AjaxController extends MController
 
     public function actionSpotRemove()
     {
-        if (isset($_POST['discodes_id'])) {
-            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
+        $error = "yes";
+        $discodes = "";
+        $data = $this->getJson();
+
+        if (isset($data['discodes'])) {
+            $spot = Spot::model()->findByPk($data['discodes']);
             if ($spot) {
                 $spot->status = Spot::STATUS_REMOVED_USER;
                 if ($spot->save()) {
-                    echo json_encode(array('discodes_id' => $spot->discodes_id));
+                    $discodes = $data['discodes'];
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error, 'discodes' => $discodes));
         }
     }
 
@@ -351,21 +357,26 @@ class AjaxController extends MController
 
     public function actionSpotClear()
     {
-        if (isset($_POST['discodes_id'])) {
-            $spot_id = $_POST['discodes_id'];
-            $spot = Spot::model()->findByPk($spot_id);
+        $error = "yes";
+        $discodes = "";
+        $data = $this->getJson();
+
+        if (isset($data['discodes'])) {
+            $spot = Spot::model()->findByPk($data['discodes']);
             if ($spot) {
 
                 $content = SpotModel::model()->findByAttributes(array(
-                    'spot_id' => $spot_id,
+                    'spot_id' => $data['discodes'],
                     'spot_type_id' => $spot->spot_type_id,
                     'lang' => $spot->lang,
                 ));
-                if ($content->delete()) {
-                    UserPersonalField::model()->deleteByPk($spot->discodes_id);
-                    echo json_encode(array('discodes_id' => $spot->discodes_id));
+                if (!isset($content) or $content->delete()) {
+                    UserPersonalField::model()->deleteByPk($discodes);
+                    $discodes = $data['discodes'];
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error, 'discodes' => $discodes));
         }
     }
 

@@ -1,5 +1,38 @@
 'use strict';
 
+//аккардеон на странице редактирования спота
+$(document).ready(function () {
+
+    $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
+        var spot = $(this).parent().parent();
+        var spot_content = spot.find('div.twelve.columns.spot-content');
+        if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
+
+        if (spot_content.is(":hidden")) {
+            var id = spot.attr('id');
+            //загрузка содержимого спота
+            if (id) {
+                $.ajax({
+                    url:'/ajax/spotView',
+                    type:'POST',
+                    data:{discodes_id:id},
+                    success:function (result) {
+                        $('#' + id  + ' .spot-content-body').html(result);
+                    }
+                });
+            }
+            $('div.twelve.columns.spot-content').hide();
+            spot_content.slideToggle(300);
+
+
+        }
+        else spot_content.slideUp(300);
+        return false;
+
+    });
+});
+
+//Скрытие меню выбора языка и пользовательского
 $(document).ready(function ()
 {
     $('.content').on("click", function ()
@@ -33,13 +66,34 @@ function MenuController($scope, $http)
     }
 }
 
-function SpotController($scope, $http)
+function SpotController($scope, $http, $compile, $timeout)
 {
-    $scope.action = false;
-    $scope.discodes = false;
-    $scope.status = false;
+    //Очистка спота
+    $scope.clear = function()
+    {
+        $http.post('/ajax/spotClear/', {discodes:$scope.discodes}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element('.close-reveal-modal').click();
+            }
+        });
+    }
 
-    //диспетчер выбора операций
+    //Удаление спота
+    $scope.remove = function()
+    {
+        $http.post('/ajax/spotRemove/', {discodes:$scope.discodes}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                $('#' + data.discodes).remove();
+                angular.element('.close-reveal-modal').click();
+            }
+        });
+    }
+
+    //Диспетчер выбора операций
     $scope.$watch('action', function(action)
     {
         if ($scope.action && $scope.discodes && $scope.status)
@@ -86,22 +140,37 @@ function SpotController($scope, $http)
                     break
 
                 case 'clear':
-                    angular.element('b.spot_clear_id').text($scope.discodes);
-                    angular.element('#spot_clear_modal input').val($scope.discodes);
-                    angular.element('#spot_clear_modal').reveal({animation:'none'});
+                    $http.post('/ajax/modal', {content:'spot_clear'}).success(function(data)
+                    {
+                        if(data.error == 'no')
+                        {
+                            angular.element('.general-modal').html($compile(data.content)($scope));
+                            angular.element('#spot_clear_modal').reveal({animation:'none'});
+                        }
+                    });
                     break
 
                 case 'remove':
-                    angular.element('b.spot_remove_id').text($scope.discodes);
-                    angular.element('#spot_remove_modal input').val($scope.discodes);
-                    angular.element('#spot_remove_modal').reveal({animation:'none'});
-                    break
-
-                case 'add':
-
+                    $http.post('/ajax/modal', {content:'spot_remove'}).success(function(data)
+                    {
+                        if(data.error == 'no')
+                        {
+                            angular.element('.general-modal').html($compile(data.content)($scope));
+                            angular.element('#spot_remove_modal').reveal({animation:'none'});;
+                        }
+                    });
                     break
             }
+
         }
+        else if (action)
+        {
+            if (action == 'add'){
+                angular.element('#spot_add_modal').reveal({animation:'none'});
+            }
+        }
+
+        $scope.action = false;
     });
 
 }

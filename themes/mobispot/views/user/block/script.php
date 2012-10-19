@@ -1,77 +1,4 @@
 <script type="text/javascript">
-//аккардеон
-$(document).ready(function () {
-
-    $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
-        var spot = $(this).parent().parent();
-        var spot_content = spot.find('div.twelve.columns.spot-content');
-        if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
-
-        if (spot_content.is(":hidden")) {
-            var id = spot.attr('id');
-            //загрузка содержимого спота
-            if (id) {
-                $.ajax({
-                    url:'/ajax/spotView',
-                    type:'POST',
-                    data:{discodes_id:id},
-                    success:function (result) {
-                        $('#' + id  + ' .spot-content-body').html(result);
-                    }
-                });
-            }
-            $('div.twelve.columns.spot-content').hide();
-            spot_content.slideToggle(300);
-
-
-        }
-        else spot_content.slideUp(300);
-        return false;
-
-    });
-});
-
-
-
-//добавление спота
-//модальное окно
-$(document).ready(function () {
-    $('.add-spot').click(function () {
-        $('#spot_add_modal').reveal({animation:'none'});
-    });
-});
-
-//проверка спота на корректность, отображение типов
-$(document).ready(function () {
-    $("#spot_add_code").keyup(function () {
-        var code = $(this).val();
-        var count = code.length;
-
-        if (count == 10) {
-            $(".spot_code input").prop('disabled', true);
-            $("#spot_add_modal input.code").val(code);
-            $.ajax({
-                url:'/ajax/spotAdd',
-                dataType:"json",
-                type:'POST',
-                data:{code:code},
-                success:function (result) {
-                    if (result === null) {
-                        $(".spot_code input").prop('disabled', false);
-                        $('#spot_add_modal span.error').text('<?php echo Yii::t('account', 'Код неверен')?>');
-                    }
-                    else {
-                        $('#spot_add_modal .spot_type_all').show();
-                    }
-                }
-            });
-        }
-        else if (count < 10) {
-            $('#spot_add_modal span.error').empty();
-        }
-        return false;
-    });
-});
 
 //сохранение спота
 $(document).ready(function () {
@@ -193,38 +120,6 @@ function showSpotInvisibleResponse(responseText) {
             var id = obj.discodes_id;
             var status = obj.status;
             $('#status_' + id + ' input').val(status);
-            $('.close-reveal-modal').click();
-        }
-    }
-}
-
-//очистка спота
-$(document).ready(function () {
-    $('#spot_clear_modal span.clear').click(function () {
-        $('.spot_clear_form').submit();
-    });
-});
-
-$(document).ready(function () {
-    var options = {
-        success:showSpotClearResponse,
-        clearForm:false,
-        url:'/ajax/spotClear/'
-    };
-
-    $('.spot_clear_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotClearResponse(responseText) {
-    if (responseText) {
-        var obj = jQuery.parseJSON(responseText);
-
-        if (obj.discodes_id) {
-            var id = obj.discodes_id;
             $('.close-reveal-modal').click();
         }
     }
