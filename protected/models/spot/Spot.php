@@ -33,15 +33,19 @@ class Spot extends CActiveRecord
     const STATUS_REMOVED_SYS = 5;
     const STATUS_INVISIBLE = 6;
 
-    const ACTION_ADD = 0;
-    const ACTION_COPY = 1;
-    const ACTION_CLEAR = 2;
-    const ACTION_REMOVE = 3;
-    const ACTION_CHANGE_NAME = 4;
-    const ACTION_CHANGE_TYPE = 5;
-    const ACTION_INVISIBLE = 6;
-
     public $spot_type_name;
+
+    public function getAllSpot(){
+        return  array(
+            8 => Yii::t('account', 'Инфо-постер'),
+            4 => Yii::t('account', 'Купон'),
+            3 => Yii::t('account', 'Личный'),
+            10 => Yii::t('account', 'Отправка'),
+            9 => Yii::t('account', 'Связь'),
+            5 => Yii::t('account', 'Ссылка'),
+            6 => Yii::t('account', 'Файл'),
+        );
+    }
 
     public function getStatusList()
     {

@@ -80,6 +80,23 @@ function SpotController($scope, $http, $compile, $timeout)
                 angular.element('#' + data.discodes + ' .spot-name div.name').show();
             }
         });
+        $scope.discodes = false;
+    }
+
+    //Изменение типа спота
+    $scope.retype = function(type_id)
+    {
+        $http.post('/ajax/spotRetype/', {discodes:$scope.discodes, type_id:type_id}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element("#" + data.discodes + " .spot-type #Spot_spot_type_id [value='" + $scope.type_id + "']").attr("selected", "selected");
+                angular.element('#' + data.discodes + ' .spot-type div.retype').hide();
+                angular.element('#' + data.discodes + ' .spot-type div.type').html(data.type);
+                angular.element('#' + data.discodes + ' .spot-type div.type').show();
+            }
+        });
+        $scope.discodes = false;
     }
 
     //Очистка спота
@@ -92,6 +109,7 @@ function SpotController($scope, $http, $compile, $timeout)
                 angular.element('.close-reveal-modal').click();
             }
         });
+        $scope.discodes = false;
     }
 
     //Удаление спота
@@ -105,6 +123,7 @@ function SpotController($scope, $http, $compile, $timeout)
                 angular.element('.close-reveal-modal').click();
             }
         });
+        $scope.discodes = false;
     }
 
     //Диспетчер выбора операций
@@ -180,7 +199,18 @@ function SpotController($scope, $http, $compile, $timeout)
         else if (action)
         {
             if (action == 'add'){
-                angular.element('#spot_add_modal').reveal({animation:'none'});
+                $http.post('/ajax/modal', {content:'spot_add'}).success(function(data)
+                    {
+                        if(data.error == 'no')
+                        {
+                            angular.element('.general-modal').html($compile(data.content)($scope));
+                            $("select.spot_type").select2({
+                                'width':'element',
+                                'minimumResultsForSearch': 100,
+                            });
+                            angular.element('#spot_add_modal').reveal({animation:'none'});
+                        }
+                    });
             }
         }
 

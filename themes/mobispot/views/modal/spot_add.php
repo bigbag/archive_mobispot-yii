@@ -16,15 +16,19 @@
                         ng-maxlength="10"
                         ng-required="true"
                     />
-                    <select name="type" ng-model="type" ng-required="true" style="width: 250px;">
-                        <option value="8"><?php echo Yii::t('account', 'Инфо-постер')?></option>
-                        <option value="4"><?php echo Yii::t('account', 'Купон')?></option>
-                        <option value="3"><?php echo Yii::t('account', 'Личный')?></option>
-                        <option value="10"><?php echo Yii::t('account', 'Отправка')?></option>
-                        <option value="9"><?php echo Yii::t('account', 'Связь')?></option>
-                        <option value="5"><?php echo Yii::t('account', 'Ссылка')?></option>
-                        <option value="6"><?php echo Yii::t('account', 'Файл')?></option>
-                    </select>
+                    <?php
+                        echo CHtml::dropDownList(
+                            'spot_type_id',
+                            '',
+                            Spot::getAllSpot(),
+                            array(
+                                'ng-required' => true,
+                                'ng-model' => 'type',
+                                'style' => 'width: 225px',
+                                'class' => 'spot_type',
+                            )
+                        );
+                    ?>
                 </div>
             </div>
             <div class="row">
