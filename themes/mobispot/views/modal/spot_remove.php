@@ -1,7 +1,7 @@
 <div id="spot_remove_modal" class="reveal-modal medium">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
-        <form name="removeForm" ng-init="discodes = discodes">
+        <form name="removeForm" ng-init="discodes=discodes">
             <p>
                 <?php echo Yii::t('account', 'Удалить спот ')?> <b>{{discodes}}</b>
             </p>

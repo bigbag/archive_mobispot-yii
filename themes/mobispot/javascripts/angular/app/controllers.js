@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
         var spot = $(this).parent().parent();
         var spot_content = spot.find('div.twelve.columns.spot-content');
-        if (e.target.tagName == 'INPUT' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
+        if (e.target.tagName == 'INPUT' || e.target.tagName == 'BUTTON' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
 
         if (spot_content.is(":hidden")) {
             var id = spot.attr('id');
@@ -68,6 +68,20 @@ function MenuController($scope, $http)
 
 function SpotController($scope, $http, $compile, $timeout)
 {
+    //Переименование спота
+    $scope.rename = function(name)
+    {
+        $http.post('/ajax/spotRename/', {discodes:$scope.discodes, name:name}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element('#' + data.discodes + ' .spot-name div.name').html(data.name);
+                angular.element('#' + data.discodes + ' .spot-name div.rename').hide();
+                angular.element('#' + data.discodes + ' .spot-name div.name').show();
+            }
+        });
+    }
+
     //Очистка спота
     $scope.clear = function()
     {

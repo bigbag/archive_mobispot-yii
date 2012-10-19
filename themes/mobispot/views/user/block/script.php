@@ -26,37 +26,6 @@ function showSpotAddResponse(responseText) {
     }
 }
 
-//переименование спота
-$(document).ready(function () {
-    var options = {
-        success:showSpotRenameResponse,
-        clearForm:false,
-        url:'/ajax/spotRename/'
-    };
-
-    $('.spot_rename_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotRenameResponse(responseText) {
-    var obj = jQuery.parseJSON(responseText);
-
-    if (responseText) {
-        if (obj.name) {
-            var name = obj.name;
-            var id = obj.discodes_id;
-
-            $('#' + id + ' .spot-name div.name').html(name);
-            $('#' + id + ' .spot-name div.rename').hide();
-            $('#' + id + ' .spot-name div.name').show();
-        }
-        return false;
-    }
-}
-
 //изменение типа спота
 $(document).ready(function () {
     var options = {
