@@ -1,36 +1,40 @@
-<div id="spot_add_modal" class="reveal-modal">
+<div id="spot_add_modal" class="reveal-modal medium">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
 
-        <form action="" method="post" class="spot_add_form">
-            <?php echo Yii::t('account', 'Введите код спота')?><br/>
-            <span class="error"></span>
+        <form name="addForm">
+            <p>
+                <?php echo Yii::t('account', 'Введите код спота')?>
+            </p>
 
-            <div class="txt-form spot_code">
-                <div class="txt-form-cl">
-                    <input type="text" style="width:100%;" maxlength="10" class="txt" id="spot_add_code"
-                           name="code" value="" placeholder=""/>
+            <div class="row">
+                <div class="nine columns centered">
+                    <input type="text" name="code"
+                        autocomplete="off"
+                        ng-model="code"
+                        ng-minlength="10"
+                        ng-maxlength="10"
+                        ng-required="true"
+                    />
+                    <select name="type" ng-model="type" ng-required="true" style="width: 250px;">
+                        <option value="8"><?php echo Yii::t('account', 'Инфо-постер')?></option>
+                        <option value="4"><?php echo Yii::t('account', 'Купон')?></option>
+                        <option value="3"><?php echo Yii::t('account', 'Личный')?></option>
+                        <option value="10"><?php echo Yii::t('account', 'Отправка')?></option>
+                        <option value="9"><?php echo Yii::t('account', 'Связь')?></option>
+                        <option value="5"><?php echo Yii::t('account', 'Ссылка')?></option>
+                        <option value="6"><?php echo Yii::t('account', 'Файл')?></option>
+                    </select>
                 </div>
             </div>
-            <br/>
-
-            <input type="hidden" name="code" class="code" value="">
-
-            <div class="spot_type_all" style="display: none">
-                <select name="type">
-                    <?foreach ($spot_type_all as $key => $value): ?>
-                    <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <br/>
-
-            <div class="round-btn" style="float:left">
-                <div class="round-btn-cl"><input type="submit" class=""
-                                                 value="<?php echo Yii::t('account', 'Сохранить')?>"/>
+            <div class="row">
+                <div class="six columns centered">
+                    <br />
+                    <button class="m-button" ng-click="add()" ng-disabled="addForm.$invalid">
+                        <?php echo Yii::t('account', 'Сохранить')?>
+                    </button>
                 </div>
             </div>
-            <div class="clear"></div>
         </form>
     </div>
 </div>

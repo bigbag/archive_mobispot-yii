@@ -51,7 +51,7 @@
 
                 </div>
                 <div class="three columns add-spot">
-                    <span class="m-button"><i class="icon-plus"></i>&nbsp;<?php echo Yii::t('account', 'Добавить спот'); ?></span>
+                    <span class="m-button" ng-click="action = 'add'" ><i class="icon-plus"></i>&nbsp;<?php echo Yii::t('account', 'Добавить спот'); ?></span>
                 </div>
 
             </div>
@@ -61,11 +61,6 @@
 </div>
 
 <?php include('block/script.php') ?>
-<?php include('modal/spot_clear.php') ?>
-<?php include('modal/spot_invisible.php') ?>
-<?php include('modal/spot_remove.php') ?>
-<?php include('modal/spot_add.php') ?>
-<?php include('modal/spot_copy.php') ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.miniColors.min.js'); ?>

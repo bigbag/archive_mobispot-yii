@@ -1,20 +1,17 @@
-<div id="spot_clear_modal" class="reveal-modal">
+<div id="spot_clear_modal" class="reveal-modal medium">
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
-
-        <form action="" method="POST" class="spot_clear_form">
+        <form name="clearForm" ng-init="discodes = discodes">
             <p>
-                <?php echo Yii::t('account', 'Указанное действие уничтожит всю информацию в споте')?>
-                <b class="spot_clear_id"></b>
-                <br/>
-                <?php echo Yii::t('account', 'Продолжить?')?>
-                <br/>
-                <br/>
+                <?php echo Yii::t('account', 'Указанное действие уничтожит всю информацию в споте')?> <b>{{discodes}}</b>
             </p>
-            <input type="hidden" name="discodes_id" value="">
-            <span class="r-btn-30 clear"><span><?php echo Yii::t('account', 'Продолжить')?></span></span>
-
-            <div class="clear"></div>
+            <div class="row">
+                <div class="six columns centered">
+                    <button class="m-button" ng-click="clear()" ng-disabled="clearForm.$invalid">
+                        <?php echo Yii::t('account', 'Продолжить')?>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
