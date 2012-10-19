@@ -68,6 +68,19 @@ function MenuController($scope, $http)
 
 function SpotController($scope, $http, $compile, $timeout)
 {
+    //Добавление спота
+    $scope.add = function()
+    {
+        $http.post('/ajax/spotAdd/', {code:$scope.code, type:$scope.type}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                $().redirect('', null, 'GET');
+            }
+        });
+        $scope.discodes = false;
+    }
+
     //Переименование спота
     $scope.rename = function(name)
     {

@@ -413,28 +413,21 @@ class AjaxController extends MController
 
     public function actionSpotAdd()
     {
-        if (isset($_POST['code'])) {
-            if (!isset($_POST['type'])) {
-                $spot = Spot::model()->findByAttributes(array('code' => $_POST['code'], 'status' => Spot::STATUS_ACTIVATED));
-                if ($spot) {
-                    echo true;
-                }
-                echo 1;
-            } else {
-                $spot = Spot::model()->findByAttributes(array('code' => $_POST['code']));
+        $error = "yes";
+        $data = $this->getJson();
+
+        if (isset($data['code']) and isset($data['type'])) {
+            $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
+            if ($spot) {
                 $spot->status = Spot::STATUS_REGISTERED;
                 $spot->lang =  $this->getLang();
                 $spot->user_id = Yii::app()->user->id;
-                $spot->spot_type_id = (int)$_POST['type'];
+                $spot->spot_type_id = $data['type'];
                 if ($spot->save()) {
-                    $txt = $this->renderPartial('/user/block/_spots_list',
-                        array(
-                            'data' => $spot,
-                        ),
-                        true);
-                    echo '<div class="items">' . $txt . '</div>';
+                    $error = "no";
                 }
             }
+            echo json_encode(array('error' => $error));
         }
     }
 
