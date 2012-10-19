@@ -2,26 +2,23 @@
     <div class="cont-pop">
         <a class="close-reveal-modal"><?php echo Yii::t('account', 'Закрыть')?></a>
 
-        <form action="" method="post" class="spot_copy_form">
-            <?php echo Yii::t('account', 'Введите ID-спота, в которую вы хотите скопировать содержимое спота')?>
-            <b class="spot_copy_id"></b>
+        <form name="copyForm" ng-init="discodes_from=discodes">
+        <p>
+            <?php echo Yii::t('account', 'Введите ID-спота, в которую вы хотите скопировать содержимое спота')?> <b>{{discodes}}</b>
+        </p>
 
-            <div class="txt-form">
-                <div class="txt-form-cl">
-                    <input type="hidden" name="discodes_id_from" value="">
-                    <input style="width:100%;" class="txt" name="discodes_id_to" value="" placeholder="" type="text">
+            <div class="row">
+                <div class="six columns centered">
+                    <input ng-model="discodes_to" name="discodes_to" type="text" ng-required="true">
                 </div>
             </div>
-            <span class="red-txt">
-                <?php echo Yii::t('account', 'Вся информация, содеражаяся в этом споте будет<br> уничтожена и заменена на копируемую информацию.')?>
-            </span>
-
-            <div class="round-btn" style="float:left">
-                <div class="round-btn-cl">
-                    <input class="" value="<?php echo Yii::t('account', 'Ок')?>" type="submit">
+            <div class="row">
+                <div class="six columns centered">
+                    <button class="m-button" ng-click="copy()" ng-disabled="copyForm.$invalid">
+                        <?php echo Yii::t('account', 'Ок')?>
+                    </button>
                 </div>
             </div>
-            <div class="clear"></div>
         </form>
     </div>
 </div>

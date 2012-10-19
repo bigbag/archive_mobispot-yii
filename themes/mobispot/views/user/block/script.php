@@ -1,31 +1,5 @@
 <script type="text/javascript">
 
-//сохранение спота
-$(document).ready(function () {
-    var options = {
-        success:showSpotAddResponse,
-        clearForm:true,
-        url:'/ajax/spotAdd/'
-    };
-
-    $('.spot_add_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotAddResponse(responseText) {
-    if (responseText) {
-        $('#spotslistview').prepend(responseText);
-        jQuery(".niceCheck").each(
-                function () {
-                    changeCheckStart(jQuery(this));
-                });
-        $('.close-reveal-modal').click();
-    }
-}
-
 //невидимость спота спота
 $(document).ready(function () {
     $('#spot_invisible_modal span.invisible').click(function () {
@@ -55,39 +29,6 @@ function showSpotInvisibleResponse(responseText) {
             var id = obj.discodes_id;
             var status = obj.status;
             $('#status_' + id + ' input').val(status);
-            $('.close-reveal-modal').click();
-        }
-    }
-}
-
-//удаление спота
-$(document).ready(function () {
-    $('#spot_remove_modal span.remove').click(function () {
-        $('.spot_remove_form').submit();
-    });
-});
-
-$(document).ready(function () {
-    var options = {
-        success:showSpotRemoveResponse,
-        clearForm:false,
-        url:'/ajax/spotRemove/'
-    };
-
-    $('.spot_remove_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotRemoveResponse(responseText) {
-    if (responseText) {
-        var obj = jQuery.parseJSON(responseText);
-
-        if (obj.discodes_id) {
-            var id = obj.discodes_id;
-            $('#' + id).remove();
             $('.close-reveal-modal').click();
         }
     }
