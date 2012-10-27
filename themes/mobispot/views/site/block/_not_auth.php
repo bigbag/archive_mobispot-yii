@@ -3,7 +3,7 @@
     <?php echo Yii::t('user', 'Введённые данные не верны.')?>
 </div>
 <div class="area registration-form" ng-controller="UserController" ng-init="rUser.token='<?php echo Yii::app()->request->csrfToken?>'">
-    <form name="rForm">
+    <form name="regUserForm">
         <input type="text"
                 name="name"
                 value="" placeholder=""
@@ -60,7 +60,7 @@
                         src="/themes/mobispot/images/auth_google.png" alt="google"></a>
             </div>
             <div class="reg-button">
-              <button class="m-button" ng-click="registration(rUser)" ng-disabled="rForm.$invalid">
+              <button class="m-button" ng-click="registration(rUser)" ng-disabled="regUserForm.$invalid">
                   <?php echo Yii::t('user', 'Зарегистрироваться');?>
               </button>
             </div>

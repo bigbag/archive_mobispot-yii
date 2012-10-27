@@ -1,37 +1,5 @@
 'use strict';
 
-//аккардеон на странице редактирования спота
-$(document).ready(function () {
-
-    $('body').delegate('div.spot-title>div.six.columns', 'click', function (e) {
-        var spot = $(this).parent().parent();
-        var spot_content = spot.find('div.twelve.columns.spot-content');
-        if (e.target.tagName == 'INPUT' || e.target.tagName == 'BUTTON' || e.target.tagName == 'SPAN' || e.target.tagName == 'A')        return;
-
-        if (spot_content.is(":hidden")) {
-            var id = spot.attr('id');
-            //загрузка содержимого спота
-            if (id) {
-                $.ajax({
-                    url:'/ajax/spotView',
-                    type:'POST',
-                    data:{discodes_id:id},
-                    success:function (result) {
-                        $('#' + id  + ' .spot-content-body').html(result);
-                    }
-                });
-            }
-            $('div.twelve.columns.spot-content').hide();
-            spot_content.slideToggle(300);
-
-
-        }
-        else spot_content.slideUp(300);
-        return false;
-
-    });
-});
-
 //Скрытие меню выбора языка и пользовательского
 $(document).ready(function ()
 {
@@ -68,6 +36,36 @@ function MenuController($scope, $http)
 
 function SpotController($scope, $http, $compile, $timeout)
 {
+    $scope.isClean = function() {
+        return angular.equals(self.original, $scope.project);
+    }
+
+    //аккардеон на странице редактирования спота
+    $scope.accordion = function(e){
+        if (e.target.tagName == 'INPUT' || e.target.tagName == 'BUTTON' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;
+
+        var spot = angular.element(e.currentTarget).parent().parent();
+        var spot_content = spot.find('div.twelve.columns.spot-content');
+
+        if (spot_content.is(":hidden")) {
+            var id = spot.attr('id');
+            //загрузка содержимого спота
+            $http.post('/ajax/spotView', {discodes:id}).success(function(data)
+            {
+                if(data.error == 'no')
+                {
+                    angular.element('#' + id  + ' .spot-content-body').html($compile(data.content)($scope));
+                }
+            });
+            $scope.discodes = false;
+
+            angular.element('div.twelve.columns.spot-content').hide();
+            spot_content.slideToggle(300);
+        }
+        else spot_content.slideUp(300);
+        return false;
+    }
+
     //Добавление спота
     $scope.add = function()
     {
@@ -89,7 +87,9 @@ function SpotController($scope, $http, $compile, $timeout)
         {
             if(data.error == 'no')
             {
-
+                angular.element('.close-reveal-modal').click();
+                angular.element('#' + data.discodes + ' div.name').html(data.name);
+                angular.element('#' + data.discodes + ' div.type').html(data.type)
             }
         });
         $scope.discodes = false;
@@ -134,6 +134,19 @@ function SpotController($scope, $http, $compile, $timeout)
             if(data.error == 'no')
             {
                 angular.element('.close-reveal-modal').click();
+            }
+        });
+        $scope.discodes = false;
+    }
+
+    //Невидимость спота спота
+    $scope.invisible = function()
+    {
+        $http.post('/ajax/spotInvisible/', {discodes:$scope.discodes}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+
             }
         });
         $scope.discodes = false;
@@ -193,15 +206,15 @@ function SpotController($scope, $http, $compile, $timeout)
                     {
                         if(data.error == 'no')
                         {
-                            if (status) {
-                                if (status == $scope.status) {
-                                    angular.element('.spot_invisible_off').show();
-                                    angular.element('.spot_invisible_on').hide();
-                                }
-                                else {
-                                    angular.element('.spot_invisible_off').hide();
-                                    angular.element('.spot_invisible_on').show();
-                                }
+                            if ($scope.status == 6)
+                            {
+                                angular.element('.spot_invisible_off').show();
+                                angular.element('.spot_invisible_on').hide();
+                            }
+                            else
+                            {
+                                angular.element('.spot_invisible_off').hide();
+                                angular.element('.spot_invisible_on').show();
                             }
 
                             angular.element('.general-modal').html($compile(data.content)($scope));

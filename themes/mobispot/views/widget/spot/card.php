@@ -1,19 +1,5 @@
-<div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
-<span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
-
-<div class="btn-30">
-    <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
-                form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
-</div>
-<a href="#" class="btn-30">
-    <span class="preview-ico ico"></span>
-    <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
-</a>
-
 <div class="oneSpotInfo">
     <form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
-        <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
-        <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
         <table class="visitInfoTbl" cellspacing="0">
             <tbody>
             <tr>
