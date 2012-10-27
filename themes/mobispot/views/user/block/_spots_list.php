@@ -3,7 +3,7 @@
     <div class="one columns spot-checkbox">
         <input type="checkbox" name="discodes_id" ng-model="discodes" ng-true-value="<?php echo $data->discodes_id;?>" ng-change="status = <?php echo $data->status;?>"/>
     </div>
-    <div class="six columns spot-name">
+    <div class="six columns spot-name" ng-click="accordion($event)">
         <div class="rename" style="display: none;">
             <form class="spot_rename_form"  name="renameForm"  ng-init="discodes=discodes; spot_name_<?php echo $data->discodes_id;?>='<?php echo $data->name;?>'">
                 <div class="nine columns">
@@ -61,20 +61,23 @@
 
     </div>
 </div>
-<div class="twelve columns spot-content">
+<div class="twelve columns spot-content" ng-controller="SpotController" ng-init="eSpot.discodes='<?php echo $data->discodes_id;?>'; eSpot.type='<?php echo $data->spot_type_id;?>'">
+    <form name="spotEditForm">
     <div class="row">
         <div class="five columns">
-            <a href="<?php echo $data->discodes_id;?>" class="m-button save-spot">
-                <?php echo Yii::t('account', 'Сохранить');?>
-            </a>&nbsp;&nbsp;
-            <a href="<?php echo $data->discodes_id;?>" class="m-button preview-spot">
+            <button class="m-button save-spot" ng-click="save(eSpot)" ng-disabled="spotEditForm.$invalid">
+                  <?php echo Yii::t('account', 'Сохранить');?>
+            </button>
+            &nbsp;&nbsp;
+            <button class="m-button preview-spot" ng-click="preview(<?php echo $data->discodes_id;?>)">
                 <i class="icon-search"></i>&nbsp;<?php echo Yii::t('account', 'Предпросмотр');?>
-            </a>
+            </button>
         </div>
         <div class="seven columns">
 
         </div>
     </div>
     <div class="spot-content-body"></div>
+    </form>
 </div>
 </div>

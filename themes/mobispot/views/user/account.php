@@ -27,6 +27,7 @@
             <div class="action-menu">
                 <div class="three columns">
                     <select name='action' id="action-select" ng-model="action">
+                        <option></option>
                     <option value="rename">
                         <?php echo Yii::t('account', 'Изменить название'); ?>
                     </option>
@@ -60,7 +61,6 @@
     </div>
 </div>
 
-<?php include('block/script.php') ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/relcopy.min.js'); ?>
 <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.miniColors.min.js'); ?>

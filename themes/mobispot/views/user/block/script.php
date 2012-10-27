@@ -64,35 +64,3 @@ function showSpotEditResponse(responseText) {
         }
     }
 }
-
-//копирование спота
-$(document).ready(function () {
-    var options = {
-        success:showSpotCopyResponse,
-        clearForm:true,
-        url:'/ajax/spotCopy/'
-    };
-
-    $('.spot_copy_form').submit(function () {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-
-function showSpotCopyResponse(responseText) {
-    if (responseText) {
-        var obj = jQuery.parseJSON(responseText);
-
-        var id = obj.discodes_id;
-        var spot_type = obj.spot_type;
-        var spot_name = obj.spot_name;
-
-        if (id && spot_type && spot_name){
-            $('#name_' + id + ' div.name').html(spot_name);
-            $('#type_' + id + ' div.type').html(spot_type);
-            $('.close-reveal-modal').click();
-        }
-    }
-}
-</script>

@@ -440,19 +440,25 @@ class AjaxController extends MController
 
     public function actionSpotView()
     {
-        if (isset($_POST['discodes_id'])) {
-            $spot = Spot::model()->findByPk((int)$_POST['discodes_id']);
-            if ($spot) {
+        if (Yii::app()->request->isAjaxRequest) {
+            $error = "yes";
+            $content = "";
 
-                $content = SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-                $txt = $this->renderPartial('//widget/spot/' . $spot->spot_type->pattern,
-                    array(
-                        'data' => $spot,
-                        'content' => $content,
-                    ),
-                    true);
-                echo $txt;
+            $data = $this->getJson();
+            if(isset($data['discodes'])){
+                $spot = Spot::model()->findByPk($data['discodes']);
+                if ($spot) {
+                    $data = SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
+                    $content = $this->renderPartial('//widget/spot/' . $spot->spot_type->pattern,
+                        array(
+                            'data' => $spot,
+                            'content' => $data,
+                        ),
+                        true);
+                    $error = "no";
+                }
             }
+            echo json_encode(array('error' => $error, 'content' => $content));
         }
     }
 
