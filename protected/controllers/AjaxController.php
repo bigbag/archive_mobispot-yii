@@ -137,8 +137,15 @@ class AjaxController extends MController
 
             if(isset($data['content']))
             {
+                if (isset($data['discodes'])) {
+                    $discodes = $data['discodes'];
+                    $spot = Spot::model()->findByPk($data['discodes']);
+                }
+                else $spot = false;
+
                 $content = $this->renderPartial('//modal/' . $data['content'],
                     array(
+                        'spot' => $spot,
                     ),
                     true
                     );
@@ -403,17 +410,21 @@ class AjaxController extends MController
 
     public function actionSpotInvisible()
     {
-        if (isset($_POST['discodes_id'])) {
-            $spot_id = $_POST['discodes_id'];
-            $spot = Spot::model()->findByPk($spot_id);
+        $error = "yes";
+        $data = $this->getJson();
+
+        if (isset($data['discodes'])) {
+            $spot = Spot::model()->findByPk($data['discodes']);
 
             if ($spot) {
                 if ($spot->status == Spot::STATUS_INVISIBLE) $spot->status = Spot::STATUS_REGISTERED;
                 else $spot->status = Spot::STATUS_INVISIBLE;
-                $spot->save();
-                echo json_encode(array('discodes_id' => $spot->discodes_id, 'status' => $spot->status));
 
+                if ($spot->save()){
+                    $error = "no";
+                }
             }
+            echo json_encode(array('error' => $error));
         }
     }
 
