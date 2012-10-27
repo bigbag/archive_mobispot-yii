@@ -4,12 +4,11 @@
 
         <form name="invisibleForm" ng-init="discodes=discodes">
             <p>
-                <span class="spot_invisible_on">
-                     <?php echo Yii::t('account', 'Данное действие приведет к тому, что информация в Вашем споте  не будет видима никому.<br /> При попытке сканирования пользователи будут попадать на главную страницу сайта. ')?>
-                </span>
-                <span class="spot_invisible_off" style="display: none">
+                <?php if ($spot->status != 6): ?>
+                    <?php echo Yii::t('account', 'Данное действие приведет к тому, что информация в Вашем споте не будет видима никому.<br /> При попытке сканирования пользователи будут попадать на главную страницу сайта. ')?>
+                <?php else: ?>
                     <?php echo Yii::t('account', 'Данное действие приведет к тому,<br /> что информация в Вашем споте опять станет видимой для всех. ')?>
-                </span>
+                <?php endif; ?>
             </p>
             <button class="m-button" ng-click="invisible()">
                 <?php echo Yii::t('account', 'Продолжить')?>

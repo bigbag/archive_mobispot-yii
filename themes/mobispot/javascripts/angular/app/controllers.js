@@ -146,7 +146,7 @@ function SpotController($scope, $http, $compile, $timeout)
         {
             if(data.error == 'no')
             {
-
+                angular.element('.close-reveal-modal').click();
             }
         });
         $scope.discodes = false;
@@ -202,21 +202,10 @@ function SpotController($scope, $http, $compile, $timeout)
                     break
 
                 case 'invisible':
-                    $http.post('/ajax/modal', {content:'spot_invisible'}).success(function(data)
+                    $http.post('/ajax/modal', {content:'spot_invisible', discodes:$scope.discodes}).success(function(data)
                     {
                         if(data.error == 'no')
                         {
-                            if ($scope.status == 6)
-                            {
-                                angular.element('.spot_invisible_off').show();
-                                angular.element('.spot_invisible_on').hide();
-                            }
-                            else
-                            {
-                                angular.element('.spot_invisible_off').hide();
-                                angular.element('.spot_invisible_on').show();
-                            }
-
                             angular.element('.general-modal').html($compile(data.content)($scope));
                             angular.element('#spot_invisible_modal input').val($scope.discodes);
                             angular.element('#spot_invisible_modal').reveal({animation:'none'});
