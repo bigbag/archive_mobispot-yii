@@ -21,12 +21,10 @@
 
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular-resource.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/angular/angular-delegates.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/select2/select2.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.form.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.redirect.min.js'); ?>
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.placeholder.js'); ?>
-
+    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/javascripts/jquery/jquery.uploadifive.min.js'); ?>
 
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>

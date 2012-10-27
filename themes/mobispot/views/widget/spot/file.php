@@ -1,24 +1,7 @@
-<div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
-    <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
-
-    <div class="btn-30">
-        <div><input type="submit" class="" value="<?php echo Yii::t('account', 'Сохранить');?>"
-                    form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
-    </div>
-    <a href="#" class="btn-30">
-        <span class="preview-ico ico"></span>
-        <span class="btn-30-txt"><?php echo Yii::t('account', 'Предпросмотр');?></span>
-    </a>
-
-    <div class="oneSpotInfo">
-        <form action="" method="post" class="spot_edit_content" id="spot_edit_content_<?php echo $content->spot_id?>">
-            <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
-            <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
-            <p><?php echo Yii::t('account', 'Загрузите в этот спот любой графический файл (pdf, jpg, png, gif), и пользователи,<br />
+<p>
+    <?php echo Yii::t('account', 'Загрузите в этот спот любой графический файл (pdf, jpg, png, gif), и пользователи,<br />
         отсканировавшие Ваш спот увидят его в браузере своего мобильного телефона.');?>
-
-            </p>
-            <?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id' => 'spot_file_field')); ?>
+</p>
             <table>
                 <tr>
                     <td>
@@ -37,11 +20,8 @@
                     </td>
                 </tr>
             </table>
-        </form>
-    </div>
-    <div class="clear"></div>
-    <div>
-        <script type="text/javascript">
+
+             <script type="text/javascript">
 
             $(function () {
                 $('body').delegate('.result_upload span.cancel', 'click', function () {
