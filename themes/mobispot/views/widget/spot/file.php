@@ -2,26 +2,21 @@
     <?php echo Yii::t('account', 'Загрузите в этот спот любой графический файл (pdf, jpg, png, gif), и пользователи,<br />
         отсканировавшие Ваш спот увидят его в браузере своего мобильного телефона.');?>
 </p>
-            <table>
-                <tr>
-                    <td>
-                        <div class="round-btn-upload">
-                            <input type="submit" class="add_file"
-                                   value="<?php echo Yii::t('account', 'Загрузить');?>"/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="result_upload">
-                            <?php if (!empty($content->fayl_6)): ?>
-                            <?php $file_name = explode('_', $content->fayl_6) ?>
-                            <?php echo $file_name[2]; ?><span class="cancel"></span>
-                            <?php endif; ?>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+<?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id' => 'spot_file_field')); ?>
+<div class="send">
+    <button class="m-button add_file">
+        <i class="icon-upload"></i>&nbsp;<?php echo Yii::t('account', 'Загрузить');?>
+    </button>
+</div>
 
-             <script type="text/javascript">
+<div class="result_upload">
+    <?php if (!empty($content->fayl_6)): ?>
+        <?php $file_name = explode('_', $content->fayl_6) ?>
+        <?php echo $file_name[2]; ?><span class="cancel"></span>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
 
             $(function () {
                 $('body').delegate('.result_upload span.cancel', 'click', function () {
@@ -60,4 +55,4 @@
                 });
                 return false;
             });
-        </script>
+</script>

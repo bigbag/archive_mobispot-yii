@@ -31,10 +31,17 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
      <script>
-        $(document).ready(function() { $("select").select2({
-            'width':'element',
-            'minimumResultsForSearch': 100,
-        }); });
+        $(document).ready(function() {
+            $("select").select2({
+                'width':'element',
+                'minimumResultsForSearch': 100,
+            });
+            $("#action-select").select2({
+                'placeholder': "<?php echo Yii::t('account', 'Выберите действие');?>",
+                'width':'element',
+                'minimumResultsForSearch': 100,
+            });
+        });
         jQuery('input[placeholder], textarea[placeholder]').placeholder();
 
         $(document).foundationAlerts();
