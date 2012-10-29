@@ -169,93 +169,95 @@ function SpotController($scope, $http, $compile, $timeout)
     //Диспетчер выбора операций
     $scope.$watch('action', function(action)
     {
-        if ($scope.action && $scope.discodes && $scope.status)
-        {
-            angular.element('.spot-checkbox input[name=discodes_id]').attr('checked', false);
-            angular.element('.action-menu .action option:first').attr('selected','selected');
-            $("select.action").select2({
-                'width':'element',
-                'minimumResultsForSearch': 100,
-            });
+        if ($scope.action){
+            if ($scope.discodes && $scope.status)
+            {
+                angular.element('.spot-checkbox input[name=discodes_id]').attr('checked', false);
+                $('select option:first', '#action-select').attr('selected', true);
+                $('#action-select').select2({
+                    'placeholder': "<?php echo Yii::t('account', 'Выберите действие');?>",
+                    'width':'element',
+                    'minimumResultsForSearch': 100,
+                });
 
-            switch ($scope.action) {
-                case 'rename':
-                    angular.element('#' + $scope.discodes + ' .spot-name div.rename').show();
-                    angular.element('#' + $scope.discodes + ' .spot-name div.name').hide();
-                    break
+                switch (action) {
+                    case 'rename':
+                        angular.element('#' + $scope.discodes + ' .spot-name div.rename').show();
+                        angular.element('#' + $scope.discodes + ' .spot-name div.name').hide();
+                        break
 
-                case 'retype':
-                    angular.element('#' + $scope.discodes + ' .spot-type div.retype').show();
-                    angular.element('#' + $scope.discodes + ' .spot-type div.type').hide();
-                    break
+                    case 'retype':
+                        angular.element('#' + $scope.discodes + ' .spot-type div.retype').show();
+                        angular.element('#' + $scope.discodes + ' .spot-type div.type').hide();
+                        break
 
-                case 'copy':
-                    $http.post('/ajax/modal', {content:'spot_copy'}).success(function(data)
-                    {
-                        if(data.error == 'no')
+                    case 'copy':
+                        $http.post('/ajax/modal', {content:'spot_copy'}).success(function(data)
                         {
-                            angular.element('.general-modal').html($compile(data.content)($scope));
-                            angular.element('#spot_copy_modal input[name=discodes_id_from]').val($scope.discodes);
-                            angular.element('#spot_copy_modal').reveal({animation:'none'});
-                        }
-                    });
-                    break
+                            if(data.error == 'no')
+                            {
+                                angular.element('.general-modal').html($compile(data.content)($scope));
+                                angular.element('#spot_copy_modal input[name=discodes_id_from]').val($scope.discodes);
+                                angular.element('#spot_copy_modal').reveal({animation:'none'});
+                            }
+                        });
+                        break
 
-                case 'invisible':
-                    $http.post('/ajax/modal', {content:'spot_invisible', discodes:$scope.discodes}).success(function(data)
-                    {
-                        if(data.error == 'no')
+                    case 'invisible':
+                        $http.post('/ajax/modal', {content:'spot_invisible', discodes:$scope.discodes}).success(function(data)
                         {
-                            angular.element('.general-modal').html($compile(data.content)($scope));
-                            angular.element('#spot_invisible_modal input').val($scope.discodes);
-                            angular.element('#spot_invisible_modal').reveal({animation:'none'});
-                        }
-                    });
-                    break
+                            if(data.error == 'no')
+                            {
+                                angular.element('.general-modal').html($compile(data.content)($scope));
+                                angular.element('#spot_invisible_modal input').val($scope.discodes);
+                                angular.element('#spot_invisible_modal').reveal({animation:'none'});
+                            }
+                        });
+                        break
 
-                case 'clear':
-                    $http.post('/ajax/modal', {content:'spot_clear'}).success(function(data)
-                    {
-                        if(data.error == 'no')
+                    case 'clear':
+                        $http.post('/ajax/modal', {content:'spot_clear'}).success(function(data)
                         {
-                            angular.element('.general-modal').html($compile(data.content)($scope));
-                            angular.element('#spot_clear_modal').reveal({animation:'none'});
-                        }
-                    });
-                    break
+                            if(data.error == 'no')
+                            {
+                                angular.element('.general-modal').html($compile(data.content)($scope));
+                                angular.element('#spot_clear_modal').reveal({animation:'none'});
+                            }
+                        });
+                        break
 
-                case 'remove':
-                    $http.post('/ajax/modal', {content:'spot_remove'}).success(function(data)
-                    {
-                        if(data.error == 'no')
+                    case 'remove':
+                        $http.post('/ajax/modal', {content:'spot_remove'}).success(function(data)
                         {
-                            angular.element('.general-modal').html($compile(data.content)($scope));
-                            angular.element('#spot_remove_modal').reveal({animation:'none'});
-                        }
-                    });
-                    break
+                            if(data.error == 'no')
+                            {
+                                angular.element('.general-modal').html($compile(data.content)($scope));
+                                angular.element('#spot_remove_modal').reveal({animation:'none'});
+                            }
+                        });
+                        break
+                }
+
             }
-
-        }
-        else if (action)
-        {
-            if (action == 'add'){
-                $http.post('/ajax/modal', {content:'spot_add'}).success(function(data)
-                    {
-                        if(data.error == 'no')
+            else
+            {
+                if ($scope.action == 'add'){
+                    $http.post('/ajax/modal', {content:'spot_add'}).success(function(data)
                         {
-                            angular.element('.general-modal').html($compile(data.content)($scope));
-                            $("select.spot_type").select2({
-                                'width':'element',
-                                'minimumResultsForSearch': 100,
-                            });
-                            angular.element('#spot_add_modal').reveal({animation:'none'});
-                        }
-                    });
+                            if(data.error == 'no')
+                            {
+                                angular.element('.general-modal').html($compile(data.content)($scope));
+                                $("select.spot_type").select2({
+                                    'width':'element',
+                                    'minimumResultsForSearch': 100,
+                                });
+                                angular.element('#spot_add_modal').reveal({animation:'none'});
+                            }
+                        });
+                }
             }
+            $scope.action = false;
         }
-
-        $scope.action = false;
     });
 
 }

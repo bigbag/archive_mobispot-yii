@@ -62,7 +62,7 @@
     </div>
 </div>
 <div class="twelve columns spot-content" ng-controller="SpotController" ng-init="eSpot.discodes='<?php echo $data->discodes_id;?>'; eSpot.type='<?php echo $data->spot_type_id;?>'">
-    <form name="spotEditForm">
+    <form name="spotEditForm" class="custom">
     <div class="row">
         <div class="five columns">
             <button class="m-button save-spot" ng-click="save(eSpot)" ng-disabled="spotEditForm.$invalid">

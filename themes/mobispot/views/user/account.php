@@ -26,8 +26,8 @@
                 )); ?>
             <div class="action-menu">
                 <div class="three columns">
-                    <select name='action' id="action-select" ng-model="action">
-                        <option></option>
+                <select name='action' id="action-select" ng-model="action">
+                    <option></option>
                     <option value="rename">
                         <?php echo Yii::t('account', 'Изменить название'); ?>
                     </option>
