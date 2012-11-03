@@ -3,7 +3,7 @@
     <?php echo CHtml::beginForm('', 'post'); ?>
     <div class="profile">
         <div class="row">
-            <div class="three columns sidebar">
+            <div class="four columns sidebar">
                 <div class="sidebar-content">
                 <div class="photo">
                     <?php if (!empty($profile->photo)): ?>
@@ -28,19 +28,19 @@
                     </span>
                 </div>
                 <br />
-                <div>
-                    <button class="secondary small button">
-                        <i class="icon-facebook"></i>&nbsp;<?php echo Yii::t('profile', 'Connect with Facebook');?>
+                <div class="soc">
+                    <button class="secondary small m-button">
+                        <i class="icon-facebook"></i>&nbsp;&nbsp;<?php echo Yii::t('profile', 'Connect with Facebook');?>
                     </button>
                     <br />
                     <br />
-                    <button class="secondary small button">
-                        <i class="icon-twitter"></i>&nbsp;<?php echo Yii::t('profile', 'Connect with Twitter');?>
+                    <button class="secondary small m-button">
+                        <i class="icon-twitter"></i>&nbsp;&nbsp;<?php echo Yii::t('profile', 'Connect with Twitter');?>
                     </button>
                 </div>
                 </div>
             </div>
-            <div class="nine columns">
+            <div class="seven columns">
             <div class="body">
                 <div class="row name">
                     <div class="four columns">
@@ -109,10 +109,11 @@
                         <label class="left inline"><?php echo Yii::t('profile', 'Пол');?></label>
                     </div>
                     <div class="eight columns sex">
-                        <input type="hidden" value="0" name="UserProfile[sex][]" />
-                        <input value="1" type="checkbox" name="UserProfile[sex][]" />&nbsp;
+                        <input type="hidden" value="0" name="UserProfile[sex]" />
+
+                        <input value="1" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex == 1)?"checked":""?>/>&nbsp;
                         <?php echo Yii::t('profile', 'Male');?>&nbsp;&nbsp;
-                        <input value="2" type="checkbox" name="UserProfile[sex][]" />&nbsp;
+                        <input value="2" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex == 2)?"checked":""?>/>&nbsp;
                         <?php echo Yii::t('profile', 'Female');?>
                     </div>
                 </div>

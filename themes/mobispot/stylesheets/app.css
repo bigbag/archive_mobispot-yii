@@ -747,12 +747,25 @@ div.next {
     text-align: center;
 }
 
+.profile .sidebar-content .m-button.small {
+    text-align: left;
+    font-size: 11px;
+    width: 200px;
+    background: url(../images/headTableMail.png) 0 100% repeat-x;
+    border: 1px solid #b2b2b2;
+    -moz-box-shadow: 1px 1px 1px rgba(150, 150, 150, 0.5);
+    -webkit-box-shadow: 1px 1px 1px rgba(150, 150, 150, 0.5);
+    box-shadow: 1px 1px 1px rgba(150, 150, 150, 0.5);
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
 .profile .sidebar-content .photo img{
     border: 1px #dadada solid;
 }
 
 .profile .body {
-    margin-left: 20px;
 
 }
 
