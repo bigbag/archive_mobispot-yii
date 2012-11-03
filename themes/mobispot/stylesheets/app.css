@@ -766,6 +766,10 @@ div.next {
     -webkit-border-radius: 6px;
 }
 
+.profile .sidebar-content .uploadifive-queue-item{
+    display: none;
+}
+
 .profile .sidebar-content .photo img{
     border: 1px #dadada solid;
 }
