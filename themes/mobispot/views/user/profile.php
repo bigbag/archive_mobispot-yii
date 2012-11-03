@@ -151,7 +151,7 @@
                 var file_name = obj.file;
                 var error = obj.error;
                 if (file_name) {
-                    $('.photo').html('<img src="/uploads/images/' + file_name + '" />');
+                    $('.photo').html('<img src="/uploads/images/' + file_name + '" width="200px"/>');
                     $('#photo').hide();
                 }
                 if (error) alert(error);
