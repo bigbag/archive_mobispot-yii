@@ -738,8 +738,21 @@ div.next {
 
 }
 
+.profile .sidebar {
+    border-right: 1px #dadada solid;
+}
+
+.profile .sidebar-content {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.profile .sidebar-content .photo img{
+    border: 1px #dadada solid;
+}
+
 .profile .body {
-    border-left: 1px #dadada solid;
+    margin-left: 20px;
 
 }
 
