@@ -40,6 +40,28 @@ function SpotController($scope, $http, $compile, $timeout)
         return angular.equals(self.original, $scope.project);
     }
 
+    //вывод комментариев к споту типа обратная связь
+    $scope.feedback_content = function(id) {
+        $http.post('/ajax/spotFeedbackContent', {discodes:id}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element('#' + id  + ' .spot-content-body').html($compile(data.content)($scope));
+            }
+        });
+    }
+
+    $scope.feedback = function(id) {
+        $http.post('/ajax/spotView', {discodes:id}).success(function(data)
+        {
+            if(data.error == 'no')
+            {
+                angular.element('#' + id  + ' .spot-content-body').html($compile(data.content)($scope));
+            }
+        });
+        $scope.discodes = false;
+    }
+
     //аккардеон на странице редактирования спота
     $scope.accordion = function(e){
         if (e.target.tagName == 'INPUT' || e.target.tagName == 'BUTTON' || e.target.tagName == 'SPAN' || e.target.tagName == 'A') return;

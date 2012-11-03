@@ -494,15 +494,20 @@ class AjaxController extends MController
 
     public function actionSpotFeedbackContent()
     {
-        if (isset($_POST['discodes_id'])) {
-            $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => (int)$_POST['discodes_id']));
-            $txt = $this->renderPartial('//widget/spot/feedback_content',
-                array(
-                    'discodes_id' => (int)$_POST['discodes_id'],
-                    'spot' => $spot,
-                ),
-                true);
-            echo $txt;
+        $error = "yes";
+        $content = "";
+
+        $data = $this->getJson();
+        if (isset($data['discodes'])) {
+            $spot = FeedbackContent::model()->findAllByAttributes(array('spot_id' => $data['discodes']));
+            $content = $this->renderPartial('//widget/spot/feedback_content',
+                    array(
+                        'discodes_id' => $data['discodes'],
+                        'spot' => $spot,
+                    ),
+                    true);
+                $error = "no";
+            echo json_encode(array('error' => $error, 'content' => $content));
         }
     }
 
