@@ -20,14 +20,14 @@ class UserController extends MController
 
             if (isset($_POST['UserProfile'])) {
                 $profile->attributes = $_POST['UserProfile'];
-                $sex = $profile->sex;
-                if (isset($sex[1])) $profile->sex = UserProfile::SEX_UNKNOWN;
+
                 if ($profile->validate()) {
                     $profile->save();
                     Yii::app()->cache->delete('personal_photo_' . $user_id);
                     $this->refresh();
                 }
             }
+
             $this->render('profile', array(
                 'profile' => $profile,
             ));
