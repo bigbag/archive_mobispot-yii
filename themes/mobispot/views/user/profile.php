@@ -15,6 +15,7 @@
                         <p>Please enable JavaScript to use file uploader.</p>
                     </noscript>
                 </div>
+                <br />
                 <div class="send">
                     <button class="m-button add_photo">
                         <i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>
@@ -129,19 +130,17 @@
     <?php echo CHtml::endForm(); ?>
 </div>
 
-
-<?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.uploadifive.min.js'); ?>
 <script type="text/javascript">
     $(function () {
         $(".add_photo").uploadifive({
-            'width':'120',
-            'height':'28',
+            'width':'120px',
+            'height':'28px',
             uploadScript:'/site/upload/',
             'formData':{'action':'personal', 'user_id':<?php echo Yii::app()->user->id;?>},
             'removeTimeout':10,
             'multi':false,
-            'buttonClass':'uploadify_personal',
-            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+            'buttonClass':'m-button',
+            'buttonText':'<i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onError':function (errorType) {
                 $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);

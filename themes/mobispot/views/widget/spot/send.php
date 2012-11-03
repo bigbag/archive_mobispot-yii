@@ -53,15 +53,15 @@
                 count = count + 1;
 
                 $("#add_file").uploadifive({
-                    'width':'110',
-                    'height':'30',
+                    'width':'120px',
+                    'height':'30px',
                     uploadScript:'/user/uploadFile/',
                     'formData':{'spot_id':<?php echo($data->discodes_id)?>},
                     'fileSizeLimit':'10MB',
                     'multi':false,
                     'uploadLimit':5,
-                    'buttonClass':'send m-button',
-                    'buttonText':'<?php echo Yii::t('account', 'Загрузить');?>',
+                    'buttonClass':'m-button',
+                    'buttonText':'<i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>',
 
                     'onError':function (errorType) {
                         $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
