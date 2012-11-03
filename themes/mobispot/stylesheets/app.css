@@ -51,6 +51,11 @@ input.ng-invalid.ng-dirty {
     background-color: #FA787E;
 }
 
+/* Uploadifive ---------------------- */
+
+.uploadifive-button {
+    cursor: pointer;
+}
 
 /* Reveal Modals ---------------------- */
 .reveal-modal {

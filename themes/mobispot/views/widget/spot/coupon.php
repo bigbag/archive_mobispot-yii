@@ -42,16 +42,16 @@
 
     $(function () {
         $("#add-file").uploadifive({
-            'width':'120',
-            'height':'28',
+            'width':'120px',
+            'height':'30px',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
             uploadScript:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'fileSizeLimit':'512KB',
             'removeTimeout':10,
             'multi':false,
-            'buttonClass':'uploadify_personal',
-            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+            'buttonClass':'m-button',
+            'buttonText':'<i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onError':function (errorType) {
                 $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
@@ -81,16 +81,16 @@
 
     $(function () {
         $("#add_file_desinger").uploadifive({
-            'width':'120',
-            'height':'28',
+            'width':'120px',
+            'height':'30px',
             'fileTypeExts':'*.pdf; *.gif; *.jpg; *.png',
             uploadScript:'/user/uploadCouponLogo/',
             'formData':{'spot_id':<?php echo($data->discodes_id)?>},
             'fileSizeLimit':'512KB',
             'removeTimeout':10,
             'multi':false,
-            'buttonClass':'uploadify_personal',
-            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+            'buttonClass':'m-button',
+            'buttonText':'<i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onError':function (errorType) {
                 $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);

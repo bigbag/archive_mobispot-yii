@@ -71,15 +71,15 @@
 
     jQuery(".add_file").each(function () {
         jQuery(this).uploadifive({
-            'width':'110',
-            'height':'30',
+            'width':'120px',
+            'height':'30px',
             'fileTypeExts':'*.gif; *.jpg; *.png',
             uploadScript:'/user/uploadFile/',
             'formData':{'spot_id':<?php echo $discodes_id;?>},
             'fileSizeLimit':'10MB',
             'multi':false,
-            'buttonClass':'uploadify_file',
-            'buttonText':'<?php echo Yii::t('profile', 'Загрузить');?>',
+            'buttonClass':'m-button',
+            'buttonText':'<i class="icon-upload"></i>&nbsp;<?php echo Yii::t('profile', 'Загрузить');?>',
 
             'onError':function (errorType) {
                 $('#messages_modal div.messages').html('The file could not be uploaded: ' + errorType);
