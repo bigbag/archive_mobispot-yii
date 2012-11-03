@@ -4,7 +4,7 @@
     поясните, зачем Вы собираете эту информацию.<br />');?>
 </p>
 <div class="row">
-    <div class="twelve columns">
+    <div class="ten columns">
         <?php echo CHtml::activeTextField($content, 'poyasneniya_9',
             array(
                 'placeholder' => Yii::t('account', 'Введите здесь поясняющий текст к Вашему споту'),
@@ -44,24 +44,6 @@
     </div>
 </div>
 
-<button class="m-button">
+<button class="m-button" ng-click="feedback_content(<?php echo $content->spot_id; ?>)">
     <?php echo Yii::t('account', 'Смотреть отзывы к этому споту');?>
 </button>
-
-<script type="text/javascript">
-            $(document).ready(function () {
-                $('#feedback_content').click(function () {
-                    if (id) {
-                        $.ajax({
-                            url:'/ajax/spotFeedbackContent',
-                            type:'POST',
-                            data:{discodes_id:id},
-                            success:function (result) {
-                                $('#spot_content_' + id).html(result);
-                            }
-                        });
-                    }
-                    return false;
-                });
-            });
-</script>
