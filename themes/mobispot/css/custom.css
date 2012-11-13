@@ -63,11 +63,13 @@ span.error {
     font-size: 14px;
     color: #fff;
     line-height: 25px;
-    background: url(../images/form/down_white.gif) 100% 19px no-repeat
+
 }
 
 #sel-lang div.curent-lang {
-    padding-right: 12px
+    display: inline-block;
+    padding-right: 12px;
+    background: url(../images/form/down_white.gif) 100% 10px no-repeat
 }
 
 #authorization {
@@ -274,7 +276,9 @@ div.next {
     margin-top: 0px;
 }
 
-#carousel div {
+
+
+#carousel div.circle_image {
     text-align: center;
     margin: 10px;
     width: 120px;
@@ -283,9 +287,13 @@ div.next {
     position: relative;
 }
 
-#carousel div img {
+#carousel div.circle_image div.focus{
+    margin-top: -92px;
+    display: none;
+}
+
+#carousel div.circle_image img {
     border: none;
-    background-color: #9E9E9E;
     margin-bottom: 10px;
     -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
     -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);

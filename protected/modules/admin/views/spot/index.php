@@ -69,7 +69,7 @@ $this->widget('ext.selgridview.SelGridView', array(
 ));
 ?>
 
-<button id="activate_btn" type="button">Активировать</button><button id="activate_btn" type="button">Активировать</button>
+<button id="activate_btn" type="button">Активировать</button>
 <button id="delete_btn" type="button">Удалить</button>
 <script type="text/javascript">
     $("#activate_btn, #delete_btn").click(function () {

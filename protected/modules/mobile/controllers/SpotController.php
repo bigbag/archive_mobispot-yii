@@ -105,6 +105,30 @@ class SpotController extends MController
                                 true);
                         }
                         break;
+                    case ('personal'):
+                        if (isset($_POST['comment']) and !empty($_POST['comment'])) {
+
+                            $comment = new SpotComment();
+                            $comment->spot_id = $spot->discodes_id;
+                            $comment->comment_user_id = (Yii::app()->user->id)?Yii::app()->user->id:'';
+                            $comment->spot_user_id = $spot->user_id;
+                            $comment->body = $_POST['comment'];
+
+                            if ($comment->save()){
+                                MMail::spot_comment($spot->user->email, $comment, $spot->lang);
+                            }
+
+                            $txt = $this->renderPartial('/widget/success_comment', array(), true);
+                        }
+                        else {
+                            $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
+                                array(
+                                    'data' => $spot,
+                                    'content' => $content,
+                                ),
+                                true);
+                        }
+                        break;
                     default:
                         $txt = $this->renderPartial('/widget/spot/' . $spot->spot_type->pattern,
                             array(
@@ -142,9 +166,12 @@ class SpotController extends MController
         $spot = Spot::model()->findByAttributes(array('url' => $url));
         if ($spot and $spot->spot_type->pattern == 'personal') {
             $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot->discodes_id, 'spot_type_id' => $spot->spot_type_id));
-            if (isset($content['razreshit-skachivat-vizitku_3'][0])) {
+            if ($content and isset($content['razreshit-skachivat-vizitku_3'][0])) {
 
-                $data = $content['kontaktyi_3'] + $content['sotsseti_3'] + $content['opisanie_3'];
+                $data = array();
+                if ($content['kontaktyi_3'] !== null) $data = $data + $content['kontaktyi_3'];
+                if ($content['sotsseti_3'] !== null) $data = $data + $content['sotsseti_3'];
+                if ($content['opisanie_3'] !== null) $data = $data + $content['opisanie_3'];
 
                 $all_field = SpotPersonalField::getPersonalFieldAll();
                 $select_field = UserPersonalField::getField($spot->discodes_id);

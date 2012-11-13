@@ -11,8 +11,8 @@
     </div>
     <div id="foot-copyright"><?php echo Yii::app()->par->load('copyright'); ?></div>
     <span id="soc-seti">
-        <a href="<?php echo Yii::app()->par->load('urlFacebook'); ?>" id="fut-facebook" target="_blank"></a>
-        <a href="<?php echo Yii::app()->par->load('urlTwitter'); ?>" id="fut-twitter" target="_blank"></a></span>
+        <a href="<?php echo Yii::app()->par->load('urlFacebook'); ?>" id="fut-facebook"></a>
+        <a href="<?php echo Yii::app()->par->load('urlTwitter'); ?>" id="fut-twitter"></a></span>
 
     <div id="set_like">
         <div id="fb-root"></div>

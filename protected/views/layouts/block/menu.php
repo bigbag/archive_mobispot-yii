@@ -3,7 +3,6 @@
         array('label' => 'Общие', 'active' => ((in_array(Yii::app()->controller->id, array('settings', 'database'))) ? true : false),
             'items' => array(
                 array('label' => 'Настройки', 'url' => array('/admin/settings/')),
-                array('label' => 'База', 'url' => array('/admin/database/')),
             ),
         ),
         array('label' => 'Пользователи', 'url' => array('/admin/user/'), 'active' => ((in_array(Yii::app()->controller->id, array('user'))) ? true : false),
@@ -11,6 +10,7 @@
         array('label' => 'Содержимое', 'active' => ((in_array(Yii::app()->controller->id,
             array('pageCategory', 'contentFaq', 'pageTemplate', 'contentBannerFooter', 'contentCarousel', 'contentLinksFooter'))) ? true : false),
             'items' => array(
+                array('label' => 'Переводы', 'url' => array('/admin/translation/')),
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
                 array('label' => 'FAQ', 'url' => array('/admin/contentFaq/')),
                 array('label' => 'Баннеры на главной', 'url' => array('/admin/contentBannerFooter/')),

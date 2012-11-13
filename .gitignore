@@ -20,6 +20,12 @@ uploads/
 *.properties
 nbproject/
 /.idea/
-index.php
+/index.php
 themes/mobispot/views/mail/
 protected/modules/mobile/MobileModule.php
+/stats/*
+protected/controllers/SpotController.php
+protected/messages
+/mobispot.*
+.phptidy-cache
+

@@ -134,6 +134,10 @@ class MailTemplate extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30,
+            ),
+            'sort' => array('defaultOrder' => 'name asc',)
         ));
     }
 }

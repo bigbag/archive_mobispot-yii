@@ -27,12 +27,26 @@
 		<?php echo $form->error($model,'desc'); ?>
 	</div>
     <div class="row">
+        <?php echo $form->labelEx($model,'image'); ?>
         <?php if (isset($model->image)): ?>
         <img id="hard_photo" src="/uploads/blocks/<?php echo $model->image?>">
         <?php endif;?>
         <?php echo $form->hiddenField($model, 'image'); ?>
         <div class="hard_photo">
             <input type="file" name="file_upload" id="add_photo"/>
+            <noscript>
+                <p>Please enable JavaScript to use file uploader.</p>
+            </noscript>
+        </div>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model,'image_focus'); ?>
+        <?php if (isset($model->image_focus)): ?>
+        <img id="hard_photo_focus" src="/uploads/blocks/<?php echo $model->image_focus?>">
+        <?php endif;?>
+        <?php echo $form->hiddenField($model, 'image_focus'); ?>
+        <div class="hard_photo_focus">
+            <input type="file" name="file_upload" id="add_photo_focus"/>
             <noscript>
                 <p>Please enable JavaScript to use file uploader.</p>
             </noscript>
@@ -71,6 +85,26 @@
                 $('.hard_photo').html('<img src="/uploads/blocks/' + data + '" />');
                 $('#ContentCarousel_image').val(data);
                 $('#hard_photo').hide();
+            }
+        });
+    });
+
+    $(function () {
+        $("#add_photo_focus").uploadifive({
+            'width':'167',
+            'height':'21',
+            'fileTypeDesc':'Images',
+            uploadScript:'/admin/contentCarousel/upload/',
+            'formData':{'action':'carousel_ico_focus_'},
+            'removeTimeout':10,
+            'multi':false,
+            'onError':function (file, errorCode, errorMsg, errorString) {
+                alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+            },
+            'onUploadComplete':function (file, data, response) {
+                $('.hard_photo_focus').html('<img src="/uploads/blocks/' + data + '" />');
+                $('#ContentCarousel_image_focus').val(data);
+                $('#hard_photo_focus').hide();
             }
         });
     });

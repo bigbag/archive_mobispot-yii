@@ -1,8 +1,10 @@
 <?php $all_lang = Lang::getLangArray()?>
+
 <div class="center-rel">
     <div id="sel-lang">
         <div class="curent-lang" id="lang-select">
-            <span><?php echo $all_lang[Yii::app()->language];?></span></div>
+            <span><?php echo $all_lang[Yii::app()->language];?></span>
+        </div>
         <div class="lang-hint">
             <div>
                 <?php foreach(Lang::getLang() as $row):?>
@@ -35,13 +37,13 @@
                         <?php echo CHtml::encode(Yii::app()->user->name)?>
                     </div>
                     <div>
-                        <a href="/user/profile/" title="<?php echo Yii::t('menu', 'Профиль')?>" target="_blank">
-                            <?php echo Yii::t('menu', 'Личные данные')?>
+                        <a href="/user/profile/" title="<?php echo Yii::t('user', 'Личные данные')?>" target="_blank">
+                            <?php echo Yii::t('user', 'Личные данные')?>
                         </a>
                     </div>
                     <div>
-                        <a href="/service/logout/" title="<?php echo Yii::t('menu', 'Выйти')?>">
-                            <strong><?php echo Yii::t('menu', 'Выйти')?></strong>
+                        <a href="/service/logout/" title="<?php echo Yii::t('user', 'Выйти')?>">
+                            <strong><?php echo Yii::t('user', 'Выйти')?></strong>
                         </a>
                     </div>
                 </div>

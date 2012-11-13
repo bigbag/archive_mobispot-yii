@@ -12,6 +12,26 @@ body {
     height: 100%;
 }
 
+input::-webkit-input-placeholder {
+    font-style: italic;
+    color: #999
+}
+
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder, input[type="date"]:-moz-placeholder, input[type="datetime"]:-moz-placeholder, input[type="email"]:-moz-placeholder, input[type="number"]:-moz-placeholder, input[type="search"]:-moz-placeholder, input[type="tel"]:-moz-placeholder, input[type="time"]:-moz-placeholder, input[type="url"]:-moz-placeholder, textarea {
+    font-style: italic;
+    color: #999
+}
+
+textarea::-webkit-input-placeholder {
+    font-style: italic;
+    color: #999
+}
+
+textarea::-moz-placeholder {
+    font-style: italic;
+    color: #999
+}
+
 div.clear {
     clear: both;
     font-size: 0;
@@ -75,8 +95,6 @@ textarea::-moz-placeholder {
 
 div#wrapper {
     height: auto !important;
-    height: 100%;
-    min-height: 100%;
 }
 
 div.center {
@@ -183,7 +201,7 @@ div#header {
 /* ---Header--- */
 
 #main-container {
-    padding-bottom: 100px;
+    padding-bottom: 80px;
     min-height: 650px
 }
 
@@ -1976,6 +1994,7 @@ div.contSpot .btn-30 {
 
 /* +++Footer+++ */
 div#footer {
+    position: relative;
     width: 1024px;
     margin: 0 auto;
     font-size: 10px;

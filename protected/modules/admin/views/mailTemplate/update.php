@@ -2,7 +2,7 @@
 <?php
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
-    'Посчта',
+    'Почта',
     'Почтовые шаблоны' => array('index'),
     $model->name,
     'Редактировать',

@@ -24,7 +24,13 @@
                 <?php if (!empty($content->fotografiya_3)): ?>
                 <img width="130" src="/uploads/spot/<?php echo $content->fotografiya_3?>" alt="personal"/>
                 <?php else: ?>
-                <img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
+                <?php $profile = UserProfile::model()->findByPk($content->user_id)?>
+                <?php if ($profile->use_photo == 1 and (!empty($profile->photo))):?>
+                    <img width="130" src="/uploads/images/<?php echo $profile->photo?>" alt="personal"/>
+                <?php else:?>
+                    <img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
+                <?php endif;?>
+
                 <?php endif;?>
                 <noscript>
                     <p>Please enable JavaScript to use file uploader.</p>

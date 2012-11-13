@@ -3,8 +3,13 @@
 <div id="main-container">
     <?php if (!empty($content->fotografiya_3)): ?>
     <div>
-        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" id="userPhoto" width="100px"/>
+        <img src="/uploads/spot/<?php echo $content->fotografiya_3;?>" width="100%"/>
     </div>
+    <?php else:?>
+    <?php $profile = UserProfile::model()->findByPk($content->user_id)?>
+    <?php if ($profile->use_photo == 1 and (!empty($profile->photo))):?>
+        <img src="/uploads/spot/<?php echo $profile->photo?>" width="100%"/>
+        <?php endif;?>
     <?php endif;?>
     <?php if ($content->imya_3): ?>
     <div class="whitePlash rad12">
@@ -100,8 +105,12 @@
     <?php if (isset($content['razreshit-kommentarii_3'][0])): ?>
     <div class="grayAllBlock rad6 shadow">
         <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Оставить комментарий')?></div>
-        <form>
-            <textarea class="txt-100p txtArea rad6"></textarea>
+        <form action="" method="post">
+            <?php echo CHtml::TextArea('comment', '',
+            array(
+                'rows' => 3,
+                'class' => 'txt-100p txtArea rad6',
+            )); ?>
             <input type="submit" class="btn-round fright rad12 shadow"
                    value="<?php echo Yii::t('mobile', 'Отправить')?>"/>
         </form>

@@ -23,7 +23,7 @@ return array(
             'class' => 'CDbHttpSession',
             'connectionID' => 'db',
             'sessionTableName' => 'session',
-            'useTransparentSessionID' => ($_POST['PHPSESSID']) ? true : false,
+            'useTransparentSessionID' => false,
             'autoStart' => 'false',
             'cookieMode' => 'only',
             'timeout' => 3600
@@ -47,12 +47,6 @@ return array(
             'safeFlag' => false,
             'useCursor' => false,
         ),
-
-        //'clientScript' => array(
-        //    'class' => 'ext.nlsclient.NLSClientScript',
-        //'excludePattern' => '/\.tpl/i', //js regexp, files with matching paths won't be filtered is set to other than 'null'
-        //'includePattern' => '/\.php/' //js regexp, only files with matching paths will be filtered if set to other than 'null'
-        //),
 
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
         'db' => require(dirname(__FILE__) . '/db.php'),
@@ -80,11 +74,11 @@ return array(
                     'categories' => 'application',
                     'levels' => 'error, warning, trace, profile, info',
                 ),
-                //array(
-                //    'class' => 'ext.db_profiler.DbProfileLogRoute',
-                //    'countLimit' => 1,
-                //    'slowQueryMin' => 0.01,
-                //),
+                array(
+                   'class' => 'ext.db_profiler.DbProfileLogRoute',
+                    'countLimit' => 1,
+                    'slowQueryMin' => 0.01,
+                ),
             ),
         ),
         'loid' => array(

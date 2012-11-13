@@ -9,6 +9,7 @@
  * @property string $desc
  * @property integer $type
  * @property text $pattern
+ * @property string $lang
  */
 class SpotType extends CActiveRecord
 {
@@ -41,14 +42,14 @@ class SpotType extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, pattern', 'required'),
+            array('name, pattern, lang', 'required'),
             array('fields_flag', 'required', 'message' => 'Необходимо добавить хотя бы одно поле.'),
             array('name, pattern', 'length', 'max' => 150),
             array('name, desc, pattern', 'filter', 'filter' => 'trim'),
             array('name, desc, pattern', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('type_id, name', 'safe', 'on' => 'search'),
+            array('type_id, name, desc, lang', 'safe', 'on' => 'search'),
         );
     }
 
@@ -62,6 +63,7 @@ class SpotType extends CActiveRecord
         return array(
             'fields' => array(self::MANY_MANY, 'SpotField',
                 'spot_link_type_field(type_id, field_id)'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
     }
 
@@ -75,6 +77,7 @@ class SpotType extends CActiveRecord
             'name' => 'Название',
             'desc' => 'Описание',
             'pattern' => 'Шаблон',
+            'lang' => 'Язык',
             'fields' => 'Поля',
         );
     }
@@ -135,6 +138,7 @@ class SpotType extends CActiveRecord
         $criteria->compare('name', $this->name, true);
         $criteria->compare('desc', $this->desc, true);
         $criteria->compare('pattern', $this->pattern, true);
+        $criteria->compare('lang', $this->lang, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

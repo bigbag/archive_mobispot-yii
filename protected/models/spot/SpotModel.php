@@ -12,7 +12,7 @@ class SpotModel extends EMongoSoftDocument
 
     public function getCollectionName()
     {
-        return 'spot_content';
+        return 'spot';
     }
 
     public static function model($className = __CLASS__)

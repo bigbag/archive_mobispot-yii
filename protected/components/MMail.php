@@ -1,16 +1,25 @@
 <?php
 Class MMail
 {
-    public function activation($email, $activkey)
+
+    public function render($template, array $data = array())
+    {
+        $path = Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/' . $template . '.php';
+        if (!file_exists($path)) throw new Exception('Template ' . $path . ' does not exist.');
+        return $this->renderFile($path, $data, true);
+    }
+
+
+    public function activation($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('activation', $lang);
-        $activation_url = Yii::app()->request->hostInfo . '/service/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->par->load('siteUrl') . '/service/activation/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -23,13 +32,13 @@ Class MMail
     public function recovery($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('recovery', $lang);
-        $activation_url = Yii::app()->request->hostInfo . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->par->load('siteUrl') . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'activation_url' => $activation_url,
             ),
@@ -47,7 +56,7 @@ Class MMail
         $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
-        $stack->body = $stack->body = $this->renderPartial('//mail/' . $lang . '_' . $mail_template->slug,
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
             array(
                 'spot_name' => (isset($data['spot_name'])) ? $data['spot_name'] : '',
                 'name' => (isset($data['name'])) ? $data['name'] : '',
@@ -74,6 +83,46 @@ Class MMail
             array(
                 'spot_name' => (isset($data['spot_name'])) ? $data['spot_name'] : '',
                 'spot_id' => (isset($data['spot_id'])) ? $data['spot_id'] : '',
+            ),
+            true);
+
+        if ($stack->save()) return true;
+        else return false;
+    }
+
+    public function spot_comment($email, $data, $lang)
+    {
+        $mail_template = MailTemplate::getTemplate('spot_comment', $lang);
+
+        $stack = new MailStack;
+        $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->to = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
+            array(
+                'comment_user_id' => (!empty($data->comment_user_id)) ? $data->comment_user_id : '',
+                'comment' => $data->body,
+                'spot_id' => $data->spot_id,
+            ),
+            true);
+
+        if ($stack->save()) return true;
+        else return false;
+    }
+
+    public function faq_question($email, $data, $lang)
+    {
+        $mail_template = MailTemplate::getTemplate('faq_question', $lang);
+
+        $stack = new MailStack;
+        $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->to = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug,
+            array(
+                'name' => $data->name,
+                'email' => $data->email,
+                'question' => $data->question,
             ),
             true);
 

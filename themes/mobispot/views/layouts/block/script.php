@@ -152,6 +152,7 @@ function showLoginResponse(responseText) {
 
     }
     else if (responseText == 1) {
+        $('#login_captcha_modal').hide();
         $().redirect('/', null, 'GET');
     }
 }

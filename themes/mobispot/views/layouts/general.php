@@ -29,8 +29,15 @@
                 <?php $i= 1;?>
                 <?php foreach ($carousel as $row): ?>
                 <div class="circle_image" id="<?php echo $i ?>" style="<?php echo ($i > 5)?'display: none;':'';?>">
-                    <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="fruit1" width="82" height="82"/><br/>
-                    <?php echo $row['name']; ?>
+                    <div>
+                        <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="82" height="82"/>
+                    </div>
+                    <div class="focus">
+                        <img src="/uploads/blocks/<?php echo $row['image_focus']; ?>" alt="<?php echo $row['name']; ?>" width="82" height="82"/>
+                    </div>
+                    <div class="title">
+                        <?php echo $row['name']; ?>
+                    </div>
                     <span><?php echo $row['desc']; ?></span>
                 </div>
                 <?php $i = $i + 1;?>
@@ -50,7 +57,7 @@
             <?php $all_banner = ContentBannerFooter::getBanner()?>
             <?php foreach ($all_banner as $row): ?>
             <li>
-                <a href="<?php echo $row['link']; ?>" title="<?php echo $row['title']; ?>" target="_blank">
+                <a href="<?php echo $row['link']; ?>" title="<?php echo $row['title']; ?>">
                     <img src="/uploads/blocks/<?php echo $row['image']; ?>" alt="<?php echo $row['title']; ?>" width="271" height="82"/>
                 </a>
             </li>
@@ -89,5 +96,17 @@
         });
         return false;
     });
+
+    $(document).ready(function () {
+
+        $('.circle_image').live('mouseleave', function () {
+            $(this).children('div.focus').hide();
+        });
+        $('.circle_image').live('mouseenter', function () {
+            $(this).children('div.focus').show();
+        });
+        return false;
+    });
+
 </script>
 <?php $this->endContent(); ?>
