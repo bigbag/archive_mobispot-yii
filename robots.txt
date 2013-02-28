@@ -1,9 +1,2 @@
 User-agent: *
-Disallow: /demo/
-Disallow: /admin/
-Disallow: /profile/
-Disallow: /resetting/
-Disallow: /register/
-Disallow: /_profiler/
-Host: mobispot.com
-
+Disallow: /
