@@ -1,0 +1,83 @@
+html,body{
+	height: 100%;
+}
+body{
+	font-size: 140%;
+}
+
+@font-face {
+	font-family: Mobispot;
+	src: url('../fonts/mobispot-webfont.eot');
+	src: url('../fonts/mobispot-webfont.eot?iefix') format('eot'),
+	url('../fonts/mobispot-webfont.woff') format('woff'),
+	url('../fonts/mobispot-webfont.ttf') format('truetype'),
+	url('../fonts/mobispot-webfont.svg#webfontjSpbZQRv') format('svg');
+}
+.color{
+	color: #0063ff;
+}
+.content-wrapper{
+	min-height: 100%;
+	margin-bottom: -258px;
+	padding-bottom: 12em;
+}
+.content-wrapper:after{
+	content: "";
+	display: block;
+	height: 258px;
+	width: 100%;
+}
+li{
+	list-style: none;
+}
+.logo a{
+	display: block;
+	max-width: 207px;
+}
+
+::-webkit-input-placeholder {color:#000 !important;}
+::-moz-placeholder {color:#000 !important;}
+:-ms-input-placeholder { color:#000!important; }
+input:-moz-placeholder { color:#000!important; }
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+.table-reset{
+	background: none;
+	border: 0;
+	margin: 0;
+	border-spacing: 0;
+
+}
+.table-reset tbody tr:nth-child(2n){
+	background: none;
+}
+.round{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+.slow{
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+}
