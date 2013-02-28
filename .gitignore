@@ -28,3 +28,4 @@ protected/controllers/SpotController.php
 protected/messages
 mobispot.sublime*
 .phptidy-cache
+robot.txt
