@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width"/>
 
     <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon.ico"/>
+
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16x15.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32x31.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48x48.png">
 
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css">
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">

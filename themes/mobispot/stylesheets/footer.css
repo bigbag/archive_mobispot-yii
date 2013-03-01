@@ -8,7 +8,7 @@
 	list-style: none;
 }
 .footer-page .link-list li:before{
-	content: "| ";
+	content: "|";
 	font-size: 14px;
 }
 .footer-page .link-list li:first-child:before{
