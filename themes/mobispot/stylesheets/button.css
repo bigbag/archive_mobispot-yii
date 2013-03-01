@@ -13,6 +13,7 @@
 	background-color: #fff;
 }
 .bg-gray input,
+.bg-gray textarea,
 .bg-gray .soc-link a{
 	background-color: #fff;
 }
@@ -111,6 +112,9 @@
 	top:4px;
 	margin-right: 11px;
 }
+.checkbox{
+	font-size: 14px;
+}
 .checkbox.active{
 	color: #0061FF;
 }
@@ -128,7 +132,7 @@
 	top:4px
 }
 .checkbox.active i{
-	background-position: -135px -41px;
+	background-position: -173px -41px;
 }
 .radio-link.open i,
 .radio-link.active i,
@@ -259,4 +263,31 @@
 .bubbles-slider:hover .change-cover,
 .header-top:hover + .bubbles-slider .change-cover{
 	opacity: 1;
+}
+.spot-list .spot-button{
+	min-width: 155px;
+}
+.spot-options{
+	padding-top: 14px;
+}
+
+.spot-options a{
+	display: block;
+	margin-top: -4px;
+}
+.spot-options a:first-child{
+	margin-top: 0;
+}
+.popup footer .button{
+	height: 78px;
+	width: 78px;
+	line-height: 78px;
+	text-align: center;
+	margin-right: 20px;
+	margin-top: 32px;
+	font-weight: 100;
+}
+.popup footer .button:hover + .active{
+	background: #fff;
+	color: #000;
 }

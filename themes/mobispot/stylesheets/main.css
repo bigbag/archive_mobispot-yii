@@ -23,12 +23,14 @@
 	position: relative;
 	right: -10px;
 	text-align: right;
+	background: none;
+	height: auto;
 }
 
 .nav-bar li {
 	display: inline-block;
 	list-style: none outside none;
-	margin-right: 10px;
+	margin-right: 2px;
 }
 .header-page .twelve{
 	position: relative;
@@ -52,7 +54,6 @@
 	overflow: visible;
 	z-index: 5;
 	height: 0;
-	padding: 0 2em;
 }
 
 .header-top .nav-bar,
@@ -67,7 +68,7 @@
 .header-page .centered h3{
 	color: #0063FF;
 	text-align: center;
-	margin: 30px 0 39px;
+	margin: 30px 60px 39px;
 }
 .form-control{
 	margin-top: 22px;
@@ -96,6 +97,9 @@ form .agree{
 	font-size: 12px;
 	outline: none;
 }
+.radio-link.columns{
+	padding: 0 1.8em;
+}
 .sub-slide-box{
 	padding-top: 28px;
 	display: none;
@@ -111,6 +115,7 @@ form .choose-type a{
 	font-family: Arial,sans-serif;
 	color: #000;
 	text-align: center;
+	font-size: 14px;
 }
 
 .spots-description + .spots-description{
@@ -258,7 +263,15 @@ table.store-items td ul.orbit-bullets{
 	font-family: Mobispot,Arial,"Helvetica",Helvetica,sans-serif;
 	color: #000;
 	margin-right: 20px;
-	margin-bottom: 18px;
+	margin-bottom: 16px;
+	display: block;
+	background: none;
+	line-height: normal;
+	bottom: 0;
+	font-weight: 100;
+	text-align: left;
+	padding: 0;
+
 }
 .label-left{
 	float: left;
@@ -289,7 +302,7 @@ table.store-items td ul.orbit-bullets{
 
 .choose.inline li,
 .choose.inline input{
-	margin-top: -9px;
+	margin-top: -6px;
 }
 .choose li{
 	cursor: pointer;
@@ -427,17 +440,25 @@ p + .details{
 .spot-list{
 	margin: 100px 0 50px;
 }
-.spot-list li{
+.spot-list > li{
 	background: #f1f3f4;
 	padding: 6px 40px;
+	margin-top: 2px;
 	cursor: pointer;
 	-webkit-transition: all linear .2s;
 	-moz-transition: all linear .2s;
 	-o-transition: all linear .2s;
 	transition: all linear .2s;
+	overflow: hidden;
+}
+.spot-list > li.open{
+	cursor: default;
+}
+.spot-list li:first-child{
+	margin-top: 0;
 }
 .spot-list li:hover,
-.spot-list li.active{
+.spot-list li.open{
 	background: #ebebec;
 }
 .tooltip{
@@ -477,4 +498,79 @@ a.active .tooltip{
 }
 .form-row.toggle-active{
 	margin-top: 2px;
+}
+.spot-list textarea{
+	resize: none;
+	height: 100px;
+}
+.spot-content_row{
+	clear: both;
+	margin-top: 14px;
+	overflow: hidden;
+	position: relative;
+}
+.spot-content_row:first-child{
+	margin-top: 0;
+}
+.spot-content{
+	padding-bottom: 34px;
+	margin-top: -44px;
+}
+.spot-content{
+	display: none;
+}
+.label-cover{
+	position: absolute;
+	top: 37px;
+	left: 0;
+	width: 100%;
+}
+.popup{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top:0;
+	left: 0;
+	background: #ebebec;
+	background: rgba(235,235,236,.95);
+	z-index: 99;
+	opacity: 0;
+}
+.settings-list{
+	padding: 6px 0;
+}
+.settings-list li{
+	font-size: 22px;
+	background: #fff;
+	height: 80px;
+	line-height: 80px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding:0 46px;
+	margin-top: 4px;
+	cursor: pointer;
+	font-family: Mobispot, Arial, sans-serif;
+}
+.settings-list li.active{
+	background: #0061ff;
+	color: #fff;
+}
+.settings-list li:first-child{
+	margin-top: 0;
+}
+.popup footer{
+	padding: 0 46px 3em;
+}
+.popup{
+	overflow: auto;
+	padding: 3em 0;
+}
+.spot-items{
+	position: relative;
+}
+.spot-items textarea{
+	color: #000;
+	padding: 34px;
+	text-align: left;
 }

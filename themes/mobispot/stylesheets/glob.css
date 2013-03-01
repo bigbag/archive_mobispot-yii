@@ -81,3 +81,9 @@ html[xmlns] .clearfix {
 	-o-transition: all linear .2s;
 	transition: all linear .2s;
 }
+.hide{
+	display: none;
+}
+.overflow-h{
+	overflow: hidden;
+}
