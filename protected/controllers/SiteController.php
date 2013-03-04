@@ -21,46 +21,7 @@ class SiteController extends MController
 
     public function actionIndex()
     {
-        if (Yii::app()->user->id) {
-            $user_id = Yii::app()->user->id;
-
-
-            if (isset($_POST['discodes_id']) and isset($_POST['spot_type'])) {
-                Spot::model()->updateByPk((int)$_POST['discodes_id'], array('spot_type_id' => (int)$_POST['spot_type']));
-                User::model()->updateByPk($user_id, array('status' => User::STATUS_VALID));
-            }
-
-            $user = User::model()->findByPk($user_id);
-
-            if ($user->status == User::STATUS_ACTIVE and $user->type != User::TYPE_ADMIN) {
-                $spot = Spot::model()->findByAttributes(array('user_id' => $user_id));
-                $spot_type = SpotType::getSpotTypeArray();
-                $this->render('index', array(
-                    'first' => true,
-                    'spot_type' => $spot_type,
-                    'spot' => $spot,
-                    'user' => $user,
-                ));
-            } else {
-                $criteria = new CDbCriteria;
-                $criteria->compare('user_id', $user_id);
-                $dataProvider = new CActiveDataProvider(Spot::model()->used(),
-                    array(
-                        'criteria' => $criteria,
-                        'pagination' => array(
-                            'pageSize' => 4,
-                        ),
-                        'sort' => array('defaultOrder' => 'registered_date desc',),
-                    ));
-                $this->render('index', array(
-                    'first' => false,
-                    'dataProvider' => $dataProvider,
-                    'user' => $user,
-                ));
-            }
-        } else {
-            $this->render('index');
-        }
+        $this->render('index');
     }
 
 

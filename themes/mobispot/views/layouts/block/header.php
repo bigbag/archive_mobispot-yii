@@ -20,7 +20,7 @@
                     </li>
                 <?php endif; ?>
                     <li>
-                        <a class="spot-button" href="shop.mobispot.com">Store</a>
+                        <a class="spot-button" href="http://store.mobispot.com">Store</a>
                     </li>
                 <?php if (Yii::app()->user->isGuest): ?>
                     <li>
@@ -35,28 +35,32 @@
             </div>
         </div>
         <div class="bubbles-slider">
-              <div id="slider">
-                <img src="/themes/mobispot/images/slider.jpg" />
-                <img src="/themes/mobispot/images/slider.jpg" />
-                <img src="/themes/mobispot/images/slider.jpg" />
-              </div>
-              <div class="bubbles-content">
-                    <a href="personal.html" class="bubble">
-                        <h4>Personal</h4>
-                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
-                        <b></b>
-                    </a>
-                    <a href="#" class="bubble">
-                        <h4>Business</h4>
-                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
-                        <b></b>
-                    </a>
-                    <a href="#" class="bubble">
-                        <h4>Corporate</h4>
-                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
-                        <b></b>
-                    </a>
-              </div>
+                  <div id="slider">
+                    <?php if (Yii::app()->controller->id=='site' and Yii::app()->controller->action->id=='index'): ?>
+                        <img src="/themes/mobispot/images/slider.jpg" />
+                        <img src="/themes/mobispot/images/slider.jpg" />
+                        <img src="/themes/mobispot/images/slider.jpg" />
+                    <?php else:?>
+                        <img src="/themes/mobispot/images/slider.jpg" />
+                    <?php endif;?>
+                  </div>
+                  <div class="bubbles-content">
+                        <a href="personal.html" class="bubble">
+                            <h4>Personal</h4>
+                            <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                            <b></b>
+                        </a>
+                        <a href="#" class="bubble">
+                            <h4>Business</h4>
+                            <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                            <b></b>
+                        </a>
+                        <a href="#" class="bubble">
+                            <h4>Corporate</h4>
+                            <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                            <b></b>
+                        </a>
+                  </div>
             </div>
         </div>
     </div>

@@ -8,23 +8,11 @@
 <?php include('block/head.php');?>
 <body>
 <div class="content-wrapper">
-
-<?php include('block/header.php');?>
-
-<?php echo $content; ?>
-
+  <?php include('block/header.php');?>
+  <?php echo $content; ?>
 </div>
 
 <?php include('block/footer.php');?>
-
-    <script type="text/javascript">
-
-    </script>
-
-    <!-- <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/app/services.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>-->
+<?php include('block/script.php');?>
 </body>
 </html>
