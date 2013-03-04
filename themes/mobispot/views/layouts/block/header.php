@@ -1,27 +1,63 @@
-<head>
-    <meta charset="utf-8"/>
+<header class="header-page">
+    <?php if (Yii::app()->user->isGuest): ?>
+        <?php include('activ.php');?>
+        <?php include('sign.php');?>
+    <?php endif; ?>
+  <div class="row row__head-slider">
+    <div class="twelve">
+        <div class="header-top">
+          <div class="four columns">
+            <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
+          </div>
+            <div class="eight columns">
+                <ul class="nav-bar right">
+                <?php if (Yii::app()->controller->id!='site' and Yii::app()->controller->action->id!='index'): ?>
+                    <li>
+                        <a class="spot-button" href="/pages/business">Business</a>
+                    </li>
+                    <li>
+                        <a class="spot-button" href="/pages/corporate">Corporate</a>
+                    </li>
+                <?php endif; ?>
+                    <li>
+                        <a class="spot-button" href="shop.mobispot.com">Store</a>
+                    </li>
+                <?php if (Yii::app()->user->isGuest): ?>
+                    <li>
+                        <a id="actSpot" class="spot-button toggle-box" href="#actSpotForm">Activate spot</a>
+                    </li>
+                    <li>
+                        <a id="signIn" class="spot-button toggle-box" href="#signInForm">Sign in</a>
+                    </li>
 
-    <!-- Set the viewport width to device width for mobile -->
-    <meta name="viewport" content="width=device-width"/>
-
-    <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
-
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16x15.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32x31.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48x48.png">
-
-    <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css">
-    <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
-
-    <script src="/themes/mobispot/javascripts/jquery/jquery-1.8.3.min.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/angular.min.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/angular-resource.min.js"></script>
-
-    <!-- IE Fix for HTML5 Tags -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-     <script>
-
-    </script>
-</head>
+                <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+        <div class="bubbles-slider">
+              <div id="slider">
+                <img src="/themes/mobispot/images/slider.jpg" />
+                <img src="/themes/mobispot/images/slider.jpg" />
+                <img src="/themes/mobispot/images/slider.jpg" />
+              </div>
+              <div class="bubbles-content">
+                    <a href="personal.html" class="bubble">
+                        <h4>Personal</h4>
+                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                        <b></b>
+                    </a>
+                    <a href="#" class="bubble">
+                        <h4>Business</h4>
+                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                        <b></b>
+                    </a>
+                    <a href="#" class="bubble">
+                        <h4>Corporate</h4>
+                        <p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+                        <b></b>
+                    </a>
+              </div>
+            </div>
+        </div>
+    </div>
+</header>
