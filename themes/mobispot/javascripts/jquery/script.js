@@ -49,6 +49,7 @@ $(window).load(function() {
 	});
 });
 
+//Слайдеры
 $(window).load(function() {
   $('#textSlider').orbit({
       fluid: '14x2',
