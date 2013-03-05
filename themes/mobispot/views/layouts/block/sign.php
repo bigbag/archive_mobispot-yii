@@ -7,11 +7,12 @@
     </div>
     <div class="row">
         <div class="five columns centered">
-            <form>
-                <input type="text" placeholder="<?php echo Yii::t('sign', 'Email address');?>">
-                <input type="password" placeholder="<?php echo Yii::t('sign', 'Password');?>">
+            <form id="sign-in">
+                <input name='email' id="email" type="text" placeholder="<?php echo Yii::t('sign', 'Email address');?>">
+                <input name='password' type="password" placeholder="<?php echo Yii::t('sign', 'Password');?>">
+                <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
                 <div class="form-control">
-                    <a class="spot-button" href="#" ng-click="login()"><?php echo Yii::t('sign', 'Sign in');?></a>
+                    <a class="spot-button login" href="#"><?php echo Yii::t('sign', 'Sign in');?></a>
                     <span class="right soc-link">
                         <a href="/service/social?service=facebook" class="i-soc-fac">&nbsp;</a>
                         <a href="/service/social?service=twitter" class="i-soc-twi">&nbsp;</a>

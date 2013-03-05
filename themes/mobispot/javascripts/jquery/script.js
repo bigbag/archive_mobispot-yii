@@ -82,3 +82,28 @@ $(window).load(function() {
       $(bubblesSliderBullets[i]).append($(bubblesContent[i]));
   }
 });
+
+//Авторизация
+$(document).ready(function() {
+    $(document).on("click", "a.spot-button.login", function () {
+    	var email = $('#sign-in input[name=email]').val();
+    	var password = $('#sign-in input[name=password]').val();
+    	var token = $('#sign-in input[name=token]').val();
+
+    	if (email && password && token) {
+    		$.ajax({
+          url: "/ajax/login",
+          data: ({email:email, password:password, token:token}),
+          dataType: 'json',
+          type:'POST',
+
+          success: function (result) {
+          	if (result.error && result.error == 'no'){
+          		$(location).attr('href','');
+          	}
+          }
+         });
+    	}
+       return false;
+    });
+});
