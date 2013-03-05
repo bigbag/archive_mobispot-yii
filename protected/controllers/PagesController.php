@@ -2,15 +2,15 @@
 
 class PagesController extends MController
 {
-    public function actionIndex(){
-        $slug = Yii::app()->request->getQuery('id');
-
-        $model = Page::findBySlug($slug);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
-
-        $this->render('index', array(
-            'model' => $model,
-        ));
-    }
+  public function actionIndex(){
+    $slug = Yii::app()->request->getQuery('id');
+    
+    $model = Page::findBySlug($slug);
+    if ($model === null)
+    throw new CHttpException(404, 'The requested page does not exist.');
+    
+    $this->render('index', array(
+        'model' => $model,
+    ));
+  }
 }

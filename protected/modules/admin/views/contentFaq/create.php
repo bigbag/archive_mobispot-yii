@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'FAQ'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'FAQ' => array('index'),
-    'Добавление',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'FAQ' => array('index'),
+  'Добавление',
 );
 
 $this->menu = array(
-    array('label' => 'Управление ответами', 'url' => array('index')),
+  array('label' => 'Управление ответами', 'url' => array('index')),
 );
 ?>
 

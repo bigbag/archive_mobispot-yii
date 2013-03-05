@@ -1,13 +1,13 @@
 <?php $this->pageTitle = 'Персональный спот, поля'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Персональный спот, поля' => array('/admin/spotPersonalField/'),
-    'Управление'
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'Персональный спот, поля' => array('/admin/spotPersonalField/'),
+  'Управление'
 );
 $this->menu = array(
-    array('label' => 'Добавить поле', 'url' => array('create')),
+  array('label' => 'Добавить поле', 'url' => array('create')),
 );
 ?>
 
@@ -16,18 +16,18 @@ $this->menu = array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'name',
-        'placeholder',
-        'ico',
-        array(
-            'name' => 'type',
-            'type' => 'raw',
-            'value' => '$data->getType()',
-            'filter' => $model->getTypeList(),
-        ),
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{update}',
-        ),
+      'name',
+      'placeholder',
+      'ico',
+      array(
+        'name' => 'type',
+        'type' => 'raw',
+        'value' => '$data->getType()',
+        'filter' => $model->getTypeList(),
+      ),
+      array(
+        'class' => 'CButtonColumn',
+        'template' => '{update}',
+      ),
     ),
 )); ?>

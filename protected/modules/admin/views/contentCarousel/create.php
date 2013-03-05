@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Карусель'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'Карусель' => array('index'),
-    'Добавление',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'Карусель' => array('index'),
+  'Добавление',
 );
 
 $this->menu = array(
-    array('label' => 'Управление иконками карусели', 'url' => array('index')),
+  array('label' => 'Управление иконками карусели', 'url' => array('index')),
 );
 ?>
 

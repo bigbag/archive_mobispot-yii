@@ -1,10 +1,10 @@
 <?php $this->pageTitle = 'Комментарии'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Комментарии' => array('/admin/spotComment'),
-    'Управление'
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'Комментарии' => array('/admin/spotComment'),
+  'Управление'
 );
 
 ?>
@@ -16,24 +16,24 @@ $this->breadcrumbs = array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        array(
-            'name' => 'user_id',
-            'type' => 'raw',
-            'value' => '($data->user)?$data->user->email:""',
-        ),
-        array(
-            'name' => 'spot_id',
-            'type' => 'raw',
-            'value' => '($data->spot)?$data->spot->name:""',
-        ),
-        array(
-            'name' => 'creation_date',
-            'type' => 'raw',
-            'value' => 'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->creation_date)',
-        ),
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{view} {update}',
-        ),
+      array(
+        'name' => 'user_id',
+        'type' => 'raw',
+        'value' => '($data->user)?$data->user->email:""',
+      ),
+      array(
+        'name' => 'spot_id',
+        'type' => 'raw',
+        'value' => '($data->spot)?$data->spot->name:""',
+      ),
+      array(
+        'name' => 'creation_date',
+        'type' => 'raw',
+        'value' => 'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->creation_date)',
+      ),
+      array(
+        'class' => 'CButtonColumn',
+        'template' => '{view} {update}',
+      ),
     ),
 )); ?>

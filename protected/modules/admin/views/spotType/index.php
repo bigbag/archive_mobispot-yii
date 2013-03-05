@@ -1,13 +1,13 @@
 <?php $this->pageTitle = 'Типы спотов'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Типы спотов' => array('/admin/spotType/'),
-    'Управление'
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'Типы спотов' => array('/admin/spotType/'),
+  'Управление'
 );
 $this->menu = array(
-    array('label' => 'Добавить тип', 'url' => array('create')),
+  array('label' => 'Добавить тип', 'url' => array('create')),
 );
 ?>
 
@@ -19,12 +19,12 @@ $this->menu = array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'name',
-        'pattern',
-        'desc',
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{update}',
-        ),
+      'name',
+      'pattern',
+      'desc',
+      array(
+        'class' => 'CButtonColumn',
+        'template' => '{update}',
+      ),
     ),
 )); ?>

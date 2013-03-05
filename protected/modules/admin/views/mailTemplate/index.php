@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Почтовые шаблоны'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Почта',
-    'Почтовые шаблоны',
-    'Управление',
+  'Админка' => array('/admin/'),
+  'Почта',
+  'Почтовые шаблоны',
+  'Управление',
 );
 
 $this->menu = array(
-    array('label' => 'Добавить шаблон', 'url' => array('create')),
+  array('label' => 'Добавить шаблон', 'url' => array('create')),
 );
 ?>
 
@@ -20,17 +20,17 @@ $this->menu = array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'name',
-        'desc',
-        array(
-            'name' => 'lang',
-            'type' => 'raw',
-            'value' => '$data->getLang()',
-            'filter' => Lang::getLangArray(),
-        ),
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{update} {delete}',
-        ),
+      'name',
+      'desc',
+      array(
+        'name' => 'lang',
+        'type' => 'raw',
+        'value' => '$data->getLang()',
+        'filter' => Lang::getLangArray(),
+      ),
+      array(
+        'class' => 'CButtonColumn',
+        'template' => '{update} {delete}',
+      ),
     ),
 )); ?>

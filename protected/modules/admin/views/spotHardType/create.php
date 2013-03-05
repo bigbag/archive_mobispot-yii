@@ -1,10 +1,10 @@
 <?php $this->pageTitle = 'Типы исполнения спотов'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Типы исполнения спотов' => array('/admin/spotHardType/'),
-    'Добавить'
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'Типы исполнения спотов' => array('/admin/spotHardType/'),
+  'Добавить'
 );
 ?>
 

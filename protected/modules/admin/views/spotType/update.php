@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Типы спотов'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Типы спотов' => array('/admin/spotType/'),
-    'Редактировать',
-    $model->name,
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'Типы спотов' => array('/admin/spotType/'),
+  'Редактировать',
+  $model->name,
 );
 $this->menu = array(
-    array('label' => 'Добавить тип', 'url' => array('create')),
+  array('label' => 'Добавить тип', 'url' => array('create')),
 );
 ?>
 

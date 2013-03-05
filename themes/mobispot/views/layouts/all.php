@@ -8,8 +8,8 @@
 <?php include('block/head.php');?>
 <body>
 <div class="content-wrapper">
-  <?php include('block/header.php');?>
-  <?php echo $content; ?>
+<?php include('block/header.php');?>
+<?php echo $content; ?>
 </div>
 
 <?php include('block/footer.php');?>

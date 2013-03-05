@@ -1,16 +1,16 @@
 <?php $this->pageTitle = 'FAQ'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'FAQ' => array('index'),
-    $model->question,
-    'Редактировать',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'FAQ' => array('index'),
+  $model->question,
+  'Редактировать',
 );
 
 $this->menu = array(
-    array('label' => 'Добавить ответ', 'url' => array('create')),
-    array('label' => 'Управление ответами', 'url' => array('index')),
+  array('label' => 'Добавить ответ', 'url' => array('create')),
+  array('label' => 'Управление ответами', 'url' => array('index')),
 );
 ?>
 
