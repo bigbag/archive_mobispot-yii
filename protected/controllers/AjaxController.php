@@ -55,31 +55,42 @@ class AjaxController extends MController
     {
         if (Yii::app()->request->isAjaxRequest) {
             $error = "yes";
-            $data = $this->getJson();
+            #$data = $this->getJson();
 
-            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
-
-                if (isset(Yii::app()->session['login_error_count'])) {
-                    $login_error_count = Yii::app()->session['login_error_count'];
-                } else $login_error_count = 0;
-
-                if ($login_error_count > 2) {
-                    $error = 'login_error_count';
-                } else {
+            if (isset($_POST['token']) and $_POST['token'] == Yii::app()->request->csrfToken) {
+                if (isset($_POST['email']) and isset($_POST['password'])) {
                     $form = new LoginForm;
-                    if (isset($data['email']) and isset($data['password'])) {
-                        $form->attributes = $data;
-                        if ($form->validate()) {
-                            $identity = new UserIdentity($form->email, $form->password);
-                            $identity->authenticate();
-                            $this->lastVisit();
-                            Yii::app()->user->login($identity);
-                            unset(Yii::app()->session['login_error_count']);
-                            $error = "no";
-                        }
-                        else Yii::app()->session['login_error_count'] = $login_error_count + 1;
+                    $form->email = $_POST['email'];
+                    $form->password = $_POST['password'];
+                    if ($form->validate()) {
+                        $identity = new UserIdentity($form->email, $form->password);
+                        $identity->authenticate();
+                        $this->lastVisit();
+                        Yii::app()->user->login($identity);
+                        $error = "no";
                     }
-                }
+               }
+                // if (isset(Yii::app()->session['login_error_count'])) {
+                //     $login_error_count = Yii::app()->session['login_error_count'];
+                // } else $login_error_count = 0;
+
+                // if ($login_error_count > 2) {
+                //     $error = 'login_error_count';
+                // } else {
+                //     $form = new LoginForm;
+                //     if (isset($data['email']) and isset($data['password'])) {
+                //         $form->attributes = $data;
+                //         if ($form->validate()) {
+                //             $identity = new UserIdentity($form->email, $form->password);
+                //             $identity->authenticate();
+                //             $this->lastVisit();
+                //             Yii::app()->user->login($identity);
+                //             unset(Yii::app()->session['login_error_count']);
+                //             $error = "no";
+                //         }
+                //         else Yii::app()->session['login_error_count'] = $login_error_count + 1;
+                //     }
+                // }
             }
             echo json_encode(array('error' => $error));
         }

@@ -15,7 +15,7 @@
 
     <script src="/themes/mobispot/javascripts/jquery/jquery-1.8.3.min.js"></script>
     <!-- <script src="/themes/mobispot/javascripts/angular/angular.min.js"></script>
-    <script src="/themes/mobispot/javascripts/angular/angular-resource.min.js"></script>-->
+    <script src="/themes/mobispot/javascripts/angular/angular-resource.min.js"></script> -->
 
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>
