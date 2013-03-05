@@ -6,6 +6,13 @@
   <div class="row row__head-slider">
     <div class="twelve">
         <div class="header-top">
+            <?php if (!Yii::app()->user->isGuest): ?>
+            <?php $userInfo=$this->userInfo()?>
+            <ul class="login-bar">
+                <li><a href="#"><?php echo $userInfo->name;?></a></li>
+                <!-- <li><a href="#">Shopping bag (2)</a></li> -->
+            </ul>
+            <?php endif; ?>
           <div class="four columns">
             <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
           </div>
@@ -34,6 +41,13 @@
                         <a class="spot-button" href="/service/logout/"><?php echo Yii::t('general', 'Logout')?></a>
                     </li>
                 <?php endif; ?>
+                <?php foreach(Lang::getLang() as $row):?>
+                    <?php if($row['name'] != Yii::app()->language):?>
+                    <li>
+                        <a class="spot-button" href="/service/lang/<?php echo $row['name']?>"><?php echo $row['desc']?></a>
+                    </li>
+                    <?php endif;?>
+                <?php endforeach;?>
                 </ul>
             </div>
         </div>

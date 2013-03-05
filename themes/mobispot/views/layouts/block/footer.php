@@ -1,18 +1,18 @@
 <footer class="footer-page">
     <div class="row">
         <div class="twelve columns">
-            <h3>Some beautiful strapline</h3>
+            <h3><?php echo Yii::t('footer', 'Some beautiful strapline')?></h3>
             <ul class="link-list left">
-                <li><a href="/pages/about">About us</a></li>
-                <li><a href="/pages/phones">Phones</a></li>
-                <li><a href="/pages/help">Help center</a></li>
-                <li><a href="http://store.mobispot.com">Store</a></li>
-                <li><a href="/pages/referrals">Referrals</a></li>
-                <li><a href="/pages/api">API</a></li>
-                <li><a href="/pages/blog">Our blog</a></li>
+                <li><a href="/pages/about"><?php echo Yii::t('footer', 'About us')?></a></li>
+                <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones')?></a></li>
+                <li><a href="/pages/help"><?php echo Yii::t('footer', 'Help center')?></a></li>
+                <li><a href="http://store.mobispot.com"><?php echo Yii::t('footer', 'Store')?></a></li>
+                <li><a href="/pages/referrals"><?php echo Yii::t('footer', 'Referrals')?></a></li>
+                <li><a href="/pages/api"><?php echo Yii::t('footer', 'API')?></a></li>
+                <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog')?></a></li>
             </ul>
             <div class="right soc-link">
-                <span>Follow Mobispot</span>
+                <span><?php echo Yii::t('footer', 'Follow Mobispot')?></span>
                 <a href="#" class="i-soc-fac">&nbsp;</a>
                 <a href="#" class="i-soc-twi">&nbsp;</a>
             </div>
