@@ -8,8 +8,8 @@
 <script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/script.js"></script>
 
-<script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
+<!-- <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/services.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
-<script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/directives.js"></script> -->

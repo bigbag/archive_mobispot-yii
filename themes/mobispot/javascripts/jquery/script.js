@@ -98,8 +98,14 @@ $(document).ready(function() {
           type:'POST',
 
           success: function (result) {
-          	if (result.error && result.error == 'no'){
-          		$(location).attr('href','');
+          	if (result.error){
+          		if (result.error == 'no'){
+          			$(location).attr('href','');
+          		}
+          		else if (result.error == 'yes'){
+          			$('#sign-in input[name=email]').attr('class','error');
+          			$('#sign-in input[name=password]').attr('class','error');
+          		}
           	}
           }
          });

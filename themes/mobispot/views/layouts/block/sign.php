@@ -8,7 +8,7 @@
     <div class="row">
         <div class="five columns centered">
             <form id="sign-in">
-                <input name='email' id="email" type="text" placeholder="<?php echo Yii::t('sign', 'Email address');?>">
+                <input name='email' type="text" placeholder="<?php echo Yii::t('sign', 'Email address');?>">
                 <input name='password' type="password" placeholder="<?php echo Yii::t('sign', 'Password');?>">
                 <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
                 <div class="form-control">
