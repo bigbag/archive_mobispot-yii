@@ -33,7 +33,7 @@ $('.search-form form').submit(function(){
 </div>
 <?php endif; ?>
 
-<?
+<?php
 $this->widget('ext.selgridview.SelGridView', array(
     'id' => 'spot-grid',
     'dataProvider' => $model->search(),
