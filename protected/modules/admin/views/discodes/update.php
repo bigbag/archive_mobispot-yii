@@ -1,11 +1,11 @@
 <?php $this->pageTitle = 'ID'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'ID' => array('index'),
-    $model->id,
-    'Редактировать',
+  'Админка' => array('/admin/'),
+  'Споты' => array('/admin/spot/'),
+  'ID' => array('index'),
+  $model->id,
+  'Редактировать',
 );
 ?>
 

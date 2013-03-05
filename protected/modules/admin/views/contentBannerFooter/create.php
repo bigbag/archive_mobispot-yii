@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Баннеры на главной'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'Баннеры на главной' => array('index'),
-    'Добавление',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'Баннеры на главной' => array('index'),
+  'Добавление',
 );
 
 $this->menu = array(
-    array('label' => 'Управление баннерами', 'url' => array('index')),
+  array('label' => 'Управление баннерами', 'url' => array('index')),
 );
 ?>
 

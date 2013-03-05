@@ -1,10 +1,10 @@
 <?php $this->pageTitle = 'Переводы'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'Переводы',
-    'Управление',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'Переводы',
+  'Управление',
 );
 ?>
 
@@ -16,11 +16,11 @@ $this->breadcrumbs = array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        'name',
-        'desc',
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{update}',
-        ),
+      'name',
+      'desc',
+      array(
+        'class' => 'CButtonColumn',
+        'template' => '{update}',
+      ),
     ),
 )); ?>

@@ -1,15 +1,15 @@
 <?php $this->pageTitle = 'Ссылки в подвале'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'Ссылки в подвале',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'Ссылки в подвале',
 );
 ?>
 
 <?php
 $this->menu=array(
-    array('label'=>'Добавить', 'url'=>array('create')),
+  array('label'=>'Добавить', 'url'=>array('create')),
 );
 ?>
 
@@ -20,17 +20,17 @@ $this->menu=array(
     'dataProvider'=>$model->search(),
     'filter'=>$model,
     'columns'=>array(
-        'link',
-        'name',
-        array(
-            'name' => 'lang',
-            'type' => 'raw',
-            'value' => '$data->getLang()',
-            'filter' => Lang::getLangArray(),
-        ),
-        array(
-            'class'=>'CButtonColumn',
-            'template' => '{update} {delete}',
-        ),
+      'link',
+      'name',
+      array(
+        'name' => 'lang',
+        'type' => 'raw',
+        'value' => '$data->getLang()',
+        'filter' => Lang::getLangArray(),
+      ),
+      array(
+        'class'=>'CButtonColumn',
+        'template' => '{update} {delete}',
+      ),
     ),
 )); ?>

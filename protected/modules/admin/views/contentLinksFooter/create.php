@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Ссылки в подвале'; ?>
 <?php
 $this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Содержимое',
-    'Ссылки в подвале' => array('index'),
-    'Добавление',
+  'Админка' => array('/admin/'),
+  'Содержимое',
+  'Ссылки в подвале' => array('index'),
+  'Добавление',
 );
 
 $this->menu = array(
-    array('label' => 'Управление ссылками', 'url' => array('index')),
+  array('label' => 'Управление ссылками', 'url' => array('index')),
 );
 ?>
 

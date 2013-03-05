@@ -2,5 +2,5 @@
 
 class FooterLinkController extends Controller
 {
-
+  
 }
