@@ -34,6 +34,16 @@ $(window).load(function() {
 });
 
 //Авторизация
+$('#sign-in input[name=password]').keypress(function(e) {
+    if(e.which == 13) {
+      var email = $('#sign-in input[name=email]').val();
+      var password = $('#sign-in input[name=password]').val();
+      if (email && password) {
+        $("a.spot-button.login").trigger('click');
+      }
+    }
+});
+
 $(document).ready(function() {
     $(document).on("click", "a.spot-button.login", function () {
     	var email = $('#sign-in input[name=email]').val();
