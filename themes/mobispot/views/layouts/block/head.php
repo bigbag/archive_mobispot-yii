@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css">
 <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
+<link rel="stylesheet" href="/themes/mobispot/stylesheets/add.css">
 
 <script src="/themes/mobispot/javascripts/jquery/jquery-1.8.3.min.js"></script>
 <!-- <script src="/themes/mobispot/javascripts/angular/angular.min.js"></script>
