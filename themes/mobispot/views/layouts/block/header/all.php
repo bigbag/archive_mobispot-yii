@@ -1,7 +1,7 @@
 <header class="header-page">
 <?php if (Yii::app()->user->isGuest): ?>
-<?php include('../activ.php');?>
-<?php include('../sign.php');?>
+<?php include('activ.php');?>
+<?php include('sign.php');?>
 <?php endif; ?>
 <div class="row row__head-slider">
 <div class="twelve">
@@ -17,7 +17,7 @@
 <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
 </div>
 <div class="eight columns">
-<?php include('../menu.php');?>
+<?php include('menu.php');?>
 </div>
 </div>
 </div>
