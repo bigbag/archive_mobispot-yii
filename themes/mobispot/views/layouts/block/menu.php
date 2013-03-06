@@ -1,14 +1,14 @@
 <ul class="nav-bar right">
 <?php if (Yii::app()->controller->id!='site'): ?>
 <li>
-<a class="spot-button" href="/pages/personal"><?php echo Yii::t('general', 'Personal')?></a>
+<a class="spot-button" href="/personal"><?php echo Yii::t('general', 'Personal')?></a>
 </li>
 
 <li>
-<a class="spot-button" href="/pages/business"><?php echo Yii::t('general', 'Business')?></a>
+<a class="spot-button" href="/business"><?php echo Yii::t('general', 'Business')?></a>
 </li>
 <li>
-<a class="spot-button" href="/pages/corporate"><?php echo Yii::t('general', 'Corporate')?></a>
+<a class="spot-button" href="/corporate"><?php echo Yii::t('general', 'Corporate')?></a>
 </li>
 <?php endif; ?>
 <li>

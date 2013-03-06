@@ -8,12 +8,8 @@
 <?php include('block/head.php');?>
 <body>
 <div class="content-wrapper">
-<?php include('block/header/all.php');?>
-<div class="row">
-		<div class="twelve columns singlebox-margin">
-			<?php echo $content; ?>
-	</div>
-</div>
+<?php include('block/header/slider.php');?>
+<?php echo $content; ?>
 </div>
 
 <?php include('block/footer.php');?>
