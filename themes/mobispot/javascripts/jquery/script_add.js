@@ -36,7 +36,7 @@ $(window).load(function() {
 //Авторизация
 
 $(document).ready(function() {
-    $('#sign-in input[name=password]').keypress(function() {
+    $('#sign-in input[name=password]').one("keypress", function() {
       var email = $('#sign-in input[name=email]').val();
       if (email) {
         $("#signInForm .spot-button.login").show();

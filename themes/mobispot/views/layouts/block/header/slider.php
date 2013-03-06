@@ -1,7 +1,7 @@
 <header class="header-page">
 <?php if (Yii::app()->user->isGuest): ?>
-<?php include('activ.php');?>
-<?php include('sign.php');?>
+<?php include('../activ.php');?>
+<?php include('../sign.php');?>
 <?php endif; ?>
 <div class="row row__head-slider">
 <div class="twelve">
@@ -17,12 +17,12 @@
 <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
 </div>
 <div class="eight columns">
-<?php include('menu.php');?>
+<?php include('../menu.php');?>
 </div>
 </div>
 <div class="bubbles-slider">
 <div id="slider">
-<?php if (Yii::app()->controller->id=='site' and Yii::app()->controller->action->id=='index'): ?>
+<?php if (Yii::app()->controller->id=='site'): ?>
 <img src="/themes/mobispot/images/slider.jpg" />
 <img src="/themes/mobispot/images/slider.jpg" />
 <img src="/themes/mobispot/images/slider.jpg" />
@@ -31,19 +31,19 @@
 <?php endif;?>
 </div>
 <div class="bubbles-content">
-<a href="/pages/personal" class="bubble">
-<h4>Personal</h4>
-<p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+<a href="/personal" class="bubble">
+<h4><?php echo Yii::t('bubbles', 'Personal')?></h4>
+<p><?php echo Yii::t('bubbles', 'personal desc')?></p>
 <b></b>
 </a>
-<a href="/pages/business" class="bubble">
-<h4>Business</h4>
-<p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+<a href="/business" class="bubble">
+<h4><?php echo Yii::t('bubbles', 'Business')?></h4>
+<p><?php echo Yii::t('bubbles', 'business desc')?></p>
 <b></b>
 </a>
-<a href="/pages/corporate" class="bubble">
-<h4>Corporate</h4>
-<p>Has millions of songs, from massive hits to rare gems to cult classic</p>
+<a href="/corporate" class="bubble">
+<h4><?php echo Yii::t('bubbles', 'Corporate')?></h4>
+<p><?php echo Yii::t('bubbles', 'corporate desc')?></p>
 <b></b>
 </a>
 </div>

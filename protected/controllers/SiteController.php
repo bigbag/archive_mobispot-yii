@@ -17,14 +17,15 @@ class SiteController extends MController
       ),
     );
   }
-  
-  
+
+
   public function actionIndex()
   {
+    $this->layout = '//layouts/slider';
     $this->render('index');
   }
-  
-  
+
+
   public function actionError()
   {
     if ($error = Yii::app()->errorHandler->error) {
@@ -34,7 +35,7 @@ class SiteController extends MController
       $this->render('error', $error);
     }
   }
-  
+
   /**
   * Displays the contact page
   */
@@ -50,7 +51,7 @@ class SiteController extends MController
         "Reply-To: {$model->email}\r\n" .
         "MIME-Version: 1.0\r\n" .
         "Content-type: text/plain; charset=UTF-8";
-        
+
         mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
         Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
         $this->refresh();
@@ -58,7 +59,7 @@ class SiteController extends MController
     }
     $this->render('contact', array('model' => $model));
   }
-  
+
   public function actionUpload()
   {
     if (!empty($_FILES)) {
@@ -67,15 +68,15 @@ class SiteController extends MController
       $tempFile = $_FILES['Filedata']['tmp_name'];
       $user_id = 0;
       if ($_POST['user_id']) $user_id = $_POST['user_id'];
-      
+
       $fileParts = pathinfo($_FILES['Filedata']['name']);
-      
+
       $fileName = $action . '_' . md5(time() . $fileParts['basename']);
       $targetFileName = $fileName . '.jpg';
-      
+
       if (filesize($tempFile) < $maxSize * 1024) {
         $targetPath = Yii::getPathOfAlias('webroot.uploads.images.') . '/';
-        
+
         $image = new CImageHandler();
         $image->load($tempFile);
         if ($image->thumb(50, 50, true)) {
@@ -83,17 +84,17 @@ class SiteController extends MController
           $image->reload();
           $image->thumb(260, 300, true);
           $image->save($targetPath . $fileName . '.jpg');
-          
+
           $personal_photo = Yii::app()->cache->get('personal_photo_' . $user_id);
-          
+
           if ($personal_photo !== false) {
             @unlink($targetPath . $personal_photo);
             @unlink($targetPath . 'tmb_' . $personal_photo);
           }
           Yii::app()->cache->set('personal_photo_' . $user_id, $targetFileName, 3600);
-          
+
           echo json_encode(array('file' => $targetFileName));
-          
+
         } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
       } else echo json_encode(array('error' => Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024 . ' байт.'));
     }

@@ -1,7 +1,7 @@
 <footer class="footer-page">
 <div class="row">
 <div class="twelve columns">
-<h3><?php echo Yii::t('footer', 'Some beautiful strapline')?></h3>
+<h3><?php echo Yii::t('footer', 'Footer title')?></h3>
 <ul class="link-list left">
 <li><a href="/pages/about"><?php echo Yii::t('footer', 'About us')?></a></li>
 <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones')?></a></li>
