@@ -11,7 +11,9 @@
 <input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" required >
 <input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" required >
 <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
+<div class="captcha"></div>
 <div class="form-control">
+	{{signForm.$invalid}}
 <a class="spot-button login" ng-show="!signForm.$invalid" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
 <span class="right soc-link">
 <a href="/service/social?service=facebook" class="i-soc-fac">&nbsp;</a>
