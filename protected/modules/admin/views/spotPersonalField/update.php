@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Персональный спот, поля'; ?>
 <?php
 $this->breadcrumbs = array(
-  'Админка' => array('/admin/'),
-  'Споты' => array('/admin/spot/'),
-  'Персональный спот, поля' => array('/admin/spotPersonalField/'),
-  'Редактировать',
-  $model->name,
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Персональный спот, поля' => array('/admin/spotPersonalField/'),
+    'Редактировать',
+    $model->name,
 );
 $this->menu = array(
-  array('label' => 'Добавить поле', 'url' => array('create')),
+    array('label' => 'Добавить поле', 'url' => array('create')),
 );
 ?>
 

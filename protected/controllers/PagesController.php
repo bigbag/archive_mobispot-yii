@@ -1,21 +1,22 @@
 <?php
 
-class PagesController extends MController
-{
-  public function actionIndex(){
+class PagesController extends MController {
+
+  public function actionIndex() {
     $slug = Yii::app()->request->getQuery('id');
 
     $model = Page::findBySlug($slug);
     if ($model === null)
-    throw new CHttpException(404, 'The requested page does not exist.');
+      throw new CHttpException(404, 'The requested page does not exist.');
 
     $this->render('index', array(
         'model' => $model,
     ));
   }
 
-  public function actionSections($id){
+  public function actionSections($id) {
     $this->layout = '//layouts/slider';
-    $this->render('sections/'.Yii::app()->language.'/'.$id);
+    $this->render('sections/' . Yii::app()->language . '/' . $id);
   }
+
 }

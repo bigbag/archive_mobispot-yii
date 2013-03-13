@@ -6,17 +6,17 @@
 
 <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
 
-<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16x15.png">
-<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32x31.png">
-<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48x48.png">
+<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
+<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
+<link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
 
 <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css">
 <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
 <link rel="stylesheet" href="/themes/mobispot/stylesheets/add.css">
 
 <script src="/themes/mobispot/javascripts/jquery/jquery-1.8.3.min.js"></script>
-<!-- <script src="/themes/mobispot/javascripts/angular/angular.min.js"></script>
-<script src="/themes/mobispot/javascripts/angular/angular-resource.min.js"></script> -->
+<script src="/themes/mobispot/javascripts/angular/angular.min.js"></script>
+<script src="/themes/mobispot/javascripts/angular/angular-resource.min.js"></script>
 
 <!-- IE Fix for HTML5 Tags -->
 <!--[if lt IE 9]>

@@ -1,10 +1,10 @@
 <?php $this->pageTitle = 'Доступные поля'; ?>
 <?php
 $this->breadcrumbs = array(
-  'Админка' => array('/admin/'),
-  'Споты' => array('/admin/spot/'),
-  'Доступные поля' => array('/admin/spotField/'),
-  'Добавить'
+    'Админка' => array('/admin/'),
+    'Споты' => array('/admin/spot/'),
+    'Доступные поля' => array('/admin/spotField/'),
+    'Добавить'
 );
 ?>
 

@@ -1,4 +1,4 @@
-<div id="login_captcha_modal" class="reveal-modal" ng-controller="UserController" ng-init="cUser.token='<?php echo Yii::app()->request->csrfToken?>'">
+<div id="login_captcha_modal" class="reveal-modal" ng-controller="UserCtrl" ng-init="cUser.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div class="cont-pop">
 <a class="close-reveal-modal"><?php echo Yii::t('user', 'Закрыть')?></a>
 

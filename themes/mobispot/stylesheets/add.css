@@ -1,3 +1,7 @@
-#signInForm .spot-button.login {
+#signInForm1 .spot-button.login {
 	display: none;
 }
+
+.checkbox.active i {
+ 	background-position: -135px -41px;
+ }

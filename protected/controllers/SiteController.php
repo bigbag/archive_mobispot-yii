@@ -1,46 +1,40 @@
 <?php
 
-class SiteController extends MController
-{
+class SiteController extends MController {
+
   /**
-  * Declares class-based actions.
-  */
-  public function actions()
-  {
+   * Declares class-based actions.
+   */
+  public function actions() {
     return array(
-      'captcha' => array(
-        'class' => 'application.extensions.kcaptcha.KCaptchaAction',
-        'maxLength' => 6,
-        'minLength' => 5,
-        'foreColor' => array(mt_rand(0, 100), mt_rand(0, 100), mt_rand(0, 100)),
-        'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
-      ),
+        'captcha' => array(
+            'class' => 'application.extensions.kcaptcha.KCaptchaAction',
+            'maxLength' => 6,
+            'minLength' => 5,
+            'foreColor' => array(mt_rand(0, 200), mt_rand(0, 100), mt_rand(0, 100)),
+            #'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
+        ),
     );
   }
 
-
-  public function actionIndex()
-  {
+  public function actionIndex() {
     $this->layout = '//layouts/slider';
     $this->render('index');
   }
 
-
-  public function actionError()
-  {
+  public function actionError() {
     if ($error = Yii::app()->errorHandler->error) {
       if (Yii::app()->request->isAjaxRequest)
-      echo $error['message'];
-    else
-      $this->render('error', $error);
+        echo $error['message'];
+      else
+        $this->render('error', $error);
     }
   }
 
   /**
-  * Displays the contact page
-  */
-  public function actionContact()
-  {
+   * Displays the contact page
+   */
+  public function actionContact() {
     $model = new ContactForm;
     if (isset($_POST['ContactForm'])) {
       $model->attributes = $_POST['ContactForm'];
@@ -48,9 +42,9 @@ class SiteController extends MController
         $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
         $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
         $headers = "From: $name <{$model->email}>\r\n" .
-        "Reply-To: {$model->email}\r\n" .
-        "MIME-Version: 1.0\r\n" .
-        "Content-type: text/plain; charset=UTF-8";
+                "Reply-To: {$model->email}\r\n" .
+                "MIME-Version: 1.0\r\n" .
+                "Content-type: text/plain; charset=UTF-8";
 
         mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
         Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -60,14 +54,14 @@ class SiteController extends MController
     $this->render('contact', array('model' => $model));
   }
 
-  public function actionUpload()
-  {
+  public function actionUpload() {
     if (!empty($_FILES)) {
       $maxSize = Yii::app()->par->load('ImageSize');
       $action = $_POST['action'];
       $tempFile = $_FILES['Filedata']['tmp_name'];
       $user_id = 0;
-      if ($_POST['user_id']) $user_id = $_POST['user_id'];
+      if ($_POST['user_id'])
+        $user_id = $_POST['user_id'];
 
       $fileParts = pathinfo($_FILES['Filedata']['name']);
 
@@ -94,9 +88,13 @@ class SiteController extends MController
           Yii::app()->cache->set('personal_photo_' . $user_id, $targetFileName, 3600);
 
           echo json_encode(array('file' => $targetFileName));
-
-        } else echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
-      } else echo json_encode(array('error' => Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024 . ' байт.'));
+        }
+        else
+          echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+      }
+      else
+        echo json_encode(array('error' => Yii::t('images', 'Максимальный размер файла ') . $maxSize * 1024 . ' байт.'));
     }
   }
+
 }

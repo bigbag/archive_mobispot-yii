@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="language" content="en"/>
 
@@ -20,29 +20,31 @@
     <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/lightbox.min.js'); ?>
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-</head>
+  </head>
 
-<body>
-<div class="container" id="page">
+  <body>
+    <div class="container" id="page">
 
-    <div id="header">
+      <div id="header">
         <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+      </div>
+      <!-- header -->
+
+      <div id="mainMbMenu"><?php include('block/menu.php'); ?></div>
+      <?php if (isset($this->breadcrumbs)): ?>
+        <?php
+        $this->widget('zii.widgets.CBreadcrumbs', array(
+            'links' => $this->breadcrumbs,
+        ));
+        ?>
+      <?php endif ?>
+
+      <?php echo $content; ?>
+
+      <div class="clear"></div>
+
+      <div id="footer"><?php echo Yii::app()->par->load('copyright'); ?></div>
+
     </div>
-    <!-- header -->
-
-    <div id="mainMbMenu"><?php include('block/menu.php');?></div>
-    <?php if (isset($this->breadcrumbs)): ?>
-    <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-        'links' => $this->breadcrumbs,
-    )); ?>
-    <?php endif?>
-
-    <?php echo $content; ?>
-
-    <div class="clear"></div>
-
-    <div id="footer"><?php echo Yii::app()->par->load('copyright'); ?></div>
-
-</div>
-</body>
+  </body>
 </html>
