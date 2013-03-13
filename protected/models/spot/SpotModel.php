@@ -1,63 +1,58 @@
 <?php
-class SpotModel extends EMongoSoftDocument
-{
+
+class SpotModel extends EMongoSoftDocument {
+
   // You still can define a field(s), that always will be defined
   // like in normal EMongoDocument, but this is optional
   public $spot_id;
   public $user_id;
   public $lang;
   public $spot_type_id;
-  
+
   // As always define the getCollectionName() and model() methods !
-  
-  public function getCollectionName()
-  {
+
+  public function getCollectionName() {
     return 'spot';
   }
-  
-  public static function model($className = __CLASS__)
-  {
+
+  public static function model($className = __CLASS__) {
     return parent::model($className);
   }
-  
-  public function indexes()
-  {
+
+  public function indexes() {
     return array(
-      'users_index' => array(
-        'key' => array(
-          'user_id' => EMongoCriteria::SORT_ASC,
-          'user_id.embeded_field' => EMongoCriteria::SORT_DESC
+        'users_index' => array(
+            'key' => array(
+                'user_id' => EMongoCriteria::SORT_ASC,
+                'user_id.embeded_field' => EMongoCriteria::SORT_DESC
+            ),
+            'unique' => false,
         ),
-        'unique' => false,
-      ),
-      'spot_index' => array(
-        'key' => array(
-          'spot_id' => EMongoCriteria::SORT_ASC,
-          'spot_id.embeded_field' => EMongoCriteria::SORT_DESC
+        'spot_index' => array(
+            'key' => array(
+                'spot_id' => EMongoCriteria::SORT_ASC,
+                'spot_id.embeded_field' => EMongoCriteria::SORT_DESC
+            ),
+            'unique' => false,
         ),
-        'unique' => false,
-      ),
     );
   }
-  
-  public function rules()
-  {
+
+  public function rules() {
     return array(
-      array('spot_id, user_id, lang, spot_type_id', 'required'),
+        array('spot_id, user_id, lang, spot_type_id', 'required'),
     );
   }
-  
-  public function setField($obj, $data)
-  {
+
+  public function setField($obj, $data) {
     foreach ($data as $key => $value) {
       $obj->{$key} = $value;
     }
     return $obj;
   }
-  
-  public function getContent($lang, $spot_id, $user_id, $spot_type_id)
-  {
-    
+
+  public function getContent($lang, $spot_id, $user_id, $spot_type_id) {
+
     $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot_type_id));
     if (!$content) {
       $model = new SpotModel();
@@ -71,4 +66,5 @@ class SpotModel extends EMongoSoftDocument
     }
     return $content;
   }
+
 }

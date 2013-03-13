@@ -1,14 +1,14 @@
 <?php $this->pageTitle = 'Почтовые шаблоны'; ?>
 <?php
 $this->breadcrumbs = array(
-  'Админка' => array('/admin/'),
-  'Почта',
-  'Почтовые шаблоны' => array('index'),
-  'Добавление',
+    'Админка' => array('/admin/'),
+    'Почта',
+    'Почтовые шаблоны' => array('index'),
+    'Добавление',
 );
 
 $this->menu = array(
-  array('label' => 'Управление шаблонами', 'url' => array('index')),
+    array('label' => 'Управление шаблонами', 'url' => array('index')),
 );
 ?>
 
