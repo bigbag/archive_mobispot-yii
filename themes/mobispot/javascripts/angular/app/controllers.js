@@ -1,19 +1,22 @@
 'use strict';
 
-function MenuController($scope)
+function UserCtrl($scope, $http, $compile)
 {
     //Авторизация
     $scope.login = function(user)
     {
-        alert(1);
-    };
-}
+        $http.post('/ajax/login', user).success(function(data)
+        {
+            if (data.error == 'yes')
+            {
+                angular.element('#sign-in input[name=email]').addClass('error');
+                angular.element('#sign-in input[name=password]').addClass('error');
 
-function UserController($scope, $http, $compile)
-{
-    //Авторизация
-    $scope.login = function(user)
-    {
-        alert(1);
+            }
+            else {
+                angular.element('.auth-hint').hide();
+                $().redirect('', null, 'GET');
+            }
+        });
     };
 }

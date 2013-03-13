@@ -35,49 +35,49 @@ $(window).load(function() {
 
 //Авторизация
 
-$(document).ready(function() {
-    $('#sign-in input[name=password]').one("keypress", function() {
-      var email = $('#sign-in input[name=email]').val();
-      if (email) {
-        $("#signInForm .spot-button.login").show();
-      }
-    });
+// $(document).ready(function() {
+//     $('#sign-in input[name=password]').one("keypress", function() {
+//       var email = $('#sign-in input[name=email]').val();
+//       if (email) {
+//         $("#signInForm .spot-button.login").show();
+//       }
+//     });
 
-    $('#sign-in input[name=password]').keypress(function(e) {
-      if(e.which == 13) {
-        var email = $('#sign-in input[name=email]').val();
-        var password = $('#sign-in input[name=password]').val();
-        if (email && password) {
-          $("a.spot-button.login").trigger('click');
-        }
-      }
-    });
+//     $('#sign-in input[name=password]').keypress(function(e) {
+//       if(e.which == 13) {
+//         var email = $('#sign-in input[name=email]').val();
+//         var password = $('#sign-in input[name=password]').val();
+//         if (email && password) {
+//           $("a.spot-button.login").trigger('click');
+//         }
+//       }
+//     });
 
-    $(document).on("click", "a.spot-button.login", function () {
-    	var email = $('#sign-in input[name=email]').val();
-    	var password = $('#sign-in input[name=password]').val();
-    	var token = $('#sign-in input[name=token]').val();
+//     $(document).on("click", "a.spot-button.login", function () {
+//     	var email = $('#sign-in input[name=email]').val();
+//     	var password = $('#sign-in input[name=password]').val();
+//     	var token = $('#sign-in input[name=token]').val();
 
-    	if (email && password && token) {
-    		$.ajax({
-          url: "/ajax/login",
-          data: ({email:email, password:password, token:token}),
-          dataType: 'json',
-          type:'POST',
+//     	if (email && password && token) {
+//     		$.ajax({
+//           url: "/ajax/login",
+//           data: ({email:email, password:password, token:token}),
+//           dataType: 'json',
+//           type:'POST',
 
-          success: function (result) {
-          	if (result.error){
-          		if (result.error == 'no'){
-          			$(location).attr('href','');
-          		}
-          		else if (result.error == 'yes'){
-          			$('#sign-in input[name=email]').attr('class','error');
-          			$('#sign-in input[name=password]').attr('class','error');
-          		}
-          	}
-          }
-         });
-    	}
-       return false;
-    });
-});
+//           success: function (result) {
+//           	if (result.error){
+//           		if (result.error == 'no'){
+//           			$(location).attr('href','');
+//           		}
+//           		else if (result.error == 'yes'){
+//           			$('#sign-in input[name=email]').attr('class','error');
+//           			$('#sign-in input[name=password]').attr('class','error');
+//           		}
+//           	}
+//           }
+//          });
+//     	}
+//        return false;
+//     });
+// });
