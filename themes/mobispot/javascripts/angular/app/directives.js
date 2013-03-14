@@ -2,6 +2,8 @@
 
 var app = angular.module('mobispot', []);
 
+$('input').on('change',function() { $(this).trigger('input'); });
+
 app.directive('onKeyup', function() {
     return function(scope, elm, attrs) {
         function applyKeyup() {

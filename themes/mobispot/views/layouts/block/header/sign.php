@@ -1,4 +1,4 @@
-<div id="signInForm" class="slide-box" ng-controller="UserCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+<div id="signInForm" class="slide-box" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div  class="row">
 <div class="seven columns centered">
 <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
@@ -11,8 +11,8 @@
 <input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" required >
 <input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" required >
 <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
-<input on-keyup="keyCount = keyCount+1" keys="[27,13]">
-{{keyCount}}
+{{user.email}}
+{{user.password}}
 <div class="form-control">
 <a class="spot-button login" href="javascript:;" ng-show="!signForm.$invalid" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
 <span class="right soc-link">
