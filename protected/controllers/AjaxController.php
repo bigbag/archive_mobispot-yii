@@ -4,42 +4,42 @@ class AjaxController extends MController {
 
   public function actions() {
     return array(
-        'captcha' => array(
-            'class' => 'application.extensions.kcaptcha.KCaptchaAction',
-            'maxLength' => 6,
-            'minLength' => 5,
-            'foreColor' => array(mt_rand(0, 100), mt_rand(0, 100), mt_rand(0, 100)),
+        'captcha'=>array(
+            'class'=>'application.extensions.kcaptcha.KCaptchaAction',
+            'maxLength'=>6,
+            'minLength'=>5,
+            'foreColor'=>array(mt_rand(0, 100), mt_rand(0, 100), mt_rand(0, 100)),
             #'backColor' => array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
         ),
     );
   }
 
-  public function actionSetQuestion() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error = "yes";
-      $data = $this->getJson();
+  // public function actionSetQuestion() {
+  //   if (Yii::app()->request->isAjaxRequest) {
+  //     $error = "yes";
+  //     $data = $this->getJson();
 
-      if (count($data) == 3) {
-        $form = new QuestionForm();
-        $form->attributes = $data;
-        if ($form->validate()) {
-          MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
-          $error = "no";
-        }
-      }
-      echo json_encode(array('error' => $error));
-    }
-  }
+  //     if (count($data) == 3) {
+  //       $form = new QuestionForm();
+  //       $form->attributes = $data;
+  //       if ($form->validate()) {
+  //         MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
+  //         $error = "no";
+  //       }
+  //     }
+  //     echo json_encode(array('error' => $error));
+  //   }
+  // }
 
   public function actionSetLang() {
     if (isset($_POST['lang'])) {
       $lang = $_POST['lang'];
-      Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
+      Yii::app()->request->cookies['lang']=new CHttpCookie('lang', $lang);
 
       if (!isset(Yii::app()->user->id)) {
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user=User::model()->findByPk(Yii::app()->user->id);
         if (isset($user)) {
-          $user->lang = $lang;
+          $user->lang=$lang;
           $user->save();
         }
       }
@@ -49,115 +49,63 @@ class AjaxController extends MController {
 
   public function actionLogin() {
     if (Yii::app()->request->isAjaxRequest) {
-      $error = "yes";
-      $data = $this->getJson();
+      $error="yes";
 
-      if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
-        if (isset(Yii::app()->session['login_error_count'])) {
-            $login_error_count = Yii::app()->session['login_error_count'];
+      if (isset(Yii::app()->session['login_error_count'])) {
+        $login_error_count=Yii::app()->session['login_error_count'];
+        if ($login_error_count>2) {
+          $error='login_error_count';
         }
-        else {
-          $login_error_count = 0;
-        }
-        if ($login_error_count > 2) {
-            $error = 'login_error_count';
-        } else {
+      }
+      else {
+        $login_error_count=0;
+      }
+
+      $data=$this->getJson();
+
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['email']) and isset($data['password'])) {
+          if (isset($data['code'])){
+            $form = new LoginCaptchaForm();
+          }
+          else {
             $form = new LoginForm;
-            if (isset($data['email']) and isset($data['password'])) {
-                $form->attributes = $data;
-                if ($form->validate()) {
-                    $identity = new UserIdentity($form->email, $form->password);
-                    $identity->authenticate();
-                    $this->lastVisit();
-                    Yii::app()->user->login($identity);
-                    unset(Yii::app()->session['login_error_count']);
-                    $error = "no";
-                }
-                else Yii::app()->session['login_error_count'] = $login_error_count + 1;
-            }
+          }
+
+          $form->attributes=$data;
+          if ($form->validate()) {
+            $identity=new UserIdentity($form->email, $form->password);
+            $identity->authenticate();
+            $this->lastVisit();
+            Yii::app()->user->login($identity);
+            unset(Yii::app()->session['login_error_count']);
+            $error = "no";
+          }
+          else Yii::app()->session['login_error_count']=$login_error_count + 1;
         }
       }
-      echo json_encode(array('error' => $error));
+      echo json_encode(array('error'=>$error));
     }
   }
 
-  public function actionLoginCaptcha() {
+  public function actionGetBlock() {
     if (Yii::app()->request->isAjaxRequest) {
-      $error = "yes";
-      $data = $this->getJson();
+      $error="yes";
+      $content="";
 
-      if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken) {
-        $form = new LoginCaptchaForm();
-
-        $form->attributes = $data;
-        if ($form->validate()) {
-          $identity = new UserIdentity($form->email, $form->password);
-          $identity->authenticate();
-          Yii::app()->user->login($identity);
-          $this->lastVisit();
-          unset(Yii::app()->session['login_error_count']);
-          $error = "no";
-        }
-      }
-      echo json_encode(array('error' => $error));
-    }
-  }
-
-  public function actionGetCaptcha() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error = "yes";
-      $content = "";
-
-      $data = $this->getJson();
-      if (isset($data['content'])) {
-        $content = $this->renderPartial('/user/block/captcha', array(), true
-        );
-        $error = "no";
-      }
-      echo json_encode(array('error' => $error, 'content' => $content));
-    }
-  }
-
-  public function actionModal() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error = "yes";
-      $content = "";
-
-      $data = $this->getJson();
+      $data=$this->getJson();
+      if (!isset($data['model'])) $data['model']=false;
 
       if (isset($data['content'])) {
-        if (isset($data['discodes'])) {
-          $discodes = $data['discodes'];
-          $spot = Spot::model()->findByPk($data['discodes']);
-        }
-        else
-          $spot = false;
-
-        $content = $this->renderPartial('//modal/' . $data['content'], array(
-            'spot' => $spot,
-                ), true
+        $content=$this->renderPartial('//block/' . $data['content'],
+          array(
+            'model'=>$data["model"],
+          ), true
         );
-        $error = "no";
+        $error="no";
       }
 
-      echo json_encode(array('error' => $error, 'content' => $content));
-    }
-  }
-
-  public function actionGetContent() {
-    if (Yii::app()->request->isAjaxRequest and isset($_POST['content']) and isset($_POST['discodes_id'])) {
-
-      $data = array();
-      $data['name'] = (isset($_POST['name'])) ? $_POST['name'] : '';
-      $data['link'] = (isset($_POST['link'])) ? $_POST['link'] : '';
-      $data['file'] = (isset($_POST['file'])) ? $_POST['file'] : '';
-      $data['file_view'] = (isset($_POST['file_view'])) ? $_POST['file_view'] : '';
-
-      $txt = $this->renderPartial('//widget/spot/' . $_POST['content'], array(
-          'discodes_id' => (int) $_POST['discodes_id'],
-          'data' => $data,
-              ), true);
-      echo $txt;
+      echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }
 

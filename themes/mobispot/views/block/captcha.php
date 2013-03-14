@@ -10,7 +10,7 @@
     jQuery(function ($) {
           $(document).on('click', '#yw0_button, #yw0', function () {
               $.ajax({
-                  url:"\/site\/captcha?refresh=1",
+                  url:"\/ajax\/captcha?refresh=1",
                   dataType:'json',
                   cache:false,
                   success:function (data) {

@@ -9,13 +9,19 @@ function UserCtrl($scope, $http, $compile)
     {
       if(data.error == 'login_error_count')
       {
-        $http.post('/ajax/getCaptcha', {content:1}).success(function(data)
+        $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)
         {
-          if(data.error == 'no' && user.error != 'captcha')
+          if(data.error == 'no')
           {
-            user.error='captcha';
-            angular.element('#signInForm .captcha').html($compile(data.content)($scope));
-            angular.element('.spot-button.login').hide();
+            var form = $compile(data.content)($scope);
+            $http.post('/ajax/getBlock', {content:'captcha'}).success(function(data)
+            {
+              if(data.error == 'no')
+              {
+                angular.element('#signInForm').html(form);
+                angular.element('#signInForm .captcha').html($compile(data.content)($scope));
+              }
+            });
           }
         });
       }
@@ -27,8 +33,8 @@ function UserCtrl($scope, $http, $compile)
       }
       else
       {
-        angular.element('.auth-hint').hide();
-        $().redirect('', null, 'GET');
+        alert(1);
+        // $(location).attr('href','/');
       }
     });
   };
