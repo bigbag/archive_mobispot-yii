@@ -25,7 +25,6 @@ Office +7 495 789-80-89<br>
 </div>
 </div>
 </footer>
-
 <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
