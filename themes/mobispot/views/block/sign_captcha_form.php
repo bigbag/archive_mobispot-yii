@@ -1,4 +1,3 @@
-<div id="signInForm" class="slide-box" ng-controller="UserCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div  class="row">
 <div class="seven columns centered">
 <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
@@ -11,8 +10,10 @@
 <input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" required >
 <input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" required >
 <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
+<div class="captcha"></div>
+<input name='code' type="text" ng-model="user.code" placeholder="<?php echo Yii::t('sign', 'Verification code');?>" required >
 <div class="form-control">
-<a class="spot-button login" href="javascript:;" ng-show="!signForm.$invalid" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
+<a class="spot-button login" ng-show="!signForm.$invalid" href="javascript:;"  ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
 <span class="right soc-link">
 <a href="/service/social?service=facebook" class="i-soc-fac">&nbsp;</a>
 <a href="/service/social?service=twitter" class="i-soc-twi">&nbsp;</a>
@@ -20,6 +21,5 @@
 </span>
 </div>
 </form>
-</div>
 </div>
 </div>

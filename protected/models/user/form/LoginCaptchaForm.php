@@ -4,7 +4,7 @@ class LoginCaptchaForm extends CFormModel {
 
   public $email;
   public $password;
-  public $verifyCode;
+  public $code;
   public $rememberMe;
 
   /**
@@ -18,7 +18,7 @@ class LoginCaptchaForm extends CFormModel {
         array('email', 'required'),
         array('email', 'email'),
         array('email, password', 'filter', 'filter' => 'trim'),
-        array('verifyCode', 'captcha'),
+        array('code', 'captcha'),
         // rememberMe needs to be a boolean
         array('rememberMe', 'boolean'),
         // password needs to be authenticated
