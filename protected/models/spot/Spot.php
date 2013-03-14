@@ -151,18 +151,39 @@ class Spot extends CActiveRecord {
       return $new_url;
   }
 
+  public function getEanSumm($ean){
+    $even=true; $esum=0; $osum=0;
+    for ($i=strlen($ean)-1;$i>=0;$i--){
+      if ($even) $esum+=$ean[$i];
+      else $osum+=$ean[$i];
+      $even=!$even;
+    }
+    return (10-((3*$esum+$osum)%10))%10;
+  }
+
+  public function getEan(){
+    $ean='00'.rand(1000000000, 9999999999);
+    $ean=$ean.$this->getEanSumm($ean);
+    $spot = Spot::model()->findByAttributes(array('barcode' => $ean));
+    if ($spot)
+      $this->getEan();
+    else
+      return $ean;
+  }
+
   public function beforeValidate() {
 
-    if (!$this->url)
-      $this->url = $this->getUrl();
-    if (!$this->lang)
-      $this->lang = 0;
+    if (!$this->url) $this->url = $this->getUrl();
+    if (!$this->lang) $this->lang = 0;
+
     if ($this->isNewRecord) {
       $this->generated_date = new CDbExpression('NOW()');
       if (!$this->url)
         $this->url = abs(crc32($this->code));
       $this->status == self::STATUS_GENERATED;
     }
+
+    if (!$this->barcode) $this->barcode=$this->getEan();
 
     if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED)) {
       $this->registered_date = new CDbExpression('NOW()');
