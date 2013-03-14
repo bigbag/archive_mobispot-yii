@@ -9,13 +9,17 @@
 	position: relative;
 }
 .bg-gray .button,
-.bg-gray .spot-button{
-	background-color: #fff;
-}
+.bg-gray .spot-button,
 .bg-gray input,
 .bg-gray textarea,
 .bg-gray .soc-link a{
 	background-color: #fff;
+}
+.bg-white  .button,
+.bg-gray .spot-button,
+.bg-white input,
+.bg-white textarea{
+	background-color: #f1f3f4;
 }
 
 .spot-button{
@@ -112,6 +116,13 @@
 	top:4px;
 	margin-right: 11px;
 }
+.open > .radio-link{
+	color: #0061ff;
+
+}
+.open > .radio-link i{
+	background: #0061ff;
+}
 .checkbox{
 	font-size: 14px;
 }
@@ -187,6 +198,8 @@
 }
 .dropdown .active + .options{
 	display: block;
+	position: absolute;
+	width: 100%;
 }
 .dropdown .options li{
 	display: block;
@@ -240,9 +253,8 @@
 }
 .change-cover{
 	position: absolute;
-	right: 0;
+	right: 2em;
 	bottom: 0;
-	margin: 0 4em;
 	overflow: hidden;
 }
 .change-cover .options{
@@ -278,7 +290,8 @@
 .spot-options a:first-child{
 	margin-top: 0;
 }
-.popup footer .button{
+.popup footer .button,
+.popup .sub-сontent .button{
 	height: 78px;
 	width: 78px;
 	line-height: 78px;
@@ -286,8 +299,23 @@
 	margin-right: 20px;
 	margin-top: 32px;
 	font-weight: 100;
+
 }
 .popup footer .button:hover + .active{
 	background: #fff;
 	color: #000;
+}
+
+.go-button{
+	height: 94px;
+	width: 94px;
+	line-height: 96px;
+	font-size: 23px;
+}
+.spot-options .checkbox{
+	float: left;
+	width: 100px;
+}
+.sub-сontent{
+	display: none;
 }
