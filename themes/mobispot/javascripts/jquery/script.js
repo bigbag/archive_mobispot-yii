@@ -30,17 +30,17 @@ var hidePopup = function(){
 };
 
 $(window).load(function() {
-	$('.add-active > *').click(addActive);
-	$('.toggle-active > *').click(toggleActive);
-	$('.store-items__close').click(function(){
+	$('.add-active > *').on('click', addActive );
+	$('.toggle-active > *').on('click', toggleActive);
+	$('.store-items__close').on('click', function(){
 		$(this).parents('tr').remove();
 	});
 
-	$('label').click(function(){
-		$(this).next().focus();
+	$('label').on('click', function(){
+		$(this).prev().focus();
 	});
-	$('.settings-button').click(showPopup);
-	$('.button', '.popup').click(hidePopup);
+	$('.settings-button').on('click', showPopup);
+	$('.button', '.popup').on('click', hidePopup);
 
 	$(document).keydown(function(e){
 		if(e.which == 27){
@@ -48,3 +48,4 @@ $(window).load(function() {
 		}
 	});
 });
+

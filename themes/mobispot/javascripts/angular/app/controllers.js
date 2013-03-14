@@ -33,8 +33,7 @@ function UserCtrl($scope, $http, $compile)
       }
       else
       {
-        alert(1);
-        // $(location).attr('href','/');
+        $(location).attr('href','/');
       }
     });
   };
