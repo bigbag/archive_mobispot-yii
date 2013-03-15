@@ -2,7 +2,7 @@
 
 class UserController extends MController {
 
-  public $defaultAction = 'profile';
+  public $defaultAction = 'account';
 
   public function actionProfile() {
     if (!Yii::app()->user->id) {
@@ -37,6 +37,8 @@ class UserController extends MController {
   }
 
   public function actionAccount() {
+    $this->layout = '//layouts/account';
+
     if (!Yii::app()->user->id) {
       $this->setAccess();
     } else {
