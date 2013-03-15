@@ -37,7 +37,7 @@ class UserController extends MController {
   }
 
   public function actionAccount() {
-    $this->layout = '//layouts/account';
+    $this->layout = '//layouts/spots';
 
     if (!Yii::app()->user->id) {
       $this->setAccess();
