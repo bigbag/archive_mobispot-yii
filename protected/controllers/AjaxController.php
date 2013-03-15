@@ -14,23 +14,10 @@ class AjaxController extends MController {
     );
   }
 
-  // public function actionSetQuestion() {
-  //   if (Yii::app()->request->isAjaxRequest) {
-  //     $error = "yes";
-  //     $data = $this->getJson();
-
-  //     if (count($data) == 3) {
-  //       $form = new QuestionForm();
-  //       $form->attributes = $data;
-  //       if ($form->validate()) {
-  //         MMail::faq_question(Yii::app()->par->load('generalEmail'), $form, $this->getLang());
-  //         $error = "no";
-  //       }
-  //     }
-  //     echo json_encode(array('error' => $error));
-  //   }
-  // }
-
+  /**
+   * [actionSetLang description]
+   * @return [type] [description]
+   */
   public function actionSetLang() {
     if (isset($_POST['lang'])) {
       $lang = $_POST['lang'];

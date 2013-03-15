@@ -33,7 +33,7 @@ function UserCtrl($scope, $http, $compile)
       }
       else
       {
-        $(location).attr('href','/');
+        $(location).attr('href','/user/account');
       }
     });
   };
