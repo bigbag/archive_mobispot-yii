@@ -8,8 +8,8 @@
 <div class="row">
 <div class="five columns centered">
 <form id="sign-in" name="signForm">
-<input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" required >
-<input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" required >
+<input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" autocomplete="off" required >
+<input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" autocomplete="off" required >
 <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
 {{user.email}}
 {{user.password}}

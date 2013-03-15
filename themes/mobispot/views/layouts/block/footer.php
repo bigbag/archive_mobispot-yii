@@ -12,14 +12,14 @@
 <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog')?></a></li>
 </ul>
 <div class="right soc-link">
-<span><?php echo Yii::t('footer', 'Follow Mobispot')?></span>
+<span><?php echo Yii::t('footer', 'Hook Up')?></span>
 <a href="#" class="i-soc-fac">&nbsp;</a>
+<br />
+<span><?php echo Yii::t('footer', 'Keep Up')?></span>
 <a href="#" class="i-soc-twi">&nbsp;</a>
 </div>
 <p>
 © 2013 Mobispot. Ltd. All rights reserved<br>
-5A Berezovaya ave, bldg 1-3, Moscow, 127273<br>
-Office +7 495 789-80-89<br>
 <a href="mailto:sales@mobispot.com">sales@mobispot.com</a><br>
 </p>
 </div>
