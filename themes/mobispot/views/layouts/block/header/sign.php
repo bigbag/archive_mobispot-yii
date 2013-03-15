@@ -1,4 +1,4 @@
-<div id="signInForm" class="slide-box" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+<div id="signInForm" ng-controller="UserCtrl" class="slide-box" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div  class="row">
 <div class="seven columns centered">
 <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
