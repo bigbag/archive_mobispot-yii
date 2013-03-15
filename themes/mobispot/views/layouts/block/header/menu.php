@@ -13,7 +13,7 @@
 </li>
 <?php endif; ?>
 <li>
-<a class="spot-button" href="http://store.mobispot.com"><?php echo Yii::t('menu', 'Store')?></a>
+<a class="spot-button" href="http://siarhei.dev.mobispot.com/store.html"><?php echo Yii::t('menu', 'Store')?></a>
 </li>
 <?php if (Yii::app()->user->isGuest): ?>
 <li>
