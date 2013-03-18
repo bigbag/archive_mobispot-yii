@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle = $title;
+$this->pageTitle=$title;
 
 ?>
 <div id="main-container">

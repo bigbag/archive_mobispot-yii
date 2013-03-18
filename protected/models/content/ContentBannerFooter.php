@@ -17,12 +17,12 @@ class ContentBannerFooter extends CActiveRecord {
    * @param string $className active record class name.
    * @return ContentBannerFooter the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
   public function getLang() {
-    $data = Lang::getLangArray();
+    $data=Lang::getLangArray();
     return $data[$this->lang];
   }
 
@@ -41,12 +41,12 @@ class ContentBannerFooter extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('link, image', 'required'),
-        array('link, image', 'length', 'max' => 300),
-        array('title', 'length', 'max' => 150),
-        array('lang', 'length', 'max' => 2),
+        array('link, image', 'length', 'max'=>300),
+        array('title', 'length', 'max'=>150),
+        array('lang', 'length', 'max'=>2),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, link, title, image, lang', 'safe', 'on' => 'search'),
+        array('id, link, title, image, lang', 'safe', 'on'=>'search'),
     );
   }
 
@@ -57,17 +57,17 @@ class ContentBannerFooter extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+        'lang'=>array(self::BELONGS_TO, 'Lang', 'lang'),
     );
   }
 
   public function getBanner() {
-    $dependency = new CDbCacheDependency("SELECT MAX(id) FROM content_banner_footer WHERE lang = '" . Yii::app()->language . "'");
-    $criteria = new CDbCriteria;
-    $criteria->condition = 'lang=:lang';
-    $criteria->params = array('lang' => Yii::app()->language);
-    $criteria->order = "id desc";
-    $criteria->limit = 3;
+    $dependency=new CDbCacheDependency("SELECT MAX(id) FROM content_banner_footer WHERE lang='".Yii::app()->language."'");
+    $criteria=new CDbCriteria;
+    $criteria->condition='lang=:lang';
+    $criteria->params=array('lang'=>Yii::app()->language);
+    $criteria->order="id desc";
+    $criteria->limit=3;
 
     return ContentBannerFooter::model()->cache(600, $dependency)->findAll($criteria);
   }
@@ -77,11 +77,11 @@ class ContentBannerFooter extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'link' => 'Ссылка',
-        'image' => 'Изображение',
-        'title' => 'Заголовок',
-        'lang' => 'Язык',
+        'id'=>'ID',
+        'link'=>'Ссылка',
+        'image'=>'Изображение',
+        'title'=>'Заголовок',
+        'lang'=>'Язык',
     );
   }
 
@@ -93,7 +93,7 @@ class ContentBannerFooter extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('link', $this->link, true);
@@ -102,9 +102,9 @@ class ContentBannerFooter extends CActiveRecord {
     $criteria->compare('image', $this->image, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
     ));
   }

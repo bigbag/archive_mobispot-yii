@@ -14,7 +14,7 @@ class UserPersonalPhoto extends CActiveRecord {
    * @param string $className active record class name.
    * @return UserPersonalPhoto the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -33,21 +33,21 @@ class UserPersonalPhoto extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('user_id, photo_data', 'required'),
-        array('user_id', 'numerical', 'integerOnly' => true),
+        array('user_id', 'numerical', 'integerOnly'=>true),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('user_id, photo_data', 'safe', 'on' => 'search'),
+        array('user_id, photo_data', 'safe', 'on'=>'search'),
     );
   }
 
   public function setPhoto($user_id, $data) {
 
-    $photo = UserPersonalPhoto::model()->findByPk($user_id);
+    $photo=UserPersonalPhoto::model()->findByPk($user_id);
     if (!$photo)
-      $photo = new UserPersonalPhoto();
+      $photo=new UserPersonalPhoto();
 
-    $photo->user_id = $user_id;
-    $photo->photo_data = serialize($data);
+    $photo->user_id=$user_id;
+    $photo->photo_data=serialize($data);
 
     if ($photo->save())
       return true;
@@ -56,7 +56,7 @@ class UserPersonalPhoto extends CActiveRecord {
   }
 
   public function getPhoto($user_id) {
-    $photo = UserPersonalPhoto::model()->findByPk($user_id);
+    $photo=UserPersonalPhoto::model()->findByPk($user_id);
     if (!empty($photo->photo_data))
       return unserialize($photo->photo_data);
     else
@@ -64,13 +64,13 @@ class UserPersonalPhoto extends CActiveRecord {
   }
 
   public function removePhoto($user_id, $data) {
-    $photo = UserPersonalPhoto::model()->findByPk($user_id);
+    $photo=UserPersonalPhoto::model()->findByPk($user_id);
     if (!empty($photo->photo_data)) {
-      $photo_array = unserialize($photo->photo_data);
+      $photo_array=unserialize($photo->photo_data);
 
-      if (($key = array_search($data, $photo_array)) !== FALSE) {
+      if (($key=array_search($data, $photo_array)) !== FALSE) {
         unset($photo_array[$key]);
-        $photo->photo_data = serialize($photo_array);
+        $photo->photo_data=serialize($photo_array);
         if ($photo->save())
           return true;
       }
@@ -86,7 +86,7 @@ class UserPersonalPhoto extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+        'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
     );
   }
 
@@ -95,8 +95,8 @@ class UserPersonalPhoto extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'user_id' => 'Пользователь',
-        'photo_data' => 'Данные',
+        'user_id'=>'Пользователь',
+        'photo_data'=>'Данные',
     );
   }
 
@@ -108,13 +108,13 @@ class UserPersonalPhoto extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('user_id', $this->user_id);
     $criteria->compare('photo_data', $this->photo_data, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

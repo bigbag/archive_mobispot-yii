@@ -21,7 +21,7 @@ class MailStack extends CActiveRecord {
    * @param string $className active record class name.
    * @return MailStack the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -40,16 +40,16 @@ class MailStack extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('from, to, subject, body, creation_date', 'required'),
-        array('lock', 'numerical', 'integerOnly' => true),
+        array('lock', 'numerical', 'integerOnly'=>true),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, from, to, subject, body, attach, creation_date, lock', 'safe', 'on' => 'search'),
+        array('id, from, to, subject, body, attach, creation_date, lock', 'safe', 'on'=>'search'),
     );
   }
 
   public function beforeValidate() {
     if ($this->isNewRecord)
-      $this->creation_date = new CDbExpression('NOW()');
+      $this->creation_date=new CDbExpression('NOW()');
 
     return parent::beforeValidate();
   }
@@ -68,14 +68,14 @@ class MailStack extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'from' => 'От кого',
-        'to' => 'Кому',
-        'subject' => 'Тема',
-        'body' => 'Сообщение',
-        'attach' => 'Вложения',
-        'creation_date' => 'Дата создания',
-        'lock' => 'Флаг',
+        'id'=>'ID',
+        'from'=>'От кого',
+        'to'=>'Кому',
+        'subject'=>'Тема',
+        'body'=>'Сообщение',
+        'attach'=>'Вложения',
+        'creation_date'=>'Дата создания',
+        'lock'=>'Флаг',
     );
   }
 
@@ -87,7 +87,7 @@ class MailStack extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('from', $this->from, true);
@@ -99,7 +99,7 @@ class MailStack extends CActiveRecord {
     $criteria->compare('lock', $this->lock);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

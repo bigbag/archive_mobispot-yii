@@ -16,7 +16,7 @@ class SpotHardType extends CActiveRecord {
    * @param string $className active record class name.
    * @return SpotHardType the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -35,13 +35,13 @@ class SpotHardType extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name', 'required'),
-        array('name', 'length', 'max' => 300),
-        array('name, desc', 'filter', 'filter' => 'trim'),
-        array('name, desc', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
+        array('name', 'length', 'max'=>300),
+        array('name, desc', 'filter', 'filter'=>'trim'),
+        array('name, desc', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
         array('photo', 'safe'),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, desc, photo', 'safe', 'on' => 'search'),
+        array('id, name, desc, photo', 'safe', 'on'=>'search'),
     );
   }
 
@@ -59,17 +59,17 @@ class SpotHardType extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Название',
-        'desc' => 'Описание',
-        'photo' => 'Фотография',
+        'id'=>'ID',
+        'name'=>'Название',
+        'desc'=>'Описание',
+        'photo'=>'Фотография',
     );
   }
 
   public static function getSpotHardType() {
-    $spot_hard_type = Yii::app()->cache->get('spot_hard_type');
-    if ($spot_hard_type === false) {
-      $spot_hard_type = SpotHardType::model()->findAll();
+    $spot_hard_type=Yii::app()->cache->get('spot_hard_type');
+    if ($spot_hard_type=false) {
+      $spot_hard_type=SpotHardType::model()->findAll();
 
       Yii::app()->cache->set('spot_hard_type', $spot_hard_type, 36000);
     }
@@ -89,7 +89,7 @@ class SpotHardType extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
@@ -97,8 +97,8 @@ class SpotHardType extends CActiveRecord {
     $criteria->compare('photo', $this->photo, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'sort' => array('defaultOrder' => 'name')
+        'criteria'=>$criteria,
+        'sort'=>array('defaultOrder'=>'name')
     ));
   }
 

@@ -1,9 +1,9 @@
 <div class="form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'id' => 'page-form',
-      'enableAjaxValidation' => false,
+  $form=$this->beginWidget('CActiveForm', array(
+      'id'=>'page-form',
+      'enableAjaxValidation'=>false,
   ));
   ?>
 
@@ -13,20 +13,20 @@
 
   <div class="row">
     <?php echo $form->labelEx($model, 'title'); ?>
-    <?php echo $form->textField($model, 'title', array('size' => 60, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'title', array('size'=>60, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'title'); ?>
   </div>
 
   <div class="row">
     <?php echo $form->labelEx($model, 'slug'); ?>
-    <?php echo $form->textField($model, 'slug', array('size' => 30, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'slug', array('size'=>30, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'slug'); ?>
   </div>
 
   <div class="row">
     <a class="get_menu" href="#"><?php echo $form->labelEx($model, 'menu'); ?></a>
     <div class="menu" style="display: none;">
-      <?php echo $form->textArea($model, 'menu', array('rows' => 10, 'cols' => 100, 'id' => 'code', 'class' => 'code')); ?>
+      <?php echo $form->textArea($model, 'menu', array('rows'=>10, 'cols'=>100, 'id'=>'code', 'class'=>'code')); ?>
       <?php echo $form->error($model, 'menu'); ?>
     </div>
 
@@ -36,18 +36,18 @@
     <?php echo $form->labelEx($model, 'body'); ?>
     <?php
     $this->widget('ImperaviRedactorWidget', array(
-        'model' => $model,
-        'attribute' => 'body',
-        'name' => 'Page[body]',
-        'options' => array(
-            'lang' => 'ru',
-            'imageUpload' => '/admin/page/image',
-            'imageUploadCallback' => "function(obj, json) { }",
+        'model'=>$model,
+        'attribute'=>'body',
+        'name'=>'Page[body]',
+        'options'=>array(
+            'lang'=>'ru',
+            'imageUpload'=>'/admin/page/image',
+            'imageUploadCallback'=>"function(obj, json) { }",
         ),
-        'htmlOptions' => array(
-            'rows' => 25,
-            'cols' => 80,
-            'style' => 'width:100%;height:300px;'
+        'htmlOptions'=>array(
+            'rows'=>25,
+            'cols'=>80,
+            'style'=>'width:100%;height:300px;'
         ),
     ));
     ?>
@@ -56,13 +56,13 @@
 
   <div class="row">
     <?php echo $form->labelEx($model, 'keywords'); ?>
-    <?php echo $form->textField($model, 'keywords', array('size' => 60, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'keywords', array('size'=>60, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'keywords'); ?>
   </div>
 
   <div class="row">
     <?php echo $form->labelEx($model, 'description'); ?>
-    <?php echo $form->textField($model, 'description', array('size' => 60, 'maxlength' => 250)); ?>
+    <?php echo $form->textField($model, 'description', array('size'=>60, 'maxlength'=>250)); ?>
     <?php echo $form->error($model, 'description'); ?>
   </div>
 
@@ -95,7 +95,7 @@
 
 
 <script type="text/javascript">
-  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode: "text/html", tabMode: "indent", lineNumbers: true});
+  var editor=CodeMirror.fromTextArea(document.getElementById("code"), {mode: "text/html", tabMode: "indent", lineNumbers: true});
   $(document).ready(function() {
     $('a.get_menu').click(function() {
       if ($('div.menu').is(':visible')) {

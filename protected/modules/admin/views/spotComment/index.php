@@ -1,9 +1,9 @@
-<?php $this->pageTitle = 'Комментарии'; ?>
+<?php $this->pageTitle='Комментарии'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'Комментарии' => array('/admin/spotComment'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
+    'Споты'=>array('/admin/spot/'),
+    'Комментарии'=>array('/admin/spotComment'),
     'Управление'
 );
 ?>
@@ -12,28 +12,28 @@ $this->breadcrumbs = array(
 
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'spot-comment-grid',
-    'dataProvider' => $model->search(),
-    'filter' => $model,
-    'columns' => array(
+    'id'=>'spot-comment-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
         array(
-            'name' => 'user_id',
-            'type' => 'raw',
-            'value' => '($data->user)?$data->user->email:""',
+            'name'=>'user_id',
+            'type'=>'raw',
+            'value'=>'($data->user)?$data->user->email:""',
         ),
         array(
-            'name' => 'spot_id',
-            'type' => 'raw',
-            'value' => '($data->spot)?$data->spot->name:""',
+            'name'=>'spot_id',
+            'type'=>'raw',
+            'value'=>'($data->spot)?$data->spot->name:""',
         ),
         array(
-            'name' => 'creation_date',
-            'type' => 'raw',
-            'value' => 'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->creation_date)',
+            'name'=>'creation_date',
+            'type'=>'raw',
+            'value'=>'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->creation_date)',
         ),
         array(
-            'class' => 'CButtonColumn',
-            'template' => '{view} {update}',
+            'class'=>'CButtonColumn',
+            'template'=>'{view} {update}',
         ),
     ),
 ));

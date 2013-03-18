@@ -15,7 +15,7 @@ class Lang extends CActiveRecord {
    * @param string $className active record class name.
    * @return Lang the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -34,11 +34,11 @@ class Lang extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, desc', 'required'),
-        array('name', 'length', 'max' => 10),
-        array('desc', 'length', 'max' => 150),
+        array('name', 'length', 'max'=>10),
+        array('desc', 'length', 'max'=>150),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, desc', 'safe', 'on' => 'search'),
+        array('id, name, desc', 'safe', 'on'=>'search'),
     );
   }
 
@@ -56,16 +56,16 @@ class Lang extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Name',
-        'desc' => 'Desc',
+        'id'=>'ID',
+        'name'=>'Name',
+        'desc'=>'Desc',
     );
   }
 
   public static function getLang() {
-    $lang = Yii::app()->cache->get('lang');
-    if ($lang === false) {
-      $lang = Lang::model()->findAll(array('order' => 'name'));
+    $lang=Yii::app()->cache->get('lang');
+    if ($lang=false) {
+      $lang=Lang::model()->findAll(array('order'=>'name'));
 
       Yii::app()->cache->set('lang', $lang, 36000);
     }
@@ -73,9 +73,9 @@ class Lang extends CActiveRecord {
   }
 
   public static function getLangArray() {
-    $lang = Yii::app()->cache->get('lang_desc');
-    if ($lang === false) {
-      $lang = CHtml::listData(Lang::getLang(), 'name', 'desc');
+    $lang=Yii::app()->cache->get('lang_desc');
+    if ($lang=false) {
+      $lang=CHtml::listData(Lang::getLang(), 'name', 'desc');
 
       Yii::app()->cache->set('lang_desc', $lang, 36000);
     }
@@ -97,14 +97,14 @@ class Lang extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
     $criteria->compare('desc', $this->desc, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

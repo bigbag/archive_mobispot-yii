@@ -18,7 +18,7 @@ class RecoveryForm extends CFormModel {
     return array(
         array('email', 'required'),
         array('email', 'email'),
-        array('email', 'filter', 'filter' => 'trim'),
+        array('email', 'filter', 'filter'=>'trim'),
         array('email', 'checkexists'),
     );
   }
@@ -28,15 +28,15 @@ class RecoveryForm extends CFormModel {
    */
   public function attributeLabels() {
     return array(
-        'email' => Yii::t('user', 'Email'),
+        'email'=>Yii::t('user', 'Email'),
     );
   }
 
   public function checkexists($attribute, $params) {
     if (!$this->hasErrors()) {
-      $user = User::model()->findByAttributes(array('email' => $this->email));
+      $user=User::model()->findByAttributes(array('email'=>$this->email));
 
-      if ($user === null)
+      if ($user=null)
         $this->addError("email", Yii::t('user', "Email is incorrect."));
     }
   }

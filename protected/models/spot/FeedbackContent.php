@@ -19,7 +19,7 @@ class FeedbackContent extends CActiveRecord {
    * @param string $className active record class name.
    * @return FeedbackContent the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -38,20 +38,20 @@ class FeedbackContent extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('spot_id, creation_date', 'required'),
-        array('spot_id', 'numerical', 'integerOnly' => true),
-        array('name, phone, email, comment', 'filter', 'filter' => 'trim'),
-        array('name, phone, email, comment', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-        array('name, phone, email', 'length', 'max' => 150),
+        array('spot_id', 'numerical', 'integerOnly'=>true),
+        array('name, phone, email, comment', 'filter', 'filter'=>'trim'),
+        array('name, phone, email, comment', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('name, phone, email', 'length', 'max'=>150),
         array('email', 'email'),
         array('comment', 'safe'),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, spot_id, creation_date, name, phone, email, comment', 'safe', 'on' => 'search'),
+        array('id, spot_id, creation_date, name, phone, email, comment', 'safe', 'on'=>'search'),
     );
   }
 
   public function beforeValidate() {
-    $this->creation_date = new CDbExpression('NOW()');
+    $this->creation_date=new CDbExpression('NOW()');
     return parent::beforeValidate();
   }
 
@@ -62,7 +62,7 @@ class FeedbackContent extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'spot' => array(self::BELONGS_TO, 'Spot', 'spot_id'),
+        'spot'=>array(self::BELONGS_TO, 'Spot', 'spot_id'),
     );
   }
 
@@ -71,13 +71,13 @@ class FeedbackContent extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'spot_id' => 'Спот',
-        'creation_date' => 'Дата',
-        'name' => 'Имя',
-        'phone' => 'Телефон',
-        'email' => 'Email',
-        'comment' => 'Отзыв',
+        'id'=>'ID',
+        'spot_id'=>'Спот',
+        'creation_date'=>'Дата',
+        'name'=>'Имя',
+        'phone'=>'Телефон',
+        'email'=>'Email',
+        'comment'=>'Отзыв',
     );
   }
 
@@ -89,7 +89,7 @@ class FeedbackContent extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('spot_id', $this->spot_id);
@@ -100,7 +100,7 @@ class FeedbackContent extends CActiveRecord {
     $criteria->compare('comment', $this->comment, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

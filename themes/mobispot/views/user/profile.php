@@ -23,7 +23,7 @@
 </div>
 <br />
 <div>
-<?php echo CHtml::activeCheckBox($profile, 'use_photo', array('class' => 'niceCheck')); ?>
+<?php echo CHtml::activeCheckBox($profile, 'use_photo', array('class'=>'niceCheck')); ?>
 <span class="dop-txt">
 <?php echo Yii::t('profile', 'Использовать фото<br/>в моих личных спотах');?>
 </span>
@@ -48,7 +48,7 @@
 <label class="left inline"><?php echo Yii::t('profile', 'Имя');?></label>
 </div>
 <div class="eight columns">
-<?php echo CHtml::activeTextField($profile, 'name', array('class' => 'nine' )); ?>
+<?php echo CHtml::activeTextField($profile, 'name', array('class'=>'nine' )); ?>
 </div>
 </div>
 <div class="row">
@@ -60,8 +60,8 @@
 <div class="three columns birthday">
 <select name="UserProfile[birthday_day]">
 <option></option>
-<?php for ($i = 1; $i <= 31; $i++): ?>
-<?php if (!empty($profile->birthday_day) and $i == $profile->birthday_day): ?>
+<?php for ($i=1; $i <= 31; $i++): ?>
+<?php if (!empty($profile->birthday_day) and $i==$profile->birthday_day): ?>
 <option value="<?php echo $i?>" selected><?php echo $i?></option>
 <?php else: ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
@@ -73,8 +73,8 @@
 <div class="five columns" />
 <select name="UserProfile[birthday_month]">
 <option></option>
-<?php foreach (MDate::month() as $key => $value): ?>
-<?php if (!empty($profile->birthday_month) and $key == $profile->birthday_month): ?>
+<?php foreach (MDate::month() as $key=>$value): ?>
+<?php if (!empty($profile->birthday_month) and $key==$profile->birthday_month): ?>
 <option value="<?php echo $key?>" selected><?php echo $value?></option>
 <?php else: ?>
 <option value="<?php echo $key?>"><?php echo $value?></option>
@@ -85,8 +85,8 @@
 <div class="four columns">
 <select name="UserProfile[birthday_year]">
 <option></option>
-<?php for ($i = date("Y") - 100; $i <= date("Y"); $i++): ?>
-<?php if (!empty($profile->birthday_year) and $i == $profile->birthday_year): ?>
+<?php for ($i=date("Y") - 100; $i <= date("Y"); $i++): ?>
+<?php if (!empty($profile->birthday_year) and $i==$profile->birthday_year): ?>
 <option value="<?php echo $i?>" selected><?php echo $i?></option>
 <?php else: ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
@@ -102,7 +102,7 @@
 <label class="left inline"><?php echo Yii::t('profile', 'Город');?></label>
 </div>
 <div class="eight columns">
-<?php echo CHtml::activeTextField($profile, 'place', array('class' => 'nine' )); ?>
+<?php echo CHtml::activeTextField($profile, 'place', array('class'=>'nine' )); ?>
 </div>
 </div>
 <div class="row">
@@ -112,9 +112,9 @@
 <div class="eight columns sex">
 <input type="hidden" value="0" name="UserProfile[sex]" />
 
-<input value="1" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex == 1)?"checked":""?>/>&nbsp;
+<input value="1" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex==1)?"checked":""?>/>&nbsp;
 <?php echo Yii::t('profile', 'Male');?>&nbsp;&nbsp;
-<input value="2" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex == 2)?"checked":""?>/>&nbsp;
+<input value="2" type="checkbox" name="UserProfile[sex]" <?php echo ($profile->sex==2)?"checked":""?>/>&nbsp;
 <?php echo Yii::t('profile', 'Female');?>
 </div>
 </div>
@@ -147,9 +147,9 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (file_name) {
             $('.photo').html('<img src="/uploads/images/' + file_name + '" width="200px"/>');
             $('#photo').hide();

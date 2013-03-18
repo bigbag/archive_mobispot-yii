@@ -86,9 +86,9 @@ jQuery(".add_file").each(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (error) alert(error);
           if (file_name) {
             $('.spot_card_file').val(file_name);

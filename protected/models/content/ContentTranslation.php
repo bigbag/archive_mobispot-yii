@@ -15,7 +15,7 @@ class ContentTranslation extends CActiveRecord {
    * @param string $className active record class name.
    * @return ContentTranslation the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -34,10 +34,10 @@ class ContentTranslation extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, desc', 'required'),
-        array('name', 'length', 'max' => 300),
+        array('name', 'length', 'max'=>300),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, desc', 'safe', 'on' => 'search'),
+        array('id, name, desc', 'safe', 'on'=>'search'),
     );
   }
 
@@ -56,9 +56,9 @@ class ContentTranslation extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Название',
-        'desc' => 'Описание',
+        'id'=>'ID',
+        'name'=>'Название',
+        'desc'=>'Описание',
     );
   }
 
@@ -70,14 +70,14 @@ class ContentTranslation extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
     $criteria->compare('desc', $this->desc, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

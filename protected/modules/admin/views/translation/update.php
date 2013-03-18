@@ -1,9 +1,9 @@
-<?php $this->pageTitle = 'Переводы'; ?>
+<?php $this->pageTitle='Переводы'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
     'Содержимое',
-    'Переводы' => array('index'),
+    'Переводы'=>array('index'),
     $model->name,
     'Редактировать',
 );
@@ -16,7 +16,7 @@ $this->breadcrumbs = array(
       <th>English</th>
       <th>Русский</th>
     </tr>
-    <?php foreach ($content_en as $key => $value): ?>
+    <?php foreach ($content_en as $key=>$value): ?>
       <tr>
         <td colspan=2><?php echo $key; ?></td>
       </tr>

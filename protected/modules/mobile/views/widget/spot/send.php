@@ -6,9 +6,9 @@
     </div>
     <?php echo CHtml::beginForm(); ?>
     <?php echo CHtml::errorSummary($form); ?>
-    <?php echo CHtml::activeTextField($form, 'email', array('class' => 'txt-100p rad6')); ?>
+    <?php echo CHtml::activeTextField($form, 'email', array('class'=>'txt-100p rad6')); ?>
     <div class="txtFLeft">
-      <?php echo CHtml::activeCheckBox($form, 'terms', array('class' => 'niceCheck')); ?><?php echo Yii::t('mobile', 'Я согласен с правилами пользования сервиса'); ?>
+      <?php echo CHtml::activeCheckBox($form, 'terms', array('class'=>'niceCheck')); ?><?php echo Yii::t('mobile', 'Я согласен с правилами пользования сервиса'); ?>
     </div>
     <input type="submit" class="btn-round fright rad12 shadow" value="<?php echo Yii::t('mobile', 'Отправить'); ?>"/>
 

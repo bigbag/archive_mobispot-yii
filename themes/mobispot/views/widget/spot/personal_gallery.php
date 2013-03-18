@@ -5,16 +5,16 @@
 <form action="post.php" method="POST">
 <div id="galleryPhoto">
 <?php if (!empty($photo)): ?>
-<?php $count_photo = count($photo); ?>
+<?php $count_photo=count($photo); ?>
 
-<?php $i = 1; ?>
-<?php foreach ($photo as $key => $value): ?>
+<?php $i=1; ?>
+<?php foreach ($photo as $key=>$value): ?>
 <div class="gallery_image" id="<?php echo $i;?>" style="<?php echo ($i != 1) ? 'display: none;' : ''?>">
 <span id="numPhoto"><?php echo $i;?>/<?php echo $count_photo;?></span>
 <span id="left" class="navGallery"
-style="<?php echo ($i == 1) ? 'display: none;' : ''?>"></span>
+style="<?php echo ($i==1) ? 'display: none;' : ''?>"></span>
 <span id="right" class="navGallery"
-style="<?php echo ($i == $count_photo) ? 'display: none;' : ''?>"></span>
+style="<?php echo ($i==$count_photo) ? 'display: none;' : ''?>"></span>
 <img src="/uploads/spot/<?php echo $value;?>" alt=""/>
 </div>
 <?php $i++; ?>
@@ -40,11 +40,11 @@ style="<?php echo ($i == $count_photo) ? 'display: none;' : ''?>"></span>
 <script type="text/javascript">
 $(document).ready(function () {
     $('#remove_photo').click(function () {
-        var file_path = $("div.gallery_image:visible img").attr('src');
+        var file_path=$("div.gallery_image:visible img").attr('src');
         if (file_path){
-          var file_array = file_path.split('/');
+          var file_array=file_path.split('/');
           if (file_array[3]){
-            var file = file_array[3];
+            var file=file_array[3];
             
             if(file){
               $.ajax({
@@ -52,8 +52,8 @@ $(document).ready(function () {
                   type:'POST',
                   data:{user_id:<?php echo $user_id?>, file:file},
                   success:function (result) {
-                    var curent_file = $('#personal_photo').val();
-                    if (curent_file == result){
+                    var curent_file=$('#personal_photo').val();
+                    if (curent_file==result){
                       $('#personal_photo').val('');
                       $('.photo-cont').html('<img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" />');
                     }
@@ -69,11 +69,11 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#add_to_spot').click(function () {
-        var file_path = $("div.gallery_image:visible img").attr('src');
+        var file_path=$("div.gallery_image:visible img").attr('src');
         if (file_path){
-          var file_array = file_path.split('/');
+          var file_array=file_path.split('/');
           if (file_array[3]){
-            var file = file_array[3];
+            var file=file_array[3];
             $('#personal_photo').val(file);
             $('.photo-cont').html('<img width="130" src="/uploads/spot/' + file + '" />');
             $('.close-reveal-modal').click();
@@ -86,9 +86,9 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('span#right').click(function () {
-        var id = $(this).parent().attr('id');
+        var id=$(this).parent().attr('id');
         if (id) {
-          var new_id = id * 1 + 1;
+          var new_id=id * 1 + 1;
           $(this).parent().hide();
           $('#' + new_id).show();
         }
@@ -98,9 +98,9 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('span#left').click(function () {
-        var id = $(this).parent().attr('id');
+        var id=$(this).parent().attr('id');
         if (id) {
-          var new_id = id * 1 - 1;
+          var new_id=id * 1 - 1;
           $(this).parent().hide();
           $('#' + new_id).show();
         }

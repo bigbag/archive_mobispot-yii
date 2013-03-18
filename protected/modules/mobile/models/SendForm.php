@@ -14,8 +14,8 @@ class SendForm extends CFormModel {
     return array(
         array('email', 'required'),
         array('email', 'email'),
-        array('terms', 'required', 'message' => Yii::t('user', "Вы должны согласиться с условиями предоставления сервиса")),
-        array('terms', 'in', 'range' => array(1), 'message' => "Вы должны согласиться с условиями предоставления сервиса"),
+        array('terms', 'required', 'message'=>Yii::t('user', "Вы должны согласиться с условиями предоставления сервиса")),
+        array('terms', 'in', 'range'=>array(1), 'message'=>"Вы должны согласиться с условиями предоставления сервиса"),
     );
   }
 
@@ -24,7 +24,7 @@ class SendForm extends CFormModel {
    */
   public function attributeLabels() {
     return array(
-        'email' => Yii::t('user', "Email"),
+        'email'=>Yii::t('user', "Email"),
     );
   }
 

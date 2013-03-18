@@ -1,9 +1,9 @@
-<?php $this->pageTitle = 'ID'; ?>
+<?php $this->pageTitle='ID'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
-    'ID' => array('index'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
+    'Споты'=>array('/admin/spot/'),
+    'ID'=>array('index'),
     $model->id,
     'Редактировать',
 );
@@ -11,4 +11,4 @@ $this->breadcrumbs = array(
 
 <h1>Редактировать ДИС "<?php echo $model->id; ?>"</h1>
 
-<?php echo $this->renderPartial('_form', array('model' => $model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

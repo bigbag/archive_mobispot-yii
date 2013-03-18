@@ -19,12 +19,12 @@ class MailTemplate extends CActiveRecord {
    * @param string $className active record class name.
    * @return MailTemplate the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
   public function getLang() {
-    $data = Lang::getLangArray();
+    $data=Lang::getLangArray();
     return $data[$this->lang];
   }
 
@@ -43,35 +43,35 @@ class MailTemplate extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, desc, content, lang, slug, subject', 'required'),
-        array('name, desc, lang, slug', 'filter', 'filter' => 'trim'),
-        array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-        array('name', 'length', 'max' => 150),
-        array('slug', 'length', 'max' => 300),
+        array('name, desc, lang, slug', 'filter', 'filter'=>'trim'),
+        array('name', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('name', 'length', 'max'=>150),
+        array('slug', 'length', 'max'=>300),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, desc, content, lang, slug, subject', 'safe', 'on' => 'search'),
+        array('id, name, desc, content, lang, slug, subject', 'safe', 'on'=>'search'),
     );
   }
 
   public function beforeValidate() {
     if (!$this->slug)
-      $this->slug = YText::translit($this->name);
+      $this->slug=YText::translit($this->name);
 
     return parent::beforeValidate();
   }
 
   public static function getTemplate($slug, $lang) {
-    $mail_template = Yii::app()->cache->get('mail_template_' . $slug);
-    if ($mail_template === false) {
-      $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug, 'lang' => $lang));
+    $mail_template=Yii::app()->cache->get('mail_template_'.$slug);
+    if ($mail_template=false) {
+      $mail_template=MailTemplate::model()->findByAttributes(array('slug'=>$slug, 'lang'=>$lang));
 
-      Yii::app()->cache->set('mail_template_' . $slug, $mail_template, 36000);
+      Yii::app()->cache->set('mail_template_'.$slug, $mail_template, 36000);
     }
     return $mail_template;
   }
 
   protected function afterSave() {
-    Yii::app()->cache->delete('mail_template_' . $this->slug);
+    Yii::app()->cache->delete('mail_template_'.$this->slug);
 
     parent::afterSave();
   }
@@ -83,7 +83,7 @@ class MailTemplate extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+        'lang'=>array(self::BELONGS_TO, 'Lang', 'lang'),
     );
   }
 
@@ -92,13 +92,13 @@ class MailTemplate extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Название',
-        'slug' => 'Код',
-        'desc' => 'Описание',
-        'lang' => 'Язык',
-        'subject' => 'Тема',
-        'content' => 'Содержимое',
+        'id'=>'ID',
+        'name'=>'Название',
+        'slug'=>'Код',
+        'desc'=>'Описание',
+        'lang'=>'Язык',
+        'subject'=>'Тема',
+        'content'=>'Содержимое',
     );
   }
 
@@ -110,7 +110,7 @@ class MailTemplate extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('lang', $this->lang);
@@ -121,11 +121,11 @@ class MailTemplate extends CActiveRecord {
     $criteria->compare('content', $this->content, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
-        'sort' => array('defaultOrder' => 'name asc',)
+        'sort'=>array('defaultOrder'=>'name asc',)
     ));
   }
 

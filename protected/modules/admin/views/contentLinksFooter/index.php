@@ -1,15 +1,15 @@
-<?php $this->pageTitle = 'Ссылки в подвале'; ?>
+<?php $this->pageTitle='Ссылки в подвале'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
     'Содержимое',
     'Ссылки в подвале',
 );
 ?>
 
 <?php
-$this->menu = array(
-    array('label' => 'Добавить', 'url' => array('create')),
+$this->menu=array(
+    array('label'=>'Добавить', 'url'=>array('create')),
 );
 ?>
 
@@ -17,21 +17,21 @@ $this->menu = array(
 
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'content-links-footer-grid',
-    'dataProvider' => $model->search(),
-    'filter' => $model,
-    'columns' => array(
+    'id'=>'content-links-footer-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
         'link',
         'name',
         array(
-            'name' => 'lang',
-            'type' => 'raw',
-            'value' => '$data->getLang()',
-            'filter' => Lang::getLangArray(),
+            'name'=>'lang',
+            'type'=>'raw',
+            'value'=>'$data->getLang()',
+            'filter'=>Lang::getLangArray(),
         ),
         array(
-            'class' => 'CButtonColumn',
-            'template' => '{update} {delete}',
+            'class'=>'CButtonColumn',
+            'template'=>'{update} {delete}',
         ),
     ),
 ));

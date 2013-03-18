@@ -12,9 +12,9 @@
 <div class="txt-form-cl">
 <?php echo CHtml::activeTextField($form, 'password',
   array(
-    'class' => 'txt',
-    'maxsize' => 50,
-    'placeholder' => Yii::t('user', 'Пароль')
+    'class'=>'txt',
+    'maxsize'=>50,
+    'placeholder'=>Yii::t('user', 'Пароль')
 )); ?>
 <input type="hidden" name="token" id="token"
 value="<?php echo Yii::app()->request->csrfToken?>">
@@ -28,9 +28,9 @@ value="<?php echo Yii::app()->request->csrfToken?>">
 <div class="txt-form-cl">
 <?php echo CHtml::activeTextField($form, 'verifyPassword',
   array(
-    'class' => 'txt',
-    'maxsize' => 50,
-    'placeholder' => Yii::t('user', 'Повтор пароля')
+    'class'=>'txt',
+    'maxsize'=>50,
+    'placeholder'=>Yii::t('user', 'Повтор пароля')
 )); ?>
 </div>
 </div>

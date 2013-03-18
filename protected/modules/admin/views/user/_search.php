@@ -7,14 +7,14 @@
 <div class="wide form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'action' => Yii::app()->createUrl($this->route),
-      'method' => 'get',
+  $form=$this->beginWidget('CActiveForm', array(
+      'action'=>Yii::app()->createUrl($this->route),
+      'method'=>'get',
   ));
   ?>
   <div class="row">
     <?php echo $form->label($model, 'profile_sex'); ?>
-    <?php echo $form->dropDownList($model, 'profile_sex', UserProfile::getSexList(), array('empty' => '')); ?>
+    <?php echo $form->dropDownList($model, 'profile_sex', UserProfile::getSexList(), array('empty'=>'')); ?>
   </div>
 
 

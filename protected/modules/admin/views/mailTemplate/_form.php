@@ -7,9 +7,9 @@
 <div class="form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'id' => 'mail-template-form',
-      'enableAjaxValidation' => false,
+  $form=$this->beginWidget('CActiveForm', array(
+      'id'=>'mail-template-form',
+      'enableAjaxValidation'=>false,
   ));
   ?>
 
@@ -19,19 +19,19 @@
 
   <div class="row">
     <?php echo $form->labelEx($model, 'name'); ?>
-    <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'name', array('size'=>60, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'name'); ?>
   </div>
 
   <div class="row">
     <?php echo $form->labelEx($model, 'desc'); ?>
-    <?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?>
+    <?php echo $form->textArea($model, 'desc', array('rows'=>6, 'cols'=>50)); ?>
     <?php echo $form->error($model, 'desc'); ?>
   </div>
 
   <div class="row">
     <?php echo $form->labelEx($model, 'slug'); ?>
-    <?php echo $form->textField($model, 'slug', array('size' => 60, 'maxlength' => 300)); ?>
+    <?php echo $form->textField($model, 'slug', array('size'=>60, 'maxlength'=>300)); ?>
     <?php echo $form->error($model, 'slug'); ?>
   </div>
 
@@ -43,12 +43,12 @@
 
   <div class="row">
     <?php echo $form->labelEx($model, 'subject'); ?>
-    <?php echo $form->textField($model, 'subject', array('size' => 60, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'subject', array('size'=>60, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'subject'); ?>
   </div>
   <div class="row">
     <?php echo $form->labelEx($model, 'content'); ?>
-    <?php echo $form->textArea($model, 'content', array('rows' => 30, 'cols' => 100, 'id' => 'code', 'class' => 'code')); ?>
+    <?php echo $form->textArea($model, 'content', array('rows'=>30, 'cols'=>100, 'id'=>'code', 'class'=>'code')); ?>
     <?php echo $form->error($model, 'content'); ?>
   </div>
 
@@ -69,6 +69,6 @@
 
 
 <script type="text/javascript">
-  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {mode: "text/html", tabMode: "indent", lineNumbers: true});
+  var editor=CodeMirror.fromTextArea(document.getElementById("code"), {mode: "text/html", tabMode: "indent", lineNumbers: true});
 </script>
 

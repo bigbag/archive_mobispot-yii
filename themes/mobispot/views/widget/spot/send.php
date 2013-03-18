@@ -10,8 +10,8 @@
 <?php if (!empty($file)): ?>
 <div class="result_upload">
 <input name="SpotModel[fayl_10][]" type="hidden" value="<?php echo $file ?>">
-<?php $file_name = explode('_', $file) ?>
-<?php $file_name = (isset($file_name[2])) ? $file_name[2] : '' ?>
+<?php $file_name=explode('_', $file) ?>
+<?php $file_name=(isset($file_name[2])) ? $file_name[2] : '' ?>
 <?php echo $file_name; ?>
 <span class="cancel"></span>
 
@@ -29,7 +29,7 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-    var count = $('.file_count').val();
+    var count=$('.file_count').val();
     if (count > 5) $('.round-btn-upload').hide();
     return false;
     
@@ -38,19 +38,19 @@ $(document).ready(function () {
 $(function () {
     $('.result_upload span.cancel').live("click", function () {
         $(this).parent().remove();
-        var count = $('.file_count').val();
+        var count=$('.file_count').val();
         if (count) {
           $('.file_count').val(count - 1);
-          if (count == 5) $('.round-btn-upload').show();
+          if (count==5) $('.round-btn-upload').show();
         }
     });
     return false;
 });
 
 $(function () {
-    var count = <?php echo count($content->fayl_10);?>;
-    if (count == 6) $('.round-btn-upload').hide();
-    count = count + 1;
+    var count=<?php echo count($content->fayl_10);?>;
+    if (count==6) $('.round-btn-upload').hide();
+    count=count + 1;
     
     $("#add_file").uploadifive({
         'width':'120px',
@@ -68,13 +68,13 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (error) alert(error);
           if (file_name) {
-            if (count == 6) $('.round-btn-upload').hide();
-            var txt = '';
+            if (count==6) $('.round-btn-upload').hide();
+            var txt='';
             txt += '<div class="result_upload">';
             txt += '<input name="SpotModel[fayl_10][]" type="hidden" value="' + file_name + '">';
             txt += file.name;

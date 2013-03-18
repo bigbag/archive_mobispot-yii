@@ -21,19 +21,19 @@
  */
 class UserProfile extends CActiveRecord {
 
-  const SEX_UNKNOWN = 0;
-  const SEX_MALE = 1;
-  const SEX_FEMALE = 2;
+  const SEX_UNKNOWN=0;
+  const SEX_MALE=1;
+  const SEX_FEMALE=2;
 
   public function getSexList() {
     return array(
-        self::SEX_MALE => Yii::t('user', 'Мужской'),
-        self::SEX_FEMALE => Yii::t('user', 'Женский'),
+        self::SEX_MALE=>Yii::t('user', 'Мужской'),
+        self::SEX_FEMALE=>Yii::t('user', 'Женский'),
     );
   }
 
   public function getSex() {
-    $data = $this->getSexList();
+    $data=$this->getSexList();
     return $data[$this->sex];
   }
 
@@ -42,7 +42,7 @@ class UserProfile extends CActiveRecord {
    * @param string $className active record class name.
    * @return UserProfile the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -61,10 +61,10 @@ class UserProfile extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('user_id, sex, use_photo', 'required'),
-        array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly' => true),
-        array('name, place', 'filter', 'filter' => 'trim'),
-        array('name, place', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-        array('name, place, photo', 'length', 'max' => 300),
+        array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly'=>true),
+        array('name, place', 'filter', 'filter'=>'trim'),
+        array('name, place', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('name, place, photo', 'length', 'max'=>300),
     );
   }
 
@@ -75,7 +75,7 @@ class UserProfile extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+        'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
     );
   }
 
@@ -84,28 +84,28 @@ class UserProfile extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'user_id' => 'Пользователь',
-        'name' => 'Имя',
-        'place' => 'Город',
-        'sex' => 'Пол',
-        'birthday_day' => 'Birthday Day',
-        'birthday_month' => 'Birthday Month',
-        'birthday_year' => 'Birthday Year',
-        'photo' => 'Photo',
-        'facebook_id' => 'Facebook',
-        'twitter_id' => 'Twitter',
-        'use_photo' => 'Use Photo',
+        'user_id'=>'Пользователь',
+        'name'=>'Имя',
+        'place'=>'Город',
+        'sex'=>'Пол',
+        'birthday_day'=>'Birthday Day',
+        'birthday_month'=>'Birthday Month',
+        'birthday_year'=>'Birthday Year',
+        'photo'=>'Photo',
+        'facebook_id'=>'Facebook',
+        'twitter_id'=>'Twitter',
+        'use_photo'=>'Use Photo',
     );
   }
 
   public function beforeValidate() {
     if (!$this->sex)
-      $this->sex = self::SEX_UNKNOWN;
+      $this->sex=self::SEX_UNKNOWN;
     return parent::beforeValidate();
   }
 
   protected function afterSave() {
-    Yii::app()->cache->delete('user_' . $this->user_id);
+    Yii::app()->cache->delete('user_'.$this->user_id);
     parent::afterSave();
   }
 
@@ -117,7 +117,7 @@ class UserProfile extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('user_id', $this->user_id);
     $criteria->compare('name', $this->name, true);
@@ -132,7 +132,7 @@ class UserProfile extends CActiveRecord {
     $criteria->compare('use_photo', $this->use_photo);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

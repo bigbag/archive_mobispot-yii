@@ -1,8 +1,8 @@
-<?php $this->pageTitle = 'Споты'; ?>
+<?php $this->pageTitle='Споты'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
-    'Споты' => array('/admin/spot/'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
+    'Споты'=>array('/admin/spot/'),
     'Управление'
 );
 
@@ -20,11 +20,11 @@ $('.search-form form').submit(function(){
 ");
 ?>
 <?php echo CHtml::link('Сгенерировать активационные коды', '/admin/spot/generate'); ?><br/>
-<?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
+<?php echo CHtml::link('Расширенный поиск', '#', array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
   <?php
   $this->renderPartial('_search', array(
-      'model' => $model,
+      'model'=>$model,
   ));
   ?>
 </div><!-- search-form -->
@@ -37,35 +37,35 @@ $('.search-form form').submit(function(){
 
 <?php
 $this->widget('ext.selgridview.SelGridView', array(
-    'id' => 'spot-grid',
-    'dataProvider' => $model->search(),
-    'selectableRows' => 2,
-    'filter' => $model,
-    'columns' => array(
+    'id'=>'spot-grid',
+    'dataProvider'=>$model->search(),
+    'selectableRows'=>2,
+    'filter'=>$model,
+    'columns'=>array(
         array(
-            'class' => 'CCheckBoxColumn',
+            'class'=>'CCheckBoxColumn',
         ),
         'discodes_id',
         'code',
         array(
-            'name' => 'spot_type_name',
-            'value' => '($data->spot_type)?$data->spot_type->name:""',
+            'name'=>'spot_type_name',
+            'value'=>'($data->spot_type)?$data->spot_type->name:""',
         ),
         array(
-            'name' => 'user_id',
-            'type' => 'raw',
-            'value' => '($data->user)?$data->user->email:""',
+            'name'=>'user_id',
+            'type'=>'raw',
+            'value'=>'($data->user)?$data->user->email:""',
         ),
         array(
-            'name' => 'status',
-            'type' => 'raw',
-            'value' => '$data->getStatus()',
-            'filter' => $model->getStatusList(),
+            'name'=>'status',
+            'type'=>'raw',
+            'value'=>'$data->getStatus()',
+            'filter'=>$model->getStatusList(),
         ),
         'url',
         array(
-            'class' => 'CButtonColumn',
-            'template' => '{view} {update}',
+            'class'=>'CButtonColumn',
+            'template'=>'{view} {update}',
         ),
     ),
 ));
@@ -76,14 +76,14 @@ $this->widget('ext.selgridview.SelGridView', array(
 <script type="text/javascript">
   $("#activate_btn, #delete_btn").click(function() {
     var url;
-    var action = $(this).attr('id');
-    var selected = $("#spot-grid").selGridView("getAllSelection");
-    var id = selected.join("|");
+    var action=$(this).attr('id');
+    var selected=$("#spot-grid").selGridView("getAllSelection");
+    var id=selected.join("|");
 
-    if (action === 'activate_btn')
-      url = '/admin/spot/activate/';
-    else if (action === 'delete_btn')
-      url = '/admin/spot/delete/';
+    if (action==='activate_btn')
+      url='/admin/spot/activate/';
+    else if (action==='delete_btn')
+      url='/admin/spot/delete/';
 
     if (id[0]) {
       $.ajax({

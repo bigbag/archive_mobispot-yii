@@ -1,4 +1,4 @@
-<?php $all_field_ico = SpotPersonalField::getPersonalFieldAllIco(); ?>
+<?php $all_field_ico=SpotPersonalField::getPersonalFieldAllIco(); ?>
 
 <div id="main-container">
   <?php if (!empty($content->fotografiya_3)): ?>
@@ -6,7 +6,7 @@
       <img src="/uploads/spot/<?php echo $content->fotografiya_3; ?>" width="100%"/>
     </div>
   <?php else: ?>
-    <?php $profile = UserProfile::model()->findByPk($content->user_id) ?>
+    <?php $profile=UserProfile::model()->findByPk($content->user_id) ?>
     <?php if ($profile->use_photo == 1 and (!empty($profile->photo))): ?>
       <img src="/uploads/spot/<?php echo $profile->photo ?>" width="100%"/>
     <?php endif; ?>
@@ -25,7 +25,7 @@
 
   <div id="userContact" class="clr">
     <?php if ($content->kontaktyi_3): ?>
-      <?php foreach ($content->kontaktyi_3 as $key => $value): ?>
+      <?php foreach ($content->kontaktyi_3 as $key=>$value): ?>
         <?php if (!empty($value)): ?>
           <?php if (strpos($value, '@')): ?>
             <a href="mailto:<?php echo $value; ?>" class="btn-dig rad6 shadow">
@@ -67,7 +67,7 @@
     <?php endif; ?>
 
     <?php if ($content->sotsseti_3): ?>
-      <?php foreach ($content->sotsseti_3 as $key => $value): ?>
+      <?php foreach ($content->sotsseti_3 as $key=>$value): ?>
         <?php if (!empty($value)): ?>
           <a href="<?php echo YText::formatUrl($value) ?>" class="btn-dig rad6 shadow">
             <span class="txt-24">
@@ -84,7 +84,7 @@
     <?php endif; ?>
 
     <?php if ($content->opisanie_3): ?>
-      <?php foreach ($content->opisanie_3 as $key => $value): ?>
+      <?php foreach ($content->opisanie_3 as $key=>$value): ?>
         <?php if (!empty($value)): ?>
           <span class="btn-dig rad6 shadow">
             <span class="ico ico-phone">
@@ -108,8 +108,8 @@
       <form action="" method="post">
         <?php
         echo CHtml::TextArea('comment', '', array(
-            'rows' => 3,
-            'class' => 'txt-100p txtArea rad6',
+            'rows'=>3,
+            'class'=>'txt-100p txtArea rad6',
         ));
         ?>
         <input type="submit" class="btn-round fright rad12 shadow"

@@ -12,20 +12,20 @@
  */
 class SpotPersonalField extends CActiveRecord {
 
-  const TYPE_CONTACTS = 0;
-  const TYPE_SOCIAL = 1;
-  const TYPE_TEXT = 2;
+  const TYPE_CONTACTS=0;
+  const TYPE_SOCIAL=1;
+  const TYPE_TEXT=2;
 
   public function getTypeList() {
     return array(
-        self::TYPE_CONTACTS => 'Контакты',
-        self::TYPE_SOCIAL => 'Соц. Сети',
-        self::TYPE_TEXT => 'Дополнительная информация',
+        self::TYPE_CONTACTS=>'Контакты',
+        self::TYPE_SOCIAL=>'Соц. Сети',
+        self::TYPE_TEXT=>'Дополнительная информация',
     );
   }
 
   public function getType() {
-    $data = $this->getTypeList();
+    $data=$this->getTypeList();
     return $data[$this->type];
   }
 
@@ -34,7 +34,7 @@ class SpotPersonalField extends CActiveRecord {
    * @param string $className active record class name.
    * @return SpotPersonalField the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -53,13 +53,13 @@ class SpotPersonalField extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, type', 'required'),
-        array('name, ico, placeholder', 'length', 'max' => 300),
-        array('name', 'filter', 'filter' => 'trim'),
-        array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-        array('type', 'in', 'range' => array_keys($this->getTypeList())),
+        array('name, ico, placeholder', 'length', 'max'=>300),
+        array('name', 'filter', 'filter'=>'trim'),
+        array('name', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('type', 'in', 'range'=>array_keys($this->getTypeList())),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, ico, placeholder', 'safe', 'on' => 'search'),
+        array('id, name, ico, placeholder', 'safe', 'on'=>'search'),
     );
   }
 
@@ -82,38 +82,38 @@ class SpotPersonalField extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Название',
-        'ico' => 'Иконка',
-        'placeholder' => 'Подсказка',
-        'type' => 'Тип',
+        'id'=>'ID',
+        'name'=>'Название',
+        'ico'=>'Иконка',
+        'placeholder'=>'Подсказка',
+        'type'=>'Тип',
     );
   }
 
   public static function getPersonalField($type) {
-    $personal_field = Yii::app()->cache->get('personal_field_' . $type);
-    if ($personal_field === false) {
-      $personal_field = SpotPersonalField::model()->findAllByAttributes(array('type' => $type));
+    $personal_field=Yii::app()->cache->get('personal_field_'.$type);
+    if ($personal_field=false) {
+      $personal_field=SpotPersonalField::model()->findAllByAttributes(array('type'=>$type));
 
-      Yii::app()->cache->set('personal_field_' . $type, $personal_field, 36000);
+      Yii::app()->cache->set('personal_field_'.$type, $personal_field, 36000);
     }
     return $personal_field;
   }
 
   public static function getPersonalFieldArray($type) {
-    $personal_field = Yii::app()->cache->get('personal_field_array_' . $type);
-    if ($personal_field === false) {
-      $personal_field = CHtml::listData(SpotPersonalField::getPersonalField($type), 'id', 'name');
+    $personal_field=Yii::app()->cache->get('personal_field_array_'.$type);
+    if ($personal_field=false) {
+      $personal_field=CHtml::listData(SpotPersonalField::getPersonalField($type), 'id', 'name');
 
-      Yii::app()->cache->set('personal_field_array_' . $type, $personal_field, 36000);
+      Yii::app()->cache->set('personal_field_array_'.$type, $personal_field, 36000);
     }
     return $personal_field;
   }
 
   public static function getPersonalFieldAll() {
-    $personal_field = Yii::app()->cache->get('personal_field_all');
-    if ($personal_field === false) {
-      $personal_field = SpotPersonalField::model()->findAll();
+    $personal_field=Yii::app()->cache->get('personal_field_all');
+    if ($personal_field=false) {
+      $personal_field=SpotPersonalField::model()->findAll();
 
       Yii::app()->cache->set('personal_field_all', $personal_field, 36000);
     }
@@ -121,9 +121,9 @@ class SpotPersonalField extends CActiveRecord {
   }
 
   public static function getPersonalFieldAllIco() {
-    $personal_field = Yii::app()->cache->get('personal_field_all_ico');
-    if ($personal_field === false) {
-      $personal_field = CHtml::listData(SpotPersonalField::getPersonalFieldAll(), 'id', 'ico');
+    $personal_field=Yii::app()->cache->get('personal_field_all_ico');
+    if ($personal_field=false) {
+      $personal_field=CHtml::listData(SpotPersonalField::getPersonalFieldAll(), 'id', 'ico');
 
       Yii::app()->cache->set('personal_field_all_ico', $personal_field, 36000);
     }
@@ -131,8 +131,8 @@ class SpotPersonalField extends CActiveRecord {
   }
 
   protected function afterSave() {
-    Yii::app()->cache->delete('personal_field_id_' . $this->type);
-    Yii::app()->cache->delete('personal_field_array_' . $this->type);
+    Yii::app()->cache->delete('personal_field_id_'.$this->type);
+    Yii::app()->cache->delete('personal_field_array_'.$this->type);
     Yii::app()->cache->delete('personal_field_all');
     Yii::app()->cache->delete('personal_field_all_ico');
 
@@ -147,7 +147,7 @@ class SpotPersonalField extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
@@ -156,11 +156,11 @@ class SpotPersonalField extends CActiveRecord {
     $criteria->compare('placeholder', $this->placeholder, true);
 
     return new CActiveDataProvider(get_class($this), array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
-        'sort' => array('defaultOrder' => 'name asc',)
+        'sort'=>array('defaultOrder'=>'name asc',)
     ));
   }
 

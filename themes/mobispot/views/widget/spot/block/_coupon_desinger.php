@@ -53,38 +53,38 @@ value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
 <div class="date_select">
 <select name="Coupon[day_up]">
 <option></option>
-<?php for ($i = 1; $i <= 31; $i++): ?>
+<?php for ($i=1; $i <= 31; $i++): ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
 <?php endfor;?>
 </select>
 <select name="Coupon[month_up]">
 <option></option>
-<?php foreach (MDate::month() as $key => $value): ?>
+<?php foreach (MDate::month() as $key=>$value): ?>
 <option value="<?php echo $key?>"><?php echo $value?></option>
 <?php endforeach;?>
 </select>
 <select name="Coupon[year_up]">
 <option></option>
-<?php for ($i = date("Y"); $i <= date("Y") + 5; $i++): ?>
+<?php for ($i=date("Y"); $i <= date("Y") + 5; $i++): ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
 <?php endfor;?>
 </select>
 <span class="big">&nbsp;&nbsp;‒&nbsp;&nbsp;</span>
 <select name="Coupon[day_down]">
 <option></option>
-<?php for ($i = 1; $i <= 31; $i++): ?>
+<?php for ($i=1; $i <= 31; $i++): ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
 <?php endfor;?>
 </select>
 <select name="Coupon[month_down]">
 <option></option>
-<?php foreach (MDate::month() as $key => $value): ?>
+<?php foreach (MDate::month() as $key=>$value): ?>
 <option value="<?php echo $key?>"><?php echo $value?></option>
 <?php endforeach;?>
 </select>
 <select name="Coupon[year_down]">
 <option></option>
-<?php for ($i = date("Y"); $i <= date("Y") + 5; $i++): ?>
+<?php for ($i=date("Y"); $i <= date("Y") + 5; $i++): ?>
 <option value="<?php echo $i?>"><?php echo $i?></option>
 <?php endfor;?>
 </select>

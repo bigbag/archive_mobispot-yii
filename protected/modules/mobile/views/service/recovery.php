@@ -13,7 +13,7 @@
       <table class="proc100">
         <tr>
           <td>
-            <?php echo CHtml::activeTextField($form, 'email', array('class' => 'txt-100p rad6', 'placeholder' => Yii::t('mobile', 'Email'))) ?>
+            <?php echo CHtml::activeTextField($form, 'email', array('class'=>'txt-100p rad6', 'placeholder'=>Yii::t('mobile', 'Email'))) ?>
           </td>
         </tr>
       </table>

@@ -6,16 +6,16 @@ class ContentBannerFooterController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   public function actionUpload() {
     if (!empty($_FILES)) {
-      $action = $_POST['action'];
+      $action=$_POST['action'];
 
-      $tempFile = $_FILES['Filedata']['tmp_name'];
-      $targetPath = Yii::getPathOfAlias('webroot.uploads.blocks.') . '/';
-      $targetFileName = $action . '_' . time() . '_' . $_FILES['Filedata']['name'];
-      $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+      $tempFile=$_FILES['Filedata']['tmp_name'];
+      $targetPath=Yii::getPathOfAlias('webroot.uploads.blocks.').'/';
+      $targetFileName=$action.'_'.time().'_'.$_FILES['Filedata']['name'];
+      $targetFile=rtrim($targetPath, '/').'/'.$targetFileName;
 
       move_uploaded_file($tempFile, $targetFile);
 
@@ -28,19 +28,19 @@ class ContentBannerFooterController extends Controller {
    * If creation is successful, the browser will be redirected to the 'view' page.
    */
   public function actionCreate() {
-    $model = new ContentBannerFooter;
+    $model=new ContentBannerFooter;
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
 
     if (isset($_POST['ContentBannerFooter'])) {
-      $model->attributes = $_POST['ContentBannerFooter'];
+      $model->attributes=$_POST['ContentBannerFooter'];
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('create', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -50,19 +50,19 @@ class ContentBannerFooterController extends Controller {
    * @param integer $id the ID of the model to be updated
    */
   public function actionUpdate($id) {
-    $model = $this->loadModel($id);
+    $model=$this->loadModel($id);
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
 
     if (isset($_POST['ContentBannerFooter'])) {
-      $model->attributes = $_POST['ContentBannerFooter'];
+      $model->attributes=$_POST['ContentBannerFooter'];
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('update', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -83,13 +83,13 @@ class ContentBannerFooterController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $model = new ContentBannerFooter('search');
+    $model=new ContentBannerFooter('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['ContentBannerFooter']))
-      $model->attributes = $_GET['ContentBannerFooter'];
+      $model->attributes=$_GET['ContentBannerFooter'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -99,8 +99,8 @@ class ContentBannerFooterController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = ContentBannerFooter::model()->findByPk($id);
-    if ($model === null)
+    $model=ContentBannerFooter::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -110,7 +110,7 @@ class ContentBannerFooterController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'content-banner-footer-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='content-banner-footer-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

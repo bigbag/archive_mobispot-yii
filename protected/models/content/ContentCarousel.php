@@ -18,12 +18,12 @@ class ContentCarousel extends CActiveRecord {
    * @param string $className active record class name.
    * @return ContentCarousel the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
   public function getLang() {
-    $data = Lang::getLangArray();
+    $data=Lang::getLangArray();
     return $data[$this->lang];
   }
 
@@ -42,12 +42,12 @@ class ContentCarousel extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, desc, image, image_focus', 'required'),
-        array('name', 'length', 'max' => 150),
-        array('desc, image', 'length', 'max' => 300),
-        array('lang', 'length', 'max' => 10),
+        array('name', 'length', 'max'=>150),
+        array('desc, image', 'length', 'max'=>300),
+        array('lang', 'length', 'max'=>10),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, name, desc, image, image_focus, lang', 'safe', 'on' => 'search'),
+        array('id, name, desc, image, image_focus, lang', 'safe', 'on'=>'search'),
     );
   }
 
@@ -58,13 +58,13 @@ class ContentCarousel extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+        'lang'=>array(self::BELONGS_TO, 'Lang', 'lang'),
     );
   }
 
   public function getCarousel() {
-    $dependency = new CDbCacheDependency("SELECT MAX(id) FROM content_carousel WHERE lang = '" . Yii::app()->language . "'");
-    return ContentCarousel::model()->cache(600, $dependency)->findAllByAttributes(array('lang' => Yii::app()->language));
+    $dependency=new CDbCacheDependency("SELECT MAX(id) FROM content_carousel WHERE lang='".Yii::app()->language."'");
+    return ContentCarousel::model()->cache(600, $dependency)->findAllByAttributes(array('lang'=>Yii::app()->language));
   }
 
   /**
@@ -72,12 +72,12 @@ class ContentCarousel extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'name' => 'Название',
-        'desc' => 'Описание',
-        'image' => 'Иконка',
-        'image_focus' => 'Активная иконка',
-        'lang' => 'Язык',
+        'id'=>'ID',
+        'name'=>'Название',
+        'desc'=>'Описание',
+        'image'=>'Иконка',
+        'image_focus'=>'Активная иконка',
+        'lang'=>'Язык',
     );
   }
 
@@ -89,7 +89,7 @@ class ContentCarousel extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('name', $this->name, true);
@@ -100,9 +100,9 @@ class ContentCarousel extends CActiveRecord {
     $criteria->compare('lang', $this->lang, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
     ));
   }

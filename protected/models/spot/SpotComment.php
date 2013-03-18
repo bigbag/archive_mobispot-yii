@@ -18,7 +18,7 @@ class SpotComment extends CActiveRecord {
    * @param string $className active record class name.
    * @return SpotComment the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -37,18 +37,18 @@ class SpotComment extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('spot_id, body, spot_user_id, creation_date', 'required'),
-        array('spot_id', 'numerical', 'integerOnly' => true),
-        array('body', 'filter', 'filter' => 'trim'),
-        array('body', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
+        array('spot_id', 'numerical', 'integerOnly'=>true),
+        array('body', 'filter', 'filter'=>'trim'),
+        array('body', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, spot_user_id, comment_user_id, spot_id, body, creation_date', 'safe', 'on' => 'search'),
+        array('id, spot_user_id, comment_user_id, spot_id, body, creation_date', 'safe', 'on'=>'search'),
     );
   }
 
   public function beforeValidate() {
     if ($this->isNewRecord)
-      $this->creation_date = new CDbExpression('NOW()');
+      $this->creation_date=new CDbExpression('NOW()');
     return parent::beforeValidate();
   }
 
@@ -59,8 +59,8 @@ class SpotComment extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'spot' => array(self::BELONGS_TO, 'Spot', 'spot_id'),
-        'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+        'spot'=>array(self::BELONGS_TO, 'Spot', 'spot_id'),
+        'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
     );
   }
 
@@ -69,11 +69,11 @@ class SpotComment extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'spot_user_id' => 'Владелец спота',
-        'comment_user_id' => 'Автор комментария',
-        'body' => 'Комментарий',
-        'spot_id' => 'Спот',
-        'creation_date' => 'Дата создания',
+        'spot_user_id'=>'Владелец спота',
+        'comment_user_id'=>'Автор комментария',
+        'body'=>'Комментарий',
+        'spot_id'=>'Спот',
+        'creation_date'=>'Дата создания',
     );
   }
 
@@ -85,7 +85,7 @@ class SpotComment extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('spot_user_id', $this->spot_user_id);
@@ -95,7 +95,7 @@ class SpotComment extends CActiveRecord {
     $criteria->compare('creation_date', $this->creation_date, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

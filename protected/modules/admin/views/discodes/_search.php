@@ -7,9 +7,9 @@
 <div class="wide form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'action' => Yii::app()->createUrl($this->route),
-      'method' => 'get',
+  $form=$this->beginWidget('CActiveForm', array(
+      'action'=>Yii::app()->createUrl($this->route),
+      'method'=>'get',
   ));
   ?>
 
@@ -20,12 +20,12 @@
 
   <div class="row">
     <?php echo $form->label($model, 'premium'); ?>
-    <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList(), array('empty' => '')); ?>
+    <?php echo $form->dropDownList($model, 'premium', $model->getPremiumList(), array('empty'=>'')); ?>
   </div>
 
   <div class="row">
     <?php echo $form->label($model, 'status'); ?>
-    <?php echo $form->dropDownList($model, 'status', $model->getStatusList(), array('empty' => '')); ?>
+    <?php echo $form->dropDownList($model, 'status', $model->getStatusList(), array('empty'=>'')); ?>
   </div>
 
   <div class="row buttons">

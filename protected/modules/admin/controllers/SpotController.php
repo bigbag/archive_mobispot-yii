@@ -6,7 +6,7 @@ class SpotController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   /**
    * Displays a particular model.
@@ -14,61 +14,61 @@ class SpotController extends Controller {
    */
   public function actionView($id) {
     $this->render('view', array(
-        'model' => $this->loadModel($id),
+        'model'=>$this->loadModel($id),
     ));
   }
 
-  public function getDisId($premium, $activate = 0, $count) {
+  public function getDisId($premium, $activate=0, $count) {
 
-    $dis_cod = Discodes::model()->findAll(array(
-        'select' => 'id',
-        'condition' => 'status=0 and premium=:premium',
-        'params' => array(':premium' => $premium),
-        'limit' => $count
+    $dis_cod=Discodes::model()->findAll(array(
+        'select'=>'id',
+        'condition'=>'status=0 and premium=:premium',
+        'params'=>array(':premium'=>$premium),
+        'limit'=>$count
     ));
 
     if ($dis_cod) {
 
-      $length = Spot::SYMBOL_LENGTH;
+      $length=Spot::SYMBOL_LENGTH;
 
       foreach ($dis_cod as $row) {
 
-        $code = '';
-        $symbols = Spot::SYMBOL_ALL;
+        $code='';
+        $symbols=Spot::SYMBOL_ALL;
 
-        $id = $row->id;
+        $id=$row->id;
 
-        $symbols = str_split($symbols);
+        $symbols=str_split($symbols);
         shuffle($symbols);
 
-        $max = count($symbols) - 1;
-        for ($i = 0; $i < $length; $i++) {
+        $max=count($symbols) - 1;
+        for ($i=0; $i < $length; $i++) {
           $code .= $symbols[rand(0, $max)];
         }
 
-        $positions = range(0, 9);
+        $positions=range(0, 9);
         shuffle($positions);
-        $positions = array_slice($positions, 0, strlen($id));
+        $positions=array_slice($positions, 0, strlen($id));
         sort($positions);
 
-        for ($i = 0; $i < strlen($id); $i++) {
-          $code[$positions[$i]] = $id[$i];
+        for ($i=0; $i < strlen($id); $i++) {
+          $code[$positions[$i]]=$id[$i];
         }
 
-        $dis = Discodes::model()->findByPk($id);
-        $dis->status = Discodes::STATUS_GENERATED;
+        $dis=Discodes::model()->findByPk($id);
+        $dis->status=Discodes::STATUS_GENERATED;
         $dis->save();
 
-        $spot = new Spot();
-        $spot->discodes_id = $id;
+        $spot=new Spot();
+        $spot->discodes_id=$id;
 
         if ($activate == 1)
-          $spot->status = Spot::STATUS_ACTIVATED;
+          $spot->status=Spot::STATUS_ACTIVATED;
         else
-          $spot->status = Spot::STATUS_GENERATED;
+          $spot->status=Spot::STATUS_GENERATED;
 
-        $spot->code = $code;
-        $spot->premium = $dis->premium;
+        $spot->code=$code;
+        $spot->premium=$dis->premium;
         $spot->save();
       }
       return true;
@@ -82,19 +82,19 @@ class SpotController extends Controller {
    * @param integer $id the ID of the model to be updated
    */
   public function actionUpdate($id) {
-    $model = $this->loadModel($id);
+    $model=$this->loadModel($id);
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
 
     if (isset($_POST['Spot'])) {
-      $model->attributes = $_POST['Spot'];
+      $model->attributes=$_POST['Spot'];
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('update', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -104,19 +104,19 @@ class SpotController extends Controller {
    * @param integer $id the ID of the model to be deleted
    */
   public function actionDelete() {
-    $flag = false;
-    $dis_id = 0;
+    $flag=false;
+    $dis_id=0;
     if (isset($_GET['id'])) {
-      $id = $_GET['id'];
-      $id = explode('|', $id);
+      $id=$_GET['id'];
+      $id=explode('|', $id);
       if (isset($id[0])) {
         foreach ($id as $row) {
-          $spot = Spot::model()->findByPk((int) $row);
+          $spot=Spot::model()->findByPk((int) $row);
           if ($spot) {
             if ($spot->status == Spot::STATUS_GENERATED or $spot->status == Spot::STATUS_ACTIVATED) {
-              $dis_id = $spot->discodes_id;
+              $dis_id=$spot->discodes_id;
               if ($spot->delete()) {
-                $flag = true;
+                $flag=true;
               }
             }
           }
@@ -125,7 +125,7 @@ class SpotController extends Controller {
     }
     if (!isset($_GET['ajax'])) {
       if ($flag)
-        Yii::app()->user->setFlash('spot', 'Спот ID ' . $dis_id . ' удалён.');
+        Yii::app()->user->setFlash('spot', 'Спот ID '.$dis_id.' удалён.');
       $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : '/admin/spot');
     }
   }
@@ -134,26 +134,26 @@ class SpotController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $this->layout = '//layouts/admin_column1';
-    $model = new Spot('search');
+    $this->layout='//layouts/admin_column1';
+    $model=new Spot('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['Spot']))
-      $model->attributes = $_GET['Spot'];
+      $model->attributes=$_GET['Spot'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
   public function actionActivate() {
     if (isset($_GET['id'])) {
-      $id = $_GET['id'];
-      $id = explode('|', $id);
+      $id=$_GET['id'];
+      $id=explode('|', $id);
       if (isset($id[0])) {
         foreach ($id as $row) {
-          $spot = Spot::model()->findByPk((int) $row);
+          $spot=Spot::model()->findByPk((int) $row);
           if ($spot and $spot->status == Spot::STATUS_GENERATED) {
-            $spot->status = Spot::STATUS_ACTIVATED;
+            $spot->status=Spot::STATUS_ACTIVATED;
             $spot->save();
           }
         }
@@ -162,25 +162,25 @@ class SpotController extends Controller {
 
     if (!isset($_GET['ajax'])) {
       Yii::app()->user->setFlash('spot', 'Спот активирован.');
-      $referer = Yii::app()->request->getUrlReferrer();
+      $referer=Yii::app()->request->getUrlReferrer();
       $this->redirect($referer);
     }
   }
 
   public function actionGenerate() {
     if (isset($_POST['SpotGenerate'])) {
-      $count = (int) $_POST['SpotGenerate']['count'];
+      $count=(int) $_POST['SpotGenerate']['count'];
       if ($count < 1)
-        $count = 1;
+        $count=1;
 
-      $premium = (int) $_POST['SpotGenerate']['premium'];
-      $activate = (int) $_POST['SpotGenerate']['activate'];
+      $premium=(int) $_POST['SpotGenerate']['premium'];
+      $activate=(int) $_POST['SpotGenerate']['activate'];
 
       if ($this->getDisId($premium, $activate, $count)) {
         if ($activate == 1)
-          $message = 'Споты сгенерированы и активированы.';
+          $message='Споты сгенерированы и активированы.';
         else
-          $message = 'Споты сгенерированы.';
+          $message='Споты сгенерированы.';
         Yii::app()->user->setFlash('spot', $message);
         $this->redirect('/admin/spot');
       }
@@ -194,8 +194,8 @@ class SpotController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = Spot::model()->findByPk($id);
-    if ($model === null)
+    $model=Spot::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -205,7 +205,7 @@ class SpotController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'spot-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='spot-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

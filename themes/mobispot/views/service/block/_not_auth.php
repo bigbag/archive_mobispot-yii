@@ -1,7 +1,7 @@
 <h2><?php echo Yii::t('general', 'Начните использовать Ваш спот<br /> прямо сейчас')?></h2>
 <span class="error"><?php echo CHtml::errorSummary($model); ?></span>
 <form action="" method="post">
-<?php if($service == 'twitter'):?>
+<?php if($service=='twitter'):?>
 <div class="txt-form">
 <div class="txt-form-cl">
 <input type="text" id="email" style="width:325px;" class="txt"

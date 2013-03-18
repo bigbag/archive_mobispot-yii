@@ -7,9 +7,9 @@
 <div class="form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'id' => 'discodes-form',
-      'enableAjaxValidation' => false,
+  $form=$this->beginWidget('CActiveForm', array(
+      'id'=>'discodes-form',
+      'enableAjaxValidation'=>false,
   ));
   ?>
 

@@ -7,7 +7,7 @@
 <td>
 <div class="txt-form">
 <div class="txt-form-cl">
-<?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class' => 'txt')); ?>
+<?php echo CHtml::activeTextField($content, 'nazvanie-biznesa_8', array('class'=>'txt')); ?>
 </div>
 </div>
 </td>
@@ -17,7 +17,7 @@
 <td>
 <div class="txt-form">
 <div class="txt-form-cl">
-<?php echo CHtml::activeTextField($content, 'sayt_8', array('class' => 'txt')); ?>
+<?php echo CHtml::activeTextField($content, 'sayt_8', array('class'=>'txt')); ?>
 </div>
 </div>
 </td>
@@ -27,7 +27,7 @@
 <td>
 <div class="txt-form">
 <div class="txt-form-cl">
-<?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class' => 'txt')); ?>
+<?php echo CHtml::activeTextField($content, 'kontaktnoe-litso_8', array('class'=>'txt')); ?>
 <input class="txt" name="inputtext" value="" placeholder=" " type="text">
 </div>
 </div>
@@ -46,12 +46,12 @@
 <input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="">
 <input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="">
 <?php if (!empty($content->nazvanie_8)): ?>
-<?php $i = 0; ?>
+<?php $i=0; ?>
 <?php foreach ($content->nazvanie_8 as $name): ?>
 <?php if (!empty($name)): ?>
-<?php $link = $content->ssyilka_8; ?>
-<?php $file = $content->kartinka_8; ?>
-<?php $file_view = (isset($file[$i][1]))?substr($file[$i], strpos($file[$i], '_', 10) + 1, 40):'' ?>
+<?php $link=$content->ssyilka_8; ?>
+<?php $file=$content->kartinka_8; ?>
+<?php $file_view=(isset($file[$i][1]))?substr($file[$i], strpos($file[$i], '_', 10) + 1, 40):'' ?>
 <div class="spot_action">
 <span class="edit"></span>
 <?php echo CHtml::encode($name) ?><br/>
@@ -65,7 +65,7 @@ value="<?php echo $file[$i] ?>">
 <input class="action_file_view" type="hidden" value="<?php echo CHtml::encode($file_view) ?>">
 </div>
 <?php endif; ?>
-<?php $i = $i + 1; ?>
+<?php $i=$i + 1; ?>
 
 <?php endforeach; ?>
 <?php endif;?>
@@ -101,10 +101,10 @@ rowspan="3"><?php echo Yii::t('account', 'Ближайшие точки прод
 </table>
 
 <?php if (count($content['tochka-nazvanie_8']) > 0): ?>
-<?php $i = 0; ?>
+<?php $i=0; ?>
 <?php foreach ($content['tochka-nazvanie_8'] as $name): ?>
 <?php if (isset($name[1])): ?>
-<?php $karta = $content['tochka-karta_8']; ?>
+<?php $karta=$content['tochka-karta_8']; ?>
 <div class="place">
 <span class="remove"></span>
 <table class="visitInfoTbl" cellspacing="0">
@@ -118,9 +118,9 @@ rowspan="3"><?php echo Yii::t('account', 'Ближайшие точки прод
   $content,
   'tochka-nazvanie_8[]',
   array(
-    'class' => 'txt',
-    'placeholder' => Yii::t('account', 'Название и адрес'),
-    'value' => $name,
+    'class'=>'txt',
+    'placeholder'=>Yii::t('account', 'Название и адрес'),
+    'value'=>$name,
 ));
 ?>
 </div>
@@ -145,7 +145,7 @@ type="text">
 </div>
 <br/>
 <?php endif; ?>
-<?php $i = $i + 1; ?>
+<?php $i=$i + 1; ?>
 <?php endforeach; ?>
 <?php endif;?>
 
@@ -161,8 +161,8 @@ type="text">
   $content,
   'tochka-nazvanie_8[]',
   array(
-    'class' => 'txt',
-    'placeholder' => Yii::t('account', 'Название и адрес'),
+    'class'=>'txt',
+    'placeholder'=>Yii::t('account', 'Название и адрес'),
 ));
 ?>
 </div>
@@ -177,8 +177,8 @@ type="text">
   $content,
   'tochka-karta_8[]',
   array(
-    'class' => 'txt',
-    'placeholder' => Yii::t('account', 'Ссылка на карту'),
+    'class'=>'txt',
+    'placeholder'=>Yii::t('account', 'Ссылка на карту'),
 ));
 ?>
 </div>
@@ -234,12 +234,12 @@ $(function () {
 
 $(function () {
     $('.spot_action span.edit').live("click", function () {
-        var general = $(this).parent();
+        var general=$(this).parent();
         if (general) {
-          var file = general.find('.action_file').val();
-          var file_view = general.find('.action_file_view').val();
-          var name = general.find('.action_name').val().replace(/"/g, "&quot;");
-          var link = general.find('.action_link').val();
+          var file=general.find('.action_file').val();
+          var file_view=general.find('.action_file_view').val();
+          var name=general.find('.action_name').val().replace(/"/g, "&quot;");
+          var link=general.find('.action_link').val();
           
           $.ajax({
               url:'/ajax/getContent',
@@ -275,14 +275,14 @@ $(function () {
 
 $(function () {
     $('#save_action').live("click", function () {
-        var action_name = $('.new_action input.name').val().replace(/"/g, "&quot;");
-        var action_link = $('.new_action input.link').val();
-        var action_file = $('.new_action input.spot_card_file').val();
-        var action_file_view = $('.new_action input.spot_card_file_view').val();
+        var action_name=$('.new_action input.name').val().replace(/"/g, "&quot;");
+        var action_link=$('.new_action input.link').val();
+        var action_file=$('.new_action input.spot_card_file').val();
+        var action_file_view=$('.new_action input.spot_card_file_view').val();
         
-        var action = '';
+        var action='';
         if (action_name || action_link || action_file) {
-          action = '<div class="spot_action"><span class="edit"></span>' +
+          action='<div class="spot_action"><span class="edit"></span>' +
           '<input name="SpotModel[nazvanie_8][]" class="action_name" type="hidden" value="' + action_name + '">' +
           '<input name="SpotModel[kartinka_8][]" class="action_file" type="hidden" value="' + action_file + '">' +
           '<input name="SpotModel[ssyilka_8][]" class="action_link" type="hidden" value="' + action_link + '">' +

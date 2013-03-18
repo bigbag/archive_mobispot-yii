@@ -16,7 +16,7 @@ class UserPersonalField extends CActiveRecord {
    * @param string $className active record class name.
    * @return UserPersonalField the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -35,58 +35,58 @@ class UserPersonalField extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('spot_id', 'required'),
-        array('spot_id', 'numerical', 'integerOnly' => true),
-        array('contacts, social, text', 'length', 'max' => 300),
+        array('spot_id', 'numerical', 'integerOnly'=>true),
+        array('contacts, social, text', 'length', 'max'=>300),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('spot_id, contacts, social, text', 'safe', 'on' => 'search'),
+        array('spot_id, contacts, social, text', 'safe', 'on'=>'search'),
     );
   }
 
   public function getField($spot_id) {
 
-    $data = Yii::app()->cache->get('spot_personal_field_' . $spot_id);
-    if ($data === false) {
-      $field = UserPersonalField::model()->findByPk($spot_id);
+    $data=Yii::app()->cache->get('spot_personal_field_'.$spot_id);
+    if ($data=false) {
+      $field=UserPersonalField::model()->findByPk($spot_id);
 
-      $data = array(9999);
+      $data=array(9999);
       if (!empty($field->contacts))
-        $data = array_merge($data, unserialize($field->contacts));
+        $data=array_merge($data, unserialize($field->contacts));
       if (!empty($field->social))
-        $data = array_merge($data, unserialize($field->social));
+        $data=array_merge($data, unserialize($field->social));
       if (!empty($field->text))
-        $data = array_merge($data, unserialize($field->text));
+        $data=array_merge($data, unserialize($field->text));
     }
     return $data;
   }
 
   public function setField($spot_id, $type_id, $data) {
-    $data = serialize($data);
-    $old_field = UserPersonalField::model()->findByPk($spot_id);
+    $data=serialize($data);
+    $old_field=UserPersonalField::model()->findByPk($spot_id);
 
     if (!$old_field) {
-      $field = new UserPersonalField();
-      $field->spot_id = $spot_id;
+      $field=new UserPersonalField();
+      $field->spot_id=$spot_id;
     }
     else
-      $field = $old_field;
+      $field=$old_field;
 
     switch ($type_id) {
       case (SpotPersonalField::TYPE_CONTACTS):
-        $field->contacts = $data;
+        $field->contacts=$data;
         break;
       case (SpotPersonalField::TYPE_SOCIAL):
-        $field->social = $data;
+        $field->social=$data;
         break;
       case (SpotPersonalField::TYPE_TEXT):
-        $field->text = $data;
+        $field->text=$data;
         break;
     }
     $field->save();
   }
 
   protected function afterSave() {
-    Yii::app()->cache->delete('spot_personal_field_' . $this->spot_id);
+    Yii::app()->cache->delete('spot_personal_field_'.$this->spot_id);
 
     parent::afterSave();
   }
@@ -105,10 +105,10 @@ class UserPersonalField extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'spot_id' => 'Spot',
-        'contacts' => 'Contacts',
-        'social' => 'Social',
-        'text' => 'Text',
+        'spot_id'=>'Spot',
+        'contacts'=>'Contacts',
+        'social'=>'Social',
+        'text'=>'Text',
     );
   }
 
@@ -120,7 +120,7 @@ class UserPersonalField extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('spot_id', $this->spot_id);
     $criteria->compare('contacts', $this->contacts, true);
@@ -128,7 +128,7 @@ class UserPersonalField extends CActiveRecord {
     $criteria->compare('text', $this->text, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
+        'criteria'=>$criteria,
     ));
   }
 

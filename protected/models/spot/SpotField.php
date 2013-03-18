@@ -16,7 +16,7 @@ class SpotField extends CActiveRecord {
    * @param string $className active record class name.
    * @return SpotField the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -35,11 +35,11 @@ class SpotField extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name, desc, widget', 'required'),
-        array('name', 'length', 'max' => 300),
+        array('name', 'length', 'max'=>300),
         array('name', 'unique'),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('field_id, name, desc, widget', 'safe', 'on' => 'search'),
+        array('field_id, name, desc, widget', 'safe', 'on'=>'search'),
     );
   }
 
@@ -57,17 +57,17 @@ class SpotField extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'field_id' => 'ID',
-        'name' => 'Название',
-        'desc' => 'Описание',
-        'widget' => 'Виджет',
+        'field_id'=>'ID',
+        'name'=>'Название',
+        'desc'=>'Описание',
+        'widget'=>'Виджет',
     );
   }
 
   public static function getSpotFields() {
-    $spot_fields = Yii::app()->cache->get('spot_fields');
-    if ($spot_fields === false) {
-      $spot_fields = SpotField::model()->findAll(array('order' => 't.name'));
+    $spot_fields=Yii::app()->cache->get('spot_fields');
+    if ($spot_fields=false) {
+      $spot_fields=SpotField::model()->findAll(array('order'=>'t.name'));
 
       Yii::app()->cache->set('spot_fields', $spot_fields, 36000);
     }
@@ -87,7 +87,7 @@ class SpotField extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('field_id', $this->field_id);
     $criteria->compare('name', $this->name, true);
@@ -95,11 +95,11 @@ class SpotField extends CActiveRecord {
     $criteria->compare('widget', $this->widget, true);
 
     return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
-        'sort' => array('defaultOrder' => 'name')
+        'sort'=>array('defaultOrder'=>'name')
     ));
   }
 

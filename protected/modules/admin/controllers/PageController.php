@@ -2,7 +2,7 @@
 
 class PageController extends Controller {
 
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   /**
    * Displays a particular model.
@@ -10,7 +10,7 @@ class PageController extends Controller {
    */
   public function actionView($id) {
     $this->render('view', array(
-        'model' => $this->loadModel($id),
+        'model'=>$this->loadModel($id),
     ));
   }
 
@@ -19,20 +19,20 @@ class PageController extends Controller {
    * If creation is successful, the browser will be redirected to the 'view' page.
    */
   public function actionCreate() {
-    $model = new Page;
+    $model=new Page;
 
     $this->performAjaxValidation($model);
 
     if (isset($_POST['Page'])) {
-      $model->attributes = $_POST['Page'];
-      $model->user_id = Yii::app()->user->id;
+      $model->attributes=$_POST['Page'];
+      $model->user_id=Yii::app()->user->id;
 
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('create', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -42,20 +42,20 @@ class PageController extends Controller {
    * @param integer $id the ID of the model to be updated
    */
   public function actionUpdate($id) {
-    $model = $this->loadModel($id);
+    $model=$this->loadModel($id);
 
     // Uncomment the following line if AJAX validation is needed
     $this->performAjaxValidation($model);
 
     if (isset($_POST['Page'])) {
-      $model->attributes = $_POST['Page'];
+      $model->attributes=$_POST['Page'];
 
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('update', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -81,35 +81,35 @@ class PageController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $model = new Page('search');
+    $model=new Page('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['Page']))
-      $model->attributes = $_GET['Page'];
+      $model->attributes=$_GET['Page'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
   public function actionImage() {
     if (!empty($_FILES)) {
-      $maxSize = Yii::app()->par->load('pageImageSize');
+      $maxSize=Yii::app()->par->load('pageImageSize');
 
-      $dir = Yii::getPathOfAlias('webroot.uploads.page') . '/';
+      $dir=Yii::getPathOfAlias('webroot.uploads.page').'/';
 
-      $file = md5(date('YmdHis')) . '.jpg';
-      $fileSize = filesize($_FILES['file']['tmp_name']);
+      $file=md5(date('YmdHis')).'.jpg';
+      $fileSize=filesize($_FILES['file']['tmp_name']);
 
       if ($fileSize < $maxSize * 1024) {
-        move_uploaded_file($_FILES['file']['tmp_name'], $dir . $file);
+        move_uploaded_file($_FILES['file']['tmp_name'], $dir.$file);
 
-        $array = array(
-            'filelink' => $this->createUrl('/uploads/page/' . $file)
+        $array=array(
+            'filelink'=>$this->createUrl('/uploads/page/'.$file)
         );
         echo stripslashes(json_encode($array));
       }
       else
-        echo "Размер файла больше допустимого = " . $maxSize * 1024;
+        echo "Размер файла больше допустимого=".$maxSize * 1024;
     }
   }
 
@@ -119,8 +119,8 @@ class PageController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = Page::model()->findByPk($id);
-    if ($model === null)
+    $model=Page::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -130,7 +130,7 @@ class PageController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'page-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='page-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

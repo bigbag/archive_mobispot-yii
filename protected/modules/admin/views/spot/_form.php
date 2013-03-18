@@ -7,9 +7,9 @@
 <div class="form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'id' => 'spot-form',
-      'enableAjaxValidation' => false,
+  $form=$this->beginWidget('CActiveForm', array(
+      'id'=>'spot-form',
+      'enableAjaxValidation'=>false,
   ));
   ?>
 
@@ -29,7 +29,7 @@
     </tr>
     <tr class="odd">
       <th><?php echo $form->labelEx($model, 'spot_type_id'); ?></th>
-      <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType(), 'type_id', 'name'), array('empty' => '')); ?></td>
+      <td><?php echo $form->dropDownList($model, 'spot_type_id', CHtml::listData(SpotType::getSpotType(), 'type_id', 'name'), array('empty'=>'')); ?></td>
     </tr>
     <tr class="even">
       <th>

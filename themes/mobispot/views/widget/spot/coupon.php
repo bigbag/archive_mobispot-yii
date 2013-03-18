@@ -2,7 +2,7 @@
 id="spot_edit_content_<?php echo $content->spot_id?>">
 <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
 <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
-<?php echo CHtml::activeHiddenField($content, 'kupon_4', array('id' => 'spot_coupon_field')); ?>
+<?php echo CHtml::activeHiddenField($content, 'kupon_4', array('id'=>'spot_coupon_field')); ?>
 </form>
 <div class="coupon">
 <?php include('block/_coupon_simple.php'); ?>
@@ -58,9 +58,9 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (file_name) {
             $('#spot_coupon_field').val(file_name);
             $('.coupon-simple .image').html('<img src="/uploads/spot/' + file_name + '" width="321px"  alt="coupon"/>' +
@@ -97,9 +97,9 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (file_name) {
             $('.coupon_logo').val(file_name);
             $('.result_upload').html(file.name + '<i class="icon-large icon-remove"></i>');
@@ -111,7 +111,7 @@ $(function () {
 
 //Генерация купона
 $(document).ready(function () {
-    var options = {
+    var options={
       success:showCouponGenerateResponse,
       clearForm:false,
       url:'/ajax/couponGenerate/'
@@ -124,8 +124,8 @@ $(document).ready(function () {
 });
 
 function showCouponGenerateResponse(responseText) {
-  var obj = jQuery.parseJSON(responseText);
-  var file_name = obj.file;
+  var obj=jQuery.parseJSON(responseText);
+  var file_name=obj.file;
   if (file_name) {
     $('#spot_coupon_field').val(file_name);
     $('.time-form .fright').html('<img src="/uploads/spot/' + file_name + '" alt="coupon"/>');

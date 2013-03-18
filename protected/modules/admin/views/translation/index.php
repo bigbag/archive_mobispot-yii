@@ -1,7 +1,7 @@
-<?php $this->pageTitle = 'Переводы'; ?>
+<?php $this->pageTitle='Переводы'; ?>
 <?php
-$this->breadcrumbs = array(
-    'Админка' => array('/admin/'),
+$this->breadcrumbs=array(
+    'Админка'=>array('/admin/'),
     'Содержимое',
     'Переводы',
     'Управление',
@@ -13,15 +13,15 @@ $this->breadcrumbs = array(
 
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'translation-grid',
-    'dataProvider' => $model->search(),
-    'filter' => $model,
-    'columns' => array(
+    'id'=>'translation-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>$model,
+    'columns'=>array(
         'name',
         'desc',
         array(
-            'class' => 'CButtonColumn',
-            'template' => '{update}',
+            'class'=>'CButtonColumn',
+            'template'=>'{update}',
         ),
     ),
 ));

@@ -7,7 +7,7 @@
 <div class="ten columns">
 <?php echo CHtml::activeTextField($content, 'poyasneniya_9',
   array(
-    'placeholder' => Yii::t('account', 'Введите здесь поясняющий текст к Вашему споту'),
+    'placeholder'=>Yii::t('account', 'Введите здесь поясняющий текст к Вашему споту'),
 )); ?>
 </div>
 </div>

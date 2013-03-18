@@ -17,7 +17,7 @@ class LoginCaptchaForm extends CFormModel {
         // email and password are required
         array('email', 'required'),
         array('email', 'email'),
-        array('email, password', 'filter', 'filter' => 'trim'),
+        array('email, password', 'filter', 'filter'=>'trim'),
         array('code', 'captcha'),
         // rememberMe needs to be a boolean
         array('rememberMe', 'boolean'),
@@ -31,9 +31,9 @@ class LoginCaptchaForm extends CFormModel {
    */
   public function attributeLabels() {
     return array(
-        'rememberMe' => Yii::t('user', "Remember me next time"),
-        'email' => Yii::t('user', "E-mail"),
-        'password' => Yii::t('user', "password"),
+        'rememberMe'=>Yii::t('user', "Remember me next time"),
+        'email'=>Yii::t('user', "E-mail"),
+        'password'=>Yii::t('user', "password"),
     );
   }
 
@@ -43,11 +43,11 @@ class LoginCaptchaForm extends CFormModel {
    */
   public function authenticate($attribute, $params) {
     if (!$this->hasErrors()) { // we only want to authenticate when no input errors
-      $identity = new UserIdentity($this->email, $this->password);
+      $identity=new UserIdentity($this->email, $this->password);
       $identity->authenticate();
       switch ($identity->errorCode) {
         case UserIdentity::ERROR_NONE:
-          $duration = $this->rememberMe ? 3600 * 24 * 30 : 0; // 30 days
+          $duration=$this->rememberMe ? 3600 * 24 * 30 : 0; // 30 days
           Yii::app()->user->login($identity, $duration);
           break;
         case UserIdentity::ERROR_EMAIL_INVALID:

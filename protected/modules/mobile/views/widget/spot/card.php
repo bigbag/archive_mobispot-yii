@@ -19,10 +19,10 @@
   <div class="grayAllBlock rad6 shadow">
     <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Интересные предложение'); ?></div>
     <?php if (!empty($content->nazvanie_8)): ?>
-      <?php $i = 0; ?>
+      <?php $i=0; ?>
       <?php foreach ($content->nazvanie_8 as $name): ?>
-        <?php $link = $content->ssyilka_8; ?>
-        <?php $file = $content->kartinka_8; ?>
+        <?php $link=$content->ssyilka_8; ?>
+        <?php $file=$content->kartinka_8; ?>
 
         <?php if (!empty($file[$i])): ?>
           <img src="/uploads/spot/<?php echo $file[$i] ?>" class="fleft" alt="" width="100%"/>
@@ -37,7 +37,7 @@
           </div>
         <?php endif; ?>
 
-        <?php $i = $i + 1; ?>
+        <?php $i=$i + 1; ?>
       <?php endforeach; ?>
     <?php endif; ?>
 
@@ -47,10 +47,10 @@
     <div class="infoViz proc100 clr txtFLeft">
 
       <?php if (count($content['tochka-nazvanie_8']) > 0): ?>
-        <?php $i = 0; ?>
+        <?php $i=0; ?>
         <?php foreach ($content['tochka-nazvanie_8'] as $name): ?>
           <?php if (isset($name[1])): ?>
-            <?php $karta = $content['tochka-karta_8']; ?>
+            <?php $karta=$content['tochka-karta_8']; ?>
             <p><?php echo CHtml::encode($name); ?></p>
             <?php if (!empty($karta[$i])): ?>
               <p><a href="<?php echo YText::formatUrl($karta[$i]) ?>"
@@ -58,7 +58,7 @@
                 </a></p><br/>
             <?php endif; ?>
           <?php endif; ?>
-          <?php $i = $i + 1; ?>
+          <?php $i=$i + 1; ?>
         <?php endforeach; ?>
       <?php endif; ?>
     </div>

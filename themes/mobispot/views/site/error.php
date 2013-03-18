@@ -1,6 +1,6 @@
 <?php
-$this->pageTitle = 'Error';
-$this->breadcrumbs = array(
+$this->pageTitle='Error';
+$this->breadcrumbs=array(
   'Error',
 );
 ?>

@@ -13,8 +13,8 @@ class UserChangePassword extends CFormModel {
   public function rules() {
     return array(
         array('password, verifyPassword', 'required'),
-        array('password', 'length', 'max' => 128, 'min' => 5, 'message' => Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
-        array('verifyPassword', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', "Retype Password is incorrect.")),
+        array('password', 'length', 'max'=>128, 'min'=>5, 'message'=>Yii::t('user', "Incorrect password (minimal length 5 symbols).")),
+        array('verifyPassword', 'compare', 'compareAttribute'=>'password', 'message'=>Yii::t('user', "Retype Password is incorrect.")),
     );
   }
 
@@ -23,8 +23,8 @@ class UserChangePassword extends CFormModel {
    */
   public function attributeLabels() {
     return array(
-        'password' => Yii::t('user', "password"),
-        'verifyPassword' => Yii::t('user', "Retype Password"),
+        'password'=>Yii::t('user', "password"),
+        'verifyPassword'=>Yii::t('user', "Retype Password"),
     );
   }
 

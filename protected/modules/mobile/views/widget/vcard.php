@@ -4,10 +4,10 @@ FN:<?php echo $content->imya_3; ?><? echo "\r\n" ?>
 N:<?php echo $content->imya_3; ?><? echo "\r\n" ?>
 <?php if (!empty($content->fotografiya_3)): ?>
   PHOTO;ENCODING=BASE64;JPEG:<?php
-  $filename = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $content['fotografiya_3'];
+  $filename=Yii::getPathOfAlias('webroot.uploads.spot.').'/'.$content['fotografiya_3'];
   if (fopen($filename, "rb")) {
-    $handle = fopen($filename, "rb");
-    $img = fread($handle, filesize($filename));
+    $handle=fopen($filename, "rb");
+    $img=fread($handle, filesize($filename));
     fclose($handle);
     echo base64_encode($img);
   }

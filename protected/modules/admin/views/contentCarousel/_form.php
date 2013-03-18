@@ -7,9 +7,9 @@
 <div class="form">
 
   <?php
-  $form = $this->beginWidget('CActiveForm', array(
-      'id' => 'content-carousel-form',
-      'enableAjaxValidation' => false,
+  $form=$this->beginWidget('CActiveForm', array(
+      'id'=>'content-carousel-form',
+      'enableAjaxValidation'=>false,
   ));
   ?>
 
@@ -19,13 +19,13 @@
 
   <div class="row">
     <?php echo $form->labelEx($model, 'name'); ?>
-    <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 150)); ?>
+    <?php echo $form->textField($model, 'name', array('size'=>60, 'maxlength'=>150)); ?>
     <?php echo $form->error($model, 'name'); ?>
   </div>
 
   <div class="row">
     <?php echo $form->labelEx($model, 'desc'); ?>
-    <?php echo $form->textArea($model, 'desc', array('rows' => 6, 'cols' => 50)); ?>
+    <?php echo $form->textArea($model, 'desc', array('rows'=>6, 'cols'=>50)); ?>
     <?php echo $form->error($model, 'desc'); ?>
   </div>
   <div class="row">

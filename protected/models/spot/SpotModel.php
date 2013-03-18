@@ -15,25 +15,25 @@ class SpotModel extends EMongoSoftDocument {
     return 'spot';
   }
 
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
   public function indexes() {
     return array(
-        'users_index' => array(
-            'key' => array(
-                'user_id' => EMongoCriteria::SORT_ASC,
-                'user_id.embeded_field' => EMongoCriteria::SORT_DESC
+        'users_index'=>array(
+            'key'=>array(
+                'user_id'=>EMongoCriteria::SORT_ASC,
+                'user_id.embeded_field'=>EMongoCriteria::SORT_DESC
             ),
-            'unique' => false,
+            'unique'=>false,
         ),
-        'spot_index' => array(
-            'key' => array(
-                'spot_id' => EMongoCriteria::SORT_ASC,
-                'spot_id.embeded_field' => EMongoCriteria::SORT_DESC
+        'spot_index'=>array(
+            'key'=>array(
+                'spot_id'=>EMongoCriteria::SORT_ASC,
+                'spot_id.embeded_field'=>EMongoCriteria::SORT_DESC
             ),
-            'unique' => false,
+            'unique'=>false,
         ),
     );
   }
@@ -45,24 +45,24 @@ class SpotModel extends EMongoSoftDocument {
   }
 
   public function setField($obj, $data) {
-    foreach ($data as $key => $value) {
-      $obj->{$key} = $value;
+    foreach ($data as $key=>$value) {
+      $obj->{$key}=$value;
     }
     return $obj;
   }
 
   public function getContent($lang, $spot_id, $user_id, $spot_type_id) {
 
-    $content = SpotModel::model()->findByAttributes(array('spot_id' => $spot_id, 'spot_type_id' => $spot_type_id));
+    $content=SpotModel::model()->findByAttributes(array('spot_id'=>$spot_id, 'spot_type_id'=>$spot_type_id));
     if (!$content) {
-      $model = new SpotModel();
-      $model->lang = $lang;
-      $model->spot_id = $spot_id;
-      $model->user_id = $user_id;
-      $model->spot_type_id = $spot_type_id;
+      $model=new SpotModel();
+      $model->lang=$lang;
+      $model->spot_id=$spot_id;
+      $model->user_id=$user_id;
+      $model->spot_type_id=$spot_type_id;
       $model->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($spot_type_id));
       $model->save();
-      $content = $model;
+      $content=$model;
     }
     return $content;
   }

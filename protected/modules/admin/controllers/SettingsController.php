@@ -6,27 +6,27 @@ class SettingsController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   /**
    * Creates a new model.
    * If creation is successful, the browser will be redirected to the 'view' page.
    */
   public function actionCreate() {
-    $model = new Settings;
+    $model=new Settings;
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
 
     if (isset($_POST['Settings'])) {
-      $model->attributes = $_POST['Settings'];
+      $model->attributes=$_POST['Settings'];
 
       if ($model->save())
         $this->redirect(array('index'));
     }
 
     $this->render('create', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -36,13 +36,13 @@ class SettingsController extends Controller {
    * @param integer $id the ID of the model to be updated
    */
   public function actionUpdate($id) {
-    $model = $this->loadModel($id);
+    $model=$this->loadModel($id);
 
     // Uncomment the following line if AJAX validation is needed
     // $this->performAjaxValidation($model);
 
     if (isset($_POST['Settings'])) {
-      $model->attributes = $_POST['Settings'];
+      $model->attributes=$_POST['Settings'];
       Yii::app()->cache->delete($model->name);
 
       if ($model->save())
@@ -50,7 +50,7 @@ class SettingsController extends Controller {
     }
 
     $this->render('update', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -76,13 +76,13 @@ class SettingsController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $model = new Settings('search');
+    $model=new Settings('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['Settings']))
-      $model->attributes = $_GET['Settings'];
+      $model->attributes=$_GET['Settings'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -92,8 +92,8 @@ class SettingsController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = Settings::model()->findByPk($id);
-    if ($model === null)
+    $model=Settings::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -103,7 +103,7 @@ class SettingsController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'settings-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='settings-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

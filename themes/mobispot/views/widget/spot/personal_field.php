@@ -22,15 +22,15 @@
 <li>
 <?php if (in_array($row['id'], $select_field)): ?>
 <?php echo CHtml::checkBox(
-  'Fields[' . $row['id'] . ']',
-  $checked = true,
-  array('class' => 'niceCheck',
+  'Fields['.$row['id'].']',
+  $checked=true,
+  array('class'=>'niceCheck',
 )); ?>
 <?php else: ?>
 <?php echo CHtml::checkBox(
-  'Fields[' . $row['id'] . ']',
-  $checked = false,
-  array('class' => 'niceCheck',
+  'Fields['.$row['id'].']',
+  $checked=false,
+  array('class'=>'niceCheck',
 )); ?>
 <?php endif;?>
 
@@ -49,7 +49,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#personal').click(function () {
-        var id = $('#personal a').attr("href");
+        var id=$('#personal a').attr("href");
         
         if (id) {
           $.ajax({
@@ -73,7 +73,7 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    var options = {
+    var options={
       success:showFieldResponse,
       clearForm:false,
       url:'/ajax/spotPersonalField/'
@@ -86,7 +86,7 @@ $(document).ready(function () {
 });
 
 function showFieldResponse(responseText) {
-  if (responseText == 1) {
+  if (responseText==1) {
     $('span.message').text('<?php echo Yii::t('account', 'Изменения успешно сохранены.')?>');
     $('span.message').show();
     setTimeout(function () {

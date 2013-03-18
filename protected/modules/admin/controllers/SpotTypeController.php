@@ -6,7 +6,7 @@ class SpotTypeController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   /**
    * Specifies the access control rules.
@@ -19,32 +19,32 @@ class SpotTypeController extends Controller {
    * If creation is successful, the browser will be redirected to the 'view' page.
    */
   public function actionCreate() {
-    $model = new SpotType;
+    $model=new SpotType;
 
-    $fields = false;
+    $fields=false;
 
     if (isset($_POST['SpotType'])) {
-      $model->attributes = $_POST['SpotType'];
+      $model->attributes=$_POST['SpotType'];
 
       if ($_POST['SpotType']['fields']['name'][0] and $_POST['SpotType']['fields']['field_id'][0]) {
-        $fields = array();
-        $name = $_POST['SpotType']['fields']['name'];
-        $field_id = $_POST['SpotType']['fields']['field_id'];
-        $i = 0;
+        $fields=array();
+        $name=$_POST['SpotType']['fields']['name'];
+        $field_id=$_POST['SpotType']['fields']['field_id'];
+        $i=0;
         foreach ($field_id as $row) {
           if (isset($name[$i][1]))
-            $fields[$name[$i]] = $row;
+            $fields[$name[$i]]=$row;
           $i++;
         }
 
-        foreach ($fields as $key => $value) {
-          $field = new SpotLinkTypeField();
-          $field->name = $key;
-          $field->field_id = $value;
-          $model->fields[] = $field;
+        foreach ($fields as $key=>$value) {
+          $field=new SpotLinkTypeField();
+          $field->name=$key;
+          $field->field_id=$value;
+          $model->fields[]=$field;
         }
         if ($fields) {
-          $model->fields_flag = count($fields);
+          $model->fields_flag=count($fields);
         }
       }
 
@@ -52,10 +52,10 @@ class SpotTypeController extends Controller {
         $this->redirect(array('index'));
     }
 
-    $model->fields = $fields;
+    $model->fields=$fields;
 
     $this->render('create', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -65,36 +65,36 @@ class SpotTypeController extends Controller {
    * @param integer $id the ID of the model to be updated
    */
   public function actionUpdate($id) {
-    $model = $this->loadModel($id);
+    $model=$this->loadModel($id);
 
-    $type_fields = SpotLinkTypeField::getSpotTypeField($id);
-    $fields = array();
+    $type_fields=SpotLinkTypeField::getSpotTypeField($id);
+    $fields=array();
     foreach ($type_fields as $row) {
-      $fields[$row->name] = $row->field_id;
+      $fields[$row->name]=$row->field_id;
     }
 
     if (isset($_POST['SpotType'])) {
-      $model->attributes = $_POST['SpotType'];
+      $model->attributes=$_POST['SpotType'];
 
       if ($_POST['SpotType']['fields']['name'][0] and $_POST['SpotType']['fields']['field_id'][0]) {
-        $fields = array();
-        $name = $_POST['SpotType']['fields']['name'];
-        $field_id = $_POST['SpotType']['fields']['field_id'];
-        $i = 0;
+        $fields=array();
+        $name=$_POST['SpotType']['fields']['name'];
+        $field_id=$_POST['SpotType']['fields']['field_id'];
+        $i=0;
         foreach ($field_id as $row) {
           if (isset($name[$i][1]))
-            $fields[$name[$i]] = $row;
+            $fields[$name[$i]]=$row;
           $i++;
         }
 
-        foreach ($fields as $key => $value) {
-          $field = new SpotLinkTypeField();
-          $field->name = $key;
-          $field->field_id = $value;
-          $model->fields[] = $field;
+        foreach ($fields as $key=>$value) {
+          $field=new SpotLinkTypeField();
+          $field->name=$key;
+          $field->field_id=$value;
+          $model->fields[]=$field;
         }
         if ($fields) {
-          $model->fields_flag = count($fields);
+          $model->fields_flag=count($fields);
         }
       }
 
@@ -102,9 +102,9 @@ class SpotTypeController extends Controller {
         $this->redirect(array('index'));
       }
     }
-    $model->fields = $fields;
+    $model->fields=$fields;
     $this->render('update', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -125,13 +125,13 @@ class SpotTypeController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $model = new SpotType('search');
+    $model=new SpotType('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['SpotType']))
-      $model->attributes = $_GET['SpotType'];
+      $model->attributes=$_GET['SpotType'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -141,8 +141,8 @@ class SpotTypeController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = SpotType::model()->findByPk($id);
-    if ($model === null)
+    $model=SpotType::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -152,7 +152,7 @@ class SpotTypeController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'spot-type-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='spot-type-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

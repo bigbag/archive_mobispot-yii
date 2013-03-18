@@ -1,4 +1,4 @@
-<?php $all_lang = Lang::getLangArray()?>
+<?php $all_lang=Lang::getLangArray()?>
 
 <div class="center-rel">
     <div id="sel-lang">
@@ -28,7 +28,7 @@
                 <?php include('auth.php'); ?>
             </form>
             <?php else: ?>
-            <?php $user_info = $this->userInfo(); ?>
+            <?php $user_info=$this->userInfo(); ?>
             <div id="auth-on">
                 <span id="auth-user-name"><?php echo $user_info->name;?></span>
 

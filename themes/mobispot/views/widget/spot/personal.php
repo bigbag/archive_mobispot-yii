@@ -1,5 +1,5 @@
-<?php $photo_gallery = UserPersonalPhoto::getPhoto(Yii::app()->user->id)?>
-<?php $select_field = UserPersonalField::getField($data->discodes_id); ?>
+<?php $photo_gallery=UserPersonalPhoto::getPhoto(Yii::app()->user->id)?>
+<?php $select_field=UserPersonalField::getField($data->discodes_id); ?>
 
 <div class="contSpot" id="spot_content_<?php echo $data->discodes_id;?>">
 <span class="message" id="message_<?php echo $data->discodes_id;?>"></span>
@@ -19,13 +19,13 @@ form="spot_edit_content_<?php echo $data->discodes_id;?>"/></div>
 <?php echo CHtml::activeHiddenField($content, 'spot_id'); ?>
 <?php echo CHtml::activeHiddenField($content, 'spot_type_id'); ?>
 <div class="yourPhoto">
-<?php echo CHtml::activeHiddenField($content, 'fotografiya_3', array('id' => 'personal_photo')); ?>
+<?php echo CHtml::activeHiddenField($content, 'fotografiya_3', array('id'=>'personal_photo')); ?>
 <div class="photo-cont">
 <?php if (!empty($content->fotografiya_3)): ?>
 <img width="130" src="/uploads/spot/<?php echo $content->fotografiya_3?>" alt="personal"/>
 <?php else: ?>
-<?php $profile = UserProfile::model()->findByPk($content->user_id)?>
-<?php if ($profile->use_photo == 1 and (!empty($profile->photo))):?>
+<?php $profile=UserProfile::model()->findByPk($content->user_id)?>
+<?php if ($profile->use_photo==1 and (!empty($profile->photo))):?>
 <img width="130" src="/uploads/images/<?php echo $profile->photo?>" alt="personal"/>
 <?php else:?>
 <img width="130" src="/themes/mobispot/images/personal_no_photo.jpg" alt="personal"/>
@@ -47,7 +47,7 @@ value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
 <div class="yourName">
 <div class="txt-form">
 <div class="txt-form-cl">
-<?php echo CHtml::activeTextField($content, 'imya_3', array('placeholder' => 'Your Name', 'class' => 'txt')); ?>
+<?php echo CHtml::activeTextField($content, 'imya_3', array('placeholder'=>'Your Name', 'class'=>'txt')); ?>
 </div>
 </div>
 </div>
@@ -62,11 +62,11 @@ value="<?php echo Yii::t('profile', 'Загрузить');?>"/>
 height="23"> </span>
 <?php echo CHtml::activeTextField(
   $content,
-  'kontaktyi_3[' . $row['id'] . ']',
+  'kontaktyi_3['.$row['id'].']',
   array(
-    'placeholder' => $row['placeholder'],
-    'class' => 'txt',
-    'maxlength' => 60,
+    'placeholder'=>$row['placeholder'],
+    'class'=>'txt',
+    'maxlength'=>60,
 )); ?>
 </div>
 </div>
@@ -90,11 +90,11 @@ height="23"> </span>
 height="23"> </span>
 <?php echo CHtml::activeTextField(
   $content,
-  'sotsseti_3[' . $row['id'] . ']',
+  'sotsseti_3['.$row['id'].']',
   array(
-    'placeholder' => $row['placeholder'],
-    'class' => 'txt',
-    'maxlength' => 60,
+    'placeholder'=>$row['placeholder'],
+    'class'=>'txt',
+    'maxlength'=>60,
 )); ?>
 </div>
 </div>
@@ -120,11 +120,11 @@ height="23"> </span>
 <div class="txt-form-cl">
 <?php echo CHtml::activeTextField(
   $content,
-  'opisanie_3[' . $row['id'] . ']',
+  'opisanie_3['.$row['id'].']',
   array(
-    'placeholder' => $row['placeholder'],
-    'class' => 'txt',
-    'maxlength' => 150,
+    'placeholder'=>$row['placeholder'],
+    'class'=>'txt',
+    'maxlength'=>150,
 )); ?>
 </div>
 </div>
@@ -187,7 +187,7 @@ class="niceCheck">
 <span id="numPhoto">3/10</span>
 <a href="" id="left" class="navGallery"></a>
 <a href="" id="right" class="navGallery"></a>
-<?php foreach (UserPersonalPhoto::getPhoto(Yii::app()->user->id) as $key => $value): ?>
+<?php foreach (UserPersonalPhoto::getPhoto(Yii::app()->user->id) as $key=>$value): ?>
 
 
 <?php endforeach;?>
@@ -228,8 +228,8 @@ $('input.txt').bind('blur', function () {
 
 $(document).ready(function () {
     $('.add_field').click(function () {
-        var id = <?php echo $data->discodes_id;?>;
-        var type_id = $(this).children('a').attr("href");
+        var id=<?php echo $data->discodes_id;?>;
+        var type_id=$(this).children('a').attr("href");
         
         if (id && type_id) {
           $.ajax({
@@ -275,9 +275,9 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (file_name) {
             $('#personal_photo').val(file_name);
             $('.photo-cont').html('<img width="130" src="/uploads/spot/' + file_name + '" />');

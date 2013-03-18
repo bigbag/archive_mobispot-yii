@@ -15,10 +15,10 @@ class AdminModule extends CWebModule {
 
   public function beforeControllerAction($controller, $action) {
     if (parent::beforeControllerAction($controller, $action)) {
-      $user = false;
+      $user=false;
 
       if (isset(Yii::app()->user->id))
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user=User::model()->findByPk(Yii::app()->user->id);
 
       if (!$user or ($user and $user->type != User::TYPE_ADMIN)) {
         throw new CHttpException(403, Yii::t('user', 'You are not allowed to perform this action.'));

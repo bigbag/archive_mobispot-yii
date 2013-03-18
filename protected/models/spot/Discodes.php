@@ -10,32 +10,32 @@
  */
 class Discodes extends CActiveRecord {
 
-  const PREMIUM_NO = 0;
-  const PREMIUM_YES = 1;
-  const STATUS_INIT = 0;
-  const STATUS_GENERATED = 1;
+  const PREMIUM_NO=0;
+  const PREMIUM_YES=1;
+  const STATUS_INIT=0;
+  const STATUS_GENERATED=1;
 
   public function getPremiumList() {
     return array(
-        self::PREMIUM_NO => 'Обычный',
-        self::PREMIUM_YES => 'Красивый',
+        self::PREMIUM_NO=>'Обычный',
+        self::PREMIUM_YES=>'Красивый',
     );
   }
 
   public function getStatusList() {
     return array(
-        self::STATUS_INIT => 'Чистый',
-        self::STATUS_GENERATED => 'Сгенерирован',
+        self::STATUS_INIT=>'Чистый',
+        self::STATUS_GENERATED=>'Сгенерирован',
     );
   }
 
   public function getPremium() {
-    $data = $this->getPremiumList();
+    $data=$this->getPremiumList();
     return $data[$this->premium];
   }
 
   public function getStatus() {
-    $data = $this->getStatusList();
+    $data=$this->getStatusList();
     return $data[$this->status];
   }
 
@@ -44,7 +44,7 @@ class Discodes extends CActiveRecord {
    * @param string $className active record class name.
    * @return Discodes the static model class
    */
-  public static function model($className = __CLASS__) {
+  public static function model($className=__CLASS__) {
     return parent::model($className);
   }
 
@@ -63,12 +63,12 @@ class Discodes extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('id, premium', 'required'),
-        array('id, status, premium', 'numerical', 'integerOnly' => true),
-        array('premium', 'in', 'range' => array_keys($this->getPremiumList())),
-        array('status', 'in', 'range' => array_keys($this->getStatusList())),
+        array('id, status, premium', 'numerical', 'integerOnly'=>true),
+        array('premium', 'in', 'range'=>array_keys($this->getPremiumList())),
+        array('status', 'in', 'range'=>array_keys($this->getStatusList())),
         // The following rule is used by search().
         // Please remove those attributes that should not be searched.
-        array('id, status, premium', 'safe', 'on' => 'search'),
+        array('id, status, premium', 'safe', 'on'=>'search'),
     );
   }
 
@@ -86,9 +86,9 @@ class Discodes extends CActiveRecord {
    */
   public function attributeLabels() {
     return array(
-        'id' => 'ID',
-        'status' => 'Статус',
-        'premium' => 'Премиум',
+        'id'=>'ID',
+        'status'=>'Статус',
+        'premium'=>'Премиум',
     );
   }
 
@@ -100,18 +100,18 @@ class Discodes extends CActiveRecord {
     // Warning: Please modify the following code to remove attributes that
     // should not be searched.
 
-    $criteria = new CDbCriteria;
+    $criteria=new CDbCriteria;
 
     $criteria->compare('id', $this->id);
     $criteria->compare('status', $this->status);
     $criteria->compare('premium', $this->premium);
 
     return new CActiveDataProvider(get_class($this), array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 30,
+        'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>30,
         ),
-        'sort' => array('defaultOrder' => 'id ASC',)
+        'sort'=>array('defaultOrder'=>'id ASC',)
     ));
   }
 

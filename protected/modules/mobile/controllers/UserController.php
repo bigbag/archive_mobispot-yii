@@ -2,16 +2,16 @@
 
 class UserController extends MController {
 
-  public $layout = '//layouts/mobile';
+  public $layout='//layouts/mobile';
 
   public function actionIndex() {
     if (Yii::app()->user->isGuest) {
-      $form = new LoginForm;
+      $form=new LoginForm;
       if (isset($_POST['LoginForm'])) {
-        $form->attributes = $_POST['LoginForm'];
-        $form->rememberMe = true;
+        $form->attributes=$_POST['LoginForm'];
+        $form->rememberMe=true;
         if ($form->validate()) {
-          $identity = new UserIdentity($form->email, $form->password);
+          $identity=new UserIdentity($form->email, $form->password);
           if ($identity->authenticate()) {
             Yii::app()->user->login($identity);
             $this->lastVisit();
@@ -19,7 +19,7 @@ class UserController extends MController {
           }
         }
       }
-      $this->render('index', array('form' => $form)
+      $this->render('index', array('form'=>$form)
       );
     }
     else
@@ -30,16 +30,16 @@ class UserController extends MController {
     if (!Yii::app()->user->id) {
       $this->setAccess();
     } else {
-      $user_id = Yii::app()->user->id;
-      $user = User::model()->findByPk($user_id);
+      $user_id=Yii::app()->user->id;
+      $user=User::model()->findByPk($user_id);
 
       if ($user->status == User::STATUS_ACTIVE)
         $this->redirect('/');
-      $model = Spot::model()->used()->findAllByAttributes(array('user_id' => Yii::app()->user->id));
+      $model=Spot::model()->used()->findAllByAttributes(array('user_id'=>Yii::app()->user->id));
 
       $this->render('account', array(
-          'model' => $model,
-          'spot_type_all' => SpotType::getSpotTypeArray(),
+          'model'=>$model,
+          'spot_type_all'=>SpotType::getSpotTypeArray(),
       ));
     }
 

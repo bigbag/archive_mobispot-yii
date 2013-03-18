@@ -11,8 +11,8 @@ class QuestionForm extends CFormModel {
         // email and password are required
         array('email, name, question', 'required'),
         array('email', 'email'),
-        array('email, name, question', 'filter', 'filter' => 'trim'),
-        array('name, question', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
+        array('email, name, question', 'filter', 'filter'=>'trim'),
+        array('name, question', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
     );
   }
 

@@ -6,7 +6,7 @@ class SpotCommentController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/admin_column2';
+  public $layout='//layouts/admin_column2';
 
   /**
    * Displays a particular model.
@@ -14,7 +14,7 @@ class SpotCommentController extends Controller {
    */
   public function actionView($id) {
     $this->render('view', array(
-        'model' => $this->loadModel($id),
+        'model'=>$this->loadModel($id),
     ));
   }
 
@@ -36,13 +36,13 @@ class SpotCommentController extends Controller {
    */
   public function actionIndex() {
 
-    $model = new SpotComment('search');
+    $model=new SpotComment('search');
     $model->unsetAttributes(); // clear any default values
     if (isset($_GET['SpotComment']))
-      $model->attributes = $_GET['SpotComment'];
+      $model->attributes=$_GET['SpotComment'];
 
     $this->render('index', array(
-        'model' => $model,
+        'model'=>$model,
     ));
   }
 
@@ -52,8 +52,8 @@ class SpotCommentController extends Controller {
    * @param integer the ID of the model to be loaded
    */
   public function loadModel($id) {
-    $model = SpotComment::model()->findByPk($id);
-    if ($model === null)
+    $model=SpotComment::model()->findByPk($id);
+    if ($model===null)
       throw new CHttpException(404, 'The requested page does not exist.');
     return $model;
   }
@@ -63,7 +63,7 @@ class SpotCommentController extends Controller {
    * @param CModel the model to be validated
    */
   protected function performAjaxValidation($model) {
-    if (isset($_POST['ajax']) && $_POST['ajax'] === 'spot-comment-form') {
+    if (isset($_POST['ajax']) && $_POST['ajax']==='spot-comment-form') {
       echo CActiveForm::validate($model);
       Yii::app()->end();
     }

@@ -1,7 +1,7 @@
 <div class="text-center">
 <?php $this->widget('CCaptcha', array(
-    'clickableImage' => true,
-    'showRefreshButton' => false,
+    'clickableImage'=>true,
+    'showRefreshButton'=>false,
 ));?>
 </div>
 

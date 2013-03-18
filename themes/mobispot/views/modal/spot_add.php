@@ -22,10 +22,10 @@ echo CHtml::dropDownList(
   '',
   Spot::getAllSpot(),
   array(
-    'ng-required' => true,
-    'ng-model' => 'type',
-    'style' => 'width: 225px',
-    'class' => 'spot_type',
+    'ng-required'=>true,
+    'ng-model'=>'type',
+    'style'=>'width: 225px',
+    'class'=>'spot_type',
   )
 );
 ?>

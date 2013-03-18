@@ -2,7 +2,7 @@
 <?php echo Yii::t('account', 'Загрузите в этот спот любой графический файл (pdf, jpg, png, gif), и пользователи,<br />
 отсканировавшие Ваш спот увидят его в браузере своего мобильного телефона.');?>
 </p>
-<?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id' => 'spot_file_field')); ?>
+<?php echo CHtml::activeHiddenField($content, 'fayl_6', array('id'=>'spot_file_field')); ?>
 <div class="send">
 <button class="m-button add_file">
 <i class="icon-upload"></i>&nbsp;<?php echo Yii::t('account', 'Загрузить');?>
@@ -11,7 +11,7 @@
 
 <div class="result_upload">
 <?php if (!empty($content->fayl_6)): ?>
-<?php $file_name = explode('_', $content->fayl_6) ?>
+<?php $file_name=explode('_', $content->fayl_6) ?>
 <?php echo $file_name[2]; ?><span class="cancel"></span>
 <?php endif; ?>
 </div>
@@ -43,9 +43,9 @@ $(function () {
           $('#messages_modal').reveal({animation:'none'});
         },
         'onUploadComplete':function (file, data, response) {
-          var obj = jQuery.parseJSON(data);
-          var file_name = obj.file;
-          var error = obj.error;
+          var obj=jQuery.parseJSON(data);
+          var file_name=obj.file;
+          var error=obj.error;
           if (error) alert(error);
           if (file_name) {
             $('#spot_file_field').val(file_name);

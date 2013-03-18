@@ -1,5 +1,5 @@
-<?php $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('user', "Registration");
-$this->breadcrumbs = array(
+<?php $this->pageTitle=Yii::app()->name.' - '.Yii::t('user', "Registration");
+$this->breadcrumbs=array(
   Yii::t('user', "Registration"),
 );
 ?>
@@ -13,9 +13,9 @@ $this->breadcrumbs = array(
 <?php else: ?>
 
 <div class="form">
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'registration-form',
-    'enableAjaxValidation' => true,
+<?php $form=$this->beginWidget('CActiveForm', array(
+    'id'=>'registration-form',
+    'enableAjaxValidation'=>true,
 )); ?>
 
 <p class="note"><?php echo Yii::t('user', 'Fields with <span class="required">*</span> are required.'); ?></p>
