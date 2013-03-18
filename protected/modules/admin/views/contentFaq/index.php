@@ -13,11 +13,12 @@ $this->menu = array(
 ?>
 
 <h1>Управление ответами</h1>
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'content-faq-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'content-faq-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
         'question',
         array(
             'name' => 'lang',
@@ -26,8 +27,9 @@ $this->menu = array(
             'filter' => Lang::getLangArray(),
         ),
         array(
-            'class'=>'CButtonColumn',
+            'class' => 'CButtonColumn',
             'template' => '{update} {delete}'
         ),
     ),
-)); ?>
+));
+?>

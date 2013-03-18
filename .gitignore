@@ -26,6 +26,12 @@ protected/modules/mobile/MobileModule.php
 /stats/*
 protected/controllers/SpotController.php
 protected/messages
+<<<<<<< HEAD
 /mobispot.*
 .phptidy-cache
 
+=======
+mobispot.sublime*
+.phptidy-cache
+robot.txt
+>>>>>>> 040c397fee684d46eb652d3c15e72410fdc528e4

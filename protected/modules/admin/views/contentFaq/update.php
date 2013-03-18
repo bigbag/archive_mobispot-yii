@@ -16,4 +16,4 @@ $this->menu = array(
 
 <h1>Редактировать ответ на вопрос "<?php echo $model->question; ?>"</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>

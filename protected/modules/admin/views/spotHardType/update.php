@@ -10,8 +10,8 @@ $this->breadcrumbs = array(
 $this->menu = array(
     array('label' => 'Добавить тип', 'url' => array('create')),
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array(
-        'submit' => array('delete', 'id' => $model->id),
-        'confirm' => 'Вы уверены что хотите данный тип?')),
+            'submit' => array('delete', 'id' => $model->id),
+            'confirm' => 'Вы уверены что хотите данный тип?')),
 );
 ?>
 

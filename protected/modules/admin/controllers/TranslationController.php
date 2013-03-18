@@ -1,75 +1,71 @@
 <?php
 
-class TranslationController extends Controller
-{
-    public $layout = '//layouts/admin_column1';
+class TranslationController extends Controller {
 
-    public function actionIndex()
-    {
-        $model = new ContentTranslation('search');
-        $model->unsetAttributes(); // clear any default values
-        if (isset($_GET['ContentTranslation']))
-            $model->attributes = $_GET['ContentTranslation'];
+  public $layout = '//layouts/admin_column1';
 
-        $this->render('index', array(
-            'model' => $model,
-        ));
-    }
+  public function actionIndex() {
+    $model = new ContentTranslation('search');
+    $model->unsetAttributes(); // clear any default values
+    if (isset($_GET['ContentTranslation']))
+      $model->attributes = $_GET['ContentTranslation'];
 
-    public function actionUpdate($id)
-    {
-        $model = $this->loadModel($id);
-        $path_en = Yii::getPathOfAlias('application.messages') . '/en/' . $model->name . '.php';
-        $path_ru = Yii::getPathOfAlias('application.messages') . '/ru/' . $model->name . '.php';
-        $content_en = require($path_en);
-        $content_ru = require($path_ru);
+    $this->render('index', array(
+        'model' => $model,
+    ));
+  }
 
-        if ((isset($_POST['Translation_ru'])) and (isset($_POST['Translation_en']))) {
+  public function actionUpdate($id) {
+    $model = $this->loadModel($id);
+    $path_en = Yii::getPathOfAlias('application.messages') . '/en/' . $model->name . '.php';
+    $path_ru = Yii::getPathOfAlias('application.messages') . '/ru/' . $model->name . '.php';
+    $content_en = require($path_en);
+    $content_ru = require($path_ru);
 
-            $array_ru = str_replace("\r", '', var_export($_POST['Translation_ru'], true));
-            $array_en = str_replace("\r", '', var_export($_POST['Translation_en'], true));
+    if ((isset($_POST['Translation_ru'])) and (isset($_POST['Translation_en']))) {
 
-            $content_ru = <<<EOD
+      $array_ru = str_replace("\r", '', var_export($_POST['Translation_ru'], true));
+      $array_en = str_replace("\r", '', var_export($_POST['Translation_en'], true));
+
+      $content_ru = <<<EOD
 <?php
 return $array_ru;
 
 EOD;
-            $content_en = <<<EOD
+      $content_en = <<<EOD
 <?php
 return $array_en;
 
 EOD;
 
-            file_put_contents($path_en, $content_en);
-            file_put_contents($path_ru, $content_ru);
-            $this->redirect('/admin/translation/');
-
-        }
-
-        $this->render('update', array(
-            'model' => $model,
-            'content_en' => $content_en,
-            'content_ru' => $content_ru,
-        ));
+      file_put_contents($path_en, $content_en);
+      file_put_contents($path_ru, $content_ru);
+      $this->redirect('/admin/translation/');
     }
 
-    public function loadModel($id)
-    {
-        $model = ContentTranslation::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
-        return $model;
-    }
+    $this->render('update', array(
+        'model' => $model,
+        'content_en' => $content_en,
+        'content_ru' => $content_ru,
+    ));
+  }
 
-    /**
-     * Performs the AJAX validation.
-     * @param CModel the model to be validated
-     */
-    protected function performAjaxValidation($model)
-    {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'translation-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
+  public function loadModel($id) {
+    $model = ContentTranslation::model()->findByPk($id);
+    if ($model === null)
+      throw new CHttpException(404, 'The requested page does not exist.');
+    return $model;
+  }
+
+  /**
+   * Performs the AJAX validation.
+   * @param CModel the model to be validated
+   */
+  protected function performAjaxValidation($model) {
+    if (isset($_POST['ajax']) && $_POST['ajax'] === 'translation-form') {
+      echo CActiveForm::validate($model);
+      Yii::app()->end();
     }
+  }
+
 }

@@ -27,12 +27,15 @@ $('.search-form form').submit(function(){
 
 <?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search', array(
-    'model' => $model,
-)); ?>
+  <?php
+  $this->renderPartial('_search', array(
+      'model' => $model,
+  ));
+  ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'discodes-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -55,4 +58,5 @@ $('.search-form form').submit(function(){
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

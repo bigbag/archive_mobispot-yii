@@ -1,34 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app>
-<?php include('block/header.php');?>
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" ng-app="mobispot" ng-csp> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en" ng-app="mobispot" ng-csp> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" ng-app="mobispot" ng-csp> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" ng-app="mobispot" ng-csp> <!--<![endif]-->
+
+<?php include('block/head.php');?>
 <body>
-<div id="wrapper">
-    <div id="header">
-        <?php include('block/menu.php');?>
-    </div>
-    <div id="errors"></div>
-    <?php echo $content; ?>
-</div>
-<div class="center-rel">
-    <?php include('block/footer.php');?>
+<div class="content-wrapper">
+	<?php include('block/header/all.php');?>
+	<div class="row">
+			<div class="twelve columns singlebox-margin">
+				<?php echo $content; ?>
+		</div>
+	</div>
 </div>
 
+<?php include('block/footer.php');?>
 <?php include('block/script.php');?>
-<?php include('modal/messages.php'); ?>
-
-<?php if (!isset(Yii::app()->user->id)): ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/eauth.min.js'); ?>
-<script type="text/javascript">
-    jQuery(function ($) {
-        $("a.twitter").eauth({"popup":{"width":900, "height":550}, "id":"twitter"});
-        $("a.google_oauth").eauth({"popup":{"width":500, "height":450}, "id":"google_oauth"});
-        $("a.facebook").eauth({"popup":{"width":585, "height":290}, "id":"facebook"});
-    });
-</script>
-
-    <?php include('modal/recovery.php'); ?>
-    <?php include('modal/login_captcha.php'); ?>
-    <?php endif;?>
 </body>
 </html>

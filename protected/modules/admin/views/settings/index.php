@@ -1,5 +1,6 @@
 <?php $this->pageTitle = 'Настройки'; ?>
 <?php
+
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
     'Общие',
@@ -11,7 +12,9 @@ $this->menu = array(
 );
 ?>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'settings-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -23,7 +26,6 @@ $this->menu = array(
             'type' => 'raw',
             'value' => 'Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $data->change_date)',
         ),
-
         array(
             'name' => 'user_id',
             'type' => 'raw',
@@ -34,4 +36,5 @@ $this->menu = array(
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

@@ -6,12 +6,12 @@ $this->breadcrumbs = array(
     'Комментарии' => array('/admin/spotComment'),
     'Управление'
 );
-
 ?>
 
 <h1>Управление комментариями</h1>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'spot-comment-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -36,4 +36,5 @@ $this->breadcrumbs = array(
             'template' => '{view} {update}',
         ),
     ),
-)); ?>
+));
+?>

@@ -14,7 +14,8 @@ $this->menu = array(
 
 <h1>Комментарий №<?php echo $model->id; ?> к споту <?php echo $model->spot->name; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php
+$this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
         array(
@@ -34,4 +35,5 @@ $this->menu = array(
             'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->creation_date),
         ),
     ),
-)); ?>
+));
+?>

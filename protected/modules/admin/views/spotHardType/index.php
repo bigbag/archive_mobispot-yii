@@ -13,7 +13,8 @@ $this->menu = array(
 
 <h1>Типы исполнения спотов</h1>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'spot-hard-type-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -31,4 +32,5 @@ $this->menu = array(
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

@@ -13,7 +13,8 @@ $this->menu = array(
 
 <h1>Управление доступными для добавления полями</h1>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'spot-field-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -26,4 +27,5 @@ $this->menu = array(
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

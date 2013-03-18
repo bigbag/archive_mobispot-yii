@@ -5,12 +5,11 @@ $this->breadcrumbs = array(
     'Пользователи' => array('/admin/user/'),
     'Управление'
 );
-
 ?>
 <?php if (Yii::app()->user->hasFlash('user')): ?>
-<div class="success">
+  <div class="success">
     <?php echo Yii::app()->user->getFlash('user'); ?>
-</div>
+  </div>
 <?php endif; ?>
 
 <?
@@ -25,7 +24,6 @@ $this->widget('ext.selgridview.SelGridView', array(
             'class' => 'CCheckBoxColumn',
         ),
         'email',
-
         array(
             'name' => 'creation_date',
             'type' => 'raw',
@@ -59,27 +57,29 @@ $this->widget('ext.selgridview.SelGridView', array(
 <button id="activate_btn" type="button">Активировать</button>
 <button id="banned_btn" type="button">Заблокировать</button>
 <script type="text/javascript">
-    $("#activate_btn, #banned_btn").click(function () {
+  $("#activate_btn, #banned_btn").click(function() {
 
-        var url;
-        var action = $(this).attr('id');
-        var selected = $("#user-grid").selGridView("getAllSelection");
-        var id = selected.join("|");
+    var url;
+    var action = $(this).attr('id');
+    var selected = $("#user-grid").selGridView("getAllSelection");
+    var id = selected.join("|");
 
-        if (action === 'activate_btn') url = '/admin/user/activate/';
-        else if (action === 'banned_btn') url = '/admin/user/banned/';
+    if (action === 'activate_btn')
+      url = '/admin/user/activate/';
+    else if (action === 'banned_btn')
+      url = '/admin/user/banned/';
 
-        if (id[0]) {
-            $.ajax({
-                url:url,
-                dataType:"json",
-                type:'GET',
-                data:{id:id, ajax:1},
-                success:function (data, textStatus) {
-                    $().redirect('/admin/user/');
-                }
-            });
+    if (id[0]) {
+      $.ajax({
+        url: url,
+        dataType: "json",
+        type: 'GET',
+        data: {id: id, ajax: 1},
+        success: function(data, textStatus) {
+          $().redirect('/admin/user/');
         }
-        return false;
-    });
+      });
+    }
+    return false;
+  });
 </script>

@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'application.models.*',
     'application.models.form.*',

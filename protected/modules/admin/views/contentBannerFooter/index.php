@@ -8,18 +8,19 @@ $this->breadcrumbs = array(
 ?>
 
 <?php
-$this->menu=array(
-    array('label'=>'Добавить', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Добавить', 'url' => array('create')),
 );
 ?>
 
 <h1>Управление баннерами</h1>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'content-banner-footer-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>$model,
-    'columns'=>array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'content-banner-footer-grid',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
         'link',
         'title',
         array(
@@ -29,8 +30,9 @@ $this->menu=array(
             'filter' => Lang::getLangArray(),
         ),
         array(
-            'class'=>'CButtonColumn',
+            'class' => 'CButtonColumn',
             'template' => '{update} {delete}',
         ),
     ),
-)); ?>
+));
+?>

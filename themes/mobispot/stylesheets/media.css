@@ -1,0 +1,156 @@
+
+
+
+@media screen and (min-width: 994px) {
+
+	.total-order{
+		position: absolute;
+		top:173px;
+		left: 1em;
+	}
+}
+@media screen and (max-width: 994px) {
+
+	body{
+		font-size: 100%;
+	}
+	.bubbles-slider .orbit-bullets{
+		margin-left: -363px !important;
+	}
+	footer{
+		margin-top: 4em !important;
+	}
+	.spots-description h3{
+		color: #0063ff;
+		font-size: 24px;
+	}
+
+}
+@media screen and (max-width: 767px) {
+	.bubbles-slider .bubble p{
+		display: none;
+	}
+	.bubbles-slider .bubble a{
+		font-size: 2em;
+		margin: 33% 0 0;
+	}
+	body{
+		font-size: 80%;
+	}
+	.bubbles-slider .orbit-bullets{
+		margin-left: -288px !important;
+	}
+	#textSlider h1{
+		font-size: 3.5em;
+	}
+	#textSlider{
+		height: 13em !important;
+		margin: 2.5em 0 5.1em;
+
+	}
+	.bubbles-slider ul.orbit-bullets{
+		margin-top: -94px;
+	}
+	.bubbles-slider ul.orbit-bullets{
+		margin-top: -8em;
+	}
+
+	.bubbles-slider .orbit-bullets li a{
+		padding: 42% 0 0;
+	}
+	.bubbles-slider .bubble h4{
+		font-size: 2.8em;
+	}
+
+	.nav-bar{
+		text-align: left;
+		right: 0;
+	}
+	.header-top,
+	.login-bar,
+	.row__head-slider .header-top .columns{
+		height: auto;
+		overflow: hidden;
+	}
+
+	.login-bar{
+		text-align: left;
+	}
+	.header-top  .nav-bar,
+	.header-top  h1{
+		margin: 1em 0 0;
+	}
+	.store-items__description h1{
+		font-size: 30px;
+	}
+	.store-items .store-items__price{
+		font-size: 21px;
+		height: 50px;
+		width: 50px;
+		line-height: 50px;
+	}
+	.store-items__bag tr:hover .store-items__close:after{
+		background-position: -125px 10px;
+	}
+	.store-items__description header h1{
+		padding-right: 54px;
+	}
+	.total-amount .spot-button{
+		position: static;
+	}
+	.footer-page .soc-link{
+		margin-top: 25px;
+		line-height: 1.6;
+	}
+	.footer-page p{
+		font-size: 12px;
+		margin-top: 10px;
+	}
+	.footer-page h3{
+		font-size: 23px;
+	}
+	.header-top:hover + .bubbles-slider .change-cover{
+		opacity: 0;
+	}
+}
+@media screen and (max-width: 600px) {
+	body{
+		font-size: 60%;
+	}
+	.bubbles-slider .orbit-bullets{
+		margin-left: -216px !important;
+	}
+	.bubbles-slider .orbit-bullets h4{
+		font-size: 16px;
+	}
+	.footer-page .link-list li a,
+	.footer-page p,
+	.footer-page .link-list li:before{
+		font-size: 12px;
+	}
+	.slide-hat-close{
+		height: 30px;
+		width: 30px;
+		background-position: -91px 7px;
+		top:3px;
+		right: 3px;
+	}
+	.slide-hat-close:hover{
+		background-position: -91px -29px;
+	}
+
+}
+@media screen and (max-width: 440px) {
+	body{
+		font-size: 50%;
+	}
+	.bubbles-slider .orbit-bullets h4{
+		font-size: 14px;
+	}
+	.bubbles-slider .orbit-bullets li{
+		margin: 1.5em;
+	}
+	.bubbles-slider .orbit-bullets{
+		margin-left: -165px !important;
+	}
+}

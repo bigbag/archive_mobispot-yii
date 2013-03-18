@@ -1,23 +1,33 @@
-<div id="footer">
-    <div id="foot-menu">
-        <?php $all_link = ContentLinksFooter::getLinks();?>
-        <?php $count_links = count($all_link);?>
-        <?php $i = 1;?>
-        <?php foreach ($all_link as $row):?>
-            <a href="<?php echo $row['link'];?>"><?php echo $row['name'];?></a>
-             <?php echo ($i < $count_links)?'|':''?>
-        <?php $i = $i + 1;?>
-        <?php endforeach;?>
-    </div>
-    <div id="foot-copyright"><?php echo Yii::app()->par->load('copyright'); ?></div>
-    <span id="soc-seti">
-        <a href="<?php echo Yii::app()->par->load('urlFacebook'); ?>" id="fut-facebook"></a>
-        <a href="<?php echo Yii::app()->par->load('urlTwitter'); ?>" id="fut-twitter"></a></span>
+<footer class="footer-page">
+	<div class="row">
+		<div class="twelve columns">
+			<h3><?php echo Yii::t('footer', 'Footer title')?></h3>
+			<ul class="link-list left">
+				<li><a href="/pages/about"><?php echo Yii::t('footer', 'About us')?></a></li>
+				<li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones')?></a></li>
+				<li><a href="/pages/help"><?php echo Yii::t('footer', 'Help center')?></a></li>
+				<li><a href="http://store.mobispot.com"><?php echo Yii::t('footer', 'Store')?></a></li>
+				<li><a href="/pages/referrals"><?php echo Yii::t('footer', 'Referrals')?></a></li>
+				<li><a href="/pages/api"><?php echo Yii::t('footer', 'API')?></a></li>
+				<li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog')?></a></li>
+			</ul>
+			<div class="right soc-link">
+				<span><?php echo Yii::t('footer', 'Hook Up')?></span>
+				<a href="#" class="i-soc-fac">&nbsp;</a>
+				<br />
+				<span><?php echo Yii::t('footer', 'Keep Up')?></span>
+				<a href="#" class="i-soc-twi">&nbsp;</a>
+			</div>
+			<p>
+			© 2013 Mobispot. Ltd. All rights reserved<br>
+			<a href="mailto:sales@mobispot.com">sales@mobispot.com</a><br>
+			</p>
+		</div>
+	</div>
+</footer>
 
-    <div id="set_like">
-        <div id="fb-root"></div>
-        <div class="fb-like" data-href="http://www.mobispot.com" data-send="false" data-layout="button_count"
-             data-width="90" data-show-faces="false" data-font="lucida grande"></div>
-
-    </div>
-</div>
+<script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/services.js"></script>

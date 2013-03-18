@@ -1,3 +1,3 @@
 <div id="main-container">
-    <?php echo $txt;?>
+  <?php echo $txt; ?>
 </div>

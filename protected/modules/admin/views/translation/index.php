@@ -11,7 +11,8 @@ $this->breadcrumbs = array(
 <h1>Управление переводами</h1>
 
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'translation-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -23,4 +24,5 @@ $this->breadcrumbs = array(
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

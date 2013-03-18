@@ -8,15 +8,15 @@ $this->breadcrumbs = array(
 $menu = array();
 
 if ($model->status == Spot::STATUS_GENERATED) {
-    array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->discodes_id)));
+  array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->discodes_id)));
 }
 
 array_push($menu, array('label' => 'Редактировать спот', 'url' => array('update', 'id' => $model->discodes_id)));
 
 if ($model->status == Spot::STATUS_ACTIVATED or $model->status == Spot::STATUS_GENERATED) {
-    array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
-        'submit' => array('delete', 'id' => $model->discodes_id),
-        'confirm' => 'Вы уверены что хотите удалить спот ID ' . $model->discodes_id . '?')));
+  array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
+          'submit' => array('delete', 'id' => $model->discodes_id),
+          'confirm' => 'Вы уверены что хотите удалить спот ID ' . $model->discodes_id . '?')));
 }
 
 $this->menu = $menu;
@@ -25,12 +25,13 @@ $this->menu = $menu;
 <h1>Информация о споте <?php echo $model->discodes_id; ?></h1>
 
 <?php if (Yii::app()->user->hasFlash('spot')): ?>
-<div class="success">
+  <div class="success">
     <?php echo Yii::app()->user->getFlash('spot'); ?>
-</div>
+  </div>
 <?php endif; ?>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php
+$this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
         'name',
@@ -72,4 +73,5 @@ $this->menu = $menu;
             'value' => Yii::app()->dateFormatter->format("dd.MM.yy hh:mm", $model->removed_date),
         ),
     ),
-)); ?>
+));
+?>

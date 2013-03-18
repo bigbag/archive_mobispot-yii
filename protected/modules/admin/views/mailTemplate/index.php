@@ -15,7 +15,8 @@ $this->menu = array(
 <h1>Управление шаблонами</h1>
 
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'mail-template-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -33,4 +34,5 @@ $this->menu = array(
             'template' => '{update} {delete}',
         ),
     ),
-)); ?>
+));
+?>

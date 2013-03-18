@@ -22,18 +22,20 @@ $('.search-form form').submit(function(){
 <?php echo CHtml::link('Сгенерировать активационные коды', '/admin/spot/generate'); ?><br/>
 <?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search', array(
-    'model' => $model,
-)); ?>
+  <?php
+  $this->renderPartial('_search', array(
+      'model' => $model,
+  ));
+  ?>
 </div><!-- search-form -->
 
 <?php if (Yii::app()->user->hasFlash('spot')): ?>
-<div class="success">
+  <div class="success">
     <?php echo Yii::app()->user->getFlash('spot'); ?>
-</div>
+  </div>
 <?php endif; ?>
 
-<?
+<?php
 $this->widget('ext.selgridview.SelGridView', array(
     'id' => 'spot-grid',
     'dataProvider' => $model->search(),
@@ -72,26 +74,28 @@ $this->widget('ext.selgridview.SelGridView', array(
 <button id="activate_btn" type="button">Активировать</button>
 <button id="delete_btn" type="button">Удалить</button>
 <script type="text/javascript">
-    $("#activate_btn, #delete_btn").click(function () {
-        var url;
-        var action = $(this).attr('id');
-        var selected = $("#spot-grid").selGridView("getAllSelection");
-        var id = selected.join("|");
+  $("#activate_btn, #delete_btn").click(function() {
+    var url;
+    var action = $(this).attr('id');
+    var selected = $("#spot-grid").selGridView("getAllSelection");
+    var id = selected.join("|");
 
-        if (action === 'activate_btn') url = '/admin/spot/activate/';
-        else if (action === 'delete_btn') url = '/admin/spot/delete/';
+    if (action === 'activate_btn')
+      url = '/admin/spot/activate/';
+    else if (action === 'delete_btn')
+      url = '/admin/spot/delete/';
 
-        if (id[0]) {
-            $.ajax({
-                url:url,
-                dataType:"json",
-                type:'GET',
-                data:{id:id, ajax:1},
-                success:function (data, textStatus) {
-                    $().redirect('/admin/spot/');
-                }
-            });
+    if (id[0]) {
+      $.ajax({
+        url: url,
+        dataType: "json",
+        type: 'GET',
+        data: {id: id, ajax: 1},
+        success: function(data, textStatus) {
+          $().redirect('/admin/spot/');
         }
-        return false;
-    });
+      });
+    }
+    return false;
+  });
 </script>

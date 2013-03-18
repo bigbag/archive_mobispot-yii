@@ -2,7 +2,6 @@
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -15,7 +14,6 @@ return array(
     'preload' => array('log'),
     'import' => require(dirname(__FILE__) . '/import.php'),
     'modules' => require(dirname(__FILE__) . '/modules.php'),
-
     // application components
     'components' => array(
         'session' => array(
@@ -28,12 +26,10 @@ return array(
             'cookieMode' => 'only',
             'timeout' => 3600
         ),
-
         'messages' => array(
             'class' => 'CPhpMessageSource',
             'onMissingTranslation' => array('Translation', 'missing'),
-
-            //'cachingDuration' => 3600,
+        //'cachingDuration' => 3600,
         ),
         'user' => array(
             'class' => 'CWebUser',
@@ -41,16 +37,14 @@ return array(
         ),
         'mongodb' => array(
             'class' => 'EMongoDB',
-            'connectionString' => 'mongodb://localhost',
+            'connectionString' => 'mongodb://localhost:27017',
             'dbName' => 'mobispot',
             'fsyncFlag' => false,
             'safeFlag' => false,
             'useCursor' => false,
         ),
-
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
         'db' => require(dirname(__FILE__) . '/db.php'),
-
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
@@ -59,9 +53,9 @@ return array(
             'class' => 'CLogRouter',
             'routes' => array(
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'translation',
-                    'logFile'=>'translations.log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'translation',
+                    'logFile' => 'translations.log',
                 ),
                 array(
                     'class' => 'CWebLogRoute',
@@ -75,7 +69,7 @@ return array(
                     'levels' => 'error, warning, trace, profile, info',
                 ),
                 array(
-                   'class' => 'ext.db_profiler.DbProfileLogRoute',
+                    'class' => 'ext.db_profiler.DbProfileLogRoute',
                     'countLimit' => 1,
                     'slowQueryMin' => 0.01,
                 ),

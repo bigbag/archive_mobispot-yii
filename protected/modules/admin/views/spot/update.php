@@ -10,13 +10,13 @@ $this->breadcrumbs = array(
 $menu = array();
 
 if ($model->status == Spot::STATUS_GENERATED) {
-    array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->discodes_id)));
+  array_push($menu, array('label' => 'Активировать спот', 'url' => array('activate', 'id' => $model->discodes_id)));
 }
 
 if ($model->status == Spot::STATUS_ACTIVATED or $model->status == Spot::STATUS_GENERATED) {
-    array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
-        'submit' => array('delete', 'id' => $model->discodes_id),
-        'confirm' => 'Вы уверены что хотите удалить спот ID ' . $model->discodes_id . '?')));
+  array_push($menu, array('label' => 'Удалить спот', 'url' => '#', 'linkOptions' => array(
+          'submit' => array('delete', 'id' => $model->discodes_id),
+          'confirm' => 'Вы уверены что хотите удалить спот ID ' . $model->discodes_id . '?')));
 }
 
 $this->menu = $menu;

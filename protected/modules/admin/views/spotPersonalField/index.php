@@ -1,5 +1,6 @@
 <?php $this->pageTitle = 'Персональный спот, поля'; ?>
 <?php
+
 $this->breadcrumbs = array(
     'Админка' => array('/admin/'),
     'Споты' => array('/admin/spot/'),
@@ -11,7 +12,9 @@ $this->menu = array(
 );
 ?>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'spot-personal-field-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -30,4 +33,5 @@ $this->menu = array(
             'template' => '{update}',
         ),
     ),
-)); ?>
+));
+?>

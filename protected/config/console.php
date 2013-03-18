@@ -13,5 +13,4 @@ return array(
     'components' => array(
         'db' => require(dirname(__FILE__) . '/db.php'),
     ),
-
 );

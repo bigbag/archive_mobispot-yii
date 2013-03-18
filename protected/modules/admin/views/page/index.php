@@ -15,7 +15,8 @@ $this->menu = array(
 <h1>Управление страницами</h1>
 
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'page-grid',
     'dataProvider' => $model->search(),
     'filter' => $model,
@@ -44,4 +45,5 @@ $this->menu = array(
             'template' => '{update} {delete}',
         ),
     ),
-)); ?>
+));
+?>
