@@ -35,14 +35,7 @@ return array(
       'class'=>'CWebUser',
       'allowAutoLogin'=>true,
     ),
-    'mongodb'=>array(
-      'class'=>'EMongoDB',
-      'connectionString'=>'mongodb://localhost:27017',
-      'dbName'=>'mobispot',
-      'fsyncFlag'=>false,
-      'safeFlag'=>false,
-      'useCursor'=>false,
-    ),
+    'mongodb'=>require(dirname(__FILE__) . '/mongo.php'),
     'urlManager'=>require(dirname(__FILE__) . '/routes.php'),
     'db'=>require(dirname(__FILE__) . '/db.php'),
     'errorHandler'=>array(
