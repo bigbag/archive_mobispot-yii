@@ -38,59 +38,127 @@ class ServiceController extends MController {
   }
 
   public function actionLogin() {
-    if (Yii::app()->user->isGuest) {
-      $model=new LoginCaptchaForm;
-      if (isset($_POST['LoginCaptchaForm'])) {
-        $model->attributes=$_POST['LoginCaptchaForm'];
-        if ($model->rememberMe=='on')
-          $model->rememberMe=1;
-        else
-          $model->rememberMe=0;
-        if ($model->validate()) {
-          $this->redirect(Yii::app()->user->returnUrl);
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+
+      if (isset(Yii::app()->session['login_error_count'])) {
+        $login_error_count=Yii::app()->session['login_error_count'];
+        if ($login_error_count>2) {
+          $error='login_error_count';
         }
       }
-      $this->render('login', array('model'=>$model));
+      else {
+        $login_error_count=0;
+      }
+
+      $data=$this->getJson();
+
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['email']) and isset($data['password'])) {
+          if (isset($data['code'])){
+            $form=new LoginCaptchaForm();
+          }
+          else {
+            $form=new LoginForm;
+          }
+
+          $form->attributes=$data;
+          if ($form->validate()) {
+            $identity=new UserIdentity($form->email, $form->password);
+            $identity->authenticate();
+            $this->lastVisit();
+            Yii::app()->user->login($identity);
+            unset(Yii::app()->session['login_error_count']);
+            $error="no";
+          }
+          else Yii::app()->session['login_error_count']=$login_error_count + 1;
+        }
+      }
+      echo json_encode(array('error'=>$error));
     }
-    else
-      $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
   }
 
   public function actionLogout() {
-    Yii::app()->user->logout();
+    if (Yii::app()->request->isAjaxRequest) {
+      if (!(Yii::app()->user->isGuest)) {
+        Yii::app()->cache->get('user_'.Yii::app()->user->id);
+        Yii::app()->user->logout();
+        unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
+        echo true;
+      }
+      echo false;
+    }
+    else {
+      Yii::app()->user->logout();
     $this->redirect(Yii::app()->homeUrl);
+    }
   }
 
-  public function actionRegistration() {
-    $model=new RegistrationForm;
+  public function actionRecovery() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $data=$this->getJson();
 
-    // ajax validator
-    if (isset($_POST['ajax']) && $_POST['ajax']='registration-form') {
-      echo CActiveForm::validate($model);
-      Yii::app()->end();
-    }
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        $form=new RecoveryForm;
+        if (isset($data['email'])) {
+          $form->email=$data['email'];
+          if ($form->validate()) {
+            $user=User::model()->findByAttributes(array('email'=>$form->email));
+            MMail::recovery($user->email, $user->activkey, $this->getLang());
 
-    if (Yii::app()->user->id) {
-      $this->redirect(Yii::app()->user->returnUrl);
-    } else {
-      if (isset($_POST['RegistrationForm'])) {
-        $model->attributes=$_POST['RegistrationForm'];
-        if ($model->validate()) {
-          if (!empty($model->password) && $model->password==$model->verifyPassword) {
-            $model->activkey=sha1(microtime().$model->password);
-            $model->password=Yii::app()->hasher->hashPassword($model->password);
-            $model->verifyPassword=$model->password;
-          }
-          if ($model->save()) {
-
-            $activation_url=$this->createAbsoluteUrl('/user/activation/activation', array("activkey"=>$model->activkey, "email"=>$model->email));
-            //UserModule::sendMail($model->email, Yii::t('user', "You registered from {site_name}", array('{site_name}'=>Yii::app()->name)), Yii::t('user', "Please activate you account go to {activation_url}", array('{activation_url}'=>$activation_url)));
-            Yii::app()->user->setFlash('registration', Yii::t('user', "Thank you for your registration. Please check your email."));
-            $this->refresh();
+            $error="no";
           }
         }
       }
-      $this->render('registration', array('model'=>$model));
+      echo json_encode(array('error'=>$error));
+    }
+  }
+
+  public function actionRegistration() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $data=$this->getJson();
+
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken and (empty($data['name']))) {
+
+        $model=new RegistrationForm;
+
+        if (isset($data['email']) and isset($data['password'])) {
+          $model->attributes=$data;
+
+          if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
+            $service_name=Yii::app()->request->cookies['service_name']->value;
+            $service_name=$service_name.'_id';
+            $model->{$service_name}=Yii::app()->request->cookies['service_id']->value;
+          }
+
+          if ($model->validate()) {
+            if (!empty($model->password) && $model->password==$model->verifyPassword) {
+              $model->activkey=sha1(microtime().$model->password);
+              $model->password=Yii::app()->hasher->hashPassword($model->password);
+              $model->verifyPassword=$model->password;
+
+              if ($model->save()) {
+                $spot=Spot::model()->findByAttributes(array(
+                    'code'=>$model->activ_code,
+                    'status'=>Spot::STATUS_ACTIVATED,
+                ));
+
+                $spot->user_id=$model->id;
+                $spot->lang=$this->getLang;
+                $spot->status=Spot::STATUS_REGISTERED;
+                $spot->save();
+
+                MMail::activation($model->email, $model->activkey, $this->getLang());
+                $error="no";
+              }
+            }
+          }
+        }
+        $error='yes';
+      }
+      echo json_encode(array('error'=>$error));
     }
   }
 

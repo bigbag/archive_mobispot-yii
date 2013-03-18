@@ -5,7 +5,7 @@ function UserCtrl($scope, $http, $compile)
   //Авторизация
   $scope.login = function(user)
   {
-    $http.post('/ajax/login', user).success(function(data)
+    $http.post('/service/login', user).success(function(data)
     {
       if(data.error == 'login_error_count')
       {
