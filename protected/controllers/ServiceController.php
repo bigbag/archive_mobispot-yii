@@ -90,28 +90,7 @@ class ServiceController extends MController {
     }
     else {
       Yii::app()->user->logout();
-    $this->redirect(Yii::app()->homeUrl);
-    }
-  }
-
-  public function actionRecovery() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error="yes";
-      $data=$this->getJson();
-
-      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-        $form=new RecoveryForm;
-        if (isset($data['email'])) {
-          $form->email=$data['email'];
-          if ($form->validate()) {
-            $user=User::model()->findByAttributes(array('email'=>$form->email));
-            MMail::recovery($user->email, $user->activkey, $this->getLang());
-
-            $error="no";
-          }
-        }
-      }
-      echo json_encode(array('error'=>$error));
+      $this->redirect(Yii::app()->homeUrl);
     }
   }
 
@@ -198,37 +177,57 @@ class ServiceController extends MController {
   }
 
   public function actionRecovery() {
-    if (Yii::app()->user->id) {
-      $this->redirect('/');
-    } else {
-      $email=((isset($_GET['email'])) ? $_GET['email'] : '');
-      $activkey=((isset($_GET['activkey'])) ? $_GET['activkey'] : '');
-      if ($email && $activkey) {
-        $form=new UserChangePassword;
-        $find=User::model()->findByAttributes(array('email'=>$email));
-        if (isset($find) && $find->activkey==$activkey) {
-          if (isset($_POST['UserChangePassword'])) {
-            $form->attributes=$_POST['UserChangePassword'];
-            $soucePassword=$form->password;
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $data=$this->getJson();
 
-            if ($form->validate()) {
-              $find->password=Yii::app()->hasher->hashPassword($form->password);
-              $find->activkey=sha1(microtime().$form->password);
-              $find->save();
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        $form=new RecoveryForm;
+        if (isset($data['email'])) {
+          $form->email=$data['email'];
+          if ($form->validate()) {
+            $user=User::model()->findByAttributes(array('email'=>$form->email));
+            MMail::recovery($user->email, $user->activkey, $this->getLang());
 
-              $identity=new UserIdentity($email, $soucePassword);
-              $identity->authenticate();
-              $this->lastVisit();
-              $this->redirect('/');
-            }
+            $error="no";
           }
-          $this->render('changepassword', array('form'=>$form));
+        }
+      }
+      echo json_encode(array('error'=>$error));
+    }
+    else {
+      if (Yii::app()->user->id) {
+        $this->redirect('/');
+      } else {
+        $email=((isset($_GET['email'])) ? $_GET['email'] : '');
+        $activkey=((isset($_GET['activkey'])) ? $_GET['activkey'] : '');
+        if ($email && $activkey) {
+          $form=new UserChangePassword;
+          $find=User::model()->findByAttributes(array('email'=>$email));
+          if (isset($find) && $find->activkey==$activkey) {
+            if (isset($_POST['UserChangePassword'])) {
+              $form->attributes=$_POST['UserChangePassword'];
+              $soucePassword=$form->password;
+
+              if ($form->validate()) {
+                $find->password=Yii::app()->hasher->hashPassword($form->password);
+                $find->activkey=sha1(microtime().$form->password);
+                $find->save();
+
+                $identity=new UserIdentity($email, $soucePassword);
+                $identity->authenticate();
+                $this->lastVisit();
+                $this->redirect('/');
+              }
+            }
+            $this->render('changepassword', array('form'=>$form));
+          }
+          else
+            $this->redirect('/');
         }
         else
           $this->redirect('/');
       }
-      else
-        $this->redirect('/');
     }
   }
 
