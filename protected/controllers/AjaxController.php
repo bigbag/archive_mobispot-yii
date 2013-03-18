@@ -164,59 +164,9 @@ class AjaxController extends MController {
                 $spot->status = Spot::STATUS_REGISTERED;
                 $spot->save();
 
-<<<<<<< HEAD
-    public function actionRegistration()
-    {
-        if (Yii::app()->request->isAjaxRequest and isset($_POST['token'])) {
-            if ($_POST['token'] == Yii::app()->request->csrfToken) {
-                if (isset(Yii::app()->session['registration_error_count'])) {
-                    $registration_error_count = Yii::app()->session['registration_error_count'];
-                } else $registration_error_count = 0;
-
-                if ($registration_error_count == 0) $model = new RegistrationForm;
-                else $model = new RegistrationCaptchaForm;
-
-                if (isset($_POST['RegistrationForm'])) {
-                    $model->attributes = $_POST['RegistrationForm'];
-
-                    if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
-                        $service_name = Yii::app()->request->cookies['service_name']->value;
-                        $service_name = $service_name . '_id';
-                        $model->{$service_name} = Yii::app()->request->cookies['service_id']->value;
-                    }
-
-                    if ($model->validate()) {
-                        if (!empty($model->password) && $model->password == $model->verifyPassword) {
-                            $model->activkey = sha1(microtime() . $model->password);
-                            $model->password = Yii::app()->hasher->hashPassword($model->password);
-                            $model->verifyPassword = $model->password;
-
-                            if ($model->save()) {
-                                $spot = Spot::model()->findByAttributes(array(
-                                    'code' => $model->activ_code,
-                                    'status' => Spot::STATUS_ACTIVATED,
-                                ));
-
-                                $spot->user_id = $model->id;
-                                $spot->lang =  $this->getLang();
-                                $spot->status = Spot::STATUS_REGISTERED;
-                                $spot->save();
-
-                                MMail::activation($model->email, $model->activkey,  $this->getLang());
-                                echo true;
-                            }
-                            unset(Yii::app()->session['registration_error_count']);
-                        }
-                    } else {
-                        Yii::app()->session['registration_error_count'] = $registration_error_count + 1;
-                        echo json_encode(array('error' => $model->getErrors()));
-                    }
-                }
-=======
                 MMail::activation($model->email, $model->activkey, $this->getLang());
                 $error = "no";
               }
->>>>>>> 040c397fee684d46eb652d3c15e72410fdc528e4
             }
           }
         }

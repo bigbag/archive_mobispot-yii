@@ -22,15 +22,6 @@ class MailCommand extends CConsoleCommand {
       }
     }
 
-<<<<<<< HEAD
-       $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
-            ->setUsername('no-reply@mobispot.com')
-            ->setPassword('!yvM83kd')
-            ->setTimeout(60);
-        $mailer = Swift_Mailer::newInstance($transport);
-        $mailer->send($message);
-    }
-=======
     $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 587, 'tls')
             ->setUsername('bilbo.kem@gmail.com')
             ->setPassword('djkrfyjubrjhvzn')
@@ -38,7 +29,6 @@ class MailCommand extends CConsoleCommand {
     $mailer = Swift_Mailer::newInstance($transport);
     $mailer->send($message);
   }
->>>>>>> 040c397fee684d46eb652d3c15e72410fdc528e4
 
   public function actionIndex() {
     $conn = Yii::app()->db;
