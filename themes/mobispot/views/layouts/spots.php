@@ -7,7 +7,7 @@
 
 <?php include('block/head.php');?>
 <body>
-<div class="content-wrapper">
+<div class="content-wrapper" ng-controller="SpotCtrl" ng-init="spot.user='<?php echo Yii::app()->user->id;?>'">
 <?php include('block/header/spots.php');?>
 <?php echo $content; ?>
 

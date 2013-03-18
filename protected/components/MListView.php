@@ -107,7 +107,7 @@ class MListView extends CBaseListView
     * @var string the HTML tag name for the container of all data item display. Defaults to 'div'.
     * @since 1.1.4
     */
-    public $itemsTagName = 'div';
+    public $itemsTagName = 'ul';
     
     /**
     * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true

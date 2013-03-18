@@ -38,3 +38,7 @@ function UserCtrl($scope, $http, $compile)
     });
   };
 }
+
+function SpotCtrl($scope, $http, $compile)
+{
+}
