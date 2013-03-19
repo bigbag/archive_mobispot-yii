@@ -1,5 +1,5 @@
-<li id="<?php echo $data->discodes_id;?>" class="spot-content_li" ng-click="accordion($event)">
-  <h3><?php echo $data->name?></h3>
+<li id="<?php echo $data->discodes_id;?>" class="spot-content_li bg-gray">
+  <h3 ng-click="accordion($event)"><?php echo $data->name?></h3>
     <div class="spot-content">
 				<div class="spot-content_row"><a class="settings-button spot-button right text-center" href="javascript:;">Settings</a></div>
 					<div class="spot-content_row">

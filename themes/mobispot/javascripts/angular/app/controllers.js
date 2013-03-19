@@ -42,11 +42,18 @@ function UserCtrl($scope, $http, $compile)
 function SpotCtrl($scope, $http, $compile)
 {
   $scope.accordion = function(e){
-    var discodes = e.target.id;
-    var spot = angular.element(e.currentTarget);
+    var spot = angular.element(e.currentTarget).parent();
+    var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
-
     if (spotContent.is(":hidden")) {
+      $http.post('/ajax/spotView', {discodes:discodes}).success(function(data)
+        {
+          if(data.error == 'no')
+          {
+            console.log($compile(data.content)($scope));
+          }
+      });
+
       angular.element('.spot-content').slideUp(300);
       spotContent.slideToggle(300);
     }

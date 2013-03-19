@@ -35,6 +35,27 @@ class AjaxController extends MController {
     }
   }
 
+  public function actionSpotView() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+      if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+          $data=SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
+          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->pattern, array(
+              'data'=>$spot,
+              'content'=>$data,
+                  ), true);
+          $error="no";
+        }
+      }
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
   public function actionSpotRename() {
     $error="yes";
     $discodes="";
@@ -217,26 +238,7 @@ class AjaxController extends MController {
     }
   }
 
-  public function actionSpotView() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error="yes";
-      $content="";
 
-      $data=$this->getJson();
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-          $data=SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->pattern, array(
-              'data'=>$spot,
-              'content'=>$data,
-                  ), true);
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'content'=>$content));
-    }
-  }
 
   public function actionSpotEdit() {
     if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
