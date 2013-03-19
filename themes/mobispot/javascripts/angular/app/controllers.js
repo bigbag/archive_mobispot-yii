@@ -41,4 +41,17 @@ function UserCtrl($scope, $http, $compile)
 
 function SpotCtrl($scope, $http, $compile)
 {
+  $scope.accordion = function(e){
+    var discodes = e.target.id;
+    var spot = angular.element(e.currentTarget);
+    var spotContent = spot.find('.spot-content');
+
+    if (spotContent.is(":hidden")) {
+      angular.element('.spot-content').slideUp(300);
+      spotContent.slideToggle(300);
+    }
+    else {
+      spotContent.slideUp(300);
+    }
+  }
 }
