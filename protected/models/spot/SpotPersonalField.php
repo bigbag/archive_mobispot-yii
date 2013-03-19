@@ -92,7 +92,7 @@ class SpotPersonalField extends CActiveRecord {
 
   public static function getPersonalField($type) {
     $personal_field=Yii::app()->cache->get('personal_field_'.$type);
-    if ($personal_field=false) {
+    if (!$personal_field) {
       $personal_field=SpotPersonalField::model()->findAllByAttributes(array('type'=>$type));
 
       Yii::app()->cache->set('personal_field_'.$type, $personal_field, 36000);
@@ -102,7 +102,7 @@ class SpotPersonalField extends CActiveRecord {
 
   public static function getPersonalFieldArray($type) {
     $personal_field=Yii::app()->cache->get('personal_field_array_'.$type);
-    if ($personal_field=false) {
+    if (!$personal_field) {
       $personal_field=CHtml::listData(SpotPersonalField::getPersonalField($type), 'id', 'name');
 
       Yii::app()->cache->set('personal_field_array_'.$type, $personal_field, 36000);
@@ -112,7 +112,7 @@ class SpotPersonalField extends CActiveRecord {
 
   public static function getPersonalFieldAll() {
     $personal_field=Yii::app()->cache->get('personal_field_all');
-    if ($personal_field=false) {
+    if (!$personal_field) {
       $personal_field=SpotPersonalField::model()->findAll();
 
       Yii::app()->cache->set('personal_field_all', $personal_field, 36000);
@@ -122,7 +122,7 @@ class SpotPersonalField extends CActiveRecord {
 
   public static function getPersonalFieldAllIco() {
     $personal_field=Yii::app()->cache->get('personal_field_all_ico');
-    if ($personal_field=false) {
+    if (!$personal_field) {
       $personal_field=CHtml::listData(SpotPersonalField::getPersonalFieldAll(), 'id', 'ico');
 
       Yii::app()->cache->set('personal_field_all_ico', $personal_field, 36000);

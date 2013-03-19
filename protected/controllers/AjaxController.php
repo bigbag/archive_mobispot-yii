@@ -14,24 +14,6 @@ class AjaxController extends MController {
     );
   }
 
-  public function actionSetLang() {
-    if (isset($_POST['lang'])) {
-      $lang=$_POST['lang'];
-      Yii::app()->request->cookies['lang']=new CHttpCookie('lang', $lang);
-
-      if (!isset(Yii::app()->user->id)) {
-        $user=User::model()->findByPk(Yii::app()->user->id);
-        if (isset($user)) {
-          $user->lang=$lang;
-          $user->save();
-        }
-      }
-      echo true;
-    }
-  }
-
-  
-
   public function actionGetBlock() {
     if (Yii::app()->request->isAjaxRequest) {
       $error="yes";

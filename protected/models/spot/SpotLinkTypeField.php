@@ -77,7 +77,7 @@ class SpotLinkTypeField extends CActiveRecord {
 
   public static function getSpotTypeFieldName($type_id) {
     $spot_type_field=Yii::app()->cache->get('spot_type_field_name_'.$type_id);
-    if ($spot_type_field=false) {
+    if (!$spot_type_field) {
       $spot_type_field=SpotLinkTypeField::model()->with('spot_field')->findAllByAttributes(array('type_id'=>$type_id));
 
       Yii::app()->cache->set('spot_type_field_name_'.$type_id, $spot_type_field, 36000);
@@ -87,7 +87,7 @@ class SpotLinkTypeField extends CActiveRecord {
 
   public static function getSpotTypeField($type_id) {
     $spot_type_field=Yii::app()->cache->get('spot_type_field_'.$type_id);
-    if ($spot_type_field=false) {
+    if (!$spot_type_field) {
       $spot_type_field=SpotLinkTypeField::model()->findAllByAttributes(array('type_id'=>$type_id));
 
       Yii::app()->cache->set('spot_type_field_'.$type_id, $spot_type_field, 36000);
@@ -97,7 +97,7 @@ class SpotLinkTypeField extends CActiveRecord {
 
   public static function getSpotFieldSlug($type_id) {
     $spot_field_slug=Yii::app()->cache->get('spot_type_field_slug_'.$type_id);
-    if ($spot_field_slug=false) {
+    if (!$spot_field_slug {
       $criteria=new CDbCriteria;
       $criteria->select="slug";
       $criteria->compare('type_id', $type_id);

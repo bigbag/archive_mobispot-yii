@@ -68,7 +68,7 @@ class SpotHardType extends CActiveRecord {
 
   public static function getSpotHardType() {
     $spot_hard_type=Yii::app()->cache->get('spot_hard_type');
-    if ($spot_hard_type=false) {
+    if (!$spot_hard_type) {
       $spot_hard_type=SpotHardType::model()->findAll();
 
       Yii::app()->cache->set('spot_hard_type', $spot_hard_type, 36000);

@@ -16,7 +16,7 @@
 	background-color: #fff;
 }
 .bg-white  .button,
-.bg-gray .spot-button,
+.bg-white .spot-button,
 .bg-white input,
 .bg-white textarea{
 	background-color: #f1f3f4;
@@ -290,8 +290,8 @@
 .spot-options a:first-child{
 	margin-top: 0;
 }
-.popup footer .button,
-.popup .sub-сontent .button{
+footer .button,
+.sub-content .button{
 	height: 78px;
 	width: 78px;
 	line-height: 78px;
@@ -301,7 +301,8 @@
 	font-weight: 100;
 
 }
-.popup footer .button:hover + .active{
+footer .button:hover + .active,
+.sub-content .button:hover + .active{
 	background: #fff;
 	color: #000;
 }
@@ -312,10 +313,10 @@
 	line-height: 96px;
 	font-size: 23px;
 }
-.spot-options .checkbox{
-	float: left;
-	width: 100px;
+.checkbox{
+	display: inline-block;
+	min-width: 100px;
 }
-.sub-сontent{
+.sub-content{
 	display: none;
 }

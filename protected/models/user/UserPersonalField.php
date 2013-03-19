@@ -46,7 +46,7 @@ class UserPersonalField extends CActiveRecord {
   public function getField($spot_id) {
 
     $data=Yii::app()->cache->get('spot_personal_field_'.$spot_id);
-    if ($data=false) {
+    if (!$data) {
       $field=UserPersonalField::model()->findByPk($spot_id);
 
       $data=array(9999);

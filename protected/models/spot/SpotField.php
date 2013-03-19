@@ -66,7 +66,7 @@ class SpotField extends CActiveRecord {
 
   public static function getSpotFields() {
     $spot_fields=Yii::app()->cache->get('spot_fields');
-    if ($spot_fields=false) {
+    if (!$spot_fields) {
       $spot_fields=SpotField::model()->findAll(array('order'=>'t.name'));
 
       Yii::app()->cache->set('spot_fields', $spot_fields, 36000);

@@ -242,7 +242,7 @@ class Spot extends CActiveRecord {
 
   public static function getUserSpot($user_id) {
     $user_spot=Yii::app()->cache->get('user_spot_'.$user_id);
-    if ($user_spot=false) {
+    if (!$user_spot) {
       $user_spot=Spot::model()->findByAttributes(array('user_id'=>$user_id));
 
       Yii::app()->cache->set('user_spot_'.$user_id, $user_spot, 3600);

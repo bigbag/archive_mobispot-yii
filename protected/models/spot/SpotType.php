@@ -79,7 +79,7 @@ class SpotType extends CActiveRecord {
 
   public static function getSpotType() {
     $spot_type=Yii::app()->cache->get('spot_type');
-    if ($spot_type=false) {
+    if (!$spot_type) {
       $spot_type=SpotType::model()->findAll(array('order'=>'name'));
 
       Yii::app()->cache->set('spot_type', $spot_type, 36000);
@@ -89,7 +89,7 @@ class SpotType extends CActiveRecord {
 
   public static function getSpotTypeArray() {
     $spot_type=Yii::app()->cache->get('spot_type_array');
-    if ($spot_type=false) {
+    if (!$spot_type) {
       $spot_type=CHtml::listData(SpotType::getSpotType(), 'type_id', 'name');
 
       Yii::app()->cache->set('spot_type_array', $spot_type, 36000);
