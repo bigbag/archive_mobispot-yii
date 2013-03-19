@@ -9,3 +9,10 @@
 .soc-link span{
   font-family: Mobispot, Arial,sans-serif;
 }
+
+li.spot-content_li{
+	background: #F2F3F5;
+}
+li.spot-content_li:hover{
+	background: #EBECED;
+}
