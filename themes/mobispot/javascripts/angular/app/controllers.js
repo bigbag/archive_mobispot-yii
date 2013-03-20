@@ -41,6 +41,17 @@ function UserCtrl($scope, $http, $compile)
 
 function SpotCtrl($scope, $http, $compile)
 {
+
+  $scope.getVcard=function(spot){
+    if (spot.vcard == 1 ) spot.vcard = 0;
+    else spot.vcard = 1;
+  };
+
+  $scope.getPrivate=function(spot){
+    if (spot.private == 1 ) spot.private = 0;
+    else spot.private = 1;
+  };
+
   $scope.accordion = function(e){
     var spot = angular.element(e.currentTarget).parent().parent();
     var discodes = spot.attr('id');

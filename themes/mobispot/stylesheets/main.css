@@ -458,14 +458,13 @@ p + .details{
 	background: #EBEBEC;
 	padding: 6px 40px;
 	margin-top: 2px;
-	cursor: pointer;
 	-webkit-transition: all linear .2s;
 	-moz-transition: all linear .2s;
 	-o-transition: all linear .2s;
 	transition: all linear .2s;
 	overflow: hidden;
 }
-.spot-list > li.open{
+.spot-list > li .spot-hat{
 	cursor: pointer;
 }
 .spot-list li:first-child{
@@ -540,6 +539,9 @@ a.active .tooltip{
 	left: 0;
 	width: 100%;
 	cursor: text;
+}
+.put + .label-cover{
+	display: none;
 }
 .popup{
 	position: fixed;
@@ -826,6 +828,9 @@ img[height='115']{
 .corp-spots .spot-options{
 	width: 200px;
 }
+.corp-spots .spot-options .checkbox {
+	float: left;
+}
 .corp-spots .spot-options .radio-link{
 	float: left;
 	width: 100px;
@@ -978,4 +983,6 @@ img[height='115']{
 .spot-hat{
 	clear: both;
 	overflow: hidden;
+	padding: 0 40px;
+	margin: 0 -40px;
 }
