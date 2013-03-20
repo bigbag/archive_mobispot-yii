@@ -50,15 +50,18 @@ function SpotCtrl($scope, $http, $compile)
         {
           if(data.error == 'no')
           {
-            console.log($compile(data.content)($scope));
+            angular.element('#' + discodes + ' .spot-content').html($compile(data.content)($scope));
           }
       });
 
-      angular.element('.spot-content').slideUp(300);
-      spotContent.slideToggle(300);
+      angular.element('.spot-content').hide();
+      spot.addClass('open');
+      spotContent.slideToggle(50);
     }
     else {
-      spotContent.slideUp(300);
+      angular.element('#' + discodes + ' .spot-content').empty();
+      spot.removeClass('open');
+      spotContent.slideUp(50);
     }
   }
 }

@@ -466,7 +466,7 @@ p + .details{
 	overflow: hidden;
 }
 .spot-list > li.open{
-	cursor: default;
+	cursor: pointer;
 }
 .spot-list li:first-child{
 	margin-top: 0;
