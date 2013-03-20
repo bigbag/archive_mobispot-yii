@@ -174,7 +174,7 @@ class Spot extends CActiveRecord {
   public function beforeValidate() {
 
     if (!$this->url) $this->url=$this->getUrl();
-    if (!$this->lang) $this->lang=0;
+    if (!$this->lang) $this->lang='en';
 
     if ($this->isNewRecord) {
       $this->generated_date=new CDbExpression('NOW()');
