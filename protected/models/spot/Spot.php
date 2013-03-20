@@ -32,17 +32,19 @@ class Spot extends CActiveRecord {
   const STATUS_REMOVED_SYS=5;
   const STATUS_INVISIBLE=6;
 
+  const TYPE_PERSONAL=3;
+  const TYPE_COUPON=4;
+  const TYPE_CARD=8;
+  const TYPE_FEEDBACK=9;
+
   public $spot_type_name;
 
   public function getAllSpot() {
     return array(
-        8=>Yii::t('account', 'Инфо-постер'),
-        4=>Yii::t('account', 'Купон'),
-        3=>Yii::t('account', 'Личный'),
-        10=>Yii::t('account', 'Отправка'),
-        9=>Yii::t('account', 'Связь'),
-        5=>Yii::t('account', 'Ссылка'),
-        6=>Yii::t('account', 'Файл'),
+      self::TYPE_PERSONAL=>Yii::t('account', 'Личный'),
+      self::TYPE_COUPON=>Yii::t('account', 'Купон'),
+      self::TYPE_CARD=>Yii::t('account', 'Инфо-постер'),
+      self::TYPE_FEEDBACK=>Yii::t('account', 'Связь'),
     );
   }
 
@@ -99,49 +101,6 @@ class Spot extends CActiveRecord {
     return 'spot';
   }
 
-  /**
-   * @return array validation rules for model attributes.
-   */
-  public function rules() {
-    // NOTE: you should only define rules for those attributes that
-    // will receive user inputs.
-    return array(
-        array('discodes_id, code, status, premium, generated_date', 'required'),
-        array('discodes_id, spot_type_id, user_id, premium, status', 'numerical', 'integerOnly'=>true),
-        array('name', 'filter', 'filter'=>'trim'),
-        array('discodes_id', 'unique'),
-        array('name', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
-        array('status', 'in', 'range'=>array_keys($this->getStatusList())),
-        array('url', 'length', 'max'=>128),
-        array('name', 'length', 'max'=>300),
-        array('code', 'length', 'max'=>10),
-        array(' barcode', 'length', 'max'=>32),
-        array('registered_date, removed_date', 'safe'),
-        array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on'=>'search'),
-    );
-  }
-
-  public function scopes() {
-    return array(
-        'all'=>array(),
-        'used'=>array(
-            'condition'=>'status=:status1 or status=:status2 or status=:status3',
-            'params'=>array(
-                ':status1'=>self::STATUS_REGISTERED,
-                ':status2'=>self::STATUS_CLONES,
-                ':status3'=>self::STATUS_INVISIBLE,
-            ),
-        ),
-        'mobil'=>array(
-            'condition'=>'status=:status1 or status=:status2',
-            'params'=>array(
-                ':status1'=>self::STATUS_REGISTERED,
-                ':status2'=>self::STATUS_CLONES,
-            ),
-        ),
-    );
-  }
-
   public function getUrl() {
     $new_url=substr(sha1($this->code.$this->discodes_id.time()), 0, 15);
     $spot=Spot::model()->findByAttributes(array('url'=>$new_url));
@@ -171,9 +130,67 @@ class Spot extends CActiveRecord {
       return $ean;
   }
 
+  /**
+   * @return array validation rules for model attributes.
+   */
+  public function rules() {
+    // NOTE: you should only define rules for those attributes that
+    // will receive user inputs.
+    return array(
+        array('discodes_id, code, status, premium, generated_date', 'required'),
+        array('discodes_id, spot_type_id, user_id, premium, status', 'numerical', 'integerOnly'=>true),
+        array('name', 'filter', 'filter'=>'trim'),
+        array('discodes_id', 'unique'),
+        array('name', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('status', 'in', 'range'=>array_keys($this->getStatusList())),
+        array('url', 'length', 'max'=>128),
+        array('name', 'length', 'max'=>300),
+        array('code', 'length', 'max'=>10),
+        array(' barcode', 'length', 'max'=>32),
+        array('registered_date, removed_date', 'safe'),
+        array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on'=>'search'),
+    );
+  }
+
+  public function scopes() {
+    return array(
+        'all'=>array(),
+        'personal'=>array(
+            'condition'=>'spot_type_id=:spot_type_id',
+            'params'=>array(
+                'spot_type_id'=>self::TYPE_PERSONAL,
+            ),
+        ),
+        'used'=>array(
+            'condition'=>'status=:status1 or status=:status2 or status=:status3',
+            'params'=>array(
+                ':status1'=>self::STATUS_REGISTERED,
+                ':status2'=>self::STATUS_CLONES,
+                ':status3'=>self::STATUS_INVISIBLE,
+            ),
+        ),
+        'mobil'=>array(
+            'condition'=>'status=:status1 or status=:status2',
+            'params'=>array(
+                ':status1'=>self::STATUS_REGISTERED,
+                ':status2'=>self::STATUS_CLONES,
+            ),
+        ),
+    );
+  }
+
+  public function selectUser($user_id){
+    $criteria=new CDbCriteria;
+    $criteria->compare('user_id', $user_id);
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
+  }
+
   public function beforeValidate() {
 
     if (!$this->url) $this->url=$this->getUrl();
+    if (!$this->spot_type_id) $this->spot_type_id=self::TYPE_PERSONAL;
+
     if (!$this->lang) $this->lang='en';
 
     if ($this->isNewRecord) {

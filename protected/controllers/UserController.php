@@ -36,7 +36,7 @@ class UserController extends MController {
     }
   }
 
-  public function actionAccount() {
+  public function actionPersonal() {
     $this->layout='//layouts/spots';
 
     if (!Yii::app()->user->id) {
@@ -48,17 +48,16 @@ class UserController extends MController {
       if ($user->status==User::STATUS_ACTIVE)
         $this->redirect('/');
 
-      $criteria=new CDbCriteria;
-      $criteria->compare('user_id', $user_id);
-      $dataProvider=new CActiveDataProvider(Spot::model()->used(), array(
-          'criteria'=>$criteria,
+      $dataProvider=new CActiveDataProvider(
+        Spot::model()->personal()->used()->selectUser($user_id),
+        array(
           'pagination'=>array(
               'pageSize'=>100,
           ),
           'sort'=>array('defaultOrder'=>'registered_date desc'),
       ));
 
-      $this->render('account', array(
+      $this->render('personal', array(
           'dataProvider'=>$dataProvider,
           'spot_type_all'=>SpotType::getSpotTypeArray(),
       ));
