@@ -42,7 +42,7 @@ function UserCtrl($scope, $http, $compile)
 function SpotCtrl($scope, $http, $compile)
 {
   $scope.accordion = function(e){
-    var spot = angular.element(e.currentTarget).parent();
+    var spot = angular.element(e.currentTarget).parent().parent();
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
     if (spotContent.is(":hidden")) {

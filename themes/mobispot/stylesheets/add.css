@@ -2,10 +2,6 @@
 	display: none;
 }
 
-.checkbox.active i {
- 	background-position: -135px -41px;
- }
-
 .soc-link span{
   font-family: Mobispot, Arial,sans-serif;
 }

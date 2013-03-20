@@ -415,3 +415,38 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-moz-transition: background-color 0s ease-in-out 0s;
 	transition: background-color 0s ease-in-out 0s;
 }
+.orbit-wrapper .slider-nav span{
+	height: 50px;
+	width: 50px;
+	background-color: #fff;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	margin: 0 60px;
+	overflow: hidden;
+	background: url(../images/icons/i-small.png) 0 0 no-repeat;
+}
+.orbit-wrapper .slider-nav span.left,
+.orbit-wrapper .slider-nav span.right{
+	background-image: url(../images/icons/i-small.png);
+	background-repeat: no-repeat;
+	background-size: auto;
+	background-color: #fff;
+}
+.orbit-wrapper .slider-nav span.left:hover,
+.orbit-wrapper .slider-nav span.right:hover{
+	background-color: #0063ff;
+}
+
+.orbit-wrapper .slider-nav span.left{
+	background-position: -172px -61px;
+}
+.orbit-wrapper .slider-nav span.right{
+	background-position: -213px -61px;
+}
+.orbit-wrapper .slider-nav span.left:hover{
+	background-position: -172px -114px;
+}
+.orbit-wrapper .slider-nav span.right:hover{
+	background-position: -213px -114px;
+}

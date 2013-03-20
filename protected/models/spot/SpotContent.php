@@ -87,19 +87,19 @@ class SpotContent extends CActiveRecord {
     );
   }
 
-  public static function getUserSpotContent($user_id, $spot_type_id) {
-    $user_spot=Yii::app()->cache->get('spot_content_'.$user_id);
-    if (!$user_spot) {
-      $user_spot=Spot::model()->findByAttributes(
+  public static function getSpotContent($discodes_id, $spot_type_id) {
+    $spot_content=Yii::app()->cache->get('spot_content_'.$discodes_id);
+    if (!$spot_content) {
+      $spot_content=SpotContent::model()->findByAttributes(
         array(
-          'user_id'=>$user_id,
+          'discodes_id'=>$discodes_id,
           'spot_type_id'=>$spot_type_id,
         )
       );
 
-      Yii::app()->cache->set('spot_content_'.$user_id, $user_spot, 60);
+      Yii::app()->cache->set('spot_content_'.$discodes_id, $spot_content, 60);
     }
-    return $user_spot;
+    return $spot_content;
   }
 
   /**

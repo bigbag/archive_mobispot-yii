@@ -474,6 +474,9 @@ p + .details{
 .spot-list li.open{
 	background: #ebebec;
 }
+.spot-list h3{
+	float: left;
+}
 .tooltip{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
 	-moz-opacity: 0;
@@ -528,9 +531,7 @@ a.active .tooltip{
 }
 .spot-content{
 	padding-bottom: 34px;
-	margin-top: -44px;
-}
-.spot-content{
+	position: relative;
 	display: none;
 }
 .label-cover{
@@ -950,4 +951,31 @@ img[height='115']{
 }
 .lang-dropdown .options{
 	bottom: 37px;
+}
+.round-img-block .round{
+	overflow: hidden;
+	width: 24.4em;
+	height: 24.4em;
+	margin: 0 auto;
+}
+.round-img-block .text-block{
+	height: 24.4em;
+	vertical-align: middle;
+	display: table-cell;
+}
+.round-img-block{
+	margin-top: 9em;
+	margin-bottom: 9em;
+}
+.img-block{
+	margin-top: 5.6em;
+	margin-bottom: 5.6em;
+}
+.biggest-heading + p{
+	margin: 20px 0 70px;
+	font-size: 18px;
+}
+.spot-hat{
+	clear: both;
+	overflow: hidden;
 }

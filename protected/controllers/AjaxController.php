@@ -44,14 +44,14 @@ class AjaxController extends MController {
       if (isset($data['discodes'])) {
         $spot=Spot::model()->findByPk($data['discodes']);
         if ($spot) {
-          $data=SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-          // $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->pattern,
-          //   array(
-          //     'data'=>$spot,
-          //     'content'=>$data,
-          //   ),
-          //   true);
-          print_r($data);
+          $spotContent=SpotContent::getSpotContent($spot->discodes_id, $spot->spot_type_id);
+          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
+            array(
+              'spot'=>$spot,
+              'spotContent'=>$spotContent,
+              'field'=>$spot->spot_type->field,
+            ),
+            true);
           $error="no";
         }
       }
