@@ -11,7 +11,7 @@
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Last name');?>">
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Email');?>" required >
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Mobile');?>">
-      <textarea rows="5" placeholder="<?php echo Yii::t('help', 'Question');?>"></textarea>
+      <textarea rows="5" placeholder="<?php echo Yii::t('help', 'Question');?> (<?php echo Yii::t('help', 'If you have a suggested answer, please let us know.');?>)"></textarea>
       <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
       <div class="form-control">
         <a class="spot-button" href="javascript:;"><?php echo Yii::t('help', 'Send');?></a>
@@ -21,12 +21,12 @@
 </div>
 <div class="row">
   <div class="twelve columns">
-    <h5>Or if you want, we can connect on</h5>
+    <h5><?php echo Yii::t('help', 'Or if you want, we can connect on');?></h5>
     <ul>
-      <li>Email – <a href="mailto:helpme@mobispot.com">helpme@mobispot.com</a></li>
-      <li>Skype – xxxx</li>
-      <li class="soc-link">Keep up at Twitter <a href="#" class="i-soc-fac">&nbsp;</a></li>
-      <li class="soc-link">Hook up at Facebook <a href="#" class="i-soc-twi">&nbsp;</a></li>
+      <li><?php echo Yii::t('help', 'Email');?> – <a href="mailto:helpme@mobispot.com">helpme@mobispot.com</a></li>
+      <li><?php echo Yii::t('help', 'Skype');?> – mobispot</li>
+      <li class="soc-link"><?php echo Yii::t('help', 'Keep up at Twitter');?> <a href="#" class="i-soc-fac">&nbsp;</a></li>
+      <li class="soc-link"><?php echo Yii::t('help', 'Hook up at Facebook');?> <a href="#" class="i-soc-twi">&nbsp;</a></li>
     </ul>
   </div>
 </div>
