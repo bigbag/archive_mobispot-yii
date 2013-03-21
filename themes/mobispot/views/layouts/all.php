@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
 <?php include('block/head.php');?>
-<body  ng-app="mobispotApp">
+<body ng-app="mobispotApp">
 <div class="content-wrapper">
 	<?php include('block/header/all.php');?>
 	<div class="row">

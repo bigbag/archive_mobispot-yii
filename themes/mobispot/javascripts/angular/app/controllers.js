@@ -76,3 +76,8 @@ function SpotCtrl($scope, $http, $compile)
     }
   }
 }
+
+function HelpCtrl($scope, $http, $compile)
+{
+
+}

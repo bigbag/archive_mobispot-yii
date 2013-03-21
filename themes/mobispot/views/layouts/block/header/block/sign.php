@@ -10,7 +10,6 @@
 			<form id="sign-in" name="signForm">
 				<input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" autocomplete="off" required >
 				<input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" autocomplete="off" required >
-				<input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
 				<div class="form-control">
 					<a class="spot-button login" href="javascript:;" ng-show="!signForm.$invalid" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
 					<span class="right soc-link">
