@@ -35,6 +35,18 @@ class AjaxController extends MController {
     }
   }
 
+  public function actionSendQuestion() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+
+
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
   public function actionSpotView() {
     if (Yii::app()->request->isAjaxRequest) {
       $error="yes";

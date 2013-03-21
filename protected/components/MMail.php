@@ -1,20 +1,20 @@
 <?php
 Class MMail
 {
-  
+
   public function render($template, array $data = array())
   {
     $path = Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/' . $template . '.php';
     if (!file_exists($path)) throw new Exception('Template ' . $path . ' does not exist.');
     return $this->renderFile($path, $data, true);
   }
-  
-  
+
+
   public function activation($email, $activkey, $lang)
   {
     $mail_template = MailTemplate::getTemplate('activation', $lang);
     $activation_url = Yii::app()->par->load('siteUrl') . '/service/activation/activkey/' . $activkey . '/email/' . $email;
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -24,16 +24,16 @@ Class MMail
         'activation_url' => $activation_url,
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
+
   public function recovery($email, $activkey, $lang)
   {
     $mail_template = MailTemplate::getTemplate('recovery', $lang);
     $activation_url = Yii::app()->par->load('siteUrl') . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -43,15 +43,15 @@ Class MMail
         'activation_url' => $activation_url,
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
+
   public function spot_feedback($email, $data, $lang)
   {
     $mail_template = MailTemplate::getTemplate('spot_feedback', $lang);
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -65,15 +65,15 @@ Class MMail
         'comment' => (isset($data['comment'])) ? $data['comment'] : '',
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
+
   public function spot_send($email, $data, $lang)
   {
     $mail_template = MailTemplate::getTemplate('spot_send', $lang);
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -85,15 +85,15 @@ Class MMail
         'spot_id' => (isset($data['spot_id'])) ? $data['spot_id'] : '',
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
+
   public function spot_comment($email, $data, $lang)
   {
     $mail_template = MailTemplate::getTemplate('spot_comment', $lang);
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -105,15 +105,15 @@ Class MMail
         'spot_id' => $data->spot_id,
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
-  public function faq_question($email, $data, $lang)
+
+  public function question($email, $data, $lang)
   {
     $mail_template = MailTemplate::getTemplate('faq_question', $lang);
-    
+
     $stack = new MailStack;
     $stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
     $stack->to = serialize(array($email));
@@ -125,10 +125,10 @@ Class MMail
         'question' => $data->question,
       ),
     true);
-    
+
     if ($stack->save()) return true;
   else return false;
   }
-  
-  
+
+
 }

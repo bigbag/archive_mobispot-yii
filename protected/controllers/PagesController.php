@@ -22,5 +22,4 @@ class PagesController extends MController {
     $this->layout='//layouts/slider';
     $this->render('sections/'.Yii::app()->language.'/'.$id);
   }
-
 }
