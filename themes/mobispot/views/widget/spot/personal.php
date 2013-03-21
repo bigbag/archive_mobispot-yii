@@ -2,7 +2,7 @@
 <?php print_r($field);?>
 
 <?php else:?>
-<span ng-init="spot.vcard=1; spot.private=1;"></span>
+<span ng-init="spot.vcard=0; spot.private=0;"></span>
 <?php endif;?>
 
 <form ng-submit="doSomething(spot)">
@@ -15,14 +15,14 @@
     </label>
   </div>
 </div>
-<div class="toggle-active">
-  <a class="checkbox agree" href="javascript:;" ng-click="getVcard(spot)">
-    <i></i><?php echo Yii::t('spots', 'Allow download spot as a card');?>
+<div class="spot-content_row spot-options toggle-active">
+  <a class="checkbox" href="javascript:;"  ng-click="getVcard(spot)">
+    <i class="large"></i>
+    <?php echo Yii::t('spots', 'Allow download spot as a card');?>
   </a>
-</div>
-<div class="toggle-active">
-  <a class="checkbox agree" href="javascript:;" ng-click="getPrivate(spot)">
-    <i></i><?php echo Yii::t('spots', 'Make it private');?>
+  <a class="checkbox" href="javascript:;" ng-click="getPrivate(spot)">
+    <i class="large"></i>
+    <?php echo Yii::t('spots', 'Make it private');?>
   </a>
 </div>
 </form>

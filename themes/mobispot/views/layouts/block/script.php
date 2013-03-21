@@ -6,6 +6,7 @@
 <script src="/themes/mobispot/javascripts/jquery/img-slider.min.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/app.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
+<script src="/themes/mobispot/javascripts/jquery/jquery.autosize-min.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/script.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/script_add.js"></script>
 
