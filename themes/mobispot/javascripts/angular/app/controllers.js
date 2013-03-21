@@ -62,18 +62,20 @@ function SpotCtrl($scope, $http, $compile)
           if(data.error == 'no')
           {
             angular.element('#' + discodes + ' .spot-content').html($compile(data.content)($scope));
+
+            angular.element('.spot-content_li').removeClass('open');
+            angular.element('.spot-content').hide();
+            spot.addClass('open');
+            spotContent.slideToggle(300);
           }
       });
 
-      angular.element('.spot-content_li').removeClass('open');
-      angular.element('.spot-content').hide();
-      spot.addClass('open');
-      spotContent.slideToggle(50);
+
     }
     else {
-      angular.element('#' + discodes + ' .spot-content').empty();
       spot.removeClass('open');
-      spotContent.slideUp(50);
+      spotContent.slideUp(300);
+      angular.element('#' + discodes + ' .spot-content').empty();
     }
   }
 }
