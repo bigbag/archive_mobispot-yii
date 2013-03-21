@@ -11,7 +11,7 @@
       <input name='lname' type="text" ng-model="user.lname" placeholder="<?php echo Yii::t('help', 'Last name');?>">
       <input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('help', 'Email');?>" required >
       <input name='phone' type="text" ng-model="user.phone" placeholder="<?php echo Yii::t('help', 'Mobile');?>">
-      <textarea name="question" ng-model="user.email" rows="5" placeholder="<?php echo Yii::t('help', 'Question');?> (<?php echo Yii::t('help', 'If you have a suggested answer, please let us know.');?>)"></textarea>
+      <textarea name="question" ng-model="user.question" rows="5" placeholder="<?php echo Yii::t('help', 'Question');?> (<?php echo Yii::t('help', 'If you have a suggested answer, please let us know.');?>)"></textarea>
 
       <div class="form-control">
         <a class="spot-button" href="javascript:;" ng-show="!helpForm.$invalid" ng-click="login(user)"><?php echo Yii::t('help', 'Send');?></a>
