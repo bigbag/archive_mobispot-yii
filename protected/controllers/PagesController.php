@@ -15,12 +15,12 @@ class PagesController extends MController {
   }
 
   public function actionHelp() {
-    $this->render('sections/'.Yii::app()->language.'/help');
+    $this->render('help');
   }
 
   public function actionSections($id) {
     $this->layout='//layouts/slider';
-    $this->render('help');
+    $this->render('sections/'.Yii::app()->language.'/'.$id);
   }
 
 }
