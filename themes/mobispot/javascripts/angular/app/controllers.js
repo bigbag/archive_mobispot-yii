@@ -65,6 +65,7 @@ function SpotCtrl($scope, $http, $compile)
           }
       });
 
+      angular.element('.spot-content_li').removeClass('open');
       angular.element('.spot-content').hide();
       spot.addClass('open');
       spotContent.slideToggle(50);
