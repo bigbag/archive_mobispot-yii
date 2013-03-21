@@ -61,10 +61,10 @@ function SpotCtrl($scope, $http, $compile)
         {
           if(data.error == 'no')
           {
-            angular.element('#' + discodes + ' .spot-content').html($compile(data.content)($scope));
-
             angular.element('.spot-content_li').removeClass('open');
-            angular.element('.spot-content').hide();
+            angular.element('.spot-content').slideUp(300);
+
+            spotContent.html($compile(data.content)($scope));
             spot.addClass('open');
             spotContent.slideToggle(300);
           }
@@ -75,7 +75,7 @@ function SpotCtrl($scope, $http, $compile)
     else {
       spot.removeClass('open');
       spotContent.slideUp(300);
-      angular.element('#' + discodes + ' .spot-content').empty();
+      spotContent.empty();
     }
   }
 }

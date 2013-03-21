@@ -36,7 +36,7 @@ $(window).load(function() {
     $(this).parents('tr').remove();
   });
 
-  $('label').on('click', function(){
+  $('.spot-list').on('click','label', function(){
     $(this).prev().focus();
   });
   $('.settings-button').on('click', showPopup);
