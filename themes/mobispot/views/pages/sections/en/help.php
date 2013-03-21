@@ -11,7 +11,7 @@
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Last name');?>">
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Email');?>" required >
       <input name='email' type="email" placeholder="<?php echo Yii::t('help', 'Mobile');?>">
-      <textarea rows="5" placeholder="<?php echo Yii::t('help', 'Question');?>"></textarea>
+      <textarea rows="5" placeholder="<?php echo Yii::t('help', 'Question.');?> <?php echo Yii::t('help', 'If you have a suggested answer, please let us know.');?>"></textarea>
       <input name="token" type="hidden" value="<?php echo Yii::app()->request->csrfToken?>">
       <div class="form-control">
         <a class="spot-button" href="javascript:;"><?php echo Yii::t('help', 'Send');?></a>
