@@ -11,7 +11,7 @@
 				<input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" autocomplete="off" maxlength="300" required >
 				<input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" autocomplete="off" maxlength="300" required >
 				<div class="form-control">
-					<a class="spot-button login" href="javascript:;" ng-show="!signForm.$invalid" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
+					<a class="spot-button login button-disable" href="javascript:;" ng-click="login(user)" ><?php echo Yii::t('sign', 'Sign in');?></a>
 					<span class="right soc-link">
 						<a href="/service/social?service=facebook" class="i-soc-fac">&nbsp;</a>
 						<a href="/service/social?service=twitter" class="i-soc-twi">&nbsp;</a>

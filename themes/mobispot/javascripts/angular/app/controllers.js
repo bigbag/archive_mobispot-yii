@@ -2,6 +2,16 @@
 
 function UserCtrl($scope, $http, $compile)
 {
+
+
+  $scope.$watch('user.email + user.password', function(user)
+  {
+    if ($scope.user.email && $scope.user.password)
+    {
+      angular.element('#sign-in .form-control a').removeClass('button-disable');
+    }
+  });
+
   //Авторизация
   $scope.login = function(user)
   {
@@ -41,7 +51,6 @@ function UserCtrl($scope, $http, $compile)
 
 function SpotCtrl($scope, $http, $compile)
 {
-
   $scope.getVcard=function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
     else spot.vcard = 1;
@@ -82,13 +91,26 @@ function SpotCtrl($scope, $http, $compile)
 
 function HelpCtrl($scope, $http, $compile)
 {
-  $scope.send=function(user){
-    $http.post('/ajax/sendQuestion', user).success(function(data)
+
+  $scope.$watch('user.email + user.fName + user.question', function(user)
+  {
+    if ($scope.user.fName && $scope.user.email && $scope.user.question)
     {
-      if(data.error == 'no')
+      angular.element('#help-in .form-control a').removeClass('button-disable');
+    }
+  });
+
+
+  $scope.send=function(user){
+    if (user.fName && user.email && user.question)
+    {
+      $http.post('/ajax/sendQuestion', user).success(function(data)
       {
-        console.log(1);
-      }
-    });
+        if(data.error == 'no')
+        {
+          console.log(1);
+        }
+      });
+    }
   };
 }

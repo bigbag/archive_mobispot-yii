@@ -940,7 +940,7 @@ img[height='115']{
 .offer-item{
 	position: relative;
 }
-.lang-dropdown{
+.footer-page .lang-dropdown{
 	display: inline-block;
 	position: absolute;
 	top: 6px;
@@ -985,4 +985,28 @@ img[height='115']{
 	overflow: hidden;
 	padding: 0 40px;
 	margin: 0 -40px;
+}
+.error-message{
+	background: url("../images/icons/i-error.2x.png");
+	width: 590px;
+	background-size: 100%;
+	height: 434px;
+	margin: 0 auto;
+}
+.error-text-block{
+	height: 294px;
+	width: 294px;
+	display: table-cell;
+	vertical-align: middle;
+	color: #fff;
+}
+.error-text-block h1{
+	color: #fff;
+	font-size: 70px;
+	margin: 7px;
+	line-height: 68px;
+}
+.error-text-block p{
+	font-size: 18px;
+
 }
