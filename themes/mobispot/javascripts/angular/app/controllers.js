@@ -89,11 +89,12 @@ function SpotCtrl($scope, $http, $compile)  {
     }
   }
 
-  $scope.saveSpot=function(e, spot1)  {
-    if (spot1.content && spot1.user)  {
-      $http.post('/ajax/spotSave', spot1).success(function(data)  {
+  $scope.saveSpot=function(e, spot)  {
+    if (spot.content && spot.user)  {
+      $http.post('/ajax/spotSave', spot).success(function(data)  {
         if(data.error == 'no')  {
-          angular.element('.new-content').html(spot1.content);
+          angular.element('#' + spot.discodes + ' .spot-content').before($compile(data.content)($scope));
+          spot.content='';
         }
       });
     }

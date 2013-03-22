@@ -81,6 +81,11 @@ class AjaxController extends MController {
       $data=$this->getJson();
       if ($data['token'] and $data['token']==Yii::app()->request->csrfToken) {
         if ($data['content'] and $data['user']){
+          $content=$this->renderPartial('//widget/spot/personal/new_text',
+              array(
+                'content'=>$data['content'],
+              ),
+              true);
           $error="no";
         }
       }
