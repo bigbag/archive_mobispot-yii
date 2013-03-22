@@ -1,5 +1,5 @@
 <?php
-  $this->sliderImage=array('slider.jpg', 'slider.jpg', 'slider.jpg');
+  $this->sliderImage=array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
 ?>
 
 <div class="row">
