@@ -30,7 +30,7 @@ var hidePopup = function(){
 };
 
 $(window).load(function() {
-  // $('textarea').autosize();
+  //$('textarea').autosize();
 
   $(document).on('click','.add-active > *', addActive);
   $(document).on('click','.toggle-active > *', toggleActive);
