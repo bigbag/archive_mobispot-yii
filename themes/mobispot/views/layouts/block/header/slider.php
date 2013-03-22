@@ -22,12 +22,12 @@
 			</div>
 			<div class="bubbles-slider">
 				<div id="slider">
-					<?php if (Yii::app()->controller->id=='site'): ?>
-						<img src="/themes/mobispot/images/slider.jpg" />
-						<img src="/themes/mobispot/images/slider.jpg" />
-						<img src="/themes/mobispot/images/slider.jpg" />
+					<?php if($this->sliderImage):?>
+						<?php foreach ($this->sliderImage as $file):?>
+							<img src="/themes/mobispot/images/<?php echo $file;?>" />
+						<?php endforeach;?>
 					<?php else:?>
-						<img src="/themes/mobispot/images/slider.jpg" />
+					<img src="/themes/mobispot/images/slider.jpg" />
 					<?php endif;?>
 				</div>
 				<div class="bubbles-content">

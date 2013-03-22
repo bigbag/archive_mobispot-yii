@@ -1,3 +1,7 @@
+<?php
+  $this->sliderImage=array('slider.jpg', 'slider.jpg', 'slider.jpg');
+?>
+
 <div class="row">
   <div class="twelve columns textSlider-box">
     <div id="textSlider">
