@@ -53,20 +53,38 @@ class AjaxController extends MController {
       $content="";
 
       $data=$this->getJson();
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-          $spotContent=SpotContent::getSpotContent($spot->discodes_id, $spot->spot_type_id);
-          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
-            array(
-              'spot'=>$spot,
-              'spotContent'=>$spotContent,
-              'field'=>$spot->spot_type->field,
-            ),
-            true);
+      if ($data['token'] and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['discodes'])) {
+          $spot=Spot::model()->findByPk($data['discodes']);
+          if ($spot) {
+            $spotContent=SpotContent::getSpotContent($spot->discodes_id, $spot->spot_type_id);
+            $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
+              array(
+                'spot'=>$spot,
+                'spotContent'=>$spotContent,
+                'field'=>$spot->spot_type->field,
+              ),
+              true);
+            $error="no";
+          }
+        }
+      }
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
+  public function actionSpotSave() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+      if ($data['token'] and $data['token']==Yii::app()->request->csrfToken) {
+        if ($data['content'] and $data['user']){
           $error="no";
         }
       }
+
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }

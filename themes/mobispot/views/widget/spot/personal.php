@@ -5,8 +5,9 @@
 <span ng-init="spot.vcard=0; spot.private=0;"></span>
 <?php endif;?>
 
-<form ng-submit="doSomething(spot)">
+<form ng-submit="doSomething(spot)" ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
 <div class="spot-content_row">
+  <div class="new-content"></div>
   <div class="spot-item">
     <textarea ng-model="spot.content" ></textarea>
     <label class="text-center label-cover">
@@ -25,4 +26,6 @@
     <?php echo Yii::t('spots', 'Make it private');?>
   </a>
 </div>
+  <a class="spot-button" href="javascript:;" ng-click="saveSpot($event, spot)" ><?php echo Yii::t('spots', 'Send');?></a>
+
 </form>

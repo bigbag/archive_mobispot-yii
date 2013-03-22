@@ -7,7 +7,7 @@
 
 <?php include('block/head.php');?>
 <body  ng-app="mobispotApp">
-<div class="content-wrapper" ng-controller="SpotCtrl" ng-init="spot.user='<?php echo Yii::app()->user->id;?>'">
+<div class="content-wrapper" ng-controller="SpotCtrl" ng-init="spot.user=<?php echo Yii::app()->user->id;?>; spot.token='<?php echo Yii::app()->request->csrfToken?>'">
 <?php include('block/header/spots.php');?>
 <?php echo $content; ?>
 
