@@ -45,23 +45,21 @@ angular.module('ui.directives').directive('uiSelect2', ['ui.config', '$timeout',
           // Watch the model for programmatic changes
           controller.$render = function () {
             if (isSelect) {
-              elm.select2('val', controller.$viewValue);
+              elm.select2('val', controller.$modelValue);
             } else {
               if (isMultiple) {
-                if (!controller.$viewValue) {
+                if (!controller.$modelValue) {
                   elm.select2('data', []);
-                } else if (angular.isArray(controller.$viewValue)) {
-                  elm.select2('data', controller.$viewValue);
+                } else if (angular.isArray(controller.$modelValue)) {
+                  elm.select2('data', controller.$modelValue);
                 } else {
-                  elm.select2('val', controller.$viewValue);
+                  elm.select2('val', controller.$modelValue);
                 }
               } else {
-                if (angular.isObject(controller.$viewValue)) {
-                  elm.select2('data', controller.$viewValue);
-                } else if (!controller.$viewValue) {
-                  elm.select2('data', null);
+                if (angular.isObject(controller.$modelValue)) {
+                  elm.select2('data', controller.$modelValue);
                 } else {
-                  elm.select2('val', controller.$viewValue);
+                  elm.select2('val', controller.$modelValue);
                 }
               }
             }
@@ -111,17 +109,11 @@ angular.module('ui.directives').directive('uiSelect2', ['ui.config', '$timeout',
         }
 
         // Set initial value since Angular doesn't
-        //elm.val(scope.$eval(attrs.ngModel));
+        elm.val(scope.$eval(attrs.ngModel));
 
         // Initialize the plugin late so that the injected DOM does not disrupt the template compiler
         $timeout(function () {
           elm.select2(opts);
-
-          // Set initial value - I'm not sure about this but it seems to need to be there
-          elm.val(controller.$viewValue);
-          // important!
-          controller.$render();
-
           // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
           if (!opts.initSelection && !isSelect)
             controller.$setViewValue(elm.select2('data'));

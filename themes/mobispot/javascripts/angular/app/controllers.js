@@ -2,6 +2,7 @@
 
 function UserCtrl($scope, $http, $compile)  {
   $scope.$watch('user.email + user.password', function(user)  {
+
     if ($scope.user.email && $scope.user.password)  {
       angular.element('#sign-in .form-control a').removeClass('button-disable');
     }
@@ -9,6 +10,7 @@ function UserCtrl($scope, $http, $compile)  {
 
   //Авторизация
   $scope.login = function(user) {
+    if (!user.email || !user.passwordsds) return false;
     $http.post('/service/login', user).success(function(data) {
       if(data.error == 'login_error_count') {
         $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)        {
@@ -53,6 +55,7 @@ function HelpCtrl($scope, $http, $compile)  {
 }
 
 function SpotCtrl($scope, $http, $compile)  {
+
   $scope.getVcard=function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
     else spot.vcard = 1;

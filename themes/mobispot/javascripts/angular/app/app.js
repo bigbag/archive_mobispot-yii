@@ -1,5 +1,3 @@
 'use strict';
-
-var mobispotApp = angular.module('mobispotApp', ['ui']);
-
+var mobispot = angular.module('mobispot', ['ui.directives']);
 

@@ -2,6 +2,7 @@
 <?php print_r($field);?>
 
 <?php else:?>
+
 <span ng-init="spot.vcard=0; spot.private=0;"></span>
 <?php endif;?>
 
