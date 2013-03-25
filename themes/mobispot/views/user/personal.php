@@ -1,6 +1,5 @@
 <div class="row">
   <div class="column twelve">
-<button ng-click="add()">Add</button>
     <?php $this->widget('MListView', array(
       'dataProvider'=>$dataProvider,
       'itemView'=>'block/spots',

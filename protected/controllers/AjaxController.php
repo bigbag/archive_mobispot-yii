@@ -53,7 +53,7 @@ class AjaxController extends MController {
       $content="";
 
       $data=$this->getJson();
-      if ($data['token'] and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['discodes'])) {
           $spot=Spot::model()->findByPk($data['discodes']);
           if ($spot) {
@@ -79,8 +79,12 @@ class AjaxController extends MController {
       $content="";
 
       $data=$this->getJson();
-      if ($data['token'] and $data['token']==Yii::app()->request->csrfToken) {
-        if ($data['content'] and $data['user']){
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['content']) and isset($data['user'])){
+          if (isset($data['discodes'])){
+            $spot=Spot::model()->findByPk($data['discodes']);
+
+          }
           $content=$this->renderPartial('//widget/spot/personal/new_text',
               array(
                 'content'=>$data['content'],

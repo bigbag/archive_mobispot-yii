@@ -92,11 +92,11 @@ function SpotCtrl($scope, $http, $compile)  {
     }
   }
 
-  $scope.saveSpot=function(e, spot)  {
+  $scope.saveSpot=function(spot)  {
     if (spot.content && spot.user)  {
       $http.post('/ajax/spotSave', spot).success(function(data)  {
         if(data.error == 'no')  {
-          angular.element('#' + spot.discodes + ' .spot-content').before($compile(data.content)($scope));
+          angular.element('#' + spot.discodes + ' #add-content').before($compile(data.content)($scope));
           spot.content='';
         }
       });
