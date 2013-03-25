@@ -14,6 +14,12 @@
       <div data-caption="#captionThree">
         <h1><?php echo Yii::t('slider', 'text slider 3')?></h1>
       </div>
+      <div data-caption="#captionThree">
+        <h1><?php echo Yii::t('slider', 'text slider 4')?></h1>
+      </div>
+      <div data-caption="#captionThree">
+        <h1><?php echo Yii::t('slider', 'text slider 5')?></h1>
+      </div>
     </div>
   </div>
 </div>

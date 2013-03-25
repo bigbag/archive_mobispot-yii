@@ -10,6 +10,7 @@ class MController extends Controller
   public $pageKeywords;
 
   public $sliderImage;
+  public $sliderText;
 
   public $pageClass;
   /**
