@@ -10,7 +10,7 @@ function UserCtrl($scope, $http, $compile)  {
 
   //Авторизация
   $scope.login = function(user) {
-    if (!user.email || !user.passwordsds) return false;
+    if (!user.email || !user.password) return false;
     $http.post('/service/login', user).success(function(data) {
       if(data.error == 'login_error_count') {
         $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)        {
