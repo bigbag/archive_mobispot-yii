@@ -35,7 +35,7 @@
       </div>
       <p>
 
-      © 2013 Mobispot. Ltd. All rights reserved<br>
+      © 2013 Mobispot Social Systems. All rights reserved<br>
       <a href="mailto:sales@mobispot.com">sales@mobispot.com</a><br>
       </p>
     </div>
