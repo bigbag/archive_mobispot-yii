@@ -1,5 +1,9 @@
 'use strict';
 
+function $id(id) {
+  return document.getElementById(id);
+}
+
 function UserCtrl($scope, $http, $compile)  {
   $scope.$watch('user.email + user.password', function(user)  {
 
@@ -55,6 +59,62 @@ function HelpCtrl($scope, $http, $compile)  {
 }
 
 function SpotCtrl($scope, $http, $compile)  {
+   $scope.maxSize = 2500000;
+
+  function output(msg) {
+    var m = $id("messages");
+    m.innerHTML = msg + m.innerHTML;
+  }
+
+  function fileDragHover(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.target.className = (e.type == "dragover" ? "hover" : "");
+  }
+
+  function fileSelectHandler(e) {
+    fileDragHover(e);
+    var files = e.target.files || e.dataTransfer.files;
+
+    for (var i = 0, f; f = files[i]; i++) {
+      $scope.uploadFile(f);
+      $scope.parseFile(f);
+    }
+  }
+
+  function uploadProgress(evt) {
+    $scope.$apply(function(){
+      if (evt.lengthComputable) {
+        $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+      } else {
+        $scope.progress = 'unable to compute'
+      }
+    })
+  }
+
+  $scope.parseFile= function(file) {
+    if (file.type.indexOf("image") == 0) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+         output(
+          "<p>" +
+          '<img src="' + e.target.result + '" /></p>'
+        );
+      }
+      reader.readAsDataURL(file);
+    }
+
+  }
+
+  $scope.uploadFile = function(file) {
+
+    var xhr = new XMLHttpRequest();
+    if (xhr.upload && file.size <= $scope.maxSize) {
+      xhr.open("POST", "upload.php", true);
+      xhr.setRequestHeader("X-File-Name", file.name);
+      xhr.send(file);
+    }
+  }
 
   $scope.getVcard=function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
@@ -82,6 +142,16 @@ function SpotCtrl($scope, $http, $compile)  {
             spotContent.html($compile(data.content)($scope));
             spot.addClass('open');
             spotContent.slideToggle(500);
+
+            var filedrag = $id("filedrag");
+            if (filedrag) {
+              var xhr = new XMLHttpRequest();
+              if (xhr.upload) {
+                filedrag.addEventListener("dragover", fileDragHover, false);
+                filedrag.addEventListener("dragleave", fileDragHover, false);
+                filedrag.addEventListener("drop", fileSelectHandler, false);
+              }
+            }
           }
       });
     }
