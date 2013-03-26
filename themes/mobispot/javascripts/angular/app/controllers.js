@@ -96,10 +96,16 @@ function SpotCtrl($scope, $http, $compile)  {
     if (file.type.indexOf("image") == 0) {
       var reader = new FileReader();
       reader.onload = function(e) {
-         output(
-          "<p>" +
-          '<img src="' + e.target.result + '" /></p>'
-        );
+
+
+        var txt = '<div class="spot-item">' +
+          '<div class="item-area text-center">' +
+          '<img src="' + e.target.result + '">' +
+          '<div class="spot-cover slow">' +
+          '<a class="button remove-spot round" href="javascripts:;"></a>' +
+          '<div class="move-spot"><i></i><span>Move your photo</span></div>' +
+          '</div></div></div>';
+          angular.element('#add-content').before($compile(txt)($scope));
       }
       reader.readAsDataURL(file);
     }
@@ -166,7 +172,7 @@ function SpotCtrl($scope, $http, $compile)  {
     if (spot.content && spot.user)  {
       $http.post('/ajax/spotSave', spot).success(function(data)  {
         if(data.error == 'no')  {
-          angular.element('#' + spot.discodes + ' #add-content').before($compile(data.content)($scope));
+          angular.element('#add-content').before($compile(data.content)($scope));
           spot.content='';
         }
       });
