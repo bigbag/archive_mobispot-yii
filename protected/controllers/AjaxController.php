@@ -109,8 +109,9 @@ class AjaxController extends MController {
             else {
               $tempContent=$spotContent->content;
             }
-
-            $tempContent[]=$data['content'];
+            $tempContent['private']=$data['private'];
+            $tempContent['vcard']=$data['vcard'];
+            $tempContent['data'][]=$data['content'];
             $spotContent->content=$tempContent;
             $spotContent->save();
 
