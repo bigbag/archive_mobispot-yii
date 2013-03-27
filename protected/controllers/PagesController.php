@@ -6,7 +6,7 @@ class PagesController extends MController {
     $slug=Yii::app()->request->getQuery('id');
 
     $model=Page::findBySlug($slug);
-    if ($model=null)
+    if ($model==null)
       throw new CHttpException(404, 'The requested page does not exist.');
 
     $this->render('page', array(
@@ -15,7 +15,9 @@ class PagesController extends MController {
   }
 
   public function actionHelp() {
-    $this->render('help');
+    $this->render('help', array(
+        'model'=>$model,
+    ));
   }
 
   public function actionSections($id) {
