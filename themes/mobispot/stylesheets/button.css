@@ -157,6 +157,8 @@
 }
 .choose-type .radio-link{
 	margin-bottom: 10px;
+	padding: 0;
+	white-space: nowrap;
 }
 .soc-link .i-soc-fac{
 	background-position: 12px 6px;

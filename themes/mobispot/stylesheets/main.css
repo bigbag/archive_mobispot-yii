@@ -41,6 +41,10 @@
 	margin: 0 auto 14px;
 	overflow: hidden;
 }
+.choose-type .centered{
+	text-align: center;
+	padding: 0;
+}
 .header-page .five .choose-type{
 	margin-bottom: 13px;
 	margin-top: -32px;
@@ -100,7 +104,7 @@ form .agree{
 	outline: none;
 }
 .radio-link.columns{
-	padding: 0 1.8em;
+	padding: 0;
 }
 .sub-slide-box{
 	padding-top: 28px;
