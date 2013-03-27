@@ -9,7 +9,7 @@ class PagesController extends MController {
     if ($model=null)
       throw new CHttpException(404, 'The requested page does not exist.');
 
-    $this->render('index', array(
+    $this->render('page', array(
         'model'=>$model,
     ));
   }

@@ -6,10 +6,10 @@
 		<a href="javascript:;" class="slide-box-close"></a>
 		<div class="five columns centered">
 			<div class="choose-type">
-				<h6><?php echo Yii::t('activate', 'Please tell us who you are');?></h6>
+				<h6><?php echo Yii::t('activate', 'Are you:');?></h6>
 				<div class="columns centered">
-					<a id="personSpot" class="radio-link six columns toggle-box toggle-box__sub" href="javascript:;"><i></i><?php echo Yii::t('activate', 'Person');?></a>
-					<a id="companySpot" class="radio-link six columns toggle-box toggle-box__sub" href="javascript:;"><i></i><?php echo Yii::t('activate', 'Company');?></a>
+					<a id="personSpot" class="radio-link six columns toggle-box toggle-box__sub" href="javascript:;"><i></i><?php echo Yii::t('activate', 'A person?');?></a>
+					<a id="companySpot" class="radio-link six columns toggle-box toggle-box__sub" href="javascript:;"><i></i><?php echo Yii::t('activate', 'A business?');?></a>
 				</div>
 			</div>
 		</div>
