@@ -24,6 +24,7 @@ class SiteController extends MController {
 
 
   public function actionError() {
+    $this->layout='//layouts/error';
     if ($error=Yii::app()->errorHandler->error) {
       if (Yii::app()->request->isAjaxRequest)
         echo $error['message'];
@@ -73,7 +74,7 @@ class SiteController extends MController {
       else {
         $mess=Yii::t('images', 'Максимальный размер файла ');
         echo json_encode(array('error'=>$mess.($maxSize * 1024).' байт.'));
-      }  
+      }
     }
   }
 }

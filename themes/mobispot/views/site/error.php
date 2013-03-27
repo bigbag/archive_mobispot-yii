@@ -1,16 +1,16 @@
 <?php
 $this->pageTitle='Error';
-$this->breadcrumbs=array(
-  'Error',
-);
+
 ?>
-<div id="main-container">
-<div style="text-align: center">
-<h2>Error <?php echo $code; ?></h2>
-
-<div class="error">
-<?php echo CHtml::encode($message); ?>
-</div>
-
-</div>
+<div class="row">
+	<div class="column twelve text-center">
+		<div class="singlebox-margin">
+			<div class="error-message">
+				<div class="error-text-block">
+					<h1>Oops!</h1>
+					<p>Error <?php echo $code; ?></p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
