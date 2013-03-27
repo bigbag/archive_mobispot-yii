@@ -2,18 +2,10 @@
   font-family: Mobispot, Arial,sans-serif;
 }
 
-.dropbox {
-    width: 15em;
-    height: 3em;
-    border: 2px solid #DDD;
-    border-radius: 8px;
-    background-color: #FEFFEC;
-    text-align: center;
-    color: #BBB;
-    font-size: 2em;
-    font-family: Arial, sans-serif;
+.spot-list{
+    margin: 50px 0 50px;
 }
-.dropbox span {
-    margin-top: 0.9em;
-    display: block;
+
+.spot-desc{
+    margin: 50px 0 0;
 }

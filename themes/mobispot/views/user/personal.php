@@ -1,5 +1,22 @@
 <div class="row">
-  <div class="column twelve">
+  <div class="twelve columns spot-desc">
+  <p>Welcome back. Ready to make a change?</p>
+
+  <p>Your spots are listed below. Click on the spot name you want to edit.
+  When it opens, you can change whatever you want.</p>
+
+  <p>What else can you do? You can change your spot from a personal spot
+  to a business spot, make your spot private, clean your spot, or even
+  delete it.<p>
+
+  <p>How much you share is up to you.</p>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="twelve columns">
     <?php $this->widget('MListView', array(
       'dataProvider'=>$dataProvider,
       'itemView'=>'block/spots',
