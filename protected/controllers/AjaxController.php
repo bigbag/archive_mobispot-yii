@@ -83,6 +83,36 @@ class AjaxController extends MController {
         if (isset($data['content']) and isset($data['user'])){
           if (isset($data['discodes'])){
             $spot=Spot::model()->findByPk($data['discodes']);
+            $spotContent=SpotContent::getSpotContent(
+              $spot->discodes_id, $spot->spot_type_id
+            );
+
+            $spotContent=SpotContent::model()
+              ->findByAttributes(
+                  array(
+                    'spot_type_id'=>$spot->spot_type_id,
+                    'discodes_id'=>$spot->discodes_id
+                  )
+                );
+
+            if(!$spotContent) {
+              $spotContent=new SpotContent;
+              $spotContent->discodes_id=$spot->discodes_id;
+              $spotContent->user_id=$spot->user_id;
+              $spotContent->lang=$spot->lang;
+              $spotContent->spot_type_id=$spot->spot_type_id;
+            }
+
+            if(!is_array($spotContent->content)){
+              $tempContent=array();
+            }
+            else {
+              $tempContent=$spotContent->content;
+            }
+
+            $tempContent[]=$data['content'];
+            $spotContent->content=$tempContent;
+            $spotContent->save();
 
           }
           $content=$this->renderPartial('//widget/spot/personal/new_text',
@@ -392,7 +422,7 @@ class AjaxController extends MController {
         $text_new .= " ".$word;
       }
     }
-    $text_new=trim($text_new);
+    $text_ =trim($text_new);
     $box=imagettfbbox($font_size, 0, $font, $text_new);
 
     $data['width']=$box[2] - $box[1];

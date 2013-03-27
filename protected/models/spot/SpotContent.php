@@ -54,6 +54,12 @@ class SpotContent extends CActiveRecord {
     return parent::beforeSave();
   }
 
+  public function afterSave()
+  {
+    Yii::app()->cache->delete('spot_content_'.$this->discodes_id);
+    return parent::beforeSave();
+  }
+
   protected function afterFind()
   {
     $this->content=unserialize($this->content);

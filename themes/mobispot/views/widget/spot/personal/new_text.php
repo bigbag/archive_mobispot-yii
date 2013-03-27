@@ -4,7 +4,7 @@
 		<div class="spot-cover slow">
 			<a class="button remove-spot round" href="javascripts:;"></a>
 			<a class="button edit-spot round" href="javascripts:;"></a>
-			<div class="move-spot"><i></i><span>Move your text</span></div>
+			<div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
 		</div>
 	</div>
 </div>
