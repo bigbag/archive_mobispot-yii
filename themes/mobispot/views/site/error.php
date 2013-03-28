@@ -12,7 +12,7 @@ $this->pageTitle='Error';
 					We’re sorry, but we seem to have hit a dead-end. The page you wanted doesn’t exist.
 					These things happen.
 					Here’s a quick map to get you back on track.
-					Or if you’re in a rush, click here to get back to the <a href="/">home page</a>.
+					Or if you’re in a rush, <a href="/">click here to get back to the home page</a>.
 				</p>
 				<div class="error-message">
 					<div class="error-text-block">
