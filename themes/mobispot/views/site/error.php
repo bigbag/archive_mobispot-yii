@@ -4,7 +4,7 @@ $this->pageTitle='Error';
 ?>
 
 <div class="row">
-		<div class="column twelve text-center error-text">
+		<div class="column twelve text-center">
 			<div class="singlebox-margin error-box">
 				<p class="p-error-txt">
 					Sharing never stops.
