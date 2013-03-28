@@ -176,15 +176,6 @@ class Spot extends CActiveRecord {
                 ':status2'=>self::STATUS_CLONES,
             ),
         ),
-        'operate'=>array(
-          'condition'=>'status = :status1 or status = :status2 or status = :status3 or status = :status4',
-          'params'=>array(
-            ':status1'=>self::STATUS_GENERATED,
-            ':status2'=>self::STATUS_ACTIVATED,
-            ':status3'=>self::STATUS_REGISTERED,
-            ':status4'=>self::STATUS_CLONES,
-        ),
-      ),
     );
   }
 

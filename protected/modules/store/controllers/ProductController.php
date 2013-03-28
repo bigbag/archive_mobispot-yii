@@ -2,7 +2,7 @@
 
 class ProductController extends MController {
 
-	public $layout = '//layouts/all';
+  public $layout='//layouts/store';
 
 	public function actionIndex() {
 		$this->render('index');
@@ -10,15 +10,15 @@ class ProductController extends MController {
 
 	public function actionCart() {
 		$this->render('cart');
-	}	
-	
+	}
+
 	public function actionGetPriceList(){
 		$data = Cart::getPriceList();
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($data);
-		Yii::app()->end();		
+		Yii::app()->end();
 	}
-	
+
 	public function actionGetCart(){
 		$cart = new Cart;
 		$data = array();
@@ -27,17 +27,17 @@ class ProductController extends MController {
 		$data['payment'] = $cart->getPayment();
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($data);
-		Yii::app()->end();		
+		Yii::app()->end();
 	}
-	
+
 	public function actionGetCustomer(){
 		$cart = new Cart;
 		$data = $cart->getCustomer();
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($data);
-		Yii::app()->end();		
+		Yii::app()->end();
 	}
-	
+
 	public function actionAddToCart(){
 		$answer = array();
 		$answer['stat'] = '-1';
@@ -48,14 +48,14 @@ class ProductController extends MController {
 			$cart = new Cart;
 			if($cart->addToCart($newProduct)){
 				$answer['stat'] = 'ok';
-				$answer['error'] = '0';			
+				$answer['error'] = '0';
 			}
 		}
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($answer);
-		Yii::app()->end();	
-	}	
-	
+		Yii::app()->end();
+	}
+
 	public function actionDeleteFromCart(){
 		$answer = array();
 		$answer['stat'] = '-1';
@@ -64,14 +64,14 @@ class ProductController extends MController {
 			$deleted = json_decode($data);
 			$cart = new Cart;
 			if($cart->deleteFromCart($deleted)){
-				$answer['stat'] = 'ok';		
+				$answer['stat'] = 'ok';
 			}
 		}
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($answer);
-		Yii::app()->end();		
+		Yii::app()->end();
 	}
-	
+
 	public function actionSaveCustomer(){
 		$answer = array();
 		$answer['stat'] = '-1';
@@ -88,6 +88,6 @@ class ProductController extends MController {
 		}
 		header('Content-Type: application/json; charset=UTF-8');
 		echo CJSON::encode($answer);
-		Yii::app()->end();	
-	}	
+		Yii::app()->end();
+	}
 }

@@ -7,13 +7,16 @@
 
 <?php include('block/head.php');?>
 <body>
-<div class="content-wrapper" ng-controller="SpotCtrl" ng-init="spot.user=<?php echo Yii::app()->user->id;?>; spot.token='<?php echo Yii::app()->request->csrfToken?>'">
-<?php include('block/header/spots.php');?>
-<?php echo $content; ?>
-
+<div class="content-wrapper">
+	<?php include('block/header/all.php');?>
+	<div class="row">
+			<div class="twelve columns singlebox-margin">
+				<?php echo $content; ?>
+		</div>
+	</div>
 </div>
 
 <?php include('block/footer.php');?>
-<?php include('block/script/all.php');?>
+<?php include('block/script/store.php');?>
 </body>
 </html>

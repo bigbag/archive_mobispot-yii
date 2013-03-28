@@ -42,6 +42,7 @@ return array(
     ),
     'urlManager'=>require(dirname(__FILE__) . '/routes.php'),
     'db'=>require(dirname(__FILE__) . '/db.php'),
+    'dbStore'=> require(dirname(__FILE__) . '/dbStore.php'),
     'errorHandler'=>array(
       'errorAction'=>'site/error',
     ),
