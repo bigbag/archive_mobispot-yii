@@ -1,6 +1,6 @@
 <?php $id=Yii::app()->request->getQuery('id')?>
 <ul class="nav-bar right">
-	<?php if (Yii::app()->controller->id!='site'): ?>
+	<?php if ((Yii::app()->controller->id!='site') or (Yii::app()->controller->action->id=='error')): ?>
 	<li>
 		<a class="spot-button <?php echo ($id=='personal')?'active':'';?>" href="/personal">
 			<?php echo Yii::t('menu', 'Personal')?>
