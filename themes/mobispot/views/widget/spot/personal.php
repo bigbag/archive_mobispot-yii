@@ -30,11 +30,11 @@
   </div>
 </div>
 <div class="spot-content_row spot-options toggle-active">
-  <a class="checkbox <?php echo ($content['vcard']==1)?'active':null;?>" href="javascript:;"  ng-click="getVcard(spot)">
+  <a class="checkbox" href="javascript:;"  ng-click="getVcard(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Allow download spot as a card');?>
   </a>
-  <a class="checkbox <?php echo ($content['private']==1)?'active':null;?>" href="javascript:;" ng-click="getPrivate(spot)">
+  <a class="checkbox" href="javascript:;" ng-click="getPrivate(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Make it private');?>
   </a>
