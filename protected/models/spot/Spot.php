@@ -130,6 +130,10 @@ class Spot extends CActiveRecord {
       return $ean;
   }
 
+  public function getSpot($data=array()){
+
+  }
+
   /**
    * @return array validation rules for model attributes.
    */

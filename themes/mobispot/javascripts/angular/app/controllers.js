@@ -125,11 +125,21 @@ function SpotCtrl($scope, $http, $compile)  {
   $scope.getVcard=function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
     else spot.vcard = 1;
+    $scope.setAttribute(spot);
   };
 
   $scope.getPrivate=function(spot)  {
     if (spot.private == 1) spot.private = 0;
     else spot.private = 1;
+    $scope.setAttribute(spot);
+  };
+
+  $scope.setAttribute=function(spot)  {
+    $http.post('/ajax/spotAtributeSave', $scope.spot).success(function(data)            {
+        if(data.error == 'no')  {
+
+        }
+      });
   };
 
   $scope.accordion = function(e, token)  {
