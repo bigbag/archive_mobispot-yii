@@ -31,14 +31,18 @@ return array(
       'onMissingTranslation'=>array('Translation', 'missing'),
       //'cachingDuration'=>3600,
     ),
+    'clientScript' => array(
+      'scriptMap' => array(
+        'jquery.js' => false,
+      )
+    ),
     'user'=>array(
       'class'=>'CWebUser',
       'allowAutoLogin'=>true,
     ),
-    'mongodb'=>require(dirname(__FILE__) . '/mongo.php'),
     'urlManager'=>require(dirname(__FILE__) . '/routes.php'),
     'db'=>require(dirname(__FILE__) . '/db.php'),
-	'dbStore'=> require(dirname(__FILE__) . '/dbStore.php'),
+    'dbStore'=> require(dirname(__FILE__) . '/dbStore.php'),
     'errorHandler'=>array(
       'errorAction'=>'site/error',
     ),
@@ -84,8 +88,7 @@ return array(
       'connectionID'=>'db',
     ),
     'cache'=>array(
-      //'class'=>'system.caching.CApcCache',
-	  'class'=>'system.caching.CDummyCache',
+      'class'=>'system.caching.CApcCache',
     ),
     'hasher'=>array(
       'class'=>'Phpass',

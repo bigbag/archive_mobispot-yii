@@ -9,6 +9,9 @@ class MController extends Controller
   public $pageDescription;
   public $pageKeywords;
 
+  public $sliderImage;
+  public $sliderText;
+
   public $pageClass;
   /**
   * @var string the default layout for the controller view. Defaults to '//layouts/column1',

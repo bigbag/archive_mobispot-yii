@@ -8,12 +8,9 @@
  * @property string $name
  * @property string $desc
  * @property integer $type
- * @property text $pattern
- * @property string $lang
+ * @property text $key
  */
 class SpotType extends CActiveRecord {
-
-  public $fields;
   public $fields_flag;
 
   /**
@@ -39,14 +36,11 @@ class SpotType extends CActiveRecord {
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-        array('name, pattern, lang', 'required'),
-        array('fields_flag', 'required', 'message'=>'Необходимо добавить хотя бы одно поле.'),
-        array('name, pattern', 'length', 'max'=>150),
-        array('name, desc, pattern', 'filter', 'filter'=>'trim'),
-        array('name, desc, pattern', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
-        // The following rule is used by search().
-        // Please remove those attributes that should not be searched.
-        array('type_id, name, desc, lang', 'safe', 'on'=>'search'),
+        array('name, key', 'required'),
+        array('name, key', 'length', 'max'=>150),
+        array('name, desc, key', 'filter', 'filter'=>'trim'),
+        array('name, desc, key', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
+        array('type_id, name, desc, key', 'safe', 'on'=>'search'),
     );
   }
 
@@ -57,10 +51,19 @@ class SpotType extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
-        'fields'=>array(self::MANY_MANY, 'SpotField',
-            'spot_link_type_field(type_id, field_id)'),
-        'lang'=>array(self::BELONGS_TO, 'Lang', 'lang'),
     );
+  }
+
+  public function beforeSave()
+  {
+    $this->field=serialize($this->field);
+    return parent::beforeSave();
+  }
+
+  protected function afterFind()
+  {
+    $this->field=unserialize($this->field);
+    return parent::afterFind();
   }
 
   /**
@@ -71,15 +74,14 @@ class SpotType extends CActiveRecord {
         'type_id'=>'ID',
         'name'=>'Название',
         'desc'=>'Описание',
-        'pattern'=>'Шаблон',
-        'lang'=>'Язык',
-        'fields'=>'Поля',
+        'key'=>'Ключ',
+        'field'=>'Поля',
     );
   }
 
   public static function getSpotType() {
     $spot_type=Yii::app()->cache->get('spot_type');
-    if ($spot_type=false) {
+    if (!$spot_type) {
       $spot_type=SpotType::model()->findAll(array('order'=>'name'));
 
       Yii::app()->cache->set('spot_type', $spot_type, 36000);
@@ -89,7 +91,7 @@ class SpotType extends CActiveRecord {
 
   public static function getSpotTypeArray() {
     $spot_type=Yii::app()->cache->get('spot_type_array');
-    if ($spot_type=false) {
+    if (!$spot_type) {
       $spot_type=CHtml::listData(SpotType::getSpotType(), 'type_id', 'name');
 
       Yii::app()->cache->set('spot_type_array', $spot_type, 36000);
@@ -98,15 +100,6 @@ class SpotType extends CActiveRecord {
   }
 
   protected function afterSave() {
-    if ($this->fields) {
-      $conn=Yii::app()->db;
-      $conn->createCommand()->delete(SpotLinkTypeField::tableName(), 'type_id=:type_id', array(':type_id'=>$this->type_id));
-      foreach ($this->fields as $field) {
-        $field->type_id=$this->type_id;
-        $field->save();
-      }
-    }
-
     Yii::app()->cache->delete('spot_type');
     Yii::app()->cache->delete('spot_type_array');
 
@@ -126,8 +119,8 @@ class SpotType extends CActiveRecord {
     $criteria->compare('type_id', $this->type_id);
     $criteria->compare('name', $this->name, true);
     $criteria->compare('desc', $this->desc, true);
-    $criteria->compare('pattern', $this->pattern, true);
-    $criteria->compare('lang', $this->lang, true);
+    $criteria->compare('key', $this->key, true);
+    $criteria->compare('field', $this->field, true);
 
     return new CActiveDataProvider($this, array(
         'criteria'=>$criteria,

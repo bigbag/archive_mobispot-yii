@@ -14,24 +14,6 @@ class AjaxController extends MController {
     );
   }
 
-  public function actionSetLang() {
-    if (isset($_POST['lang'])) {
-      $lang=$_POST['lang'];
-      Yii::app()->request->cookies['lang']=new CHttpCookie('lang', $lang);
-
-      if (!isset(Yii::app()->user->id)) {
-        $user=User::model()->findByPk(Yii::app()->user->id);
-        if (isset($user)) {
-          $user->lang=$lang;
-          $user->save();
-        }
-      }
-      echo true;
-    }
-  }
-
-  
-
   public function actionGetBlock() {
     if (Yii::app()->request->isAjaxRequest) {
       $error="yes";
@@ -47,6 +29,100 @@ class AjaxController extends MController {
           ), true
         );
         $error="no";
+      }
+
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
+  public function actionSendQuestion() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+
+
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
+  public function actionSpotView() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['discodes'])) {
+          $spot=Spot::model()->findByPk($data['discodes']);
+          if ($spot) {
+            $spotContent=SpotContent::getSpotContent($spot->discodes_id, $spot->spot_type_id);
+            $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
+              array(
+                'spot'=>$spot,
+                'spotContent'=>$spotContent,
+                'field'=>$spot->spot_type->field,
+              ),
+              true);
+            $error="no";
+          }
+        }
+      }
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
+
+  public function actionSpotSave() {
+    if (Yii::app()->request->isAjaxRequest) {
+      $error="yes";
+      $content="";
+
+      $data=$this->getJson();
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+        if (isset($data['content']) and isset($data['user'])){
+          if (isset($data['discodes'])){
+            $spot=Spot::model()->findByPk($data['discodes']);
+            $spotContent=SpotContent::getSpotContent(
+              $spot->discodes_id, $spot->spot_type_id
+            );
+
+            $spotContent=SpotContent::model()
+              ->findByAttributes(
+                  array(
+                    'spot_type_id'=>$spot->spot_type_id,
+                    'discodes_id'=>$spot->discodes_id
+                  )
+                );
+
+            if(!$spotContent) {
+              $spotContent=new SpotContent;
+              $spotContent->discodes_id=$spot->discodes_id;
+              $spotContent->user_id=$spot->user_id;
+              $spotContent->lang=$spot->lang;
+              $spotContent->spot_type_id=$spot->spot_type_id;
+            }
+
+            if(!is_array($spotContent->content)){
+              $tempContent=array();
+            }
+            else {
+              $tempContent=$spotContent->content;
+            }
+            $tempContent['private']=$data['private'];
+            $tempContent['vcard']=$data['vcard'];
+            $tempContent['data'][]=$data['content'];
+            $spotContent->content=$tempContent;
+            $spotContent->save();
+
+          }
+          $content=$this->renderPartial('//widget/spot/personal/new_text',
+              array(
+                'content'=>$data['content'],
+              ),
+              true);
+          $error="no";
+        }
       }
 
       echo json_encode(array('error'=>$error, 'content'=>$content));
@@ -235,26 +311,7 @@ class AjaxController extends MController {
     }
   }
 
-  public function actionSpotView() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error="yes";
-      $content="";
 
-      $data=$this->getJson();
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-          $data=SpotModel::getContent($spot->lang, $spot->discodes_id, Yii::app()->user->id, $spot->spot_type_id);
-          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->pattern, array(
-              'data'=>$spot,
-              'content'=>$data,
-                  ), true);
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'content'=>$content));
-    }
-  }
 
   public function actionSpotEdit() {
     if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
@@ -366,7 +423,7 @@ class AjaxController extends MController {
         $text_new .= " ".$word;
       }
     }
-    $text_new=trim($text_new);
+    $text_ =trim($text_new);
     $box=imagettfbbox($font_size, 0, $font, $text_new);
 
     $data['width']=$box[2] - $box[1];

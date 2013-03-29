@@ -107,8 +107,8 @@ class MListView extends CBaseListView
     * @var string the HTML tag name for the container of all data item display. Defaults to 'div'.
     * @since 1.1.4
     */
-    public $itemsTagName = 'div';
-    
+    public $itemsTagName = 'ul';
+
     /**
     * @var boolean whether to leverage the {@link https://developer.mozilla.org/en/DOM/window.history DOM history object}.  Set this property to true
     * to persist state of list across page revisits.  Note, there are two limitations for this feature:
@@ -117,7 +117,7 @@ class MListView extends CBaseListView
     * @since 1.1.11
     */
     public $enableHistory = false;
-    
+
     /**
     * Initializes the list view.
     * This method will initialize required property values and instantiate {@link columns} objects.
@@ -127,69 +127,70 @@ class MListView extends CBaseListView
       if ($this->itemView === null)
       throw new CException(Yii::t('zii', 'The property "itemView" cannot be empty.'));
       parent::init();
-      
+
       if (!isset($this->htmlOptions['class']))
       $this->htmlOptions['class'] = 'list-view';
-      
+
       if ($this->baseScriptUrl === null)
       $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('zii.widgets.assets')) . '/listview';
-      
+
       if ($this->cssFile !== false) {
         if ($this->cssFile === null)
         $this->cssFile = $this->baseScriptUrl . '/styles.css';
         Yii::app()->getClientScript()->registerCssFile($this->cssFile);
       }
     }
-    
+
     /**
     * Registers necessary client scripts.
     */
     public function registerClientScript()
     {
-      $id = $this->getId();
-      
-      if ($this->ajaxUpdate === false)
-      $ajaxUpdate = array();
-    else
-      $ajaxUpdate = array_unique(preg_split('/\s*,\s*/', $this->ajaxUpdate . ',' . $id, -1, PREG_SPLIT_NO_EMPTY));
-      $options = array(
-        'ajaxUpdate' => $ajaxUpdate,
-        'ajaxVar' => $this->ajaxVar,
-        'pagerClass' => $this->pagerCssClass,
-        'loadingClass' => $this->loadingCssClass,
-        'sorterClass' => $this->sorterCssClass,
-        'enableHistory' => $this->enableHistory
-      );
-      if ($this->ajaxUrl !== null)
-      $options['url'] = CHtml::normalizeUrl($this->ajaxUrl);
-      if ($this->updateSelector !== null)
-      $options['updateSelector'] = $this->updateSelector;
-      if ($this->beforeAjaxUpdate !== null) {
-        
-        if (!($this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate, 'js:') !== 0) {
-          $options['beforeAjaxUpdate'] = new CJavaScriptExpression($this->beforeAjaxUpdate);
-          } else {
-          $options['beforeAjaxUpdate'] = $this->beforeAjaxUpdate;
-        }
-      }
-      if ($this->afterAjaxUpdate !== null) {
-        if (!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate, 'js:') !== 0) {
-          $options['afterAjaxUpdate'] = new CJavaScriptExpression($this->afterAjaxUpdate);
-          } else {
-          $options['afterAjaxUpdate'] = $this->afterAjaxUpdate;
-        }
-      }
-      
-      $options = CJavaScript::encode($options);
-      $cs = Yii::app()->getClientScript();
-      $cs->registerCoreScript('jquery');
-      $cs->registerCoreScript('bbq');
-      if ($this->enableHistory)
-      $cs->registerCoreScript('history');
-      $cs->registerScriptFile($this->baseScriptUrl . '/jquery.yiilistview.js', CClientScript::POS_END);
-      $cs->registerScript(__CLASS__ . '#' . $id, "jQuery('#$id').yiiListView($options);");
+    //   $id = $this->getId();
+
+    //   if ($this->ajaxUpdate === false)
+    //   $ajaxUpdate = array();
+    // else
+    //   $ajaxUpdate = array_unique(preg_split('/\s*,\s*/', $this->ajaxUpdate . ',' . $id, -1, PREG_SPLIT_NO_EMPTY));
+    //   $options = array(
+    //     'ajaxUpdate' => $ajaxUpdate,
+    //     'ajaxVar' => $this->ajaxVar,
+    //     'pagerClass' => $this->pagerCssClass,
+    //     'loadingClass' => $this->loadingCssClass,
+    //     'sorterClass' => $this->sorterCssClass,
+    //     'enableHistory' => $this->enableHistory
+    //   );
+    //   if ($this->ajaxUrl !== null)
+    //   $options['url'] = CHtml::normalizeUrl($this->ajaxUrl);
+    //   if ($this->updateSelector !== null)
+    //   $options['updateSelector'] = $this->updateSelector;
+    //   if ($this->beforeAjaxUpdate !== null) {
+
+    //     if (!($this->beforeAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->beforeAjaxUpdate, 'js:') !== 0) {
+    //       $options['beforeAjaxUpdate'] = new CJavaScriptExpression($this->beforeAjaxUpdate);
+    //       } else {
+    //       $options['beforeAjaxUpdate'] = $this->beforeAjaxUpdate;
+    //     }
+    //   }
+    //   if ($this->afterAjaxUpdate !== null) {
+    //     if (!($this->afterAjaxUpdate instanceof CJavaScriptExpression) && strpos($this->afterAjaxUpdate, 'js:') !== 0) {
+    //       $options['afterAjaxUpdate'] = new CJavaScriptExpression($this->afterAjaxUpdate);
+    //       } else {
+    //       $options['afterAjaxUpdate'] = $this->afterAjaxUpdate;
+    //     }
+    //   }
+
+    //   $options = CJavaScript::encode($options);
+    //   $cs = Yii::app()->getClientScript();
+    //   $cs->registerCoreScript('jquery');
+    //   $cs->registerCoreScript('bbq');
+    //   if ($this->enableHistory)
+    //   $cs->registerCoreScript('history');
+    //   $cs->registerScriptFile($this->baseScriptUrl . '/jquery.yiilistview.js', CClientScript::POS_END);
+    //   $cs->registerScript(__CLASS__ . '#' . $id, "jQuery('#$id').yiiListView($options);");
+    //
     }
-    
+
     /**
     * Renders the data item list.
     */
@@ -214,7 +215,7 @@ class MListView extends CBaseListView
       $this->renderEmptyText();
       echo CHtml::closeTag($this->itemsTagName);
     }
-    
+
     /**
     * Renders the sorter.
     */
@@ -238,16 +239,15 @@ class MListView extends CBaseListView
       echo $this->sorterFooter;
       echo CHtml::closeTag('div');
     }
-    
+
     public function run()
     {
       $this->registerClientScript();
-      
+
       echo CHtml::openTag($this->tagName, $this->htmlOptions) . "\n";
-      
+
       $this->renderContent();
-      
+
       echo CHtml::closeTag($this->tagName);
     }
   }
-  

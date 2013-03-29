@@ -1,31 +1,30 @@
 <div class="row">
-<div class="twelve columns text-center">
-<h1 class="biggest-heading">I <img src="/themes/mobispot/images/icons/i-heart.2x.png" width="104"> my spot</h1>
+  <div class="twelve columns text-center">
+    <h1 class="biggest-heading">I <img src="/themes/mobispot/images/icons/i-heart.2x.png" width="104"> my spot</h1>
+  </div>
 </div>
-</div>
+
 <div class="row">
-<p class="six columns">
-A wallet holds credit and debit cards, half-punched loyalty cards, wrinkled checks, and ancient receipts. But a wallet should do more. It should help you discover great places and earn you rewards. It should help you buildrelationships.
-  </p>
-  <p class="six columns">
-  A wallet holds credit and debit cards, half-punched loyalty cards, wrinkled checks, and ancient receipts. But a wallet should do more. It should help you discover great places and earn you rewards. It should help you buildrelationships.
-    </p>
-    </div>
-    <div class="row">
-    <div class="twelve columns text-center">
-    <h1 class="biggest-heading">I <img src="/themes/mobispot/images/icons/i-plus.2x.png" width="115"> my spot</h1>
-    </div>
-    </div>
-    <div class="row">
-    <p class="six columns">
-    A wallet holds credit and debit cards, half-punched loyalty cards, wrinkled checks, and ancient receipts. But a wallet should do more. It should help you discover great places and earn you rewards. It should help you buildrelationships.
-      </p>
-      <p class="six columns">
-      A wallet holds credit and debit cards, half-punched loyalty cards, wrinkled checks, and ancient receipts. But a wallet should do more. It should help you discover great places and earn you rewards. It should help you buildrelationships.
-        </p>
-        </div>
-        <div class="row">
-        <div class="twelve columns text-center">
-        <a class="round-button-large" href="http://store.mobispot.com">Get one</a>
-        </div>
-        </div>
+  <div class="twelve columns">
+    <h2>Create. Wear. Connect. Share</h2>
+
+    <p>Never stop creating. Never stop sharing. Buy a spot. Load it up. Your digital life’s all
+    in one place.</p>
+
+    <p>Meet someone. The spot’s on your wrist. The phone’s in their hand. Tap, click, click,
+    done. Two beautiful digital lives entwined.</p>
+
+    <p>Swap your Twitter handle, your Facebook page, your best videos, shots, mashups,
+    vouchers to your next set, mp3s. Straight to their phone.</p>
+
+    <p>And next time you see them, give them the update.</p>
+
+    <p>Sharing never stops.</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="twelve columns text-center">
+    <a class="round-button-large" href="http://store.mobispot.com">Get one</a>
+  </div>
+</div>

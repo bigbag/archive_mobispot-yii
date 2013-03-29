@@ -14,7 +14,7 @@ return array(
   'mobile'=>array(
     'defaultController'=>'user',
   ),
-  'store' => array(
-    'defaultController' => 'product',
-  ),  
+  'store'=>array(
+    'defaultController'=>'product',
+  ),
 );

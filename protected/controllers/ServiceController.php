@@ -16,21 +16,19 @@ class ServiceController extends MController {
     );
   }
 
-  public function actionLang() {
-    $lang=Yii::app()->request->getQuery('id');
-    if (isset($lang[0])) {
-      $all_lang=Lang::getLangArray();
-      if (isset($all_lang[$lang])) {
+  public function actionLang($id) {
+    $lang=$id;
+    $all_lang=Lang::getLangArray();
+    if (isset($all_lang[$lang])) {
 
-        Yii::app()->session['lang']='value';
-        Yii::app()->request->cookies['lang']=new CHttpCookie('lang', $lang);
+      Yii::app()->session['lang']='value';
+      Yii::app()->request->cookies['lang']=new CHttpCookie('lang', $lang);
 
-        if (isset(Yii::app()->user->id)) {
-          $user=User::model()->findByPk(Yii::app()->user->id);
-          if (isset($user)) {
-            $user->lang=$lang;
-            $user->save();
-          }
+      if (isset(Yii::app()->user->id)) {
+        $user=User::model()->findByPk(Yii::app()->user->id);
+        if (isset($user)) {
+          $user->lang=$lang;
+          $user->save();
         }
       }
     }

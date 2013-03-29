@@ -16,7 +16,7 @@
 	background-color: #fff;
 }
 .bg-white  .button,
-.bg-gray .spot-button,
+.bg-white .spot-button,
 .bg-white input,
 .bg-white textarea{
 	background-color: #f1f3f4;
@@ -157,6 +157,8 @@
 }
 .choose-type .radio-link{
 	margin-bottom: 10px;
+	padding: 0;
+	white-space: nowrap;
 }
 .soc-link .i-soc-fac{
 	background-position: 12px 6px;
@@ -290,8 +292,8 @@
 .spot-options a:first-child{
 	margin-top: 0;
 }
-.popup footer .button,
-.popup .sub-сontent .button{
+footer .button,
+.sub-content .button{
 	height: 78px;
 	width: 78px;
 	line-height: 78px;
@@ -301,7 +303,8 @@
 	font-weight: 100;
 
 }
-.popup footer .button:hover + .active{
+footer .button:hover + .active,
+.sub-content .button:hover + .active{
 	background: #fff;
 	color: #000;
 }
@@ -312,10 +315,33 @@
 	line-height: 96px;
 	font-size: 23px;
 }
-.spot-options .checkbox{
-	float: left;
-	width: 100px;
+.checkbox{
+	display: inline-block;
+	min-width: 100px;
 }
-.sub-сontent{
+.sub-content{
 	display: none;
+}
+.spot-list .settings-button{
+	margin: 12px 0 0;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	opacity: 0;
+	-webkit-transition: opacity linear .3s;
+	-moz-transition: opacity linear .3s;
+	-o-transition: opacity linear .3s;
+	transition: opacity linear .3s;
+}
+.spot-list .open .settings-button{
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}
+.button-disable:hover,
+.button-disable {
+	color: #BBB;
+	background: rgba(255,255,255,.8) !important;
+	cursor: default;
 }

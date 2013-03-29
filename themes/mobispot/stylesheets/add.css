@@ -1,11 +1,11 @@
-#signInForm1 .spot-button.login {
-	display: none;
-}
-
-.checkbox.active i {
- 	background-position: -135px -41px;
- }
-
 .soc-link span{
   font-family: Mobispot, Arial,sans-serif;
+}
+
+.spot-list{
+  margin: 50px 0 50px;
+}
+
+.spot-desc{
+  margin: 50px 0 0;
 }

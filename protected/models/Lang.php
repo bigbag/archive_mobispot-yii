@@ -64,7 +64,7 @@ class Lang extends CActiveRecord {
 
   public static function getLang() {
     $lang=Yii::app()->cache->get('lang');
-    if ($lang=false) {
+    if (!$lang) {
       $lang=Lang::model()->findAll(array('order'=>'name'));
 
       Yii::app()->cache->set('lang', $lang, 36000);
@@ -74,7 +74,7 @@ class Lang extends CActiveRecord {
 
   public static function getLangArray() {
     $lang=Yii::app()->cache->get('lang_desc');
-    if ($lang=false) {
+    if (!$lang) {
       $lang=CHtml::listData(Lang::getLang(), 'name', 'desc');
 
       Yii::app()->cache->set('lang_desc', $lang, 36000);
