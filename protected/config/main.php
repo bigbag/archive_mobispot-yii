@@ -38,6 +38,7 @@ return array(
     'mongodb'=>require(dirname(__FILE__) . '/mongo.php'),
     'urlManager'=>require(dirname(__FILE__) . '/routes.php'),
     'db'=>require(dirname(__FILE__) . '/db.php'),
+	'dbStore'=> require(dirname(__FILE__) . '/dbStore.php'),
     'errorHandler'=>array(
       'errorAction'=>'site/error',
     ),
@@ -83,7 +84,8 @@ return array(
       'connectionID'=>'db',
     ),
     'cache'=>array(
-      'class'=>'system.caching.CApcCache',
+      //'class'=>'system.caching.CApcCache',
+	  'class'=>'system.caching.CDummyCache',
     ),
     'hasher'=>array(
       'class'=>'Phpass',

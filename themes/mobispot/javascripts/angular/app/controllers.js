@@ -1,6 +1,6 @@
 'use strict';
 
-function UserCtrl($scope, $http, $compile)
+function UserCtrl($scope, $timeout, $http, $compile)
 {
   //Авторизация
   $scope.login = function(user)
@@ -36,5 +36,23 @@ function UserCtrl($scope, $http, $compile)
         $(location).attr('href','/user/account');
       }
     });
-  };
-}
+  }; 
+
+	$scope.initTimer = function(token){
+		$scope.token = token;
+		$http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+			$scope.itemsInCart = data.itemsInCart;
+		}).error(function(error){
+			$scope.itemsInCart = 0;
+		});
+		var mytimeout = $timeout($scope.onTimeout,1000);
+	}
+	
+    $scope.onTimeout = function(){
+        $http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+			$scope.itemsInCart = data.itemsInCart;
+		});
+        mytimeout = $timeout($scope.onTimeout,1000);
+    }
+	
+};
