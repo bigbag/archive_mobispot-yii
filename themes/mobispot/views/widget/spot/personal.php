@@ -1,6 +1,6 @@
 <?php if($spotContent):?>
 <?php $content=$spotContent->content?>
-
+<?php if(isset($content['data'])):?>
   <?php foreach ($content['data'] as $row):?>
   <div class="spot-item">
     <div class="item-area">
@@ -13,6 +13,7 @@
     </div>
   </div>
   <?php endforeach;?>
+  <?php endif;?>
   <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>;"></span>
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0;"></span>
