@@ -1,6 +1,6 @@
 <?php if($spotContent):?>
 <?php $content=$spotContent->content?>
-
+<?php if(isset($content['data'])):?>
   <?php foreach ($content['data'] as $row):?>
   <div class="spot-item">
     <div class="item-area">
@@ -13,6 +13,7 @@
     </div>
   </div>
   <?php endforeach;?>
+  <?php endif;?>
   <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>;"></span>
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0;"></span>
@@ -30,11 +31,14 @@
   </div>
 </div>
 <div class="spot-content_row spot-options toggle-active">
-  <a class="checkbox" href="javascript:;"  ng-click="getVcard(spot)">
+  <?php $vcardActive=(isset($content) and isset($content['vcard']) and $content['vcard']==1)?'active':''?>
+  <?php $privateActive=(isset($content) and isset($content['private']) and $content['private']==1)?'active':''?>
+
+  <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Allow download spot as a card');?>
   </a>
-  <a class="checkbox" href="javascript:;" ng-click="getPrivate(spot)">
+  <a class="checkbox private <?php echo $privateActive;?>" href="javascript:;" ng-click="getPrivate(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Make it private');?>
   </a>

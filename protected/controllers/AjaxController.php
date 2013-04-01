@@ -82,7 +82,7 @@ class AjaxController extends MController {
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['content']) and isset($data['user'])){
           if (isset($data['discodes'])){
-            $spot=Spot::model()->findByPk($data['discodes']);
+            $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
             $spotContent=SpotContent::getSpotContent(
               $spot->discodes_id, $spot->spot_type_id
             );
@@ -105,12 +105,13 @@ class AjaxController extends MController {
 
             if(!is_array($spotContent->content)){
               $tempContent=array();
+              $tempContent['private']=0;
+              $tempContent['vcard']=0;
             }
             else {
               $tempContent=$spotContent->content;
             }
-            $tempContent['private']=$data['private'];
-            $tempContent['vcard']=$data['vcard'];
+
             $tempContent['data'][]=$data['content'];
             $spotContent->content=$tempContent;
             $spotContent->save();
@@ -127,6 +128,37 @@ class AjaxController extends MController {
 
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
+  }
+
+  public function actionSpotAtributeSave() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent(
+              $spot->discodes_id, $spot->spot_type_id
+          );
+          if(!$spotContent) {
+            $spotContent=new SpotContent;
+            $spotContent->discodes_id=$spot->discodes_id;
+            $spotContent->user_id=$spot->user_id;
+            $spotContent->lang=$spot->lang;
+            $spotContent->spot_type_id=$spot->spot_type_id;
+          }
+
+          $tempContent=array();
+          $tempContent['private']=$data['private'];
+          $tempContent['vcard']=$data['vcard'];
+          $spotContent->content=$tempContent;
+          $spotContent->save();
+        }
+      }
+    }
+
+    echo json_encode(array('error'=>$error));
   }
 
   public function actionSpotRename() {

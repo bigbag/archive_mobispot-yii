@@ -130,6 +130,11 @@ class Spot extends CActiveRecord {
       return $ean;
   }
 
+  public function getSpot($data=array()){
+    return Spot::model()->findByAttributes($data);
+
+  }
+
   /**
    * @return array validation rules for model attributes.
    */
@@ -257,15 +262,6 @@ class Spot extends CActiveRecord {
     );
   }
 
-  public static function getUserSpot($user_id) {
-    $user_spot=Yii::app()->cache->get('user_spot_'.$user_id);
-    if (!$user_spot) {
-      $user_spot=Spot::model()->findByAttributes(array('user_id'=>$user_id));
-
-      Yii::app()->cache->set('user_spot_'.$user_id, $user_spot, 3600);
-    }
-    return $user_spot;
-  }
 
   /**
    * Retrieves a list of models based on the current search/filter conditions.
