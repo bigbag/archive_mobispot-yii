@@ -13,17 +13,22 @@ class ProductController extends MController {
 	}	
 	
 	public function actionGetPriceList(){
-		//if (Yii::app()->request->isAjaxRequest) {
-			$cart = new Cart;
-			$data['products'] = $cart->getPriceList();
-			if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
-				$data['itemsInCart'] = Yii::app()->session['itemsInCart'];
-			else
-				$data['itemsInCart'] = 0;
-			header('Content-Type: application/json; charset=UTF-8');
-			echo CJSON::encode($data);
-			Yii::app()->end();		
-		//}
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				$answer['products'] = $cart->getPriceList();
+				/*
+				if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
+					$answer['itemsInCart'] = Yii::app()->session['itemsInCart'];
+				else
+					$answer['itemsInCart'] = 0;
+				*/
+				header('Content-Type: application/json; charset=UTF-8');
+				echo CJSON::encode($answer);
+			}
+		}
+		Yii::app()->end();	
 	}
 	
 	public function actionGetCart(){
@@ -58,19 +63,17 @@ class ProductController extends MController {
 	public function actionAddToCart(){
 		if (Yii::app()->request->isAjaxRequest) {
 			$answer = array();
-			$answer['error'] = 'Не получены данные товара!';
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
-				if($cart->addToCart($data)){
-					$answer['error'] = 'no';			
-				}
+				$answer['error'] = $cart->addToCart($data);		
+				//$answer['itemsInCart'] = Yii::app()->session['itemsInCart'];
 			}
 			header('Content-Type: application/json; charset=UTF-8');
 			echo CJSON::encode($answer);
 			Yii::app()->end();	
 		}
-	}	
+	}
 	
 	public function actionDeleteFromCart(){
 		if (Yii::app()->request->isAjaxRequest) {
@@ -92,12 +95,12 @@ class ProductController extends MController {
 	public function actionSaveCustomer(){
 		if (Yii::app()->request->isAjaxRequest) {
 			$answer = array();
-			$answer['error'] = 'Не заполнены требуемые поля';
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
-				if($cart->saveCustomer($data['customer'])){
-					$answer['error'] = 'no';
+				$answer['error'] = $cart->saveCustomer($data['customer']);
+				if($answer['error'] == 'no'){
+					$answer['message'] = Yii::t('store', 'Saved!');
 				}
 			}
 			header('Content-Type: application/json; charset=UTF-8');
@@ -107,9 +110,9 @@ class ProductController extends MController {
 	}
 
 	public function actionGetItemsInCart(){
-		//if (Yii::app()->request->isAjaxRequest) {
-		//	$data = $this->getJson();
-		//	if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$answer = array();
 				$cart = new Cart;
 				if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
@@ -118,8 +121,20 @@ class ProductController extends MController {
 					$answer['itemsInCart'] = 0;
 				header('Content-Type: application/json; charset=UTF-8');
 				echo CJSON::encode($answer);
-		//	}
-		//}
+			}
+		}
+		Yii::app()->end();
+	}
+	
+	public function actionBuy(){
+		if (Yii::app()->request->isAjaxRequest) {
+			$answer = array();
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
+			}
+			echo CJSON::encode($answer);
+		}
 		Yii::app()->end();
 	}
 }

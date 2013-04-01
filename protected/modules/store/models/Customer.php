@@ -30,5 +30,17 @@ class Customer extends CActiveRecord {
     {
         return 'store.customer';
     }
-
+	
+  /**
+   * @return array validation rules for model attributes.
+   */
+	public function rules() {
+    // NOTE: you should only define rules for those attributes that
+    // will receive user inputs.
+    return array(
+        array('email, address', 'required'),
+        array('email', 'email'),
+        array('email', 'unique'),
+    );
+  }
 }
