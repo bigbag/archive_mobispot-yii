@@ -45,14 +45,14 @@ function UserCtrl($scope, $timeout, $http, $compile)
 		}).error(function(error){
 			$scope.itemsInCart = 0;
 		});
-		var mytimeout = $timeout($scope.onTimeout,1000);
+		$timeout($scope.onTimeout,1000);
 	}
 	
     $scope.onTimeout = function(){
-        $http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+        $http.post('/store/product/GetItemsInCart',{token: $scope.token}).success(function(data) {
 			$scope.itemsInCart = data.itemsInCart;
 		});
-        mytimeout = $timeout($scope.onTimeout,1000);
+        $timeout($scope.onTimeout,1000);
     }
 	
 };
