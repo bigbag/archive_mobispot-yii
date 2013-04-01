@@ -194,8 +194,8 @@ function SpotCtrl($scope, $http, $compile)  {
       spot.removeClass('open');
       spotContent.slideUp(500,
         function () {
-            spotContent.prev().remove();
-            spotContent.remove();
+          spotContent.prev().remove();
+          spotContent.remove();
         });
     }
   }

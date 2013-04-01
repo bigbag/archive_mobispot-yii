@@ -41,8 +41,9 @@ $(window).load(function() {
   $('.spot-list').on('click','label', function(){
     $(this).prev().focus();
   });
-  $('.settings-button').on('click', showPopup);
-  $('.button', '.popup').on('click', hidePopup);
+  $(document).on('click','.settings-button', showPopup);
+  $(document).on('click','.button', hidePopup);
+  $(document).on('click','.popup', hidePopup);
 
   $(document).keydown(function(e){
     if(e.which == 27){
