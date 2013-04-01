@@ -45,6 +45,7 @@ class Cart extends CFormModel
 							$this->storeCart[] = $product;
 						}
 						Yii::app()->session['storeCart'] = $this->storeCart;
+						Yii::app()->session['itemsInCart'] = count($list);
 					}
 				}
 			}
@@ -136,29 +137,32 @@ class Cart extends CFormModel
 	
 	public function addToCart($newProduct){
 		$success = false;
-		if(!empty($newProduct->id) && !empty($newProduct->quantity) && !empty($newProduct->selectedColor) && !empty($newProduct->selectedSize)){
-			$newProduct->selectedSize = (array)$newProduct->selectedSize;
+		if(isset($newProduct['id']) && isset($newProduct['quantity']) && isset($newProduct['selectedColor']) && !empty($newProduct['selectedSize'])){
 			$added = false;
 			$size = count($this->storeCart);
 			for ($i = 0; $i < $size; $i++) {
-				if( ($newProduct->id == $this->storeCart[$i]['id'])
-					&& ($newProduct->selectedColor == $this->storeCart[$i]['selectedColor'])
-					&& ($newProduct->selectedSize == $this->storeCart[$i]['selectedSize'])
+				if( ($newProduct['id'] == $this->storeCart[$i]['id'])
+					&& ($newProduct['selectedColor'] == $this->storeCart[$i]['selectedColor'])
+					&& ($newProduct['selectedSize'] == $this->storeCart[$i]['selectedSize'])
 					&& ($added == false)
 				){
-					$this->storeCart[$i]['quantity'] += $newProduct->quantity;
+					$this->storeCart[$i]['quantity'] += $newProduct['quantity'];
 					$added = true;
 					break;
 				}
 			}
 			if(!$added){
-				$prodArray['id'] = $newProduct->id;
-				$prodArray['quantity'] = $newProduct->quantity;
-				$prodArray['selectedColor'] = $newProduct->selectedColor;
-				$prodArray['selectedSize'] = $newProduct->selectedSize;
+				$prodArray['id'] = $newProduct['id'];
+				$prodArray['quantity'] = $newProduct['quantity'];
+				$prodArray['selectedColor'] = $newProduct['selectedColor'];
+				$prodArray['selectedSize'] = $newProduct['selectedSize'];
 				$this->storeCart[] = $prodArray;
 			}
 			Yii::app()->session['storeCart'] = $this->storeCart;
+			if(isset(Yii::app()->session['itemsInCart']))
+				Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] + 1;
+			else
+				Yii::app()->session['itemsInCart'] = 1;
 			
 			if(isset(Yii::app()->session['storeEmail'])){
 				$newCustomer = new stdClass;
@@ -178,13 +182,13 @@ class Cart extends CFormModel
 						if($list){
 							$added = false;
 							foreach($list as $item){
-								if( ($newProduct->id == $item->id_product)
-									&& ($newProduct->selectedColor == $item->color)
-									&& ($newProduct->selectedSize['value'] == $item->size_name)
+								if( ($newProduct['id'] == $item->id_product)
+									&& ($newProduct['selectedColor'] == $item->color)
+									&& ($newProduct['selectedSize']['value'] == $item->size_name)
 									&& ($added == false)
 								){
 									$addQuantity = OrderList::model()->findByPK($item->id);
-									$addQuantity->quantity += $newProduct->quantity;
+									$addQuantity->quantity += $newProduct['quantity'];
 									$addQuantity->save();
 									$added = true;
 									break;
@@ -194,11 +198,11 @@ class Cart extends CFormModel
 						if(!$added || !$list){
 							$addProduct = new OrderList;
 							$addProduct->id_order = $order->id;
-							$addProduct->id_product = $newProduct->id;
-							$addProduct->quantity = $newProduct->quantity;
-							$addProduct->color = $newProduct->selectedColor;
-							$addProduct->size_name = $newProduct->selectedColor['value'];
-							$addProduct->price = $newProduct->selectedColor['price'];
+							$addProduct->id_product = $newProduct['id'];
+							$addProduct->quantity = $newProduct['quantity'];
+							$addProduct->color = $newProduct['selectedColor'];
+							$addProduct->size_name = $newProduct['selectedColor']['value'];
+							$addProduct->price = $newProduct['selectedColor']['price'];
 							$addProduct->save();
 						}
 					}else{
@@ -216,19 +220,19 @@ class Cart extends CFormModel
 	public function deleteFromCart($deleted){
 		$success = false;
 		
-		if(!empty($deleted->id) && !empty($deleted->selectedColor) && !empty($deleted->selectedSize)){
-			$deleted->selectedSize = (array)$deleted->selectedSize;
+		if(!empty($deleted['id']) && !empty($deleted['selectedColor']) && !empty($deleted['selectedSize'])){
 			$newCart = array();
 			foreach($this->storeCart as $product) {
-				if( !(($deleted->id == $product['id'])
-					&& ($deleted->selectedColor == $product['selectedColor'])
-					&& ($deleted->selectedSize['value'] == $product['selectedSize']['value']))
+				if( !(($deleted['id'] == $product['id'])
+					&& ($deleted['selectedColor'] == $product['selectedColor'])
+					&& ($deleted['selectedSize']['value'] == $product['selectedSize']['value']))
 				){
 					$newCart[] = $product;
 				}
 			}
 			$this->storeCart = $newCart;
 			Yii::app()->session['storeCart'] = $newCart;
+			Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] - 1;
 			
 			if(isset(Yii::app()->session['storeEmail'])){
 				$dbCustomer = Customer::model()->findByAttributes(array(
@@ -242,9 +246,9 @@ class Cart extends CFormModel
 					if($order){
 						$list = OrderList::model()->findByAttributes(array(
 							'id_order'=>$order->id,
-							'id_product'=>$deleted->id,
-							'color'=>$deleted->selectedColor,
-							'size_name'=>$deleted->selectedSize['value']
+							'id_product'=>$deleted['id'],
+							'color'=>$deleted['selectedColor'],
+							'size_name'=>$deleted['selectedSize']['value']
 						));
 						if($list)
 							$list->delete();
@@ -265,7 +269,7 @@ class Cart extends CFormModel
 			));
 		}else{
 			$customer = Customer::model()->findByAttributes(array(
-				'email'=>$newCustomer->email
+				'email'=>$newCustomer['email']
 			));
 		}
 		
@@ -278,26 +282,26 @@ class Cart extends CFormModel
 			));
 		}
 		
-		if(!empty($newCustomer->first_name))
-			$customer->first_name = $newCustomer->first_name;
-		if(!empty($newCustomer->last_name))
-			$customer->last_name = $newCustomer->last_name;
-		if(!empty($newCustomer->email))
-			$customer->email = $newCustomer->email;
-		if(!empty($newCustomer->target_first_name))
-			$customer->target_first_name = $newCustomer->target_first_name;
-		if(!empty($newCustomer->target_last_name))
-			$customer->target_last_name = $newCustomer->target_last_name;
-		if(!empty($newCustomer->address))
-			$customer->address = $newCustomer->address;
-		if(!empty($newCustomer->city))
-			$customer->city = $newCustomer->city;
-		if(!empty($newCustomer->zip))
-			$customer->zip = $newCustomer->zip;
-		if(!empty($newCustomer->phone))
-			$customer->phone = $newCustomer->phone;
-		if(!empty($newCustomer->country))
-			$customer->country = $newCustomer->country;
+		if(!empty($newCustomer['first_name']))
+			$customer->first_name = $newCustomer['first_name'];
+		if(!empty($newCustomer['last_name']))
+			$customer->last_name = $newCustomer['last_name'];
+		if(!empty($newCustomer['email']))
+			$customer->email = $newCustomer['email'];
+		if(!empty($newCustomer['target_first_name']))
+			$customer->target_first_name = $newCustomer['target_first_name'];
+		if(!empty($newCustomer['target_last_name']))
+			$customer->target_last_name = $newCustomer['target_last_name'];
+		if(!empty($newCustomer['address']))
+			$customer->address = $newCustomer['address'];
+		if(!empty($newCustomer['city']))
+			$customer->city = $newCustomer['city'];
+		if(!empty($newCustomer['zip']))
+			$customer->zip = $newCustomer['zip'];
+		if(!empty($newCustomer['phone']))
+			$customer->phone = $newCustomer['phone'];
+		if(!empty($newCustomer['country']))
+			$customer->country = $newCustomer['country'];
 		$customer->save();
 		
 		if(!isset($order) || !$order){

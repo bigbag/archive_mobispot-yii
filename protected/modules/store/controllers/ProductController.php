@@ -2,7 +2,7 @@
 
 class ProductController extends MController {
 
-  public $layout='//layouts/store';
+	public $layout = '//layouts/all';
 
 	public function actionIndex() {
 		$this->render('index');
@@ -10,84 +10,116 @@ class ProductController extends MController {
 
 	public function actionCart() {
 		$this->render('cart');
-	}
-
+	}	
+	
 	public function actionGetPriceList(){
-		$data = Cart::getPriceList();
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($data);
-		Yii::app()->end();
+		//if (Yii::app()->request->isAjaxRequest) {
+			$cart = new Cart;
+			$data['products'] = $cart->getPriceList();
+			if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
+				$data['itemsInCart'] = Yii::app()->session['itemsInCart'];
+			else
+				$data['itemsInCart'] = 0;
+			header('Content-Type: application/json; charset=UTF-8');
+			echo CJSON::encode($data);
+			Yii::app()->end();		
+		//}
 	}
-
+	
 	public function actionGetCart(){
-		$cart = new Cart;
-		$data = array();
-		$data['products'] = $cart->getStoreCart();
-		$data['delivery'] = $cart->getDelivery();
-		$data['payment'] = $cart->getPayment();
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($data);
-		Yii::app()->end();
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				$data = array();
+				$data['products'] = $cart->getStoreCart();
+				header('Content-Type: application/json; charset=UTF-8');
+				echo CJSON::encode($data);
+				Yii::app()->end();		
+			}
+		}
 	}
-
+	
 	public function actionGetCustomer(){
-		$cart = new Cart;
-		$data = $cart->getCustomer();
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($data);
-		Yii::app()->end();
+		if (Yii::app()->request->isAjaxRequest) {
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				$data['customer'] = $cart->getCustomer();
+				$data['delivery'] = $cart->getDelivery();
+				$data['payment'] = $cart->getPayment();
+				header('Content-Type: application/json; charset=UTF-8');
+				echo CJSON::encode($data);
+				Yii::app()->end();		
+			}
+		}
 	}
-
+	
 	public function actionAddToCart(){
-		$answer = array();
-		$answer['stat'] = '-1';
-		$answer['error'] = 'Не получены данные товара!';
-		$data = file_get_contents("php://input");
-		if(isset($data)){
-			$newProduct = json_decode($data);
-			$cart = new Cart;
-			if($cart->addToCart($newProduct)){
-				$answer['stat'] = 'ok';
-				$answer['error'] = '0';
+		if (Yii::app()->request->isAjaxRequest) {
+			$answer = array();
+			$answer['error'] = 'Не получены данные товара!';
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				if($cart->addToCart($data)){
+					$answer['error'] = 'no';			
+				}
 			}
+			header('Content-Type: application/json; charset=UTF-8');
+			echo CJSON::encode($answer);
+			Yii::app()->end();	
 		}
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($answer);
-		Yii::app()->end();
-	}
-
+	}	
+	
 	public function actionDeleteFromCart(){
-		$answer = array();
-		$answer['stat'] = '-1';
-		$data = file_get_contents("php://input");
-		if(isset($data)){
-			$deleted = json_decode($data);
-			$cart = new Cart;
-			if($cart->deleteFromCart($deleted)){
-				$answer['stat'] = 'ok';
+		if (Yii::app()->request->isAjaxRequest) {
+			$answer = array();
+			$answer['error'] = '-1';
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				if($cart->deleteFromCart($data)){
+					$answer['error'] = 'no';		
+				}
 			}
+			header('Content-Type: application/json; charset=UTF-8');
+			echo CJSON::encode($answer);
+			Yii::app()->end();		
 		}
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($answer);
-		Yii::app()->end();
+	}
+	
+	public function actionSaveCustomer(){
+		if (Yii::app()->request->isAjaxRequest) {
+			$answer = array();
+			$answer['error'] = 'Не заполнены требуемые поля';
+			$data = $this->getJson();
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$cart = new Cart;
+				if($cart->saveCustomer($data['customer'])){
+					$answer['error'] = 'no';
+				}
+			}
+			header('Content-Type: application/json; charset=UTF-8');
+			echo CJSON::encode($answer);
+			Yii::app()->end();	
+		}
 	}
 
-	public function actionSaveCustomer(){
-		$answer = array();
-		$answer['stat'] = '-1';
-		$answer['error'] = 'Не заполнены требуемые поля';
-		$data = file_get_contents("php://input");
-		if(isset($data)){
-			$decoded = json_decode($data);
-			$cart = new Cart;
-
-			if($cart->saveCustomer($decoded->customer)){
-				$answer['stat'] = 'ok';
-			}
-
-		}
-		header('Content-Type: application/json; charset=UTF-8');
-		echo CJSON::encode($answer);
+	public function actionGetItemsInCart(){
+		//if (Yii::app()->request->isAjaxRequest) {
+		//	$data = $this->getJson();
+		//	if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+				$answer = array();
+				$cart = new Cart;
+				if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
+					$answer['itemsInCart'] = Yii::app()->session['itemsInCart'];
+				else			
+					$answer['itemsInCart'] = 0;
+				header('Content-Type: application/json; charset=UTF-8');
+				echo CJSON::encode($answer);
+		//	}
+		//}
 		Yii::app()->end();
 	}
 }

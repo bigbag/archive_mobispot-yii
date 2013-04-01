@@ -18,7 +18,7 @@
 	</li>
 	<?php endif; ?>
 	<li>
-		<a class="spot-button" href="http://siarhei.dev.mobispot.com/store.html">
+		<a class="spot-button" href="/store">
 			<?php echo Yii::t('menu', 'Store')?>
 		</a>
 	</li>
