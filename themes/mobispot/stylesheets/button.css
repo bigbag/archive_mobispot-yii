@@ -332,6 +332,9 @@ footer .button:hover + .active,
 	-moz-transition: opacity linear .3s;
 	-o-transition: opacity linear .3s;
 	transition: opacity linear .3s;
+	position: absolute;
+	top:5px;
+	right: 40px;
 }
 .spot-list .open .settings-button{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);

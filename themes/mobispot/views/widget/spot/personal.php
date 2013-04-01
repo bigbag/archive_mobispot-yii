@@ -1,3 +1,5 @@
+<a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
+<div class="spot-content slide-content">
 <?php if($spotContent):?>
 <?php $content=$spotContent->content?>
 <?php if(isset($content['data'])):?>
@@ -44,3 +46,4 @@
   </a>
 </div>
 </form>
+</div>

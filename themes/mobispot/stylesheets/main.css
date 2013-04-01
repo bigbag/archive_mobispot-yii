@@ -467,6 +467,7 @@ p + .details{
 	-o-transition: all linear .2s;
 	transition: all linear .2s;
 	overflow: hidden;
+	position: relative;
 }
 .spot-list > li .spot-hat{
 	cursor: pointer;
@@ -991,7 +992,7 @@ img[height='115']{
 	margin: 0 -40px;
 }
 .error-message{
-	background: url("../images/icons/i-error.2x.png");
+	background: url("../images/icons/i-error.2x.png") no-repeat;
 	width: 590px;
 	background-size: 100%;
 	height: 434px;
@@ -1013,4 +1014,20 @@ img[height='115']{
 .error-text-block p{
 	font-size: 18px;
 
+}
+.p-error-txt{
+	padding-bottom: 3em;
+	font-size: 16px;
+	font-family: arial;
+	font-weight: 100;
+	color: #0A0A0A;
+	line-height: 22px;
+}
+.p-error-txt a{
+	color: #0061FF;
+	text-decoration: underline;
+}
+.error-box{
+	overflow: hidden;
+	margin-top: 8.5em;
 }

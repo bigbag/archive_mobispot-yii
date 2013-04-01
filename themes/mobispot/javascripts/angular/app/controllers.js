@@ -160,10 +160,11 @@ function SpotCtrl($scope, $http, $compile)  {
   };
 
   $scope.accordion = function(e, token)  {
-    var spot = angular.element(e.currentTarget).parent().parent();
+    var spot = angular.element(e.currentTarget).parent();
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
-    if (spotContent.is(":hidden")) {
+    var spotHat = spot.find('.spot-hat');
+    if (spotContent.attr('class') == null) {
       $http.post('/ajax/spotView', {discodes:discodes, token:token}).success(function(data)  {
           if(data.error == 'no')  {
             var oldSpotContent = angular.element('.spot-content');
@@ -172,7 +173,8 @@ function SpotCtrl($scope, $http, $compile)  {
             oldSpotContent.empty();
 
             $scope.spot.content='';
-            spotContent.html($compile(data.content)($scope));
+            spotHat.after($compile(data.content)($scope));
+            spotContent = spot.find('.spot-content');
             spot.addClass('open');
             spotContent.slideToggle(500);
 
@@ -190,8 +192,11 @@ function SpotCtrl($scope, $http, $compile)  {
     }
     else  {
       spot.removeClass('open');
-      spotContent.slideUp(500);
-      spotContent.empty();
+      spotContent.slideUp(500,
+        function () {
+            spotContent.prev().remove();
+            spotContent.remove();
+        });
     }
   }
 
