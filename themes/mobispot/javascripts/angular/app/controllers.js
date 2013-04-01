@@ -4,10 +4,10 @@ function $id(id) {
   return document.getElementById(id);
 }
 
-function UserCtrl($scope, $http, $compile)  {
+function UserCtrl($scope, $http, $compile, $timeout)  {
   $scope.$watch('user.email + user.password', function(user)  {
 
-    if ($scope.user.email && $scope.user.password)  {
+    if ($scope.user && $scope.user.email && $scope.user.password)  {
       angular.element('#sign-in .form-control a').removeClass('button-disable');
     }
   });
@@ -40,20 +40,19 @@ function UserCtrl($scope, $http, $compile)  {
   };
 
   $scope.initTimer = function(token){
-    $scope.token = token;
-    $http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     }).error(function(error){
       $scope.itemsInCart = 0;
     });
-    var mytimeout = $timeout($scope.onTimeout,1000);
+    var mytimeout = $timeout($scope.onTimeout,10000);
   };
 
   $scope.onTimeout = function(){
-    $http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     });
-      mytimeout = $timeout($scope.onTimeout,1000);
+    var mytimeout = $timeout($scope.onTimeout,10000);
   };
 }
 

@@ -16,6 +16,7 @@
 				<td>
 					<div class="slider-items">
 						<img ng-repeat="imgHref in product.photo" src="{{imgHref}}">
+						{{imgHref}}
 					</div>
 				</td>
 				<td class="store-items__description">
