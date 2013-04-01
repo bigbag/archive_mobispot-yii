@@ -51,7 +51,7 @@
 		</table>
 
 		<div class="twelve total-amount clearfix">
-			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="./themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
+			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
 			<a class="spot-button right" href="" ng-click="checkOut()"><?php echo Yii::t('cart', 'Proceed to checkout'); ?></a>
 		</div>
 	</div>
@@ -113,4 +113,4 @@
 			</div>
 		</div>
 	</div>
-</div>		
+</div>
