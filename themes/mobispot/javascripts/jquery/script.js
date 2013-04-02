@@ -21,12 +21,13 @@ var showPopup = function(){
 
 };
 var hidePopup = function(){
-  $element.showPopupButton.removeClass('active');
-  $popup.animate({opacity: 0}, 50, function(){
-    $(this).addClass('hide');
-    $body.removeClass('overflow-h');
-  });
-
+  if ($element.showPopupButton){
+    $element.showPopupButton.removeClass('active');
+    $popup.animate({opacity: 0}, 50, function(){
+      $(this).addClass('hide');
+      $body.removeClass('overflow-h');
+    });
+  }
 };
 
 $(window).load(function() {

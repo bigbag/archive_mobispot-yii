@@ -90,7 +90,9 @@ class AjaxController extends MController {
             }
 
             $content=$spotContent->content;
-
+            $content['keys'][]=$content['counter'];
+            $key=$content['counter'];
+            $content['counter']=$content['counter']+1;
             $content['data'][]=$data['content'];
             $spotContent->content=$content;
             $spotContent->save();
@@ -99,6 +101,7 @@ class AjaxController extends MController {
           $content=$this->renderPartial('//widget/spot/personal/new_text',
               array(
                 'content'=>$data['content'],
+                'key'=>$key,
               ),
               true);
           $error="no";
@@ -130,11 +133,35 @@ class AjaxController extends MController {
           if ($spotContent->save()){
             $error="no";
           }
-          print_r(SpotContent::initPersonal($spot));
+          $error="no";
         }
       }
     }
+    echo json_encode(array('error'=>$error));
+  }
 
+  public function actionSpotRemoveContent() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['key'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
+
+          if($spotContent) {
+            $content=$spotContent->content;
+            unset($content['keys'][$data['key']]);
+            unset($content['data'][$data['key']]);
+            $spotContent->content=$content;
+            if ($spotContent->save()){
+              $error="no";
+            }
+          }
+        }
+      }
+    }
     echo json_encode(array('error'=>$error));
   }
 

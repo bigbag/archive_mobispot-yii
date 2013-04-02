@@ -209,4 +209,23 @@ function SpotCtrl($scope, $http, $compile)  {
       });
     }
   };
+
+  $scope.removeContent=function(spot, key, e)  {
+    spot.key = key;
+    $http.post('/ajax/spotRemoveContent', spot).success(function(data)  {
+      if(data.error == 'no')  {
+        var spotItem = angular.element(e.currentTarget).parent().parent().parent();
+        spotItem.remove();
+      }
+    });
+  };
+
+  $scope.editContent=function(spot, key)  {
+     spot.key = key;
+    $http.post('/ajax/spotEditContent', spot).success(function(data)  {
+      if(data.error == 'no')  {
+
+      }
+    });
+  };
 }
