@@ -1,6 +1,6 @@
 <a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
 <div class="spot-content slide-content">
-<?php if($spotContent):?>
+<?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
 <?php if(isset($content['data'])):?>
   <?php foreach ($content['data'] as $row):?>

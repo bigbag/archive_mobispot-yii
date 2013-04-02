@@ -57,7 +57,7 @@ class AjaxController extends MController {
         if (isset($data['discodes'])) {
           $spot=Spot::model()->findByPk($data['discodes']);
           if ($spot) {
-            $spotContent=SpotContent::getSpotContent($spot->discodes_id, $spot->spot_type_id);
+            $spotContent=SpotContent::getSpotContent($spot);
             $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
               array(
                 'spot'=>$spot,
@@ -83,37 +83,16 @@ class AjaxController extends MController {
         if (isset($data['content']) and isset($data['user'])){
           if (isset($data['discodes'])){
             $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-            $spotContent=SpotContent::getSpotContent(
-              $spot->discodes_id, $spot->spot_type_id
-            );
-
-            $spotContent=SpotContent::model()
-              ->findByAttributes(
-                  array(
-                    'spot_type_id'=>$spot->spot_type_id,
-                    'discodes_id'=>$spot->discodes_id
-                  )
-                );
+            $spotContent=SpotContent::getSpotContent($spot);
 
             if(!$spotContent) {
-              $spotContent=new SpotContent;
-              $spotContent->discodes_id=$spot->discodes_id;
-              $spotContent->user_id=$spot->user_id;
-              $spotContent->lang=$spot->lang;
-              $spotContent->spot_type_id=$spot->spot_type_id;
+              $spotContent=SpotContent::initPersonal($spot);
             }
 
-            if(!is_array($spotContent->content)){
-              $tempContent=array();
-              $tempContent['private']=0;
-              $tempContent['vcard']=0;
-            }
-            else {
-              $tempContent=$spotContent->content;
-            }
+            $content=$spotContent->content;
 
-            $tempContent['data'][]=$data['content'];
-            $spotContent->content=$tempContent;
+            $content['data'][]=$data['content'];
+            $spotContent->content=$content;
             $spotContent->save();
 
           }
@@ -138,22 +117,20 @@ class AjaxController extends MController {
       if (isset($data['discodes'])){
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
         if ($spot){
-          $spotContent=SpotContent::getSpotContent(
-              $spot->discodes_id, $spot->spot_type_id
-          );
+          $spotContent=SpotContent::getSpotContent($spot);
+
           if(!$spotContent) {
-            $spotContent=new SpotContent;
-            $spotContent->discodes_id=$spot->discodes_id;
-            $spotContent->user_id=$spot->user_id;
-            $spotContent->lang=$spot->lang;
-            $spotContent->spot_type_id=$spot->spot_type_id;
+            $spotContent=SpotContent::initPersonal($spot);
           }
 
-          $tempContent=array();
-          $tempContent['private']=$data['private'];
-          $tempContent['vcard']=$data['vcard'];
-          $spotContent->content=$tempContent;
-          $spotContent->save();
+          $content=$spotContent->content;
+          $content['private']=$data['private'];
+          $content['vcard']=$data['vcard'];
+          $spotContent->content=$content;
+          if ($spotContent->save()){
+            $error="no";
+          }
+          print_r(SpotContent::initPersonal($spot));
         }
       }
     }
