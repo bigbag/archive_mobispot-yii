@@ -7,7 +7,7 @@
       </a>
     </div>
     <div class="spot-cover slow">
-      <a class="button remove-spot round" ng-click="removeContent(spot, 1, $event)">></a>
+      <a class="button remove-spot round" ng-click="removeContent(spot, 1, $event)"></a>
       <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
     </div>
   </div>
