@@ -159,14 +159,15 @@ function SpotCtrl($scope, $http, $compile) {
           if(data.error == 'no') {
             var oldSpotContent = angular.element('.spot-content');
             angular.element('.spot-content_li').removeClass('open');
-            oldSpotContent.slideUp(500);
-            oldSpotContent.remove();
+            oldSpotContent.slideUp(600, function () {
+              oldSpotContent.remove();
+            });
 
             $scope.spot.content='';
             spotHat.after($compile(data.content)($scope));
             spotContent = spot.find('.spot-content');
             spot.addClass('open');
-            spotContent.slideToggle(500);
+            spotContent.slideToggle(600);
 
             var filedrag = $id('filedrag');
             if (filedrag) {
