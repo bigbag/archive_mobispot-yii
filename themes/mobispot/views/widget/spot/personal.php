@@ -22,7 +22,7 @@
 <?php endif;?>
 
 <form ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
-<div class="spot-content_row"  id="filedrag">
+<div class="spot-content_row">
   <div id="add-content" class="spot-item">
     <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
     <label class="text-center label-cover">

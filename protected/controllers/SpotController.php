@@ -2,6 +2,10 @@
 
 class SpotController extends MController {
 
+  public function getImageType(){
+    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'tiff'=>'tiff');;
+  }
+
   public function actionIndex() {
     if (Yii::app()->request->getQuery('url', 0)) {
       $url = Yii::app()->request->getQuery('url', 0);
@@ -15,17 +19,32 @@ class SpotController extends MController {
 
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
     if ($file) {
-      $file=time().'_'.$file;
-      $file_name=Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $file;
+      $fileType=substr(strrchr($file, '.'), 1);
+      $file=md5(time()).'_'.$file;
+
+      $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+      $file_name=$patch.$file;
 
       if (file_put_contents($file_name, file_get_contents('php://input'))){
-        $content=$this->renderPartial('//widget/spot/personal/new_image',
+        $images=$this->getImageType();
+
+        if (isset($images[$fileType])){
+          $type='image';
+
+          $image=new CImageHandler();
+          $image->load($file_name);
+          if ($image->thumb(false, 300, true)) {
+            $image->save($patch.'tmb_'.$file);
+          }
+        }
+        else{
+          $type='obj';
+        }
+        $content=$this->renderPartial('//widget/spot/personal/new_'.$type,
           array(
             'content'=>$file,
-            // 'key'=>$key,
           ),
         true);
-
         $error="no";
       }
     }
