@@ -94,7 +94,7 @@ function SpotCtrl($scope, $http, $compile) {
 
     for (var i = 0, f; f = files[i]; i++) {
       $scope.uploadFile(f);
-      $scope.parseFile(f);
+      // $scope.parseFile(f);
     }
   }
 
