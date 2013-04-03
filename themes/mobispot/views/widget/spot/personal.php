@@ -29,7 +29,7 @@
       <h4>Drag your files here or begin to type info or links</h4>
       <span>
         A maximum file size limit of 25mb for free accounts.<br />
-        Use enter for a new paragraph.
+        Use Ctrl+enter for a new paragraph.
       </span>
     </label>
   </div>

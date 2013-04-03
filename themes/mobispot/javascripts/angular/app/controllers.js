@@ -39,7 +39,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
   };
 
-  $scope.initTimer = function(token){
+  $scope.initTimer = function(){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     }).error(function(error){
@@ -85,7 +85,7 @@ function SpotCtrl($scope, $http, $compile) {
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    e.target.className = (e.type == "dragover" ? "hover" : "");
+    // e.target.className = (e.type == "spot-item dragover" ? "hover" : "");
   }
 
   function fileSelectHandler(e) {
@@ -108,30 +108,21 @@ function SpotCtrl($scope, $http, $compile) {
     })
   }
 
-  $scope.parseFile= function(file) {
-    if (file.type.indexOf("image") == 0) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-
-
-        var txt = '<div class="spot-item">' +
-          '<div class="item-area text-center">' +
-          '<img src="' + e.target.result + '">' +
-          '<div class="spot-cover slow">' +
-          '<a class="button remove-spot round" href="javascripts:;"></a>' +
-          '<div class="move-spot"><i></i><span>Move your photo</span></div>' +
-          '</div></div></div>';
-          angular.element('#add-content').before($compile(txt)($scope));
+  $scope.uploadComplete = function(e) {
+    var result = e.target.responseText;
+    if (result){
+      var data = angular.fromJson(result);
+      if(data.error == 'no') {
+        angular.element('#add-content').before($compile(data.content)($scope));
       }
-      reader.readAsDataURL(file);
     }
-
   }
 
   $scope.uploadFile = function(file) {
 
     var xhr = new XMLHttpRequest();
     if (xhr.upload && file.size <= $scope.maxSize) {
+      xhr.addEventListener("load", $scope.uploadComplete, false)
       xhr.open("POST", "/spot/upload", true);
       xhr.setRequestHeader("X-File-Name", file.name);
       xhr.send(file);
@@ -169,7 +160,7 @@ function SpotCtrl($scope, $http, $compile) {
             var oldSpotContent = angular.element('.spot-content');
             angular.element('.spot-content_li').removeClass('open');
             oldSpotContent.slideUp(500);
-            oldSpotContent.empty();
+            oldSpotContent.remove();
 
             $scope.spot.content='';
             spotHat.after($compile(data.content)($scope));
@@ -177,6 +168,7 @@ function SpotCtrl($scope, $http, $compile) {
             spot.addClass('open');
             spotContent.slideToggle(500);
 
+            var filedrag = $id('filedrag');
             if (filedrag) {
               var xhr = new XMLHttpRequest();
               if (xhr.upload) {

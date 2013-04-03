@@ -23,7 +23,7 @@
 					<input type="password" placeholder="<?php echo Yii::t('activate', 'Confirm your password');?>">
 					<input type="text" placeholder="<?php echo Yii::t('activate', 'Spot activation code');?>">
 					<div class="toggle-active">
-						<a class="checkbox agree" href="javascript:;"><i></i><?php echo Yii::t('activate', 'I agree to Mobispot Pages Terms');?></a>
+						<a class="checkbox agree" href="javascript:;"><i></i><?php echo Yii::t('activate', 'I agree to Terms and Conditions');?></a>
 					</div>
 					<div class="form-control">
 						<a class="spot-button" href="#"><?php echo Yii::t('activate', 'Activate spot');?></a>

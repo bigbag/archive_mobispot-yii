@@ -21,7 +21,7 @@ class SpotController extends MController {
       if (file_put_contents($file_name, file_get_contents('php://input'))){
         $content=$this->renderPartial('//widget/spot/personal/new_image',
           array(
-            'content'=>$file_name,
+            'content'=>$file,
             // 'key'=>$key,
           ),
         true);

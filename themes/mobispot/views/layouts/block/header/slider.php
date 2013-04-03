@@ -10,7 +10,6 @@
         <?php $userInfo=$this->userInfo()?>
         <ul class="login-bar">
           <li><a href="/user/personal"><?php echo $userInfo->name;?></a></li>
-        <!-- <li><a href="#">Shopping bag (2)</a></li> -->
         </ul>
         <?php endif; ?>
         <div class="four columns">
