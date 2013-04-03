@@ -4,10 +4,10 @@ function $id(id) {
   return document.getElementById(id);
 }
 
-function UserCtrl($scope, $http, $compile, $timeout)  {
-  $scope.$watch('user.email + user.password', function(user)  {
+function UserCtrl($scope, $http, $compile, $timeout) {
+  $scope.$watch('user.email + user.password', function(user) {
 
-    if ($scope.user && $scope.user.email && $scope.user.password)  {
+    if ($scope.user && $scope.user.email && $scope.user.password) {
       angular.element('#sign-in .form-control a').removeClass('button-disable');
     }
   });
@@ -17,11 +17,11 @@ function UserCtrl($scope, $http, $compile, $timeout)  {
     if (!user.email || !user.password) return false;
     $http.post('/service/login', user).success(function(data) {
       if(data.error == 'login_error_count') {
-        $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)        {
-          if(data.error == 'no')  {
+        $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)       {
+          if(data.error == 'no') {
             var form = $compile(data.content)($scope);
-            $http.post('/ajax/getBlock', {content:'captcha'}).success(function(data)            {
-              if(data.error == 'no')  {
+            $http.post('/ajax/getBlock', {content:'captcha'}).success(function(data)           {
+              if(data.error == 'no') {
                 angular.element('#signInForm').html(form);
                 angular.element('#signInForm .captcha').html($compile(data.content)($scope));
               }
@@ -33,7 +33,7 @@ function UserCtrl($scope, $http, $compile, $timeout)  {
         angular.element('#sign-in input[name=email]').addClass('error');
         angular.element('#sign-in input[name=password]').addClass('error');
       }
-      else  {
+      else {
         $(location).attr('href','/user/personal');
       }
     });
@@ -56,7 +56,7 @@ function UserCtrl($scope, $http, $compile, $timeout)  {
   };
 }
 
-function HelpCtrl($scope, $http, $compile)  {
+function HelpCtrl($scope, $http, $compile) {
 
   $scope.$watch('user.email + user.fName + user.question', function(user) {
     if ($scope.user.fName && $scope.user.email && $scope.user.question) {
@@ -67,14 +67,14 @@ function HelpCtrl($scope, $http, $compile)  {
 
   $scope.send=function(user){
     $http.post('/ajax/sendQuestion', user).success(function(data) {
-      if(data.error == 'no')  {
+      if(data.error == 'no') {
         console.log(1);
       }
     });
   };
 }
 
-function SpotCtrl($scope, $http, $compile)  {
+function SpotCtrl($scope, $http, $compile) {
    $scope.maxSize = 2500000;
 
   function output(msg) {
@@ -132,7 +132,7 @@ function SpotCtrl($scope, $http, $compile)  {
 
     var xhr = new XMLHttpRequest();
     if (xhr.upload && file.size <= $scope.maxSize) {
-      xhr.open("POST", "upload.php", true);
+      xhr.open("POST", "/spot/upload", true);
       xhr.setRequestHeader("X-File-Name", file.name);
       xhr.send(file);
     }
@@ -144,28 +144,28 @@ function SpotCtrl($scope, $http, $compile)  {
     $scope.setAttribute(spot);
   };
 
-  $scope.getPrivate=function(spot)  {
+  $scope.getPrivate=function(spot) {
     if (spot.private == 1) spot.private = 0;
     else spot.private = 1;
     $scope.setAttribute(spot);
   };
 
-  $scope.setAttribute=function(spot)  {
-    $http.post('/ajax/spotAtributeSave', $scope.spot).success(function(data)            {
-        if(data.error == 'no')  {
+  $scope.setAttribute=function(spot) {
+    $http.post('/spot/spotAtributeSave', $scope.spot).success(function(data)           {
+        if(data.error == 'no') {
 
         }
       });
   };
 
-  $scope.accordion = function(e, token)  {
+  $scope.accordion = function(e, token) {
     var spot = angular.element(e.currentTarget).parent();
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
     if (spotContent.attr('class') == null) {
-      $http.post('/ajax/spotView', {discodes:discodes, token:token}).success(function(data)  {
-          if(data.error == 'no')  {
+      $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
+          if(data.error == 'no') {
             var oldSpotContent = angular.element('.spot-content');
             angular.element('.spot-content_li').removeClass('open');
             oldSpotContent.slideUp(500);
@@ -189,7 +189,7 @@ function SpotCtrl($scope, $http, $compile)  {
           }
       });
     }
-    else  {
+    else {
       spot.removeClass('open');
       spotContent.slideUp(500,
         function () {
@@ -199,10 +199,10 @@ function SpotCtrl($scope, $http, $compile)  {
     }
   }
 
-  $scope.saveSpot=function(spot)  {
-    if (spot.content && spot.user)  {
-      $http.post('/ajax/spotSave', spot).success(function(data)  {
-        if(data.error == 'no')  {
+  $scope.saveSpot=function(spot) {
+    if (spot.content && spot.user) {
+      $http.post('/spot/spotSave', spot).success(function(data) {
+        if(data.error == 'no') {
           angular.element('#add-content').before($compile(data.content)($scope));
           spot.content='';
         }
@@ -210,20 +210,20 @@ function SpotCtrl($scope, $http, $compile)  {
     }
   };
 
-  $scope.removeContent=function(spot, key, e)  {
+  $scope.removeContent=function(spot, key, e) {
     spot.key = key;
-    $http.post('/ajax/spotRemoveContent', spot).success(function(data)  {
-      if(data.error == 'no')  {
+    $http.post('/spot/spotRemoveContent', spot).success(function(data) {
+      if(data.error == 'no') {
         var spotItem = angular.element(e.currentTarget).parent().parent().parent();
         spotItem.remove();
       }
     });
   };
 
-  $scope.editContent=function(spot, key)  {
+  $scope.editContent=function(spot, key) {
      spot.key = key;
-    $http.post('/ajax/spotEditContent', spot).success(function(data)  {
-      if(data.error == 'no')  {
+    $http.post('/spot/spotEditContent', spot).success(function(data) {
+      if(data.error == 'no') {
 
       }
     });
