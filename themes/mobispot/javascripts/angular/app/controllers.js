@@ -177,7 +177,6 @@ function SpotCtrl($scope, $http, $compile) {
             spot.addClass('open');
             spotContent.slideToggle(500);
 
-            var filedrag = $id("filedrag");
             if (filedrag) {
               var xhr = new XMLHttpRequest();
               if (xhr.upload) {
