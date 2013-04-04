@@ -1,8 +1,3 @@
-<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/store/stylesheets/a-slider.css');?>
-<?php Yii::app()->getClientScript()->registerScriptFile('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');?>
-<?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/app.js');?>
-<?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/controllers.js');?>
-
 <div ng-controller="CartCtrl" ng-init="CartInit('<?php echo Yii::app()->request->csrfToken; ?>', '<?php echo Yii::t('product', 'Cart is empty'); ?>')">
 <div class="row">
 	<div class="twelve columns singlebox-margin">
@@ -67,7 +62,7 @@
 
 			</tbody>
 		</table>
-	
+
 		<div class="twelve total-amount clearfix">
 			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
 			<a class="spot-button right" ng-show="products.length > 0" href="" ng-click="checkOut()"><?php echo Yii::t('cart', 'Proceed to checkout'); ?></a>
@@ -131,5 +126,4 @@
 			</div>
 		</div>
 	</div>
-</div>	
-	
+</div>

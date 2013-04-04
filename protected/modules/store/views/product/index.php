@@ -1,8 +1,3 @@
-<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/store/stylesheets/a-slider.css');?>
-<?php Yii::app()->getClientScript()->registerScriptFile('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');?>
-<?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/app.js');?>
-<?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/controllers.js');?>
-
 			<div ng-controller="ProductCtrl" ng-init="StoreInit('<?php echo Yii::app()->request->csrfToken; ?>')">
 
 			<table class="twelve store-items">
@@ -62,8 +57,7 @@
 						</div>
 					</td>
 				</tr>
-	
+
 				</tbody>
 			</table>
 			</div>
-		
