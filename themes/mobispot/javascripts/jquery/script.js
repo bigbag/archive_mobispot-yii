@@ -21,12 +21,13 @@ var showPopup = function(){
 
 };
 var hidePopup = function(){
-  $element.showPopupButton.removeClass('active');
-  $popup.animate({opacity: 0}, 50, function(){
-    $(this).addClass('hide');
-    $body.removeClass('overflow-h');
-  });
-
+  if ($element.showPopupButton){
+    $element.showPopupButton.removeClass('active');
+    $popup.animate({opacity: 0}, 50, function(){
+      $(this).addClass('hide');
+      $body.removeClass('overflow-h');
+    });
+  }
 };
 
 $(window).load(function() {
@@ -41,8 +42,9 @@ $(window).load(function() {
   $('.spot-list').on('click','label', function(){
     $(this).prev().focus();
   });
-  $('.settings-button').on('click', showPopup);
-  $('.button', '.popup').on('click', hidePopup);
+  $(document).on('click','.settings-button', showPopup);
+  $(document).on('click','.button', hidePopup);
+  $(document).on('click','.popup', hidePopup);
 
   $(document).keydown(function(e){
     if(e.which == 27){

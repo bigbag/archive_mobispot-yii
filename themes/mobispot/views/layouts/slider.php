@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 
 <?php include('block/head.php');?>
-<body>
+<body ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div class="content-wrapper">
 	<?php include('block/header/slider.php');?>
 	<?php echo $content; ?>

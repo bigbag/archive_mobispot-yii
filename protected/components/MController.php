@@ -3,8 +3,7 @@
 * Controller is the customized base controller class.
 * All controller classes for this application should extend from this base class.
 */
-class MController extends Controller
-{
+class MController extends Controller{
 
   public $pageDescription;
   public $pageKeywords;
@@ -29,8 +28,7 @@ class MController extends Controller
   */
   public $breadcrumbs = array();
 
-  public function beforeRender()
-  {
+  public function beforeRender(){
 
     if (!empty($this->pageDescription)) $description = $this->pageDescription;
   else $description = Yii::app()->par->load('siteDesc');
@@ -47,8 +45,7 @@ class MController extends Controller
     return true;
   }
 
-  public function userInfo()
-  {
+  public function userInfo(){
     if (Yii::app()->user->id) {
       $id = Yii::app()->user->id;
       $info = Yii::app()->cache->get('user_' . $id);
@@ -64,8 +61,7 @@ class MController extends Controller
     } else return false;
   }
 
-  public function lastVisit()
-  {
+  public function lastVisit(){
     Yii::app()->db->createCommand()
     ->update('user',
       array(
@@ -76,13 +72,11 @@ class MController extends Controller
     return true;
   }
 
-  public function setAccess()
-  {
+  public function setAccess(){
     throw new CHttpException(403, Yii::t('user', 'У вас не хватает прав для доступа.'));
   }
 
-  public function init()
-  {
+  public function init(){
     if (isset(Yii::app()->request->cookies['lang'])) {
       $lang = Yii::app()->request->cookies['lang']->value;
       $all_lang = Lang::getLangArray();
@@ -98,14 +92,21 @@ class MController extends Controller
   else  Yii::app()->language = 'en';
   }
 
-  public function  getLang()
-  {
+  public function  getLang(){
     return (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en';
   }
 
-  public function getJson ()
-  {
+  public function getJson (){
     $post = file_get_contents("php://input");
     return CJSON::decode($post, true);
+  }
+
+  public function getCart () {
+     if(Yii::app()->session['itemsInCart'] and Yii::app()->session['itemsInCart'] > 0){
+      return Yii::app()->session['itemsInCart'];
+     }
+     else {
+      return false;
+     }
   }
 }

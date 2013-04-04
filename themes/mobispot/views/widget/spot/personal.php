@@ -1,13 +1,15 @@
-<?php if($spotContent):?>
+<a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
+<div class="spot-content slide-content">
+<?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
 <?php if(isset($content['data'])):?>
-  <?php foreach ($content['data'] as $row):?>
+  <?php foreach ($content['data'] as $key=>$value):?>
   <div class="spot-item">
     <div class="item-area">
-      <p class="item-area item-type__text"><?php echo CHtml::encode($row)?></p>
+      <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
       <div class="spot-cover slow">
-        <a class="button remove-spot round" href="javascripts:;"></a>
-        <a class="button edit-spot round" href="javascripts:;"></a>
+        <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
+        <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
         <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
       </div>
     </div>
@@ -19,15 +21,17 @@
   <span ng-init="spot.vcard=0; spot.private=0;"></span>
 <?php endif;?>
 
-
 <form ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
 <div class="spot-content_row">
   <div id="add-content" class="spot-item">
-    <textarea  id="filedrag" ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
-    <!-- <label class="text-center label-cover">
+    <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
+    <label class="text-center label-cover">
       <h4>Drag your files here or begin to type info or links</h4>
-      <span>A maximum file size limit of 25mb for free accounts</span>
-    </label> -->
+      <span>
+        A maximum file size limit of 25mb for free accounts.<br />
+        Use Ctrl+enter for a new paragraph.
+      </span>
+    </label>
   </div>
 </div>
 <div class="spot-content_row spot-options toggle-active">
@@ -44,3 +48,4 @@
   </a>
 </div>
 </form>
+</div>

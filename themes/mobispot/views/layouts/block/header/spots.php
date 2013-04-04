@@ -11,7 +11,7 @@
 							<?php $userInfo=$this->userInfo()?>
 							<a class="spot-button" href="#"><?php echo $userInfo->name;?></a>
 							<ul class="options">
-								<li><a href="/user/profile"><?php echo Yii::t('account', 'Settings');?></a></li>
+								<li><a href="/user/profile"><?php echo Yii::t('account', 'My settings');?></a></li>
 								<li><a href="/service/logout/"><?php echo Yii::t('account', 'Logout');?></a></li>
 							</ul>
 						</li>

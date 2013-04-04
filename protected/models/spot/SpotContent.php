@@ -93,19 +93,36 @@ class SpotContent extends CActiveRecord {
     );
   }
 
-  public static function getSpotContent($discodes_id, $spot_type_id) {
-    $spot_content=Yii::app()->cache->get('spot_content_'.$discodes_id);
+  public static function getSpotContent($spot) {
+    $spot_content=Yii::app()->cache->get('spot_content_'.$spot->discodes_id);
     if (!$spot_content) {
       $spot_content=SpotContent::model()->findByAttributes(
         array(
-          'discodes_id'=>$discodes_id,
-          'spot_type_id'=>$spot_type_id,
+          'discodes_id'=>$spot->discodes_id,
+          'spot_type_id'=>$spot->spot_type_id,
         )
       );
 
-      Yii::app()->cache->set('spot_content_'.$discodes_id, $spot_content, 60);
+      Yii::app()->cache->set('spot_content_'.$spot->discodes_id, $spot_content, 60);
     }
     return $spot_content;
+  }
+
+  public function initPersonal($spot){
+    $spotContent=new SpotContent;
+    $spotContent->discodes_id=$spot->discodes_id;
+    $spotContent->user_id=$spot->user_id;
+    $spotContent->lang=$spot->lang;
+    $spotContent->spot_type_id=$spot->spot_type_id;
+
+    $content=array();
+    $content['counter']=0;
+    $content['private']=0;
+    $content['vcard']=0;
+    $content['keys']=array();
+    $spotContent->content=$content;
+
+    return $spotContent;
   }
 
   /**

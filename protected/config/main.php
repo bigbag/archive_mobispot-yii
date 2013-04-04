@@ -24,7 +24,7 @@ return array(
       'useTransparentSessionID'=>false,
       'autoStart'=>'false',
       'cookieMode'=>'only',
-      'timeout'=>3600
+      'timeout'=>36000
     ),
     'messages'=>array(
       'class'=>'CPhpMessageSource',
