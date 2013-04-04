@@ -3,7 +3,7 @@
 class SpotController extends MController {
 
   public function getImageType(){
-    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'tiff'=>'tiff');;
+    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png');;
   }
 
   public function actionIndex() {
@@ -17,10 +17,11 @@ class SpotController extends MController {
     $error="yes";
     $content="";
 
+    $discodes=(isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
-    if ($file) {
+    if ($file and $discodes) {
       $fileType=substr(strrchr($file, '.'), 1);
-      $file=md5(time()).'_'.$file;
+      $file=md5(time().$discodes).'_'.$file;
 
       $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
       $file_name=$patch.$file;
@@ -40,9 +41,25 @@ class SpotController extends MController {
         else{
           $type='obj';
         }
+
+        $spot=Spot::getSpot(array('discodes_id'=>$discodes));
+        $spotContent=SpotContent::getSpotContent($spot);
+
+        if(!$spotContent) {
+          $spotContent=SpotContent::initPersonal($spot);
+        }
+
+        $content=$spotContent->content;
+        $content['keys'][$content['counter']]=$type;
+        $key=$content['counter'];
+        $content['data'][$key]=$file;
+        $content['counter']=$content['counter']+1;
+        $spotContent->content=$content;
+        $spotContent->save();
         $content=$this->renderPartial('//widget/spot/personal/new_'.$type,
           array(
             'content'=>$file,
+            'key'=>$key,
           ),
         true);
         $error="no";
@@ -52,27 +69,27 @@ class SpotController extends MController {
   }
 
   public function actionSpotView() {
-    if (Yii::app()->request->isAjaxRequest) {
-      $error="yes";
-      $content="";
+  if (Yii::app()->request->isAjaxRequest) {
+    $error="yes";
+    $content="";
 
-      $data=$this->getJson();
-      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-        if (isset($data['discodes'])) {
-          $spot=Spot::model()->findByPk($data['discodes']);
-          if ($spot) {
-            $spotContent=SpotContent::getSpotContent($spot);
-            $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
-              array(
-                'spot'=>$spot,
-                'spotContent'=>$spotContent,
-                'field'=>$spot->spot_type->field,
-              ),
-              true);
-            $error="no";
-          }
+    $data=$this->getJson();
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+          $spotContent=SpotContent::getSpotContent($spot);
+          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
+            array(
+              'spot'=>$spot,
+              'spotContent'=>$spotContent,
+              'field'=>$spot->spot_type->field,
+            ),
+            true);
+          $error="no";
         }
       }
+    }
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }
@@ -94,21 +111,20 @@ class SpotController extends MController {
             }
 
             $content=$spotContent->content;
-            $content['keys'][]=$content['counter'];
+            $content['keys'][$content['counter']]='text';
             $key=$content['counter'];
+            $content['data'][$key]=$data['content'];
             $content['counter']=$content['counter']+1;
-            $content['data'][]=$data['content'];
             $spotContent->content=$content;
             $spotContent->save();
-
-          }
-          $content=$this->renderPartial('//widget/spot/personal/new_text',
+            $content=$this->renderPartial('//widget/spot/personal/new_text',
               array(
                 'content'=>$data['content'],
                 'key'=>$key,
               ),
               true);
-          $error="no";
+            $error="no";
+          }
         }
       }
 
@@ -156,6 +172,13 @@ class SpotController extends MController {
 
           if($spotContent) {
             $content=$spotContent->content;
+
+            if ($content['keys'][$data['key']]!='text'){
+              $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+              @unlink($patch.$content['data'][$data['key']]);
+              @unlink($patch.'tmb_'.$content['data'][$data['key']]);
+            }
+
             unset($content['keys'][$data['key']]);
             unset($content['data'][$data['key']]);
             $spotContent->content=$content;

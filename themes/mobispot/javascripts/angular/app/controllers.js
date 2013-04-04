@@ -125,6 +125,7 @@ function SpotCtrl($scope, $http, $compile) {
       xhr.addEventListener("load", $scope.uploadComplete, false)
       xhr.open("POST", "/spot/upload", true);
       xhr.setRequestHeader("X-File-Name", file.name);
+      xhr.setRequestHeader("X-Discodes", $scope.spot.discodes);
       xhr.send(file);
     }
   }

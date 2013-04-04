@@ -5,11 +5,22 @@
 <?php if(isset($content['data'])):?>
   <?php foreach ($content['data'] as $key=>$value):?>
   <div class="spot-item">
-    <div class="item-area">
+    <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
+      <?php if ($content['keys'][$key]=='text'):?>
       <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
+      <?php elseif ($content['keys'][$key]=='image'):?>
+      <img src="/uploads/spot/tmb_<?php echo $value?>">
+      <?php else:?>
+      <a href="<?php echo CHtml::encode($value)?>">
+        <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">
+        <span><?php echo CHtml::encode(substr(strchr($value, '_'), 1))?></span>
+      </a>
+      <?php endif;?>
       <div class="spot-cover slow">
         <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
+        <?php if ($content['keys'][$key]=='text'):?>
         <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
+        <?php endif;?>
         <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
       </div>
     </div>
@@ -28,7 +39,7 @@
     <label class="text-center label-cover">
       <h4>Drag your files here or begin to type info or links</h4>
       <span>
-        A maximum file size limit of 25mb for free accounts.<br />
+        You can store up to 25 MB inside one spot<br />
         Use Ctrl+enter for a new paragraph.
       </span>
     </label>
@@ -40,7 +51,7 @@
 
   <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
     <i class="large"></i>
-    <?php echo Yii::t('spots', 'Allow download spot as a card');?>
+    <?php echo Yii::t('spots', 'Allow to download as a V-card');?>
   </a>
   <a class="checkbox private <?php echo $privateActive;?>" href="javascript:;" ng-click="getPrivate(spot)">
     <i class="large"></i>
