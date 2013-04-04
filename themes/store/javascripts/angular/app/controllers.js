@@ -283,4 +283,11 @@ function CartCtrl($scope, $http) {
 		});		
 	};
 	
+	$scope.thumbClass = function(len){
+		if (len > 3)
+			return "thumbswrapper xscrolled";
+		else
+			return "thumbswrapper";
+	}	
+	
 }

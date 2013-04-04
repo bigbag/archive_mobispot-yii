@@ -25,7 +25,7 @@
 						</div>
 						</div>
 						<div class="thumbsshell">
-							<div class="thumbswrapper">
+							<div ng-class="thumbClass(product.photo.length)">
 								<ul class="aslide">
 									<li ng-repeat="image in product.photo" class="aslide" ng-click="scrollTo(image,$index, product.jsID)">
 										<div class="thumbwrapper">

@@ -130,8 +130,9 @@ class ProductController extends MController {
 		if (Yii::app()->request->isAjaxRequest) {
 			$answer = array();
 			$data = $this->getJson();
-			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products'])) {
+				$cart = new Cart;
+				$answer['error'] = $cart->buy($data['customer'], $data['products']);
 			}
 			echo CJSON::encode($answer);
 		}
