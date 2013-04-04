@@ -3,27 +3,40 @@
 /* Controllers */
 
 function ProductCtrl($scope, $http) {
-	
+
 	$scope.StoreInit = function(token){
-		$scope.token = token;
-		$http.post('/store/product/GetPriceList', {token : $scope.token}).success(function(data) {
-			$scope.products = data.products;
-			//$scope.itemsInCart = data.itemsInCart;
-			for (var i = 0; i < $scope.products.length; i++) {
-				$scope.products[i].jsID = i;
-				$scope.products[i].selectedSize = $scope.products[i].size[0];
-				$scope.products[i].selectedColor = $scope.products[i].color[0];
-				$scope.products[i].quantity = 1;
-			}
-			$scope.inRequest = false;
-		}).error(function(error){
-				alert(error);
-		});
-	}
+			$scope.token = token;
+			$http.post('/store/product/GetPriceList', {token : $scope.token}).success(function(data) {
+				$scope.products = data.products;
+				//$scope.itemsInCart = data.itemsInCart;
+				for (var i = 0; i < $scope.products.length; i++) {
+					$scope.products[i].jsID = i;
+					$scope.products[i].selectedSize = $scope.products[i].size[0];
+					$scope.products[i].selectedColor = $scope.products[i].color[0];
+					$scope.products[i].quantity = 1;
+					$scope.products[i].listposition = {left:"0px"};
+	
+				}
+				$scope.inRequest = false;	
+			}).error(function(error){
+					alert(error);
+			});
+	};
+	
+	var IMAGE_WIDTH = 242;	
+		
+	$scope.scrollTo = function(image,ind, jsID) {
+		$scope.products[jsID].listposition = {left:(IMAGE_WIDTH * ind * -1) + "px"};
+	};		
 
 	$scope.addToCart = function addToCart(jsID){
 		if(!$scope.inRequest){
 			$scope.inRequest = true;
+			var added = false;
+			if($scope.products[jsID].quantity == parseInt($scope.products[jsID].quantity)){
+				$scope.products[jsID].totalInCart += parseInt($scope.products[jsID].quantity);
+				added = true;
+			}
 			$http.post(('/store/product/AddToCart'), {
 				token: $scope.token,
 				id : $scope.products[jsID].id,
@@ -32,17 +45,21 @@ function ProductCtrl($scope, $http) {
 				selectedSize : $scope.products[jsID].selectedSize		
 			}).success(function(data, status) {
 				if(data.error == 'no'){
-					$scope.products[jsID].totalInCart += parseInt($scope.products[jsID].quantity);
-					//$scope.itemsInCart = data.itemsInCart;
-				}else
+					;
+				}else{
+					if(added)
+						$scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
 					alert(data.error);
+				}
 			}).error(function(error){
+				if(added)
+					$scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
 				alert(error);
 			});
 
 			$scope.inRequest = false;
 		}	
-	}
+	};
 	
 	$scope.sizeClass = function(selectedSize, size) {
 		if (selectedSize === size) {
@@ -50,7 +67,7 @@ function ProductCtrl($scope, $http) {
 		} else {
 			return "";
 		}
-	}
+	};
 	
 	$scope.colorClass = function(selectedColor, color) {
 		if (selectedColor === color) {
@@ -58,7 +75,7 @@ function ProductCtrl($scope, $http) {
 		} else {
 			return "";
 		}
-	}	
+	};
 	
 	$scope.totalClass = function(totalInCart) {
 		if (parseInt(totalInCart) > 0) {
@@ -66,15 +83,23 @@ function ProductCtrl($scope, $http) {
 		} else {
 			return "hide";
 		}
-	}	
+	};
 	
 	$scope.setSize = function(jsID, size){
 		$scope.products[jsID].selectedSize = size;
-	}
+	};
 	
 	$scope.setColor = function(jsID, color){
 		$scope.products[jsID].selectedColor = color;
+	};
+	
+	$scope.thumbClass = function(len){
+		if (len > 3)
+			return "thumbswrapper xscrolled";
+		else
+			return "thumbswrapper";
 	}
+
 }
 
 
@@ -89,6 +114,7 @@ function CartCtrl($scope, $http) {
 				$scope.products[i].jsID = i;
 				$scope.products[i].quantity = parseInt($scope.products[i].quantity);
 				$scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
+				$scope.products[i].listposition = {left:"0px"};
 			}
 			$scope.checkingOut = false;
 			$scope.inRequest = false;
@@ -96,15 +122,21 @@ function CartCtrl($scope, $http) {
 		}).error(function(error){
 				alert(error);
 		});
-	}
+	};
 
+	var IMAGE_WIDTH = 242;	
+		
+	$scope.scrollTo = function(image,ind, jsID) {
+		$scope.products[jsID].listposition = {left:(IMAGE_WIDTH * ind * -1) + "px"};
+	};		
+	
 	$scope.emptyClass = function() {
 		if ($scope.products.length > 0) {
 			return "hide";
 		} else {
 			return "";
 		}
-	}	
+	};
 	
 	$scope.sizeClass = function(selectedSize, size) {
 		if (selectedSize === size) {
@@ -112,7 +144,7 @@ function CartCtrl($scope, $http) {
 		} else {
 			return "";
 		}
-	}
+	};
 	
 	$scope.colorClass = function(selectedColor, color) {
 		if (selectedColor === color) {
@@ -120,21 +152,21 @@ function CartCtrl($scope, $http) {
 		} else {
 			return "";
 		}
-	}	
+	};	
 	
 	$scope.deliveryClass = function(jsID){
 		if ($scope.deliveries[jsID].id == $scope.selectedDelivery.id)
 			return "active";
 		else
 			return "";
-	}
+	};
 
 	$scope.paymentClass = function(jsID){
 		if ($scope.payments[jsID].id == $scope.selectedPayment.id)
 			return "active";
 		else
 			return "";
-	}	
+	};
 	
 	$scope.chekingOutClass = function(){
 		if(!$scope.checkingOut){
@@ -142,25 +174,25 @@ function CartCtrl($scope, $http) {
 		} else {
 			return "";
 		}
-	}
+	};
 	
 	$scope.setSize = function(jsID, size){
 		$scope.summ -= parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;
 		$scope.products[jsID].selectedSize = size;
 		$scope.summ += parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;;
-	}
+	};
 	
 	$scope.setColor = function(jsID, color){
 		$scope.products[jsID].selectedColor = color;
-	}
+	};
 
 	$scope.setDelivery = function(jsID){
 		$scope.selectedDelivery = $scope.deliveries[jsID];
-	}	
+	};
 	
 	$scope.setPayment = function(jsID){
 		$scope.selectedPayment = $scope.payments[jsID];
-	}
+	};
 	
 	$scope.changeQuantity = function(){
 		$scope.summ = 0;
@@ -169,7 +201,7 @@ function CartCtrl($scope, $http) {
 				$scope.products[i].quantity = 0;
 			$scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
 		}
-	}
+	};
 	
 	$scope.checkOut = function(){
 		if(!$scope.checkingOut){
@@ -190,7 +222,7 @@ function CartCtrl($scope, $http) {
 			});
 			$scope.checkingOut = true;
 		}
-	}
+	};
 
 	$scope.deleteItem = function(jsID){
 		if(!$scope.inRequest){
@@ -216,7 +248,7 @@ function CartCtrl($scope, $http) {
 			});
 			$scope.inRequest = false;
 		}
-	}
+	};
 	
 	$scope.saveCustomer = function(){
 		if(!$scope.inRequest){
@@ -234,16 +266,21 @@ function CartCtrl($scope, $http) {
 			});		
 			$scope.inRequest = false;
 		}
-	}
+	};
 	
 	$scope.buy = function(){
 		$http.post(('/store/product/Buy'), {
 			token: $scope.token,
-			customer : $scope.customer
+			customer : $scope.customer,
+			products : $scope.products
 		}).success(function(data, status) {
+			if (data.error == 'no')
+				alert(data.error);
+			else
+				alert(data.error);
 		}).error(function(error){
 				alert(error);
 		});		
-	}
+	};
 	
 }

@@ -13,9 +13,9 @@ class ProductController extends MController {
 	}	
 	
 	public function actionGetPriceList(){
-		if (Yii::app()->request->isAjaxRequest) {
+		//if (Yii::app()->request->isAjaxRequest) {
 			$data = $this->getJson();
-			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+			//if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
 				$answer['products'] = $cart->getPriceList();
 				/*
@@ -26,8 +26,8 @@ class ProductController extends MController {
 				*/
 				header('Content-Type: application/json; charset=UTF-8');
 				echo CJSON::encode($answer);
-			}
-		}
+			//}
+		//}
 		Yii::app()->end();	
 	}
 	
@@ -130,8 +130,9 @@ class ProductController extends MController {
 		if (Yii::app()->request->isAjaxRequest) {
 			$answer = array();
 			$data = $this->getJson();
-			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products'])) {
+				$cart = new Cart;
+				$answer['error'] = $cart->buy($data['customer'], $data['products']);
 			}
 			echo CJSON::encode($answer);
 		}

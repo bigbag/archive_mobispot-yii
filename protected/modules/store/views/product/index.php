@@ -1,3 +1,4 @@
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/store/stylesheets/a-slider.css');?>
 <?php Yii::app()->getClientScript()->registerScriptFile('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');?>
 <?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/app.js');?>
 <?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/controllers.js');?>
@@ -6,11 +7,27 @@
 
 			<table class="twelve store-items">
 				<tbody>
-				
 				<tr ng-repeat="product in products">
 					<td>
-						<div class="slider-items" make-slider>
-							<img ng-repeat="imgHref in product.photo" src="{{imgHref}}">
+						<div class="mainimageshell">
+						<div class="viewwindow">
+							<ul class="fullsizelist aslide" ng-style="product.listposition">
+								<li ng-repeat="image in product.photo" class="aslide">
+									<img class="large" ng-src="{{image}}" />
+								</li>
+							</ul>
+						</div>
+						</div>
+						<div class="thumbsshell">
+							<div ng-class="thumbClass(product.photo.length)">
+								<ul class="aslide">
+									<li ng-repeat="image in product.photo" class="aslide" ng-click="scrollTo(image,$index, product.jsID)">
+										<div class="thumbwrapper">
+											<img  class="thumbnail" ng-src="{{image}}" width="50">
+										</div>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</td>
 					<td class="store-items__description">
@@ -30,7 +47,7 @@
 								</div>
 								<div class="columns six inline choose">
 									<span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
-									<input ng-model="product.quantity" />
+									<input type="number" ng-model="product.quantity" />
 								</div>
 							</div>
 							<div class="columns twelve">
@@ -40,12 +57,13 @@
 								</ul>
 							</div>
 							<footer class="columns twelve">
-								<a class="spot-button" href="" ng-click="addToCart(product.jsID)"><?php echo Yii::t('store', 'Add to cart'); ?></a><span ng-class="totalClass(product.totalInCart)"><?php echo Yii::t('store', 'Total in cart: '); ?>{{product.totalInCart}}</span>
+								<a class="spot-button" href="" ng-click="addToCart(product.jsID)"><?php echo Yii::t('store', 'Add to cart'); ?></a><span ng-class="totalClass(product.totalInCart)"><?php echo Yii::t('store', 'Already in cart: '); ?>{{product.totalInCart}}</span>
 							</footer>
 						</div>
 					</td>
 				</tr>
-				
+	
 				</tbody>
 			</table>
 			</div>
+		

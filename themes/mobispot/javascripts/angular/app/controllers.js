@@ -50,7 +50,7 @@ function UserCtrl($scope, $http, $compile)  {
   };
 
   $scope.onTimeout = function(){
-    $http.post('/store/product/GetItemsInCart',{token: token}).success(function(data) {
+    $http.post('/store/product/GetItemsInCart',{token: $scope.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     });
       mytimeout = $timeout($scope.onTimeout,1000);

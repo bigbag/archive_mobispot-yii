@@ -1,3 +1,4 @@
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/store/stylesheets/a-slider.css');?>
 <?php Yii::app()->getClientScript()->registerScriptFile('https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');?>
 <?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/app.js');?>
 <?php Yii::app()->getClientScript()->registerScriptFile(Yii::app()->request->baseUrl.'/themes/store/javascripts/angular/app/controllers.js');?>
@@ -14,9 +15,26 @@
 			</tr>
 			<tr ng-repeat="product in products | orderBy:'name'">
 				<td>
-					<div class="slider-items">
-						<img ng-repeat="imgHref in product.photo" src="{{imgHref}}">
-					</div>
+						<div class="mainimageshell">
+						<div class="viewwindow">
+							<ul class="fullsizelist aslide" ng-style="product.listposition">
+								<li ng-repeat="image in product.photo" class="aslide">
+									<img class="large" ng-src="{{image}}" />
+								</li>
+							</ul>
+						</div>
+						</div>
+						<div class="thumbsshell">
+							<div class="thumbswrapper">
+								<ul class="aslide">
+									<li ng-repeat="image in product.photo" class="aslide" ng-click="scrollTo(image,$index, product.jsID)">
+										<div class="thumbwrapper">
+											<img  class="thumbnail" ng-src="{{image}}" width="50">
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
 				</td>
 				<td class="store-items__description">
 					<header>
@@ -34,7 +52,7 @@
 							</div>
 							<div class="columns six inline choose">
 								<span class="label label-left"><?php echo Yii::t('product', 'Quantity'); ?></span>
-								<input ng-model="product.quantity" ng-change="changeQuantity()"/>
+								<input type="number" ng-model="product.quantity" ng-change="changeQuantity()"/>
 							</div>
 						</div>
 						<div class="columns twelve">
@@ -49,10 +67,10 @@
 
 			</tbody>
 		</table>
-
+	
 		<div class="twelve total-amount clearfix">
-			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="./themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
-			<a class="spot-button right" href="" ng-click="checkOut()"><?php echo Yii::t('cart', 'Proceed to checkout'); ?></a>
+			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
+			<a class="spot-button right" ng-show="products.length > 0" href="" ng-click="checkOut()"><?php echo Yii::t('cart', 'Proceed to checkout'); ?></a>
 		</div>
 	</div>
 </div>
@@ -113,4 +131,5 @@
 			</div>
 		</div>
 	</div>
-</div>		
+</div>	
+	

@@ -1,0 +1,69 @@
+li.aslide {
+    list-style:none;
+    display:inline-block;
+}
+
+ul.aslide {
+    padding:0;
+    margin:0;
+    white-space:nowrap;
+}
+
+.thumbnail {
+	width: 50px;
+	max-height:50px;
+	max-width: 50px;
+	cursor: pointer;
+}
+
+.large {
+    width:242px;
+}
+
+.mainimageshell {
+    background-color:transparent;
+    width:242px;
+	margin:0 auto;
+}
+
+.viewwindow {
+    width:240px;
+    height:200px;
+    overflow-x: hidden;
+    position:relative;
+}
+
+.fullsizelist{
+    position:absolute;
+    top:0;
+    left:0;
+    transition:  left .8s ease;
+    -ms-transition:  left .8s ease;
+    -o-transition:  left .8s ease;
+    -webkit-transition:  left .8s ease;
+    -moz-transition:  left .8s ease;
+}
+  
+
+.thumbsshell {
+    background-color:transparent;
+    width:240px;
+	margin:0 auto;
+}
+
+.thumbswrapper {
+    /*overflow-x: scroll;*/
+    width:240px;
+    height:75px;
+    margin:0 auto;
+}
+
+.xscrolled{
+	overflow-x: scroll;
+}
+
+.thumbwrapper {
+    float:left;
+    max-height:50px;
+	max-width:80px;
+}
