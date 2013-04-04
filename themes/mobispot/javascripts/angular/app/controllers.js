@@ -39,21 +39,34 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
   };
 
-  $scope.initTimer = function(){
+  $scope.initTimer = function(period){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     }).error(function(error){
       $scope.itemsInCart = 0;
     });
-    var mytimeout = $timeout($scope.onTimeout,10000);
+	if(period == 1000)
+		var mytimeout = $timeout($scope.onFastTimeout, 1000);
+	else
+		var mytimeout = $timeout($scope.onTimeout, 10000);
   };
 
   $scope.onTimeout = function(){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     });
-    var mytimeout = $timeout($scope.onTimeout,10000);
+	
+    var mytimeout = $timeout($scope.onTimeout, 10000);
   };
+  
+  $scope.onFastTimeout = function(){
+    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
+      $scope.itemsInCart = data.itemsInCart;
+    });
+	
+    var mytimeout = $timeout($scope.onFastTimeout, 1000);
+  };
+  
 }
 
 function HelpCtrl($scope, $http, $compile) {

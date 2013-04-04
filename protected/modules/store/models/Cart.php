@@ -410,6 +410,57 @@ class Cart extends CFormModel
 			}
 		}
 		return $error;
-	}	
+	}
+
+	public function buy($dcustomer, $products){
+		$error = '';
+		if(isset(Yii::app()->session['storeEmail'])){
+			$customer = Customer::model()->findByAttributes(array(
+				'email'=>Yii::app()->session['storeEmail']
+			));
+		}else{
+			$customer = Customer::model()->findByAttributes(array(
+				'email'=>$newCustomer['email']
+			));
+		}	
+		if(!empty($newCustomer['first_name']))
+			$customer->first_name = $newCustomer['first_name'];
+		if(!empty($newCustomer['last_name']))
+			$customer->last_name = $newCustomer['last_name'];
+		if (!Yii::app()->user->isGuest){
+			$user_id = Yii::app()->user->id;
+			$user = User::model()->findByPk($user_id);
+			if($user)
+				$customer->email = $user->email;			
+		}elseif(!empty($newCustomer['email']))
+			$customer->email = $newCustomer['email'];
+		if(!empty($newCustomer['target_first_name']))
+			$customer->target_first_name = $newCustomer['target_first_name'];
+		if(!empty($newCustomer['target_last_name']))
+			$customer->target_last_name = $newCustomer['target_last_name'];
+		if(!empty($newCustomer['address']))
+			$customer->address = $newCustomer['address'];
+		if(!empty($newCustomer['city']))
+			$customer->city = $newCustomer['city'];
+		if(!empty($newCustomer['zip']))
+			$customer->zip = $newCustomer['zip'];
+		if(!empty($newCustomer['phone']))
+			$customer->phone = $newCustomer['phone'];
+		if(!empty($newCustomer['country']))
+			$customer->country = $newCustomer['country'];
+			
+		if ($customer->validate()){
+			$customer->save();
+
+		} else{
+			$modelErrors = getErrors();
+			foreach($modelErrors as $mError){
+				$error .= $mError.' /n';
+			}
+		}
+			
+		return $error;
+	}
+	
 
 }
