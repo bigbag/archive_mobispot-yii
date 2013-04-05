@@ -3,7 +3,7 @@
 class SpotController extends MController {
 
   public function getImageType(){
-    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png');;
+    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'gif'=>'gif');
   }
 
   public function actionIndex() {
