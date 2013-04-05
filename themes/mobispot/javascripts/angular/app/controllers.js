@@ -99,7 +99,7 @@ function SpotCtrl($scope, $http, $compile) {
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    // e.target.className = (e.type == "spot-item dragover" ? "hover" : "");
+    // angular.element('#dropbox').toggleClass(e.type == "dragover" ? "dropbox-hover" : "");
   }
 
   function fileSelectHandler(e) {
@@ -127,8 +127,8 @@ function SpotCtrl($scope, $http, $compile) {
     if (result){
       var data = angular.fromJson(result);
       if(data.error == 'no') {
-        angular.element('#add-content').hide();
-        angular.element('#add-content').before($compile(data.content)($scope));
+        var content = angular.element('#add-content');
+        content.hide().before($compile(data.content)($scope));
       }
     }
   }
@@ -143,9 +143,8 @@ function SpotCtrl($scope, $http, $compile) {
     })
   }
 
-
   $scope.uploadFailed = function(e) {
-
+    angular.element('#error-upload').show().delay(800).slideUp('slow');
   }
 
   $scope.uploadFile = function(file) {
@@ -155,7 +154,6 @@ function SpotCtrl($scope, $http, $compile) {
       angular.element('#add-content').show();
 
       xhr.upload.onprogress = function(e) {
-        $scope.progress = 0;
         if (e.lengthComputable) {
           $scope.progress = Math.round(e.loaded * 100 / e.total)
         } else {
@@ -228,7 +226,7 @@ function SpotCtrl($scope, $http, $compile) {
     }
     else {
       spot.removeClass('open');
-      spotContent.slideUp(500,
+      spotContent.slideUp('slow',
         function () {
           spotContent.prev().remove();
           spotContent.remove();

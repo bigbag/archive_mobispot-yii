@@ -10,6 +10,7 @@
   margin: 50px 0 0;
 }
 
-#add-content{
-	display:none;
+#add-content, #error-upload{
+  display:none;
 }
+
