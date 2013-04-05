@@ -35,6 +35,13 @@
 <form ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
 <div class="spot-content_row">
   <div id="add-content" class="spot-item">
+    <div class="item-area type-progress">
+      <div class="progress-bar">
+        <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
+      </div>
+    </div>
+  </div>
+  <div id="dropbox" class="spot-item">
     <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
     <label class="text-center label-cover">
       <h4>Drag your files here or begin to type info or links</h4>
