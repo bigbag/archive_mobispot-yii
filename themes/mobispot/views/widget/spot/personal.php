@@ -41,13 +41,21 @@
       </div>
     </div>
   </div>
+  <div id="error-upload" class="spot-item">
+    <div class="item-area text-center type-error">
+      <h1><?php echo Yii::t('spot', 'Error')?></h1>
+      <h4><?php echo Yii::t('spot', 'There was an error when attempting to upload this file')?></h4>
+      <h4><?php echo Yii::t('spot', 'Please try again')?></a></h4>
+    </div>
+  </div>
   <div id="dropbox" class="spot-item">
     <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
     <label class="text-center label-cover">
-      <h4>Drag your files here or begin to type info or links</h4>
+      <h4><?php echo Yii::t('spot', 'Drag your files here or begin to type info or links')?></h4>
       <span>
-        You can store up to 25 MB inside one spot<br />
-        Use Ctrl+enter for a new paragraph.
+        <?php echo Yii::t('spot', 'You can store up to 25 MB inside one spot')?>
+        <br />
+        <?php echo Yii::t('spot', 'Use Ctrl+enter for a new paragraph')?>
       </span>
     </label>
   </div>
