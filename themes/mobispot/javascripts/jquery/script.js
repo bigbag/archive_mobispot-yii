@@ -29,7 +29,6 @@ var hidePopup = function(){
     });
   }
 };
-
 $(window).load(function() {
   //$('textarea').autosize();
 
