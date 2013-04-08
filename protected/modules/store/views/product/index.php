@@ -14,9 +14,9 @@
 						</div>
 						</div>
 						<div class="thumbsshell">
-							<div ng-class="thumbClass(product.photo.length)">
+							<div class="thumbswrapper">
 								<ul class="aslide">
-									<li ng-repeat="image in product.photo" class="aslide" ng-click="scrollTo(image,$index, product.jsID)">
+									<li ng-repeat="image in product.photo" ng-class="thumbLiClass($index)" ng-click="scrollTo(image,$index, product.jsID)">
 										<div class="thumbwrapper">
 											<img  class="thumbnail" ng-src="{{image}}" width="50">
 										</div>

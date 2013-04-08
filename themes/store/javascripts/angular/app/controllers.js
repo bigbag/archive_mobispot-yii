@@ -99,12 +99,19 @@ function ProductCtrl($scope, $http) {
 		else
 			return "thumbswrapper";
 	}
+	
+	$scope.thumbLiClass = function(ind){
+		if ((ind % 3) == 0)
+			return "brslide";
+		else
+			return "thimbslide";
+	}	
 
 }
 
 
 function CartCtrl($scope, $http) {
-	$scope.CartInit = function(token, emptyText){
+	$scope.CartInit = function(token){
 		$scope.summ = 0;
 		$scope.token = token;
 		$http.post('/store/product/GetCart', { token : token}).success(function(data) {
@@ -118,7 +125,6 @@ function CartCtrl($scope, $http) {
 			}
 			$scope.checkingOut = false;
 			$scope.inRequest = false;
-			$scope.empty = emptyText;
 		}).error(function(error){
 				alert(error);
 		});
@@ -221,7 +227,9 @@ function CartCtrl($scope, $http) {
 				alert(error);
 			});
 			$scope.checkingOut = true;
+			window.location = "/store/product/cart#proceedNextForm";
 		}
+
 	};
 
 	$scope.deleteItem = function(jsID){
@@ -253,6 +261,7 @@ function CartCtrl($scope, $http) {
 	$scope.saveCustomer = function(){
 		if(!$scope.inRequest){
 			$scope.inRequest = true;
+/*			
 			$http.post(('/store/product/SaveCustomer'), {
 				token: $scope.token,
 				customer : $scope.customer
@@ -264,6 +273,7 @@ function CartCtrl($scope, $http) {
 			}).error(function(error){
 					alert(error);
 			});		
+*/			
 			$scope.inRequest = false;
 		}
 	};
@@ -289,5 +299,20 @@ function CartCtrl($scope, $http) {
 		else
 			return "thumbswrapper";
 	}	
+	
+	$scope.thumbLiClass = function(ind){
+		if ((ind % 3) == 0)
+			return "brslide";
+		else
+			return "thimbslide";
+	}		
+	
+	
+	$scope.valClass = function(isValid){
+		if(isValid)
+			return "";
+		else
+			return "error";
+	}
 	
 }
