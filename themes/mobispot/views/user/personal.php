@@ -15,9 +15,13 @@
 
 
 
+
+
+
+
 <div class="row">
   <div class="twelve columns">
-    <?php $this->widget('MListView', array(
+  <?php $this->widget('MListView', array(
       'dataProvider'=>$dataProvider,
       'itemView'=>'block/spots',
       'itemsTagName'=>'ul',

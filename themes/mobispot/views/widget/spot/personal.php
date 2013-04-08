@@ -1,5 +1,6 @@
 <a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
 <div class="spot-content slide-content">
+  <div ui-sortable>
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
 <?php if(isset($content['data'])):?>
@@ -31,9 +32,6 @@
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0;"></span>
 <?php endif;?>
-
-<form ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
-<div class="spot-content_row">
   <div id="add-content" class="spot-item">
     <div class="item-area type-progress">
       <div class="progress-bar">
@@ -41,6 +39,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="spot-content_row">
+
   <div id="error-upload" class="spot-item">
     <div class="item-area text-center type-error">
       <h1><?php echo Yii::t('spot', 'Error')?></h1>
@@ -48,7 +50,7 @@
       <h4><?php echo Yii::t('spot', 'Please try again')?></a></h4>
     </div>
   </div>
-  <div id="dropbox" class="spot-item">
+  <div id="dropbox" class="spot-item" ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
     <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
     <label class="text-center label-cover">
       <h4><?php echo Yii::t('spot', 'Drag your files here or begin to type info or links')?></h4>
@@ -73,5 +75,4 @@
     <?php echo Yii::t('spots', 'Make it private');?>
   </a>
 </div>
-</form>
 </div>
