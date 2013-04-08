@@ -1,11 +1,12 @@
-<div ng-controller="CartCtrl" ng-init="CartInit('<?php echo Yii::app()->request->csrfToken; ?>', '<?php echo Yii::t('product', 'Cart is empty'); ?>')">
+<div ng-controller="CartCtrl" ng-init="CartInit('<?php echo Yii::app()->request->csrfToken; ?>')">
 <div class="row">
 	<div class="twelve columns singlebox-margin">
 		<table class="twelve store-items store-items__bag">
 			<tbody>
 			<tr>
 				<td colspan="2" ng-class="emptyClass()">
-					<h1>{{empty}}</h1>
+					<h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
+					<span><a class="spot-button" href="/store"><?php echo Yii::t('store', 'Back to the store'); ?></a></span>
 				</td>
 			</tr>
 			<tr ng-repeat="product in products | orderBy:'name'">
@@ -20,9 +21,9 @@
 						</div>
 						</div>
 						<div class="thumbsshell">
-							<div ng-class="thumbClass(product.photo.length)">
+							<div class="thumbswrapper">
 								<ul class="aslide">
-									<li ng-repeat="image in product.photo" class="aslide" ng-click="scrollTo(image,$index, product.jsID)">
+									<li ng-repeat="image in product.photo" ng-class="thumbLiClass($index)" ng-click="scrollTo(image,$index, product.jsID)">
 										<div class="thumbwrapper">
 											<img  class="thumbnail" ng-src="{{image}}" width="50">
 										</div>
@@ -46,12 +47,12 @@
 									</ul>
 							</div>
 							<div class="columns six inline choose">
-								<span class="label label-left"><?php echo Yii::t('product', 'Quantity'); ?></span>
+								<span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
 								<input type="number" ng-model="product.quantity" ng-change="changeQuantity()"/>
 							</div>
 						</div>
 						<div class="columns twelve">
-							<div class="label"><?php echo Yii::t('product', 'Choose your color'); ?></div>
+							<div class="label"><?php echo Yii::t('store', 'Choose your color'); ?></div>
 							<ul class="choose-color add-active">
 								<li ng-repeat="color in product.color" ng-class="colorClass(product.selectedColor, color)" ng-click="setColor(product.jsID, color)"><i class="bg-{{color}}"></i></li>
 							</ul>
@@ -64,37 +65,41 @@
 		</table>
 
 		<div class="twelve total-amount clearfix">
-			<h1 class="biggest-heading left"><?php echo Yii::t('cart', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
-			<a class="spot-button right" ng-show="products.length > 0" href="" ng-click="checkOut()"><?php echo Yii::t('cart', 'Proceed to checkout'); ?></a>
+			<h1 class="biggest-heading left"><?php echo Yii::t('store', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
+			<a id="proceedNext" class="spot-button toggle-box right slideTo" href="#proceedNextForm" ng-click="checkOut()" ng-show="products.length > 0"><?php echo Yii::t('store', 'Proceed to checkout'); ?></a>
 		</div>
 	</div>
 </div>
-	<div  ng-class="chekingOutClass()">
+
+<!--	<div  ng-class="chekingOutClass()">	-->
+<div id="proceedNextForm" class="row hide-content-box">
 		<div class="row">
-			<form class="customer-info clearfix">
+			<form name="formCustomer" class="customer-info clearfix">
 				<div class="six columns">
-					<h3><?php echo Yii::t('cart', 'New customer'); ?></h3>
-					<input type="text" ng-model="customer.first_name" placeholder="First name"/>
-					<input type="text" ng-model="customer.last_name" placeholder="Last name"/>
-					<input type="email" ng-model="customer.email" placeholder="Email address" <?php if (!Yii::app()->user->isGuest) echo 'disabled'; ?>/>
+					<h3><?php echo Yii::t('store', 'New customer'); ?></h3>
+					<input type="text" ng-model="customer.first_name" placeholder="First name">
+					<input type="text" ng-model="customer.last_name" placeholder="Last name">
+					<input type="email" name="email" ng-model="customer.email" placeholder="Email address" required="" <?php if (!Yii::app()->user->isGuest) echo 'disabled'; ?>ng-class="valClass(formCustomer.email.$valid)">
 				</div>
 				<div class="six columns">
-					<h3><?php echo Yii::t('cart', 'Delivery address'); ?></h3>
-					<input type="text" ng-model="customer.target_first_name" placeholder="First name"/>
-					<input type="text" ng-model="customer.target_last_name" placeholder="Last name"/>
-					<input type="text" ng-model="customer.address" placeholder="Address"/>
-					<input type="text" ng-model="customer.city" placeholder="City"/>
-					<input type="text" ng-model="customer.zip" placeholder="Zip / Postal code"/>
-					<input type="text" ng-model="customer.phone" placeholder="Phone"/>
-					<input type="text" ng-model="customer.country" placeholder="Country"/>
-					<a class="spot-button" href="" ng-click="saveCustomer()"><?php echo Yii::t('cart', 'Save'); ?></a>
+					<h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
+					<input type="text" ng-model="customer.target_first_name" placeholder="First name">
+					<input type="text" ng-model="customer.target_last_name" placeholder="Last name">
+					<input type="text" name="address" ng-model="customer.address" placeholder="Address" required="" ng-class="valClass(formCustomer.address.$valid)">
+					<input type="text" name="city" ng-model="customer.city" placeholder="City" required="" ng-class="valClass(formCustomer.city.$valid)">
+					<input type="text" name="zip" ng-model="customer.zip" placeholder="Zip / Postal code" required="" ng-class="valClass(formCustomer.zip.$valid)">
+					<input type="text" name="phone" ng-model="customer.phone" placeholder="Phone" required="" ng-class="valClass(formCustomer.phone.$valid)">
+					<input type="text" name="country" ng-model="customer.country" placeholder="Country" required="" ng-class="valClass(formCustomer.country.$valid)">
+					<a id="proceedFinish" class="spot-button toggle-box slideTo" href="#proceedFinishForm" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
 				</div>
 			</form>
+			
 		</div>
+<div id="proceedFinishForm" class="hide-content-box">
 		<div class="row row__magrin-b buy-options">
 			<div class="six columns">
-				<h3><?php echo Yii::t('cart', 'Delivery'); ?></h3>
-				<span><?php echo Yii::t('cart', 'Choose the most convenient delivery option'); ?></span>
+				<h3><?php echo Yii::t('store', 'Delivery'); ?></h3>
+				<span><?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?></span>
 			</div>
 			<div class="six columns">
 				<table class="table-reset delivery-options">
@@ -110,8 +115,8 @@
 		</div>
 		<div class="row buy-options">
 			<div class="six columns">
-				<h3><?php echo Yii::t('cart', 'Payment'); ?></h3>
-				<span><?php echo Yii::t('cart', 'Choose the most convenient delivery option'); ?></span>
+				<h3><?php echo Yii::t('store', 'Payment'); ?></h3>
+				<span><?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?></span>
 			</div>
 			<div class="six columns">
 				<ul class="add-active payment-options">
@@ -121,9 +126,11 @@
 		</div>
 		<div class="row">
 			<div class="twelve columns text-center">
-				<h3 class="total-order"><?php echo Yii::t('cart', 'Total for this order:'); ?><span class="color"> ${{summ + (selectedDelivery.price - 0)}}</span></h3>
-				<a class="round-button-large" href="" ng-click="buy()"><?php echo Yii::t('cart', 'Buy'); ?></a>
+				<h3 class="total-order"><?php echo Yii::t('store', 'Total for this order:'); ?><span class="color"> ${{summ + (selectedDelivery.price - 0)}}</span></h3>
+				<a class="round-button-large" href="" ng-click="buy()"><?php echo Yii::t('store', 'Buy'); ?></a>
 			</div>
 		</div>
 	</div>
 </div>
+<!--</div>-->
+

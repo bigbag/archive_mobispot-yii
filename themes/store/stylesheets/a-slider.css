@@ -3,10 +3,23 @@ li.aslide {
     display:inline-block;
 }
 
+li.thimbslide {
+    list-style:none;
+    display:inline-block;
+}
+
+li.brslide {
+    list-style:none;
+}
+
 ul.aslide {
     padding:0;
     margin:0;
     white-space:nowrap;
+}
+
+.clearleft {
+	clear:left;
 }
 
 .thumbnail {
@@ -56,6 +69,7 @@ ul.aslide {
     width:240px;
     height:75px;
     margin:0 auto;
+	text-align:left;
 }
 
 .xscrolled{

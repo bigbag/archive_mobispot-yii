@@ -1031,3 +1031,7 @@ img[height='115']{
 	overflow: hidden;
 	margin-top: 8.5em;
 }
+
+.hide-content-box{
+	display: none;
+}
