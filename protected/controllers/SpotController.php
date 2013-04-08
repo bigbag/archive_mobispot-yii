@@ -3,7 +3,7 @@
 class SpotController extends MController {
 
   public function getImageType(){
-    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png');;
+    return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'gif'=>'gif');
   }
 
   public function actionIndex() {
@@ -20,7 +20,7 @@ class SpotController extends MController {
     $discodes=(isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
     if ($file and $discodes) {
-      $fileType=substr(strrchr($file, '.'), 1);
+      $fileType=strtolower(substr(strrchr($file, '.'), 1));
       $file=md5(time().$discodes).'_'.$file;
 
       $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
