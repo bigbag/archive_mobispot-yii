@@ -16,6 +16,7 @@ class SpotController extends MController {
    public function actionUpload() {
     $error="yes";
     $content="";
+    $key="";
 
     $discodes=(isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
@@ -65,7 +66,7 @@ class SpotController extends MController {
         $error="no";
       }
     }
-    echo json_encode(array('error'=>$error, 'content'=>$content));
+    echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
   }
 
   public function actionSpotView() {
@@ -98,6 +99,7 @@ class SpotController extends MController {
     if (Yii::app()->request->isAjaxRequest) {
       $error="yes";
       $content="";
+      $key="";
 
       $data=$this->getJson();
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
@@ -128,7 +130,7 @@ class SpotController extends MController {
         }
       }
 
-      echo json_encode(array('error'=>$error, 'content'=>$content));
+      echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
     }
   }
 
@@ -162,6 +164,7 @@ class SpotController extends MController {
 
   public function actionSpotRemoveContent() {
     $error="yes";
+    $keys="";
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
@@ -184,8 +187,29 @@ class SpotController extends MController {
             $spotContent->content=$content;
             if ($spotContent->save()){
               $error="no";
+              $keys=array();
+              foreach ($content['keys'] as $key => $value) {
+                $keys[]=$key;
+              }
             }
           }
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error, 'keys'=>$keys));
+  }
+
+  public function actionSpotEditContent() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['key'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
+
+          if($spotContent) {}
         }
       }
     }

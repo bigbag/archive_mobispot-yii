@@ -78,7 +78,7 @@ function HelpCtrl($scope, $http, $compile) {
   });
 
 
-  $scope.send=function(user){
+  $scope.send = function(user){
     $http.post('/ajax/sendQuestion', user).success(function(data) {
       if(data.error == 'no') {
         console.log(1);
@@ -90,6 +90,7 @@ function HelpCtrl($scope, $http, $compile) {
 function SpotCtrl($scope, $http, $compile) {
    $scope.maxSize = 25*1024*1024;
    $scope.progress = 0;
+   $scope.keys = [];
 
   function output(msg) {
     var m = $id("messages");
@@ -129,6 +130,7 @@ function SpotCtrl($scope, $http, $compile) {
       if(data.error == 'no') {
         var content = angular.element('#add-content');
         content.hide().before($compile(data.content)($scope));
+        $scope.keys.push(data.key);
       }
     }
   }
@@ -171,19 +173,19 @@ function SpotCtrl($scope, $http, $compile) {
     }
   }
 
-  $scope.getVcard=function(spot){
+  $scope.getVcard = function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
     else spot.vcard = 1;
     $scope.setAttribute(spot);
   };
 
-  $scope.getPrivate=function(spot) {
+  $scope.getPrivate = function(spot) {
     if (spot.private == 1) spot.private = 0;
     else spot.private = 1;
     $scope.setAttribute(spot);
   };
 
-  $scope.setAttribute=function(spot) {
+  $scope.setAttribute = function(spot) {
     $http.post('/spot/spotAtributeSave', $scope.spot).success(function(data)           {
         if(data.error == 'no') {
 
@@ -196,6 +198,7 @@ function SpotCtrl($scope, $http, $compile) {
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
+    $scope.keys = [];
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
           if(data.error == 'no') {
@@ -234,33 +237,46 @@ function SpotCtrl($scope, $http, $compile) {
     }
   }
 
-  $scope.saveSpot=function(spot) {
+  $scope.addContent = function(spot) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotSave', spot).success(function(data) {
         if(data.error == 'no') {
           angular.element('#add-content').before($compile(data.content)($scope));
-          spot.content='';
+          $scope.keys.push(data.key);
+          $scope.spot.content='';
         }
       });
     }
   };
 
-  $scope.removeContent=function(spot, key, e) {
+  $scope.removeContent = function(spot, key, e) {
     spot.key = key;
     $http.post('/spot/spotRemoveContent', spot).success(function(data) {
       if(data.error == 'no') {
-        var spotItem = angular.element(e.currentTarget).parent().parent().parent();
+        var spotItem = angular.element(e.currentTarget).parents('div.spot-item');
         spotItem.remove();
+        $scope.keys=data.keys;
       }
     });
   };
 
-  $scope.editContent=function(spot, key) {
-     spot.key = key;
-    $http.post('/spot/spotEditContent', spot).success(function(data) {
-      if(data.error == 'no') {
+  $scope.editContent = function(spot, key, e) {
+    spot.key = key;
+    var spotItem = angular.element(e.currentTarget).parents('div.spot-item');
+    var spotEdit = angular.element('#spot-edit').clone();
+    var spotData = spotItem.find('.item-type__text');
 
-      }
-    });
+    spotEdit.find('textarea').text(spotData.text());
+    spotEdit.removeClass('hide');
+    spotItem.hide().before($compile(spotEdit)($scope));
+  };
+
+  $scope.saveContent = function(spot, e) {
+    var spotEdit = angular.element(e.currentTarget).parents('div.spot-item');
+    var spotItem = spotEdit.next();
+    var spotData = spotEdit.find('textarea');
+    spotItem.find('.item-type__text').text(spotData.text());
+    spotEdit.remove();
+    spotItem.show();
   };
 }
