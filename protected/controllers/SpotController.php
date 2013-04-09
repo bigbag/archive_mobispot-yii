@@ -95,13 +95,13 @@ class SpotController extends MController {
     }
   }
 
-  public function actionSpotSave() {
+  public function actionSpotAddContent() {
     if (Yii::app()->request->isAjaxRequest) {
       $error="yes";
       $content="";
       $key="";
-
       $data=$this->getJson();
+
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['content']) and isset($data['user'])){
           if (isset($data['discodes'])){
@@ -214,6 +214,38 @@ class SpotController extends MController {
       }
     }
     echo json_encode(array('error'=>$error));
+  }
+
+  public function actionSpotSaveContent() {
+    $error="yes";
+    $content='';
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['key'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
+
+          if($spotContent) {
+            $content=$spotContent->content;
+            $content['data'][$data['key']]=$data['content_new'];
+
+            $spotContent->content=$content;
+            if ($spotContent->save()){
+              $content=$this->renderPartial('//widget/spot/personal/new_text',
+              array(
+                'content'=>$data['content_new'],
+                'key'=>$data['key'],
+              ),
+              true);
+              $error="no";
+            }
+          }
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
   public function actionSpotRename() {
