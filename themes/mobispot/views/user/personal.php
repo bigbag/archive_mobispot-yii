@@ -51,7 +51,7 @@
 
 <div id="spot-edit" class="spot-item hide">
   <div class="item-area">
-    <textarea  ui-keypress="{enter: 'saveContent(spot, $event)'}"></textarea>
+    <textarea  ui-keypress="{enter: 'saveContent(spot, $event)'}" ng-model="spot.content_new"></textarea>
   </div>
 </div>
 

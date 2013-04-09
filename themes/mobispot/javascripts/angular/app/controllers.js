@@ -100,7 +100,7 @@ function SpotCtrl($scope, $http, $compile) {
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    // angular.element('#dropbox').toggleClass(e.type == "dragover" ? "dropbox-hover" : "");
+    // angular.element('#dropbox').addClass(e.type == "dragover" ? "dropbox-hover" : "");
   }
 
   function fileSelectHandler(e) {
@@ -239,7 +239,7 @@ function SpotCtrl($scope, $http, $compile) {
 
   $scope.addContent = function(spot) {
     if (spot.content && spot.user) {
-      $http.post('/spot/spotSave', spot).success(function(data) {
+      $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
           angular.element('#add-content').before($compile(data.content)($scope));
           $scope.keys.push(data.key);
@@ -262,11 +262,13 @@ function SpotCtrl($scope, $http, $compile) {
 
   $scope.editContent = function(spot, key, e) {
     spot.key = key;
+
     var spotItem = angular.element(e.currentTarget).parents('div.spot-item');
     var spotEdit = angular.element('#spot-edit').clone();
     var spotData = spotItem.find('.item-type__text');
 
-    spotEdit.find('textarea').text(spotData.text());
+    $scope.spot.content_new = spotData.text();
+    spotEdit.find('textarea').text($scope.spot.content_new);
     spotEdit.removeClass('hide');
     spotItem.hide().before($compile(spotEdit)($scope));
   };
@@ -274,9 +276,17 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('div.spot-item');
     var spotItem = spotEdit.next();
-    var spotData = spotEdit.find('textarea');
-    spotItem.find('.item-type__text').text(spotData.text());
-    spotEdit.remove();
-    spotItem.show();
+
+    $http.post('/spot/spotSaveContent', spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
+      }
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+    });
   };
 }
