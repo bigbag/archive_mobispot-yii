@@ -36,7 +36,7 @@ class ServiceController extends MController {
   }
 
   public function actionLogin() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $login_error_count=false;
 
@@ -79,7 +79,7 @@ class ServiceController extends MController {
   }
 
   public function actionLogout() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       if (!(Yii::app()->user->isGuest)) {
         Yii::app()->cache->get('user_'.Yii::app()->user->id);
         Yii::app()->user->logout();
@@ -95,7 +95,7 @@ class ServiceController extends MController {
   }
 
   public function actionRegistration() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $data=$this->getJson();
 
@@ -177,7 +177,7 @@ class ServiceController extends MController {
   }
 
   public function actionRecovery() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $data=$this->getJson();
 
