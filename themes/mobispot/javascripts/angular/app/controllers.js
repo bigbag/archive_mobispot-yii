@@ -264,3 +264,44 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 }
+
+
+function WalletCtrl($scope, $http, $timeout){
+	$scope.ready = false;
+	$scope.WalletInit = function(token){
+			$scope.token = token;
+			$http.post('/wallet/GetWallet', {token : $scope.token}).success(function(data) {
+				$scope.wallet = data.wallet;
+				$scope.history = data.history;
+			}).error(function(error){
+					alert(error);
+			});
+	};
+	
+	$scope.addByUniteller = function(){
+		$scope.ready = false;
+		$scope.tries = 0;
+		
+		$http.post('/wallet/GetUnitellerOrder', {token : $scope.token, newSumm: $scope.newSumm}).success(function(data) {
+			$scope.order = data.order;
+			$scope.ready = true;
+		}).error(function(error){
+			alert(error);
+		});	
+		
+		var mytimeout = $timeout($scope.onTimeout, 100);
+	}
+	
+	$scope.onTimeout = function(){
+		if ($scope.ready && ($scope.order.idShop !== undefined)){
+			document.getElementById('submitUnitell').click();
+		}
+		else if($scope.tries < 100){
+			$scope.tries++;
+			var mytimeout = $timeout($scope.onTimeout, 100);
+		}
+	};	
+
+}
+
+

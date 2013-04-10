@@ -57,18 +57,25 @@ CREATE TABLE IF NOT EXISTS `delivery`(
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE IF NOT EXISTS `payment`(
 	id serial not null,
-	name varchar(128) not null
+	name varchar(128) not null,
+	MeanType int null,
+	EMoneyType int null
+
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 insert into delivery (name, period, price) values('DHL', '2 business days (no tracking)', 20);
 insert into delivery (name, period, price) values('Air mail', '8-12 business days (no tracking)', 12);
 insert into delivery (name, period, price) values('EMS', '20 business days (no tracking)', 5);
 
-insert into payment (name) values('Paypal');
-insert into payment (name) values('Credit Card');
-insert into payment (name) values('Yandex Money');
+insert into payment (name, MeanType) values('VISA', 1);
+insert into payment (name, MeanType) values('MasterCard', 2);
+insert into payment (name, MeanType) values('Diners Club', 3);
+insert into payment (name, MeanType) values('JCB', 4);
 
-
-
-
-
+insert into payment (name, EMoneyType) values('Яндекс.Деньги', 1);
+insert into payment (name, EMoneyType) values('RBK Money', 2);
+insert into payment (name, EMoneyType) values('MoneyMail', 3);
+insert into payment (name, EMoneyType) values('WebCreds', 4);
+insert into payment (name, EMoneyType) values('EasyPay', 5);
+insert into payment (name, EMoneyType) values('Platezh.ru', 6);
+insert into payment (name, EMoneyType) values('Деньги@Mail.Ru', 7);

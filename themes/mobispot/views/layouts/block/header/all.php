@@ -10,13 +10,13 @@
           <?php $userInfo=$this->userInfo()?>
           <ul class="login-bar">
             <li><a href="/user/personal"><?php echo $userInfo->name;?></a></li>
-            <?php if(Yii::app()->controller->module->id =='store'): ?>
+            <?php if(isset(Yii::app()->controller->module) && (Yii::app()->controller->module->id =='store')): ?>
               <li ng-controller="UserCtrl" ng-init="initTimer(<?php if((Yii::app()->controller->action->id=='index') && (Yii::app()->controller->id == 'product')) echo '1000'; else echo '10000';?>)" ng-show="itemsInCart > 0"><a href="/store/product/cart">Shopping bag({{itemsInCart}})</a></li>
             <?php elseif($this->getCart()): ?>
             <li><a href="/store/product/cart">Shopping bag(<?php echo $this->getCart(); ?>)</a></li>
             <?php endif; ?>
           </ul>
-        <?php elseif(Yii::app()->controller->module->id == 'store'): ?>
+        <?php elseif(isset(Yii::app()->controller->module) && (Yii::app()->controller->module->id =='store')): ?>
           <ul class="login-bar">
             <li ng-controller="UserCtrl" ng-init="initTimer(<?php if((Yii::app()->controller->action->id=='index') && (Yii::app()->controller->id == 'product')) echo '1000'; else echo '10000';?>)"><a href="/store/product/cart" ng-show="itemsInCart > 0">Shopping bag({{itemsInCart}})</a></li>
           </ul>
