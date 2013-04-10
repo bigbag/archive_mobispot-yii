@@ -9,8 +9,10 @@
 
 <script src="/themes/mobispot/javascripts/angular/angular-ui/modules/directives/keypress/keypress.js"></script>
 <script src="/themes/mobispot/javascripts/angular/angular-ui/modules/directives/sortable/sortable.js"></script>
+<script src="/themes/mobispot/javascripts/angular/angular-ui/modules/directives/event/event.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/services.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/controllers.js"></script>
+<script src="/themes/mobispot/javascripts/angular/app/spot.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>

@@ -16,6 +16,7 @@ class SpotController extends MController {
    public function actionUpload() {
     $error="yes";
     $content="";
+    $key="";
 
     $discodes=(isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
@@ -65,11 +66,11 @@ class SpotController extends MController {
         $error="no";
       }
     }
-    echo json_encode(array('error'=>$error, 'content'=>$content));
+    echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
   }
 
   public function actionSpotView() {
-  if (Yii::app()->request->isAjaxRequest) {
+  if (Yii::app()->request->isPostRequest) {
     $error="yes";
     $content="";
 
@@ -94,12 +95,13 @@ class SpotController extends MController {
     }
   }
 
-  public function actionSpotSave() {
-    if (Yii::app()->request->isAjaxRequest) {
+  public function actionSpotAddContent() {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $content="";
-
+      $key="";
       $data=$this->getJson();
+
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['content']) and isset($data['user'])){
           if (isset($data['discodes'])){
@@ -128,7 +130,7 @@ class SpotController extends MController {
         }
       }
 
-      echo json_encode(array('error'=>$error, 'content'=>$content));
+      echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
     }
   }
 
@@ -162,6 +164,7 @@ class SpotController extends MController {
 
   public function actionSpotRemoveContent() {
     $error="yes";
+    $keys="";
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
@@ -184,12 +187,65 @@ class SpotController extends MController {
             $spotContent->content=$content;
             if ($spotContent->save()){
               $error="no";
+              $keys=array();
+              foreach ($content['keys'] as $key => $value) {
+                $keys[]=$key;
+              }
             }
           }
         }
       }
     }
+    echo json_encode(array('error'=>$error, 'keys'=>$keys));
+  }
+
+  public function actionSpotEditContent() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['key'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
+
+          if($spotContent) {}
+        }
+      }
+    }
     echo json_encode(array('error'=>$error));
+  }
+
+  public function actionSpotSaveContent() {
+    $error="yes";
+    $content='';
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['key'])){
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
+
+          if($spotContent) {
+            $content=$spotContent->content;
+            $content['data'][$data['key']]=$data['content_new'];
+
+            $spotContent->content=$content;
+            if ($spotContent->save()){
+              $content=$this->renderPartial('//widget/spot/personal/new_text',
+              array(
+                'content'=>$data['content_new'],
+                'key'=>$data['key'],
+              ),
+              true);
+              $error="no";
+            }
+          }
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
   public function actionSpotRename() {

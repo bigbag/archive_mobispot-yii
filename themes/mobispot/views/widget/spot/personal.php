@@ -1,10 +1,16 @@
 <a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
 <div class="spot-content slide-content">
-  <div ui-sortable>
+  <div ng-model='keys' ui-sortable>
+
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
+
 <?php if(isset($content['data'])):?>
+  <?php $keys=array();?>
   <?php foreach ($content['data'] as $key=>$value):?>
+
+  <?php $keys[]=$key;?>
+
   <div class="spot-item">
     <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
       <?php if ($content['keys'][$key]=='text'):?>
@@ -27,10 +33,13 @@
     </div>
   </div>
   <?php endforeach;?>
+  <?php $keys='['.implode(',', $keys).']';?>
+
+
   <?php endif;?>
-  <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>;"></span>
+  <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
 <?php else:?>
-  <span ng-init="spot.vcard=0; spot.private=0;"></span>
+  <span ng-init="spot.vcard=0; spot.private=0"></span>
 <?php endif;?>
   <div id="add-content" class="spot-item">
     <div class="item-area type-progress">
@@ -42,7 +51,6 @@
 </div>
 
 <div class="spot-content_row">
-
   <div id="error-upload" class="spot-item">
     <div class="item-area text-center type-error">
       <h1><?php echo Yii::t('spot', 'Error')?></h1>
@@ -51,7 +59,9 @@
     </div>
   </div>
   <div id="dropbox" class="spot-item" ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
-    <textarea ng-model="spot.content" ui-keypress="{enter: 'saveSpot(spot)'}"></textarea>
+    <textarea ng-model="spot.content" ui-keypress="{enter: 'addContent(spot)'}">
+
+    </textarea>
     <label class="text-center label-cover">
       <h4><?php echo Yii::t('spot', 'Drag your files here or begin to type info or links')?></h4>
       <span>
