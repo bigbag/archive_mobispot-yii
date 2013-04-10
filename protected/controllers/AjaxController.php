@@ -15,7 +15,7 @@ class AjaxController extends MController {
   }
 
   public function actionGetBlock() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $content="";
 
@@ -36,7 +36,7 @@ class AjaxController extends MController {
   }
 
   public function actionSendQuestion() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $content="";
 

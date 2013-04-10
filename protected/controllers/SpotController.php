@@ -70,7 +70,7 @@ class SpotController extends MController {
   }
 
   public function actionSpotView() {
-  if (Yii::app()->request->isAjaxRequest) {
+  if (Yii::app()->request->isPostRequest) {
     $error="yes";
     $content="";
 
@@ -96,7 +96,7 @@ class SpotController extends MController {
   }
 
   public function actionSpotAddContent() {
-    if (Yii::app()->request->isAjaxRequest) {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
       $content="";
       $key="";

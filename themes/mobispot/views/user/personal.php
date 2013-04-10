@@ -32,19 +32,27 @@
     <a href="javascript:;" id="actSpot" class="add-spot toggle-box button round"><span class="tooltip"><?php echo Yii::t('spot', 'Add another spot')?></span></a>
   </div>
 </div>
+
 <div id="actSpotForm" class="slide-box add-spot-box">
   <div class="row">
     <div class="six centered column">
-      <input type="text" ng-model="spot.code" placeholder="<?php echo Yii::t('spot', 'Spot activation code')?>">
+      <form id="add-spot" name="addSpotForm">
+      <input type="text"
+        ng-model="spot.code"
+        placeholder="<?php echo Yii::t('spot', 'Spot activation code')?>"
+        autocomplete="off"
+        maxlength="10"
+        required>
       <div class="form-row toggle-active">
-        <a class="checkbox agree" href="javascript:;">
+        <a class="checkbox agree" href="javascript:;" ng-click="setTerms(spot)">
           <i></i>
           <?php echo Yii::t('spot', 'I agree to Mobispot Pages Terms')?>
         </a>
       </div>
       <div class="form-control">
-        <a class="spot-button" href="#" ng-click="activate(spot)"><?php echo Yii::t('spot', 'Activate spot')?></a>
+        <a class="spot-button button-disable" href="javascript:;"ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Activate spot')?></a>
       </div>
+      </form>
     </div>
   </div>
 </div>
