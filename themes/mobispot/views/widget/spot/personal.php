@@ -59,7 +59,9 @@
     </div>
   </div>
   <div id="dropbox" class="spot-item" ng-init="spot.discodes=<?php echo $spot->discodes_id?>">
-    <textarea ng-model="spot.content" ui-keypress="{enter: 'addContent(spot)'}"></textarea>
+    <textarea ng-model="spot.content" ui-keypress="{enter: 'addContent(spot)'}">
+
+    </textarea>
     <label class="text-center label-cover">
       <h4><?php echo Yii::t('spot', 'Drag your files here or begin to type info or links')?></h4>
       <span>

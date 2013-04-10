@@ -33,8 +33,11 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         angular.element('#sign-in input[name=email]').addClass('error');
         angular.element('#sign-in input[name=password]').addClass('error');
       }
-      else {
+      else if (data.error == 'no'){
         $(location).attr('href','/user/personal');
+      }
+      else {
+        $(location).attr('href','/');
       }
     });
   };
@@ -88,9 +91,14 @@ function HelpCtrl($scope, $http, $compile) {
 }
 
 function SpotCtrl($scope, $http, $compile) {
-   $scope.maxSize = 25*1024*1024;
-   $scope.progress = 0;
-   $scope.keys = [];
+  $scope.maxSize = 25*1024*1024;
+  $scope.progress = 0;
+  $scope.spot_edit = false;
+  $scope.keys = [];
+
+  $(document).on('click','.store-items__close', function(){
+    $(this).parents('tr').remove();
+  });
 
   function output(msg) {
     var m = $id("messages");
@@ -228,6 +236,7 @@ function SpotCtrl($scope, $http, $compile) {
       });
     }
     else {
+      delete $scope.spot.content_new;
       spot.removeClass('open');
       spotContent.slideUp('slow',
         function () {
@@ -253,7 +262,7 @@ function SpotCtrl($scope, $http, $compile) {
     spot.key = key;
     $http.post('/spot/spotRemoveContent', spot).success(function(data) {
       if(data.error == 'no') {
-        var spotItem = angular.element(e.currentTarget).parents('div.spot-item');
+        var spotItem = angular.element(e.currentTarget).parents('.spot-item');
         spotItem.remove();
         $scope.keys=data.keys;
       }
@@ -262,19 +271,26 @@ function SpotCtrl($scope, $http, $compile) {
 
   $scope.editContent = function(spot, key, e) {
     spot.key = key;
+    if (!spot.content_new){
+      var spotItem = angular.element(e.currentTarget).parents('.spot-item');
+      var spotEdit = angular.element('#spot-edit').clone();
+      var spotData = spotItem.find('.item-type__text');
 
-    var spotItem = angular.element(e.currentTarget).parents('div.spot-item');
-    var spotEdit = angular.element('#spot-edit').clone();
-    var spotData = spotItem.find('.item-type__text');
+      $scope.spot.content_new = spotData.text();
+      var spotEditText = spotEdit.find('textarea');
+      spotEditText.text($scope.spot.content_new);
 
-    $scope.spot.content_new = spotData.text();
-    spotEdit.find('textarea').text($scope.spot.content_new);
-    spotEdit.removeClass('hide');
-    spotItem.hide().before($compile(spotEdit)($scope));
+      spotEdit.removeClass('hide');
+      $('#spot-edit textarea').focus();
+      spotItem.hide().before($compile(spotEdit)($scope));
+    }
+    else {
+      $scope.hideSpotEdit();
+    }
   };
 
   $scope.saveContent = function(spot, e) {
-    var spotEdit = angular.element(e.currentTarget).parents('div.spot-item');
+    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
     var spotItem = spotEdit.next();
 
     $http.post('/spot/spotSaveContent', spot).success(function(data) {
@@ -287,6 +303,25 @@ function SpotCtrl($scope, $http, $compile) {
         spotEdit.remove();
         spotItem.show();
       }
+      delete $scope.spot.content_new;
+    });
+  };
+
+  $scope.hideSpotEdit = function() {
+    var spotEdit = angular.element('#spot-edit');
+    var spotItem = spotEdit.next();
+
+    $http.post('/spot/spotSaveContent', $scope.spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
+      }
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+      delete $scope.spot.content_new;
     });
   };
 }
