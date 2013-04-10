@@ -41,6 +41,7 @@ $(window).load(function() {
   $('.spot-list').on('click','label', function(){
     $(this).prev().focus();
   });
+
   $(document).on('click','.settings-button', showPopup);
   $(document).on('click','.button', hidePopup);
   $(document).on('click','.popup', hidePopup);
