@@ -248,6 +248,32 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
+  public function actionSpotAdd() {
+    $error="yes";
+    $content="";
+    $data=$this->getJson();
+
+    if (isset($data['code'])) {
+      $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
+      if ($spot) {
+        $spot->status=Spot::STATUS_REGISTERED;
+        $spot->lang=$this->getLang();
+        $spot->user_id=Yii::app()->user->id;
+        $spot->name='No Name';
+        $spot->spot_type_id=Spot::TYPE_PERSONAL;
+        if ($spot->save()) {
+          $content=$this->renderPartial('//user/block/spots',
+            array(
+              'data'=>$spot,
+            ),
+            true);
+          $error="no";
+
+        }
+      }
+      echo json_encode(array('error'=>$error, 'content'=>$content));
+    }
+  }
   public function actionSpotRename() {
     $error="yes";
     $discodes="";
@@ -410,27 +436,6 @@ class SpotController extends MController {
       echo json_encode(array('error'=>$error));
     }
   }
-
-  public function actionSpotAdd() {
-    $error="yes";
-    $data=$this->getJson();
-
-    if (isset($data['code']) and isset($data['type'])) {
-      $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
-      if ($spot) {
-        $spot->status=Spot::STATUS_REGISTERED;
-        $spot->lang=$this->getLang();
-        $spot->user_id=Yii::app()->user->id;
-        $spot->spot_type_id=$data['type'];
-        if ($spot->save()) {
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error));
-    }
-  }
-
-
 
   public function actionSpotEdit() {
     if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {

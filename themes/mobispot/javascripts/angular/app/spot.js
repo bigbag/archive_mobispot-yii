@@ -253,22 +253,27 @@ function SpotCtrl($scope, $http, $compile) {
 // Следим за полями добавления спота
   $scope.$watch('spot.code + spot.terms', function(spot) {
     if ($scope.spot && $scope.spot.code){
-      if (($scope.spot.code.length != 10)) {
-        console.log($scope.spot.terms == 0);
-        angular.element('#add-spot .form-control a').addClass('button-disable');
+      if (($scope.spot.terms == 1) && ($scope.spot.code.length == 10)) {
+        angular.element('#add-spot .form-control a').removeClass('button-disable');
       }
       else {
-        angular.element('#add-spot .form-control a').removeClass('button-disable');
+        angular.element('#add-spot .form-control a').addClass('button-disable');
       }
     }
 
   });
 
-
-
 // Добавление спота
   $scope.addSpot = function(spot) {
-    if (!spot.code) return false;
-    console.log(spot);
+    if (!spot.code | ($scope.spot.terms == 0)) return false;
+    $http.post('/spot/spotAdd', spot).success(function(data) {
+      if(data.error == 'no') {
+        var spotAdd = angular.element('#actSpotForm')
+        angular.element('.spot-list').append($compile(data.content)($scope));
+        spotAdd.find('a.checkbox').toggleClass('active');
+        spotAdd.hide();
+        delete $scope.spot.code;
+      }
+    });
   };
 }
