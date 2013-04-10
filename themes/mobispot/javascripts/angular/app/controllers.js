@@ -281,7 +281,7 @@ function SpotCtrl($scope, $http, $compile) {
       spotEditText.text($scope.spot.content_new);
 
       spotEdit.removeClass('hide');
-      $('#spot-edit textarea').focus();
+      spotEditText.focus(1);
       spotItem.hide().before($compile(spotEdit)($scope));
     }
     else {
