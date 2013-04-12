@@ -23,7 +23,7 @@ class WalletController extends MController {
 						if($hist){
 							$uni = new Uniteller;
 							$dat = $uni->getData($hist->id);
-							if ($dat['Status'] == 'Authorized'){
+							if (isset($dat['Status']) && $dat['Status'] == 'Authorized'){
 								$wal->balance += $hist->summ;
 								$hist->status = 3;
 								$model=Wallet::model();
