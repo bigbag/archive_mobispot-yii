@@ -26,6 +26,20 @@
   border: 3px solid #fff;
   background: #fff;
 }
+
 #dropbox.hover {
   border: 3px solid #2B46FF;
 }
+
+#spot-setting{
+  position: absolute;
+  height: 2340px;
+  width: 100%;
+  top:0;
+  left: 0;
+  background: #ebebec;
+  background: rgba(235,235,236,.95);
+  z-index: 99;
+  opacity: 0;
+}
+

@@ -71,17 +71,18 @@
   </div>
 </div>
 
-<div class="popup slow bg-gray hide">
+<div id="spot-setting" class="slow bg-gray hide">
   <div class="row">
     <div class="column twelve">
       <ul class="add-active settings-list">
-        <li class="active">Make spot business</li>
-        <li>Make spot invisible</li>
-        <li>Clean spot</li>
-        <li>Delete your spot</li>
+        <li class="active"><?php echo Yii::t('spot', 'Rename spot')?></li>
+        <li><?php echo Yii::t('spot', 'Make spot business')?></li>
+        <li><?php echo Yii::t('spot', 'Make spot invisible')?></li>
+        <li><?php echo Yii::t('spot', 'Clean spot')?></li>
+        <li><?php echo Yii::t('spot', 'Delete your spot')?></li>
       </ul>
       <footer>
-        <h4>Are you sure?</h4>
+        <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
         <p>
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
           sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
