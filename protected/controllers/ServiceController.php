@@ -36,9 +36,10 @@ class ServiceController extends MController {
   }
 
   public function actionLogin() {
-    if (Yii::app()->request->isPostRequest) {
       $error="yes";
-      $login_error_count=false;
+      $login_error_count=0;
+
+      $data=$this->getJson();
 
       if (isset(Yii::app()->session['login_error_count'])) {
         $login_error_count=Yii::app()->session['login_error_count'];
@@ -46,21 +47,16 @@ class ServiceController extends MController {
           $error='login_error_count';
         }
       }
-      else {
-        $login_error_count=0;
-      }
-
-      $data=$this->getJson();
 
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['email']) and isset($data['password'])) {
-          if (!$login_error_count or isset($data['code'])){
+
+          if ($login_error_count>2 or (!empty($data['code']))){
             $form=new LoginCaptchaForm();
           }
           else {
             $form=new LoginForm;
           }
-
 
           $form->attributes=$data;
           if ($form->validate()) {
@@ -75,7 +71,6 @@ class ServiceController extends MController {
         }
       }
       echo json_encode(array('error'=>$error));
-    }
   }
 
   public function actionLogout() {
