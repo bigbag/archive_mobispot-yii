@@ -13,7 +13,7 @@ class ProductController extends MController {
 	}
 
 	public function actionGetPriceList(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
@@ -32,7 +32,7 @@ class ProductController extends MController {
 	}
 
 	public function actionGetCart(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
@@ -46,7 +46,7 @@ class ProductController extends MController {
 	}
 
 	public function actionGetCustomer(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$cart = new Cart;
@@ -61,7 +61,7 @@ class ProductController extends MController {
 	}
 
 	public function actionAddToCart(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$answer = array();
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
@@ -76,7 +76,7 @@ class ProductController extends MController {
 	}
 
 	public function actionDeleteFromCart(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$answer = array();
 			$answer['error'] = '-1';
 			$data = $this->getJson();
@@ -93,7 +93,7 @@ class ProductController extends MController {
 	}
 
 	public function actionSaveCustomer(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$answer = array();
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
@@ -110,7 +110,7 @@ class ProductController extends MController {
 	}
 
 	public function actionGetItemsInCart(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 				$answer = array();
@@ -127,7 +127,7 @@ class ProductController extends MController {
 	}
 
 	public function actionBuy(){
-		if (Yii::app()->request->isAjaxRequest) {
+		if (Yii::app()->request->isPostRequest) {
 			$answer = array();
 			$data = $this->getJson();
 			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products'])) {
