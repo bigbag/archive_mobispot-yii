@@ -18,8 +18,17 @@ function SpotCtrl($scope, $http, $compile) {
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    // angular.element('#dropbox').addClass(e.type == "dragover" ? "dropbox-hover" : "");
+      // e.target.className = (e.type == "dragover" ? "spot-item hover" : "spot-item");
+      if (e.type == "dragover"){
+        angular.element('#dropbox').addClass("hover");
+      }
+      else {
+        angular.element('#dropbox').removeClass("hover");
+      }
+
+    // angular.element('#dropbox').addClass(e.type == "dragover" ? "hover" : "");
   }
+
 
   function fileSelectHandler(e) {
     fileDragHover(e);
@@ -90,6 +99,7 @@ function SpotCtrl($scope, $http, $compile) {
       xhr.send(file);
     }
   }
+
 
 // Атрибут разрешить скачивать визитку
   $scope.getVcard = function(spot){
