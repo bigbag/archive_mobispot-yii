@@ -17,7 +17,7 @@
     </a>
   </li>
   <?php endif; ?>
-<?php if (Yii::app()->user->isGuest): ?>
+<?php if (!Yii::app()->user->isGuest): ?>
 
   <li>
     <a class="spot-button" href="/store">
