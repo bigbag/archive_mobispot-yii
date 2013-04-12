@@ -17,11 +17,13 @@
 		</a>
 	</li>
 	<?php endif; ?>
+	<?php if (!Yii::app()->user->isGuest): ?>
 	<li>
 		<a class="spot-button" href="/store">
 			<?php echo Yii::t('menu', 'Store')?>
 		</a>
 	</li>
+	<?php endif; ?>
 	<?php if (Yii::app()->user->isGuest): ?>
 	<li>
 		<a id="actSpot" class="spot-button toggle-box" href="#actSpotForm">

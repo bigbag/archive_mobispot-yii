@@ -286,4 +286,11 @@ function SpotCtrl($scope, $http, $compile) {
       }
     });
   };
+
+// Отображение окна настроек спота
+  $scope.showSettings = function(spot) {
+      angular.element('#spot-setting').removeClass('hide').animate({opacity: 1}, 50, function(){
+      angular.element('body').addClass('overflow-h');
+    });
+  };
 }

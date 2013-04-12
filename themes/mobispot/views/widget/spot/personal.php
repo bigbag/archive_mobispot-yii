@@ -1,4 +1,6 @@
-<a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
+<a class="settings-button spot-button right text-center" href="javascript:;" ng-click="showSettings()">
+  <?php echo Yii::t('spots', 'Settings');?>
+</a>
 <div class="spot-content slide-content">
   <div ng-model='keys' ui-sortable>
 
