@@ -6,7 +6,7 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
   <script src="/themes/mobispot/javascripts/angular/angular-ui/build/angular-ui.min.js"></script>
   <script src="/themes/mobispot/javascripts/angular/angular-ui/common/module.js"></script>
 
