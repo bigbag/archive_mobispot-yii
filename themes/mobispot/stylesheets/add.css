@@ -21,3 +21,11 @@
 .dropbox-hover{
   border: solid  3px #f00;
 }*/
+
+#dropbox {
+  border: 3px solid #fff;
+  background: #fff;
+}
+#dropbox.hover {
+  border: 3px solid #2B46FF;
+}

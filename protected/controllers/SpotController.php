@@ -84,7 +84,6 @@ class SpotController extends MController {
             array(
               'spot'=>$spot,
               'spotContent'=>$spotContent,
-              'field'=>$spot->spot_type->field,
             ),
             true);
           $error="no";
