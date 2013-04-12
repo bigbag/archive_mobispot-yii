@@ -266,7 +266,7 @@ function SpotCtrl($scope, $http, $compile) {
 // Добавление спота
   $scope.addSpot = function(spot) {
     if (!spot.code | ($scope.spot.terms == 0)) return false;
-    $http.post('/spot/spotAdd', spot).success(function(data) {
+    $http.post('/spot/addSpot', spot).success(function(data) {
       if(data.error == 'no') {
         var spotAdd = angular.element('#actSpotForm')
         angular.element('.spot-list').append($compile(data.content)($scope));

@@ -197,6 +197,7 @@ class Spot extends CActiveRecord {
     if (!$this->spot_type_id) $this->spot_type_id=self::TYPE_PERSONAL;
 
     if (!$this->lang) $this->lang='en';
+    if (!$this->name) $this->name='No Name';
 
     if ($this->isNewRecord) {
       $this->generated_date=new CDbExpression('NOW()');
