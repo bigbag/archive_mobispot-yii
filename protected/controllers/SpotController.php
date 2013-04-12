@@ -248,7 +248,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
-  public function actionSpotAdd() {
+  public function actionAddSpot() {
     $error="yes";
     $content="";
     $data=$this->getJson();
@@ -259,8 +259,9 @@ class SpotController extends MController {
         $spot->status=Spot::STATUS_REGISTERED;
         $spot->lang=$this->getLang();
         $spot->user_id=Yii::app()->user->id;
-        $spot->name='No Name';
+        if (isset($data['name'])) $spot->name=$data['name'];
         $spot->spot_type_id=Spot::TYPE_PERSONAL;
+
         if ($spot->save()) {
           $content=$this->renderPartial('//user/block/spots',
             array(

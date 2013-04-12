@@ -43,6 +43,10 @@
         autocomplete="off"
         maxlength="10"
         required>
+      <input type="text"
+        ng-model="spot.name"
+        placeholder="<?php echo Yii::t('spot', 'Spot name')?>"
+        autocomplete="off">
       <div class="form-row toggle-active">
         <a class="checkbox agree" href="javascript:;" ng-click="setTerms(spot)">
           <i></i>
@@ -50,7 +54,7 @@
         </a>
       </div>
       <div class="form-control">
-        <a class="spot-button button-disable" href="javascript:;"ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Activate spot')?></a>
+        <a class="spot-button button-disable" href="javascript:;" ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Load a new spot')?></a>
       </div>
       </form>
     </div>
