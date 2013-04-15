@@ -76,26 +76,37 @@
     <div class="column twelve">
       <a href="javascript:;" class="button joyride-close-tip">X</a>
       <ul class="add-active settings-list">
-        <li class="active"><?php echo Yii::t('spot', 'Rename spot')?></li>
-        <li><?php echo Yii::t('spot', 'Make spot business')?></li>
-        <li><?php echo Yii::t('spot', 'Make spot invisible')?></li>
-        <li><?php echo Yii::t('spot', 'Clean spot')?></li>
-        <li><?php echo Yii::t('spot', 'Delete your spot')?></li>
+        <li class="active" ng-click="renameSpot(spot)">
+          <?php echo Yii::t('spot', 'Rename spot')?>
+        </li>
+        <li ng-click="makeBusinessSpot(spot)">
+          <?php echo Yii::t('spot', 'Make spot business')?>
+        </li>
+        <li ng-click="renameSpot(spot)">
+          <?php echo Yii::t('spot', 'Make spot invisible')?>
+        </li>
+        <li ng-click="cleanSpot(spot)">
+          <?php echo Yii::t('spot', 'Clean spot')?>
+        </li>
+        <li ng-click="removeSpot(spot)">
+          <?php echo Yii::t('spot', 'Delete your spot')?>
+        </li>
       </ul>
       <footer>
-         <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
-          sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-          Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-          suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-        </p>
-        <a class="button round" href="javascript:;">Yes</a>
-        <a class="button round active" href="javascript:;">No</a>
+
+        <div id="confirm" class="text-center">
+          <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
+        <p></p>
+          <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+            <?php echo Yii::t('spot', 'Yes')?>
+          </a>
+          <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+            <?php echo Yii::t('spot', 'No')?>
+          </a>
+        <div>
       </footer>
     </div>
   </div>
-
   <div class="row content-wallet">
     <div class="column twelve">
       <a href="javascript:;" class="button joyride-close-tip">X</a>
@@ -118,7 +129,7 @@
               <th><span>Сумма</span></th>
             </tr>
           </thead>
-          <tbody ng-controller="TodoCtrl" >
+          <tbody>
             <tr ng-repeat="todo in staffRemoved|filter:search" class="m-t-cont-row">
               <td>21.03.2013</td>
               <td>Столовая</td>
