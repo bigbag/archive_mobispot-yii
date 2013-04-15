@@ -1,5 +1,7 @@
 .spot-button,
-.button{
+.button,
+.spot-button:focus,
+.button:focus{
 	background-color: #F1F3F4;
 	color: #000000;
 	font-family: Mobispot,Arial,"Helvetica",Helvetica,sans-serif;
@@ -94,7 +96,9 @@
 	background-position: -173px 15px;
 }
 .button.add-spot:hover,
-.button.add-spot.active{
+.button.add-spot:active,
+.button.add-spot.active,
+.button.add-spot.open{
 	background-position: -225px 15px;
 }
 .radio-link i{
@@ -322,7 +326,7 @@ footer .button:hover + .active,
 .sub-content{
 	display: none;
 }
-.spot-list .settings-button{
+.spot-list .spot-hat-button{
 	margin: 12px 0 0;
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
 	-moz-opacity: 0;
@@ -336,7 +340,11 @@ footer .button:hover + .active,
 	top:5px;
 	right: 40px;
 }
-.spot-list .open .settings-button{
+.spot-hat-button li{
+	display: inline-block;
+	margin-left: 8px;
+}
+.spot-list .open .spot-hat-button{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
 	-moz-opacity: 1;
 	-khtml-opacity: 1;
@@ -347,4 +355,115 @@ footer .button:hover + .active,
 	color: #BBB;
 	background: rgba(255,255,255,.8) !important;
 	cursor: default;
+}
+.spot-list .spot-button.wallet-button {
+	min-width: 0;
+	padding-left: 49px;
+	padding-right: 16px;
+	color: #ccaf3b;
+}
+.spot-list .spot-button.wallet-button:before{
+	content: '';
+	display: block;
+	height: 13px;
+	width: 28px;
+	background: url(../images/icons/i-small.28x2.png) 0 0 no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top:10px;
+	left: 12px;
+}
+.spot-list .spot-button.wallet-button:hover:before{
+	background-position: 0 -24px ;
+}
+.b-account{
+	color: #ccaf3b;
+}
+.spot-list .spot-button.b-negative,
+.b-negative{
+	color: #df1919;
+}
+.spot-list .spot-button.b-positive,
+.b-positive{
+	color: #377843;
+}
+.spot-list .spot-button.wallet-button:hover{
+	color: #fff;
+}
+.popup .b-short-input{
+	width: 257px;
+	float: left;
+	margin-right: 20px;
+	height: 35px;
+}
+.b-input-number{
+	width: 118px;
+}
+.b-input-number input{
+	float: left;
+	height: 70px;
+	width: 70px;
+	margin-right: 2px;
+}
+.b-input-number span{
+	display: inline-block;
+	height: 34px;
+	width: 46px;
+	background: #f1f3f4 url('../images/icons/i-small.png') no-repeat;
+	cursor: pointer;
+}
+.bg-gray .b-input-number span{
+	background: #fff;
+}
+.b-input-number span:hover{
+	background-color: #0061ff;
+}
+.b-input-number .number-up{
+	-webkit-border-radius: 3px 3px 0 0;
+	-moz-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	background-position:-76px -112px;
+}
+.b-input-number .number-down{
+	-webkit-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+	background-position: -119px -112px;
+}
+.b-input-number .number-up:hover{
+	background-position: 8px -112px;
+}
+.b-input-number .number-down:hover{
+	background-position: -32px -112px;
+}
+.b-input-number_small input{
+	height: 35px;
+	margin-right: -26px;
+	padding-right: 28px;
+}
+.b-input-number.b-input-number_small{
+	width: 70px;
+}
+.b-input-number.b-input-number_small span{
+	height: 11px;
+	background-color: #fff;
+	width: 21px;
+}
+.b-input-number.b-input-number_small span:hover{
+	background-color: #0061ff;
+}
+.b-input-number.b-input-number_small .number-up{
+	margin-top: 5px;
+}
+.b-input-number_small .number-up{
+	background-position: -88px -143px;
+}
+.b-input-number_small .number-down{
+	background-position: -131px -143px;
+}
+.b-input-number_small .number-up:hover{
+	background-position: -4px -143px;
+}
+.b-input-number_small .number-down:hover{
+	background-position: -44px -143px;
 }

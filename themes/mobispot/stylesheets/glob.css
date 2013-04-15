@@ -33,6 +33,7 @@ li{
 .logo a{
 	display: block;
 	max-width: 207px;
+	margin: 0 2px;
 }
 
 ::-webkit-input-placeholder {color:#000 !important;}
@@ -86,4 +87,10 @@ html[xmlns] .clearfix {
 }
 .overflow-h{
 	overflow: hidden;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	display: none;
+	-webkit-appearance: none;
+	margin: 0;
 }

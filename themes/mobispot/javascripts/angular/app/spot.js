@@ -9,6 +9,13 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.progress = 0;
   $scope.spot_edit = false;
   $scope.keys = [];
+  $scope.action = false;
+
+// Следим за очередностью блоков
+  // $scope.$watch('keys', function() {
+  //   console.log($scope.keys);
+
+  // });
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
@@ -287,10 +294,28 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
-// Отображение окна настроек спота
-  $scope.showSettings = function(spot) {
-      angular.element('#spot-setting').removeClass('hide').animate({opacity: 1}, 50, function(){
-      angular.element('body').addClass('overflow-h');
+// Удаление спота
+  $scope.removeSpot = function(spot) {
+    $scope.action = 'remove';
+    angular.element('#confirm').show();
+    angular.element('#confirm .button.round.active').focus();
+  };
+
+  $scope.confirmYes = function(spot) {
+    $http.post('/spot/removeSpot', spot).success(function(data) {
+      if(data.error == 'no') {
+        var spotContent = angular.element('#' + spot.discodes).remove();
+        spotContent.slideUp('slow', function () {
+          spotContent.remove();
+        });
+      }
     });
+  };
+
+  $scope.confirmNo = function(spot) {
+    if ($scope.action){
+      angular.element('#confirm').hide();
+      $scope.action = false;
+    }
   };
 }

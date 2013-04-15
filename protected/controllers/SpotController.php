@@ -274,6 +274,25 @@ class SpotController extends MController {
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }
+
+  public function actionRemoveSpot() {
+    $error="yes";
+    $discodes="";
+    $data=$this->getJson();
+
+    if (isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
+        $spot->status=Spot::STATUS_REMOVED_USER;
+        if ($spot->save()) {
+          $discodes=$data['discodes'];
+          $error="no";
+        }
+      }
+      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
+    }
+  }
+
   public function actionSpotRename() {
     $error="yes";
     $discodes="";
@@ -316,24 +335,6 @@ class SpotController extends MController {
         }
       }
       echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'type'=>$type));
-    }
-  }
-
-  public function actionSpotRemove() {
-    $error="yes";
-    $discodes="";
-    $data=$this->getJson();
-
-    if (isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-        $spot->status=Spot::STATUS_REMOVED_USER;
-        if ($spot->save()) {
-          $discodes=$data['discodes'];
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
     }
   }
 
