@@ -1,6 +1,13 @@
-<a class="settings-button spot-button right text-center" href="javascript:;" ng-click="showSettings()">
-  <?php echo Yii::t('spots', 'Settings');?>
-</a>
+<ul class="spot-hat-button">
+  <li>
+    <a id="j-wallet" class="b-account settings-button wallet-button spot-button b-negative b-positive right tex5t-center" href="javascript:;">134$</a>
+  </li>
+  <li>
+    <a id="j-settings" class="spot-button right text-center settings-button" href="javascript:;"ng-click="showSettings()">
+      <?php echo Yii::t('spots', 'Settings');?>
+    </a>
+  </li>
+</ul>
 <div class="spot-content slide-content">
   <div ng-model='keys' ui-sortable>
 

@@ -44,7 +44,7 @@ input[type="tel"],
 input[type="time"],
 input[type="url"],
 textarea {
-	background-color: #EBEBEC;
+	background-color: #f1f3f4;
  	border: 0;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -52,11 +52,11 @@ textarea {
     -o-border-radius: 3px;
     border-radius: 3px;
     color: #0061FF;
--webkit-box-shadow: none;
+	-webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
      color: #0061FF;
-margin: 0 0 5px 0;
+	margin: 0 0 5px 0;
     padding: 6px 6px 6px 20px;
     outline: none;
 
@@ -388,11 +388,12 @@ ul.inline-list, ul.link-list{
 	box-shadow: none;
 	padding: 0;
 }
-.tooltip{
+.m-tooltip{
 	background: none;
 	z-index: 10;
 	padding: 0;
 	line-height: inherit;
+
 }
 ul.flyout li, .nav-bar li ul li{
 	border: 0;
@@ -449,4 +450,74 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 }
 .orbit-wrapper .slider-nav span.right:hover{
 	background-position: -213px -114px;
+}
+.joyride-tip-guide{
+	background: rgba(235, 235, 235, 0.88);
+	margin-top: 20px;
+}
+.joyride-tip-guide h1, .joyride-tip-guide h2, .joyride-tip-guide h3, .joyride-tip-guide h4, .joyride-tip-guide h5, .joyride-tip-guide h6{
+	color: #7A7A7A;
+
+}
+.joyride-tip-guide p{
+	color: #5C5C5C;
+	margin: 18px;
+}
+.joyride-tip-guide span.joyride-nub.top{
+	display: none;
+}
+.joyride-close-tip{
+	top: 18px;
+	right: 18px;
+	overflow: hidden;
+}
+.joyride-close-tip{
+	height: 30px;
+	width: 30px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	line-height: 999px !important;
+	background:#fff url("../images/icons/i-small.png") no-repeat -91px 6px;
+}
+.joyride-close-tip:hover{
+	background-color: #0062FF;
+	background-position: -91px -30px;
+}
+.popup .joyride-close-tip:focus{
+	position: absolute;
+}
+
+.popup .joyride-close-tip{
+	position: absolute;
+	right: 28px;
+	top:18px
+}
+.tooltip{
+	background: rgba(235, 235, 235, 0.88);
+	color: #000;
+	font-size: 14px;
+	padding: 26px;
+	margin-top: -11px;
+}
+.tooltip b{
+	color: #0062FF;
+}
+.tooltip p{
+	font-size: 12px;
+	font-weight: 400;
+	margin: 0;
+	margin-top: 20px;
+}
+.tooltip p:first-child{
+	margin-top: 0;
+}
+.tooltip.tip-top > .nub{
+	width: 0;
+	height: 0;
+	border: 0;
+	left: 20px;
+	border-top: 10px solid rgba(235, 235, 235, 0.88);
+	border-left: 10px solid transparent;
+
 }
