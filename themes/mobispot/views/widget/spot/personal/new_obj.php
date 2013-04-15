@@ -1,4 +1,4 @@
-<div class="spot-item">
+<div class="spot-item spot-block">
   <div class="item-area text-center">
     <div class="file-block">
       <a href="<?php echo CHtml::encode($content)?>">

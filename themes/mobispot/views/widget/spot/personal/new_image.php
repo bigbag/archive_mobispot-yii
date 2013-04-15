@@ -1,4 +1,4 @@
-<div class="spot-item">
+<div class="spot-item spot-block">
   <div class="item-area text-center">
     <img src="/uploads/spot/tmb_<?php echo $content?>">
     <div class="spot-cover slow">

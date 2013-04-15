@@ -4,6 +4,7 @@ class UserController extends MController {
 
   public $defaultAction='account';
 
+  // Вывод профиля
   public function actionProfile() {
     if (!Yii::app()->user->id) {
       $this->setAccess();
@@ -36,6 +37,7 @@ class UserController extends MController {
     }
   }
 
+  // Страница управления персональными спотами
   public function actionPersonal() {
     $this->layout='//layouts/spots';
 
