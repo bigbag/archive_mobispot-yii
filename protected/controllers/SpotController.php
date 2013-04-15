@@ -2,10 +2,12 @@
 
 class SpotController extends MController {
 
+  // Список отображаемых картинок
   public function getImageType(){
     return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'gif'=>'gif');
   }
 
+  // Действие по умолчанию - редикт на мобильную версию
   public function actionIndex() {
     if (Yii::app()->request->getQuery('url', 0)) {
       $url = Yii::app()->request->getQuery('url', 0);
@@ -13,6 +15,7 @@ class SpotController extends MController {
     }
   }
 
+  // Загрузка файлов в спот
    public function actionUpload() {
     $error="yes";
     $content="";
@@ -69,6 +72,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
   }
 
+  // Просмотр содержимого спота
   public function actionSpotView() {
   if (Yii::app()->request->isPostRequest) {
     $error="yes";
@@ -94,6 +98,7 @@ class SpotController extends MController {
     }
   }
 
+  // Добавление блока в спот
   public function actionSpotAddContent() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -133,6 +138,7 @@ class SpotController extends MController {
     }
   }
 
+  // Изменение атрибутов спота - приватность и возможность скачать визитку
   public function actionSpotAtributeSave() {
     $error="yes";
     $data=$this->getJson();
@@ -161,6 +167,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error));
   }
 
+  // Удаление блока из спота
   public function actionSpotRemoveContent() {
     $error="yes";
     $keys="";
@@ -198,6 +205,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'keys'=>$keys));
   }
 
+  // Редактирование содержимого блока
   public function actionSpotEditContent() {
     $error="yes";
     $data=$this->getJson();
@@ -215,6 +223,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error));
   }
 
+  // Сохраниение содержимого блока
   public function actionSpotSaveContent() {
     $error="yes";
     $content='';
@@ -247,6 +256,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
+  // Добавление нового спота
   public function actionAddSpot() {
     $error="yes";
     $content="";
@@ -275,6 +285,7 @@ class SpotController extends MController {
     }
   }
 
+  // Удаление спота
   public function actionRemoveSpot() {
     $error="yes";
     $discodes="";
@@ -292,6 +303,27 @@ class SpotController extends MController {
       echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
     }
   }
+
+  // Очистка спота
+  public function actionCleanSpot() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
+
+        $spotContent=SpotContent::getSpotContent($spot);
+        $spotContent=SpotContent::initPersonal($spot, $spotContent);
+
+        if ($spotContent->save()){
+          $error="no";
+        }
+      }
+      echo json_encode(array('error'=>$error));
+    }
+  }
+
 
   public function actionSpotRename() {
     $error="yes";
@@ -390,30 +422,6 @@ class SpotController extends MController {
         }
       }
       echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name, 'type'=>$type));
-    }
-  }
-
-  public function actionSpotClear() {
-    $error="yes";
-    $discodes="";
-    $data=$this->getJson();
-
-    if (isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-
-        $content=SpotModel::model()->findByAttributes(array(
-            'spot_id'=>$data['discodes'],
-            'spot_type_id'=>$spot->spot_type_id,
-            'lang'=>$spot->lang,
-        ));
-        if (!isset($content) or $content->delete()) {
-          UserPersonalField::model()->deleteByPk($discodes);
-          $discodes=$data['discodes'];
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
     }
   }
 
