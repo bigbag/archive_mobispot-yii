@@ -18,6 +18,6 @@ return array(
     'defaultController'=>'product',
   ),
   'payment'=>array(
-    // 'defaultController'=>'product',
+     'defaultController'=>'wallet',
   ),
 );

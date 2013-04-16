@@ -6,8 +6,10 @@
  * The followings are the available columns in table 'wallet':
  * @property integer $id
  * @property string $hard_id
+ * @property string $payment_id
  * @property integer $user_id
  * @property integer $spot_id
+ * @property string $creation_date
  * @property string $balance
  */
 class PaymentWallet extends CActiveRecord
@@ -46,14 +48,23 @@ class PaymentWallet extends CActiveRecord
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('hard_id, user_id, balance', 'required'),
+      array('hard_id, payment_id, user_id, creation_date, balance', 'required'),
       array('user_id, spot_id', 'numerical', 'integerOnly'=>true),
-      array('hard_id', 'length', 'max'=>20),
+      array('hard_id, payment_id', 'length', 'max'=>20),
       array('balance', 'length', 'max'=>150),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('id, hard_id, user_id, spot_id, balance', 'safe', 'on'=>'search'),
+      array('id, hard_id, payment_id, user_id, spot_id, creation_date, balance', 'safe', 'on'=>'search'),
     );
+  }
+
+  public function beforeValidate() {
+    if ($this->isNewRecord) {
+      $this->creation_date=new CDbExpression('NOW()');
+      if (!$this->balance) $this->balance=0;
+    }
+
+    return parent::beforeValidate();
   }
 
   /**
@@ -64,6 +75,8 @@ class PaymentWallet extends CActiveRecord
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
+        'user'=>array(self::BELONGS_TO, 'PaymentUser', 'user_id'),
+        'spot'=>array(self::BELONGS_TO, 'Spot', 'spot_id'),
     );
   }
 
@@ -75,8 +88,10 @@ class PaymentWallet extends CActiveRecord
     return array(
       'id' => 'ID',
       'hard_id' => 'Hard',
+      'payment_id' => 'Payment',
       'user_id' => 'User',
       'spot_id' => 'Spot',
+      'creation_date' => 'Creation Date',
       'balance' => 'Balance',
     );
   }
@@ -94,8 +109,10 @@ class PaymentWallet extends CActiveRecord
 
     $criteria->compare('id',$this->id);
     $criteria->compare('hard_id',$this->hard_id,true);
+    $criteria->compare('payment_id',$this->payment_id,true);
     $criteria->compare('user_id',$this->user_id);
     $criteria->compare('spot_id',$this->spot_id);
+    $criteria->compare('creation_date',$this->creation_date,true);
     $criteria->compare('balance',$this->balance,true);
 
     return new CActiveDataProvider($this, array(

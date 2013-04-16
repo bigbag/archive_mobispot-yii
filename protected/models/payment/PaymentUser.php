@@ -5,13 +5,30 @@
  *
  * The followings are the available columns in table 'user':
  * @property integer $id
- * @property integer $payment_id
  * @property string $email
  * @property integer $status
  * @property integer $mobispot_id
+ * @property string $creation_date
  */
 class PaymentUser extends CActiveRecord
 {
+  const STATUS_NOACTIVE=0;
+  const STATUS_ACTIVE=1;
+  const STATUS_BANNED=-1;
+
+  public function getStatusList() {
+    return array(
+        self::STATUS_NOACTIVE=>Yii::t('user', 'Не активирован'),
+        self::STATUS_ACTIVE=>Yii::t('user', 'Активирован'),
+        self::STATUS_BANNED=>Yii::t('user', 'Заблокирован'),
+    );
+  }
+
+  public function getStatus() {
+    $data=$this->getStatusList();
+    return $data[$this->status];
+  }
+
   /**
    * Returns the static model of the specified AR class.
    * @param string $className active record class name.
@@ -46,13 +63,23 @@ class PaymentUser extends CActiveRecord
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('payment_id, email', 'required'),
-      array('payment_id, status, mobispot_id', 'numerical', 'integerOnly'=>true),
+      array('email, creation_date', 'required'),
+      array('status, mobispot_id', 'numerical', 'integerOnly'=>true),
       array('email', 'length', 'max'=>150),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('id, payment_id, email, status, mobispot_id', 'safe', 'on'=>'search'),
+      array('status', 'in', 'range'=>array_keys($this->getStatusList())),
+      array('id, email, status, mobispot_id, creation_date', 'safe', 'on'=>'search'),
     );
+  }
+
+  public function beforeValidate() {
+    if ($this->isNewRecord) {
+      $this->creation_date=new CDbExpression('NOW()');
+      $this->status=self::STATUS_NOACTIVE;
+    }
+
+    return parent::beforeValidate();
   }
 
   /**
@@ -63,6 +90,7 @@ class PaymentUser extends CActiveRecord
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
+        'mobispot_user'=>array(self::BELONGS_TO, 'User', 'mobispot_id'),
     );
   }
 
@@ -73,10 +101,10 @@ class PaymentUser extends CActiveRecord
   {
     return array(
       'id' => 'ID',
-      'payment_id' => 'Payment',
       'email' => 'Email',
       'status' => 'Status',
       'mobispot_id' => 'Mobispot',
+      'creation_date' => 'Creation Date',
     );
   }
 
@@ -92,10 +120,10 @@ class PaymentUser extends CActiveRecord
     $criteria=new CDbCriteria;
 
     $criteria->compare('id',$this->id);
-    $criteria->compare('payment_id',$this->payment_id);
     $criteria->compare('email',$this->email,true);
     $criteria->compare('status',$this->status);
     $criteria->compare('mobispot_id',$this->mobispot_id);
+    $criteria->compare('creation_date',$this->creation_date,true);
 
     return new CActiveDataProvider($this, array(
       'criteria'=>$criteria,
