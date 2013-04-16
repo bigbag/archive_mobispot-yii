@@ -2,7 +2,7 @@
 
 class DefaultController extends MController
 {
-  public $layout='//layouts/all';
+  public $layout='//layouts/payment';
 
   public function actionIndex()
   {
