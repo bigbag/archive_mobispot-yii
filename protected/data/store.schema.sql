@@ -6,7 +6,9 @@ CREATE TABLE IF NOT EXISTS `product` (
 	photo varchar(2048) null,
 	description varchar(2048) null,
 	color varchar(2048) null,
-	size varchar(2048) not null
+	size varchar(2048) not null,
+	surface varchar(2048) null
+	
 )  DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 DROP TABLE IF EXISTS `customer`;
@@ -43,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `order_list`(
 	color varchar(1024) not null,
 	size_name varchar(1024) not null,
 	price integer not null,
+	surface varchar(1024) null
 	foreign key (id_product) references product (id)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 

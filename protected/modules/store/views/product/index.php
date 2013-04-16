@@ -34,10 +34,16 @@
 						<p>{{product.description}}</p>
 						<div class="details">
 							<div class="twelve clearfix">
-								<div class="columns six">
+								<div class="columns six" ng-show="product.size.length > 1">
 									<span class="label label-left"><?php echo Yii::t('store', 'Size'); ?></span>
 									<ul class="choose inline  add-active">
 										<li ng-repeat="size in product.size" ng-class="sizeClass(product.selectedSize.value, size.value)" ng-click="setSize(product.jsID, size)">{{size.value}}</li>
+									</ul>
+								</div>
+								<div class="columns six" ng-show="product.surface.length > 0">
+									<span class="label label-left"><?php echo Yii::t('store', 'Surface'); ?></span>
+									<ul class="choose inline add-active long">
+										<li ng-repeat="surface in product.surface" ng-class="surfaceClass(product.selectedSurface, surface)" ng-click="setSurface(product.jsID, surface)">{{surface}}</li>
 									</ul>
 								</div>
 								<div class="columns six inline choose">
@@ -45,7 +51,7 @@
 									<input type="number" ng-model="product.quantity" />
 								</div>
 							</div>
-							<div class="columns twelve">
+							<div class="columns twelve" ng-show="product.color.length > 0">
 								<div class="label"><?php echo Yii::t('store', 'Choose your color'); ?></div>
 								<ul class="choose-color add-active">
 									<li ng-repeat="color in product.color" ng-class="colorClass(product.selectedColor, color)" ng-click="setColor(product.jsID, color)"><i class="bg-{{color}}"></i></li>
@@ -61,3 +67,5 @@
 				</tbody>
 			</table>
 			</div>
+
+			

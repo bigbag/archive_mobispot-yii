@@ -13,11 +13,11 @@ function ProductCtrl($scope, $http) {
 					$scope.products[i].jsID = i;
 					$scope.products[i].selectedSize = $scope.products[i].size[0];
 					$scope.products[i].selectedColor = $scope.products[i].color[0];
+					$scope.products[i].selectedSurface = $scope.products[i].surface[0];
 					$scope.products[i].quantity = 1;
 					$scope.products[i].listposition = {left:"0px"};
-	
 				}
-				$scope.inRequest = false;	
+				$scope.inRequest = false;
 			}).error(function(error){
 					alert(error);
 			});
@@ -42,6 +42,7 @@ function ProductCtrl($scope, $http) {
 				id : $scope.products[jsID].id,
 				quantity : parseInt($scope.products[jsID].quantity),
 				selectedColor : $scope.products[jsID].selectedColor,
+				selectedSurface : $scope.products[jsID].selectedSurface,
 				selectedSize : $scope.products[jsID].selectedSize		
 			}).success(function(data, status) {
 				if(data.error == 'no'){
@@ -76,6 +77,14 @@ function ProductCtrl($scope, $http) {
 			return "";
 		}
 	};
+
+	$scope.surfaceClass = function(selectedSurface, surface) {
+		if (selectedSurface === surface) {
+			return "active";
+		} else {
+			return "";
+		}
+	};
 	
 	$scope.totalClass = function(totalInCart) {
 		if (parseInt(totalInCart) > 0) {
@@ -91,6 +100,10 @@ function ProductCtrl($scope, $http) {
 	
 	$scope.setColor = function(jsID, color){
 		$scope.products[jsID].selectedColor = color;
+	};
+
+	$scope.setSurface = function(jsID, surface){
+		$scope.products[jsID].selectedSurface = surface;
 	};
 	
 	$scope.thumbClass = function(len){
@@ -158,6 +171,14 @@ function CartCtrl($scope, $http) {
 		} else {
 			return "";
 		}
+	};
+
+	$scope.surfaceClass = function(selectedSurface, surface) {
+		if (selectedSurface === surface) {
+			return "active";
+		} else {
+			return "";
+		}
 	};	
 	
 	$scope.deliveryClass = function(jsID){
@@ -192,6 +213,10 @@ function CartCtrl($scope, $http) {
 		$scope.products[jsID].selectedColor = color;
 	};
 
+	$scope.setSurface = function(jsID, surface){
+		$scope.products[jsID].selectedSurface = surface;
+	};
+	
 	$scope.setDelivery = function(jsID){
 		$scope.selectedDelivery = $scope.deliveries[jsID];
 	};
@@ -240,6 +265,7 @@ function CartCtrl($scope, $http) {
 				id : $scope.products[jsID].id,
 				quantity : $scope.products[jsID].quantity,
 				selectedColor : $scope.products[jsID].selectedColor,
+				selectedSurface : $scope.products[jsID].selectedSurface,
 				selectedSize : $scope.products[jsID].selectedSize	
 			}).success(function(data, status) {
 				if (data.error == 'no'){

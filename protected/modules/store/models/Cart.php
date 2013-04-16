@@ -67,6 +67,7 @@ class Cart extends CFormModel
 					$product['id'] = $item->id_product;
 					$product['quantity'] = $item->quantity;
 					$product['selectedColor'] = $item->color;
+					$product['selectedSurface'] = $item->surface;
 					$selectedSize['value'] = $item->size_name;
 					$selectedSize['price'] = $item->price;
 					$product['selectedSize'] = $selectedSize;						
@@ -93,6 +94,7 @@ class Cart extends CFormModel
 			$item['photo'] = unserialize($product->photo);
 			$item['description'] = $product->description;
 			$item['color'] = unserialize($product->color);
+			$item['surface'] = unserialize($product->surface);
 			$item['size'] = unserialize($product->size);
 			$item['totalInCart'] = 0;
 			if($itemsInCart > 0){
@@ -128,6 +130,7 @@ class Cart extends CFormModel
 				$product['code'] = $dbProduct->code;
 				$product['photo'] = unserialize($dbProduct->photo);
 				$product['color'] = unserialize($dbProduct->color);
+				$product['surface'] = unserialize($dbProduct->surface);
 				$product['size'] = unserialize($dbProduct->size);
 				$fullCart[] = $product;	
 			}
@@ -180,11 +183,7 @@ class Cart extends CFormModel
 			$added = false;
 			$size = count($this->storeCart);
 			for ($i = 0; $i < $size; $i++) {
-				if( ($newProduct['id'] == $this->storeCart[$i]['id'])
-					&& ($newProduct['selectedColor'] == $this->storeCart[$i]['selectedColor'])
-					&& ($newProduct['selectedSize'] == $this->storeCart[$i]['selectedSize'])
-					&& ($added == false)
-				){
+				if($this->equalProduct($newProduct, $this->storeCart[$i]) && !$added){
 					$this->storeCart[$i]['quantity'] += $newProduct['quantity'];
 					$added = true;
 					break;
@@ -193,7 +192,10 @@ class Cart extends CFormModel
 			if(!$added){
 				$prodArray['id'] = $newProduct['id'];
 				$prodArray['quantity'] = $newProduct['quantity'];
-				$prodArray['selectedColor'] = $newProduct['selectedColor'];
+				if(!empty($newProduct['selectedColor']))
+					$prodArray['selectedColor'] = $newProduct['selectedColor'];
+				if(!empty($newProduct['selectedSurface']))
+					$prodArray['selectedSurface'] = $newProduct['selectedSurface'];					
 				$prodArray['selectedSize'] = $newProduct['selectedSize'];
 				$this->storeCart[] = $prodArray;
 			}
@@ -218,11 +220,7 @@ class Cart extends CFormModel
 						if($list){
 							$added = false;
 							foreach($list as $item){
-								if( ($newProduct['id'] == $item->id_product)
-									&& ($newProduct['selectedColor'] == $item->color)
-									&& ($newProduct['selectedSize']['value'] == $item->size_name)
-									&& ($added == false)
-								){
+								if( $this->equalProduct($newProduct, $item) && ($added == false)){
 									$addQuantity = OrderList::model()->findByPK($item->id);
 									$addQuantity->quantity += $newProduct['quantity'];
 									$addQuantity->save();
@@ -236,7 +234,10 @@ class Cart extends CFormModel
 							$addProduct->id_order = $order->id;
 							$addProduct->id_product = $newProduct['id'];
 							$addProduct->quantity = $newProduct['quantity'];
-							$addProduct->color = $newProduct['selectedColor'];
+							if(!empty($newProduct['selectedColor']))
+								$addProduct->color = $newProduct['selectedColor'];
+							if(!empty($newProduct['selectedSurface']))
+								$addProduct->surface = $newProduct['selectedSurface'];
 							$addProduct->size_name = $newProduct['selectedSize']['value'];
 							$addProduct->price = $newProduct['selectedSize']['price'];
 							$addProduct->save();
@@ -254,15 +255,64 @@ class Cart extends CFormModel
 		return $error;
 	}
 	
+	public function equalProduct($product, $etalon){
+		$answer = false;
+		$etalon = (array)$etalon;
+		if(isset($etalon['id_order']) && isset($etalon['id_product'])){
+		//etalone from order_list
+			if(
+				(	isset($product['id']) 
+					&& isset($etalon['id_product']) 
+					&& ($product['id'] == $etalon['id_product']))
+				&&(	(empty($product['selectedColor']) && ($etalon['selectedColor'] == null))
+					||
+					(	!empty($product['selectedColor']) 
+						&& !empty($etalon['selectedColor'])
+						&& ($product['selectedColor'] == $etalon['selectedColor'])))
+				&&(	($product['selectedSize']['value'] == $etalon['size_name'])
+					&& ($product['selectedSize']['price	'] == $etalon['price']))
+				&&(	(empty($product['selectedSurface']) && ($etalon['selectedSurface'] == null))
+					||
+					(	!empty($product['selectedSurface'])
+						&& !empty($etalon['selectedSurface'])
+						&& ($product['selectedSurface'] == $etalon['selectedSurface'])))
+			){
+				$answer = true;
+			}		
+		}else{
+		//etalone from session
+			if(
+				(	isset($product['id']) 
+					&& isset($etalon['id']) 
+					&& ($product['id'] == $etalon['id']))
+				&&(	(empty($product['selectedColor']) && empty($etalon['selectedColor']))
+					||
+					(	!empty($product['selectedColor']) 
+						&& !empty($etalon['selectedColor'])
+						&& ($product['selectedColor'] == $etalon['selectedColor'])))
+				&&($product['selectedSize'] == $etalon['selectedSize'])
+				&&(	(empty($product['selectedSurface']) && empty($etalon['selectedSurface']))
+					||
+					(	!empty($product['selectedSurface'])
+						&& !empty($etalon['selectedSurface'])
+						&& ($product['selectedSurface'] == $etalon['selectedSurface'])))
+			){
+				$answer = true;
+			}
+		}
+		return $answer;
+	}
+	
 	public function validateProduct($newProduct){
 		$error = 'error';
-		if(isset($newProduct['id']) && isset($newProduct['quantity']) && isset($newProduct['selectedColor']) && !empty($newProduct['selectedSize'])){
+		if(isset($newProduct['id']) && isset($newProduct['quantity'])){
 			if(is_int($newProduct['quantity']) && ($newProduct['quantity'] > 0)){
 				$etalone = Product::model()->findByPK($newProduct['id']);
 				if ($etalone){
 					$etalone->color = unserialize($etalone->color);
 					$etalone->size = unserialize($etalone->size);
-					if(in_array($newProduct['selectedColor'], $etalone->color)){
+					$etalone->surface = unserialize($etalone->surface);
+					if((!is_array($etalone->color)) || in_array($newProduct['selectedColor'], $etalone->color)){
 						$correctSize = false;
 						foreach($etalone->size as $size){
 							if(($size['value'] == $newProduct['selectedSize']['value']) && ($size['price'] == $newProduct['selectedSize']['price']))
@@ -287,13 +337,10 @@ class Cart extends CFormModel
 	public function deleteFromCart($deleted){
 		$success = false;
 		
-		if(!empty($deleted['id']) && !empty($deleted['selectedColor']) && !empty($deleted['selectedSize'])){
+		if(!empty($deleted['id']) && !empty($deleted['selectedSize'])){
 			$newCart = array();
 			foreach($this->storeCart as $product) {
-				if( !(($deleted['id'] == $product['id'])
-					&& ($deleted['selectedColor'] == $product['selectedColor'])
-					&& ($deleted['selectedSize']['value'] == $product['selectedSize']['value']))
-				){
+				if(!$this->equalProduct($deleted, $product)){
 					$newCart[] = $product;
 				}
 			}
@@ -310,11 +357,16 @@ class Cart extends CFormModel
 							'id_customer'=>$dbCustomer->id,
 							'status'=>0							
 					));
+					if(empty($deleted['selectedColor']))
+						$deleted['selectedColor'] = null;
+					if(empty($deleted['selectedSurface']))
+						$deleted['selectedSurface'] = null;
 					if($order){
 						$list = OrderList::model()->findByAttributes(array(
 							'id_order'=>$order->id,
 							'id_product'=>$deleted['id'],
 							'color'=>$deleted['selectedColor'],
+							'surface'=>$deleted['selectedSurface'],
 							'size_name'=>$deleted['selectedSize']['value']
 						));
 						if($list)
@@ -396,6 +448,7 @@ class Cart extends CFormModel
 					$list->id_product = $product['id'];
 					$list->quantity = $product['quantity'];
 					$list->color = $product['selectedColor'];
+					$list->surface = $product['selectedSurface'];
 					$list->size_name = $product['selectedSize']['value'];
 					$list->price = $product['selectedSize']['price'];
 					$list->save();

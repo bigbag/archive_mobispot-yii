@@ -318,6 +318,9 @@ table.store-items td ul.orbit-bullets{
 	margin-right:5px;
 }
 
+.long li{
+	width: 80px;
+}
 .choose.inline li,
 .choose.inline input{
 	margin-top: -6px;
