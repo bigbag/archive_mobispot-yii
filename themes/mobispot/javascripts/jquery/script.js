@@ -15,7 +15,8 @@ var toggleActive = function () {
 
 var showPopup = function(){
   $element.showPopupButton = $(this);
-  $popup.removeClass('hide').animate({opacity: 1}, 50, function(){
+  var popupId =  'popup-' + $(this).attr('id');
+  $popup.removeClass('hide').attr('id', popupId).animate({opacity: 1}, 50, function(){
     $body.addClass('overflow-h');
   });
 
@@ -31,21 +32,24 @@ var hidePopup = function(){
 };
 
 $(window).load(function() {
-  //$('textarea').autosize();
-
   $(document).on('click','.add-active > *', addActive);
   $(document).on('click','.toggle-active > *', toggleActive);
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
   });
 
+
   $('.spot-list').on('click','label', function(){
     $(this).prev().focus();
   });
 
-  $(document).on('click','.settings-button', showPopup);
-  $(document).on('click','.button', hidePopup);
-  $(document).on('click','.popup', hidePopup);
+
+  $('.settings-button').on('click', showPopup);
+  $('.button', '.popup').on('click', hidePopup);
+
+  $('.spot-list').on('click','.settings-button', showPopup);
+  $('.spot-list').on('click','.button', hidePopup);
+  $('.spot-list').on('click','.popup', hidePopup);
 
   $(document).keydown(function(e){
     if(e.which == 27){
@@ -53,7 +57,17 @@ $(window).load(function() {
     }
   });
 
-   $('.spot-list').on('input propertychange','textarea', function() {
+  var textArea = $('textarea');
+
+  for(i=0; i<textArea.length; i++){
+    if ( $(textArea[i]).val() ){
+      $(textArea[i]).addClass('put')
+    } else{
+      $(textArea[i]).removeClass('put');
+    }
+
+  }
+  $('.spot-list').on('input propertychange','textarea', function() {
     if($(this).val()){
       $(this).addClass('put');
     }else{
@@ -61,5 +75,17 @@ $(window).load(function() {
     }
 
   });
+
+  $(document).on('click', '.b-input-number span', function(e){
+    var $numberInput = $(this).parent().find('input')
+    var currentNumber = $numberInput.val();
+      if($(this).hasClass('number-up')){
+        !currentNumber?currentNumber = 1 : currentNumber++;
+      } else{
+        currentNumber < 1 ?currentNumber = 0 : currentNumber--;
+      }
+    $numberInput.val(currentNumber);
+  });
+
 });
 

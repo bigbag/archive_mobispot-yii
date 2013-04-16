@@ -14,6 +14,7 @@ class AjaxController extends MController {
     );
   }
 
+  // Динамическая подгрузка блока с кодом
   public function actionGetBlock() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -35,6 +36,7 @@ class AjaxController extends MController {
     }
   }
 
+  // Отпарвка вопроса
   public function actionSendQuestion() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";

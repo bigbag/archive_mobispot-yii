@@ -1,4 +1,13 @@
-<a class="settings-button spot-button right text-center" href="javascript:;"><?php echo Yii::t('spots', 'Settings');?></a>
+<ul class="spot-hat-button">
+  <li>
+    <a id="j-wallet" class="b-account settings-button wallet-button spot-button b-negative b-positive right tex5t-center" href="javascript:;">134$</a>
+  </li>
+  <li>
+    <a id="j-settings" class="spot-button right text-center settings-button" href="javascript:;"ng-click="showSettings()">
+      <?php echo Yii::t('spots', 'Settings');?>
+    </a>
+  </li>
+</ul>
 <div class="spot-content slide-content">
   <div ng-model='keys' ui-sortable>
 
@@ -11,7 +20,7 @@
 
   <?php $keys[]=$key;?>
 
-  <div class="spot-item">
+  <div class="spot-item spot-block">
     <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
       <?php if ($content['keys'][$key]=='text'):?>
       <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
@@ -33,10 +42,10 @@
     </div>
   </div>
   <?php endforeach;?>
-  <?php $keys='['.implode(',', $keys).']';?>
-
 
   <?php endif;?>
+  <?php $keys=(isset($keys[0])?$keys:array())?>
+  <?php $keys='['.implode(',', $keys).']';?>
   <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0"></span>

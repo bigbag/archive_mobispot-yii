@@ -1,4 +1,4 @@
-<div class="spot-item">
+<div class="spot-item spot-block">
   <div class="item-area">
     <p class="item-area item-type__text"><?php echo CHtml::encode($content)?></p>
     <div class="spot-cover slow">

@@ -10,11 +10,11 @@ class Wallet extends CActiveRecord {
     {
         return parent::model($className);
     }
-	
+
     public function getDbConnection(){
         return Yii::app()->dbStore;
     }
- 
+
     public function tableName()
     {
         return 'store.wallet';

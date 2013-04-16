@@ -9,17 +9,30 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.progress = 0;
   $scope.spot_edit = false;
   $scope.keys = [];
+  $scope.action = false;
+
+  // Следим за очередностью блоков
+  // $scope.$watch('keys', function() {
+  //   console.log($scope.keys);
+
+  // });
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
   });
 
-// Закачка файла html5
+  // Закачка файла html5
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    // angular.element('#dropbox').addClass(e.type == "dragover" ? "dropbox-hover" : "");
+    if (e.type == "dragover"){
+      angular.element('#dropbox').addClass("hover");
+    }
+    else {
+      angular.element('#dropbox').removeClass("hover");
+    }
   }
+
 
   function fileSelectHandler(e) {
     fileDragHover(e);
@@ -91,21 +104,22 @@ function SpotCtrl($scope, $http, $compile) {
     }
   }
 
-// Атрибут разрешить скачивать визитку
+
+  // Атрибут разрешить скачивать визитку
   $scope.getVcard = function(spot){
     if (spot.vcard == 1) spot.vcard = 0;
     else spot.vcard = 1;
     $scope.setAttribute(spot);
   };
 
-// Атрибут приватности спота
+  // Атрибут приватности спота
   $scope.getPrivate = function(spot) {
     if (spot.private == 1) spot.private = 0;
     else spot.private = 1;
     $scope.setAttribute(spot);
   };
 
-// Сохранение атрибутов
+  // Сохранение атрибутов
   $scope.setAttribute = function(spot) {
     $http.post('/spot/spotAtributeSave', $scope.spot).success(function(data)           {
         if(data.error == 'no') {
@@ -114,7 +128,7 @@ function SpotCtrl($scope, $http, $compile) {
       });
   };
 
-// Аккордеон в списке личных спотов
+  // Аккордеон в списке личных спотов
   $scope.accordion = function(e, token) {
     var spot = angular.element(e.currentTarget).parent();
     var discodes = spot.attr('id');
@@ -160,7 +174,7 @@ function SpotCtrl($scope, $http, $compile) {
     }
   }
 
-// Добавление нового блока в спот
+  // Добавление нового блока в спот
   $scope.addContent = function(spot) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
@@ -173,7 +187,7 @@ function SpotCtrl($scope, $http, $compile) {
     }
   };
 
-// Удаление блока в споте
+  // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
     spot.key = key;
     $http.post('/spot/spotRemoveContent', spot).success(function(data) {
@@ -185,7 +199,7 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
-// Редактирование текстового блока в споте
+  // Редактирование текстового блока в споте
   $scope.editContent = function(spot, key, e) {
     spot.key = key;
     if (!spot.content_new){
@@ -206,7 +220,7 @@ function SpotCtrl($scope, $http, $compile) {
     }
   };
 
-// Сохранение текстового блока в споте
+  // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
     var spotItem = spotEdit.next();
@@ -225,7 +239,7 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
-// Прячем текстовый блок при клике вне, данные сохраняем
+  // Прячем текстовый блок при клике вне, данные сохраняем
   $scope.hideSpotEdit = function() {
     var spotEdit = angular.element('#spot-edit');
     var spotItem = spotEdit.next();
@@ -244,13 +258,13 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
-// Атрибут согласия с условиями сервиса
+  // Атрибут согласия с условиями сервиса
   $scope.setTerms = function(spot){
     if (spot.terms == 1) spot.terms = 0;
     else spot.terms = 1;
   };
 
-// Следим за полями добавления спота
+  // Следим за полями добавления спота
   $scope.$watch('spot.code + spot.terms', function(spot) {
     if ($scope.spot && $scope.spot.code){
       if (($scope.spot.terms == 1) && ($scope.spot.code.length == 10)) {
@@ -263,10 +277,10 @@ function SpotCtrl($scope, $http, $compile) {
 
   });
 
-// Добавление спота
+  // Добавление спота
   $scope.addSpot = function(spot) {
     if (!spot.code | ($scope.spot.terms == 0)) return false;
-    $http.post('/spot/spotAdd', spot).success(function(data) {
+    $http.post('/spot/addSpot', spot).success(function(data) {
       if(data.error == 'no') {
         var spotAdd = angular.element('#actSpotForm')
         angular.element('.spot-list').append($compile(data.content)($scope));
@@ -275,5 +289,47 @@ function SpotCtrl($scope, $http, $compile) {
         delete $scope.spot.code;
       }
     });
+  };
+
+  // Удаление спота
+  $scope.removeSpot = function(spot) {
+    $scope.action = 'remove';
+    angular.element('#confirm').show();
+    angular.element('#confirm .button.round.active').focus();
+  };
+
+  // Очистка спота
+  $scope.cleanSpot = function(spot) {
+    $scope.action = 'clear';
+    angular.element('#confirm').show();
+    angular.element('#confirm .button.round.active').focus();
+  };
+
+  $scope.confirmYes = function(spot) {
+    if ($scope.action == 'remove'){
+      $http.post('/spot/removeSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          var spotContent = angular.element('#' + spot.discodes);
+          spotContent.slideUp('slow', function () {
+            spotContent.remove();
+          });
+        }
+      });
+    }
+    else if ($scope.action == 'clear'){
+      $http.post('/spot/cleanSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          spotContent = angular.element('.spot-block').remove();
+        }
+      });
+    }
+    angular.element('#confirm').hide();
+  };
+
+  $scope.confirmNo = function(spot) {
+    if ($scope.action){
+      angular.element('#confirm').hide();
+      $scope.action = false;
+    }
   };
 }

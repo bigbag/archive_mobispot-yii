@@ -108,8 +108,8 @@ class SpotContent extends CActiveRecord {
     return $spot_content;
   }
 
-  public function initPersonal($spot){
-    $spotContent=new SpotContent;
+  public function initPersonal($spot, $spotContent=false){
+    if(!$spotContent) $spotContent=new SpotContent;
     $spotContent->discodes_id=$spot->discodes_id;
     $spotContent->user_id=$spot->user_id;
     $spotContent->lang=$spot->lang;

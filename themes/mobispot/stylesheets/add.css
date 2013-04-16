@@ -10,14 +10,15 @@
   margin: 50px 0 0;
 }
 
-#add-content, #error-upload{
+#add-content, #error-upload, #confirm{
   display:none;
 }
 
-/*#dropbox {
-  border: solid  3px #fff;
+#dropbox {
+  border: 3px solid #fff;
+  background: #fff;
 }
 
-.dropbox-hover{
-  border: solid  3px #f00;
-}*/
+#dropbox.hover {
+  border: 3px solid #2B46FF;
+}
