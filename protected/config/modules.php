@@ -17,4 +17,7 @@ return array(
   'store'=>array(
     'defaultController'=>'product',
   ),
+  'payment'=>array(
+    // 'defaultController'=>'product',
+  ),
 );

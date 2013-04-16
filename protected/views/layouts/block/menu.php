@@ -14,10 +14,7 @@ $this->widget('application.extensions.mbmenu.MbMenu', array(
                 array('label' => 'Переводы', 'url' => array('/admin/translation/')),
                 array('label' => 'Страницы', 'url' => array('/admin/page/')),
                 array('label' => 'FAQ', 'url' => array('/admin/contentFaq/')),
-                array('label' => 'Баннеры на главной', 'url' => array('/admin/contentBannerFooter/')),
-                array('label' => 'Ссылки в подвале', 'url' => array('/admin/contentLinksFooter/')),
-                array('label' => 'Карусель', 'url' => array('/admin/contentCarousel/')),
-            ),
+         ),
         ),
         array('label' => 'Почта', 'active' => ((in_array(Yii::app()->controller->id, array('mailEvent', 'mailTemplate'))) ? true : false),
             'items' => array(
@@ -29,7 +26,6 @@ $this->widget('application.extensions.mbmenu.MbMenu', array(
             'items' => array(
                 array('label' => 'ID', 'url' => array('/admin/discodes')),
                 array('label' => 'Типы исполнения спотов', 'url' => array('/admin/spotHardType/')),
-                array('label' => 'Персональный спот, поля', 'url' => array('/admin/spotPersonalField')),
                 array('label' => 'Комментарии', 'url' => array('/admin/spotComment/')),
             ),
         ),
