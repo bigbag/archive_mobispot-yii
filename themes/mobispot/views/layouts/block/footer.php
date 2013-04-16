@@ -28,10 +28,10 @@
       </ul>
       <div class="right soc-link">
         <span><?php echo Yii::t('footer', 'Hook Up')?></span>
-        <a href="#" class="i-soc-fac">&nbsp;</a>
+        <a href="http://www.facebook.com/heyMobispot" class="i-soc-fac">&nbsp;</a>
         <br />
         <span><?php echo Yii::t('footer', 'Keep Up')?></span>
-        <a href="#" class="i-soc-twi">&nbsp;</a>
+        <a href="https://twitter.com/heymobispot" class="i-soc-twi">&nbsp;</a>
       </div>
       <p>
 
