@@ -32,7 +32,6 @@ class Uniteller{
     $curl_response = curl_exec($ch);
     $curl_error = curl_error($ch);
     $data = array(); // результат для возврата
-
     if ($curl_error) {
       // обработка ошибки обращения за статусом платежа
     } else {

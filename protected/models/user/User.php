@@ -97,8 +97,8 @@ class User extends CActiveRecord {
       $this->type=self::TYPE_USER;
 
       $paymentUser=new PaymentUser;
-      $paymentUser->email->$this->email;
-      $paymentUser->mobispot_id->$this->id;
+      $paymentUser->email=$this->email;
+      $paymentUser->mobispot_id=$this->id;
       $paymentUser->save();
     }
 

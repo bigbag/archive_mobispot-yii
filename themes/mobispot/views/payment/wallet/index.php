@@ -1,17 +1,36 @@
-<?php
-/* @var $this DefaultController */
-
-$this->breadcrumbs=array(
-	$this->module->id,
-);
-?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
-
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p>
+<div class="row">
+  <div class="twelve columns">
+    <h3 class="color">Кошельки</h3>
+    <table>
+        <tr><th>Кошелек</th><th>Остаток</th></tr>
+        <?php foreach ($wallets as $wallet):?>
+        <tr>
+          <td><?php echo ($wallet->discodes_id!=0)?$wallet->spot->name:'Corp';?></td>
+          <td ><?php echo $wallet->balance;?></td>
+        </tr>
+      <?php endforeach;?>
+    </table>
+  </div>
+</div>
+  <div id="setPayment" class="row">
+    <div class="five columns">
+      <form name="paymentForm" action="https://test.wpay.uniteller.ru/pay/" >
+        <input id="unitell_shop_id"   type="hidden" name="Shop_IDP" value="">
+        <input id="unitell_customer"  type="hidden" name="Customer_IDP" value="">
+        <input id="unitell_order_id"  type="hidden" name="Order_IDP" value="">
+        <input id="unitell_subtotal"  type="hidden" name="Subtotal_P" value="">
+        <input id="unitell_signature"   type="hidden" name="Signature" value="">
+        <input id="unitell_url_ok"    type="hidden" name="URL_RETURN_OK" value="">
+        <input id="unitell_url_no"    type="hidden" name="URL_RETURN_NO" value="">
+        <input
+          type="text"
+          ng-pattern="/[0-9]+/"
+          ng-model="payment.summ"
+          placeholder="Сумма (больше 200 рублей)"
+          maxlength="10"
+          required>
+        <a class="spot-button button-disable" href="javascript:;" ng-click="addSumm(payment, $event)">Пополнить</a>
+      </form>
+    </div>
+  </div>
+</div>

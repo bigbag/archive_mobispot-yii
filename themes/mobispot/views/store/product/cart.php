@@ -4,7 +4,7 @@
 		<table class="twelve store-items store-items__bag">
 			<tbody>
 			<tr>
-				<td colspan="2" ng-class="emptyClass()">
+				<td id="emptyCart" colspan="2" ng-class="emptyClass()">
 					<h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
 					<span><a class="spot-button" href="/store"><?php echo Yii::t('store', 'Back to the store'); ?></a></span>
 				</td>
@@ -14,22 +14,11 @@
 						<div class="mainimageshell">
 						<div class="viewwindow">
 							<ul class="fullsizelist aslide" ng-style="product.listposition">
-								<li ng-repeat="image in product.photo" class="aslide">
-									<img class="large" ng-src="{{image}}" />
+								<li class="aslide">
+									<img class="large" ng-src="<?php echo $imagePath; ?>{{product.photo[0]}}" />
 								</li>
 							</ul>
 						</div>
-						</div>
-						<div class="thumbsshell">
-							<div class="thumbswrapper">
-								<ul class="aslide">
-									<li ng-repeat="image in product.photo" ng-class="thumbLiClass($index)" ng-click="scrollTo(image,$index, product.jsID)">
-										<div class="thumbwrapper">
-											<img  class="thumbnail" ng-src="{{image}}" width="50">
-										</div>
-									</li>
-								</ul>
-							</div>
 						</div>
 				</td>
 				<td class="store-items__description">
@@ -96,7 +85,10 @@
 					<input type="text" name="zip" ng-model="customer.zip" placeholder="Zip / Postal code" required="" ng-class="valClass(formCustomer.zip.$valid)">
 					<input type="text" name="phone" ng-model="customer.phone" placeholder="Phone" required="" ng-class="valClass(formCustomer.phone.$valid)">
 					<input type="text" name="country" ng-model="customer.country" placeholder="Country" required="" ng-class="valClass(formCustomer.country.$valid)">
-					<a id="proceedFinish" class="spot-button toggle-box slideTo" href="#proceedFinishForm" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
+					<a class="spot-button toggle-box slideTo" style="cursor: pointer" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
+					<div style="visibility: hidden">
+						<a id="proceedFinish" class="spot-button toggle-box slideTo" href="#proceedFinishForm"></a>
+					</div>
 				</div>
 			</form>
 			
