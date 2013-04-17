@@ -257,25 +257,23 @@ class Cart extends CFormModel
 	
 	public function equalProduct($product, $etalon){
 		$answer = false;
-		$etalon = (array)$etalon;
-		if(isset($etalon['id_order']) && isset($etalon['id_product'])){
+		if(!is_array($etalon) && isset($etalon->id_order) && isset($etalon->id_product)){
 		//etalone from order_list
 			if(
 				(	isset($product['id']) 
-					&& isset($etalon['id_product']) 
-					&& ($product['id'] == $etalon['id_product']))
-				&&(	(empty($product['selectedColor']) && ($etalon['selectedColor'] == null))
+					&& ($product['id'] == $etalon->id_product))
+				&&(	(empty($product['selectedColor']) && $etalon->selectedColor == null)
 					||
 					(	!empty($product['selectedColor']) 
-						&& !empty($etalon['selectedColor'])
-						&& ($product['selectedColor'] == $etalon['selectedColor'])))
-				&&(	($product['selectedSize']['value'] == $etalon['size_name'])
-					&& ($product['selectedSize']['price	'] == $etalon['price']))
-				&&(	(empty($product['selectedSurface']) && ($etalon['selectedSurface'] == null))
+						&& !empty($etalon->selectedColor)
+						&& ($product['selectedColor'] == $etalon->selectedColor)))
+				&&(	($product['selectedSize']['value'] == $etalon->size_name)
+					&& ($product['selectedSize']['price	'] == $etalon->price))
+				&&(	(empty($product['selectedSurface']) && ($etalon->selectedSurface == null))
 					||
 					(	!empty($product['selectedSurface'])
-						&& !empty($etalon['selectedSurface'])
-						&& ($product['selectedSurface'] == $etalon['selectedSurface'])))
+						&& !empty($etalon->selectedSurface)
+						&& ($product['selectedSurface'] == $etalon->selectedSurface)))
 			){
 				$answer = true;
 			}		
@@ -409,7 +407,9 @@ class Cart extends CFormModel
 			$user_id = Yii::app()->user->id;
 			$user = User::model()->findByPk($user_id);
 			if($user)
-				$customer->email = $user->email;			
+				$customer->email = $user->email;	
+			elseif(!empty($newCustomer['email']))
+				$customer->email = $newCustomer['email'];
 		}elseif(!empty($newCustomer['email']))
 			$customer->email = $newCustomer['email'];
 		if(!empty($newCustomer['target_first_name']))
@@ -447,8 +447,10 @@ class Cart extends CFormModel
 					$list->id_order = $order->id;
 					$list->id_product = $product['id'];
 					$list->quantity = $product['quantity'];
-					$list->color = $product['selectedColor'];
-					$list->surface = $product['selectedSurface'];
+					if(isset($product['selectedColor']))
+						$list->color = $product['selectedColor'];
+					if(isset($product['selectedSurface']))
+						$list->surface = $product['selectedSurface'];
 					$list->size_name = $product['selectedSize']['value'];
 					$list->price = $product['selectedSize']['price'];
 					$list->save();

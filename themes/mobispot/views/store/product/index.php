@@ -1,5 +1,4 @@
-			<div ng-controller="ProductCtrl" ng-init="StoreInit('<?php echo Yii::app()->request->csrfToken; ?>')">
-
+			<div class="m-content-block" ng-controller="ProductCtrl" ng-init="StoreInit('<?php echo Yii::app()->request->csrfToken; ?>')">
 			<table class="twelve store-items">
 				<tbody>
 				<tr ng-repeat="product in products">
@@ -8,7 +7,7 @@
 						<div class="viewwindow">
 							<ul class="fullsizelist aslide" ng-style="product.listposition">
 								<li ng-repeat="image in product.photo" class="aslide">
-									<img class="large" ng-src="{{image}}" />
+									<img class="large" ng-src="<?php echo $imagePath; ?>{{image}}" />
 								</li>
 							</ul>
 						</div>
@@ -18,7 +17,7 @@
 								<ul class="aslide">
 									<li ng-repeat="image in product.photo" ng-class="thumbLiClass($index)" ng-click="scrollTo(image,$index, product.jsID)">
 										<div class="thumbwrapper">
-											<img  class="thumbnail" ng-src="{{image}}" width="50">
+											<img  class="thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
 										</div>
 									</li>
 								</ul>
@@ -65,7 +64,9 @@
 				</tr>
 
 				</tbody>
-			</table>
+			</table><!--
+			<div class="m-preload m-content-preload">
+				<img src="/themes/mobispot/images/mobispot-loading%2040.gif">
 			</div>
-
-			
+			-->
+			</div>			
