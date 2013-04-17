@@ -2,21 +2,21 @@
 <div ng-controller="WalletCtrl" ng-init="WalletInit('<?php echo Yii::app()->request->csrfToken; ?>')">
 	<h1>Ваш кошелёк</h1>
 	<h2><?php echo $message; ?></h2>
-	
-<?php 
+
+<?php
 	if(isset($_POST["Order_ID"]))
 		echo '<h1>[Order_ID :'.$_POST["Order_ID"].']</h1>';
 
 	if(isset($_POST["Status"]))
 		echo '<h1>[Status :'.$_POST["Status"].']</h1>';
-		
-	if(isset($_POST["Signature"]))
-		echo '<h1>[Signature :'.$_POST["Signature"].']</h1>';		
-		
 
-?>	
+	if(isset($_POST["Signature"]))
+		echo '<h1>[Signature :'.$_POST["Signature"].']</h1>';
+
+
+?>
 	<h3>Баланс: {{wallet.balance}}</h3>
-	
+
 	<hr/>
 	<input type="text" ng-model="newSumm" placeholder="Сумма"><a class="hide spot-button" ng-click="addByUniteller()">Пополнить</a>
 	<form id="unitell" action="https://test.wpay.uniteller.ru/pay/" method="POST">

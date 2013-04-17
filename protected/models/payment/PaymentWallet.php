@@ -8,7 +8,7 @@
  * @property string $hard_id
  * @property string $payment_id
  * @property integer $user_id
- * @property integer $spot_id
+ * @property integer $discodes_id
  * @property string $creation_date
  * @property string $balance
  */
@@ -49,12 +49,12 @@ class PaymentWallet extends CActiveRecord
     // will receive user inputs.
     return array(
       array('hard_id, payment_id, user_id, creation_date, balance', 'required'),
-      array('user_id, spot_id', 'numerical', 'integerOnly'=>true),
+      array('user_id, discodes_id', 'numerical', 'integerOnly'=>true),
       array('hard_id, payment_id', 'length', 'max'=>20),
       array('balance', 'length', 'max'=>150),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('id, hard_id, payment_id, user_id, spot_id, creation_date, balance', 'safe', 'on'=>'search'),
+      array('id, hard_id, payment_id, user_id, discodes_id, creation_date, balance', 'safe', 'on'=>'search'),
     );
   }
 
@@ -62,9 +62,18 @@ class PaymentWallet extends CActiveRecord
     if ($this->isNewRecord) {
       $this->creation_date=new CDbExpression('NOW()');
       if (!$this->balance) $this->balance=0;
+      if (!$this->discodes_id) $this->balance=0;
     }
+    if (!$this->payment_id) $this->payment_id=$this->hard_id;
 
     return parent::beforeValidate();
+  }
+
+  public function selectUser($user_id){
+    $criteria=new CDbCriteria;
+    $criteria->compare('user_id', $user_id);
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
   }
 
   /**
@@ -76,7 +85,7 @@ class PaymentWallet extends CActiveRecord
     // class name for the relations automatically generated below.
     return array(
         'user'=>array(self::BELONGS_TO, 'PaymentUser', 'user_id'),
-        'spot'=>array(self::BELONGS_TO, 'Spot', 'spot_id'),
+        'spot'=>array(self::BELONGS_TO, 'Spot', 'discodes_id'),
     );
   }
 
@@ -90,7 +99,7 @@ class PaymentWallet extends CActiveRecord
       'hard_id' => 'Hard',
       'payment_id' => 'Payment',
       'user_id' => 'User',
-      'spot_id' => 'Spot',
+      'discodes_id' => 'Spot',
       'creation_date' => 'Creation Date',
       'balance' => 'Balance',
     );
@@ -111,7 +120,7 @@ class PaymentWallet extends CActiveRecord
     $criteria->compare('hard_id',$this->hard_id,true);
     $criteria->compare('payment_id',$this->payment_id,true);
     $criteria->compare('user_id',$this->user_id);
-    $criteria->compare('spot_id',$this->spot_id);
+    $criteria->compare('discodes_id',$this->discodes_id);
     $criteria->compare('creation_date',$this->creation_date,true);
     $criteria->compare('balance',$this->balance,true);
 
