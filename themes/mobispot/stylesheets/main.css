@@ -321,10 +321,6 @@ table.store-items td ul.orbit-bullets{
 	margin-right:5px;
 }
 
-.long li{
-	width: 80px;
-}
-
 .choose.inline li,
 .choose.inline input{
 	margin-top: -6px;
@@ -1131,11 +1127,11 @@ img[height='115']{
 	background: #fff;
 	z-index: 999;
 	text-align: center;
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
-	-moz-opacity: 1;
-	-khtml-opacity: 1;
-	opacity: 1;
-	display: block;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	opacity: 0;
+	display: none;
 }
 .m-cover-preload{
 	position: fixed;
@@ -1176,6 +1172,7 @@ img[height='115']{
 }
 .m-phone-list_item h5{
 	margin: 2px 0 0;
+	font-size: 15px;
 }
 .m-phone-list_item hgroup{
 	height: 53px;
