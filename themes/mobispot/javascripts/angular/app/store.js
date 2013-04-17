@@ -21,6 +21,9 @@ function ProductCtrl($scope, $http) {
 			}).error(function(error){
 					alert(error);
 			});
+
+			angular.element('body').removeClass('overflow-h');
+			angular.element('.m-cover-preload').fadeOut(600);			
 	};
 	
 	var IMAGE_WIDTH = 242;	
@@ -141,6 +144,8 @@ function CartCtrl($scope, $http) {
 		}).error(function(error){
 				alert(error);
 		});
+		angular.element('body').removeClass('overflow-h');
+		angular.element('.m-cover-preload').fadeOut(600);
 	};
 
 	var IMAGE_WIDTH = 242;	
@@ -287,19 +292,19 @@ function CartCtrl($scope, $http) {
 	$scope.saveCustomer = function(){
 		if(!$scope.inRequest){
 			$scope.inRequest = true;
-/*			
+
 			$http.post(('/store/product/SaveCustomer'), {
 				token: $scope.token,
 				customer : $scope.customer
 			}).success(function(data, status) {
 				if (data.error == 'no')
-					alert(data.message);
+					document.getElementById('proceedFinish').click();
 				else
 					alert(data.error);
 			}).error(function(error){
 					alert(error);
 			});		
-*/			
+
 			$scope.inRequest = false;
 		}
 	};

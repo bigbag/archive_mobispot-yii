@@ -3,13 +3,14 @@
 class ProductController extends MController {
 
 	public $layout = '//layouts/store';
-
+	public $imagePath = '/uploads/store/product/';
+	
 	public function actionIndex() {
-		$this->render('index');
+		$this->render('index', array('imagePath'=>$this->imagePath));
 	}
 
 	public function actionCart() {
-		$this->render('cart');
+		$this->render('cart', array('imagePath'=>$this->imagePath));
 	}
 
 	public function actionGetPriceList(){

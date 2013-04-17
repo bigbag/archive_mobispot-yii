@@ -324,6 +324,7 @@ table.store-items td ul.orbit-bullets{
 .long li{
 	width: 80px;
 }
+
 .choose.inline li,
 .choose.inline input{
 	margin-top: -6px;
@@ -1121,4 +1122,70 @@ img[height='115']{
 .has-tip.m-tooltip-link:hover{
 	color: #000;
 	border-bottom: 1px dashed #000;
+}
+.m-preload{
+	height: 100%;
+	width: 100%;
+	top:0;
+	left: 0;
+	background: #fff;
+	z-index: 999;
+	text-align: center;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+	display: block;
+}
+.m-cover-preload{
+	position: fixed;
+}
+.m-content-preload{
+	position: absolute;
+}
+.m-preload img{
+	position: absolute;
+	top: 50%;
+	margin-top: -20px;
+}
+.m-content-block{
+	position: relative;
+}
+.m-phone-list li{
+	overflow: hidden;
+}
+.m-phone-list h3{
+	border-bottom: 2px solid #0062FF;
+	padding-bottom: 3px;
+	margin-top: 40px;
+}
+.m-phone-list_container{
+	margin: 0;
+}
+.m-phone-list_item img{
+	float: left;
+	display: block;
+	margin-right: 15px;
+}
+.m-phone-list_item{
+	display: block;
+	width: 220px;
+	float: left;
+	height: 91px;
+	margin: 20px 0 20px 30px;
+}
+.m-phone-list_item h5{
+	margin: 2px 0 0;
+}
+.m-phone-list_item hgroup{
+	height: 53px;
+}
+.m-phone-list_item hgroup span{
+	font-size: 12px;
+}
+.m-phone-list_item a{
+	display: block;
+	color: #0062FF;
+	text-decoration: underline;
+	line-height: 15px;
 }
