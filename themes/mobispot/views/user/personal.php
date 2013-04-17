@@ -1,6 +1,6 @@
 <div class="row">
   <div class="twelve columns spot-desc">
-  <h3>Welcome back. Ready to make a change?</h3>
+  <h3 class="color">Welcome back. Ready to make a change?</h3>
 
   <p>Your spots are listed below. Click on the spot name you want to edit.
   When it opens, you can change whatever you want.</p>
