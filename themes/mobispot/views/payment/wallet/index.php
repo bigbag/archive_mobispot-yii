@@ -48,7 +48,6 @@
             required>
 
             <a class="spot-button button-disable" href="javascript:;" ng-click="addSumm(payment, $event)">Пополнить</a>
-
           </div>
         </form>
       </div>

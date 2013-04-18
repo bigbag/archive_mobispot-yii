@@ -16,7 +16,7 @@
 
 </div>
 
-<?php include('block/footer.php');?>
+<?php include('block/footer/all.php');?>
 <?php include('block/script/spots.php');?>
 </body>
 </html>
