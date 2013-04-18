@@ -8,12 +8,30 @@
  * @property string $desc
  * @property integer $user_id
  * @property integer $wallet_id
- * @property integer $sum
+ * @property integer $summ
  * @property string $creation_date
  * @property integer $type
+ * @property integer $status
  */
 class PaymentHistory extends CActiveRecord
 {
+
+  const STATUS_NEW=0;
+  const STATUS_COMPLETE=1;
+  const STATUS_FAILURE=-1;
+
+  public function getStatusList() {
+    return array(
+        self::STATUS_NEW=>Yii::t('user', 'Новая'),
+        self::STATUS_COMPLETE=>Yii::t('user', 'Успешная'),
+        self::STATUS_FAILURE=>Yii::t('user', 'Сбойная'),
+    );
+  }
+
+  public function getStatus() {
+    $data=$this->getStatusList();
+    return $data[$this->status];
+  }
   /**
    * Returns the static model of the specified AR class.
    * @param string $className active record class name.
@@ -48,18 +66,21 @@ class PaymentHistory extends CActiveRecord
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('id, desc, user_id, wallet_id, sum, creation_date', 'required'),
-      array('id, user_id, wallet_id, sum, type', 'numerical', 'integerOnly'=>true),
+      array('user_id, wallet_id, summ, creation_date, status', 'required'),
+      array('user_id, wallet_id, summ, type', 'numerical', 'integerOnly'=>true),
       array('desc', 'length', 'max'=>300),
+      array('desc', 'filter', 'filter'=>'trim'),
+      array('desc', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('id, desc, user_id, wallet_id, sum, creation_date, type', 'safe', 'on'=>'search'),
+      array('id, desc, user_id, wallet_id, summ, creation_date, type, status', 'safe', 'on'=>'search'),
     );
   }
 
   public function beforeValidate() {
     if ($this->isNewRecord) {
       $this->creation_date=new CDbExpression('NOW()');
+      if(!$this->status) $this->status=self::STATUS_NEW;
     }
 
     return parent::beforeValidate();
@@ -84,13 +105,14 @@ class PaymentHistory extends CActiveRecord
   public function attributeLabels()
   {
     return array(
-      'id' => 'ID',
-      'desc' => 'Desc',
-      'user_id' => 'User',
-      'wallet_id' => 'Wallet',
-      'sum' => 'Sum',
-      'creation_date' => 'Creation Date',
-      'type' => 'Type',
+      'id'=>'ID',
+      'desc'=>'Desc',
+      'user_id'=>'User',
+      'wallet_id'=>'Wallet',
+      'summ'=>'summ',
+      'creation_date'=>'Creation Date',
+      'type'=>'Type',
+      'status'=>'Status',
     );
   }
 
@@ -109,9 +131,10 @@ class PaymentHistory extends CActiveRecord
     $criteria->compare('desc',$this->desc,true);
     $criteria->compare('user_id',$this->user_id);
     $criteria->compare('wallet_id',$this->wallet_id);
-    $criteria->compare('sum',$this->sum);
+    $criteria->compare('summ',$this->summ);
     $criteria->compare('creation_date',$this->creation_date,true);
     $criteria->compare('type',$this->type);
+    $criteria->compare('status',$this->status);
 
     return new CActiveDataProvider($this, array(
       'criteria'=>$criteria,
