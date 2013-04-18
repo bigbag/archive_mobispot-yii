@@ -8,7 +8,10 @@ class WalletController extends MController
   {
     if(!Yii::app()->user->isGuest){
       $wallets=PaymentWallet::model()->selectUser(Yii::app()->user->id)->findAll();
-      $history=PaymentHistory::model()->complete()->selectUser(Yii::app()->user->id);
+      $history=PaymentHistory::model()
+        ->complete()
+        ->selectUser(Yii::app()->user->id)
+        ->findAll();
 
       $this->render('index', array(
           'wallets'=>$wallets,

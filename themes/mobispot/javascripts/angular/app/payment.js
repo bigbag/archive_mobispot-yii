@@ -2,6 +2,10 @@
 
 function PaymentCtrl($scope, $http, $compile) {
 
+  $('#wallet').on('change', function() {
+    $scope.payment.wallet = this.value ;
+  });
+
   $scope.$watch('payment.summ', function(payment) {
     if ($scope.payment) {
       if ($scope.payment.summ && $scope.payment.summ>199){
@@ -15,7 +19,7 @@ function PaymentCtrl($scope, $http, $compile) {
 
   $scope.addSumm = function(payment, e){
     if (payment.summ && payment.wallet){
-      var paymentForm = angular.element(e.currentTarget).parent();
+      var paymentForm = angular.element(e.currentTarget).parent().parent();
       $http.post('/payment/wallet/addSumm', payment).success(function(data){
         if(data.error == 'no') {
           var order = data.order;
