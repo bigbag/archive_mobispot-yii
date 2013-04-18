@@ -20,12 +20,27 @@ class PaymentHistory extends CActiveRecord
   const STATUS_COMPLETE=1;
   const STATUS_FAILURE=-1;
 
+  const TYPE_MINUS=-1;
+  const TYPE_PLUS=1;
+
   public function getStatusList() {
     return array(
         self::STATUS_NEW=>Yii::t('user', 'Новая'),
         self::STATUS_COMPLETE=>Yii::t('user', 'Успешная'),
         self::STATUS_FAILURE=>Yii::t('user', 'Сбойная'),
     );
+  }
+
+  public function getTypeList() {
+    return array(
+        self::TYPE_MINUS=>Yii::t('user', 'Расход'),
+        self::TYPE_PLUS=>Yii::t('user', 'Приход'),
+    );
+  }
+
+  public function getType() {
+    $data=$this->getTypeList();
+    return $data[$this->type];
   }
 
   public function getStatus() {
@@ -86,6 +101,13 @@ class PaymentHistory extends CActiveRecord
     return parent::beforeValidate();
   }
 
+  public function selectUser($user_id){
+    $criteria=new CDbCriteria;
+    $criteria->compare('user_id', $user_id);
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
+  }
+
   /**
    * @return array relational rules.
    */
@@ -105,14 +127,14 @@ class PaymentHistory extends CActiveRecord
   public function attributeLabels()
   {
     return array(
-      'id'=>'ID',
-      'desc'=>'Desc',
-      'user_id'=>'User',
-      'wallet_id'=>'Wallet',
-      'summ'=>'summ',
-      'creation_date'=>'Creation Date',
-      'type'=>'Type',
-      'status'=>'Status',
+      'id'=>'№',
+      'desc'=>'Операция',
+      'user_id'=>'Пользователь',
+      'wallet_id'=>'Кошелёк',
+      'summ'=>'Сумма',
+      'creation_date'=>'Дата',
+      'type'=>'Тип',
+      'status'=>'Статус',
     );
   }
 
