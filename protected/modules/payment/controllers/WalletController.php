@@ -31,7 +31,7 @@ class WalletController extends MController
 
     $data=$this->getJson();
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['summ'])) {
+      if (isset($data['summ']) and ($data['summ']>199)) {
         $summ=(int)$data['summ'];
 
         $history=new PaymentHistory;

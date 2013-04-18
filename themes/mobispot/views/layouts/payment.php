@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<?php include('block/footer.php');?>
+<?php include('block/footer/payment.php');?>
 <?php include('block/script/payment.php');?>
 </body>
 </html>

@@ -12,7 +12,7 @@
 	<?php echo $content; ?>
 </div>
 
-<?php include('block/footer.php');?>
+<?php include('block/footer/all.php');?>
 <?php include('block/script/all.php');?>
 </body>
 </html>
