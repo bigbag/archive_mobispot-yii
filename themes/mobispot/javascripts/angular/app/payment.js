@@ -18,7 +18,7 @@ function PaymentCtrl($scope, $http, $compile) {
   });
 
   $scope.addSumm = function(payment, e){
-    if (payment.summ && payment.wallet){
+    if (payment.summ && payment.wallet && $scope.payment.summ>199){
       var paymentForm = angular.element(e.currentTarget).parent().parent();
       $http.post('/payment/wallet/addSumm', payment).success(function(data){
         if(data.error == 'no') {
