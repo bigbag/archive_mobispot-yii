@@ -29,18 +29,44 @@ class WalletController extends MController
       if (isset($data['summ'])) {
         $summ=(int)$data['summ'];
 
-        $uni = new Uniteller;
-        $order['idShop'] = $uni->getShopId();
-        $order['idCustomer'] = 1;
-        $order['idOrder'] = time();
-        $order['subtotal'] = $data['summ'];
-        $order['signature'] = $uni->signOrder($order);
-        $order['return_ok'] = $this->createAbsoluteUrl('Wallet/index').'/wallet?oper_result=success';
-        $order['return_error'] = $this->createAbsoluteUrl('Wallet/index').'/wallet?oper_result=error';
-        $error="no";
+        $history=new PaymentHistory;
+        $history->user_id=Yii::app()->user->id;
+        $history->wallet_id=$data['wallet'];
+        $history->summ=$data['summ'];
+
+        if ($history->save()){
+          $payment=new Uniteller;
+          $order['idShop']=$payment->getShopId();
+          $order['idCustomer']=$data['wallet'];
+          $order['idOrder']=$history->id;
+          $order['subtotal']=$data['summ'];
+          $order['signature']=$payment->signOrder($order);
+          $order['return_ok']=$this->createAbsoluteUrl('Wallet/index').'/wallet?oper_result=success';
+          $token=sha1(Yii::app()->request->csrfToken);
+          $order['return_error']=$this->createAbsoluteUrl('/payment/wallet/cancelOrder').'?token='.$token;
+          $error="no";
+        }
       }
     }
       echo json_encode(array('error'=>$error, 'order'=>$order));
     }
+  }
+
+  // Отмена платежа
+  public function actionCancelOrder() {
+    if (!Yii::app()->user->isGuest){
+      $token=Yii::app()->request->getParam('token', 0);
+      $id=Yii::app()->request->getParam('Order_ID', 0);
+
+      if ($id and $token and $token==sha1(Yii::app()->request->csrfToken)){
+        $history=PaymentHistory::model()->findByPk((int)$id);
+
+        if ($history){
+          $history->status=PaymentHistory::STATUS_FAILURE;
+          $history->save();
+        }
+      }
+    }
+    #Yii::app()->request->redirect('/payment/wallet/');
   }
 }

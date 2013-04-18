@@ -100,11 +100,11 @@ class PaymentUser extends CActiveRecord
   public function attributeLabels()
   {
     return array(
-      'id' => 'ID',
-      'email' => 'Email',
-      'status' => 'Status',
-      'mobispot_id' => 'Mobispot',
-      'creation_date' => 'Creation Date',
+      'id'=>'ID',
+      'email'=>'Email',
+      'status'=>'Status',
+      'mobispot_id'=>'Mobispot',
+      'creation_date'=>'Creation Date',
     );
   }
 
