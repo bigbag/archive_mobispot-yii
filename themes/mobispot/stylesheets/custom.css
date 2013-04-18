@@ -1,4 +1,4 @@
-body { 
+body {
 	color: black;
  	color: #000;
 	font-family: Arial;
@@ -43,6 +43,7 @@ input[type="search"],
 input[type="tel"],
 input[type="time"],
 input[type="url"],
+form.custom div.custom.dropdown a.current,
 textarea {
 	background-color: #f1f3f4;
  	border: 0;
@@ -55,12 +56,51 @@ textarea {
 	-webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-     color: #0061FF;
+    color: #0061FF;
 	margin: 0 0 5px 0;
     padding: 6px 6px 6px 20px;
     outline: none;
-
 }
+
+form.custom div.custom.dropdown a.current{
+	color: #000;
+}
+form.custom div.custom.dropdown.open a.current{
+	color: #0061FF;
+}
+form.custom div.custom.dropdown ul{
+	top: 40px;
+	border: 0;
+	background: #f1f3f4;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	overflow: hidden;
+}
+form.custom div.custom.dropdown ul li{
+	padding: 7px 20px;
+}
+form.custom div.custom.dropdown a.selector{
+	height: 38px;
+	border: 0;
+	width: 40px;
+}
+form.custom div.custom.dropdown ul li.selected{
+	display: none;
+}
+form.custom div.custom.dropdown ul li:hover{
+	background: #0061ff;
+	color: #fff;
+}
+form.custom div.custom.dropdown ul li:hover:after{
+	content: '';
+}
+.bg-gray form.custom div.custom.dropdown a.current,
+.bg-gray form.custom div.custom.dropdown ul{
+	background: #fff;
+}
+
 .row {
     max-width: 1100px;
 }
@@ -127,7 +167,7 @@ table tbody tr td {
     vertical-align: top;
     border: none;
 }
-@media only screen and (max-width: 1100px) { 
+@media only screen and (max-width: 1100px) {
 	.top-bar {
 	    margin-bottom: 0;
 	    overflow: hidden;
@@ -521,3 +561,39 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	border-left: 10px solid transparent;
 
 }
+input.error{
+	background: #f9d3d2 !important;
+	color: #ed578d;
+}
+input + i{
+	content: '';
+	display: block;
+	height: 16px;
+	width: 16px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	position: relative;
+	float: right;
+	top: -29px;
+	right: -23px;
+	margin-bottom: -16px;
+}
+.into input + i{
+	right: 12px;
+}
+input.error + i,
+input.negative + i{
+	background: #c20049;
+}
+input.positive + i{
+	background: #68beb3;
+}
+input.short + i{
+	background: #e1e10d;
+}
+
+input.error::-webkit-input-placeholder {color: #ed578d !important;}
+input.error::-moz-placeholder {color: #ed578d !important;}
+input.error:-ms-input-placeholder { color: #ed578d !important; }
+input.error:-moz-placeholder { color: #ed578d !important; }
