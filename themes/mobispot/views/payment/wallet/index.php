@@ -40,7 +40,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="eight columns">
+  <div class="twelve columns">
     <h3 class="color">История операций:</h3>
     <?php
       $this->widget('zii.widgets.grid.CGridView', array(

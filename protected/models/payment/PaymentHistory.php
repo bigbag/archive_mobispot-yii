@@ -121,6 +121,18 @@ class PaymentHistory extends CActiveRecord
     );
   }
 
+  public function scopes() {
+    return array(
+      'complete'=>array(
+          'condition'=>'status='.self::STATUS_COMPLETE,
+      ),
+      'failure'=>array(
+          'condition'=>'status='.self::STATUS_FAILURE,
+      ),
+    );
+  }
+
+
   /**
    * @return array customized attribute labels (name=>label)
    */
