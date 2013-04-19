@@ -8,7 +8,7 @@
 <?php include('block/head.php');?>
 <body ng-init="payment.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div class="content-wrapper content-payment" ng-controller="PaymentCtrl">
-  <?php include('block/header/all.php');?>
+  <?php include('block/header/payment.php');?>
   <?php echo $content; ?>
 </div>
 
