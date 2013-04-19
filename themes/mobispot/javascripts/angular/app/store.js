@@ -276,9 +276,13 @@ function CartCtrl($scope, $http) {
 					$scope.products.splice(jsID, 1);
 					$scope.summ = 0;
 					for (var i = 0; i < $scope.products.length; i++){
-						$scope.products[i].jsID = i;
+						$scope.products[i].jsID = i;					
 						$scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
 					}
+					
+					if(!($scope.products.length > 0)){
+						window.location = "/store";
+					}					
 				}else
 					alert(data.error);
 			}).error(function(error){
