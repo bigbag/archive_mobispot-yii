@@ -476,7 +476,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 }
 .orbit-wrapper .slider-nav span.left:hover,
 .orbit-wrapper .slider-nav span.right:hover{
-	background-color: #0063ff;
+	background-color: #f00;
 }
 
 .orbit-wrapper .slider-nav span.left{

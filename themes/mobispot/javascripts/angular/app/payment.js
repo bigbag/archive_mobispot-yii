@@ -35,4 +35,30 @@ function PaymentCtrl($scope, $http, $compile) {
       });
     }
   }
+
+  $scope.setAction = function(action, e){
+    $scope.action = action;
+    var curent = angular.element(e.currentTarget).next();
+    var all = angular.element('.corp-register-form');
+    if (curent.hasClass('hide')) {
+      all.slideUp('slow', function () {
+        $(this).addClass('hide');
+      });
+      curent.slideToggle('slow', function () {
+        $(this).removeClass('hide');
+      });
+      }
+  }
+
+  $scope.corpRegister = function(){
+    if ($scope.action){
+      if ($scope.action == 'connection') var params = $scope.connection;
+      else if ($scope.action == 'rent') var params = $scope.rent;
+      else if ($scope.action == 'self') var params = $scope.self;
+
+      console.log($scope.self);
+    }
+
+  }
+
 }

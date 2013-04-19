@@ -34,3 +34,18 @@ span.payment-rules{
 
   cursor: pointer;
 }
+
+.go-button{
+  height: 180px;
+  width: 180px;
+  line-height: 180px;
+  font-size: 23px;
+}
+
+.biggest-heading img{
+  top:0px;
+}
+
+.corp-register-form{
+  margin: 20px 0;
+}
