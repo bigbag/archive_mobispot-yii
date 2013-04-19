@@ -7,13 +7,9 @@
 
 <?php include('block/head.php');?>
 <body ng-init="payment.token='<?php echo Yii::app()->request->csrfToken?>'">
-<div class="content-wrapper content-payment">
+<div class="content-wrapper content-payment" ng-controller="PaymentCtrl">
   <?php include('block/header/all.php');?>
-  <div class="row" ng-controller="PaymentCtrl">
-      <div class="twelve columns singlebox-margin">
-        <?php echo $content; ?>
-    </div>
-  </div>
+  <?php echo $content; ?>
 </div>
 
 <?php include('block/footer/payment.php');?>
