@@ -24,6 +24,18 @@
   border: 3px solid #2B46FF;
 }
 
+#wallets{
+  padding: 20px
+}
+
+span.payment-rules{
+    color: #0062FF;
+  border-bottom: 1px dashed #0062FF;
+
+  cursor: pointer;
+}
+
+
 .long li{
 	width: 80px;
 }

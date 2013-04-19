@@ -95,13 +95,13 @@ class PaymentWallet extends CActiveRecord
   public function attributeLabels()
   {
     return array(
-      'id' => 'ID',
-      'hard_id' => 'Hard',
-      'payment_id' => 'Payment',
-      'user_id' => 'User',
-      'discodes_id' => 'Spot',
-      'creation_date' => 'Creation Date',
-      'balance' => 'Balance',
+      'id'=>'ID',
+      'hard_id'=>'Hard',
+      'payment_id'=>'Payment',
+      'user_id'=>'User',
+      'discodes_id'=>'Spot',
+      'creation_date'=>'Creation Date',
+      'balance'=>'Balance',
     );
   }
 

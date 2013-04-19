@@ -103,7 +103,7 @@
           <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
             <?php echo Yii::t('spot', 'No')?>
           </a>
-        <div>
+        </div>
       </footer>
     </div>
   </div>
