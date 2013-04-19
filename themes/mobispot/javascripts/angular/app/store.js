@@ -257,7 +257,6 @@ function CartCtrl($scope, $http) {
 				alert(error);
 			});
 			$scope.checkingOut = true;
-			window.location = "/store/product/cart#proceedNextForm";
 		}
 
 	};
@@ -313,14 +312,16 @@ function CartCtrl($scope, $http) {
 		$http.post(('/store/product/Buy'), {
 			token: $scope.token,
 			customer : $scope.customer,
-			products : $scope.products
+			products : $scope.products,
+			delivery : $scope.selectedDelivery,
+			payment	 : $scope.selectedPayment
 		}).success(function(data, status) {
 			if (data.error == 'no')
-				alert(data.error);
+				alert('Message sent!');
 			else
-				alert(data.error);
+				alert('Action error:' + data.error);
 		}).error(function(error){
-				alert(error);
+				alert('Connection error: '+ error);
 		});		
 	};
 	

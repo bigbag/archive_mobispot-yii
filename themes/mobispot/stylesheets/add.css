@@ -23,3 +23,29 @@
 #dropbox.hover {
   border: 3px solid #2B46FF;
 }
+
+.long li{
+	width: 80px;
+}
+
+
+.m-preload-store  {
+	height: 100%;
+	width: 100%;
+	top:0;
+	left: 0;
+	background: #fff;
+	z-index: 999;
+	text-align: center;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+	display: block;
+}
+
+.m-preload-store img{
+	position: absolute;
+	top: 50%;
+	margin-top: -20px;
+}

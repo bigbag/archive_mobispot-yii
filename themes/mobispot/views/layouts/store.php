@@ -17,7 +17,7 @@
 </div>
 
 <?php include('block/footer.php');?>
-<div class="m-preload m-cover-preload">
+<div class="m-preload-store m-cover-preload">
 	<img src="/themes/mobispot/images/mobispot-loading%2040.gif">
 </div>
 <?php include('block/script/store.php');?>
