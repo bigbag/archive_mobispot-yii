@@ -16,7 +16,7 @@
 <script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/mobispot/stylesheets/a-slider.css');?>
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/mobispot/stylesheets/main.css');?>
-
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/mobispot/stylesheets/add.css');?>
 <script type="text/javascript">
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-33307941-1']);

@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `store_order`(
 	id serial not null,
 	id_customer bigint unsigned not null,
 	delivery varchar(1024) null,
+	delivery_id varchar(256) null,
 	payment varchar(1024) null,
 	status integer not null,
 	foreign key (id_customer) references customer (id)
