@@ -131,9 +131,13 @@ class ProductController extends MController {
 		if (Yii::app()->request->isPostRequest) {
 			$answer = array();
 			$data = $this->getJson();
-			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products'])) {
+			if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products']) && isset($data['delivery']) && isset($data['payment'])) {
 				$cart = new Cart;
-				$answer['error'] = $cart->buy($data['customer'], $data['products']);
+				$mailOrder = $cart->buy($data['customer'], $data['products'], $data['delivery'], $data['payment']);
+				$answer['error'] = $mailOrder['error'];
+				if($mailOrder['error'] == 'no'){
+					MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+				}
 			}
 			echo CJSON::encode($answer);
 		}

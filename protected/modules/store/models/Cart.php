@@ -262,18 +262,18 @@ class Cart extends CFormModel
 			if(
 				(	isset($product['id']) 
 					&& ($product['id'] == $etalon->id_product))
-				&&(	(empty($product['selectedColor']) && $etalon->selectedColor == null)
+				&&(	(empty($product['selectedColor']) && $etalon->color == null)
 					||
 					(	!empty($product['selectedColor']) 
-						&& !empty($etalon->selectedColor)
-						&& ($product['selectedColor'] == $etalon->selectedColor)))
+						&& !empty($etalon->color)
+						&& ($product['selectedColor'] == $etalon->color)))
 				&&(	($product['selectedSize']['value'] == $etalon->size_name)
-					&& ($product['selectedSize']['price	'] == $etalon->price))
-				&&(	(empty($product['selectedSurface']) && ($etalon->selectedSurface == null))
+					&& ($product['selectedSize']['price'] == $etalon->price))
+				&&(	(empty($product['selectedSurface']) && ($etalon->surface == null))
 					||
 					(	!empty($product['selectedSurface'])
-						&& !empty($etalon->selectedSurface)
-						&& ($product['selectedSurface'] == $etalon->selectedSurface)))
+						&& !empty($etalon->surface)
+						&& ($product['selectedSurface'] == $etalon->surface)))
 			){
 				$answer = true;
 			}		
@@ -467,8 +467,9 @@ class Cart extends CFormModel
 		return $error;
 	}
 
-	public function buy($dcustomer, $products){
-		$error = '';
+	public function buy($dcustomer, $products, $selectedDelivery, $selectedPayment){
+		$mailOrder = array();
+		$error = Yii::t('store', 'Fill all required fields!');
 		if(isset(Yii::app()->session['storeEmail'])){
 			$customer = Customer::model()->findByAttributes(array(
 				'email'=>Yii::app()->session['storeEmail']
@@ -503,18 +504,113 @@ class Cart extends CFormModel
 			$customer->phone = $newCustomer['phone'];
 		if(!empty($newCustomer['country']))
 			$customer->country = $newCustomer['country'];
-			
+				
 		if ($customer->validate()){
-			$customer->save();
 
+			$customer->save();
+			
+			$order = StoreOrder::model()->findByAttributes(array(
+				'id_customer'=>$customer->id,
+				'status'=>0
+			));
+		
+			if(!isset($order) || !$order){
+				$order = new StoreOrder;
+				$order->id_customer = $customer->id;
+				$order->status = 0;
+				$order->save();
+			}
+
+            $model = OrderList::model();
+            $transaction = $model->dbConnection->beginTransaction();			
+			try
+			{
+				OrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
+				$items = array();
+				
+				$subtotal = 0;
+				foreach($this->storeCart as $product){
+					$list = new OrderList;
+					$item = array();
+					$list->id_order = $order->id;
+					$list->id_product = $product['id'];
+					$item['id_product'] = $product['id'];
+					$list->quantity = $product['quantity'];
+					$item['quantity'] = $product['quantity'];
+					if(isset($product['selectedColor'])){
+						$list->color = $product['selectedColor'];
+						$item['color'] = $product['selectedColor'];
+					}else
+						$item['color'] = '';
+					if(isset($product['selectedSurface'])){
+						$list->surface = $product['selectedSurface'];
+						$item['surface'] = $product['selectedSurface'];
+					}else
+						$item['surface'] = '';
+					$list->size_name = $product['selectedSize']['value'];
+					$item['size_name'] = str_replace('single', '-', $product['selectedSize']['value']);
+					$list->price = $product['selectedSize']['price'];
+					$item['price'] = $product['selectedSize']['price'];
+					$list->save();
+					
+					$items[] = $item;
+					$subtotal += $list->price;				
+				}
+	
+				$transaction->commit();	
+				
+				$iSize = count($items);
+				for ($i = 0; $i < $iSize; $i++) {				
+					$dbProduct = Product::model()->findByPk($items[$i]['id_product']);
+					if($dbProduct){
+						$items[$i]['name'] = $dbProduct->name;
+						$items[$i]['code'] = $dbProduct->code;					
+					}
+				}
+				
+				$tax = 0;
+				
+				$mailOrder['id'] = $order->id;
+				$mailOrder['email'] = $customer->email;
+				$mailOrder['target_first_name'] = $customer->target_first_name;
+				$mailOrder['target_last_name'] = $customer->target_last_name;
+				$mailOrder['address'] = $customer->address;
+				$mailOrder['city'] = $customer->city;
+				$mailOrder['zip'] = $customer->zip;
+				
+				
+				$mailOrder['delivery_id'] = $order->delivery_id;
+				$deliv = Delivery::model()->findByAttributes(array(
+					'name'=>$selectedDelivery
+				));
+				$mailOrder['subtotal'] = $subtotal;	
+				$mailOrder['tax'] = $tax;
+				$mailOrder['items'] = $items;
+				
+				if($deliv){
+					$mailOrder['delivery'] = $deliv->name;
+					$mailOrder['shipping'] = $deliv->price;
+					$mailOrder['total'] = $subtotal + $deliv->price;
+
+					$error = 'no';
+				}else
+					$error = Yii::t('store', 'Incorrect delivery!');
+			}
+			catch(Exception $e)
+			{
+				$transaction->rollback();
+				$error = $e;
+				//$error = print_r($e, true);
+			}
+			
 		} else{
 			$modelErrors = getErrors();
 			foreach($modelErrors as $mError){
 				$error .= $mError.' /n';
 			}
 		}
-			
-		return $error;
+		$mailOrder['error'] = $error;
+		return $mailOrder;
 	}
 	
 

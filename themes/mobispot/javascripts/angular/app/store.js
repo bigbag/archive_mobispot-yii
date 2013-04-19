@@ -257,7 +257,6 @@ function CartCtrl($scope, $http) {
 				alert(error);
 			});
 			$scope.checkingOut = true;
-			window.location = "/store/product/cart#proceedNextForm";
 		}
 
 	};
@@ -277,9 +276,13 @@ function CartCtrl($scope, $http) {
 					$scope.products.splice(jsID, 1);
 					$scope.summ = 0;
 					for (var i = 0; i < $scope.products.length; i++){
-						$scope.products[i].jsID = i;
+						$scope.products[i].jsID = i;					
 						$scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
 					}
+					
+					if(!($scope.products.length > 0)){
+						window.location = "/store";
+					}					
 				}else
 					alert(data.error);
 			}).error(function(error){
@@ -313,14 +316,16 @@ function CartCtrl($scope, $http) {
 		$http.post(('/store/product/Buy'), {
 			token: $scope.token,
 			customer : $scope.customer,
-			products : $scope.products
+			products : $scope.products,
+			delivery : $scope.selectedDelivery,
+			payment	 : $scope.selectedPayment
 		}).success(function(data, status) {
 			if (data.error == 'no')
-				alert(data.error);
+				alert('Message sent!');
 			else
-				alert(data.error);
+				alert('Action error:' + data.error);
 		}).error(function(error){
-				alert(error);
+				alert('Connection error: '+ error);
 		});		
 	};
 	

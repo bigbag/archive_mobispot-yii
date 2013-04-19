@@ -14,6 +14,7 @@
 <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/payment.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
+
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/mobispot/stylesheets/a-slider.css');?>
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl.'/themes/mobispot/stylesheets/main.css');?>
 

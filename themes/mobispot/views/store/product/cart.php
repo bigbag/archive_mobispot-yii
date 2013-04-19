@@ -66,7 +66,6 @@
 	</div>
 </div>
 
-<!--	<div  ng-class="chekingOutClass()">	-->
 <div id="proceedNextForm" class="row hide-content-box">
 		<div class="row">
 			<form name="formCustomer" class="customer-info clearfix">
@@ -130,5 +129,4 @@
 		</div>
 	</div>
 </div>
-<!--</div>-->
 
