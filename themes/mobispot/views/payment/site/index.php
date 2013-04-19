@@ -72,7 +72,7 @@
     </div>
     <div class="row">
       <div class="twelve columns text-center">
-        <a class="round-button-large" href="/register/start">Да, хочу</a>
+        <a class="round-button-large" href="/register">Да, хочу</a>
       </div>
     </div>
   </div>
