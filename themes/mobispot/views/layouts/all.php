@@ -8,12 +8,12 @@
 <?php include('block/head.php');?>
 <body ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
 <div class="content-wrapper">
-	<?php include('block/header/all.php');?>
-	<div class="row">
-			<div class="twelve columns singlebox-margin">
-				<?php echo $content; ?>
-		</div>
-	</div>
+  <?php include('block/header/all.php');?>
+  <div class="row">
+      <div class="twelve columns singlebox-margin">
+        <?php echo $content; ?>
+    </div>
+  </div>
 </div>
 
 <?php include('block/footer/all.php');?>

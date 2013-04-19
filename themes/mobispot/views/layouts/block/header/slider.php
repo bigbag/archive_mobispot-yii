@@ -15,9 +15,9 @@
         <div class="four columns">
           <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
         </div>
-          <div class="eight columns">
-            <?php include('block/menu.php');?>
-          </div>
+        <div class="eight columns">
+          <?php include('block/menu.php');?>
+        </div>
       </div>
       <div class="bubbles-slider">
         <div id="slider">

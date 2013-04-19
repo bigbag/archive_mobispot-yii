@@ -4,6 +4,8 @@ return array(
   'urlFormat'=>'path',
   'rules'=>array(
     'admin'=>'admin',
+    'http://corp.mobispot.test/' => '/payment/site/',
+    'http://corp.mobispot.test/wallet/' => '/payment/wallet/',
     '<id:phones>'=>'pages/index',
     '<id:personal>'=>'pages/sections',
     '<id:business>'=>'pages/sections',
