@@ -26,22 +26,69 @@ class SpotController extends MController
             if (!isset(Yii::app()->session['spot_view_error']) and $spot) {
 				$spotContent=SpotContent::getSpotContent($spot);
 				$content = $spotContent['content'];
-				$dataKeys = array_keys($content['keys']);
-				$fileKeys = array_keys($content['keys'], 'file');
-				$addon = '';
-				//одна ссылка
-				$urlVal = new CUrlValidator;
- 
-				if((count($content['data']) == 1) && ($urlVal->validateValue($content['data'][$dataKeys[0]]))){
-					$this->redirect($content['data'][$dataKeys[0]]);
-				}
-				//только файлы
-				elseif(count($fileKeys) == count($dataKeys)){
-					$this->render('/widget/spot/send',	array('content'=>$content));
-				}
-				//стандартное отображение
-				else{
-					$this->render('/widget/spot/personal', array('content'=>$content));
+				if($content['private'] == 0){
+					$dataKeys = array_keys($content['keys']);
+					$fileKeys = array_keys($content['keys'], 'file');
+					//одна ссылка
+					$urlVal = new CUrlValidator;
+	 
+					if((count($content['data']) == 1) && ($urlVal->validateValue($content['data'][$dataKeys[0]]))){
+						$this->redirect($content['data'][$dataKeys[0]]);
+					}
+					//только файлы
+					elseif(count($fileKeys) == count($dataKeys)){
+						$this->render('/widget/spot/send',	array('content'=>$content));
+					}
+					//стандартное отображение
+					else{
+						$size = count($content['keys']);
+						for ($i = 0; $i < $size; $i++) {
+							if($urlVal->validateValue($content['data'][$dataKeys[$i]])){
+								$link = $content['data'][$dataKeys[$i]];
+								//twitter
+								if((strpos($link, 'twitter.com/') > 0) ||(strpos($link, 'twitter.com/') !== false)){
+									$content['keys'][$dataKeys[$i]] = 'soclink';
+									$socData = array();
+									$socData['link'] = $link;
+									
+									$socUsername = substr($link, (strpos($link, 'twitter.com/')+12));
+									if(strpos($socUsername, '?') > 0){
+										$socUsername = substr($socUsername, 0, strpos($socUsername, '?'));
+									}
+									if(strpos($socUsername, '/') > 0){
+										$socUsername = substr($socUsername, 0, strpos($socUsername, '/'));
+									}
+									if(strpos($socUsername, '&') > 0){
+										$socUsername = substr($socUsername, 0, strpos($socUsername, '&'));
+									}
+									
+									if (@fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r')){
+										$t_json = fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r');
+										$curl_result = fgets($t_json);
+										fclose($t_json);
+
+										$socUser = json_decode($curl_result, true, 512);
+										if(isset($socUser['profile_image_url']))
+											$socData['avatar'] = $socUser['profile_image_url'];
+											$socData['lastPost'] = $socUser['status']['text'];
+									}
+									$content['data'][$dataKeys[$i]] = $socData;
+								}
+							}
+						}
+					
+						$this->render('/widget/spot/personal', array('content'=>$content));
+					}
+				}else{
+					$baseUrl = $this->createAbsoluteUrl("");
+					if((strpos($baseUrl, "http://") > 0) ||(strpos($baseUrl, "http://") !== false)){
+						$baseUrl = substr($baseUrl, (strpos($baseUrl, "http://")+7) );
+					}
+					if(strpos($baseUrl, "/") > 0){
+						$baseUrl = substr($baseUrl, 0, strpos($baseUrl, "/"));
+					}
+					$baseUrl = "http://".$baseUrl;
+					$this->redirect($baseUrl);
 				}
             } else {
                 $session = Yii::app()->session;
