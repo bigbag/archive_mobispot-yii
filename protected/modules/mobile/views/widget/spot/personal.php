@@ -18,9 +18,21 @@
 	<?php elseif($type == 'soclink'): ?>
 		<div class="spot-item">
 			<div class="item-area type-mess">
-				<div class="user-avatar round"><img src="<?php echo $content['data'][$key]['avatar']; ?>" height="90"></div><p><?php echo $content['data'][$key]['lastPost']; ?></p>
-				<a href="<?php echo $content['data'][$key]['link']; ?>" class="spot-button soc-link" ><span>Follow me on</span> <i class="i-soc-twi round"></i></a>
+				<?php if(isset($content['data'][$key]['photo'])): ?>
+					<div class="user-avatar round"><img src="<?php echo $content['data'][$key]['photo']; ?>" height="90">
+					</div>
+				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['last_status'])): ?>
+					<p><?php echo $content['data'][$key]['last_status']; ?></p>
+				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
+					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['soc_url'])): ?>
+					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
+					<?php echo $content['data'][$key]['invite']; ?></a>
+				<?php endif; ?>				
 			</div>
-		</div>	
+		</div>
 	<?php endif; ?>
 <?php } ?>
