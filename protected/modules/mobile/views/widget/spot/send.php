@@ -1,17 +1,24 @@
-<div id="main-container">
-  <div class="grayAllBlock rad6 shadow">
-    <div class="grayHead radTop6"><b><?php echo Yii::t('mobile', 'Отправка на E-mail'); ?></b></div>
-    <div class="infoViz proc100 clr txtFLeft">
-      <p><b><?php echo Yii::t('mobile', 'Введите адрес электронной почты и Вам отправят файлы'); ?></b></p>
-    </div>
-    <?php echo CHtml::beginForm(); ?>
-    <?php echo CHtml::errorSummary($form); ?>
-    <?php echo CHtml::activeTextField($form, 'email', array('class'=>'txt-100p rad6')); ?>
-    <div class="txtFLeft">
-      <?php echo CHtml::activeCheckBox($form, 'terms', array('class'=>'niceCheck')); ?><?php echo Yii::t('mobile', 'Я согласен с правилами пользования сервиса'); ?>
-    </div>
-    <input type="submit" class="btn-round fright rad12 shadow" value="<?php echo Yii::t('mobile', 'Отправить'); ?>"/>
-
-    <?php echo CHtml::endForm(); ?>
-  </div>
-</div>
+			<div class="spot-item">
+				<div class="item-area type-mess">
+					<div class="item-type__text">
+						The following files will be sent to you:
+						<ul class="file-list">
+							<?php foreach ($content['data'] as $key=>$value):?>
+							<li><img height="40" src="/themes/mobile/images/i-files.2x.png"><?php echo $value; ?></li>	
+							<?php endforeach;?>	
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="spot-item">
+				<input type="email" placeholder="Email">
+				<label class="checkbox agree">
+					<input id="se" type="checkbox">
+					<i></i>
+					I agree to Terms&Conditions
+				</label>
+			</div>
+			<ul class="item-footer">
+				<li><a class="spot-button active" href="#"><span>Send</span></a></li>
+				<li><a class="spot-button" href="#"><span>Cansel</span></a></li>
+			</ul>
