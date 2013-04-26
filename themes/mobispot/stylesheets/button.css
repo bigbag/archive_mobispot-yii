@@ -25,9 +25,17 @@
 }
 
 .spot-button{
-	-webkot-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	-webkit-transition: background-color 600ms ease-out;
+	-moz-transition: background-color 600ms ease-out;
+	-o-transition: background-color 600ms ease-out;
+	transition: background-color 600ms ease-out;
 	font-size: 18px;
 	font-weight: 100;
 	height: 35px;
@@ -36,8 +44,16 @@
 	margin-bottom: 14px;
 }
 .row__head-slider .spot-button{
-	background-color: #e9fbfd;
+	background-color: #F7F8F8;
 	background-color: rgba(241, 243, 244, 0.6);
+}
+.row__head-slider .spot-button.opacity{
+	background-color: #F7F8F8;
+}
+.row__head-slider .spot-button.opacity:hover,
+.row__head-slider .spot-button.opacity.active,
+.row__head-slider .spot-button.opacity.open{
+	background-color: #0061FF;
 }
 .button:hover,
 .button.active,
@@ -202,10 +218,12 @@
 	border-radius: 5px;
 	margin:-12px 0 14px;
 }
-.dropdown .active + .options{
+.dropdown:hover .spot-button{
+	background-color: #0061FF;
+	color: #FFFFFF;
+}
+.dropdown:hover .options{
 	display: block;
-	position: absolute;
-	width: 100%;
 }
 .dropdown .options li{
 	display: block;
@@ -237,6 +255,7 @@
 	font-family: Arial, sans-serif;
 	font-size: 14px;
 	height: 26px;
+	line-height: 26px;
 	padding: 0 15px;
 }
 .dropdown__light:hover .spot-button{
@@ -350,11 +369,14 @@ footer .button:hover + .active,
 	-khtml-opacity: 1;
 	opacity: 1;
 }
+
+.button-disable:focus,
 .button-disable:hover,
 .button-disable {
 	color: #BBB;
 	background: rgba(255,255,255,.8) !important;
 	cursor: default;
+	outline: none;
 }
 .spot-list .spot-button.wallet-button {
 	min-width: 0;
@@ -484,4 +506,7 @@ footer .button:hover + .active,
 	left: 50%;
 	margin-top: -10px;
 	margin-left: -10px;
+}
+.form-line .spot-button{
+	margin-bottom: 0;
 }

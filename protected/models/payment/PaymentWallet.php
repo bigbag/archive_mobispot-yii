@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $hard_id
  * @property string $payment_id
+ * @property string $name
  * @property integer $user_id
  * @property integer $discodes_id
  * @property string $creation_date
@@ -48,13 +49,15 @@ class PaymentWallet extends CActiveRecord
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-      array('hard_id, payment_id, user_id, creation_date, balance', 'required'),
+      array('hard_id, name, payment_id, user_id, creation_date, balance', 'required'),
       array('user_id, discodes_id', 'numerical', 'integerOnly'=>true),
       array('hard_id, payment_id', 'length', 'max'=>20),
+      array('name', 'filter', 'filter'=>'trim'),
+      array('name', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
       array('balance', 'length', 'max'=>150),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('id, hard_id, payment_id, user_id, discodes_id, creation_date, balance', 'safe', 'on'=>'search'),
+      array('id, hard_id, payment_id, name, user_id, discodes_id, creation_date, balance', 'safe', 'on'=>'search'),
     );
   }
 
@@ -63,6 +66,7 @@ class PaymentWallet extends CActiveRecord
       $this->creation_date=new CDbExpression('NOW()');
       if (!$this->balance) $this->balance=0;
       if (!$this->discodes_id) $this->balance=0;
+      if (!$this->name) $this->name='No name';
     }
     if (!$this->payment_id) $this->payment_id=$this->hard_id;
 
@@ -102,6 +106,7 @@ class PaymentWallet extends CActiveRecord
       'discodes_id'=>'Spot',
       'creation_date'=>'Creation Date',
       'balance'=>'Balance',
+      'name'=>'Name',
     );
   }
 
@@ -122,6 +127,7 @@ class PaymentWallet extends CActiveRecord
     $criteria->compare('user_id',$this->user_id);
     $criteria->compare('discodes_id',$this->discodes_id);
     $criteria->compare('creation_date',$this->creation_date,true);
+    $criteria->compare('name',$this->name,true);
     $criteria->compare('balance',$this->balance,true);
 
     return new CActiveDataProvider($this, array(
