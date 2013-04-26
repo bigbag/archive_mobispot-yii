@@ -347,10 +347,10 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	-webkit-transition: all ease-in-out .1s;
-	-moz-transition: all ease-in-out .1s;
-	-o-transition: all ease-in-out .1s;
-	transition: all ease-in-out .1s;
+	-webkit-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
+	-moz-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
+	-o-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
+	transition: all cubic-bezier(.36,.1,.43,1.01) .1s;
 }
 
 .choose-color li:hover i,
@@ -468,8 +468,8 @@ p + .details{
 	margin: 100px 0 50px;
 }
 .spot-list > li{
-	background: #EBEBEC;
-	padding: 6px 40px;
+	background: #f1f3f4;
+	padding: 0 40px;
 	margin-top: 2px;
 	-webkit-transition: all linear .2s;
 	-moz-transition: all linear .2s;
@@ -564,13 +564,13 @@ a.active .m-tooltip{
 	top:0;
 	left: 0;
 	background: #ebebec;
-	background: rgba(235,235,236,.95);
+	background: rgba(235,235,236,.92);
 	z-index: 99;
 	opacity: 0;
 }
 .settings-list{
 	padding: 6px 0;
-	margin-top: 80px;
+	margin-top: 70px;
 }
 .settings-list > li{
 	font-size: 22px;
@@ -751,7 +751,29 @@ a.active .m-tooltip{
 	font-family: Mobispot, Arial, sans-serif;
 	text-align: center;
 	background: #0061ff url('../images/progress-bg.png') repeat-x 0 0;
+	-webkit-animation: flow 2s linear infinite;
+	-moz-animation: flow 2s linear infinite;
+	animation:  flow 2s linear infinite;
+	-webkit-transition: width linear .2s;
+	-moz-transition: width linear .2s;
+	-o-transition: width linear .2s;
+	transition: width linear .2s;
+
 }
+
+	@-webkit-keyframes flow {
+		from  { background-position: 58px 0; }
+		to  { background-position: 0 0; }
+	}
+	@moz-keyframes flow {
+		from  { background-position: 58px 0; }
+		to  { background-position: 0 0; }
+	}
+	@keyframes  flow{
+		from  { background-position: 58px 0; }
+		to  { background-position: 0 0; }
+	}
+
 .type-link .move-spot{
 	height: 17px;
 	line-height: 14px;
@@ -999,32 +1021,52 @@ img[height='115']{
 .spot-hat{
 	clear: both;
 	overflow: hidden;
-	padding: 0 40px;
-	margin: 0 -40px;
+	padding: 4px 40px 4px;
+	margin: 0 -40px 0;
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+}
+.spot-hat:hover{
+	background: #ebebec;
 }
 .error-message{
 	background: url("../images/icons/i-error.2x.png") no-repeat;
 	width: 590px;
 	background-size: 100%;
 	height: 434px;
-	margin: 0 auto;
+	margin: -30px 0 0;
+	float: right;
 }
 .error-text-block{
 	height: 294px;
-	width: 294px;
 	display: table-cell;
 	vertical-align: middle;
 	color: #fff;
+	white-space: nowrap;
 }
 .error-text-block h1{
 	color: #fff;
 	font-size: 70px;
 	margin: 7px;
 	line-height: 68px;
+	text-align: center;
+	width: 294px;
+	float: left;
 }
 .error-text-block p{
 	font-size: 18px;
-
+}
+.error-code{
+	color: #A7A7A7;
+	font-size: 88px;
+	display: block;
+	float: left;
+	width: 190px;
+	text-align: center;
+	font-weight: 700;
+	line-height: 82px;
 }
 .p-error-txt{
 	padding-bottom: 3em;
@@ -1037,6 +1079,7 @@ img[height='115']{
 .p-error-txt a{
 	color: #0061FF;
 	text-decoration: underline;
+	font-size: 14px;
 }
 .error-box{
 	overflow: hidden;
@@ -1047,6 +1090,9 @@ img[height='115']{
 }
 .popup .row{
 	display: none;
+}
+.popup footer{
+	padding: 0 0 60px;
 }
 #popup-j-wallet .content-wallet{
 	display: block;
@@ -1186,4 +1232,93 @@ img[height='115']{
 	text-decoration: underline;
 	line-height: 15px;
 	font-size: 12px;
+}
+.p-error-txt h2{
+	margin-top: 0;
+}
+.p-error-txt footer{
+	 display: block;
+	 width: 100%;
+	 white-space: nowrap;
+	letter-spacing: 43px;
+ }
+.p-error-txt a{
+	display: inline-block;
+	text-decoration: none;
+	margin: 0 0 10px 0;
+	letter-spacing: normal;
+}
+.p-error-txt p{
+	margin: 42px 0 50px;
+}
+.p-error-txt a:first-child{
+	margin-left: 0;
+}
+.content-payment{
+	font-size: 14px;
+}
+.content-payment + footer{
+	font-size: 14px;
+}
+.spot-list .row{
+	margin:55px 0 20px;
+}
+.spot-list .row:first-child{
+	margin-top: 0;
+}
+.spot-list .columns{
+	margin: 0;
+	padding: 0;
+}
+.b-account{
+	margin-left: 5px;
+}
+.spot-list .label{
+	margin-bottom: 6px;
+}
+.sub-txt{
+	font-size: 12px;
+	color: #4F4F4F;
+}
+.sub-txt-last{
+	margin: 5px 0 17px;
+}
+.m-card-cur{
+	color: #9D9D9D;
+	padding-left: 30px;
+	position: relative;
+	margin: 20px 0;
+}
+.m-card-cur:before{
+	content: '';
+	display: block;
+	position: absolute;
+	height: 12px;
+	width: 12px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	background: #ff2400;
+	left: 3px;
+	top: 50%;
+	margin-top: -6px;
+}
+span.settings-button{
+	color: #0061ff;
+	border-bottom: 1px dotted #0061ff;
+}
+.m-auto-payment.active .m-agreement{
+	display: none;
+}
+.m-auto-payment.active .m-card-cur:before{
+	background-color: #30d874;
+}
+.m-auto-payment.active .m-card-cur{
+	color: #000;
+}
+.m-auto-payment .sum-autopayment{
+	display: none;
+}
+.m-auto-payment.active .sum-autopayment{
+	display: block;
 }

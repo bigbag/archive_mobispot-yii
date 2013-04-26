@@ -1,4 +1,4 @@
-body {
+body { 
 	color: black;
  	color: #000;
 	font-family: Arial;
@@ -60,6 +60,7 @@ textarea {
 	margin: 0 0 5px 0;
     padding: 6px 6px 6px 20px;
     outline: none;
+	height: 35px;
 }
 
 form.custom div.custom.dropdown a.current{
@@ -167,7 +168,7 @@ table tbody tr td {
     vertical-align: top;
     border: none;
 }
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1100px) { 
 	.top-bar {
 	    margin-bottom: 0;
 	    overflow: hidden;
@@ -476,7 +477,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 }
 .orbit-wrapper .slider-nav span.left:hover,
 .orbit-wrapper .slider-nav span.right:hover{
-	background-color: #f00;
+	background-color: #0063ff;
 }
 
 .orbit-wrapper .slider-nav span.left{
@@ -584,13 +585,13 @@ input + i{
 }
 input.error + i,
 input.negative + i{
-	background: #c20049;
+	background: #ff2400;
 }
 input.positive + i{
-	background: #68beb3;
+	background: #30d874;
 }
 input.short + i{
-	background: #e1e10d;
+	background: #ffec15;
 }
 
 input.error::-webkit-input-placeholder {color: #ed578d !important;}

@@ -5,6 +5,7 @@
 <script src="/themes/mobispot/javascripts/jquery/app.js"></script>
 
 <script src="/themes/mobispot/javascripts/jquery/script.js"></script>
+<script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
 
 <script src="/themes/mobispot/javascripts/angular/angular-ui/modules/directives/keypress/keypress.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/app.js"></script>

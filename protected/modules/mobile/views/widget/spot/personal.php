@@ -1,122 +1,26 @@
-<?php $all_field_ico=SpotPersonalField::getPersonalFieldAllIco(); ?>
-
-<div id="main-container">
-  <?php if (!empty($content->fotografiya_3)): ?>
-    <div>
-      <img src="/uploads/spot/<?php echo $content->fotografiya_3; ?>" width="100%"/>
-    </div>
-  <?php else: ?>
-    <?php $profile=UserProfile::model()->findByPk($content->user_id) ?>
-    <?php if ($profile->use_photo == 1 and (!empty($profile->photo))): ?>
-      <img src="/uploads/spot/<?php echo $profile->photo ?>" width="100%"/>
-    <?php endif; ?>
-  <?php endif; ?>
-  <?php if ($content->imya_3): ?>
-    <div class="whitePlash rad12">
-      <?php echo $content->imya_3; ?>
-    </div>
-  <?php endif; ?>
-  <br/>
-  <?php if (isset($content['razreshit-skachivat-vizitku_3'][0])): ?>
-    <a href="/spot/getCard/<?php echo $data->url; ?>"
-       class="btn-round rad12 shadow"><?php echo Yii::t('mobile', 'Сохранить визитку') ?></a>
-    <br/>
-  <?php endif; ?>
-
-  <div id="userContact" class="clr">
-    <?php if ($content->kontaktyi_3): ?>
-      <?php foreach ($content->kontaktyi_3 as $key=>$value): ?>
-        <?php if (!empty($value)): ?>
-          <?php if (strpos($value, '@')): ?>
-            <a href="mailto:<?php echo $value; ?>" class="btn-dig rad6 shadow">
-              <span class="txt-24">
-                <span class="ico">
-                  <?php if (!empty($all_field_ico[$key])): ?>
-                    <img src="/uploads/ico/<?php echo $all_field_ico[$key] ?>" alt="" width="30" height="30">
-                  <?php endif; ?>
-                </span>
-                <?php echo $value; ?>
-              </span>
-            </a>
-          <?php elseif ($key == 15): ?>
-            <a href="<?php echo YText::formatUrl($value) ?>" class="btn-dig rad6 shadow">
-              <span class="txt-24">
-                <span class="ico">
-                  <?php if (!empty($all_field_ico[$key])): ?>
-                    <img src="/uploads/ico/<?php echo $all_field_ico[$key] ?>" alt="" width="30" height="30">
-                  <?php endif; ?>
-                </span>
-                <?php echo $value; ?>
-              </span>
-            </a>
-          <?php else: ?>
-            <span class="btn-dig rad6 shadow">
-              <span class="txt-24">
-                <span class="ico">
-                  <?php if (!empty($all_field_ico[$key])): ?>
-                    <img src="/uploads/ico/<?php echo $all_field_ico[$key] ?>" alt="" width="30" height="30">
-                  <?php endif; ?>
-                </span>
-                <?php echo $value; ?>
-              </span>
-            </span>
-          <?php endif; ?>
-
-        <?php endif; ?>
-      <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php if ($content->sotsseti_3): ?>
-      <?php foreach ($content->sotsseti_3 as $key=>$value): ?>
-        <?php if (!empty($value)): ?>
-          <a href="<?php echo YText::formatUrl($value) ?>" class="btn-dig rad6 shadow">
-            <span class="txt-24">
-              <span class="ico ico-phone">
-                <?php if (!empty($all_field_ico[$key])): ?>
-                  <img src="/uploads/ico/<?php echo $all_field_ico[$key] ?>" alt="" width="30" height="30">
-                <?php endif; ?>
-              </span>
-              <?php echo $value; ?>
-            </span>
-          </a>
-        <?php endif; ?>
-      <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php if ($content->opisanie_3): ?>
-      <?php foreach ($content->opisanie_3 as $key=>$value): ?>
-        <?php if (!empty($value)): ?>
-          <span class="btn-dig rad6 shadow">
-            <span class="ico ico-phone">
-              <?php if (!empty($all_field_ico[$key])): ?>
-                <img src="/uploads/ico/<?php echo $all_field_ico[$key] ?>" alt="" width="30" height="30">
-              <?php endif; ?>
-            </span>
-            <span class="small-txt">
-              <?php echo $value; ?>
-            </span>
-          </span>
-        <?php endif; ?>
-      <?php endforeach; ?>
-    <?php endif; ?>
-
-
-  </div>
-  <?php if (isset($content['razreshit-kommentarii_3'][0])): ?>
-    <div class="grayAllBlock rad6 shadow">
-      <div class="grayHead radTop6"><?php echo Yii::t('mobile', 'Оставить комментарий') ?></div>
-      <form action="" method="post">
-        <?php
-        echo CHtml::TextArea('comment', '', array(
-            'rows'=>3,
-            'class'=>'txt-100p txtArea rad6',
-        ));
-        ?>
-        <input type="submit" class="btn-round fright rad12 shadow"
-               value="<?php echo Yii::t('mobile', 'Отправить') ?>"/>
-      </form>
-    </div>
-    <br/>
-  <?php endif; ?>
-
-</div>
+<?php $folderUploads = substr(Yii::getPathOfAlias('webroot.uploads.spot.'), (strpos(Yii::getPathOfAlias('webroot.uploads.spot.'), Yii::getPathOfAlias('webroot'))+strlen(Yii::getPathOfAlias('webroot'))) ) . '/'; ?>
+<?php foreach ($content['keys'] as $key=>$type){ ?>
+	<?php if($type == 'text'): ?>
+		<div class="spot-item">
+			<p class="item-area item-type__text"><?php echo $content['data'][$key]; ?></p>
+		</div>
+	<?php elseif($type == 'image'): ?>
+		<div class="item-area text-center">
+			<img src="<?php echo $folderUploads.$content['data'][$key]; ?>">
+		</div>	
+	<?php elseif($type == 'file'): ?>
+		<a href="<?php echo $folderUploads.$content['data'][$key]; ?>" class="item-area text-center">
+			<div class="file-block">
+				<span><?php echo $content['data'][$key]; ?></span>
+				<img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
+			</div>
+		</a>
+	<?php elseif($type == 'soclink'): ?>
+		<div class="spot-item">
+			<div class="item-area type-mess">
+				<div class="user-avatar round"><img src="<?php echo $content['data'][$key]['avatar']; ?>" height="90"></div><p><?php echo $content['data'][$key]['lastPost']; ?></p>
+				<a href="<?php echo $content['data'][$key]['link']; ?>" class="spot-button soc-link" ><span>Follow me on</span> <i class="i-soc-twi round"></i></a>
+			</div>
+		</div>	
+	<?php endif; ?>
+<?php } ?>

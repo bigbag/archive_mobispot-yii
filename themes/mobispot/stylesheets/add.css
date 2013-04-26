@@ -4,7 +4,6 @@
 
 .spot-list{
   margin: 50px 0 50px;
-  color: #f00;
 }
 
 .spot-desc{
@@ -16,40 +15,12 @@
 }
 
 #dropbox {
-  border: 3px solid #fff;
   background: #fff;
 }
 
 #dropbox.hover {
-  border: 3px solid #2B46FF;
+  color: #2B46FF;
 }
-
-#wallets{
-  padding: 20px
-}
-
-span.payment-rules{
-    color: #0062FF;
-  border-bottom: 1px dashed #0062FF;
-
-  cursor: pointer;
-}
-
-
-.go-button{
-  height: 180px;
-  width: 180px;
-  line-height: 180px;
-  font-size: 23px;
-}
-
-.biggest-heading img{
-  top:0px;
-}
-
-.corp-register-form{
-  margin: 20px 0;
-
 
 .long li{
 	width: 80px;

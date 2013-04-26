@@ -1,5 +1,19 @@
-
-
+@media screen and (max-width: 1044px){
+	.error-message{
+		width: 500px;
+	}
+	.error-text-block{
+		height: 252px;
+	}
+	.error-text-block h1{
+		width: 237px;
+	}
+}
+@media screen and (max-width: 1015px){
+	.p-error-txt footer{
+		letter-spacing: 20px;
+	}
+}
 
 @media screen and (min-width: 994px) {
 
@@ -22,9 +36,25 @@
 	}
 	.spots-description h3{
 		color: #0063ff;
-		font-size: 24px;
 	}
-
+	.error-message{
+		width: 400px;
+	}
+	.error-text-block{
+		height: 204px;
+	}
+	.error-text-block h1{
+		width: 185px;
+		font-size: 45px;
+	}
+	.error-code{
+		width: 145px;
+		font-size: 66px;
+	}
+	.error-message{
+		float: none;
+		margin: 0 auto;
+	}
 }
 @media screen and (max-width: 767px) {
 	.bubbles-slider .bubble p{
@@ -112,6 +142,11 @@
 	.header-top:hover + .bubbles-slider .change-cover{
 		opacity: 0;
 	}
+	.error-message{
+		float: none;
+		margin: 0 auto;
+	}
+
 }
 @media screen and (max-width: 600px) {
 	body{
@@ -153,4 +188,19 @@
 	.bubbles-slider .orbit-bullets{
 		margin-left: -165px !important;
 	}
+	.error-message{
+		width: 300px;
+	}
+	.error-text-block{
+		height: 155px;
+	}
+	.error-text-block h1{
+		width: 142px;
+		font-size: 35px;
+	}
+	.error-code{
+		width: 105px;
+		font-size: 50px;
+	}
+
 }
