@@ -18,12 +18,16 @@
   background: #fff;
 }
 
-#dropbox.hover {
+#dropbox.hover label, #dropbox.hover label h4 {
   color: #2B46FF;
 }
 
 .long li{
 	width: 80px;
+}
+
+.spot-content_row{
+  margin-top: 0px;
 }
 
 
