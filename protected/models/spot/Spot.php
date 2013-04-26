@@ -203,7 +203,7 @@ class Spot extends CActiveRecord {
       $this->generated_date=new CDbExpression('NOW()');
       if (!$this->url)
         $this->url=abs(crc32($this->code));
-      $this->status==self::STATUS_GENERATED;
+      $this->status=self::STATUS_GENERATED;
     }
 
     if (!$this->barcode) $this->barcode=$this->getEan();
