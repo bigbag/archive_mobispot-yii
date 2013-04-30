@@ -32,6 +32,9 @@
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<?php echo $content['data'][$key]['invite']; ?></a>
 				<?php endif; ?>				
+				<?php if(!$content['data'][$key]['isLogged']):?>
+					<a href="#" class="spot-button soc-link" >Авторизоваться в <?php echo $content['data'][$key]['netName']; ?></a>
+				<?php endif; ?>				
 			</div>
 		</div>
 	<?php endif; ?>

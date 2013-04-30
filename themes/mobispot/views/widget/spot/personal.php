@@ -36,6 +36,7 @@
         <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
         <?php if ($content['keys'][$key]=='text'):?>
         <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
+		<a class="button bind-spot round"></a>
         <?php endif;?>
         <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
       </div>

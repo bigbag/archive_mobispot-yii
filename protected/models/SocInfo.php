@@ -111,6 +111,9 @@ class SocInfo extends CFormModel
 		}
 		if(strlen($this->socNet) > 0){
 			$this->getSocInfo($this->socNet, $this->socUsername);
+			$this->userDetail['isLogged'] = false;
+			if(isset(Yii::app()->session['isLoggedIn'.$this->socNet]))
+				$this->userDetail['isLogged'] = Yii::app()->session['isLoggedIn'.$this->socNet];
 			$this->userDetail['netName'] = $this->socNet;
 		}
 		return $this->userDetail;
