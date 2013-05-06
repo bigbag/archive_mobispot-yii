@@ -219,7 +219,21 @@ function SpotCtrl($scope, $http, $compile) {
       $scope.hideSpotEdit();
     }
   };
-
+  
+	// Привязка соцсетей
+	$scope.bindSocial  = function(spot, key, e) {
+	    spot.key = key;
+		$http.post('/spot/BindSocial', spot).success(function(data) {
+		  if(data.error == 'no') {
+			if(data.socnet != 'no')
+				window.location = ("/user/SocLogin?service=" + data.socnet);
+		  }
+		  else {
+			alert(data.error);
+		  }
+		});
+	}; 
+  
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');

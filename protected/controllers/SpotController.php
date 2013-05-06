@@ -256,6 +256,82 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
+	// привязка соцсетей
+	public function actionBindSocial() {
+		$error="yes";
+		$content='';
+		$data=$this->getJson();
+$netName = 'no';		
+
+		if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+$printed = print_r($data, true);
+
+			if (isset($data['discodes']) and isset($data['key'])){
+				$spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+				if ($spot){
+					$spotContent=SpotContent::getSpotContent($spot);
+					if($spotContent) {
+						$SocInfo = new SocInfo;		
+						$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
+							
+						if($netName != 'no'){				
+							$content=$spotContent->content;
+$printed = print_r($content, true);							
+/*
+
+							$authIdentity = Yii::app()->eauth->getIdentity($netName);
+							$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+							$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+
+							if ($authIdentity->authenticate()) {
+/*								$identity = new ServiceUserIdentity($authIdentity);
+								
+								// Успешный вход
+								if ($identity->authenticate()) {
+									
+									// Специальный редирект с закрытием popup окна
+									$authIdentity->redirect(array('user/personal'));
+								}
+								else {
+									// Закрываем popup окно и перенаправляем на cancelUrl
+									$authIdentity->cancel();
+								}
+							}
+							$this->redirect(array('user/personal'));							
+							
+	/*						
+							$content['data'][$data['key']]=$data['content_new'];
+
+
+							$spotContent->content=$content;
+						
+							if ($spotContent->save()){
+							  $content=$this->renderPartial('//widget/spot/personal/new_text',
+							  array(
+								'content'=>$data['content_new'],
+								'key'=>$data['key'],
+							  ),
+							  true);
+							  $error="no";
+							}
+*/
+							if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
+							{
+$netName = 'no';							
+								$content['keys'][$data['key']]='socnet';
+							}
+							
+							 $error="no";
+						}
+					}
+				}
+			}
+			
+		}
+		//echo json_encode(array('error'=>$error, 'content'=>$content));
+echo json_encode(array('error'=>$error, 'spot'=>$printed, 'content'=>$content, 'socnet'=>$netName));		
+	}
+  
   // Добавление нового спота
   public function actionAddSpot() {
     $error="yes";

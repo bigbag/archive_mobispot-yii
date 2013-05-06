@@ -696,11 +696,23 @@ a.active .m-tooltip{
 	background-position: -59px -76px;
 	right: 70px;
 }
+
+.spot-cover .bind-spot{
+	background-image: url("../images/icons/i-small.png");
+	background-position: -120px -53px;
+	right: 110px;
+}
+
 .spot-cover .edit-spot:hover{
 	background-position: -89px -76px;
 }
+
 .spot-cover .remove-spot:hover{
 	background-position: -90px -53px;
+}
+
+.spot-cover .bind-spot:hover{
+	background-position: -120px -76px;
 }
 .move-spot{
 	display: inline-block;
