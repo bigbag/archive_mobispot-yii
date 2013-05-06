@@ -61,6 +61,7 @@ class SpotController extends MController
 					else{
 						$size = count($content['keys']);
 						for ($i = 0; $i < $size; $i++) {
+							/*
 							$link = $content['data'][$dataKeys[$i]];
 							if($urlVal->validateValue($link)){
 								$SocInfo = new SocInfo;
@@ -70,6 +71,17 @@ class SpotController extends MController
 									$socData['soc_url'] = $link;
 									$content['data'][$dataKeys[$i]] = $socData;
 								}
+							}
+							*/
+							if ($content['data']['keys'] == 'socnet'){
+								$SocInfo = new SocInfo;
+								$socData = $SocInfo->getNetData($link);
+								if(isset($socData['netName'])){
+									$content['keys'][$dataKeys[$i]] = 'socnet';
+									$socData['soc_url'] = $link;
+									$content['data'][$dataKeys[$i]] = $socData;
+								}						
+							
 							}
 						}
 					

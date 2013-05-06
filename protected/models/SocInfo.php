@@ -16,22 +16,22 @@ class SocInfo extends CFormModel
 		$socNetworks = array();
 		$net = array();
 		
-		$net['name'] = 'Facebook';
+		$net['name'] = 'facebook';
 		$net['baseUrl'] = 'facebook.com';
 		$net['invite'] = '<span>Read more on</span> <i class="i-soc-fac round"></i>';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Facebook - кликните на кнопке с вашими фамилией и именем в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "http://www.facebook.com/name.surname.number" (Вы должны быть авторизованы в Facebook)';
+		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Facebook - кликните на кнопке с вашими фамилией и именем в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "http://www.facebook.com/name.surname.number" (Вы должны быть авторизованы в facebook)';
 		$socNetworks[] = $net;
 	
-		$net['name'] = 'Twitter';
+		$net['name'] = 'twitter';
 		$net['baseUrl'] = 'twitter.com';
 		$net['invite'] = '<span>Follow me on</span> <i class="i-soc-twi round"></i>';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Twitter - кликните на кнопке "Я" в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "https://twitter.com/nickname" (Вы должны быть авторизованы в Twitter)';
+		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Twitter - кликните на кнопке "Я" в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "https://twitter.com/nickname" (Вы должны быть авторизованы в twitter)';
 		$socNetworks[] = $net;
 /*
-		$net['name'] = 'Google';
+		$net['name'] = 'google';
 		$net['baseUrl'] = 'google.com';
 		$net['invite'] = '';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Google - кликните на Вашем e-mail адресе в правом верхнем углу страницы, а затам на кнопке "Посмотреть профиль" в открывшемся меню - в адресной строке браузера отобразится адрес Вашего профиля вида "https://plus.google.com/u/1/116469723396847962387/posts?tab=XX&authuser=1" (Вы должны быть авторизованы в Google)';
+		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Google+ - кликните на Вашем e-mail адресе в правом верхнем углу страницы, а затам на кнопке "Посмотреть профиль" в открывшемся меню - в адресной строке браузера отобразится адрес Вашего профиля вида "https://plus.google.com/u/1/116469723396847962387/posts?tab=XX&authuser=1" (Вы должны быть авторизованы в google)';
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
@@ -52,7 +52,7 @@ class SocInfo extends CFormModel
 		$net['note'] = '';
 		$socNetworks[] = $net;		
 		
-		$net['name'] = 'Vimeo';
+		$net['name'] = 'vimeo';
 		$net['baseUrl'] = 'vimeo.com';
 		$net['invite'] = '<span>Watch more</span> <i class="i-soc-vimeo round"></i>';		
 		$net['note'] = '';
@@ -101,15 +101,13 @@ class SocInfo extends CFormModel
 		$this->socNet = '';
 		$this->socUsername = '';
 		$this->userDetail = array();
-		foreach($this->socNetworks as $net){
-			if (strpos($link, $net['baseUrl']) !== false){
-				$this->socNet = $net['name'];
-				$this->socUsername = $this->parceSocUrl($net['name'], $link);
-				$this->userDetail['invite'] = $net['invite'];
-				break;
-			}
-		}
-		if(strlen($this->socNet) > 0){
+		$isSocNet = $this->detectNetByLink($link);
+		
+		if($isSocNet != 'no'){
+			$net = $this->getNetByName($isSocNet);
+			$this->socNet = $net['name'];
+			$this->socUsername = $this->parceSocUrl($this->socNet, $link);
+			$this->userDetail['invite'] = $net['invite'];
 			$this->getSocInfo($this->socNet, $this->socUsername);
 			$this->userDetail['isLogged'] = false;
 			if(isset(Yii::app()->session['isLoggedIn'.$this->socNet]))
@@ -117,6 +115,28 @@ class SocInfo extends CFormModel
 			$this->userDetail['netName'] = $this->socNet;
 		}
 		return $this->userDetail;
+	}
+	
+	public function detectNetByLink($link){
+		$answer = 'no';
+		foreach($this->socNetworks as $net){
+			if (strpos($link, $net['baseUrl']) !== false){
+				$answer = $net['name'];
+				break;
+			}
+		}
+		return $answer;
+	}
+	
+	public function getNetByName($name){
+		$answer = array();
+		foreach($this->socNetworks as $net){
+			if ($name == $net['name']){
+				$answer = $net;
+				break;
+			}
+		}
+		return $answer;
 	}
 	
 	public function getSocInfo($socNet, $socUsername){
@@ -127,7 +147,7 @@ class SocInfo extends CFormModel
 		$this->userDetail['UserExists'] = false;
 		$socUsername = $this->parceSocUrl($socNet, $socUsername);
 		
-		if($socNet == 'Google'){
+		if($socNet == 'google'){
 			$url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key=AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak';  				
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);
@@ -174,7 +194,7 @@ class SocInfo extends CFormModel
 			}else{
 				$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
 			}
-		}elseif($socNet == 'Facebook'){
+		}elseif($socNet == 'facebook'){
 				if (@fopen('http://graph.facebook.com/'.$socUsername, 'r')){
 					$t_json = fopen('http://graph.facebook.com/'.$socUsername, 'r');
 					$curl_result = fgets($t_json);
@@ -199,7 +219,7 @@ class SocInfo extends CFormModel
 					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
 				}
 				
-			}elseif($socNet == 'Twitter'){
+			}elseif($socNet == 'twitter'){
 				if (@fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r')){
 					$t_json = fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r');
 					$curl_result = fgets($t_json);
@@ -407,7 +427,7 @@ class SocInfo extends CFormModel
           </div>';
 
 
-			}elseif($socNet == 'Vimeo'){
+			}elseif($socNet == 'vimeo'){
 				$socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
 				if(!is_string($socUser)){
 					$this->userDetail['soc_username'] = $socUser['display_name'];
@@ -642,7 +662,7 @@ class SocInfo extends CFormModel
 	
 	public function parceSocUrl($socNet, $url){
 		$username = $url;
-		if($socNet == 'Facebook'){
+		if($socNet == 'facebook'){
 			if((strpos($username, 'facebook.com/') > 0) ||(strpos($username, 'facebook.com/') !== false)){
 				$username = substr($username, (strpos($username, 'facebook.com/')+13) );
 				if(strpos($username, '?') > 0){
@@ -655,7 +675,7 @@ class SocInfo extends CFormModel
 					$username = substr($username, 0, strpos($username, '&'));
 				}
 			}
-		}elseif($socNet == 'Twitter'){
+		}elseif($socNet == 'twitter'){
 			if((strpos($username, 'twitter.com/') > 0) ||(strpos($username, 'twitter.com/') !== false)){
 				$username = substr($username, (strpos($username, 'twitter.com/')+12) );
 				if(strpos($username, '?') > 0){
@@ -668,7 +688,7 @@ class SocInfo extends CFormModel
 					$username = substr($username, 0, strpos($username, '&'));
 				}
 			}			
-		}elseif($socNet == 'Google'){
+		}elseif($socNet == 'google'){
 			if((strpos($username, 'google.com') > 0) ||(strpos($username, 'google.com') !== false)){
 				if ((strpos($username, 'google.com/u/0/') > 0) ||(strpos($username, 'google.com/u/0/') !== false)){
 					$username = substr($username, (strpos($username, 'google.com/u/0/')+15));
@@ -715,7 +735,7 @@ class SocInfo extends CFormModel
 			if(strpos($username, '&') > 0){
 				$username = substr($username, 0, strpos($username, '&'));
 			}
-		}elseif($socNet == 'Vimeo'){
+		}elseif($socNet == 'vimeo'){
 			if((strpos($username, 'vimeo.com/') > 0) ||(strpos($username, 'vimeo.com/') !== false)){
 				$username = substr($username, (strpos($username, 'vimeo.com/')+10) );
 				if(strpos($username, '?') > 0){
@@ -889,4 +909,12 @@ class SocInfo extends CFormModel
 		}
 		return $out;
 	} 
+	
+	public function isProfileExists($socNet, $socUsername){
+		$answer = false;
+	$answer = true;//заглушка
+	
+	
+		return $answer;
+	}
 }

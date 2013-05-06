@@ -28,11 +28,11 @@ class ServiceUserIdentity extends CUserIdentity
   */
   public function authenticate()
   {
-    
-    $user = User::model()->findByAttributes(array('email' => $this->service->email));
+
+   // $user = User::model()->findByAttributes(array('email' => $this->service->email));
     
     if ($this->service->isAuthenticated) {
-      $this->_id = $user->id;
+     /* $this->_id = $user->id;
       $this->_email = $user->email;
       $this->username = $user->email;
       $this->password = $user->password;
@@ -43,7 +43,7 @@ class ServiceUserIdentity extends CUserIdentity
       $this->errorCode = self::ERROR_NONE;
       } else {
       $this->errorCode = self::ERROR_NOT_AUTHENTICATED;
-    }
+    }*/
     return !$this->errorCode;
   }
   

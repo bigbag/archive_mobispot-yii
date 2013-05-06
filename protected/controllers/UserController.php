@@ -125,4 +125,28 @@ class UserController extends MController {
     }
   }
 
+	public function actionSocLogin(){
+		$service = Yii::app()->request->getQuery('service');
+		$sinfo = new SocInfo;
+		if (isset($service)) {
+		
+			$authIdentity = Yii::app()->eauth->getIdentity($service);
+			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+			$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+			
+			if ($authIdentity->authenticate()) {
+				$identity = new ServiceUserIdentity($authIdentity);
+
+				if ($identity->authenticate()) {
+					Yii::app()->session[$service] = 'auth';
+					
+					$authIdentity->redirect(array('user/personal'));
+				}
+				else {
+					$authIdentity->cancel();
+				}
+			}
+		}
+		$this->redirect(array('user/personal'));		
+	}
 }
