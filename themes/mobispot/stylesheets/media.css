@@ -55,6 +55,13 @@
 		float: none;
 		margin: 0 auto;
 	}
+	.footer-page .soc-link span{
+		display: none;
+	}
+	.footer-page .soc-link a{
+		margin-left: 0px;
+	}
+
 }
 @media screen and (max-width: 767px) {
 	.bubbles-slider .bubble p{
@@ -129,7 +136,6 @@
 		position: static;
 	}
 	.footer-page .soc-link{
-		margin-top: 25px;
 		line-height: 1.6;
 	}
 	.footer-page p{
@@ -145,6 +151,15 @@
 	.error-message{
 		float: none;
 		margin: 0 auto;
+	}
+	.footer-page .lang-dropdown{
+		top: 47px
+	}
+	.footer-page .soc-link span{
+		display: inline;
+	}
+	.footer-page .soc-link a{
+		margin-left: 31px;
 	}
 
 }

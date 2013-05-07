@@ -122,10 +122,10 @@ ul.orbit-bullets li{
     -moz-border-radius: 50%;
     border-radius: 50%;
 }
-ul.orbit-bullets li.active{
-	 background: #2b46ff;
-}
 /* Tables ---------------------- */
+ul.orbit-bullets li.active{
+	background: #0061ff;
+}
 table {
     background: #fff;
     -webkit-border-radius: 3px;
