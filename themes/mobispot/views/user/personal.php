@@ -110,7 +110,6 @@
   </div>
   <div class="row content-wallet">
     <div class="column twelve">
-      <a href="javascript:;" class="button joyride-close-tip">X</a>
       <div class="popup-row">
         <h3>Состояние счета: <span class="b-account b-negative b-positive">134$</span></h3>
         <input type="number" class="b-short-input" placeholder="0.00"><a href="#" class="spot-button active">Пополнить</a>

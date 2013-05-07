@@ -9,7 +9,7 @@
   </li>
 </ul>
 <div class="spot-content slide-content">
-  <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul'}">
+  <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul > li', 'tolerance': 'pointer'}">
 
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
