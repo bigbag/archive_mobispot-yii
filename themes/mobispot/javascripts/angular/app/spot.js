@@ -181,6 +181,7 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
           $scope.keys.push(data.key);
           $scope.spot.content='';
+          angular.element('textarea').blur().removeClass('put');
         }
       });
     }
@@ -300,6 +301,10 @@ function SpotCtrl($scope, $http, $compile) {
         spotAdd.find('a.checkbox').toggleClass('active');
         spotAdd.hide();
         delete $scope.spot.code;
+      }
+      else if (data.error == 'yes') {
+        angular.element('#actSpotForm input[name=code]').addClass('error');
+        angular.element('#actSpotForm input[name=name]').addClass('error');
       }
     });
   };
