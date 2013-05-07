@@ -18,79 +18,92 @@ class SocInfo extends CFormModel
 		
 		$net['name'] = 'facebook';
 		$net['baseUrl'] = 'facebook.com';
-		$net['invite'] = '<span>Read more on</span> <i class="i-soc-fac round"></i>';
+		$net['invite'] = 'Read more on';
+		$net['inviteClass'] = 'i-soc-fac';
 		$net['note'] = '';
 		$socNetworks[] = $net;
 	
 		$net['name'] = 'twitter';
 		$net['baseUrl'] = 'twitter.com';
-		$net['invite'] = '<span>Follow me on</span> <i class="i-soc-twi round"></i>';
+		$net['invite'] = 'Follow me on';
+		$net['inviteClass'] = 'i-soc-twi';
 		$net['note'] = '';
 		$socNetworks[] = $net;
 /*
 		$net['name'] = 'google';
 		$net['baseUrl'] = 'google.com';
 		$net['invite'] = '';
+		$net['inviteClass'] = '';	
 		$net['note'] = '';
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
 		$net['baseUrl'] = 'vk.com';
-		$net['invite'] = '';		
+		$net['invite'] = '';	
+		$net['inviteClass'] = '';		
 		$net['note'] = '';
 		$socNetworks[] = $net;		
 /*	
 		$net['name'] = 'Linkedin';
 		$net['baseUrl'] = 'linkedin.com';
 		$net['invite'] = '';		
+		$net['inviteClass'] = '';			
 		$net['note'] = ';
 		$socNetworks[] = $net;		
 */
 		$net['name'] = 'Foursquare';
 		$net['baseUrl'] = 'foursquare.com';
 		$net['invite'] = '';		
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;		
 		
 		$net['name'] = 'vimeo';
 		$net['baseUrl'] = 'vimeo.com';
-		$net['invite'] = '<span>Watch more</span> <i class="i-soc-vimeo round"></i>';		
+		$net['invite'] = 'Watch more';		
+		$net['inviteClass'] = 'i-soc-vimeo';			
 		$net['note'] = '';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'Last.fm';
 		$net['baseUrl'] = 'lastfm.ru';
 		$net['invite'] = '';		
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'DeviantART';
 		$net['baseUrl'] = 'deviantart.com';
 		$net['invite'] = '';		
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Behance';
 		$net['baseUrl'] = 'behance.net';
-		$net['invite'] = '';		
+		$net['invite'] = '';
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Flickr';
 		$net['baseUrl'] = 'flickr.com';
-		$net['invite'] = '';		
+		$net['invite'] = '';
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'YouTube';
 		$net['baseUrl'] = 'youtube.com';
-		$net['invite'] = '';		
+		$net['invite'] = '';
+		$net['inviteClass'] = '';			
 		$net['note'] = '';
 		$socNetworks[] = $net;	
 /*		
 		$net['name'] = 'Instagram';
 		$net['baseUrl'] = 'instagram.com';
 		$net['invite'] = '';		
+		$net['inviteClass'] = '';			
 		$net['note'] =  '';
 		$socNetworks[] = $net;			
 */
@@ -108,6 +121,7 @@ class SocInfo extends CFormModel
 			$this->socNet = $net['name'];
 			$this->socUsername = $this->parceSocUrl($this->socNet, $link);
 			$this->userDetail['invite'] = $net['invite'];
+			$this->userDetail['inviteClass'] = $net['inviteClass'];
 			$this->getSocInfo($this->socNet, $this->socUsername);
 			$this->userDetail['isLogged'] = false;
 			if(isset(Yii::app()->session['isLoggedIn'.$this->socNet]))

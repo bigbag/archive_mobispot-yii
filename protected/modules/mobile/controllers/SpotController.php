@@ -78,7 +78,6 @@ class SpotController extends MController
 								$SocInfo = new SocInfo;
 								$socData = $SocInfo->getNetData($link);
 								if(isset($socData['netName'])){
-									$content['keys'][$dataKeys[$i]] = 'socnet';
 									$socData['soc_url'] = $link;
 									$content['data'][$dataKeys[$i]] = $socData;
 								}						
