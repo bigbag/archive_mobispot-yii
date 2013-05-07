@@ -15,7 +15,7 @@
 				<img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
 			</div>
 		</a>
-	<?php elseif($type == 'soclink'): ?>
+	<?php elseif($type == 'socnet'): ?>
 		<div class="spot-item">
 			<div class="item-area type-mess">
 				<?php if(isset($content['data'][$key]['photo'])): ?>
@@ -28,12 +28,13 @@
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 				<?php endif; ?>
-				<?php if(isset($content['data'][$key]['socnet'])): ?>
-					<a href="<?php echo $content['data'][$key]['socnet']; ?>" class="spot-button soc-link" >
-					<?php echo $content['data'][$key]['invite']; ?></a>
+				<?php if(isset($content['data'][$key]['soc_url'])): ?>
+					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
+					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
+					</a>
 				<?php endif; ?>				
 				<?php if(!$content['data'][$key]['isLogged']):?>
-					<a href="#" class="spot-button soc-link" >Авторизоваться в <?php echo $content['data'][$key]['netName']; ?></a>
+					<a href="#" class="spot-button soc-link" ><?php echo Yii::t('spot', 'Авторизоваться в '); ?><?php echo $content['data'][$key]['netName']; ?></a>
 				<?php endif; ?>				
 			</div>
 		</div>
