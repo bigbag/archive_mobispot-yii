@@ -29,21 +29,23 @@
 </div>
 <div class="row">
   <div class="column twelve text-center toggle-active">
-    <a href="javascript:;" id="actSpot" class="add-spot toggle-box button round"><span class="tooltip"><?php echo Yii::t('spot', 'Add another spot')?></span></a>
+    <a href="javascript:;" id="actSpot" class="add-spot toggle-box button round"><span class="m-tooltip"><?php echo Yii::t('spot', 'Add another spot')?></span></a>
   </div>
 </div>
 
 <div id="actSpotForm" class="slide-box add-spot-box">
-  <div class="row">
+  <div class="row popup-content">
     <div class="six centered column">
       <form id="add-spot" name="addSpotForm">
       <input type="text"
         ng-model="spot.code"
+        name="code"
         placeholder="<?php echo Yii::t('spot', 'Spot activation code')?>"
         autocomplete="off"
         maxlength="10"
         required>
       <input type="text"
+        name="name"
         ng-model="spot.name"
         placeholder="<?php echo Yii::t('spot', 'Spot name')?>"
         autocomplete="off">
@@ -72,16 +74,15 @@
 </div>
 
 <div class="popup slow bg-gray hide">
-  <div class="row content-settings">
-    <div class="column twelve">
-      <a href="javascript:;" class="button joyride-close-tip">X</a>
+  <div class="row popup-content content-settings">
+      <div class="column twelve">
       <ul class="add-active settings-list">
         <li class="active" ng-click="renameSpot(spot)">
           <?php echo Yii::t('spot', 'Rename spot')?>
         </li>
-        <li ng-click="makeBusinessSpot(spot)">
+        <!-- <li ng-click="makeBusinessSpot(spot)">
           <?php echo Yii::t('spot', 'Make spot business')?>
-        </li>
+        </li> -->
         <li ng-click="renameSpot(spot)">
           <?php echo Yii::t('spot', 'Make spot invisible')?>
         </li>
