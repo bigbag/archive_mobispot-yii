@@ -145,9 +145,8 @@ function SpotCtrl($scope, $http, $compile) {
             });
 
             spotHat.after($compile(data.content)($scope));
-            spot.find('.spot-content').slideToggle('slow', function () {
-              spot.addClass('open');
-            });
+            spot.addClass('open');
+            spot.find('.spot-content').slideToggle('slow');
 
             $scope.spot.content='';
 
@@ -165,9 +164,9 @@ function SpotCtrl($scope, $http, $compile) {
     }
     else {
       delete $scope.spot.content_new;
-      spot.removeClass('open');
       spotContent.slideUp('slow',
         function () {
+          spot.removeClass('open');
           spotContent.prev().remove();
           spotContent.remove();
         });
@@ -219,7 +218,7 @@ function SpotCtrl($scope, $http, $compile) {
       $scope.hideSpotEdit();
     }
   };
-  
+
 	// Привязка соцсетей
 	$scope.bindSocial  = function(spot, key, e) {
 	    spot.key = key;
@@ -232,8 +231,8 @@ function SpotCtrl($scope, $http, $compile) {
 			alert(data.error);
 		  }
 		});
-	}; 
-  
+	};
+
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
