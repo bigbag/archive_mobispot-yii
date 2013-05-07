@@ -83,6 +83,14 @@
 	font-size: 48px;
 	font-family: Mobispot, Arial, sans-serif;
 	margin: 83px 0 102px;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	-webkit-transition: background-color 600ms ease-out;
+	-moz-transition: background-color 600ms ease-out;
+	-o-transition: background-color 600ms ease-out;
+	transition: background-color 600ms ease-out;
 }
 .bg-gray .round-button-large{
 	background-color: #fff;
@@ -110,6 +118,14 @@
 	line-height: 60px;
 	background-image: url(../images/icons/i-small.png);
 	background-position: -173px 15px;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	-webkit-transition: background-color 600ms ease-out;
+	-moz-transition: background-color 600ms ease-out;
+	-o-transition: background-color 600ms ease-out;
+	transition: background-color 600ms ease-out;
 }
 .button.add-spot:hover,
 .button.add-spot:active,
@@ -200,15 +216,6 @@
 .soc-link .i-soc-goo:hover{
 	background-position: -53px -24px;
 }
-.footer-page .soc-link a,
-.soc-link a:hover{
-	background-color: #0061ff;
-}
-.footer-page .soc-link a{
-	position: relative;
-	top: -13px;
-	line-height: 13px;
-}
 .dropdown .options{
 	display: none;
 	background: #0061ff;
@@ -217,13 +224,20 @@
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	margin:-12px 0 14px;
+	opacity: 0;
+
 }
 .dropdown:hover .spot-button{
 	background-color: #0061FF;
 	color: #FFFFFF;
+	-webkit-transition: opacity 600ms ease-out;
+	-moz-transition: opacity 600ms ease-out;
+	-o-transition: opacity 600ms ease-out;
+	transition: opacity 600ms ease-out;
 }
 .dropdown:hover .options{
 	display: block;
+	opacity: 1;
 }
 .dropdown .options li{
 	display: block;
@@ -259,8 +273,8 @@
 	padding: 0 15px;
 }
 .dropdown__light:hover .spot-button{
-	background-color: rgb(241, 243, 244);
-	background-color: rgba(241, 243, 244, 0.6);
+	background-color: rgb(241, 243, 244) !important;
+	background-color: rgba(241, 243, 244, 0.6) !important;
 	color: #0062ff;
 }
 .dropdown__light .options{
@@ -380,34 +394,31 @@ footer .button:hover + .active,
 }
 .spot-list .spot-button.wallet-button {
 	min-width: 0;
-	padding-left: 49px;
 	padding-right: 16px;
 	color: #ccaf3b;
 }
-.spot-list .spot-button.wallet-button:before{
-	content: '';
+.spot-list .spot-button.wallet-button i{
+	font-family: mobispot-icon;
+	font-style: normal;
+	color: #000;
+	margin: 0 11px 0 5px;
 	display: block;
-	height: 13px;
-	width: 28px;
-	background: url(../images/icons/i-small.28x2.png) 0 0 no-repeat;
-	background-size: 100%;
-	position: absolute;
-	top:10px;
-	left: 12px;
+	float: left;
+	line-height: 25px;
 }
 .spot-list .spot-button.wallet-button:hover:before{
 	background-position: 0 -24px ;
 }
 .b-account{
-	color: #ccaf3b;
+	color: #ffec15;
 }
 .spot-list .spot-button.b-negative,
 .b-negative{
-	color: #df1919;
+	color: #ff2400;
 }
 .spot-list .spot-button.b-positive,
 .b-positive{
-	color: #377843;
+	color: #30d874;
 }
 .spot-list .spot-button.wallet-button:hover{
 	color: #fff;
