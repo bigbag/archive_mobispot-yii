@@ -15,7 +15,7 @@
 				<img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
 			</div>
 		</a>
-	<?php elseif($type == 'soclink'): ?>
+	<?php elseif($type == 'socnet'): ?>
 		<div class="spot-item">
 			<div class="item-area type-mess">
 				<?php if(isset($content['data'][$key]['photo'])): ?>

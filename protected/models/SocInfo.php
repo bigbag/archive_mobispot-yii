@@ -19,31 +19,31 @@ class SocInfo extends CFormModel
 		$net['name'] = 'facebook';
 		$net['baseUrl'] = 'facebook.com';
 		$net['invite'] = '<span>Read more on</span> <i class="i-soc-fac round"></i>';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Facebook - кликните на кнопке с вашими фамилией и именем в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "http://www.facebook.com/name.surname.number" (Вы должны быть авторизованы в facebook)';
+		$net['note'] = '';
 		$socNetworks[] = $net;
 	
 		$net['name'] = 'twitter';
 		$net['baseUrl'] = 'twitter.com';
 		$net['invite'] = '<span>Follow me on</span> <i class="i-soc-twi round"></i>';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Twitter - кликните на кнопке "Я" в прилипающей строке наверху страницы - в адресной строке браузера отобразится адрес Вашего профиля вида "https://twitter.com/nickname" (Вы должны быть авторизованы в twitter)';
+		$net['note'] = '';
 		$socNetworks[] = $net;
 /*
 		$net['name'] = 'google';
 		$net['baseUrl'] = 'google.com';
 		$net['invite'] = '';
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль в Google+ - кликните на Вашем e-mail адресе в правом верхнем углу страницы, а затам на кнопке "Посмотреть профиль" в открывшемся меню - в адресной строке браузера отобразится адрес Вашего профиля вида "https://plus.google.com/u/1/116469723396847962387/posts?tab=XX&authuser=1" (Вы должны быть авторизованы в google)';
+		$net['note'] = '';
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
 		$net['baseUrl'] = 'vk.com';
 		$net['invite'] = '';		
-		$net['note'] = 'Чтобы получить ссылку на Ваш профиль ВКонтакте - перейдите по ссылке "Моя Страница" - в адресной строке браузера отобразится адрес Вашего профиля(Вы должны быть авторизованы ВКонтакте)';
+		$net['note'] = '';
 		$socNetworks[] = $net;		
 /*	
 		$net['name'] = 'Linkedin';
 		$net['baseUrl'] = 'linkedin.com';
 		$net['invite'] = '';		
-		$net['note'] = 'Чтобы получить информацию о каком-либопрофиле в Linkedin - сначала авторизуйтесь на сайте через Ваш аккаунт в Linkedin';
+		$net['note'] = ';
 		$socNetworks[] = $net;		
 */
 		$net['name'] = 'Foursquare';
@@ -91,7 +91,7 @@ class SocInfo extends CFormModel
 		$net['name'] = 'Instagram';
 		$net['baseUrl'] = 'instagram.com';
 		$net['invite'] = '';		
-		$net['note'] =  'Чтобы получить информацию о каком-либо профиле в Instagram - сначала авторизуйтесь на сайте через Ваш аккаунт в Instagram';
+		$net['note'] =  '';
 		$socNetworks[] = $net;			
 */
 		return $socNetworks;
@@ -192,7 +192,7 @@ class SocInfo extends CFormModel
 				if(isset($socUser['url']))
 						$this->userDetail['soc_url'] = $socUser['url'];
 			}else{
-				$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+				$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 			}
 		}elseif($socNet == 'facebook'){
 				if (@fopen('http://graph.facebook.com/'.$socUsername, 'r')){
@@ -216,7 +216,7 @@ class SocInfo extends CFormModel
 					if(isset($socUser['locale']))
 						$this->userDetail['locale'] = $socUser['locale'];
 				}else{
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 				}
 				
 			}elseif($socNet == 'twitter'){
@@ -245,7 +245,7 @@ class SocInfo extends CFormModel
 						$this->userDetail['last_status'] = $socUser['status']['text'];
 	
 				}else{
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 				}		
 			}elseif($socNet == 'ВКонтакте'){
 				$url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
@@ -287,7 +287,7 @@ class SocInfo extends CFormModel
 					}
 					*/
 				}else{
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 				}
 			}elseif($socNet == 'Linkedin'){
 				Yii::import('ext.eoauth.*');
@@ -335,7 +335,7 @@ class SocInfo extends CFormModel
 					if (!empty($socUser['current-status']))
 						$this->userDetail['last_status'] = $socUser['current-status'];
 				}else{
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 				}
 			}elseif($socNet == 'Foursquare'){
 				if(!is_numeric($socUsername)){
@@ -443,7 +443,7 @@ class SocInfo extends CFormModel
 					if(isset($video[0]['id']))
 						$this->userDetail['vimeo_last_video'] = $video[0]['id'];
 				}else
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;
+					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
 			// Last.fm
 			}elseif($socNet == 'Last.fm'){
 				$socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='.$socUsername.'&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
@@ -493,7 +493,7 @@ class SocInfo extends CFormModel
 						$i++;
 					}
 				}else
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;						
+					$this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;						
 			}elseif($socNet == 'Behance'){
 				$socUser = $this->makeRequest('http://www.behance.net/v2/users/'.$socUsername.'?api_key=PRn69HKifRiUjKnfOpPGcL24v7y8z21f');
 				$socUser = $socUser['user'];
@@ -580,7 +580,7 @@ class SocInfo extends CFormModel
 						$this->userDetail['last_photo'] = '<img src="http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_z.jpg"/><br/>'.$photo['title'];
 					}
 				}else
-					$this->userDetail['soc_username'] = "Пользователя с таким именем не существует:".$socUsername;	
+					$this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;	
 				//$this->userDetail['about'] = print_r($socUser, true);
 			}elseif($socNet == 'YouTube'){
 /*				//$userXML = $this->makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
@@ -655,7 +655,7 @@ class SocInfo extends CFormModel
 				
 			}else{
 			
-				$this->userDetail['soc_username'] = 'Социальная сеть не поддерживается: '.$socNet;
+				$this->userDetail['soc_username'] =  Yii::t('Социальная сеть не поддерживается: ').$socNet;
 			}
 		return $this->userDetail;
 	}
