@@ -220,17 +220,46 @@ function SpotCtrl($scope, $http, $compile) {
     }
   };
   
+  
 	// Привязка соцсетей
+	var popup;
 	$scope.bindSocial  = function(spot, key, e) {
 	    spot.key = key;
 		$http.post('/spot/BindSocial', spot).success(function(data) {
-		  if(data.error == 'no') {
-			if(data.socnet != 'no')
-				window.location = ("/user/SocLogin?service=" + data.socnet);
-		  }
-		  else {
-			alert(data.error);
-		  }
+			if(data.error == 'no') {
+				if(data.socnet != 'no'){
+					if (!data.loggedIn){
+						var options = $.extend({
+							id: '',
+							popup: {
+								width: 450,
+								height: 380
+							}
+						}, options);
+						
+						var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+						
+						url += url.indexOf('?') >= 0 ? '&' : '?';
+						if (url.indexOf('redirect_uri=') === -1)
+							url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+						url += 'js';
+
+						var centerWidth = (window.screen.width - options.popup.width) / 2,
+							centerHeight = (window.screen.height - options.popup.height) / 2;					
+
+						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+						popup.focus();
+					}else{
+					    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+						var spotItem = spotEdit.next();
+						spotEdit.before($compile(data.content)($scope));
+						spotItem.remove();
+					}
+				}
+			}
+			else {
+				alert(data.error);
+			}
 		});
 	}; 
   

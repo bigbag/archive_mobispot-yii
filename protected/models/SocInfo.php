@@ -18,93 +18,93 @@ class SocInfo extends CFormModel
 		
 		$net['name'] = 'facebook';
 		$net['baseUrl'] = 'facebook.com';
-		$net['invite'] = 'Read more on';
+		$net['invite'] = Yii::t('eauth', 'Read more on');
 		$net['inviteClass'] = 'i-soc-fac';
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 	
 		$net['name'] = 'twitter';
 		$net['baseUrl'] = 'twitter.com';
-		$net['invite'] = 'Follow me on';
+		$net['invite'] = Yii::t('eauth', 'Follow me on');
 		$net['inviteClass'] = 'i-soc-twi';
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 /*
 		$net['name'] = 'google';
 		$net['baseUrl'] = 'google.com';
-		$net['invite'] = '';
+		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';	
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
 		$net['baseUrl'] = 'vk.com';
-		$net['invite'] = '';	
+		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';		
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;		
 /*	
 		$net['name'] = 'Linkedin';
 		$net['baseUrl'] = 'linkedin.com';
-		$net['invite'] = '';		
+		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
-		$net['note'] = ';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;		
 */
 		$net['name'] = 'Foursquare';
 		$net['baseUrl'] = 'foursquare.com';
-		$net['invite'] = '';		
+		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;		
 		
 		$net['name'] = 'vimeo';
 		$net['baseUrl'] = 'vimeo.com';
-		$net['invite'] = 'Watch more';		
+		$net['invite'] = Yii::t('eauth', 'Watch more');		
 		$net['inviteClass'] = 'i-soc-vimeo';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'Last.fm';
 		$net['baseUrl'] = 'lastfm.ru';
-		$net['invite'] = '';		
+		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'DeviantART';
 		$net['baseUrl'] = 'deviantart.com';
-		$net['invite'] = '';		
+		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Behance';
 		$net['baseUrl'] = 'behance.net';
-		$net['invite'] = '';
+		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Flickr';
 		$net['baseUrl'] = 'flickr.com';
-		$net['invite'] = '';
+		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'YouTube';
 		$net['baseUrl'] = 'youtube.com';
-		$net['invite'] = '';
+		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
-		$net['note'] = '';
+		$net['note'] = Yii::t('eauth', '');
 		$socNetworks[] = $net;	
 /*		
 		$net['name'] = 'Instagram';
 		$net['baseUrl'] = 'instagram.com';
-		$net['invite'] = '';		
+		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
-		$net['note'] =  '';
+		$net['note'] =  Yii::t('eauth', '');
 		$socNetworks[] = $net;			
 */
 		return $socNetworks;
