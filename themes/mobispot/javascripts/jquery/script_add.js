@@ -32,3 +32,8 @@ $(window).load(function() {
       $(bubblesSliderBullets[i]).append($(bubblesContent[i]));
   }
 });
+
+$(document).on('click','.popup', function(){
+  $('#confirm').hide();
+  $('.settings-list > li').removeClass('active');
+});

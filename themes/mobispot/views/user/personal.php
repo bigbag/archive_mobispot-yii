@@ -77,14 +77,17 @@
   <div class="row popup-content content-settings">
       <div class="column twelve">
       <ul class="add-active settings-list">
-        <li class="active" ng-click="renameSpot(spot)">
+        <li ng-click="renameSpot(spot)">
           <?php echo Yii::t('spot', 'Rename spot')?>
         </li>
         <!-- <li ng-click="makeBusinessSpot(spot)">
           <?php echo Yii::t('spot', 'Make spot business')?>
         </li> -->
-        <li ng-click="renameSpot(spot)">
+        <li ng-click="invisibleSpot(spot)" ng-show="spot.invisible">
           <?php echo Yii::t('spot', 'Make spot invisible')?>
+        </li>
+        <li ng-click="invisibleSpot(spot)" ng-hide="spot.invisible">
+          <?php echo Yii::t('spot', 'Make spot visible')?>
         </li>
         <li ng-click="cleanSpot(spot)">
           <?php echo Yii::t('spot', 'Clean spot')?>
