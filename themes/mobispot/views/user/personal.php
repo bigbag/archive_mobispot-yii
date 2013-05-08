@@ -97,7 +97,22 @@
         </li>
       </ul>
       <footer>
-
+        <div id="rename-spot" class="popup-row">
+          <form name="renameSpotForm">
+          <input
+            type="text"
+            class="b-short-input"
+            ng-model="spot.newName"
+            name="newName"
+            placeholder="<?php echo Yii::t('spot', 'New Name')?>"
+            autocomplete="off"
+            maxlength="50"
+            required>
+            <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
+              <?php echo Yii::t('spot', 'Save')?>
+            </a>
+          </form>
+        </div>
         <div id="confirm" class="text-center">
           <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
         <p></p>

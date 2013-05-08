@@ -432,25 +432,24 @@ echo json_encode(array('error'=>$error, 'spot'=>$printed, 'content'=>$content, '
     }
   }
 
-
-
-  public function actionSpotRename() {
+  //Переименовываем спот
+  public function actionRenameSpot() {
     $error="yes";
-    $discodes="";
-    $name="";
     $data=$this->getJson();
+    $name='';
 
-    if (isset($data['name']) and isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-        $spot->name=CHtml::encode($data['name']);
-        if ($spot->save()) {
-          $discodes=$data['discodes'];
-          $name=mb_substr($spot->name, 0, 45, 'utf-8');
-          $error="no";
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['newName']) and isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+          $spot->name=CHtml::encode($data['newName']);
+          if ($spot->save(false)) {
+            $name=mb_substr($spot->name, 0, 45, 'utf-8');
+            $error="no";
+          }
         }
       }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name));
+      echo json_encode(array('error'=>$error, 'name'=>$name));
     }
   }
 

@@ -11,6 +11,9 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.keys = [];
   $scope.action = false;
 
+  var renameSpot = angular.element('#rename-spot');
+  var confirm = angular.element('#confirm');
+
   // Следим за очередностью блоков
   // $scope.$watch('keys', function() {
   //   console.log($scope.keys);
@@ -319,22 +322,51 @@ function SpotCtrl($scope, $http, $compile) {
   // Делаем спот неивдимым
   $scope.invisibleSpot = function(spot) {
     $scope.action = 'invisible';
-    angular.element('#confirm').show();
+    renameSpot.hide();
+    confirm.show();
     angular.element('#confirm .button.round.active').focus();
   };
 
   // Удаление спота
   $scope.removeSpot = function(spot) {
     $scope.action = 'remove';
-    angular.element('#confirm').show();
+    renameSpot.hide();
+    confirm.show();
     angular.element('#confirm .button.round.active').focus();
   };
 
   // Очистка спота
   $scope.cleanSpot = function(spot) {
     $scope.action = 'clear';
-    angular.element('#confirm').show();
+    renameSpot.hide();
+    confirm.show();
     angular.element('#confirm .button.round.active').focus();
+  };
+
+  //Переименование спота
+  $scope.renameSpot = function(spot) {
+    $scope.action = 'rename';
+    confirm.hide();
+    renameSpot.show();
+    angular.element('#rename-spot input').focus();
+  };
+
+  $scope.setNewName = function(spot) {
+    if ($scope.spot.newName){
+      $http.post('/spot/renameSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          var spotContent = angular.element('#' + spot.discodes);
+          spotContent.find('.spot-hat h3').text(data.name);
+          renameSpot.hide();
+          delete $scope.spot.newName;
+          angular.element('.popup').click();
+          angular.element('.settings-list > li').removeClass('active');
+        }
+        else if (data.error == 'yes') {
+          angular.element('#rename-spot input[name=newName]').addClass('error');
+        }
+      });
+    }
   };
 
   //действия при положительном ответе
@@ -368,16 +400,15 @@ function SpotCtrl($scope, $http, $compile) {
         }
       });
     }
-    angular.element('#confirm').hide(function() {
-      angular.element('.settings-list > li').removeClass('active');
-    });
+    renameSpot.hide();
+    confirm.hide();
+    angular.element('.settings-list > li').removeClass('active');
   };
 
   $scope.confirmNo = function(spot) {
     if ($scope.action){
-      angular.element('#confirm').hide(function() {
-        angular.element('.settings-list > li').removeClass('active');
-      });
+      angular.element('#confirm').hide();
+      angular.element('.settings-list > li').removeClass('active');
       $scope.action = false;
     }
   };
