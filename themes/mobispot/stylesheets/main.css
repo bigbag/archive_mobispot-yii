@@ -1076,7 +1076,7 @@ img[height='115']{
 .footer-page .lang-dropdown{
 	display: inline-block;
 	position: absolute;
-	top: 54px;
+	top: 64px;
 	right: 2em;
 }
 .lang-dropdown .spot-button{
@@ -1097,8 +1097,7 @@ img[height='115']{
 	border-right: 4px solid transparent;
 	border-top: 4px solid #000;
 }
-.lang-dropdown:hover .spot-button,
-.dropdown:hover .spot-button{
+.lang-dropdown:hover .spot-button{
 	background: #fff !important;
 	color: #0061ff;
 }

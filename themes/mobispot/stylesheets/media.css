@@ -58,8 +58,14 @@
 	.footer-page .soc-link span{
 		display: none;
 	}
+	.footer-page .soc-link{
+		line-height: 2.1;
+	}
 	.footer-page .soc-link a{
 		margin-left: 0px;
+	}
+	.footer-page .lang-dropdown{
+		top: 56px;
 	}
 
 }

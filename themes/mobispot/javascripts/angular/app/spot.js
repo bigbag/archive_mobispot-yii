@@ -14,7 +14,6 @@ function SpotCtrl($scope, $http, $compile) {
   // Следим за очередностью блоков
   // $scope.$watch('keys', function() {
   //   console.log($scope.keys);
-
   // });
 
   $(document).on('click','.store-items__close', function(){
@@ -135,6 +134,14 @@ function SpotCtrl($scope, $http, $compile) {
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
     $scope.keys = [];
+
+    if ($scope.spot.status == 2){
+      $scope.spot.invisible = true;
+    }
+    else {
+      $scope.spot.invisible = false;
+    }
+
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
           if(data.error == 'no') {
@@ -181,7 +188,7 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
           $scope.keys.push(data.key);
           $scope.spot.content='';
-          angular.element('textarea').blur().removeClass('put');
+          angular.element('textarea').removeClass('put');
         }
       });
     }
@@ -309,6 +316,13 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
+  // Делаем спот неивдимым
+  $scope.invisibleSpot = function(spot) {
+    $scope.action = 'invisible';
+    angular.element('#confirm').show();
+    angular.element('#confirm .button.round.active').focus();
+  };
+
   // Удаление спота
   $scope.removeSpot = function(spot) {
     $scope.action = 'remove';
@@ -323,11 +337,12 @@ function SpotCtrl($scope, $http, $compile) {
     angular.element('#confirm .button.round.active').focus();
   };
 
+  //действия при положительном ответе
   $scope.confirmYes = function(spot) {
+    var spotContent = angular.element('#' + spot.discodes);
     if ($scope.action == 'remove'){
       $http.post('/spot/removeSpot', spot).success(function(data) {
         if(data.error == 'no') {
-          var spotContent = angular.element('#' + spot.discodes);
           spotContent.slideUp('slow', function () {
             spotContent.remove();
           });
@@ -341,13 +356,33 @@ function SpotCtrl($scope, $http, $compile) {
         }
       });
     }
-    angular.element('#confirm').hide();
+    else if ($scope.action == 'invisible'){
+      $http.post('/spot/invisibleSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          if ($scope.spot.invisible){
+            $scope.spot.invisible = false;
+          }
+          else {
+            $scope.spot.invisible = true;
+          }
+        }
+      });
+    }
+    angular.element('#confirm').hide(function() {
+      angular.element('.settings-list > li').removeClass('active');
+    });
   };
 
   $scope.confirmNo = function(spot) {
     if ($scope.action){
-      angular.element('#confirm').hide();
+      angular.element('#confirm').hide(function() {
+        angular.element('.settings-list > li').removeClass('active');
+      });
       $scope.action = false;
     }
+  };
+
+  $scope.checkStatusSpot = function(spot) {
+    return true;
   };
 }

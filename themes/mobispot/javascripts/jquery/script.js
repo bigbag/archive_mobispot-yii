@@ -45,7 +45,7 @@ $(window).load(function() {
 
 	$('.settings-button').on('click', showPopup);
 	$('.button', '.popup').on('click', hidePopup);
-	$(document).on('click','.popup',hidePopup);
+	$(document).on('click','.popup', hidePopup);
 	$(document).on('click','.popup-content', function(event){
 		event.stopPropagation();
 	});

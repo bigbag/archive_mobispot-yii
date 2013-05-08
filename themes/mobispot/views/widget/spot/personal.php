@@ -8,7 +8,7 @@
     </a>
   </li>
 </ul>
-<div class="spot-content slide-content">
+<div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status;?>'">
   <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul > li', 'tolerance': 'pointer'}">
 
 <?php if(!empty($spotContent->content)):?>
@@ -69,7 +69,6 @@
     </div>
   </div>
 </div>
-
 <div class="spot-content_row">
   <div id="error-upload" class="spot-item">
     <div class="item-area text-center type-error">
