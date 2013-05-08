@@ -10,7 +10,7 @@
   margin: 50px 0 0;
 }
 
-#add-content, #error-upload, #confirm{
+#add-content, #error-upload, #confirm, #rename-spot{
   display:none;
 }
 

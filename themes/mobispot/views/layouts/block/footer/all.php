@@ -26,12 +26,11 @@
         <li><a href="/pages/api"><?php echo Yii::t('footer', 'API')?></a></li>
         <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog')?></a></li>
       </ul>
-      <div class="right soc-link">
-        <span><?php echo Yii::t('footer', 'Hook Up')?></span>
-        <a href="http://www.facebook.com/heyMobispot" class="i-soc-fac">&nbsp;</a>
-        <br />
-        <span><?php echo Yii::t('footer', 'Keep Up')?></span>
-        <a href="https://twitter.com/heymobispot" class="i-soc-twi">&nbsp;</a>
+      <div class="left soc-link">
+        <a href="#"></a>
+        <span>Hook up</span>
+        <a href="#"></a>
+        <span>Keep up</span>
       </div>
       <p>
 

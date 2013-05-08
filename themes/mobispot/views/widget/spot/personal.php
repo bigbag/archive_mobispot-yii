@@ -8,8 +8,8 @@
     </a>
   </li>
 </ul>
-<div class="spot-content slide-content">
-  <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul'}">
+<div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status;?>'">
+  <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul > li', 'tolerance': 'pointer'}">
 
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
@@ -33,12 +33,22 @@
       </a>
       <?php endif;?>
       <div class="spot-cover slow">
-        <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
-        <?php if ($content['keys'][$key]=='text'):?>
-        <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
-		<a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)"></a>
-        <?php endif;?>
-        <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
+        <div class="spot-activity">
+          <?php if ($content['keys'][$key]=='text'):?>
+            <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)"></a>
+            <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
+          <?php endif;?>
+          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
+
+        </div>
+
+          <?php if ($content['keys'][$key]=='text'):?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
+          <?php elseif ($content['keys'][$key]=='image'):?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your image');?></span></div>
+          <?php else:?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your file');?></span></div>
+          <?php endif;?>
       </div>
     </div>
   </div>
@@ -59,7 +69,6 @@
     </div>
   </div>
 </div>
-
 <div class="spot-content_row">
   <div id="error-upload" class="spot-item">
     <div class="item-area text-center type-error">

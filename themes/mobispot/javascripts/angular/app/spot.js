@@ -11,10 +11,12 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.keys = [];
   $scope.action = false;
 
+  var renameSpot = angular.element('#rename-spot');
+  var confirm = angular.element('#confirm');
+
   // Следим за очередностью блоков
   // $scope.$watch('keys', function() {
   //   console.log($scope.keys);
-
   // });
 
   $(document).on('click','.store-items__close', function(){
@@ -135,6 +137,14 @@ function SpotCtrl($scope, $http, $compile) {
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
     $scope.keys = [];
+
+    if ($scope.spot.status == 2){
+      $scope.spot.invisible = true;
+    }
+    else {
+      $scope.spot.invisible = false;
+    }
+
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
           if(data.error == 'no') {
@@ -145,9 +155,8 @@ function SpotCtrl($scope, $http, $compile) {
             });
 
             spotHat.after($compile(data.content)($scope));
-            spot.find('.spot-content').slideToggle('slow', function () {
-              spot.addClass('open');
-            });
+            spot.addClass('open');
+            spot.find('.spot-content').slideToggle('slow');
 
             $scope.spot.content='';
 
@@ -165,9 +174,9 @@ function SpotCtrl($scope, $http, $compile) {
     }
     else {
       delete $scope.spot.content_new;
-      spot.removeClass('open');
       spotContent.slideUp('slow',
         function () {
+          spot.removeClass('open');
           spotContent.prev().remove();
           spotContent.remove();
         });
@@ -182,6 +191,7 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
           $scope.keys.push(data.key);
           $scope.spot.content='';
+          angular.element('textarea').removeClass('put');
         }
       });
     }
@@ -219,50 +229,21 @@ function SpotCtrl($scope, $http, $compile) {
       $scope.hideSpotEdit();
     }
   };
-  
-  
+
 	// Привязка соцсетей
-	var popup;
 	$scope.bindSocial  = function(spot, key, e) {
 	    spot.key = key;
 		$http.post('/spot/BindSocial', spot).success(function(data) {
-			if(data.error == 'no') {
-				if(data.socnet != 'no'){
-					if (!data.loggedIn){
-						var options = $.extend({
-							id: '',
-							popup: {
-								width: 450,
-								height: 380
-							}
-						}, options);
-						
-						var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
-						
-						url += url.indexOf('?') >= 0 ? '&' : '?';
-						if (url.indexOf('redirect_uri=') === -1)
-							url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-						url += 'js';
-
-						var centerWidth = (window.screen.width - options.popup.width) / 2,
-							centerHeight = (window.screen.height - options.popup.height) / 2;					
-
-						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-						popup.focus();
-					}else{
-					    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
-						var spotItem = spotEdit.next();
-						spotEdit.before($compile(data.content)($scope));
-						spotItem.remove();
-					}
-				}
-			}
-			else {
-				alert(data.error);
-			}
+		  if(data.error == 'no') {
+			if(data.socnet != 'no')
+				window.location = ("/user/SocLogin?service=" + data.socnet);
+		  }
+		  else {
+			alert(data.error);
+		  }
 		});
-	}; 
-  
+	};
+
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
@@ -331,28 +312,69 @@ function SpotCtrl($scope, $http, $compile) {
         spotAdd.hide();
         delete $scope.spot.code;
       }
+      else if (data.error == 'yes') {
+        angular.element('#actSpotForm input[name=code]').addClass('error');
+        angular.element('#actSpotForm input[name=name]').addClass('error');
+      }
     });
+  };
+
+  // Делаем спот неивдимым
+  $scope.invisibleSpot = function(spot) {
+    $scope.action = 'invisible';
+    renameSpot.hide();
+    confirm.show();
+    angular.element('#confirm .button.round.active').focus();
   };
 
   // Удаление спота
   $scope.removeSpot = function(spot) {
     $scope.action = 'remove';
-    angular.element('#confirm').show();
+    renameSpot.hide();
+    confirm.show();
     angular.element('#confirm .button.round.active').focus();
   };
 
   // Очистка спота
   $scope.cleanSpot = function(spot) {
     $scope.action = 'clear';
-    angular.element('#confirm').show();
+    renameSpot.hide();
+    confirm.show();
     angular.element('#confirm .button.round.active').focus();
   };
 
+  //Переименование спота
+  $scope.renameSpot = function(spot) {
+    $scope.action = 'rename';
+    confirm.hide();
+    renameSpot.show();
+    angular.element('#rename-spot input').focus();
+  };
+
+  $scope.setNewName = function(spot) {
+    if ($scope.spot.newName){
+      $http.post('/spot/renameSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          var spotContent = angular.element('#' + spot.discodes);
+          spotContent.find('.spot-hat h3').text(data.name);
+          renameSpot.hide();
+          delete $scope.spot.newName;
+          angular.element('.popup').click();
+          angular.element('.settings-list > li').removeClass('active');
+        }
+        else if (data.error == 'yes') {
+          angular.element('#rename-spot input[name=newName]').addClass('error');
+        }
+      });
+    }
+  };
+
+  //действия при положительном ответе
   $scope.confirmYes = function(spot) {
+    var spotContent = angular.element('#' + spot.discodes);
     if ($scope.action == 'remove'){
       $http.post('/spot/removeSpot', spot).success(function(data) {
         if(data.error == 'no') {
-          var spotContent = angular.element('#' + spot.discodes);
           spotContent.slideUp('slow', function () {
             spotContent.remove();
           });
@@ -366,13 +388,32 @@ function SpotCtrl($scope, $http, $compile) {
         }
       });
     }
-    angular.element('#confirm').hide();
+    else if ($scope.action == 'invisible'){
+      $http.post('/spot/invisibleSpot', spot).success(function(data) {
+        if(data.error == 'no') {
+          if ($scope.spot.invisible){
+            $scope.spot.invisible = false;
+          }
+          else {
+            $scope.spot.invisible = true;
+          }
+        }
+      });
+    }
+    renameSpot.hide();
+    confirm.hide();
+    angular.element('.settings-list > li').removeClass('active');
   };
 
   $scope.confirmNo = function(spot) {
     if ($scope.action){
       angular.element('#confirm').hide();
+      angular.element('.settings-list > li').removeClass('active');
       $scope.action = false;
     }
+  };
+
+  $scope.checkStatusSpot = function(spot) {
+    return true;
   };
 }

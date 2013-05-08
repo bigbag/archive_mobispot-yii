@@ -29,21 +29,23 @@
 </div>
 <div class="row">
   <div class="column twelve text-center toggle-active">
-    <a href="javascript:;" id="actSpot" class="add-spot toggle-box button round"><span class="tooltip"><?php echo Yii::t('spot', 'Add another spot')?></span></a>
+    <a href="javascript:;" id="actSpot" class="add-spot toggle-box button round"><span class="m-tooltip"><?php echo Yii::t('spot', 'Add another spot')?></span></a>
   </div>
 </div>
 
 <div id="actSpotForm" class="slide-box add-spot-box">
-  <div class="row">
+  <div class="row popup-content">
     <div class="six centered column">
       <form id="add-spot" name="addSpotForm">
       <input type="text"
         ng-model="spot.code"
+        name="code"
         placeholder="<?php echo Yii::t('spot', 'Spot activation code')?>"
         autocomplete="off"
         maxlength="10"
         required>
       <input type="text"
+        name="name"
         ng-model="spot.name"
         placeholder="<?php echo Yii::t('spot', 'Spot name')?>"
         autocomplete="off">
@@ -72,18 +74,20 @@
 </div>
 
 <div class="popup slow bg-gray hide">
-  <div class="row content-settings">
-    <div class="column twelve">
-      <a href="javascript:;" class="button joyride-close-tip">X</a>
+  <div class="row popup-content content-settings">
+      <div class="column twelve">
       <ul class="add-active settings-list">
-        <li class="active" ng-click="renameSpot(spot)">
+        <li ng-click="renameSpot(spot)">
           <?php echo Yii::t('spot', 'Rename spot')?>
         </li>
-        <li ng-click="makeBusinessSpot(spot)">
+        <!-- <li ng-click="makeBusinessSpot(spot)">
           <?php echo Yii::t('spot', 'Make spot business')?>
-        </li>
-        <li ng-click="renameSpot(spot)">
+        </li> -->
+        <li ng-click="invisibleSpot(spot)" ng-show="spot.invisible">
           <?php echo Yii::t('spot', 'Make spot invisible')?>
+        </li>
+        <li ng-click="invisibleSpot(spot)" ng-hide="spot.invisible">
+          <?php echo Yii::t('spot', 'Make spot visible')?>
         </li>
         <li ng-click="cleanSpot(spot)">
           <?php echo Yii::t('spot', 'Clean spot')?>
@@ -93,7 +97,22 @@
         </li>
       </ul>
       <footer>
-
+        <div id="rename-spot" class="popup-row">
+          <form name="renameSpotForm">
+          <input
+            type="text"
+            class="b-short-input"
+            ng-model="spot.newName"
+            name="newName"
+            placeholder="<?php echo Yii::t('spot', 'New Name')?>"
+            autocomplete="off"
+            maxlength="50"
+            required>
+            <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
+              <?php echo Yii::t('spot', 'Save')?>
+            </a>
+          </form>
+        </div>
         <div id="confirm" class="text-center">
           <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
         <p></p>
@@ -109,7 +128,6 @@
   </div>
   <div class="row content-wallet">
     <div class="column twelve">
-      <a href="javascript:;" class="button joyride-close-tip">X</a>
       <div class="popup-row">
         <h3>Состояние счета: <span class="b-account b-negative b-positive">134$</span></h3>
         <input type="number" class="b-short-input" placeholder="0.00"><a href="#" class="spot-button active">Пополнить</a>
