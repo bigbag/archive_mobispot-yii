@@ -32,10 +32,7 @@
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
 					</a>
-				<?php endif; ?>				
-				<?php if(!$content['data'][$key]['isLogged']):?>
-					<a href="#" class="spot-button soc-link" ><?php echo Yii::t('spot', 'Авторизоваться в '); ?><?php echo $content['data'][$key]['netName']; ?></a>
-				<?php endif; ?>				
+				<?php endif; ?>			
 			</div>
 		</div>
 	<?php endif; ?>
