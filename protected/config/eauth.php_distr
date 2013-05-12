@@ -19,7 +19,7 @@ return array( // You can change the providers and their classes.
     // register your app here: https://developers.facebook.com/apps/
     'class'=>'CustomFacebookOAuthService',
     'scope'=>'email',
-    'client_id'=>'',
-    'client_secret'=>'',
+    'client_id'=>'382791045167658',
+    'client_secret'=>'5ce849c2bab389c307ac70bb0723dc0c',
   ),
 );
