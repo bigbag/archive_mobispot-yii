@@ -27,9 +27,9 @@
         <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog')?></a></li>
       </ul>
       <div class="left soc-link">
-        <a href="#"></a>
+        <a href="http://www.facebook.com/heyMobispot"></a>
         <span>Hook up</span>
-        <a href="#"></a>
+        <a href="https://twitter.com/heymobispot"></a>
         <span>Keep up</span>
       </div>
       <p>
