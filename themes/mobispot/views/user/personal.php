@@ -126,45 +126,113 @@
       </footer>
     </div>
   </div>
-  <div class="row content-wallet">
-    <div class="column twelve">
-      <div class="popup-row">
-        <h3>Состояние счета: <span class="b-account b-negative b-positive">134$</span></h3>
-        <input type="number" class="b-short-input" placeholder="0.00"><a href="#" class="spot-button active">Пополнить</a>
-      </div>
-      <div class="popup-row">
-        <h3>Привязать карту: </h3>
-        <a href="#" class="spot-button active">Привязать</a>
-      </div>
-      <div class="popup-row">
-        <h4>Последние операции: </h4>
-        <div class="m-table-wrapper">
-        <table class="m-spot-table" ng-grid="gridOptions">
-          <thead>
-            <tr>
-              <th class="active"><span> Дата и время </span></th>
-              <th><span>Место</span></th>
-              <th><span>Сумма</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="todo in staffRemoved|filter:search" class="m-t-cont-row">
-              <td>21.03.2013</td>
-              <td>Столовая</td>
-              <td>2$</td>
-            </tr>
-            <tr ng-repeat="todo in staffRemoved|filter:search" class="m-t-cont-row">
-              <td>22.03.2013</td>
-              <td>Столовая</td>
-              <td>10$</td>
-            </tr>
-            <tr ng-repeat="todo in staffRemoved|filter:search" class="m-t-cont-row">
-              <td>23.03.2013</td>
-              <td>Столовая</td>
-              <td>6$</td>
-            </tr>
-          </tbody>
-          </table>
+  <div class="row popup-content content-wallet">
+    <div class="twelve columns">
+      <div class="slide-content">
+        <div class="twelve columns">
+          <div class="item-area item-area_w">
+            <div class="six columns">
+              <h3>Состояние счета
+                <span class="b-account b-negative b-positive">
+                  0 руб.
+                </span>
+              </h3>
+            </div>
+            <div class="six columns">
+              <form name="paymentForm" class="custom item-area__right clearfix ng-pristine ng-invalid ng-invalid-required" action="https://test.wpay.uniteller.ru/pay/">
+                <input id="unitell_shop_id" type="hidden" name="Shop_IDP" value="">
+                <input id="unitell_customer" type="hidden" name="Customer_IDP" value="">
+                <input id="unitell_order_id" type="hidden" name="Order_IDP" value="">
+                <input id="unitell_subtotal" type="hidden" name="Subtotal_P" value="">
+                <input id="unitell_signature" type="hidden" name="Signature" value="">
+                <input id="unitell_url_ok" type="hidden" name="URL_RETURN_OK" value="">
+                <input id="unitell_url_no" type="hidden" name="URL_RETURN_NO" value="">
+                  <div class="row">
+                    <div class="twelve columns">
+                      <label for="payment">Введите сумму от 100 до 1000 руб.</label>
+                    </div>
+                  </div>
+                  <div class="row form-line">
+                    <div class="six columns">
+                      <input id="payment" type="text" ng-pattern="/[0-9]+/" ng-model="payment.summ" placeholder="100руб." maxlength="50" required="" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern">
+                    </div>
+                    <div class="six columns">
+                      <a class="spot-button button-disable text-center" href="javascript:;" ng-click="addSumm(payment, $event)">Пополнить</a><br>
+                    </div>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="twelve columns">
+          <div class="item-area item-area_w">
+            <div class="m-auto-payment active">
+              <div class="six columns">
+                <h3>Автоплатежи </h3>
+                <div class="m-card-cur">
+                  <div>Карта: <span>xxxx xxxx xxxx 1234</span></div>
+                  <div>Дата подключения: <span>12.04.2013</span></div>
+                </div>
+              </div>
+              <div class="six columns">
+                <form class="sum-autopayment item-area__right">
+                  <div class="row">
+                    <div class="twelve columns">
+                      <label for="payment">Введите сумму автоплатежа</label>
+                    </div>
+                  </div>
+                  <div class="row form-line clearfix">
+                    <div class="six columns">
+                      <input id="auto-payment" type="text" ng-pattern="/[0-9]+/" ng-model="payment.summ" placeholder="100руб." maxlength="50" required="" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern">
+                    </div>
+                    <div class="six columns">
+                      <a class="spot-button text-center" href="javascript:;">Принять</a><br>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="twelve columns">
+                <div class="m-agreement">
+                  <div class="toggle-active">
+                    <a href="javascript:;" class="radio-link"><i class="large"></i>Я согласен с условиями подключения автоплатежа</a>
+                  </div>
+                  <p class="sub-txt sub-txt-last">
+                    *Включая автоплатежи вы соглашаетесь,
+                    что баланс кампусной карты "Мобиспот" будет автоматически пополняться при остатке менее 100 руб.
+                    Для пополнения будет использована банковская карта по которой вы последний раз совершали пополнение.
+                  </p>
+                  <a href="javascript:;" class="spot-button text-center button-disable" ng-click="setAuto()">Включить</a>
+                </div>
+                <div class="sum-autopayment">
+                  <a href="javascript:;" class="spot-button text-center button-disable" ng-click="setAuto()">Выключить</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="twelve columns">
+          <div class="item-area item-area_w  item-area_table">
+            <h3>Последние операции</h3>
+            <div class="m-table-wrapper">
+              <table class="m-spot-table" ng-grid="gridOptions">
+                <thead>
+                <tr>
+                  <th><div></sia><span>Дата и время</span></div></th>
+                  <th><div><span>Место</span></div></th>
+                  <th><div><span>Сумма</span></div></th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div>12.10.2013, 20:00</div></td>
+                    <td><div>Uilliam’s</div></td>
+                    <td><div>50$</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
