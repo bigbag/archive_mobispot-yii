@@ -285,7 +285,7 @@ class SpotController extends MController {
 								if ($spotContent->save()){
 									$content=$this->renderPartial('//widget/spot/personal/new_text',
 									array(
-									'content'=>$data['content_new'],
+									'content'=>$content['data'][$data['key']],
 									'key'=>$data['key'],
 									),
 									true);
