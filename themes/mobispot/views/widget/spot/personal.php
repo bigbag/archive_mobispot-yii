@@ -1,8 +1,15 @@
-<a class="settings-button spot-button right text-center" href="javascript:;" ng-click="showSettings()">
-  <?php echo Yii::t('spots', 'Settings');?>
-</a>
-<div class="spot-content slide-content">
-  <div ng-model='keys' ui-sortable>
+<ul class="spot-hat-button">
+  <li>
+    <a id="j-wallet" class="b-account settings-button wallet-button spot-button b-negative b-positive right tex5t-center" href="javascript:;">134$</a>
+  </li>
+  <li>
+    <a id="j-settings" class="spot-button right text-center settings-button" href="javascript:;"ng-click="showSettings()">
+      <?php echo Yii::t('spots', 'Settings');?>
+    </a>
+  </li>
+</ul>
+<div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status;?>'">
+  <div ng-model='keys' ui-sortable="{'containment': '#spotslistview > ul > li', 'tolerance': 'pointer'}">
 
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
@@ -13,7 +20,7 @@
 
   <?php $keys[]=$key;?>
 
-  <div class="spot-item">
+  <div class="spot-item spot-block">
     <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
       <?php if ($content['keys'][$key]=='text'):?>
       <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
@@ -26,19 +33,30 @@
       </a>
       <?php endif;?>
       <div class="spot-cover slow">
-        <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
-        <?php if ($content['keys'][$key]=='text'):?>
-        <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
-        <?php endif;?>
-        <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
+        <div class="spot-activity">
+          <?php if ($content['keys'][$key]=='text'):?>
+            <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)"></a>
+            <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
+          <?php endif;?>
+          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
+
+        </div>
+
+          <?php if ($content['keys'][$key]=='text'):?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
+          <?php elseif ($content['keys'][$key]=='image'):?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your image');?></span></div>
+          <?php else:?>
+            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your file');?></span></div>
+          <?php endif;?>
       </div>
     </div>
   </div>
   <?php endforeach;?>
-  <?php $keys='['.implode(',', $keys).']';?>
-
 
   <?php endif;?>
+  <?php $keys=(isset($keys[0])?$keys:array())?>
+  <?php $keys='['.implode(',', $keys).']';?>
   <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0"></span>
@@ -51,7 +69,6 @@
     </div>
   </div>
 </div>
-
 <div class="spot-content_row">
   <div id="error-upload" class="spot-item">
     <div class="item-area text-center type-error">

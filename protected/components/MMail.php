@@ -130,5 +130,22 @@ Class MMail
   else return false;
   }
 
+	public function order_track($email, $mailOrder, $lang)
+	{
+		$mail_template = MailTemplate::getTemplate('store_order', $lang);
 
+		$stack = new MailStack;
+		$stack->from = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+		$stack->to = serialize(array($email));
+		$stack->subject = $mail_template->subject;
+		$stack->body = MMail::render($lang . '_' . $mail_template->slug,
+		  array('order'=>$mailOrder),
+		true);	
+
+		if ($stack->save()) 
+			return true;
+		else 
+			return false;
+	}
+  
 }

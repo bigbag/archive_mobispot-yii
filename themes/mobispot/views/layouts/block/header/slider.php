@@ -1,7 +1,9 @@
 <header class="header-page">
   <?php if (Yii::app()->user->isGuest): ?>
-  <?php include('block/activ.php');?>
-  <?php include('block/sign.php');?>
+  <div class="m-page-hat">
+    <?php include('block/activ.php');?>
+    <?php include('block/sign.php');?>
+  </div>
   <?php endif; ?>
   <div class="row row__head-slider">
     <div class="twelve">
@@ -15,9 +17,9 @@
         <div class="four columns">
           <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
         </div>
-          <div class="eight columns">
-            <?php include('block/menu.php');?>
-          </div>
+        <div class="eight columns">
+          <?php include('block/menu.php');?>
+        </div>
       </div>
       <div class="bubbles-slider">
         <div id="slider">

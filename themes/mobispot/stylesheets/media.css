@@ -1,5 +1,19 @@
-
-
+@media screen and (max-width: 1044px){
+	.error-message{
+		width: 500px;
+	}
+	.error-text-block{
+		height: 252px;
+	}
+	.error-text-block h1{
+		width: 237px;
+	}
+}
+@media screen and (max-width: 1015px){
+	.p-error-txt footer{
+		letter-spacing: 20px;
+	}
+}
 
 @media screen and (min-width: 994px) {
 
@@ -22,7 +36,36 @@
 	}
 	.spots-description h3{
 		color: #0063ff;
-		font-size: 24px;
+	}
+	.error-message{
+		width: 400px;
+	}
+	.error-text-block{
+		height: 204px;
+	}
+	.error-text-block h1{
+		width: 185px;
+		font-size: 45px;
+	}
+	.error-code{
+		width: 145px;
+		font-size: 66px;
+	}
+	.error-message{
+		float: none;
+		margin: 0 auto;
+	}
+	.footer-page .soc-link span{
+		display: none;
+	}
+	.footer-page .soc-link{
+		line-height: 2.1;
+	}
+	.footer-page .soc-link a{
+		margin-left: 0px;
+	}
+	.footer-page .lang-dropdown{
+		top: 56px;
 	}
 
 }
@@ -99,7 +142,6 @@
 		position: static;
 	}
 	.footer-page .soc-link{
-		margin-top: 25px;
 		line-height: 1.6;
 	}
 	.footer-page p{
@@ -112,6 +154,20 @@
 	.header-top:hover + .bubbles-slider .change-cover{
 		opacity: 0;
 	}
+	.error-message{
+		float: none;
+		margin: 0 auto;
+	}
+	.footer-page .lang-dropdown{
+		top: 47px
+	}
+	.footer-page .soc-link span{
+		display: inline;
+	}
+	.footer-page .soc-link a{
+		margin-left: 31px;
+	}
+
 }
 @media screen and (max-width: 600px) {
 	body{
@@ -153,4 +209,19 @@
 	.bubbles-slider .orbit-bullets{
 		margin-left: -165px !important;
 	}
+	.error-message{
+		width: 300px;
+	}
+	.error-text-block{
+		height: 155px;
+	}
+	.error-text-block h1{
+		width: 142px;
+		font-size: 35px;
+	}
+	.error-code{
+		width: 105px;
+		font-size: 50px;
+	}
+
 }

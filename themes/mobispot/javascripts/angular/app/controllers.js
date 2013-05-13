@@ -54,10 +54,10 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     }).error(function(error){
       $scope.itemsInCart = 0;
     });
-	if(period == 1000)
-		var mytimeout = $timeout($scope.onFastTimeout, 1000);
-	else
-		var mytimeout = $timeout($scope.onTimeout, 10000);
+  if(period == 1000)
+    var mytimeout = $timeout($scope.onFastTimeout, 1000);
+  else
+    var mytimeout = $timeout($scope.onTimeout, 10000);
   };
 
   $scope.onTimeout = function(){
@@ -97,35 +97,35 @@ function HelpCtrl($scope, $http, $compile) {
 }
 
 function WalletCtrl($scope, $http, $timeout){
-	$scope.ready = false;
-	$scope.WalletInit = function(token){
-			$scope.token = token;
-			$http.post('/wallet/GetWallet', {token : $scope.token}).success(function(data) {
-				$scope.wallet = data.wallet;
-				$scope.history = data.history;
-			}).error(function(error){
-					alert(error);
-			});
-	};
-	
-	$scope.addByUniteller = function(){
-		$scope.ready = false;
-		$scope.tries = 0;
-		
-		$http.post('/wallet/GetUnitellerOrder', {token : $scope.token, newSumm: $scope.newSumm}).success(function(data) {
-			$scope.order = data.order;
-			$scope.ready = true;
-			angular.element('#unitell_shop_id').val(data.order.idShop);
-			angular.element('#unitell_customer').val(data.order.idCustomer);
-			angular.element('#unitell_order_id').val(data.order.idOrder);
-			angular.element('#unitell_subtotal').val(data.order.subtotal);
-			angular.element('#unitell_signature').val(data.order.signature);
-			angular.element('#unitell_url_ok').val(data.order.return_ok);
-			angular.element('#unitell_url_no').val(data.order.return_error);
-			document.getElementById('submitUnitell').click();
-		}).error(function(error){
-			alert(error);
-		});	
-	}
+  $scope.ready = false;
+  $scope.WalletInit = function(token){
+      $scope.token = token;
+      $http.post('/wallet/GetWallet', {token : $scope.token}).success(function(data) {
+        $scope.wallet = data.wallet;
+        $scope.history = data.history;
+      }).error(function(error){
+          alert(error);
+      });
+  };
+
+  $scope.addByUniteller = function(){
+    $scope.ready = false;
+    $scope.tries = 0;
+
+    $http.post('/wallet/GetUnitellerOrder', {token : $scope.token, newSumm: $scope.newSumm}).success(function(data) {
+      $scope.order = data.order;
+      $scope.ready = true;
+      angular.element('#unitell_shop_id').val(data.order.idShop);
+      angular.element('#unitell_customer').val(data.order.idCustomer);
+      angular.element('#unitell_order_id').val(data.order.idOrder);
+      angular.element('#unitell_subtotal').val(data.order.subtotal);
+      angular.element('#unitell_signature').val(data.order.signature);
+      angular.element('#unitell_url_ok').val(data.order.return_ok);
+      angular.element('#unitell_url_no').val(data.order.return_error);
+      document.getElementById('submitUnitell').click();
+    }).error(function(error){
+      alert(error);
+    });
+  }
 
 }

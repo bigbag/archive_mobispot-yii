@@ -13,6 +13,14 @@ body{
 	url('../fonts/mobispot-webfont.ttf') format('truetype'),
 	url('../fonts/mobispot-webfont.svg#webfontjSpbZQRv') format('svg');
 }
+@font-face {
+	font-family: Mobispot-icon;
+	src: url('../fonts/mobispot-icon.eot');
+	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
+	url('../fonts/mobispot-icon.woff') format('woff'),
+	url('../fonts/mobispot-icon.ttf') format('truetype'),
+	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
+}
 .color{
 	color: #0063ff;
 }
@@ -33,6 +41,7 @@ li{
 .logo a{
 	display: block;
 	max-width: 207px;
+	margin: 0 2px;
 }
 
 ::-webkit-input-placeholder {color:#000 !important;}
@@ -86,4 +95,10 @@ html[xmlns] .clearfix {
 }
 .overflow-h{
 	overflow: hidden;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	display: none;
+	-webkit-appearance: none;
+	margin: 0;
 }

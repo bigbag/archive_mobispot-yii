@@ -9,6 +9,7 @@ return array(
   'application.models.user.form.*',
   'application.models.content.*',
   'application.models.content.form.*',
+  'application.models.payment.*',
   'application.components.*',
   'application.helpers.*',
   'ext.eoauth.*',
@@ -19,5 +20,4 @@ return array(
   'ext.eauth.custom_services.*',
   'application.extensions.phpass.*',
   'application.extensions.image.*',
-  'ext.mongo.*'
 );

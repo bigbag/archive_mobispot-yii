@@ -26,26 +26,27 @@ class ServiceUserIdentity extends CUserIdentity
   * This method is required by {@link IUserIdentity}.
   * @return boolean whether authentication succeeds.
   */
-  public function authenticate()
-  {
-    
-    $user = User::model()->findByAttributes(array('email' => $this->service->email));
-    
+	public function authenticate()
+	{
+
+   // $user = User::model()->findByAttributes(array('email' => $this->service->email));
+
     if ($this->service->isAuthenticated) {
-      $this->_id = $user->id;
-      $this->_email = $user->email;
-      $this->username = $user->email;
-      $this->password = $user->password;
-      
-      $this->setState('id', $this->id);
-      $this->setState('service', $this->service->serviceName);
-      $this->setState('email', $this->email);
-      $this->errorCode = self::ERROR_NONE;
-      } else {
-      $this->errorCode = self::ERROR_NOT_AUTHENTICATED;
-    }
-    return !$this->errorCode;
-  }
+/* 		$this->_id = $user->id;
+		$this->_email = $user->email;
+		$this->username = $user->email;
+		$this->password = $user->password;
+
+		$this->setState('id', $this->id);
+		$this->setState('service', $this->service->serviceName);
+		$this->setState('email', $this->email);
+*/		
+		$this->errorCode = self::ERROR_NONE;
+	} else {
+		$this->errorCode = self::ERROR_NOT_AUTHENTICATED;
+	}
+	  	return !$this->errorCode;
+	}
   
   /**
   * @return integer the ID of the user record

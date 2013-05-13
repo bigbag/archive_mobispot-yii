@@ -31,7 +31,7 @@ class RegistrationForm extends User {
     if (!$this->hasErrors()) {
       $spot=Spot::model()->findByAttributes(array('code'=>$this->activ_code, 'status'=>Spot::STATUS_ACTIVATED));
 
-      if ($spot=null)
+      if ($spot==null)
         $this->addError("activ_code", Yii::t('user', "Код активации спота неверен"));
     }
   }

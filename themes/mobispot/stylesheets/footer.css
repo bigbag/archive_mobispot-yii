@@ -33,10 +33,22 @@ footer-page h3{
 	clear: both;
 }
 .footer-page .soc-link{
-	line-height: 1.6;
+	line-height: 2.9;
+	font-size: 14px;
+	margin-bottom: 13px;
 }
 .footer-page .soc-link span{
 	margin-right: 10px;
 	font-size: 14px;
 }
-
+.footer-page .soc-link a{
+	margin: -10px 6px 0 31px;
+	position: relative;
+	top:2px;
+}
+.footer-page .soc-link a:first-child{
+	margin: -10px 6px 0 0;
+}
+.footer-page .link-list {
+	margin-right: 47px;
+}

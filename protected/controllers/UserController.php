@@ -4,6 +4,7 @@ class UserController extends MController {
 
   public $defaultAction='account';
 
+  // Вывод профиля
   public function actionProfile() {
     if (!Yii::app()->user->id) {
       $this->setAccess();
@@ -36,6 +37,7 @@ class UserController extends MController {
     }
   }
 
+  // Страница управления персональными спотами
   public function actionPersonal() {
     $this->layout='//layouts/spots';
 
@@ -123,4 +125,29 @@ class UserController extends MController {
     }
   }
 
+	public function actionBindSocLogin(){
+		$service = Yii::app()->request->getQuery('service');
+		$sinfo = new SocInfo;
+		if (isset($service) && (!isset(Yii::app()->session[$service]))){
+		
+			$authIdentity = Yii::app()->eauth->getIdentity($service);
+			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+			$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+Yii::app()->session['authIdentity'] = 'before auth';			
+			if ($authIdentity->authenticate()) {
+				$identity = new ServiceUserIdentity($authIdentity);
+Yii::app()->session['authIdentity'] = 'authenticated';	
+				if ($identity->authenticate()) {
+					Yii::app()->session[$service] = 'auth';
+Yii::app()->session['authIdentity'] = 'authenticated: service = '.$service;					
+					$authIdentity->redirect(array('user/personal?key=5'));
+				}
+				else {
+					$authIdentity->cancel();
+				}
+			}
+else echo Yii::app()->session['authIdentity'] = 'not authenticated';
+		}
+		$this->redirect(array('user/personal'));		
+	}
 }

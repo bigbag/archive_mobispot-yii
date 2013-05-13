@@ -2,10 +2,12 @@
 
 class SpotController extends MController {
 
+  // Список отображаемых картинок
   public function getImageType(){
     return array('jpeg'=>'jpeg', 'jpg'=>'jpg', 'png'=>'png', 'gif'=>'gif');
   }
 
+  // Действие по умолчанию - редикт на мобильную версию
   public function actionIndex() {
     if (Yii::app()->request->getQuery('url', 0)) {
       $url = Yii::app()->request->getQuery('url', 0);
@@ -13,6 +15,7 @@ class SpotController extends MController {
     }
   }
 
+  // Загрузка файлов в спот
    public function actionUpload() {
     $error="yes";
     $content="";
@@ -69,6 +72,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
   }
 
+  // Просмотр содержимого спота
   public function actionSpotView() {
   if (Yii::app()->request->isPostRequest) {
     $error="yes";
@@ -94,6 +98,7 @@ class SpotController extends MController {
     }
   }
 
+  // Добавление блока в спот
   public function actionSpotAddContent() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -133,6 +138,7 @@ class SpotController extends MController {
     }
   }
 
+  // Изменение атрибутов спота - приватность и возможность скачать визитку
   public function actionSpotAtributeSave() {
     $error="yes";
     $data=$this->getJson();
@@ -161,6 +167,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error));
   }
 
+  // Удаление блока из спота
   public function actionSpotRemoveContent() {
     $error="yes";
     $keys="";
@@ -198,6 +205,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'keys'=>$keys));
   }
 
+  // Редактирование содержимого блока
   public function actionSpotEditContent() {
     $error="yes";
     $data=$this->getJson();
@@ -215,6 +223,7 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error));
   }
 
+  // Сохранение содержимого блока
   public function actionSpotSaveContent() {
     $error="yes";
     $content='';
@@ -247,50 +256,167 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
+	// привязка соцсетей
+	public function actionBindSocial() {
+		$error="yes";
+		$content='';
+		$data=$this->getJson();
+		$netName = 'no';
+
+		if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+			if (isset($data['discodes']) and isset($data['key'])){
+				$spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+				if ($spot){
+					$spotContent=SpotContent::getSpotContent($spot);
+					if($spotContent) {
+						$SocInfo = new SocInfo;
+						$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
+
+						if($netName != 'no'){
+							$content=$spotContent->content;
+							$isSocLogged = false;
+
+							if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
+							{
+								$isSocLogged = true;
+								$netName = 'no';
+								$content['keys'][$data['key']]='socnet';
+								$spotContent->content=$content;
+								if ($spotContent->save()){
+									$content=$this->renderPartial('//widget/spot/personal/new_text',
+									array(
+									'content'=>$data['content_new'],
+									'key'=>$data['key'],
+									),
+									true);
+								}
+							}
+							$error="no";
+						}
+					}
+				}
+			}
+
+		}
+		echo json_encode(array('error'=>$error, 'content'=>$content, 'socnet'=>$netName, 'loggedIn'=>$isSocLogged));
+	}
+
+  // Добавление нового спота
   public function actionAddSpot() {
     $error="yes";
     $content="";
     $data=$this->getJson();
 
-    if (isset($data['code'])) {
-      $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
-      if ($spot) {
-        $spot->status=Spot::STATUS_REGISTERED;
-        $spot->lang=$this->getLang();
-        $spot->user_id=Yii::app()->user->id;
-        if (isset($data['name'])) $spot->name=$data['name'];
-        $spot->spot_type_id=Spot::TYPE_PERSONAL;
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['code'])) {
+        $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
+        if ($spot) {
+          $spot->status=Spot::STATUS_REGISTERED;
+          $spot->lang=$this->getLang();
+          $spot->user_id=Yii::app()->user->id;
+          if (isset($data['name'])) $spot->name=$data['name'];
+          $spot->spot_type_id=Spot::TYPE_PERSONAL;
 
-        if ($spot->save()) {
-          $content=$this->renderPartial('//user/block/spots',
-            array(
-              'data'=>$spot,
-            ),
-            true);
-          $error="no";
+          if ($spot->save()) {
+            $content=$this->renderPartial('//user/block/spots',
+              array(
+                'data'=>$spot,
+              ),
+              true);
+            $error="no";
 
+          }
         }
       }
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }
-  public function actionSpotRename() {
+
+  // Удаление спота
+  public function actionRemoveSpot() {
     $error="yes";
     $discodes="";
-    $name="";
     $data=$this->getJson();
 
-    if (isset($data['name']) and isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-        $spot->name=CHtml::encode($data['name']);
-        if ($spot->save()) {
-          $discodes=$data['discodes'];
-          $name=mb_substr($spot->name, 0, 45, 'utf-8');
-          $error="no";
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+          $spot->status=Spot::STATUS_REMOVED_USER;
+          if ($spot->save()) {
+            $discodes=$data['discodes'];
+            $error="no";
+          }
         }
       }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name));
+      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
+    }
+  }
+
+  // Очистка спота
+  public function actionCleanSpot() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+
+          $spotContent=SpotContent::getSpotContent($spot);
+          $spotContent=SpotContent::initPersonal($spot, $spotContent);
+
+          if ($spotContent->save()){
+            $error="no";
+          }
+        }
+      }
+      echo json_encode(array('error'=>$error));
+    }
+  }
+
+  //Делаем спот невидимым
+  public function actionInvisibleSpot() {
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+
+        if ($spot) {
+          if ($spot->status==Spot::STATUS_INVISIBLE)
+            $spot->status=Spot::STATUS_REGISTERED;
+          else
+            $spot->status=Spot::STATUS_INVISIBLE;
+
+          if ($spot->save()) {
+            $error="no";
+          }
+        }
+      }
+      echo json_encode(array('error'=>$error));
+    }
+  }
+
+  //Переименовываем спот
+  public function actionRenameSpot() {
+    $error="yes";
+    $data=$this->getJson();
+    $name='';
+
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['newName']) and isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+        if ($spot) {
+          $spot->name=CHtml::encode($data['newName']);
+          if ($spot->save(false)) {
+            $name=mb_substr($spot->name, 0, 45, 'utf-8');
+            $error="no";
+          }
+        }
+      }
+      echo json_encode(array('error'=>$error, 'name'=>$name));
     }
   }
 
@@ -316,24 +442,6 @@ class SpotController extends MController {
         }
       }
       echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'type'=>$type));
-    }
-  }
-
-  public function actionSpotRemove() {
-    $error="yes";
-    $discodes="";
-    $data=$this->getJson();
-
-    if (isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-        $spot->status=Spot::STATUS_REMOVED_USER;
-        if ($spot->save()) {
-          $discodes=$data['discodes'];
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
     }
   }
 
@@ -389,51 +497,6 @@ class SpotController extends MController {
         }
       }
       echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name, 'type'=>$type));
-    }
-  }
-
-  public function actionSpotClear() {
-    $error="yes";
-    $discodes="";
-    $data=$this->getJson();
-
-    if (isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      if ($spot) {
-
-        $content=SpotModel::model()->findByAttributes(array(
-            'spot_id'=>$data['discodes'],
-            'spot_type_id'=>$spot->spot_type_id,
-            'lang'=>$spot->lang,
-        ));
-        if (!isset($content) or $content->delete()) {
-          UserPersonalField::model()->deleteByPk($discodes);
-          $discodes=$data['discodes'];
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
-    }
-  }
-
-  public function actionSpotInvisible() {
-    $error="yes";
-    $data=$this->getJson();
-
-    if (isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-
-      if ($spot) {
-        if ($spot->status==Spot::STATUS_INVISIBLE)
-          $spot->status=Spot::STATUS_REGISTERED;
-        else
-          $spot->status=Spot::STATUS_INVISIBLE;
-
-        if ($spot->save()) {
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error));
     }
   }
 
