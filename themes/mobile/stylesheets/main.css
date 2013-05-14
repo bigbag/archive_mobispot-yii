@@ -765,6 +765,12 @@ a.active .tooltip{
 	margin-left: 5px;
 	float: right;
 }
+.default-avatar{
+	overflow: hidden;
+	display: inline-block;
+	float: left;
+	margin: 0px 14px 6px 0;
+}
 .user-avatar{
 	overflow: hidden;
 	display: inline-block;

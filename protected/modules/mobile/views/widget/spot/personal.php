@@ -19,7 +19,7 @@
 		<div class="spot-item">
 			<div class="item-area type-mess">
 				<?php if(isset($content['data'][$key]['photo'])): ?>
-					<div class="user-avatar round"><img src="<?php echo $content['data'][$key]['photo']; ?>" height="90">
+					<div class="default-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
 					</div>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['last_status'])): ?>

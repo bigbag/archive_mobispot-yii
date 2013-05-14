@@ -50,6 +50,30 @@ class UserController extends MController {
       if ($user->status==User::STATUS_ACTIVE)
         $this->redirect('/');
 
+	  if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
+		$spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
+		if ($spot){
+			$spotContent=SpotContent::getSpotContent($spot);
+			
+			if($spotContent) {
+				$SocInfo = new SocInfo;		
+				$key = Yii::app()->session['bind_key'];
+				$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$key]);
+				if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth')){
+					$content = $spotContent->content;
+					$content['keys'][$key]='socnet';
+					$spotContent->content=$content;
+					if ($spotContent->save()){
+					
+
+					}
+				}
+			}
+		}
+		unset(Yii::app()->session['bind_discodes']);
+		unset(Yii::app()->session['bind_key']);
+	  }
+		
       $dataProvider=new CActiveDataProvider(
         Spot::model()->personal()->used()->selectUser($user_id),
         array(
@@ -133,20 +157,19 @@ class UserController extends MController {
 			$authIdentity = Yii::app()->eauth->getIdentity($service);
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
-Yii::app()->session['authIdentity'] = 'before auth';			
+			
 			if ($authIdentity->authenticate()) {
 				$identity = new ServiceUserIdentity($authIdentity);
-Yii::app()->session['authIdentity'] = 'authenticated';	
+
 				if ($identity->authenticate()) {
 					Yii::app()->session[$service] = 'auth';
-Yii::app()->session['authIdentity'] = 'authenticated: service = '.$service;					
-					$authIdentity->redirect(array('user/personal?key=5'));
+				
+					$authIdentity->redirect(array('user/personal'));
 				}
 				else {
 					$authIdentity->cancel();
 				}
 			}
-else echo Yii::app()->session['authIdentity'] = 'not authenticated';
 		}
 		$this->redirect(array('user/personal'));		
 	}

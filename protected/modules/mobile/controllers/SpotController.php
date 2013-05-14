@@ -50,7 +50,7 @@ class SpotController extends MController
 					$fileKeys = array_keys($content['keys'], 'file');
 					//одна ссылка			
 					$urlVal = new CUrlValidator;
-					if((count($content['data']) == 1) && ($urlVal->validateValue($content['data'][$dataKeys[0]]))){
+					if((count($content['data']) == 1) && ($content['keys'][$dataKeys[0]] == 'text') && ($urlVal->validateValue($content['data'][$dataKeys[0]]))){
 						$this->redirect($content['data'][$dataKeys[0]]);
 					}
 					//только файлы
@@ -69,10 +69,8 @@ class SpotController extends MController
 									$socData['soc_url'] = $link;
 									$content['data'][$dataKeys[$i]] = $socData;
 								}						
-							
 							}
 						}
-					
 						$this->render('/widget/spot/personal', array('content'=>$content));
 					}
 				}else{
