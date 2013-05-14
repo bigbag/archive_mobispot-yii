@@ -23,9 +23,9 @@ function SpotCtrl($scope, $http, $compile) {
 
 
   // Следим за очередностью блоков
-  $scope.$watch('keys', function() {
-    console.log($scope.keys);
-  });
+  // $scope.$watch('keys', function() {
+  //   console.log($scope.keys);
+  // });
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
@@ -199,7 +199,7 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
-          console.log($scope.keys);
+          // console.log($scope.keys);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
         }
