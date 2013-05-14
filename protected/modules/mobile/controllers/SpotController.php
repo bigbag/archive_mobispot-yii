@@ -69,10 +69,8 @@ class SpotController extends MController
 									$socData['soc_url'] = $link;
 									$content['data'][$dataKeys[$i]] = $socData;
 								}						
-							
 							}
 						}
-					
 						$this->render('/widget/spot/personal', array('content'=>$content));
 					}
 				}else{

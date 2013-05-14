@@ -292,6 +292,9 @@ class SpotController extends MController {
 									),
 									true);
 								}								
+							}else{
+								Yii::app()->session['bind_discodes'] =  $data['discodes'];
+								Yii::app()->session['bind_key'] = $data['key'];
 							}
 							$error="no";
 						}
