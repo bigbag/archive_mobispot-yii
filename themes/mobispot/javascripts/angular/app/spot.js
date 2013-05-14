@@ -14,10 +14,18 @@ function SpotCtrl($scope, $http, $compile) {
   var renameSpot = angular.element('#rename-spot');
   var confirm = angular.element('#confirm');
 
+  // $scope.sortableOptions = {
+  //   update: function(e, ui) {
+  //     console.log(e*-);
+  //   },
+  //   containment: '#spotslistview > ul > li',
+  // };
+
+
   // Следим за очередностью блоков
-  // $scope.$watch('keys', function() {
-  //   console.log($scope.keys);
-  // });
+  $scope.$watch('keys', function() {
+    console.log($scope.keys);
+  });
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
@@ -189,7 +197,9 @@ function SpotCtrl($scope, $http, $compile) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
           angular.element('#add-content').before($compile(data.content)($scope));
+
           $scope.keys.push(data.key);
+          console.log($scope.keys);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
         }
@@ -245,16 +255,16 @@ function SpotCtrl($scope, $http, $compile) {
 								height: 380
 							}
 						}, options);
-						
+
 						var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
-						
+
 						url += url.indexOf('?') >= 0 ? '&' : '?';
 						if (url.indexOf('redirect_uri=') === -1)
 							url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
 						url += 'js';
 
 						var centerWidth = (window.screen.width - options.popup.width) / 2,
-							centerHeight = (window.screen.height - options.popup.height) / 2;					
+							centerHeight = (window.screen.height - options.popup.height) / 2;
 
 						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 						popup.focus();

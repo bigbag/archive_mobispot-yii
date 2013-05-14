@@ -101,6 +101,7 @@ class SpotController extends MController {
   // Добавление блока в спот
   public function actionSpotAddContent() {
     if (Yii::app()->request->isPostRequest) {
+      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
       $error="yes";
       $content="";
       $key="";
@@ -135,6 +136,7 @@ class SpotController extends MController {
       }
 
       echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
+      }
     }
   }
 
@@ -261,7 +263,7 @@ class SpotController extends MController {
 		$error="yes";
 		$content='';
 		$data=$this->getJson();
-		$netName = 'no';
+		$netName = 'no';		
 
 		if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
 			if (isset($data['discodes']) and isset($data['key'])){
@@ -269,34 +271,37 @@ class SpotController extends MController {
 				if ($spot){
 					$spotContent=SpotContent::getSpotContent($spot);
 					if($spotContent) {
-						$SocInfo = new SocInfo;
+						$SocInfo = new SocInfo;		
 						$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
-
+							
 						if($netName != 'no'){
 							$content=$spotContent->content;
 							$isSocLogged = false;
-
+					
 							if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
 							{
 								$isSocLogged = true;
-								$netName = 'no';
+								$netName = 'no';							
 								$content['keys'][$data['key']]='socnet';
 								$spotContent->content=$content;
 								if ($spotContent->save()){
 									$content=$this->renderPartial('//widget/spot/personal/new_text',
 									array(
-									'content'=>$data['content_new'],
-									'key'=>$data['key'],
+										'content'=>$content['data'][$data['key']],
+										'key'=>$data['key'],
 									),
 									true);
-								}
+								}								
+							}else{
+								Yii::app()->session['bind_discodes'] =  $data['discodes'];
+								Yii::app()->session['bind_key'] = $data['key'];
 							}
 							$error="no";
 						}
 					}
 				}
 			}
-
+			
 		}
 		echo json_encode(array('error'=>$error, 'content'=>$content, 'socnet'=>$netName, 'loggedIn'=>$isSocLogged));
 	}
