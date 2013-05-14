@@ -16,7 +16,7 @@ class PagesController extends MController {
 
   public function actionHelp() {
     $this->render('help', array(
-        'model'=>$model,
+
     ));
   }
 
