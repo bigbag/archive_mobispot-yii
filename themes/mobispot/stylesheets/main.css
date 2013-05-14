@@ -792,6 +792,7 @@ a.active .m-tooltip{
 	margin-left: 9px;
 	display: block;
 	float: left;
+	color: #000;
 }
 .spot-activity .button:hover{
 	color: #0061ff;
