@@ -41,6 +41,9 @@ class UserController extends MController {
   public function actionPersonal() {
     $this->layout='//layouts/spots';
 
+	$defDiscodes = '';
+	$defKey = '';
+	
     if (!Yii::app()->user->id) {
       $this->setAccess();
     } else {
@@ -64,8 +67,8 @@ class UserController extends MController {
 					$content['keys'][$key]='socnet';
 					$spotContent->content=$content;
 					if ($spotContent->save()){
-					
-
+						$defDiscodes = Yii::app()->session['bind_discodes'];
+						$defKey = Yii::app()->session['bind_key'];
 					}
 				}
 			}
@@ -86,6 +89,8 @@ class UserController extends MController {
       $this->render('personal', array(
           'dataProvider'=>$dataProvider,
           'spot_type_all'=>SpotType::getSpotTypeArray(),
+		  'defDiscodes'=>$defDiscodes,
+		  'defKey'=>$defKey,
       ));
     }
   }

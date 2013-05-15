@@ -139,8 +139,13 @@ function SpotCtrl($scope, $http, $compile) {
   };
 
   // Аккордеон в списке личных спотов
-  $scope.accordion = function(e, token) {
-    var spot = angular.element(e.currentTarget).parent();
+  $scope.accordion = function(e, token, init) {
+	var spot;
+	if(init == 1)
+		spot = e;
+	else
+		spot = angular.element(e.currentTarget).parent();
+
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
@@ -454,4 +459,12 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.checkStatusSpot = function(spot) {
     return true;
   };
+  
+  $scope.defOpen = function(discodes){
+	//alert($('#696497 .spot-hat').html());
+	var defSelector = '#' + discodes;// +  ' .spot-hat';
+	//$('#696497 .spot-hat').onclick();
+	//document.getElementById('696497').onclick();
+	$scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
+  }
 }
