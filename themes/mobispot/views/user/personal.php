@@ -77,53 +77,83 @@
   <div class="row popup-content content-settings">
       <div class="column twelve">
       <ul class="add-active settings-list">
-        <li ng-click="renameSpot(spot)">
+        <li id="renameSpot" class="toggle-box spot-action"  ng-click="actionSpot(spot, $event)">
           <?php echo Yii::t('spot', 'Rename spot')?>
         </li>
+          <div class="sub-content text-center rename-spot" id="renameSpotForm">
+            <div class="popup-row">
+              <form name="renameSpotForm">
+              <input
+                type="text"
+                class="b-short-input"
+                ng-model="spot.newName"
+                name="newName"
+                placeholder="<?php echo Yii::t('spot', 'New Name')?>"
+                autocomplete="off"
+                maxlength="50"
+                required>
+                <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
+                  <?php echo Yii::t('spot', 'Save')?>
+                </a>
+              </form>
+            </div>
+          </div>
         <!-- <li ng-click="makeBusinessSpot(spot)">
           <?php echo Yii::t('spot', 'Make spot business')?>
         </li> -->
-        <li ng-click="invisibleSpot(spot)" ng-show="spot.invisible">
+        <li id="invisibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-show="spot.invisible">
           <?php echo Yii::t('spot', 'Make spot invisible')?>
         </li>
-        <li ng-click="invisibleSpot(spot)" ng-hide="spot.invisible">
+          <div class="sub-content text-center confirm" id="invisibleSpotForm">
+            <h4><?php echo Yii::t('spot', 'Are you sure?')?><h4>
+            <p></p>
+            <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+              <?php echo Yii::t('spot', 'Yes')?>
+            </a>
+            <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+              <?php echo Yii::t('spot', 'No')?>
+            </a>
+          </div>
+        <li id="visibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-hide="spot.invisible">
           <?php echo Yii::t('spot', 'Make spot visible')?>
         </li>
-        <li ng-click="cleanSpot(spot)">
+          <div class="sub-content text-center confirm" id="visibleSpotForm">
+            <h4><?php echo Yii::t('spot', 'Are you sure?')?><h4>
+            <p></p>
+            <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+              <?php echo Yii::t('spot', 'Yes')?>
+            </a>
+            <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+              <?php echo Yii::t('spot', 'No')?>
+            </a>
+          </div>
+        <li id="cleanSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
           <?php echo Yii::t('spot', 'Clean spot')?>
         </li>
-        <li ng-click="removeSpot(spot)">
+          <div class="sub-content text-center confirm" id="cleanSpotForm">
+            <h4><?php echo Yii::t('spot', 'Are you sure?')?><h4>
+            <p></p>
+            <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+              <?php echo Yii::t('spot', 'Yes')?>
+            </a>
+            <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+              <?php echo Yii::t('spot', 'No')?>
+            </a>
+          </div>
+        <li id="delSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
           <?php echo Yii::t('spot', 'Delete your spot')?>
         </li>
-      </ul>
-      <footer>
-        <div id="rename-spot" class="popup-row">
-          <form name="renameSpotForm">
-          <input
-            type="text"
-            class="b-short-input"
-            ng-model="spot.newName"
-            name="newName"
-            placeholder="<?php echo Yii::t('spot', 'New Name')?>"
-            autocomplete="off"
-            maxlength="50"
-            required>
-            <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
-              <?php echo Yii::t('spot', 'Save')?>
+          <div class="sub-content text-center confirm" id="delSpotForm">
+            <h4><?php echo Yii::t('spot', 'Are you sure?')?><h4>
+            <p></p>
+            <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+              <?php echo Yii::t('spot', 'Yes')?>
             </a>
-          </form>
-        </div>
-        <div id="confirm" class="text-center">
-          <h4><?php echo Yii::t('spot', 'Are you sure?')?></h4>
-        <p></p>
-          <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
-            <?php echo Yii::t('spot', 'Yes')?>
-          </a>
-          <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
-            <?php echo Yii::t('spot', 'No')?>
-          </a>
-        </div>
-      </footer>
+            <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+              <?php echo Yii::t('spot', 'No')?>
+            </a>
+          </div>
+      </ul>
     </div>
   </div>
   <div class="row popup-content content-wallet">

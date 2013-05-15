@@ -11,21 +11,9 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.keys = [];
   $scope.action = false;
 
-  var renameSpot = angular.element('#rename-spot');
-  var confirm = angular.element('#confirm');
-
-  // $scope.sortableOptions = {
-  //   update: function(e, ui) {
-  //     console.log(e*-);
-  //   },
-  //   containment: '#spotslistview > ul > li',
-  // };
-
-
-  // Следим за очередностью блоков
-  // $scope.$watch('keys', function() {
-  //   console.log($scope.keys);
-  // });
+  var renameSpot = angular.element('.rename-spot');
+  var confirm = angular.element('.confirm');
+  var toggle_box = angular.element('.toggle-box');
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
@@ -357,37 +345,16 @@ function SpotCtrl($scope, $http, $compile) {
     });
   };
 
-  // Делаем спот неивдимым
-  $scope.invisibleSpot = function(spot) {
-    $scope.action = 'invisible';
-    renameSpot.hide();
-    confirm.show();
-    angular.element('#confirm .button.round.active').focus();
-  };
-
-  // Удаление спота
-  $scope.removeSpot = function(spot) {
-    $scope.action = 'remove';
-    renameSpot.hide();
-    confirm.show();
-    angular.element('#confirm .button.round.active').focus();
-  };
-
-  // Очистка спота
-  $scope.cleanSpot = function(spot) {
-    $scope.action = 'clear';
-    renameSpot.hide();
-    confirm.show();
-    angular.element('#confirm .button.round.active').focus();
-  };
-
-  //Переименование спота
-  $scope.renameSpot = function(spot) {
-    $scope.action = 'rename';
-    confirm.hide();
-    renameSpot.show();
-    angular.element('#rename-spot input').focus();
-  };
+  $scope.actionSpot = function(spot, e) {
+    var curent = angular.element(e.currentTarget);
+    if(!curent.hasClass('open')){
+      var id = curent.attr('id');
+      var open = angular.element('.spot-action.open');
+      open.next().slideUp(400);
+      open.removeClass('open');
+      $scope.action = id;
+    }
+  }
 
   $scope.setNewName = function(spot) {
     if ($scope.spot.newName){
@@ -398,7 +365,7 @@ function SpotCtrl($scope, $http, $compile) {
           renameSpot.hide();
           delete $scope.spot.newName;
           angular.element('.popup').click();
-          angular.element('.settings-list > li').removeClass('active');
+          angular.element('.settings-list > li').removeClass('open');
         }
         else if (data.error == 'yes') {
           angular.element('#rename-spot input[name=newName]').addClass('error');
@@ -410,7 +377,7 @@ function SpotCtrl($scope, $http, $compile) {
   //действия при положительном ответе
   $scope.confirmYes = function(spot) {
     var spotContent = angular.element('#' + spot.discodes);
-    if ($scope.action == 'remove'){
+    if ($scope.action == 'deleteSpot'){
       $http.post('/spot/removeSpot', spot).success(function(data) {
         if(data.error == 'no') {
           spotContent.slideUp('slow', function () {
@@ -419,14 +386,14 @@ function SpotCtrl($scope, $http, $compile) {
         }
       });
     }
-    else if ($scope.action == 'clear'){
+    else if ($scope.action == 'cleanSpot'){
       $http.post('/spot/cleanSpot', spot).success(function(data) {
         if(data.error == 'no') {
           spotContent = angular.element('.spot-block').remove();
         }
       });
     }
-    else if ($scope.action == 'invisible'){
+    else if ($scope.action == 'invisibleSpot' || $scope.action == 'visibleSpot'){
       $http.post('/spot/invisibleSpot', spot).success(function(data) {
         if(data.error == 'no') {
           if ($scope.spot.invisible){
@@ -440,13 +407,13 @@ function SpotCtrl($scope, $http, $compile) {
     }
     renameSpot.hide();
     confirm.hide();
-    angular.element('.settings-list > li').removeClass('active');
+    angular.element('.settings-list > li').removeClass('open');
   };
 
   $scope.confirmNo = function(spot) {
     if ($scope.action){
-      angular.element('#confirm').hide();
-      angular.element('.settings-list > li').removeClass('active');
+      confirm.hide();
+      angular.element('.settings-list > li').removeClass('open');
       $scope.action = false;
     }
   };
