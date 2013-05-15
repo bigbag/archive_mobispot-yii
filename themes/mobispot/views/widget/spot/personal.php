@@ -1,7 +1,7 @@
 <ul class="spot-hat-button">
-  <li>
+<!--   <li>
     <a id="j-wallet" class="b-account settings-button wallet-button spot-button b-negative b-positive right tex5t-center" href="javascript:;">134$</a>
-  </li>
+  </li> -->
   <li>
     <a id="j-settings" class="spot-button right text-center settings-button" href="javascript:;"ng-click="showSettings()">
       <?php echo Yii::t('spots', 'Settings');?>
@@ -9,16 +9,18 @@
   </li>
 </ul>
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status;?>'">
-  <div ng-model='keys' ui-sortable="sortableOptions">
+  <div ng-model='keys'>
+  <!-- <ui-sortable="sortableOptions"> -->
 
 <?php if(!empty($spotContent->content)):?>
 <?php $content=$spotContent->content?>
 
-<?php if(isset($content['data'])):?>
-  <?php $keys=array();?>
-  <?php foreach ($content['data'] as $key=>$value):?>
+<?php if(isset($content['data']) and isset($content['keys'])):?>
+  <?php $keys=(isset($content['keys'])?array_keys($content['keys']):array())?>
+  <?php $keys='['.implode(',', $keys).']';?>
+  <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
 
-  <?php $keys[]=$key;?>
+  <?php foreach ($content['data'] as $key=>$value):?>
 
   <div class="spot-item spot-block">
     <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
@@ -55,9 +57,6 @@
   <?php endforeach;?>
 
   <?php endif;?>
-  <?php $keys=(isset($keys[0])?$keys:array())?>
-  <?php $keys='['.implode(',', $keys).']';?>
-  <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
 <?php else:?>
   <span ng-init="spot.vcard=0; spot.private=0"></span>
 <?php endif;?>
@@ -94,7 +93,7 @@
 <div class="spot-content_row spot-options toggle-active">
   <?php $vcardActive=(isset($content) and isset($content['vcard']) and $content['vcard']==1)?'active':''?>
   <?php $privateActive=(isset($content) and isset($content['private']) and $content['private']==1)?'active':''?>
-
+<!--
   <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Allow to download as a V-card');?>
@@ -102,6 +101,6 @@
   <a class="checkbox private <?php echo $privateActive;?>" href="javascript:;" ng-click="getPrivate(spot)">
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Make it private');?>
-  </a>
+  </a> -->
 </div>
 </div>
