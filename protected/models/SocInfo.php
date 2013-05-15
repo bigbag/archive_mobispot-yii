@@ -21,6 +21,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', 'Read more on');
 		$net['inviteClass'] = 'i-soc-fac';
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = 'i-fb.2x.png';
 		$socNetworks[] = $net;
 	
 		$net['name'] = 'twitter';
@@ -28,6 +29,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', 'Follow me on');
 		$net['inviteClass'] = 'i-soc-twi';
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = 'i-twitter.2x.png';
 		$socNetworks[] = $net;
 /*
 		$net['name'] = 'google';
@@ -35,6 +37,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';	
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
@@ -42,6 +45,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';		
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;		
 /*	
 		$net['name'] = 'Linkedin';
@@ -49,6 +53,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;		
 */
 		$net['name'] = 'Foursquare';
@@ -56,6 +61,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;		
 		
 		$net['name'] = 'vimeo';
@@ -63,6 +69,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', 'Watch more');		
 		$net['inviteClass'] = 'i-soc-vimeo';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = 'i-vimeo.2x.png';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'Last.fm';
@@ -70,6 +77,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'DeviantART';
@@ -77,6 +85,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Behance';
@@ -84,6 +93,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;		
 
 		$net['name'] = 'Flickr';
@@ -91,6 +101,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;
 		
 		$net['name'] = 'YouTube';
@@ -98,6 +109,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';			
 		$net['note'] = Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;	
 /*		
 		$net['name'] = 'Instagram';
@@ -105,6 +117,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');	
 		$net['inviteClass'] = '';			
 		$net['note'] =  Yii::t('eauth', '');
+		$net['smallIcon'] = '';
 		$socNetworks[] = $net;			
 */
 		return $socNetworks;
@@ -930,5 +943,17 @@ class SocInfo extends CFormModel
 	
 	
 		return $answer;
+	}
+	
+	public function getSmallIcon($link){
+		$answer = '';
+		foreach($this->socNetworks as $net){
+			if (strpos($link, $net['baseUrl']) !== false){
+				$answer = $net['smallIcon'];
+				break;
+			}
+		}
+		return $answer;
+	
 	}
 }

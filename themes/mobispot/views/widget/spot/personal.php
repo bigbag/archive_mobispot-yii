@@ -23,11 +23,13 @@
   <?php foreach ($content['data'] as $key=>$value):?>
 
   <div class="spot-item spot-block">
-    <div class="item-area <?php echo ($content['keys'][$key]!='text')?'text-center':''?>">
+    <div class="item-area <?php echo (($content['keys'][$key]!='text') && ($content['keys'][$key]!='socnet'))?'text-center':''?>">
       <?php if ($content['keys'][$key]=='text'):?>
       <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
       <?php elseif ($content['keys'][$key]=='image'):?>
       <img src="/uploads/spot/tmb_<?php echo $value?>">
+	  <?php elseif ($content['keys'][$key]=='socnet'):?>
+      <p class="item-area item-type__text"><img src="/themes/mobile/images/icons/<?php $socInf = new SocInfo; echo $socInf->getSmallIcon($value); ?>" height="14" width="14" style="display: inline-block;">	 <?php echo CHtml::encode($value)?></p>
       <?php else:?>
       <a href="<?php echo CHtml::encode($value)?>">
         <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">
