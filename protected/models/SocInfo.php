@@ -9,10 +9,10 @@ class SocInfo extends CFormModel
 	public $socNetworks = array();
 	
 	public function __construct(){
-		$this->socNetworks = $this->getSocNetworks();
+		$this->socNetworks = SocInfo::getSocNetworks();
 	}
 	
-	public function getSocNetworks(){
+	public static function getSocNetworks(){
 		$socNetworks = array();
 		$net = array();
 		
@@ -37,7 +37,7 @@ class SocInfo extends CFormModel
 		$net['invite'] = Yii::t('eauth', '');
 		$net['inviteClass'] = '';	
 		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
+		$net['smallIcon'] = 'google16.png';
 		$socNetworks[] = $net;
 */
 		$net['name'] = 'ВКонтакте';
@@ -955,5 +955,17 @@ class SocInfo extends CFormModel
 		}
 		return $answer;
 	
+	}
+	
+	public static function isSocLink($link){
+		$answer = false;
+		$socNetworks = SocInfo::getSocNetworks();
+		foreach($socNetworks as $net){
+			if (strpos($link, $net['baseUrl']) !== false){
+				$answer = true;
+				break;
+			}
+		}
+		return $answer;	
 	}
 }
