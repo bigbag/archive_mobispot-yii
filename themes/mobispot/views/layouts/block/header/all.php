@@ -3,7 +3,8 @@
   <div class="m-page-hat">
     <?php include('block/activ.php');?>
     <?php include('block/sign.php');?>
-    </div>
+    <?php include('block/recovery.php');?>
+  </div>
   <?php endif; ?>
   <div class="row row__head-slider">
     <div class="twelve">

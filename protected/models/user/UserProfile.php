@@ -12,6 +12,7 @@
  * @property integer $birthday_month
  * @property integer $birthday_year
  * @property string $photo
+ * @property string $personal_cover
  * @property string $facebook_id
  * @property string $twitter_id
  * @property integer $use_photo
@@ -64,7 +65,7 @@ class UserProfile extends CActiveRecord {
         array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly'=>true),
         array('name, place', 'filter', 'filter'=>'trim'),
         array('name, place', 'filter', 'filter'=>array($obj=new CHtmlPurifier(), 'purify')),
-        array('name, place, photo', 'length', 'max'=>300),
+        array('name, place, photo, personal_cover', 'length', 'max'=>300),
     );
   }
 
@@ -95,6 +96,7 @@ class UserProfile extends CActiveRecord {
         'facebook_id'=>'Facebook',
         'twitter_id'=>'Twitter',
         'use_photo'=>'Use Photo',
+        'personal_cover'=>'personal_cover',
     );
   }
 
@@ -129,6 +131,7 @@ class UserProfile extends CActiveRecord {
     $criteria->compare('photo', $this->photo, true);
     $criteria->compare('facebook_id', $this->facebook_id, true);
     $criteria->compare('twitter_id', $this->twitter_id, true);
+    $criteria->compare('personal_cover', $this->personal_cover, true);
     $criteria->compare('use_photo', $this->use_photo);
 
     return new CActiveDataProvider($this, array(

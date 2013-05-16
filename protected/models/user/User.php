@@ -95,11 +95,6 @@ class User extends CActiveRecord {
       $this->creation_date=new CDbExpression('NOW()');
       $this->status=self::STATUS_NOACTIVE;
       $this->type=self::TYPE_USER;
-
-      $paymentUser=new PaymentUser;
-      $paymentUser->email=$this->email;
-      $paymentUser->mobispot_id=$this->id;
-      $paymentUser->save();
     }
 
     if (!$this->lang)
