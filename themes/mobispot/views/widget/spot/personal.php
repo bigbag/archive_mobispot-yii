@@ -94,8 +94,6 @@
 <div class="spot-content_row spot-options toggle-active">
   <?php $vcardActive=(isset($content) and isset($content['vcard']) and $content['vcard']==1)?'active':''?>
   <?php $privateActive=(isset($content) and isset($content['private']) and $content['private']==1)?'active':''?>
-<<<<<<< HEAD
-=======
 <!--
   <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
     <i class="large"></i>
@@ -105,6 +103,5 @@
     <i class="large"></i>
     <?php echo Yii::t('spots', 'Make it private');?>
   </a> -->
->>>>>>> cf7ef38aa8232bce477cb9fb74f082b5a273b864
 </div>
 </div>
