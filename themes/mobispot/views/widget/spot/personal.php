@@ -1,8 +1,5 @@
 <ul class="spot-hat-button">
   <li>
-    <a id="j-wallet" class="b-account settings-button wallet-button spot-button b-negative b-positive right tex5t-center" href="javascript:;">134$</a>
-  </li>
-  <li>
     <a id="j-settings" class="spot-button right text-center settings-button" href="javascript:;"ng-click="showSettings()">
       <?php echo Yii::t('spots', 'Settings');?>
     </a>
@@ -94,14 +91,5 @@
 <div class="spot-content_row spot-options toggle-active">
   <?php $vcardActive=(isset($content) and isset($content['vcard']) and $content['vcard']==1)?'active':''?>
   <?php $privateActive=(isset($content) and isset($content['private']) and $content['private']==1)?'active':''?>
-
-  <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
-    <i class="large"></i>
-    <?php echo Yii::t('spots', 'Allow to download as a V-card');?>
-  </a>
-  <a class="checkbox private <?php echo $privateActive;?>" href="javascript:;" ng-click="getPrivate(spot)">
-    <i class="large"></i>
-    <?php echo Yii::t('spots', 'Make it private');?>
-  </a>
 </div>
 </div>
