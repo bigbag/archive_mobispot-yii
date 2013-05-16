@@ -521,3 +521,10 @@ footer .button:hover + .active,
 .form-line .spot-button{
 	margin-bottom: 0;
 }
+.form-link{
+	color: #0061ff;
+	display: block;
+	float: right;
+	margin-bottom: 10px;
+	margin-top: 1px;
+}

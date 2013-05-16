@@ -16,6 +16,7 @@ class ServiceController extends MController {
     );
   }
 
+  //Смена языка
   public function actionLang($id) {
     $lang=$id;
     $all_lang=Lang::getLangArray();
@@ -28,35 +29,23 @@ class ServiceController extends MController {
         $user=User::model()->findByPk(Yii::app()->user->id);
         if (isset($user)) {
           $user->lang=$lang;
-          $user->save();
+          $user->save(false);
         }
       }
     }
     $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
   }
 
+  //Авторизация
   public function actionLogin() {
+    if (Yii::app()->request->isPostRequest) {
       $error="yes";
-      $login_error_count=0;
-
       $data=$this->getJson();
-
-      if (isset(Yii::app()->session['login_error_count'])) {
-        $login_error_count=Yii::app()->session['login_error_count'];
-        if ($login_error_count>2) {
-          $error='login_error_count';
-        }
-      }
 
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
         if (isset($data['email']) and isset($data['password'])) {
 
-          if ($login_error_count>2 or (!empty($data['code']))){
-            $form=new LoginCaptchaForm();
-          }
-          else {
-            $form=new LoginForm;
-          }
+          $form=new LoginForm;
 
           $form->attributes=$data;
           if ($form->validate()) {
@@ -64,15 +53,15 @@ class ServiceController extends MController {
             $identity->authenticate();
             $this->lastVisit();
             Yii::app()->user->login($identity);
-            unset(Yii::app()->session['login_error_count']);
             $error="no";
           }
-          else Yii::app()->session['login_error_count']=$login_error_count + 1;
         }
       }
       echo json_encode(array('error'=>$error));
+    }
   }
 
+  //Выход
   public function actionLogout() {
     if (Yii::app()->request->isPostRequest) {
       if (!(Yii::app()->user->isGuest)) {
@@ -89,16 +78,16 @@ class ServiceController extends MController {
     }
   }
 
+  //Регистрация
   public function actionRegistration() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
+      $content="";
       $data=$this->getJson();
 
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken and (empty($data['name']))) {
-
-        $model=new RegistrationForm;
-
         if (isset($data['email']) and isset($data['password'])) {
+          $model=new RegistrationForm;
           $model->attributes=$data;
 
           if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
@@ -108,10 +97,9 @@ class ServiceController extends MController {
           }
 
           if ($model->validate()) {
-            if (!empty($model->password) && $model->password==$model->verifyPassword) {
+            if (!empty($model->password)) {
               $model->activkey=sha1(microtime().$model->password);
               $model->password=Yii::app()->hasher->hashPassword($model->password);
-              $model->verifyPassword=$model->password;
 
               if ($model->save()) {
                 $spot=Spot::model()->findByAttributes(array(
@@ -120,19 +108,19 @@ class ServiceController extends MController {
                 ));
 
                 $spot->user_id=$model->id;
-                $spot->lang=$this->getLang;
+                $spot->lang=$this->getLang();
                 $spot->status=Spot::STATUS_REGISTERED;
                 $spot->save();
 
                 MMail::activation($model->email, $model->activkey, $this->getLang());
+                $content=Yii::t('user', "To your specified email, it was sent to you with instructions on how to activate your account.");
                 $error="no";
               }
             }
           }
         }
-        $error='yes';
       }
-      echo json_encode(array('error'=>$error));
+      echo json_encode(array('error'=>$error, 'content'=>$content));
     }
   }
 
@@ -148,7 +136,7 @@ class ServiceController extends MController {
         if (isset($find->activkey) && ($find->activkey==$activkey)) {
           $find->activkey=sha1(microtime());
           $find->status=User::STATUS_ACTIVE;
-          if ($find->save()) {
+          if ($find->save(false)) {
 
             $identity=new SUserIdentity($find->email, $find->password);
             $identity->authenticate();
@@ -159,14 +147,14 @@ class ServiceController extends MController {
         }
         else
           $this->render('activation', array(
-              'title'=>Yii::t('user', "Активация пользователя"),
-              'content'=>Yii::t('user', "Неверная активационная ссылка.")
+              'title'=>Yii::t('user', "User activation"),
+              'content'=>Yii::t('user', "Incorrect activation link.")
           ));
       }
       else
         $this->render('activation', array(
-            'title'=>Yii::t('user', "Активация пользователя"),
-            'content'=>Yii::t('user', "Неверная активационная ссылка.")
+            'title'=>Yii::t('user', "User activation"),
+            'content'=>Yii::t('user', "Incorrect activation link.")
         ));
     }
   }
