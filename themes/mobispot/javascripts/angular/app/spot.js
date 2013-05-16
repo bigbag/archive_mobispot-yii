@@ -427,11 +427,9 @@ function SpotCtrl($scope, $http, $compile) {
     return true;
   };
   
-  $scope.defOpen = function(discodes){
-	//alert($('#696497 .spot-hat').html());
-	var defSelector = '#' + discodes;// +  ' .spot-hat';
-	//$('#696497 .spot-hat').onclick();
-	//document.getElementById('696497').onclick();
-	$scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
-  }
+	//Открыть спот по коду
+	$scope.defOpen = function(discodes){
+		var defSelector = '#' + discodes;
+		$scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
+	}
 }

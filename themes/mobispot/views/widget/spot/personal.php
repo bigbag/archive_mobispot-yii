@@ -25,7 +25,7 @@
   <div class="spot-item spot-block">
     <div class="item-area <?php echo (($content['keys'][$key]!='text') && ($content['keys'][$key]!='socnet'))?'text-center':''?>">
       <?php if ($content['keys'][$key]=='text'):?>
-      <p class="item-area item-type__text"><?php echo CHtml::encode($value)?></p>
+      <p class="item-area item-type__text" ng-init="spot.val.<?php echo $key; ?>='<?php echo CHtml::encode($value); ?>'">{{spot.val.<?php echo $key; ?>}}</p>
       <?php elseif ($content['keys'][$key]=='image'):?>
       <img src="/uploads/spot/tmb_<?php echo $value?>">
 	  <?php elseif ($content['keys'][$key]=='socnet'):?>
@@ -39,11 +39,10 @@
       <div class="spot-cover slow">
         <div class="spot-activity">
           <?php if ($content['keys'][$key]=='text'):?>
-            <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)"></a>
+            <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)" ng-init="bindVisibility.<?php echo $key; ?>=<?php echo (SocInfo::isSocLink($value))?'true':'false'; ?>" ng-show="bindVisibility.<?php echo $key; ?>"></a>
             <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
           <?php endif;?>
           <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
-
         </div>
 
           <?php if ($content['keys'][$key]=='text'):?>
