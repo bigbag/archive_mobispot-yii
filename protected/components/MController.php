@@ -108,4 +108,22 @@ class MController extends Controller{
       return false;
      }
   }
+
+  // Функция обратного вызова для preg_replace_callback().
+  public function hrefCallback($p) {
+    $name = htmlspecialchars($p[0]);
+    $href = !empty($p[1])? $name : "http://$name";
+    return "<a href=\"$href\">$name</a>";
+  }
+
+  // Заменяет ссылки на их HTML-эквиваленты ("подчеркивает ссылки").
+  public function hrefActivate($text) {
+    return preg_replace_callback(
+      '{
+        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%]*)+)?(\.[a-z]*)?
+      }xis',
+      'MController::hrefCallback',
+      $text
+    );
+  }
 }
