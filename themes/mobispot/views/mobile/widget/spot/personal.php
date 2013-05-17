@@ -1,17 +1,17 @@
 <?php $folderUploads = substr(Yii::getPathOfAlias('webroot.uploads.spot.'), (strpos(Yii::getPathOfAlias('webroot.uploads.spot.'), Yii::getPathOfAlias('webroot'))+strlen(Yii::getPathOfAlias('webroot'))) ) . '/'; ?>
-<?php foreach ($content['keys'] as $key=>$type){ ?>
+<?php foreach ($content['keys'] as $key=>$type): ?>
 	<?php if($type == 'text'): ?>
 		<div class="spot-item">
-			<p class="item-area item-type__text"><?php echo $content['data'][$key]; ?></p>
+			<p class="item-area item-type__text"><?php echo $this->hrefActivate($content['data'][$key]); ?></p>
 		</div>
 	<?php elseif($type == 'image'): ?>
 		<div class="item-area text-center">
 			<img src="<?php echo $folderUploads.$content['data'][$key]; ?>">
-		</div>	
-	<?php elseif($type == 'file'): ?>
+		</div>
+	<?php elseif($type == 'obj'): ?>
 		<a href="<?php echo $folderUploads.$content['data'][$key]; ?>" class="item-area text-center">
 			<div class="file-block">
-				<span><?php echo $content['data'][$key]; ?></span>
+				<span><?php echo substr(strchr($content['data'][$key], '_'), 1); ?></span>
 				<img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
 			</div>
 		</a>
@@ -32,8 +32,8 @@
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
 					</a>
-				<?php endif; ?>			
+				<?php endif; ?>
 			</div>
 		</div>
 	<?php endif; ?>
-<?php } ?>
+<?php endforeach; ?>
