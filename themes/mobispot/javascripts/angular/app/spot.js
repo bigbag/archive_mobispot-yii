@@ -426,7 +426,7 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.checkStatusSpot = function(spot) {
     return true;
   };
-  
+
 	//Открыть спот по коду
 	$scope.defOpen = function(discodes){
 		var defSelector = '#' + discodes;
