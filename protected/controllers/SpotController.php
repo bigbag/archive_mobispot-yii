@@ -279,7 +279,6 @@ class SpotController extends MController {
 							if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
 							{
 								$isSocLogged = true;
-								$netName = 'no';
 								$content['keys'][$data['key']]='socnet';
 								$spotContent->content=$content;
 								if ($spotContent->save()){
@@ -290,10 +289,13 @@ class SpotController extends MController {
 									),
 									true);
 								}
+	Yii::app()->session['bind_discodes'] =  $data['discodes'];
+	Yii::app()->session['bind_key'] = $data['key'];									
 							}else{
 								Yii::app()->session['bind_discodes'] =  $data['discodes'];
 								Yii::app()->session['bind_key'] = $data['key'];
 							}
+						
 							$error="no";
 						}
 					}
@@ -304,6 +306,39 @@ class SpotController extends MController {
 		echo json_encode(array('error'=>$error, 'content'=>$content, 'socnet'=>$netName, 'loggedIn'=>$isSocLogged));
 	}
 
+	//Отвязка соцсети
+	public function actionUnBindSocial(){
+		$error="yes";
+		$content='';
+		$data=$this->getJson();	
+		if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+			if (isset($data['discodes']) and isset($data['key'])){
+				$spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+				if ($spot){
+					$spotContent=SpotContent::getSpotContent($spot);
+					if($spotContent) {	
+						$content=$spotContent->content;
+						if($content['keys'][$data['key']]=='socnet'){
+							$content['keys'][$data['key']]='text';
+							$spotContent->content = $content;
+							if ($spotContent->save()){
+								$content=$this->renderPartial('//widget/spot/personal/new_text',
+								array(
+									'content'=>$content['data'][$data['key']],
+									'key'=>$data['key'],
+								),
+								true);
+								$error="no";
+							}						
+						}
+					}
+				}
+			}
+		}
+		echo json_encode(array('error'=>$error, 'content'=>$content));
+	}
+	
+	
   // Добавление нового спота
   public function actionAddSpot() {
     $error="yes";
