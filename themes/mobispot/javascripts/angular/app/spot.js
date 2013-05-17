@@ -237,6 +237,7 @@ function SpotCtrl($scope, $http, $compile) {
 	var popup;
 	$scope.bindSocial  = function(spot, key, e) {
 	    spot.key = key;
+		//alert('start bind!');
 		$http.post('/spot/BindSocial', spot).success(function(data) {
 			if(data.error == 'no') {
 				//alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
@@ -263,21 +264,42 @@ function SpotCtrl($scope, $http, $compile) {
 						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 						popup.focus();
 					}else{
-						//window.location = '/user/personal';
-					
+						window.location = '/user/personal';
+					/*
 					    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
 						spotEdit.before($compile(data.content)($scope));
 						spotEdit.remove();
-					
+					*/
 					}
 				}
-			}
-			else {
+			}else {
 				alert(data.error);
 			}
+		})
+		.error(function(error){
+			alert(error);
 		});
 	};
 
+	//Отвязка соцсети
+	$scope.unBindSocial  = function(spot, key, e) {
+		spot.key = key;
+		$http.post('/spot/UnBindSocial', spot).success(function(data) {
+			if(data.error == 'no') {
+				var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+				spotEdit.before($compile(data.content)($scope));
+				spotEdit.remove();			
+			}else {
+				alert(data.error);
+			}
+		})
+		.error(function(error){
+			alert(error);
+		});		
+		
+	};
+	
+	
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
