@@ -36,7 +36,7 @@
         <span><?php echo CHtml::encode(substr(strchr($value, '_'), 1))?></span>
       </a>
       <?php endif;?>
-      <div class="spot-cover slow">
+      <div class="spot-cover slow"  ui-event="{dblclick : 'editContent(spot, <?php echo $key;?>, $event)'}">
         <div class="spot-activity">
           <?php if ($content['keys'][$key]=='text'):?>
             <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)" ng-init="bindVisibility.<?php echo $key; ?>=<?php echo (SocInfo::isSocLink($value))?'true':'false'; ?>" ng-show="bindVisibility.<?php echo $key; ?>"></a>
@@ -45,13 +45,15 @@
           <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
         </div>
 
+        <div class="move-spot"><i></i><span>
           <?php if ($content['keys'][$key]=='text'):?>
-            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your text');?></span></div>
+            <?php echo Yii::t('spots', 'Move your text');?>
           <?php elseif ($content['keys'][$key]=='image'):?>
-            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your image');?></span></div>
+            <?php echo Yii::t('spots', 'Move your image');?>
           <?php else:?>
-            <div class="move-spot"><i></i><span><?php echo Yii::t('spots', 'Move your file');?></span></div>
+            <?php echo Yii::t('spots', 'Move your file');?>
           <?php endif;?>
+        </span></div>
       </div>
     </div>
   </div>
