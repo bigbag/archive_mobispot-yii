@@ -44,12 +44,12 @@
         <div class="spot-activity">
           <?php if ($content['keys'][$key]=='text'):?>
             <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)" ng-init="bindVisibility.<?php echo $key; ?>=<?php echo (SocInfo::isSocLink($value))?'true':'false'; ?>" ng-show="bindVisibility.<?php echo $key; ?>">&#xe005;</a>
-            <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)"></a>
+            <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)">&#xe009;</a>
           <?php endif;?>
           <?php if ($content['keys'][$key]=='socnet'):?>
-            <a class="button unbind-spot round" ng-click="unBindSocial(spot, <?php echo $key;?>, $event)"></a>
-          <?php endif;?>		  
-          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)"></a>
+            <a class="button unbind-spot round" ng-click="unBindSocial(spot, <?php echo $key;?>, $event)">&#xe003;</a>
+          <?php endif;?>
+          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)">&#xe00b</a>
         </div>
 
         <div class="move-spot"><i></i><span>
