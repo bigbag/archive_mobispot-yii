@@ -2,19 +2,21 @@
   <div class="row">
     <div class="twelve columns">
       <h3><?php echo Yii::t('footer', 'Footer title')?></h3>
-      <?php $allLang=Lang::getLangArray();?>
+       <?php $allLang=Lang::getLangArray();?>
       <ul class="lang-dropdown">
-        <li class="dropdown toggle-active">
+        <li class="dropdown">
           <a class="spot-button" href="javascript:;"><?php echo $allLang[Yii::app()->language];?></a>
-          <ul class="options">
+          <div class="options">
+            <ul>
             <?php foreach ($allLang as $key=>$value):?>
-            <?php if($key!=Yii::app()->language):?>
-            <li>
-              <a href="/service/lang/<?php echo $key;?>"><?php echo $value;?></a>
-            </li>
-          <?php endif;?>
+              <?php if($key!=Yii::app()->language):?>
+              <li>
+                 <a href="/service/lang/<?php echo $key;?>"><?php echo $value;?></a>
+              </li>
+              <?php endif;?>
             <?php endforeach;?>
-          </ul>
+            </ul>
+          </div>
         </li>
       </ul>
       <ul class="link-list left">

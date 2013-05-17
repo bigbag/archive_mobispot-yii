@@ -26,7 +26,7 @@ img{
 }
 a{
 	color: #000;
-	text-decoration: none;
+	/*text-decoration: none;*/
 	line-height: inherit;
 }
 *{
