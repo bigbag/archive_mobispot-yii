@@ -124,6 +124,7 @@ class ServiceController extends MController {
     }
   }
 
+  //Активация
   public function actionActivation() {
     if (Yii::app()->user->id) {
       $this->redirect('/');
@@ -159,6 +160,7 @@ class ServiceController extends MController {
     }
   }
 
+  //Восстановление пароля
   public function actionRecovery() {
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -214,6 +216,7 @@ class ServiceController extends MController {
     }
   }
 
+  //регистрация через соц сети
   public function actionSocial() {
     $service=Yii::app()->request->getQuery('service');
     if (isset($service)) {
