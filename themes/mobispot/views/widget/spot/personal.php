@@ -36,7 +36,11 @@
         <span><?php echo CHtml::encode(substr(strchr($value, '_'), 1))?></span>
       </a>
       <?php endif;?>
-      <div class="spot-cover slow"  ui-event="{dblclick : 'editContent(spot, <?php echo $key;?>, $event)'}">
+      <?php if ($content['keys'][$key]=='text'):?>
+        <div class="spot-cover slow"  ui-event="{dblclick : 'editContent(spot, <?php echo $key;?>, $event)'}">
+      <?php else:?>
+        <div class="spot-cover slow">
+      <?php endif;?>
         <div class="spot-activity">
           <?php if ($content['keys'][$key]=='text'):?>
             <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)" ng-init="bindVisibility.<?php echo $key; ?>=<?php echo (SocInfo::isSocLink($value))?'true':'false'; ?>" ng-show="bindVisibility.<?php echo $key; ?>"></a>
