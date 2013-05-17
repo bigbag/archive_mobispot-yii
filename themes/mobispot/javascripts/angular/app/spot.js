@@ -239,6 +239,7 @@ function SpotCtrl($scope, $http, $compile) {
 	    spot.key = key;
 		$http.post('/spot/BindSocial', spot).success(function(data) {
 			if(data.error == 'no') {
+				//alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
 				if(data.socnet != 'no'){
 					if (!data.loggedIn){
 						var options = $.extend({
@@ -262,10 +263,12 @@ function SpotCtrl($scope, $http, $compile) {
 						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 						popup.focus();
 					}else{
+						//window.location = '/user/personal';
+					
 					    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
-						var spotItem = spotEdit.next();
 						spotEdit.before($compile(data.content)($scope));
-						spotItem.remove();
+						spotEdit.remove();
+					
 					}
 				}
 			}
@@ -432,4 +435,7 @@ function SpotCtrl($scope, $http, $compile) {
 		var defSelector = '#' + discodes;
 		$scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
 	}
+	
+	
+	
 }

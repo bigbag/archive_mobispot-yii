@@ -279,11 +279,10 @@ class SpotController extends MController {
 							if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
 							{
 								$isSocLogged = true;
-								$netName = 'no';
 								$content['keys'][$data['key']]='socnet';
 								$spotContent->content=$content;
 								if ($spotContent->save()){
-									$content=$this->renderPartial('//widget/spot/personal/new_text',
+									$content=$this->renderPartial('//widget/spot/personal',
 									array(
 										'content'=>$content['data'][$data['key']],
 										'key'=>$data['key'],
