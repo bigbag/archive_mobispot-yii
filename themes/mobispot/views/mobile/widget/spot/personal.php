@@ -1,8 +1,41 @@
+<?php ## "Активизация" HTML-ссылок.
+// Функция обратного вызова для preg_replace_callback().
+function hrefCallback($p) {
+  // Преобразуем спецсимволы в HTML-представление.
+  $name = htmlspecialchars($p[0]);
+  // Если нет протокола, добавляем его в начало строки.
+  $href = !empty($p[1])? $name : "http://$name";
+  // Формируем ссылку.
+  return "<a href=\"$href\">$name</a>";
+}
+
+// Заменяет ссылки на их HTML-эквиваленты ("подчеркивает ссылки").
+function hrefActivate($text) {
+  return preg_replace_callback(
+    '{
+      (?:
+        (\w+://)          # протокол с двумя слэшами
+        |                 # - или -
+        www\.           # просто начинается на www
+      )
+      [\w-]+(\.[\w-]+)*   # имя хоста
+      \S*                 # URI (но БЕЗ кавычек)
+      (?:                 # последний символ должен быть...
+          (?<! [[:punct:]] )  # НЕ пунктуацией
+        | (?<= [-/&+*]     )  # но допустимо окончание на -/&+*
+      )
+    }xis',
+    "hrefCallback",
+    $text
+  );
+}
+?>
+
 <?php $folderUploads = substr(Yii::getPathOfAlias('webroot.uploads.spot.'), (strpos(Yii::getPathOfAlias('webroot.uploads.spot.'), Yii::getPathOfAlias('webroot'))+strlen(Yii::getPathOfAlias('webroot'))) ) . '/'; ?>
-<?php foreach ($content['keys'] as $key=>$type){ ?>
+<?php foreach ($content['keys'] as $key=>$type): ?>
 	<?php if($type == 'text'): ?>
 		<div class="spot-item">
-			<p class="item-area item-type__text"><?php echo $content['data'][$key]; ?></p>
+			<p class="item-area item-type__text"><?php echo hrefActivate($content['data'][$key]); ?></p>
 		</div>
 	<?php elseif($type == 'image'): ?>
 		<div class="item-area text-center">
@@ -36,4 +69,4 @@
 			</div>
 		</div>
 	<?php endif; ?>
-<?php } ?>
+<?php endforeach; ?>
