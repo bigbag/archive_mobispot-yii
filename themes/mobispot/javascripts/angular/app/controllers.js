@@ -5,59 +5,19 @@ function $id(id) {
 }
 
 function UserCtrl($scope, $http, $compile, $timeout) {
-  $scope.$watch('user.email + user.password', function(user) {
 
-    if ($scope.user) {
-      if ($scope.user.email && $scope.user.password){
-        angular.element('#sign-in .form-control a.login').removeClass('button-disable');
-      }
-      else {
-        angular.element('#sign-in .form-control a.login').addClass('button-disable');
-      }
-    }
-  });
-
-//Авторизация
-  $scope.login = function(user) {
-    if (!user.email || !user.password) return false;
-    $http.post('/service/login', user).success(function(data) {
-      if(data.error == 'login_error_count') {
-        $http.post('/ajax/getBlock', {content:'sign_captcha_form'}).success(function(data)       {
-          if(data.error == 'no') {
-            var form = $compile(data.content)($scope);
-            $http.post('/ajax/getBlock', {content:'captcha'}).success(function(data)           {
-              if(data.error == 'no') {
-                angular.element('#signInForm').html(form);
-                angular.element('#signInForm .captcha').html($compile(data.content)($scope));
-              }
-            });
-          }
-        });
-      }
-      else if (data.error == 'yes') {
-        angular.element('#sign-in input[name=email]').addClass('error');
-        angular.element('#sign-in input[name=password]').addClass('error');
-      }
-      else if (data.error == 'no'){
-        $(location).attr('href','/user/personal');
-      }
-      else {
-        $(location).attr('href','/');
-      }
-    });
-  };
-
-// Таймер отслеживания состояния корзины
+  // Таймер отслеживания состояния корзины
   $scope.initTimer = function(period){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
       $scope.itemsInCart = data.itemsInCart;
     }).error(function(error){
       $scope.itemsInCart = 0;
     });
-  if(period == 1000)
-    var mytimeout = $timeout($scope.onFastTimeout, 1000);
-  else
-    var mytimeout = $timeout($scope.onTimeout, 10000);
+
+    if(period == 1000)
+      var mytimeout = $timeout($scope.onFastTimeout, 1000);
+    else
+      var mytimeout = $timeout($scope.onTimeout, 10000);
   };
 
   $scope.onTimeout = function(){
@@ -76,6 +36,87 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     var mytimeout = $timeout($scope.onFastTimeout, 1000);
   };
 
+  //Меняем статус активности кнопки войти в зависимости от валидности формы
+  $scope.$watch('user.email + user.password', function(user) {
+
+    if ($scope.user) {
+      var loginButton = angular.element('#sign-in .form-control a.login');
+      if ($scope.user.email && $scope.user.password){
+        loginButton.removeClass('button-disable');
+      }
+      else {
+        loginButton.addClass('button-disable');
+      }
+    }
+  });
+
+  //Авторизация
+  $scope.login = function(user, valid) {
+   if (!valid) return false;
+    $http.post('/service/login', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#sign-in input[name=email]').addClass('error');
+        angular.element('#sign-in input[name=password]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        $(location).attr('href','/user/personal');
+      }
+      else {
+        $(location).attr('href','/');
+      }
+    });
+  };
+
+  //Меняем статус активности кнопки зарегистрироваться в зависимости от валидности формы
+  $scope.$watch('user.email + user.password + user.activ_code + user.terms', function(user) {
+    if ($scope.user) {
+      var personButton = angular.element('#personSpotForm .form-control a.activ');
+      var companyButton = angular.element('#companySpotForm .form-control a.activ');
+
+      if ($scope.user.email && $scope.user.password && $scope.user.activ_code && $scope.user.terms){
+        if (($scope.user.terms == 1) && ($scope.user.activ_code.length == 10)) {
+          personButton.removeClass('button-disable');
+          companyButton.removeClass('button-disable');
+        }
+        else {
+          personButton.addClass('button-disable');
+          companyButton.removeClass('button-disable');
+        }
+      }
+      else {
+        personButton.addClass('button-disable');
+        companyButton.removeClass('button-disable');
+      }
+    }
+  });
+
+  // Атрибут согласия с условиями сервиса
+  $scope.setTerms = function(user){
+    if (user.terms == 1) user.terms = 0;
+    else user.terms = 1;
+  };
+
+  // // Регистрация
+  $scope.registration = function(user, valid){
+    if (!valid) return false;
+
+    $http.post('/service/registration', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#companySpotForm input[name=email]').addClass('error');
+        angular.element('#companySpotForm input[name=code]').addClass('error');
+        angular.element('#personSpotForm input[name=email]').addClass('error');
+        angular.element('#personSpotForm input[name=code]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        $scope.user.email="";
+        $scope.user.password="";
+        $scope.user.activ_code="";
+        $scope.user.terms=0;
+        angular.element('#personSpotForm input[name=email]').removeClass('error');
+        angular.element('#personSpotForm input[name=code]').removeClass('error');
+      }
+    });
+  };
 }
 
 function HelpCtrl($scope, $http, $compile) {

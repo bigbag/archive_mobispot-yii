@@ -43,23 +43,24 @@ class UserController extends MController {
 
 	$defDiscodes = '';
 	$defKey = '';
-	
+
     if (!Yii::app()->user->id) {
       $this->setAccess();
     } else {
       $user_id=Yii::app()->user->id;
       $user=User::model()->findByPk($user_id);
 
-      if ($user->status==User::STATUS_ACTIVE)
+      if ($user->status==User::STATUS_NOACTIVE){
         $this->redirect('/');
+      }
 
 	  if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
 		$spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
 		if ($spot){
 			$spotContent=SpotContent::getSpotContent($spot);
-			
+
 			if($spotContent) {
-				$SocInfo = new SocInfo;		
+				$SocInfo = new SocInfo;
 				$key = Yii::app()->session['bind_key'];
 				$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$key]);
 				if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth')){
@@ -76,7 +77,7 @@ class UserController extends MController {
 		unset(Yii::app()->session['bind_discodes']);
 		unset(Yii::app()->session['bind_key']);
 	  }
-		
+
       $dataProvider=new CActiveDataProvider(
         Spot::model()->personal()->used()->selectUser($user_id),
         array(
@@ -158,17 +159,17 @@ class UserController extends MController {
 		$service = Yii::app()->request->getQuery('service');
 		$sinfo = new SocInfo;
 		if (isset($service) && (!isset(Yii::app()->session[$service]))){
-		
+
 			$authIdentity = Yii::app()->eauth->getIdentity($service);
 			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 			$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
-			
+
 			if ($authIdentity->authenticate()) {
 				$identity = new ServiceUserIdentity($authIdentity);
 
 				if ($identity->authenticate()) {
 					Yii::app()->session[$service] = 'auth';
-				
+
 					$authIdentity->redirect(array('user/personal'));
 				}
 				else {
@@ -176,6 +177,6 @@ class UserController extends MController {
 				}
 			}
 		}
-		$this->redirect(array('user/personal'));		
+		$this->redirect(array('user/personal'));
 	}
 }

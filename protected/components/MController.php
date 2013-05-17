@@ -76,6 +76,10 @@ class MController extends Controller{
     throw new CHttpException(403, Yii::t('user', 'У вас не хватает прав для доступа.'));
   }
 
+  public function setNotFound(){
+    throw new CHttpException(404, Yii::t('user', 'The requested page does not exist.'));
+  }
+
   public function init(){
     if (isset(Yii::app()->request->cookies['lang'])) {
       $lang = Yii::app()->request->cookies['lang']->value;
@@ -91,7 +95,7 @@ class MController extends Controller{
     else  Yii::app()->language = 'en';
   }
 
-  public function  getLang(){
+  public function getLang(){
     return (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en';
   }
 
@@ -107,5 +111,23 @@ class MController extends Controller{
      else {
       return false;
      }
+  }
+
+  // Функция обратного вызова для preg_replace_callback().
+  public function hrefCallback($p) {
+    $name = htmlspecialchars($p[0]);
+    $href = !empty($p[1])? $name : "http://$name";
+    return "<a href=\"$href\">$name</a>";
+  }
+
+  // Заменяет ссылки на их HTML-эквиваленты ("подчеркивает ссылки").
+  public function hrefActivate($text) {
+    return preg_replace_callback(
+      '{
+        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%]*)+)?(\.[a-z]*)?
+      }xis',
+      'MController::hrefCallback',
+      $text
+    );
   }
 }

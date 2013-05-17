@@ -21,7 +21,7 @@
       <div class="bubbles-slider"   ng-controller="UserCtrl" >
         <div>
           <div class="personal-cover">
-            <img src="/themes/mobispot/images/personal-cover2.png" />
+            <!-- <img src="/themes/mobispot/images/personal-cover2.png" /> -->
           </div>
           <div class="dropdown-wrapper">
           <div class="dropdown dropdown__light change-cover">
