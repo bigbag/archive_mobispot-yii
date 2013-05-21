@@ -49,7 +49,7 @@
           <?php if ($content['keys'][$key]=='socnet'):?>
             <a class="button unbind-spot round" ng-click="unBindSocial(spot, <?php echo $key;?>, $event)">&#xe003;</a>
           <?php endif;?>
-          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)">&#xe00b</a>
+          <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)">&#xe00b;</a>
         </div>
 
         <div class="move-spot"><i></i><span>

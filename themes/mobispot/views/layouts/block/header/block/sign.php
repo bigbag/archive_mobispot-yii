@@ -1,7 +1,7 @@
 <div id="signInForm" ng-controller="UserCtrl" class="slide-box">
   <div  class="row">
     <div class="seven columns centered">
-      <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
+      <h3><?php echo Yii::t('user', 'Sign in');?></h3>
     </div>
     <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
   </div>
@@ -12,7 +12,7 @@
           name='email'
           type="email"
           ng-model="user.email"
-          placeholder="<?php echo Yii::t('sign', 'Email address');?>"
+          placeholder="<?php echo Yii::t('user', 'Email address');?>"
           ui-keypress="{enter: 'login(user, signForm.$valid)'}"
           autocomplete="off"
           maxlength="300"
@@ -21,17 +21,17 @@
           name='password'
           type="password"
           ng-model="user.password"
-          placeholder="<?php echo Yii::t('sign', 'Password');?>"
+          placeholder="<?php echo Yii::t('user', 'Password');?>"
           ui-keypress="{enter: 'login(user, signForm.$valid)'}"
           autocomplete="off"
           maxlength="300"
           required >
         <a id="recPass" href="javascripts:;" class="form-link toggle-box">
-          <?php echo Yii::t('sign', 'Recovery');?>
+          <?php echo Yii::t('user', 'Forgot password?');?>
         </a>
         <div class="form-control">
           <a class="spot-button login button-disable" href="javascript:;" ng-click="login(user, signForm.$valid)" >
-            <?php echo Yii::t('sign', 'Sign in');?>
+            <?php echo Yii::t('user', 'Sign in');?>
           </a>
           <span class="right soc-link">
             <a href="/service/social?service=facebook" class="i-soc-fac"></a>
