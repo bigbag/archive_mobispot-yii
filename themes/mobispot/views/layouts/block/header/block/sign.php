@@ -3,16 +3,36 @@
     <div class="seven columns centered">
       <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
     </div>
-    <a href="javascript:;" class="slide-box-close">&#xe00b</a>
+    <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
   </div>
   <div class="row">
     <div class="five columns centered">
       <form id="sign-in" name="signForm">
-        <input name='email' type="email" ng-model="user.email" placeholder="<?php echo Yii::t('sign', 'Email address');?>" ui-keypress="{enter: 'login(user, signForm.$valid)'}" autocomplete="off" maxlength="300" required >
-        <input name='password' type="password" ng-model="user.password" placeholder="<?php echo Yii::t('sign', 'Password');?>" ui-keypress="{enter: 'login(user, signForm.$valid)'}" autocomplete="off" maxlength="300" required >
-        <a id="recPass" href="javascripts:;" class="form-link toggle-box"><?php echo Yii::t('sign', 'Recovery');?></a>
+        <input
+          name='email'
+          type="email"
+          ng-model="user.email"
+          placeholder="<?php echo Yii::t('sign', 'Email address');?>"
+          ui-keypress="{enter: 'login(user, signForm.$valid)'}"
+          autocomplete="off"
+          maxlength="300"
+          required >
+        <input
+          name='password'
+          type="password"
+          ng-model="user.password"
+          placeholder="<?php echo Yii::t('sign', 'Password');?>"
+          ui-keypress="{enter: 'login(user, signForm.$valid)'}"
+          autocomplete="off"
+          maxlength="300"
+          required >
+        <a id="recPass" href="javascripts:;" class="form-link toggle-box">
+          <?php echo Yii::t('sign', 'Recovery');?>
+        </a>
         <div class="form-control">
-          <a class="spot-button login button-disable" href="javascript:;" ng-click="login(user, signForm.$valid)" ><?php echo Yii::t('sign', 'Sign in');?></a>
+          <a class="spot-button login button-disable" href="javascript:;" ng-click="login(user, signForm.$valid)" >
+            <?php echo Yii::t('sign', 'Sign in');?>
+          </a>
           <span class="right soc-link">
             <a href="/service/social?service=facebook" class="i-soc-fac"></a>
             <a href="/service/social?service=twitter" class="i-soc-twi"></a>

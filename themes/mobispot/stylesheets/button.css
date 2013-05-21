@@ -525,6 +525,6 @@ footer .button:hover + .active,
 	color: #0061ff;
 	display: block;
 	float: right;
-	margin-bottom: 10px;
-	margin-top: 1px;
+	margin-bottom: 12px;
+	margin-top: 3px;
 }
