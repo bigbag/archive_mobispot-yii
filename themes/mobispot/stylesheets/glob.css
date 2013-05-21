@@ -27,7 +27,7 @@ body{
 .content-wrapper{
 	min-height: 100%;
 	margin-bottom: -258px;
-	padding-bottom: 12em;
+	padding-bottom: 289px;
 }
 .content-wrapper:after{
 	content: "";

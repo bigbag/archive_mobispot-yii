@@ -1,55 +1,41 @@
-<div id="main-container">
-<div id="cont-block" class="center">
-<div id="cont-block-760" class="center">
-<div id="zag-cont-block"><?php echo Yii::t('user', 'Смена пароля')?></div>
-<?php echo CHtml::beginForm(); ?>
-<span class="error"><?php echo CHtml::errorSummary($form); ?></span>
-<center><?php echo Yii::t('user', 'Введите новый пароль.')?>
-<table class="form">
-<tr>
-<td>
-<div class="txt-form">
-<div class="txt-form-cl">
-<?php echo CHtml::activeTextField($form, 'password',
-  array(
-    'class'=>'txt',
-    'maxsize'=>50,
-    'placeholder'=>Yii::t('user', 'Пароль')
-)); ?>
-<input type="hidden" name="token" id="token"
-value="<?php echo Yii::app()->request->csrfToken?>">
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td>
-<div class="txt-form">
-<div class="txt-form-cl">
-<?php echo CHtml::activeTextField($form, 'verifyPassword',
-  array(
-    'class'=>'txt',
-    'maxsize'=>50,
-    'placeholder'=>Yii::t('user', 'Повтор пароля')
-)); ?>
-</div>
-</div>
-</td>
-</tr>
-<tr>
-<td>
-<center>
-<div class="round-btn" style="float:right">
-<div class="round-btn-cl">
-<input type="submit" class="" value="<?php echo Yii::t('user', 'Отправить')?>"/>
-</div>
-</div>
-</center>
-</td>
-</tr>
-</table>
-</center>
-<?php echo CHtml::endForm(); ?>
-</div>
-</div>
+<?php
+#$this->pageTitle=Yii::t('user', 'Мобиспот. Восстановление пароля');
+
+?>
+<div id="changePassForm" class="row header-page recovery m-content-form" ng-controller="UserCtrl" >
+  <div class="twelve columns">
+    <div  class="row">
+      <div class="seven columns centered">
+        <h3><?php echo Yii::t('user', 'Password recovery')?></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="five columns centered">
+        <form id="change-pass" name="changeForm" ng-init="user.email='<?php echo $email;?>'; user.activkey='<?php echo $activkey;?>'">
+          <input
+            name="password"
+            type="password"
+            ng-model="user.password"
+            placeholder="<?php echo Yii::t('user', 'Password')?>"
+            autocomplete="off"
+            maxlength="300"
+            required >
+          <input
+            name="confirmPassword"
+            type="password"
+            ng-model="user.confirmPassword"
+            placeholder="<?php echo Yii::t('user', 'Confirm password')?>"
+            autocomplete="off"
+            maxlength="300"
+            required >
+
+          <div class="form-control">
+            <a class="spot-button button-disable" href="javascript:;"  ng-click="change(user, changeForm.$valid)">
+              <?php echo Yii::t('user', 'Send')?>
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

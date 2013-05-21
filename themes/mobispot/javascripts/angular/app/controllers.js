@@ -117,6 +117,39 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       }
     });
   };
+
+  //Меняем статус активности кнопки отправить в форме востановления пароля
+  $scope.$watch('recovery.email', function(recovery) {
+    if ($scope.recovery) {
+      var activButton = angular.element('#recovery-pass .form-control a');
+      if ($scope.recovery.email){
+        activButton.removeClass('button-disable');
+      }
+      else {
+        activButton.addClass('button-disable');
+      }
+    }
+  });
+
+  // Восстановление пароля
+  $scope.recovery = function(recovery, valid){
+    if (!valid) return false;
+    var user = $scope.user;
+    user.email = recovery.email;
+    user.action = 'recovery';
+    $http.post('/service/recovery', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#recPassForm input[name=email]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        angular.element('#recPassForm .result').text(data.content).fadeOut(7000);
+
+        $scope.user.email="";
+        $scope.recovery.email="";
+        angular.element('#recPassForm input[name=email]').removeClass('error');
+      }
+    });
+  };
 }
 
 function HelpCtrl($scope, $http, $compile) {
