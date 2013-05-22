@@ -21,8 +21,10 @@ function SpotCtrl($scope, $http, $compile) {
 
   $scope.sortableOptions = {
     update: function(e, ui) {
-      console.log($scope.keys);
+      alert($scope.keys);
     },
+    'containment':'parent',
+    'opacity':0.8
   };
 
   // Закачка файла html5
