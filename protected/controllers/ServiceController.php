@@ -136,7 +136,7 @@ class ServiceController extends MController {
         $find=User::model()->findByAttributes(array('email'=>$email));
         if (isset($find->activkey) && ($find->activkey==$activkey)) {
           $find->activkey=sha1(microtime());
-          $find->status=User::STATUS_ACTIVE;
+          $find->status=User::STATUS_VALID;
           if ($find->save()) {
 
             $identity=new SUserIdentity($find->email, $find->password);
