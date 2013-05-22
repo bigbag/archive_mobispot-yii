@@ -7,7 +7,6 @@
   </div>
   <div class="row">
     <div class="five columns centered">
-      <h5 class="result color"></h5>
       <form id="recovery-pass" name="recoveryForm">
       <input
         name='email'

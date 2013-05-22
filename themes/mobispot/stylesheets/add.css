@@ -66,3 +66,7 @@
   width: 1040px; max-width: 100%; min-width: 768px; margin: 0 auto;
   margin: 0px auto;
 }
+
+.m-result{
+  display: none;
+}
