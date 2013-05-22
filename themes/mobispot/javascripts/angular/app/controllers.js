@@ -150,6 +150,35 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       }
     });
   };
+
+  //Меняем статус активности кнопки отправить на странице востановления пароля
+  $scope.$watch('user.password + user.confirmPassword', function(change) {
+    if ($scope.user) {
+      var activButton = angular.element('#change-pass .form-control a');
+      if ($scope.user.password && $scope.user.confirmPassword && ($scope.user.password == $scope.user.confirmPassword)){
+        activButton.removeClass('button-disable');
+      }
+      else {
+        activButton.addClass('button-disable');
+      }
+    }
+  });
+
+  // Смена пароля
+  $scope.change = function(user, valid){
+    if (!valid) return false;
+    user.action = 'change';
+
+    $http.post('/service/recovery', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#changePassForm input[name=password]').addClass('error');
+        angular.element('#changePassForm input[name=confirmPassword]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        $(location).attr('href','/user/person');
+      }
+    });
+  };
 }
 
 function HelpCtrl($scope, $http, $compile) {
