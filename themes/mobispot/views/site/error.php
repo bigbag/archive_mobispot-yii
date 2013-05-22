@@ -1,5 +1,5 @@
 <?php
-$this->pageTitle=Yii::t('error', 'Мобиспот. Сбой');
+$this->pageTitle='Error';
 
 ?>
 <div class="row">
@@ -7,26 +7,28 @@ $this->pageTitle=Yii::t('error', 'Мобиспот. Сбой');
     <div class="five column">
       <div class="p-error-txt">
         <?php if ($code==404): ?>
-          <h2 class="color"><?php echo Yii::t('error', 'К сожалению, такой страницы не существует.')?></h2>
+          <h2 class="color">
+          	<?php echo Yii::t('error', 'The page you wanted doesn’t exist.')?>
+          </h2>
         <?php else:?>
           <h2 class="color">
-            <?php echo Yii::t('error', 'Похоже, что-то пошло не так!')?>
+          	<?php echo Yii::t('error', 'Looks like something went wrong!')?>
           </h2>
         <?php endif;?>
-        <p><?php echo Yii::t('error', 'Если Вы считаете, что наш сервис работает некорректно, пожалуйста, напишите нам, и мы все починим.')?>
+        <p><?php echo Yii::t('error', 'If you believe that something is going wrong please connect with us and we will fix it.')?>
 
         </p>
         <footer>
-          <a class="color" href="/help"><?php echo Yii::t('error', 'Помощь')?></a>
+          <a class="color" href="/help"><?php echo Yii::t('error', 'Get help!')?></a>
           <a class="color" href="mailto:help@mobispot.com">help@mobispot.com</a>
-          <a class="color" href="#">@heymobispot</a>
+          <a class="color" href="https://twitter.com/heymobispot">@heymobispot</a>
         </footer>
       </div>
     </div>
     <div class="seven column">
       <div class="error-message">
         <div class="error-text-block">
-          <h1><?php echo Yii::t('error', 'OОй!')?></h1>
+          <h1><?php echo Yii::t('error', 'Oops!')?></h1>
           <span class="error-code"><?php echo $code; ?></span>
         </div>
 
