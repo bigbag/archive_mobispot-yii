@@ -173,7 +173,12 @@ class ServiceController extends MController {
           if (isset($data['email'])) {
             $form->email=$data['email'];
             if ($form->validate()) {
-              $user=User::model()->findByAttributes(array('email'=>$form->email));
+              $user=User::model()->findByAttributes(
+                array(
+                  'email'=>$form->email,
+                  'status'=>User::STATUS_VALID,
+                  )
+                );
               if ($user) {
                 MMail::recovery($user->email, $user->activkey, $this->getLang());
                 $content=Yii::t('user', "To your specified email, it was sent to you with instructions to reset your password.");

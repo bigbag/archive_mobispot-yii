@@ -1477,3 +1477,26 @@ textarea[tabindex]{
 	margin-top: -6px;
 	color: #4F4F4F;
 }
+.m-result{
+	position: fixed;
+	top: -6px;
+	left: 0;
+	text-align: center;
+	z-index: 99;
+	width: 100%;
+
+}
+.m-result p{
+	font-family: Mobispot, Arial, sans-serif;
+	display: inline-block;
+	background: #12ad51;
+	color: #fff;
+	padding: 10px 11px 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius:  5px;
+	border-radius:  5px;
+	font-size: 16px;
+}
+.m-negative p{
+	background-color: #ff2400;
+}
