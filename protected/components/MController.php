@@ -143,4 +143,20 @@ class MController extends Controller{
       $text
     );
   }
+
+  public function urlCallback($p) {
+    $name = htmlspecialchars($p[0]);
+    $href = !empty($p[1])? $name : "http://$name";
+    return $href;
+  }
+
+  public function urlActivate($text) {
+    return preg_replace_callback(
+      '{
+        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%]*)+)?(\.[a-z]*)?
+      }xis',
+      'MController::urlCallback',
+      $text
+    );
+  }
 }
