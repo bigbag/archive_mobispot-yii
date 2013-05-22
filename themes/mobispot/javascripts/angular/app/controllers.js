@@ -175,7 +175,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         angular.element('#changePassForm input[name=confirmPassword]').addClass('error');
       }
       else if (data.error == 'no'){
-        $(location).attr('href','/user/person');
+        $(location).attr('href','/user/personal');
       }
     });
   };
