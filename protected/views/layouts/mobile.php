@@ -16,6 +16,8 @@
   	<meta name="viewport" content="width=device-width" />
   
   	<link rel="stylesheet" href="/themes/mobile/stylesheets/style.css">
+	
+	<?php Yii::app()->getClientScript()->registerScriptFile('https://maps.google.com/maps/api/js?key='.Yii::app()->eauth->services['google_oauth']['key'].'&sensor=true'); ?>
 </head>
 <body>
 	<div class="content-wrapper bg-gray">

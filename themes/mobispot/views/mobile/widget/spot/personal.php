@@ -28,11 +28,50 @@
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['last_img'])): ?>
+					<div class="item-area text-center">
+						<?php if(isset($content['data'][$key]['last_img_msg'])): ?>
+							<p><?php echo $content['data'][$key]['last_img_msg']; ?></p>
+						<?php endif; ?>
+						<img src="<?php echo $content['data'][$key]['last_img']; ?>">
+						<?php if(isset($content['data'][$key]['last_img_story'])): ?>
+							<p><?php echo $content['data'][$key]['last_img_story']; ?></p>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['place_lat']) && isset($content['data'][$key]['place_lng'])): ?>
+					<div class="item-area text-center">
+						<?php if(isset($content['data'][$key]['place_msg'])): ?>
+							<p><?php echo $content['data'][$key]['place_msg']; ?></p>
+						<?php endif; ?>
+						<div id="map_canvas_<?php echo $key; ?>" style="width:400px; height:200px; margin:0 auto"></div>
+						<script>
+							var initLat = <?php echo $content['data'][$key]['place_lat']; ?>;
+							var initLng = <?php echo $content['data'][$key]['place_lng']; ?>;
+							var latlng = new google.maps.LatLng(initLat, initLng);
+
+							var mapOptions = {
+							  zoom: 9,
+							  center: latlng,
+							  mapTypeId: google.maps.MapTypeId.ROADMAP
+							}
+							map = new google.maps.Map(document.getElementById('map_canvas_<?php echo $key; ?>'), mapOptions);		
+
+							marker = new google.maps.Marker({
+								map: map,
+								position: latlng,
+								draggable: false
+							});
+						</script>
+						<p><?php echo $content['data'][$key]['place_name']; ?></p>
+					</div>
+				<?php endif; ?>				
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
 					</a>
 				<?php endif; ?>
+				
 			</div>
 		</div>
 	<?php endif; ?>

@@ -16,3 +16,4 @@ CREATE TABLE IF NOT EXISTS `history`(
 	status int not null,
 	foreign key (id_wallet) references wallet (id)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+
