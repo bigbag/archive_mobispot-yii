@@ -10,9 +10,8 @@
     <div class="twelve">
       <div class="header-top">
         <?php if (!Yii::app()->user->isGuest): ?>
-        <?php $userInfo=$this->userInfo()?>
         <ul class="login-bar">
-          <li><a href="/user/personal"><?php echo $userInfo->name;?></a></li>
+          <li><a href="/user/personal"><?php echo Yii::t('menu', 'To my spots')?></a></li>
         </ul>
         <?php endif; ?>
         <div class="four columns">

@@ -20,7 +20,7 @@
         <?php $keys=(isset($content['keys'])?array_keys($content['keys']):array())?>
         <?php $keys='['.implode(',', $keys).']';?>
         <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
-        <div ng-models="keys" ui-sortable="sortableOptions" >
+        <div>
         <?php foreach ($content['data'] as $key=>$value):?>
 
         <div class="spot-item spot-block">

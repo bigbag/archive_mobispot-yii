@@ -124,6 +124,12 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
   };
 
+  // Регистрация через соц сети
+  $scope.social = function(user){
+      angular.element('form[name=socialForm]').submit();
+
+  };
+
   //Меняем статус активности кнопки отправить в форме востановления пароля
   $scope.$watch('recovery.email', function(recovery) {
     if ($scope.recovery) {

@@ -10,13 +10,12 @@
     <div class="twelve">
       <div class="header-top">
         <?php if (!Yii::app()->user->isGuest): ?>
-          <?php $userInfo=$this->userInfo()?>
           <ul class="login-bar">
-            <li><a href="/user/personal"><?php echo $userInfo->name;?></a></li>
+            <li><a href="/user/personal"><?php echo Yii::t('menu', 'To my spots')?></a></li>
             <?php if(isset(Yii::app()->controller->module) && (Yii::app()->controller->module->id =='store')): ?>
               <li ng-controller="UserCtrl" ng-init="initTimer(<?php if((Yii::app()->controller->action->id=='index') && (Yii::app()->controller->id == 'product')) echo '1000'; else echo '10000';?>)" ng-show="itemsInCart > 0"><a href="/store/product/cart">Shopping bag({{itemsInCart}})</a></li>
             <?php elseif($this->getCart()): ?>
-            <li><a href="/store/product/cart">Shopping bag(<?php echo $this->getCart(); ?>)</a></li>
+            <li><a href="/store/product/cart"><?php echo Yii::t('menu', 'Shopping bag')?>(<?php echo $this->getCart(); ?>)</a></li>
             <?php endif; ?>
           </ul>
         <?php elseif(isset(Yii::app()->controller->module) && (Yii::app()->controller->module->id =='store')): ?>
@@ -25,7 +24,7 @@
           </ul>
         <?php elseif($this->getCart()): ?>
           <ul class="login-bar">
-            <li><a href="/store/product/cart">Shopping bag(<?php echo $this->getCart(); ?>)</a></li>
+            <li><a href="/store/product/cart"><?php echo Yii::t('menu', 'Shopping bag')?>(<?php echo $this->getCart(); ?>)</a></li>
           </ul>
         <?php endif; ?>
 

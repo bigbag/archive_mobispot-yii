@@ -70,3 +70,8 @@
 .m-result{
   display: none;
 }
+
+.content-wrapper:after{
+  height: 0px;
+  width: 100%;
+}

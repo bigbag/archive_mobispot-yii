@@ -2,7 +2,7 @@
  #$this->pageTitle=$title;
 
 ?>
-<div id="changePassForm" class="row header-page recovery m-content-form">
+<div class="row header-page recovery m-content-form"  ng-controller="UserCtrl" >
   <div class="twelve columns">
     <div  class="row">
       <div class="seven columns centered">
@@ -11,7 +11,7 @@
     </div>
     <div class="row">
       <div class="five columns centered">
-        <form action="" method="post">
+        <form action="" method="post" name="socialForm">
           <input
             type="hidden"
             name="token"
@@ -36,13 +36,18 @@
             maxlength="10"
             autocomplete="off">
           <input
-            type="checkbox"
+            style="display:none"
+            type="text"
             name="RegistrationSocialForm[terms]"
-            value="1">
-            <?php echo Yii::t('user', 'I agree to Terms and Conditions');?>
-          <input
-            type="submit"
-            value="<?php echo Yii::t('user', 'Activate spot');?>"/>
+            value="{{user.terms}}">
+          <div class="toggle-active">
+            <a class="checkbox agree"  href="javascript:;" ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions');?></a>
+          </div>
+          <div class="form-control">
+            <a class="spot-button activ" href="javascript:;" ng-click="social(user)">
+              <?php echo Yii::t('user', 'Activate spot');?>
+            </a>
+        </div>
         </form>
       </div>
     </div>

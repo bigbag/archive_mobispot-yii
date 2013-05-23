@@ -239,7 +239,6 @@ class ServiceController extends MController {
   public function actionSocial() {
     $service=Yii::app()->request->getQuery('service');
     if (isset($service)) {
-
       $authIdentity=Yii::app()->eauth->getIdentity($service);
       $authIdentity->cancelUrl='/site/index';
 
