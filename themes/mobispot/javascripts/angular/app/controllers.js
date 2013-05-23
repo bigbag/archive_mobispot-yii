@@ -6,6 +6,9 @@ function $id(id) {
 
 function UserCtrl($scope, $http, $compile, $timeout) {
 
+  var resultModal = angular.element('.m-result');
+  var resultContent = resultModal.find('p');
+
   // Таймер отслеживания состояния корзины
   $scope.initTimer = function(period){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
@@ -70,22 +73,18 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   //Меняем статус активности кнопки зарегистрироваться в зависимости от валидности формы
   $scope.$watch('user.email + user.password + user.activ_code + user.terms', function(user) {
     if ($scope.user) {
-      var personButton = angular.element('#personSpotForm .form-control a.activ');
-      var companyButton = angular.element('#companySpotForm .form-control a.activ');
+      var personButton = angular.element('#actSpotForm .form-control a.activ');
 
       if ($scope.user.email && $scope.user.password && $scope.user.activ_code && $scope.user.terms){
         if (($scope.user.terms == 1) && ($scope.user.activ_code.length == 10)) {
           personButton.removeClass('button-disable');
-          companyButton.removeClass('button-disable');
         }
         else {
           personButton.addClass('button-disable');
-          companyButton.removeClass('button-disable');
         }
       }
       else {
         personButton.addClass('button-disable');
-        companyButton.removeClass('button-disable');
       }
     }
   });
@@ -100,20 +99,97 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   $scope.registration = function(user, valid){
     if (!valid) return false;
 
+    resultModal.hide();
+
     $http.post('/service/registration', user).success(function(data) {
       if (data.error == 'yes') {
-        angular.element('#companySpotForm input[name=email]').addClass('error');
-        angular.element('#companySpotForm input[name=code]').addClass('error');
         angular.element('#personSpotForm input[name=email]').addClass('error');
         angular.element('#personSpotForm input[name=code]').addClass('error');
       }
       else if (data.error == 'no'){
+        angular.element('#actSpotForm').slideUp(400, function() {
+          resultModal.show();
+          resultContent.text(data.content);
+          resultModal.fadeOut(10000, function() {
+          });
+        });
+
         $scope.user.email="";
         $scope.user.password="";
         $scope.user.activ_code="";
         $scope.user.terms=0;
         angular.element('#personSpotForm input[name=email]').removeClass('error');
         angular.element('#personSpotForm input[name=code]').removeClass('error');
+      }
+    });
+  };
+
+  //Меняем статус активности кнопки отправить в форме востановления пароля
+  $scope.$watch('recovery.email', function(recovery) {
+    if ($scope.recovery) {
+      var activButton = angular.element('#recovery-pass .form-control a');
+      if ($scope.recovery.email){
+        activButton.removeClass('button-disable');
+      }
+      else {
+        activButton.addClass('button-disable');
+      }
+    }
+  });
+
+  // Восстановление пароля
+  $scope.recovery = function(recovery, valid){
+    if (!valid) return false;
+
+    resultModal.hide();
+
+    var user = $scope.user;
+    user.email = recovery.email;
+    user.action = 'recovery';
+    $http.post('/service/recovery', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#recPassForm input[name=email]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        angular.element('#recPassForm').slideUp(400, function() {
+          resultModal.show();
+          resultContent.text(data.content);
+          resultModal.fadeOut(10000, function() {
+          });
+        });
+
+        $scope.user.email="";
+        $scope.recovery.email="";
+        angular.element('#recPassForm input[name=email]').removeClass('error');
+      }
+    });
+  };
+
+  //Меняем статус активности кнопки отправить на странице востановления пароля
+  $scope.$watch('user.password + user.confirmPassword', function(change) {
+    if ($scope.user) {
+      var activButton = angular.element('#change-pass .form-control a');
+      if ($scope.user.password && $scope.user.confirmPassword && ($scope.user.password == $scope.user.confirmPassword)){
+        activButton.removeClass('button-disable');
+      }
+      else {
+        activButton.addClass('button-disable');
+      }
+    }
+  });
+
+  // Смена пароля
+  $scope.change = function(user, valid){
+    if (!valid) return false;
+    user.action = 'change';
+
+    $http.post('/service/recovery', user).success(function(data) {
+      if (data.error == 'yes') {
+        angular.element('#changePassForm input[name=password]').addClass('error');
+        angular.element('#changePassForm input[name=confirmPassword]').addClass('error');
+      }
+      else if (data.error == 'no'){
+        $(location).attr('href','/user/personal');
       }
     });
   };

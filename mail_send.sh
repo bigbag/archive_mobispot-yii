@@ -1,2 +1,2 @@
 #/bin/bash
-/usr/bin/php /home/mobispot/public_html/console.php mail
+/usr/bin/php /home/mobispot/www/mobispot/console.php mail

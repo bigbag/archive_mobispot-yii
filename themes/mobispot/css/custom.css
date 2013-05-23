@@ -1,0 +1,476 @@
+span.error {
+    color: #f00;
+    padding: 4px 0 4px 30px;
+}
+
+.selectBox-dropdown-menu {
+    max-height: 355px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.uploadify_personal {
+
+    color: #7d7d7d;
+    padding: 0 0 0 5px;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: "Open Sans", "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif;
+    text-align: center;
+    cursor: pointer;
+    behavior: url(ie-css3.htc);
+}
+
+.uploadify_file {
+    color: #7d7d7d;
+    padding: 0 0 0 5px;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
+    text-align: center;
+    behavior: url(ie-css3.htc);
+}
+
+.round-btn-new {
+    background: url(../images/form/bnt_profile.png);
+    background-color: #F5F5F5;
+    width: 120px;
+    height: 28px;
+    margin: 10px 0 20px 8px;
+    cursor: pointer;
+    float: left
+}
+
+.round-btn-upload {
+    background: url(../images/form/bnt_spot_upload.png);
+    background-color: #F5F5F5;
+    width: 110px;
+    height: 30px;
+    margin: 10px 0 20px 8px;
+    cursor: pointer;
+    float: left
+}
+
+#sel-lang {
+    position: absolute;
+    top: 14px;
+    left: 70px;
+    cursor: pointer;
+    padding: 7px 0;
+    height: 25px;
+    margin: 0 0px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 25px;
+
+}
+
+#sel-lang div.curent-lang {
+    display: inline-block;
+    padding-right: 12px;
+    background: url(../images/form/down_white.gif) 100% 10px no-repeat
+}
+
+#authorization {
+    position: relative;
+    top: 0px;
+    left: 640px;
+    padding: 19px 0 10px 0;
+    width: 350px;
+    height: 47px;
+}
+
+#authorization #auth-on {
+    height: 47px;
+    cursor: pointer;
+    left: 90px;
+    background: url(../images/form/down_white.gif) 90% 11px no-repeat
+}
+
+#authorization #auth-on #auth-user-name {
+    top: 5px;
+    position: relative;
+    float: right;
+    text-align: right;
+    font-size: 14px;
+    left: -40px;
+    color: #fff;
+    padding-right: 12px
+}
+
+.auth-hint, .user-menu-hint, .lang-hint {
+    display: none;
+    text-overflow: ellipsis;
+    position: relative;
+    bottom: -42px;
+    left: 90px;
+    width: 280px;
+    padding: 10px;
+    z-index: 100;
+    background-color: #fff;
+    border: 1px solid #fc905f;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    behavior: url(ie-css3.htc)
+}
+
+.auth-hint:before, .user-menu-hint:before, .lang-hint:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 170px;
+    top: -24px;
+    border: 12px solid;
+    border-color: transparent transparent #fc905f transparent;
+    behavior: url(ie-css3.htc)
+}
+
+.auth-hint:after, .user-menu-hint:after, .lang-hint:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 171px;
+    top: -21px;
+    border: 11px solid;
+    border-color: transparent transparent #fff transparent;
+    behavior: url(ie-css3.htc)
+}
+
+.auth-hint .forget-pass {
+    padding-top: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 22px;
+    text-decoration: underline
+}
+
+.auth-hint .remember-me {
+    position: absolute;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.auth-hint table.form {
+    position: relative;
+    border: 0px none;
+    margin: 0;
+    font-size: 15px;
+    width: 272px
+}
+
+.auth-hint table.form td {
+    color: #797979;
+    height: 20px;
+    white-space: nowrap;
+    text-align: left
+}
+
+.auth-hint .btn-30 {
+    float: right;
+}
+
+.auth-hint .btn-30 div {
+    background: url(../images/form/btn-30.png) 100% -30px no-repeat;
+    height: 30px;
+    position: relative;
+    right: -7px;
+    margin: 0 0 0 -7px;
+    padding: 0 15px 0 15px;
+    display: block;
+}
+
+.auth-hint .btn-30 div input {
+    border: 0;
+    background: transparent;
+    text-align: center;
+    line-height: 25px;
+    height: 30px;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    padding: 0
+}
+
+.user-menu-hint {
+    left: 120px;
+    bottom: -32px;
+    width: 200px;
+}
+
+.user-menu-hint:before {
+    left: 140px;
+}
+
+.user-menu-hint:after {
+    left: 141px;
+}
+
+.user-menu-hint a {
+    text-decoration: none;
+}
+
+.user-menu-hint div {
+    padding-bottom: 10px
+}
+
+.lang-hint {
+    bottom: -10px;
+    width: 100px;
+    left: 10px;
+}
+
+.lang-hint:before {
+    left: 10px;
+}
+
+.lang-hint:after {
+    left: 11px;
+}
+
+.lang-hint a {
+    color: #797979;
+    text-decoration: none
+}
+
+.lang-hint .hint-back-cursor {
+    left: 20px;
+    top: -11px;
+}
+
+div.prev {
+    background: url(../images/prev.png) no-repeat transparent;
+    width: 45px;
+    height: 50px;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    top: 80px;
+    left: 10%;
+}
+
+div.next {
+    background: url(../images/next.png) no-repeat transparent;
+    width: 45px;
+    height: 50px;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    top: 30px;
+    left: 84%
+}
+
+#circle {
+    width: 710px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#carousel {
+    margin-top: 0px;
+}
+
+
+
+#carousel div.circle_image {
+    text-align: center;
+    margin: 10px;
+    width: 120px;
+    height: 120px;
+    float: left;
+    position: relative;
+}
+
+#carousel div.circle_image div.focus{
+    margin-top: -92px;
+    display: none;
+}
+
+#carousel div.circle_image img {
+    border: none;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    -moz-box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    box-shadow: 2px 2px 4px rgba(211, 194, 174, 1);
+    behavior: url(ie-css3.htc)
+}
+
+#carousel div img:active {
+    border: none;
+    background-color: #fb8f60;
+}
+
+
+
+#carousel div:hover h3 {
+    font-size:20px;
+}
+
+#carousel div span {
+    display: none;
+}
+#carousel div:hover span:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 90px;
+    top: -28px;
+    border: 15px solid;
+    border-color: transparent transparent #333 transparent;
+}
+#carousel div:hover span {
+    padding:15px 10px;
+    background-color: #333;
+    color: #fff;
+    font-family: Helvetica;
+    font-size: 14px;
+    line-height: 22px;
+    display: inline-block;
+    width: 180px;
+    margin: 0 0 0 -90px;
+    position: relative;
+    z-index: 100;
+    bottom: 30px;
+    top: 10px;
+    left: 35%;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+.clearfix {
+    float: none;
+    clear: both;
+}
+
+.correct-ico {
+    background: url(../images/form/sprite.png) -46px -100px no-repeat;
+    width: 16px;
+    height: 18px;
+    display: block;
+    margin-top: 2px;
+    float: left
+}
+
+.bnt-account {
+    position: absolute;
+    top: 360px;
+    width: 370px
+}
+
+a.prev_page, a.next_page {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 22px;
+    color: #82817f;
+    text-decoration: underline
+}
+
+a.next_page {
+    margin-top: 0px;
+    float: right;
+}
+
+.message {
+    color: #a3bb5b;
+}
+
+.auth-service img {
+    margin-left: 2px;
+    margin-top: 15px;
+    text-decoration: none;
+}
+
+#set_like {
+    height: 30px;
+    text-align: right;
+
+}
+
+.selectBox {
+    overflow-x: hidden;
+}
+
+.result_upload {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
+.result_upload span.cancel {
+    background: url(../images/form/cancel_red.png) no-repeat;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    left: 100%;
+    top: -5px;
+    padding: 0;
+    float: left
+}
+
+.uploadifive-queue {
+    display: none;
+}
+
+.spot_action {
+    width: 372px;
+    margin-left: 130px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px #cdcdcd solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    -webkit-box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    box-shadow: 0 1px 2px rgba(210, 210, 210, 1);
+    behavior: url(ie-css3.htc);
+}
+
+.spot_action span.edit {
+    background: url(../images/form/edit.png) no-repeat;
+    left: 365px;
+    top: -10px;
+    height: 16px;
+    width: 16px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+}
+
+.place span.remove {
+    background: url(../images/form/cancel_red.png) no-repeat;
+    left: 510px;
+    top: 5px;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+}
+
+.noUploadImg span.cancel {
+    background: url(../images/form/cancel_red.png) no-repeat;
+    height: 10px;
+    width: 10px;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    left: 335px;
+    top: -10px;
+    padding: 0;
+    float: left
+}

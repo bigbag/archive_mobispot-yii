@@ -31,11 +31,11 @@ return array(
       'onMissingTranslation'=>array('Translation', 'missing'),
       //'cachingDuration'=>3600,
     ),
-    'clientScript' => array(
-      'scriptMap' => array(
-        'jquery.js' => false,
-      )
-    ),
+#    'clientScript' => array(
+ #     'scriptMap' => array(
+  #      'jquery.js' => false,
+   #   )
+   # ),
     'user'=>array(
       'class'=>'CWebUser',
       'allowAutoLogin'=>true,

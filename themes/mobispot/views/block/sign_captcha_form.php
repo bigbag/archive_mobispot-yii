@@ -2,7 +2,7 @@
   <div class="seven columns centered">
     <h3><?php echo Yii::t('sign', 'Sign in');?></h3>
   </div>
-  <a href="javascript:;" class="slide-box-close">&#xe00b</a>
+  <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
 </div>
 <div class="row">
   <div class="five columns centered">

@@ -50,33 +50,34 @@ class SpotController extends MController
         }
 
         if($content['private'] == 0) {
-
-          //одна ссылка
-          $urlVal=new CUrlValidator;
-          if((count($content['data']) == 1) && ($content['keys'][$dataKeys[0]] == 'text') && ($urlVal->validateValue($content['data'][$dataKeys[0]]))){
-            $this->redirect($content['data'][$dataKeys[0]]);
-          }
-
           //только файлы
-          elseif(count($fileKeys) == count($dataKeys)){
+          if(count($fileKeys) == count($dataKeys)){
             $this->render('/widget/spot/send',  array('content'=>$content));
           }
+          else {
+            $url=$this->urlActivate($content['data'][$dataKeys[0]]);
+            $urlVal=new CUrlValidator;
 
-          //стандартное отображение
-          else{
-            $size=count($content['keys']);
-            for ($i=0; $i < $size; $i++) {
-              if ($content['keys'][$dataKeys[$i]] == 'socnet'){
-                $link=$content['data'][$dataKeys[$i]];
-                $SocInfo=new SocInfo;
-                $socData=$SocInfo->getNetData($link);
-                if(isset($socData['netName'])){
-                  $socData['soc_url']=$link;
-                  $content['data'][$dataKeys[$i]]=$socData;
+            //одна ссылка
+            if((count($content['data']) == 1) and ($content['keys'][$dataKeys[0]] == 'text') and ($urlVal->validateValue($url))) {
+              $this->redirect($url);
+            }
+            //стандартное отображение
+            else {
+              $size=count($content['keys']);
+              for ($i=0; $i < $size; $i++) {
+                if ($content['keys'][$dataKeys[$i]] == 'socnet'){
+                  $link=$content['data'][$dataKeys[$i]];
+                  $SocInfo=new SocInfo;
+                  $socData=$SocInfo->getNetData($link);
+                  if(isset($socData['netName'])){
+                    $socData['soc_url']=$link;
+                    $content['data'][$dataKeys[$i]]=$socData;
+                  }
                 }
               }
+              $this->render('/widget/spot/personal', array('content'=>$content));
             }
-            $this->render('/widget/spot/personal', array('content'=>$content));
           }
         }
         else {
@@ -98,7 +99,7 @@ class SpotController extends MController
   }
 
   //Защита от перебора url
-  public function setBanned($url){
+  public function setBanned(){
     if (!isset(Yii::app()->session['spot_view_error_count'])){
       Yii::app()->session['spot_view_error_count']=0;
     }

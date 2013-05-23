@@ -81,18 +81,31 @@ class MController extends Controller{
   }
 
   public function init(){
+    $langRequest=Yii::app()->getRequest()->getPreferredLanguage();
+    $userLang=$langRequest[0].$langRequest[1];
+
+    $all_lang = Lang::getLangArray();
+
+    if (!isset($all_lang[$userLang])) $userLang='en';
+
     if (isset(Yii::app()->request->cookies['lang'])) {
       $lang = Yii::app()->request->cookies['lang']->value;
-      $all_lang = Lang::getLangArray();
-      if (isset($all_lang[$lang])) Yii::app()->language = $lang;
-      else  Yii::app()->language = 'en';
+
+      if (isset($all_lang[$lang])) {
+        Yii::app()->language = $lang;
+      }
+      else  {
+        Yii::app()->language = $userLang;
+      }
     }
     else if (Yii::app()->user->id) {
       $user = User::model()->findByPk(Yii::app()->user->id);
       Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $user->lang);
       Yii::app()->language = $user->lang;
     }
-    else  Yii::app()->language = 'en';
+    else  {
+      Yii::app()->language = $userLang;
+    }
   }
 
   public function getLang(){
@@ -127,6 +140,22 @@ class MController extends Controller{
         (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%]*)+)?(\.[a-z]*)?
       }xis',
       'MController::hrefCallback',
+      $text
+    );
+  }
+
+  public function urlCallback($p) {
+    $name = htmlspecialchars($p[0]);
+    $href = !empty($p[1])? $name : "http://$name";
+    return $href;
+  }
+
+  public function urlActivate($text) {
+    return preg_replace_callback(
+      '{
+        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%]*)+)?(\.[a-z]*)?
+      }xis',
+      'MController::urlCallback',
       $text
     );
   }

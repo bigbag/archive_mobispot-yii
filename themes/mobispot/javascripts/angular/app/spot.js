@@ -19,6 +19,14 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
+  $scope.sortableOptions = {
+    update: function(e, ui) {
+    //  alert($scope.keys);
+    },
+    //'containment':'parent',
+    'opacity':0.8
+  };
+
   // Закачка файла html5
   function fileDragHover(e) {
     e.stopPropagation();
@@ -128,11 +136,13 @@ function SpotCtrl($scope, $http, $compile) {
 
   // Аккордеон в списке личных спотов
   $scope.accordion = function(e, token, init) {
-	var spot;
-	if(init == 1)
-		spot = e;
-	else
-		spot = angular.element(e.currentTarget).parent();
+    var spot;
+    if(init == 1) {
+      spot = e;
+    }
+    else {
+      spot = angular.element(e.currentTarget).parent();
+    }
 
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
@@ -192,7 +202,6 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
-          // console.log($scope.keys);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
         }
@@ -233,73 +242,76 @@ function SpotCtrl($scope, $http, $compile) {
     }
   };
 
-	// Привязка соцсетей
-	var popup;
-	$scope.bindSocial  = function(spot, key, e) {
-	    spot.key = key;
-		//alert('start bind!');
-		$http.post('/spot/BindSocial', spot).success(function(data) {
-			if(data.error == 'no') {
-				//alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
-				if(data.socnet != 'no'){
-					if (!data.loggedIn){
-						var options = $.extend({
-							id: '',
-							popup: {
-								width: 450,
-								height: 380
-							}
-						}, options);
+  // Привязка соцсетей
+  var popup;
+  $scope.bindSocial  = function(spot, key, e) {
+      spot.key = key;
+    //alert('start bind!');
+    $http.post('/spot/BindSocial', spot).success(function(data) {
+      if(data.error == 'no') {
+        //alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
+        if(data.socnet != 'no') {
+          if (!data.loggedIn) {
+            var options = $.extend({
+              id: '',
+              popup: {
+                width: 450,
+                height: 380
+              }
+            }, options);
 
-						var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+            var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
 
-						url += url.indexOf('?') >= 0 ? '&' : '?';
-						if (url.indexOf('redirect_uri=') === -1)
-							url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-						url += 'js';
+            url += url.indexOf('?') >= 0 ? '&' : '?';
+            if (url.indexOf('redirect_uri=') === -1)
+              url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+            url += 'js';
 
-						var centerWidth = (window.screen.width - options.popup.width) / 2,
-							centerHeight = (window.screen.height - options.popup.height) / 2;
+            var centerWidth = (window.screen.width - options.popup.width) / 2,
+              centerHeight = (window.screen.height - options.popup.height) / 2;
 
-						popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-						popup.focus();
-					}else{
-						window.location = '/user/personal';
-					/*
-					    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
-						spotEdit.before($compile(data.content)($scope));
-						spotEdit.remove();
-					*/
-					}
-				}
-			}else {
-				alert(data.error);
-			}
-		})
-		.error(function(error){
-			alert(error);
-		});
-	};
+            popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+            popup.focus();
+          }
+          else {
+            window.location = '/user/personal';
+          /*
+              var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+            spotEdit.before($compile(data.content)($scope));
+            spotEdit.remove();
+          */
+          }
+        }
+      }
+      else {
+        alert(data.error);
+      }
+    })
+    .error(function(error){
+      alert(error);
+    });
+  };
 
-	//Отвязка соцсети
-	$scope.unBindSocial  = function(spot, key, e) {
-		spot.key = key;
-		$http.post('/spot/UnBindSocial', spot).success(function(data) {
-			if(data.error == 'no') {
-				var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
-				spotEdit.before($compile(data.content)($scope));
-				spotEdit.remove();			
-			}else {
-				alert(data.error);
-			}
-		})
-		.error(function(error){
-			alert(error);
-		});		
-		
-	};
-	
-	
+  //Отвязка соцсети
+  $scope.unBindSocial  = function(spot, key, e) {
+    spot.key = key;
+    $http.post('/spot/UnBindSocial', spot).success(function(data) {
+      if(data.error == 'no') {
+        var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+      }
+      else {
+        alert(data.error);
+      }
+    })
+    .error(function(error){
+      alert(error);
+    });
+
+  };
+
+
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
@@ -452,12 +464,9 @@ function SpotCtrl($scope, $http, $compile) {
     return true;
   };
 
-	//Открыть спот по коду
-	$scope.defOpen = function(discodes){
-		var defSelector = '#' + discodes;
-		$scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
-	}
-	
-	
-	
+  //Открыть спот по коду
+  $scope.defOpen = function(discodes){
+    var defSelector = '#' + discodes;
+    $scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
+  }
 }
