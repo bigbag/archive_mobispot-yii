@@ -19,6 +19,14 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
+  $scope.sortableOptions = {
+    update: function(e, ui) {
+      alert($scope.keys);
+    },
+    'containment':'parent',
+    'opacity':0.8
+  };
+
   // Закачка файла html5
   function fileDragHover(e) {
     e.stopPropagation();
@@ -128,11 +136,13 @@ function SpotCtrl($scope, $http, $compile) {
 
   // Аккордеон в списке личных спотов
   $scope.accordion = function(e, token, init) {
-  var spot;
-  if(init == 1)
-    spot = e;
-  else
-    spot = angular.element(e.currentTarget).parent();
+    var spot;
+    if(init == 1) {
+      spot = e;
+    }
+    else {
+      spot = angular.element(e.currentTarget).parent();
+    }
 
     var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
@@ -192,7 +202,6 @@ function SpotCtrl($scope, $http, $compile) {
           angular.element('#add-content').before($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
-          // console.log($scope.keys);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
         }
@@ -460,7 +469,4 @@ function SpotCtrl($scope, $http, $compile) {
     var defSelector = '#' + discodes;
     $scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
   }
-
-
-
 }

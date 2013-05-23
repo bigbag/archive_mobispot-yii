@@ -1,6 +1,6 @@
 .footer-page{
 	background: #f2f3f5;
-	padding-top: 1em;
+	padding-top: 0.8em;
 	height: 258px;
 }
 .footer-page .link-list li{
@@ -33,7 +33,7 @@ footer-page h3{
 	clear: both;
 }
 .footer-page .soc-link{
-	line-height: 2.9;
+	line-height: 1.6;
 	font-size: 14px;
 	margin-bottom: 13px;
 }
@@ -51,4 +51,10 @@ footer-page h3{
 }
 .footer-page .link-list {
 	margin-right: 47px;
+}
+.footer-page .lang-dropdown{
+	display: inline-block;
+	position: absolute;
+	top: 54px;
+	right: 2em;
 }
