@@ -30,7 +30,6 @@ var hidePopup = function(){
 		});
 	}
 };
-
 $(window).load(function() {
 	$(document).on('click','.add-active > *', addActive);
 	$(document).on('click','.toggle-active > *', toggleActive);
