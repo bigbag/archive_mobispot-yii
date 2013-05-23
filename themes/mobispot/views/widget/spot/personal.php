@@ -44,7 +44,9 @@
             <?php endif;?>
               <div class="spot-activity">
                 <?php if ($content['keys'][$key]=='text'):?>
-                  <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)" ng-init="bindVisibility.<?php echo $key; ?>=<?php echo (SocInfo::isSocLink($value))?'true':'false'; ?>" ng-show="bindVisibility.<?php echo $key; ?>">&#xe005;</a>
+				  <?php if (SocInfo::isSocLink($value)):?>
+                  <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)">&#xe005;</a>
+				  <?php endif;?>
                   <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)">&#xe009;</a>
                 <?php endif;?>
                 <?php if ($content['keys'][$key]=='socnet'):?>
