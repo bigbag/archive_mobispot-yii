@@ -241,7 +241,6 @@ class ServiceController extends MController {
     if (isset($service)) {
 
       $authIdentity=Yii::app()->eauth->getIdentity($service);
-
       $authIdentity->cancelUrl='/site/index';
 
       if ($authIdentity->authenticate()) {
@@ -257,7 +256,8 @@ class ServiceController extends MController {
             $this->setCookies('service_id', $social_id);
             $this->setCookies('service_email', $service_email);
             $authIdentity->redirectUrl='/service/social';
-          } else {
+          }
+          else {
             $find=User::model()->findByAttributes(array($service.'_id'=>$social_id));
             $identity=new SUserIdentity($find->email, $find->password);
             $identity->authenticate();
@@ -277,8 +277,10 @@ class ServiceController extends MController {
         }
       }
       $this->redirect(array($authIdentity->cancelUrl));
-    } else {
+    }
+    else {
       $model=new RegistrationSocialForm;
+
       if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
 
         $email='';

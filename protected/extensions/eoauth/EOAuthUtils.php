@@ -5,7 +5,7 @@
  * under Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0.html).
  *
  * See http://google-api-dfp-php.googlecode.com.
- * 
+ *
  */
 
 
@@ -106,7 +106,7 @@ class EOAuthUtils extends EOAuthComponent
     private static function GetTokenFromUrl($url)
     {
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        #curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);

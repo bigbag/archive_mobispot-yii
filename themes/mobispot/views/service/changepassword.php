@@ -1,5 +1,5 @@
 <?php
-#$this->pageTitle=Yii::t('user', 'Мобиспот. Восстановление пароля');
+ #$this->pageTitle=Yii::t('user', 'Мобиспот. Восстановление пароля');
 
 ?>
 <div id="changePassForm" class="row header-page recovery m-content-form" ng-controller="UserCtrl" >

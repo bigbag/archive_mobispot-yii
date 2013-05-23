@@ -33,11 +33,11 @@
           ng-maxlength="10"
           required >
         <div class="toggle-active">
-          <a class="checkbox agree"  href="javascript:;" ng-click="setTerms(user)"><i></i><?php echo Yii::t('activate', 'I agree to Terms and Conditions');?></a>
+          <a class="checkbox agree"  href="javascript:;" ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions');?></a>
         </div>
         <div class="form-control">
           <a class="spot-button activ button-disable" href="javascript:;" ng-click="registration(user, activPersonForm.$valid)">
-            <?php echo Yii::t('activate', 'Activate spot');?>
+            <?php echo Yii::t('user', 'Activate spot');?>
           </a>
           <span class="right soc-link">
             <a href="/service/social?service=facebook" class="i-soc-fac"></a>
