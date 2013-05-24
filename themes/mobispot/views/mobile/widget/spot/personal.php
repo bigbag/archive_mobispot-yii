@@ -23,7 +23,7 @@
 					</div>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['last_status'])): ?>
-					<p><?php echo $content['data'][$key]['last_status']; ?></p>
+					<p><?php echo $this->hrefActivate($content['data'][$key]['last_status']); ?></p>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
@@ -55,7 +55,7 @@
 							  center: latlng,
 							  mapTypeId: google.maps.MapTypeId.ROADMAP
 							}
-							map = new google.maps.Map(document.getElementById('map_canvas_<?php echo $key; ?>'), mapOptions);		
+							map = new google.maps.Map(document.getElementById('map_canvas_<?php echo $key; ?>'), mapOptions);
 
 							marker = new google.maps.Marker({
 								map: map,
@@ -65,13 +65,13 @@
 						</script>
 						<p><?php echo $content['data'][$key]['place_name']; ?></p>
 					</div>
-				<?php endif; ?>				
+				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
 					</a>
 				<?php endif; ?>
-				
+
 			</div>
 		</div>
 	<?php endif; ?>
