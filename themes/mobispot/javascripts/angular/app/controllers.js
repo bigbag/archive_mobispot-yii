@@ -162,6 +162,10 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         resultModal.fadeOut(10000);
       }
       else if (data.error == 'no'){
+        $scope.user.email="";
+        $scope.user.activ_code="";
+        $scope.user.terms=0;
+
         resultModal.show();
         resultContent.text(data.content);
         resultModal.fadeOut(10000, function() {

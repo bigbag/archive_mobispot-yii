@@ -361,6 +361,122 @@ class ServiceController extends MController {
     }
   }
 
+  //регистрация через соц сети
+  public function actionSocial1() {
+
+    // if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
+    // if (!isset(Yii::app()->session['request_mail'])){
+    //   Yii::app()->session['request_mail']=1;
+    //   Yii::app()->session['request_mail_time']=time();
+    // }
+    // else if (Yii::app()->session['request_mail']>self::REQUEST_MAIL_COUNT) {
+    //   if (isset(Yii::app()->session['request_mail_time'])){
+    //     if (time()-Yii::app()->session['request_mail_time']>)
+    //   }
+    // }
+    echo 1;
+    $service=Yii::app()->request->getQuery('service');
+    if (isset($service)) {
+      $authIdentity=Yii::app()->eauth->getIdentity($service);
+      $authIdentity->cancelUrl='/site/index';
+
+      if ($authIdentity->authenticate()) {
+        $identity=new CEAuthUserIdentity($authIdentity);
+
+        if ($identity->authenticate()) {
+
+          $social_id=$identity->getId();
+          $service_email=$identity->getState('email', '');
+
+          if (!User::socialCheck($service, $social_id)) {
+            $this->setCookies('service_name', $service);
+            $this->setCookies('service_id', $social_id);
+            $this->setCookies('service_email', $service_email);
+            $authIdentity->redirectUrl='/service/social';
+          }
+          else {
+            $find=User::model()->findByAttributes(array($service.'_id'=>$social_id));
+            $identity=new SUserIdentity($find->email, $find->password);
+            $identity->authenticate();
+            $this->lastVisit();
+            Yii::app()->user->login($identity);
+
+            if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
+              $authIdentity->redirect(Yii::app()->session['referer']);
+              unset(Yii::app()->session['referer']);
+            }
+            else
+              $authIdentity->redirect();
+          }
+          $authIdentity->redirect();
+        } else {
+          $authIdentity->cancel();
+        }
+      }
+      $this->redirect(array($authIdentity->cancelUrl));
+    }
+    else {
+      $model=new RegistrationSocialForm;
+
+      if (Yii::app()->request->cookies['service_name'] and Yii::app()->request->cookies['service_id']) {
+
+        $email='';
+        if (!empty(Yii::app()->request->cookies['service_email']->value)) {
+          $email=Yii::app()->request->cookies['service_email']->value;
+        }
+        if (isset($_POST['RegistrationSocialForm'])) {
+          $model->attributes=$_POST['RegistrationSocialForm'];
+
+          if ($model->validate()) {
+            $password=md5(time());
+            $model->activkey=sha1(microtime().$password);
+            $model->password=Yii::app()->hasher->hashPassword($password);
+
+
+            $model->type=User::TYPE_USER;
+            $model->status=User::STATUS_NOACTIVE;
+
+            $service=Yii::app()->request->cookies['service_name']->value.'_id';
+            $model->{$service}=Yii::app()->request->cookies['service_id']->value;
+            unset(Yii::app()->request->cookies['service_name']);
+            unset(Yii::app()->request->cookies['service_id']);
+
+            if ($model->save()) {
+              $spot=Spot::model()->findByAttributes(array(
+                  'code'=>$model->activ_code,
+                  'status'=>Spot::STATUS_ACTIVATED,
+              ));
+
+              $spot->user_id=$model->id;
+              $spot->status=Spot::STATUS_REGISTERED;
+              $spot->save();
+
+              MMail::activation($model->email, $model->activkey, (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en');
+
+              if (Yii::app()->request->cookies['social_referer']) {
+                $this->redirect(Yii::app()->request->cookies['social_referer']);
+              } else {
+                $this->redirect('/');
+              }
+            }
+          }
+        }
+        $this->render('social', array(
+            'model'=>$model,
+            'service'=>Yii::app()->request->cookies['service_name'],
+            'email'=>$email,
+        ));
+      } else {
+        if (isset(Yii::app()->session['referer']) and !empty(Yii::app()->session['referer'])) {
+          $this->redirect(Yii::app()->session['referer']);
+          unset(Yii::app()->session['referer']);
+        }
+        else
+          $this->redirect('/');
+      }
+    }
+  }
+
   public function setCookies($name, $value) {
     $cookie=new CHttpCookie($name, $value);
     $cookie->expire=time() + 60 * 60;
