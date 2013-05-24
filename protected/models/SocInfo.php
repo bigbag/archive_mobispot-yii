@@ -32,9 +32,9 @@ class SocInfo extends CFormModel
 		$net['smallIcon'] = 'i-twitter.2x.png';
 		$socNetworks[] = $net;
 /*
-		$net['name'] = 'google';
+		$net['name'] = 'google_oauth';
 		$net['baseUrl'] = 'google.com';
-		$net['invite'] = Yii::t('eauth', '');
+		$net['invite'] = Yii::t('eauth', 'Read more on Google');
 		$net['inviteClass'] = '';	
 		$net['note'] = Yii::t('eauth', '');
 		$net['smallIcon'] = 'google16.png';
@@ -172,7 +172,7 @@ class SocInfo extends CFormModel
 		$socUsername = $this->parceSocUrl($socNet, $socUsername);
 		
 		if($socNet == 'google'){
-			$url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key=AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak';  				
+			$url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key='.Yii::app()->eauth->services['google_oauth']['key'];  				
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -262,44 +262,46 @@ class SocInfo extends CFormModel
 					$i=0;
 					$prevPageUrl= '';
 					
-					while(!isset($lastPost)){
-						if(($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
-							$lastPost = $userFeed['data'][$i];
+					if(isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id'])){
+						while(!isset($lastPost)){
+							if(($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
+								$lastPost = $userFeed['data'][$i];
+							}
+							
+							//следующая страница
+							if($i >= count($userFeed['data'])){
+								if($userFeed['paging']['previous'] != $prevPageUrl){
+									$prevPageUrl = $userFeed['paging']['previous'];
+									$userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
+									$i=0;
+								}else{
+									$lastPost = 'no';
+								}
+							} else{
+								$i++;
+							}
 						}
 						
-						//следующая страница
-						if($i >= count($userFeed['data'])){
-							if($userFeed['paging']['previous'] != $prevPageUrl){
-								$prevPageUrl = $userFeed['paging']['previous'];
-								$userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
-								$i=0;
+						if($lastPost != 'no'){
+							if($lastPost['type'] == 'photo'){
+								$this->userDetail['last_img'] =  $lastPost['picture'];
+								if(isset($lastPost['message']))
+									$this->userDetail['last_img_msg'] =  $lastPost['message'];
+								if(isset($lastPost['story']))
+									$this->userDetail['last_img_story'] =  $lastPost['story'];
+							}elseif(($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude'])){
+								//"место" на карте
+								if(isset($lastPost['message']))
+									$this->userDetail['place_msg'] = $lastPost['message'];
+								$this->userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
+								$this->userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
+								$this->userDetail['place_name'] = $lastPost['place']['name'];
 							}else{
-								$lastPost = 'no';
+								if(isset($lastPost['message']))
+									$this->userDetail['last_status'] = $lastPost['message'];
+								elseif(isset($lastPost['story']))
+									$this->userDetail['last_status'] = $lastPost['story'];		
 							}
-						} else{
-							$i++;
-						}
-					}
-					
-					if($lastPost != 'no'){
-						if($lastPost['type'] == 'photo'){
-							$this->userDetail['last_img'] =  $lastPost['picture'];
-							if(isset($lastPost['message']))
-								$this->userDetail['last_img_msg'] =  $lastPost['message'];
-							if(isset($lastPost['story']))
-								$this->userDetail['last_img_story'] =  $lastPost['story'];
-						}elseif(($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude'])){
-							//"место" на карте
-							if(isset($lastPost['message']))
-								$this->userDetail['place_msg'] = $lastPost['message'];
-							$this->userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
-							$this->userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
-							$this->userDetail['place_name'] = $lastPost['place']['name'];
-						}else{
-							if(isset($lastPost['message']))
-								$this->userDetail['last_status'] = $lastPost['message'];
-							elseif(isset($lastPost['story']))
-								$this->userDetail['last_status'] = $lastPost['story'];		
 						}
 					}
 				}else{
