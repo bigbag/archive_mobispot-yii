@@ -40,9 +40,9 @@
             <?php echo Yii::t('user', 'Activate spot');?>
           </a>
           <span class="right soc-link">
-            <a href="/service/social?service=facebook" class="i-soc-fac"></a>
-            <a href="/service/social?service=twitter" class="i-soc-twi"></a>
-            <a href="/service/social?service=google_oauth" class="i-soc-goo"></a>
+            <a href="/service/social?service=facebook" class="i-soc-fac">&#xe000;</a>
+            <a href="/service/social?service=twitter" class="i-soc-twi">&#xe001;</a>
+            <a href="/service/social?service=google_oauth" class="i-soc-goo">&#xe002;</a>
           </span>
         </div>
       </form>

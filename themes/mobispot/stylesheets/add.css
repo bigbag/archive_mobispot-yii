@@ -23,7 +23,7 @@
 }
 
 .long li{
-	width: 80px;
+  width: 80px;
 }
 
 .spot-content_row{
@@ -32,28 +32,29 @@
 
 
 .m-preload-store  {
-	height: 100%;
-	width: 100%;
-	top:0;
-	left: 0;
-	background: #fff;
-	z-index: 999;
-	text-align: center;
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
-	-moz-opacity: 1;
-	-khtml-opacity: 1;
-	opacity: 1;
-	display: block;
+  height: 100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  background: #fff;
+  z-index: 999;
+  text-align: center;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  display: block;
 }
 
 .m-preload-store img{
-	position: absolute;
-	top: 50%;
-	margin-top: -20px;
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
 }
 
-.personal-cover{
-  width: 100%;
+.personal-cover {
+  width: 1040px;
+  margin: 0px auto;
   height: 390px;
   background: #0061FF;
   background-image: url(../images/empty-personal-cover.png);
@@ -61,11 +62,11 @@
   background-repeat: no-repeat;
 }
 
-.personal-cover img{
+/*.personal-cover img{
   height: 390px;
   width: 1040px; max-width: 100%; min-width: 768px; margin: 0 auto;
   margin: 0px auto;
-}
+}*/
 
 .m-result{
   display: none;
@@ -74,4 +75,16 @@
 .content-wrapper:after{
   height: 0px;
   width: 100%;
+}
+
+.logo a{
+  margin-left: 40px;
+}
+
+.dropdown {
+  margin-right: 40px;
+}
+
+.user-menu {
+  margin-right: 40px;
 }

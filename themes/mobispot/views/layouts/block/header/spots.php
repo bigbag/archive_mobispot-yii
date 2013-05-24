@@ -5,7 +5,7 @@
         <div class="four columns">
           <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo-white.png" /></a></h1>
         </div>
-        <div class="eight columns">
+        <div class="eight columns user-menu">
           <ul class="nav-bar right">
             <li class="dropdown toggle-active">
               <?php $userInfo=$this->userInfo()?>
@@ -18,12 +18,11 @@
           </ul>
         </div>
       </div>
-      <div class="bubbles-slider"   ng-controller="UserCtrl" >
-        <div>
+      <div class="bubbles-slider" ng-controller="UserCtrl" >
           <div class="personal-cover">
             <!-- <img src="/themes/mobispot/images/personal-cover2.png" /> -->
           </div>
-          <div class="dropdown-wrapper">
+        <div class="dropdown-wrapper">
           <div class="dropdown dropdown__light change-cover">
             <a class="spot-button" href="javascript:;"><?php echo Yii::t('sign', 'Change cover');?></a>
             <ul class="options">
@@ -32,7 +31,7 @@
             </ul>
           </div>
         </div>
-        </div>
+
       </div>
     </div>
 </div>

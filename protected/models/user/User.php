@@ -192,9 +192,9 @@ class User extends CActiveRecord {
     $criteria->compare('type', $this->type);
     $criteria->compare('status', $this->status);
     $criteria->compare('vkontakte_id', $this->vkontakte_id);
-    $criteria->compare('facebook_id', $this->facebook_id);
-    $criteria->compare('google_oauth_id', $this->google_oauth_id);
-    $criteria->compare('twitter_id', $this->twitter_id);
+    $criteria->compare('facebook_id', $this->facebook_id, true);
+    $criteria->compare('google_oauth_id', $this->google_oauth_id, true);
+    $criteria->compare('twitter_id', $this->twitter_id, true);
 
     $criteria->compare('lang', $this->lang);
 
