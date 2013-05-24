@@ -739,12 +739,12 @@ class SocInfo extends CFormModel
               $this->userDetail['last_status'] = '<a href="'.$media['link'].'" target="_blank">'.$media['caption']['text'].'<br/><img src="'.$media['images']['standard_resolution']['url'].'"/></a>';
             }
           }else
-            $this->userDetail['soc_username'] = 'Пользователя с таким именем не существует:'.$socUsername;
+            $this->userDetail['soc_username'] = Yii::t('eauth', 'Пользователя с таким именем не существует ').$socUsername;
         }
 
       }else{
 
-        $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
+        $this->userDetail['soc_username'] = Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
       }
     return $this->userDetail;
   }
