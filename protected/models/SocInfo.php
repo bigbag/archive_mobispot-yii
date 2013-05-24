@@ -744,7 +744,7 @@ class SocInfo extends CFormModel
 
       }else{
 
-        $this->userDetail['soc_username'] =  Yii::t('Социальная сеть не поддерживается: ').$socNet;
+        $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
       }
     return $this->userDetail;
   }
