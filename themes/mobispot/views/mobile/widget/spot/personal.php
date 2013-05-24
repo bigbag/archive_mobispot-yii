@@ -66,6 +66,20 @@
 						<p><?php echo $content['data'][$key]['place_name']; ?></p>
 					</div>
 				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['utube_video_link'])) {?>
+					<?php if(isset($content['data'][$key]['utube_video_flash'])) {?>
+						<div class="item-area text-center">
+						<object>
+						  <param name="movie" value="<?php echo $content['data'][$key]['utube_video_flash']; ?>"></param>
+						  <param name="allowFullScreen" value="true"></param>
+						  <embed src="<?php echo $content['data'][$key]['utube_video_flash']; ?>"
+							type="application/x-shockwave-flash"
+							width="640" height="480" 
+							allowfullscreen="true"></embed>
+						</object>
+						</div>
+					<?php }?>
+				<?php }?>				
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>

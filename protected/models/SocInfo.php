@@ -31,15 +31,15 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-twitter.2x.png';
     $socNetworks[] = $net;
-/*
+
     $net['name'] = 'google_oauth';
     $net['baseUrl'] = 'google.com';
     $net['invite'] = Yii::t('eauth', 'Read more on Google');
-    $net['inviteClass'] = '';
+    $net['inviteClass'] = 'hide';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'google16.png';
     $socNetworks[] = $net;
-*/
+
     $net['name'] = 'ВКонтакте';
     $net['baseUrl'] = 'vk.com';
     $net['invite'] = Yii::t('eauth', '');
@@ -80,9 +80,9 @@ class SocInfo extends CFormModel
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
 
-    $net['name'] = 'DeviantART';
+    $net['name'] = 'deviantart';
     $net['baseUrl'] = 'deviantart.com';
-    $net['invite'] = Yii::t('eauth', '');
+    $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
@@ -106,7 +106,7 @@ class SocInfo extends CFormModel
 
     $net['name'] = 'YouTube';
     $net['baseUrl'] = 'youtube.com';
-    $net['invite'] = Yii::t('eauth', '');
+    $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
@@ -171,8 +171,9 @@ class SocInfo extends CFormModel
     $this->userDetail['UserExists'] = false;
     $socUsername = $this->parceSocUrl($socNet, $socUsername);
 
-    if($socNet == 'google'){
+    if($socNet == 'google_oauth'){
       $url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key='.Yii::app()->eauth->services['google_oauth']['key'];
+//$url = 'https://www.googleapis.com/plus/v1/people/+GuyKawasaki?key=AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak';
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -182,6 +183,7 @@ class SocInfo extends CFormModel
       curl_close($ch);
 
       $socUser = CJSON::decode($curl_result, true);
+//$this->userDetail['last_status'] = 'last_status';
       if(!isset($socUser['error'])){
         $this->userDetail['UserExists'] = true;
         if(isset($socUser['displayName']))
@@ -249,12 +251,15 @@ class SocInfo extends CFormModel
           }
 
           if(!$isAppTokenValid){
-            $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id='.Yii::app()->eauth->services['facebook']['client_id'].'&client_secret='.Yii::app()->eauth->services['facebook']['client_secret'].'&grant_type=client_credentials', 'r');
-            $appToken = fgets($textToken);
-            fclose($textToken);
-            if((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-              $appToken = substr($appToken, (strpos($appToken, 'access_token=')+13));
-            Yii::app()->cache->set('facebookAppToken', $appToken);
+		    if (@fopen('https://graph.facebook.com/oauth/access_token?client_id='.Yii::app()->eauth->services['facebook']['client_id'].'&client_secret='.Yii::app()->eauth->services['facebook']['client_secret'].'&grant_type=client_credentials', 'r')){
+              $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id='.Yii::app()->eauth->services['facebook']['client_id'].'&client_secret='.Yii::app()->eauth->services['facebook']['client_secret'].'&grant_type=client_credentials', 'r');
+              $appToken = fgets($textToken);
+              fclose($textToken);
+              if((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
+                $appToken = substr($appToken, (strpos($appToken, 'access_token=')+13));
+              Yii::app()->cache->set('facebookAppToken', $appToken);
+	  		  $isAppTokenValid = true;
+			}
           }
 
           $userFeed = $this->makeRequest('https://graph.facebook.com/'.$socUsername.'/feed?access_token='.$appToken);
@@ -270,7 +275,7 @@ class SocInfo extends CFormModel
 
               //следующая страница
               if($i >= count($userFeed['data'])){
-                if($userFeed['paging']['previous'] != $prevPageUrl){
+                if(isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)){
                   $prevPageUrl = $userFeed['paging']['previous'];
                   $userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
                   $i=0;
@@ -551,7 +556,7 @@ class SocInfo extends CFormModel
           $this->userDetail['age'] = $socUser['age'];
         if(!empty($socUser['gender']))
           $this->userDetail['gender'] = $socUser['gender'];
-      }elseif($socNet == 'DeviantART'){
+      }elseif($socNet == 'deviantart'){
         $options=array();
         $ch = $this->initRequest('http://'.$socUsername.'.deviantart.com', $options);
         $result = curl_exec($ch);
@@ -565,21 +570,21 @@ class SocInfo extends CFormModel
           $xml = new SimpleXMLElement($userLent);
           if(isset($xml->channel->item[0]->link))
             $this->userDetail['last_status'] = '';
-          $i=0;
+          $i=0;//оставлено под счетчик, если требуется вытащить более одной записи
 
-          while(($i<5) && isset($xml->channel->item[$i]->link)){
+          if(isset($xml->channel->item[$i]->link)){
             $dev_link = (string)$xml->channel->item[$i]->link;
             $last_dev = $this->makeRequest('http://backend.deviantart.com/oembed?url='.$dev_link);
 
             if(!empty($last_dev['title'])){
-              if($i > 0)
-                $this->userDetail['last_status'] .= '<hr/>';
-              if(!empty($last_dev['thumbnail_url']))
-                $this->userDetail['last_status'] .= '<br/><a href="'.$dev_link.'" target="_blank">'.$last_dev['title'].'<br/><img src="'.$last_dev['thumbnail_url'].'" />'.'</a>';
-              else
-                $this->userDetail['last_status'] .= '<br/><a href="'.$dev_link.'" target="_blank">'.$last_dev['title'].'</a>';
+				$this->userDetail['last_status'] = $last_dev['title'];
+              //if($i > 0)
+              //  $this->userDetail['last_status'] .= '<hr/>';
+              if(!empty($last_dev['thumbnail_url'])){
+                $this->userDetail['last_img'] = $last_dev['thumbnail_url'];
+				//$this->userDetail['last_img_msg'] = $last_dev['title'];
+              }
             }
-            $i++;
           }
         }else
           $this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
@@ -679,7 +684,6 @@ class SocInfo extends CFormModel
         require_once('Zend/Gdata/YouTube.php');
         require_once('Zend/Gdata/AuthSub.php');
 
-
         $yt = new Zend_Gdata_YouTube();
         $yt->setMajorProtocolVersion(2);
         $userProfileEntry = $yt->getUserProfile($socUsername);
@@ -739,12 +743,10 @@ class SocInfo extends CFormModel
               $this->userDetail['last_status'] = '<a href="'.$media['link'].'" target="_blank">'.$media['caption']['text'].'<br/><img src="'.$media['images']['standard_resolution']['url'].'"/></a>';
             }
           }else
-            $this->userDetail['soc_username'] = Yii::t('eauth', 'Пользователя с таким именем не существует ').$socUsername;
+            $this->userDetail['soc_username'] = Yii::t('eauth','Пользователя с таким именем не существует:').$socUsername;
         }
-
       }else{
-
-        $this->userDetail['soc_username'] = Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
+        $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
       }
     return $this->userDetail;
   }
@@ -777,7 +779,7 @@ class SocInfo extends CFormModel
           $username = substr($username, 0, strpos($username, '&'));
         }
       }
-    }elseif($socNet == 'google'){
+    }elseif($socNet == 'google_oauth'){
       if((strpos($username, 'google.com') > 0) ||(strpos($username, 'google.com') !== false)){
         if ((strpos($username, 'google.com/u/0/') > 0) ||(strpos($username, 'google.com/u/0/') !== false)){
           $username = substr($username, (strpos($username, 'google.com/u/0/')+15));
@@ -846,7 +848,7 @@ class SocInfo extends CFormModel
         $username = substr($username, 0, strpos($username, '/'));
       if(strpos($username, '&') > 0)
         $username = substr($username, 0, strpos($username, '&'));
-    }elseif($socNet == 'DeviantART'){
+    }elseif($socNet == 'deviantart'){
       if((strpos($username, 'http://') > 0) ||(strpos($username, 'http://') !== false))
         $username = substr($username, (strpos($username, 'http://')+7) );
       if((strpos($username, 'deviantart.com') > 0) ||(strpos($username, 'deviantart.com') !== false))
