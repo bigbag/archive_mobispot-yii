@@ -52,8 +52,9 @@
 	margin-top: -20px;
 }
 
-.personal-cover{
-  width: 100%;
+.personal-cover {
+  width: 1040px;
+  margin: 0px auto;
   height: 390px;
   background: #0061FF;
   background-image: url(../images/empty-personal-cover.png);
@@ -61,11 +62,11 @@
   background-repeat: no-repeat;
 }
 
-.personal-cover img{
+/*.personal-cover img{
   height: 390px;
   width: 1040px; max-width: 100%; min-width: 768px; margin: 0 auto;
   margin: 0px auto;
-}
+}*/
 
 .m-result{
   display: none;
@@ -74,4 +75,16 @@
 .content-wrapper:after{
   height: 0px;
   width: 100%;
+}
+
+.logo a{
+  margin-left: 40px;
+}
+
+.dropdown {
+  margin-right: 40px;
+}
+
+.user-menu {
+  margin-right: 40px;
 }

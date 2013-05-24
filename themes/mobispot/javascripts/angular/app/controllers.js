@@ -124,9 +124,60 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
   };
 
+  //Меняем статус активности кнопки отправить в форме регистрации через соц сети
+  $scope.$watch('user.email + user.activ_code + user.terms', function(user) {
+    if ($scope.user) {
+      var socialButton = angular.element('#socialForm .form-control a.activ');
+
+      if ($scope.user.email && $scope.user.activ_code && $scope.user.terms){
+        if (($scope.user.terms == 1) && ($scope.user.activ_code.length == 10)) {
+          socialButton.removeClass('button-disable');
+        }
+        else {
+          socialButton.addClass('button-disable');
+        }
+      }
+      else {
+        socialButton.addClass('button-disable');
+      }
+    }
+  });
+
   // Регистрация через соц сети
   $scope.social = function(user){
-      angular.element('form[name=socialForm]').submit();
+    var emailField = angular.element('#socialForm input[name=email]');
+    var codeField = angular.element('#socialForm input[name=code]');
+
+    $http.post('/service/social', user).success(function(data) {
+      if (data.error == 'yes') {
+        if (emailField){
+          emailField.addClass('error');
+        }
+        codeField.addClass('error');
+      }
+      else if (data.error == 'email'){
+        resultModal.addClass('m-negative');
+        resultModal.show();
+        resultContent.text(data.content);
+        resultModal.fadeOut(10000);
+      }
+      else if (data.error == 'no'){
+        $scope.user.email="";
+        $scope.user.activ_code="";
+        $scope.user.terms=0;
+
+        resultModal.show();
+        resultContent.text(data.content);
+        resultModal.fadeOut(10000, function() {
+          $(location).attr('href','/');
+        });
+
+        if (emailField){
+          emailField.removeClass('error');
+        }
+        codeField.removeClass('error');
+      }
+    });
 
   };
 
@@ -217,38 +268,5 @@ function HelpCtrl($scope, $http, $compile) {
       }
     });
   };
-}
-
-function WalletCtrl($scope, $http, $timeout){
-  $scope.ready = false;
-  $scope.WalletInit = function(token){
-      $scope.token = token;
-      $http.post('/wallet/GetWallet', {token : $scope.token}).success(function(data) {
-        $scope.wallet = data.wallet;
-        $scope.history = data.history;
-      }).error(function(error){
-          alert(error);
-      });
-  };
-
-  $scope.addByUniteller = function(){
-    $scope.ready = false;
-    $scope.tries = 0;
-
-    $http.post('/wallet/GetUnitellerOrder', {token : $scope.token, newSumm: $scope.newSumm}).success(function(data) {
-      $scope.order = data.order;
-      $scope.ready = true;
-      angular.element('#unitell_shop_id').val(data.order.idShop);
-      angular.element('#unitell_customer').val(data.order.idCustomer);
-      angular.element('#unitell_order_id').val(data.order.idOrder);
-      angular.element('#unitell_subtotal').val(data.order.subtotal);
-      angular.element('#unitell_signature').val(data.order.signature);
-      angular.element('#unitell_url_ok').val(data.order.return_ok);
-      angular.element('#unitell_url_no').val(data.order.return_error);
-      document.getElementById('submitUnitell').click();
-    }).error(function(error){
-      alert(error);
-    });
-  }
 
 }
