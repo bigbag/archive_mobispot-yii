@@ -245,6 +245,7 @@ class ServiceController extends MController {
   // Регистрация через соц сети
   public function actionSocial() {
     $service=Yii::app()->request->getQuery('service');
+    $denied=Yii::app()->request->getQuery('denied');
 
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -298,6 +299,9 @@ class ServiceController extends MController {
       }
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
+    else if (isset($denied)){
+      $this->redirect('/');
+    }
     else if (isset($service)) {
       $authIdentity=Yii::app()->eauth->getIdentity($service);
       $authIdentity->cancelUrl='/user/personal';
@@ -326,8 +330,9 @@ class ServiceController extends MController {
             unset(Yii::app()->request->cookies['service_id']);
 
             Yii::app()->user->login($identity);
+            $this->redirect('/user/personal');
           }
-          $this->redirect('/user/personal');
+          $this->redirect('/');
         }
         else {
           $authIdentity->cancel();
