@@ -1,0 +1,33 @@
+<?php
+return array( // You can change the providers and their classes.
+  'twitter'=>array(
+    // register your app here: https://dev.twitter.com/apps/new
+  'class' => 'CustomTwitterService',
+  'key' => 'QlnOol9mGgTn6zZXrWZOow',
+  'secret' => 'J1eJFs0J4YlbaFyAvYEa4IXK0yQRV6HKxzchjN60M',
+  'title' => 'Twitter',
+  ),
+  'google_oauth'=>array(
+  // register your app here: https://code.google.com/apis/console/
+    'class'=>'CustomGoogleOAuthService',
+    'client_id' => '894792426634.apps.googleusercontent.com',
+    'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
+    'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
+    'scope' =>'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+    'title'=>'Google (OAuth)',
+  ),
+  'facebook'=>array(
+    // register your app here: https://developers.facebook.com/apps/
+    'class'=>'CustomFacebookOAuthService',
+    'scope'=>'email, user_status, read_stream, user_photos',
+    'client_id'=>'605375279481505',
+    'client_secret'=>'4db65a911817eff54a6a94df6f0d7433',
+  ),
+  'youtube' => array(
+	'class' => 'CustomYouTubeOAuthService',
+	'client_id' => '894792426634.apps.googleusercontent.com',
+	'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
+	'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
+	'title' => 'YouTube',
+  ),
+);
