@@ -157,28 +157,31 @@ class UserController extends MController {
     }
   }
 
-	public function actionBindSocLogin(){
-		$service = Yii::app()->request->getQuery('service');
-		$sinfo = new SocInfo;
-		if (isset($service) && (!isset(Yii::app()->session[$service]))){
+  public function actionBindSocLogin(){
+    $service = Yii::app()->request->getQuery('service');
+    $sinfo = new SocInfo;
+    if (isset($service)){  //&& (!isset(Yii::app()->session[$service]))
 
-			$authIdentity = Yii::app()->eauth->getIdentity($service);
-			$authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-			$authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+	  $authIdentity = Yii::app()->eauth->getIdentity($service);
+	  $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+	  $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
 
-			if ($authIdentity->authenticate()) {
-				$identity = new ServiceUserIdentity($authIdentity);
+	  if ($authIdentity->authenticate()) {
+  	    $identity = new ServiceUserIdentity($authIdentity);
 
-				if ($identity->authenticate()) {
-					Yii::app()->session[$service] = 'auth';
+	    if ($identity->authenticate()) {
+		  Yii::app()->session[$service] = 'auth';
 
-					$authIdentity->redirect(array('user/personal'));
-				}
-				else {
-					$authIdentity->cancel();
-				}
-			}
-		}
-		$this->redirect(array('user/personal'));
-	}
+		  $authIdentity->redirect(array('user/personal'));
+	    }
+	    else {
+		  $authIdentity->cancel();
+	    }
+	  }
+    }else
+	   throw new CHttpException(404, 'The requested page does not exist.');
+	Yii::app()->end();
+  }
+  
+  
 }
