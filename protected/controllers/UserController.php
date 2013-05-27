@@ -9,6 +9,7 @@ class UserController extends MController {
     if (!Yii::app()->user->id) {
       $this->setAccess();
     } else {
+      $user=User::model()->findByPk(Yii::app()->user->id);
       $profile=UserProfile::model()->findByPk(Yii::app()->user->id);
 
       $user_id=Yii::app()->user->id;
@@ -33,13 +34,14 @@ class UserController extends MController {
 
       $this->render('profile', array(
           'profile'=>$profile,
+          'user'=>$user,
       ));
     }
   }
 
   // Страница управления персональными спотами
   public function actionPersonal() {
-    $this->layout='//layouts/spots';
+  $this->layout='//layouts/spots';
 
 	$defDiscodes = '';
 	$defKey = '';
