@@ -267,15 +267,16 @@ class SocInfo extends CFormModel
           $i=0;
           $prevPageUrl= '';
 
-          if(isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id'])){
+          if(isset($socUser['id'])){
             while(!isset($lastPost)){
-              if(($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
+			  
+              if(isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
                 $lastPost = $userFeed['data'][$i];
               }
 
               //следующая страница
-              if($i >= count($userFeed['data'])){
-                if(isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)){
+              if(!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))){
+                if(isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)){
                   $prevPageUrl = $userFeed['paging']['previous'];
                   $userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
                   $i=0;
