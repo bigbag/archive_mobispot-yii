@@ -50,8 +50,12 @@
           <ul class="contact-info">
             <li><?php echo Yii::t('help', 'Email');?> – <a href="mailto:helpme@mobispot.com">helpme@mobispot.com</a></li>
             <li><?php echo Yii::t('help', 'Skype');?> – mobispot</li>
-            <li class="soc-link"><?php echo Yii::t('help', 'Keep up at Twitter');?> <a href="http://www.facebook.com/heyMobispot" class="i-soc-fac"></a></li>
-            <li class="soc-link"><?php echo Yii::t('help', 'Hook up at Facebook');?> <a href="https://twitter.com/heymobispot" class="i-soc-twi"></a></li>
+            <li class="soc-link"><?php echo Yii::t('help', 'Keep up at Twitter');?>
+              <a href="http://www.facebook.com/heyMobispot" class="i-soc-fac">&#xe000;</a>
+            </li>
+            <li class="soc-link"><?php echo Yii::t('help', 'Hook up at Facebook');?>
+              <a href="https://twitter.com/heymobispot" class="i-soc-twi">&#xe001;</a>
+            </li>
           </ul>
         </div>
       </div>
