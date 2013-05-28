@@ -66,23 +66,29 @@
 						<p><?php echo $content['data'][$key]['place_name']; ?></p>
 					</div>
 				<?php endif; ?>
-				<?php if(isset($content['data'][$key]['utube_video_link'])) {?>
-					<?php if(isset($content['data'][$key]['utube_video_flash'])) {?>
+				<?php if(isset($content['data'][$key]['ytube_video_link'])) {?>
+					<?php if(isset($content['data'][$key]['ytube_video_flash'])) {?>
 						<div class="item-area text-center">
 						<object>
-						  <param name="movie" value="<?php echo $content['data'][$key]['utube_video_flash']; ?>"></param>
+						  <param name="movie" value="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"></param>
 						  <param name="allowFullScreen" value="true"></param>
-						  <embed src="<?php echo $content['data'][$key]['utube_video_flash']; ?>"
+						  <embed src="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"
 							type="application/x-shockwave-flash"
 							width="640" height="480" 
 							allowfullscreen="true"></embed>
 						</object>
+						<?php if(isset($content['data'][$key]['ytube_video_view_count'])):?>
+							<p><?php echo Yii::t('eauth','View count: ').$content['data'][$key]['ytube_video_view_count']; ?></p>
+						<?php endif; ?>
 						</div>
 					<?php }?>
 				<?php }?>				
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
-					<span><?php echo $content['data'][$key]['invite']; ?></span> <i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
+					<span><?php echo $content['data'][$key]['invite']; ?></span> 
+					<?php if(isset($content['data'][$key]['inviteClass']) && (strlen($content['data'][$key]['inviteClass']) > 0) ): ?>
+						<i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
+					<?php endif; ?>		
 					</a>
 				<?php endif; ?>
 

@@ -35,7 +35,7 @@ class SocInfo extends CFormModel
     $net['name'] = 'google_oauth';
     $net['baseUrl'] = 'google.com';
     $net['invite'] = Yii::t('eauth', 'Read more on Google');
-    $net['inviteClass'] = 'hide';
+    $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'google16.png';
     $socNetworks[] = $net;
@@ -85,7 +85,7 @@ class SocInfo extends CFormModel
     $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'deviantart16.png';
     $socNetworks[] = $net;
 
     $net['name'] = 'Behance';
@@ -106,10 +106,10 @@ class SocInfo extends CFormModel
 
     $net['name'] = 'YouTube';
     $net['baseUrl'] = 'youtube.com';
-    $net['invite'] = Yii::t('eauth', 'Watch more');
+    $net['invite'] = Yii::t('eauth', 'Watch more on YouTube');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'youtube16.png';
     $socNetworks[] = $net;
 /*
     $net['name'] = 'Instagram';
@@ -678,34 +678,60 @@ class SocInfo extends CFormModel
           $this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         //$this->userDetail['about'] = print_r($socUser, true);
       }elseif($socNet == 'YouTube'){
-/*        //$userXML = $this->makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
-        $socUser = $this->xmlToArray(simplexml_load_string($userXML));
-*/
-        Yii::import('ext.ZendGdata.library.*');
-        require_once('Zend/Gdata/YouTube.php');
-        require_once('Zend/Gdata/AuthSub.php');
+        //$userXML = $this->makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
+		$username = '';
+		if((strpos($socUsername, 'youtube.com/channel/') > 0) ||(strpos($socUsername, 'youtube.com/channel/') !== false))
+			$username = substr($socUsername, (strpos($socUsername, 'youtube.com/channel/') + 20));
+		if((strpos($socUsername, 'youtube.com/user/') > 0) ||(strpos($socUsername, 'youtube.com/user/') !== false))
+			$username = substr($socUsername, (strpos($socUsername, 'youtube.com/user/') + 17));
+		if(strlen($username) > 0){
+			$username = $this->rmGetParam($username);
+		  
+			Yii::import('ext.ZendGdata.library.*');
+			require_once('Zend/Gdata/YouTube.php');
+			require_once('Zend/Gdata/AuthSub.php');
 
-        $yt = new Zend_Gdata_YouTube();
-        $yt->setMajorProtocolVersion(2);
-        $userProfileEntry = $yt->getUserProfile($socUsername);
+			$yt = new Zend_Gdata_YouTube();
+			$yt->setMajorProtocolVersion(2);
+			$userProfileEntry = $yt->getUserProfile($username);
 
-        $this->userDetail['soc_username'] = $userProfileEntry->title->text;
-        $this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
-        $this->userDetail['age'] = $userProfileEntry->getAge();
-        $this->userDetail['gender'] = $userProfileEntry->getGender();
-        $this->userDetail['location'] = $userProfileEntry->getLocation();
-        $this->userDetail['school'] = $userProfileEntry->getSchool();
-        $this->userDetail['work'] = $userProfileEntry->getCompany();
-        $this->userDetail['about'] = $userProfileEntry->getOccupation();
+			$this->userDetail['soc_username'] = $userProfileEntry->title->text;
+			$this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
+			$this->userDetail['age'] = $userProfileEntry->getAge();
+			$this->userDetail['gender'] = $userProfileEntry->getGender();
+			$this->userDetail['location'] = $userProfileEntry->getLocation();
+			$this->userDetail['school'] = $userProfileEntry->getSchool();
+			$this->userDetail['work'] = $userProfileEntry->getCompany();
+			$this->userDetail['about'] = $userProfileEntry->getOccupation();
 
-        $videoFeed = $yt->getuserUploads($socUsername);
-        $videoEntry = $videoFeed[0];
-        $this->userDetail['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-        $this->userDetail['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+			$videoFeed = $yt->getuserUploads($username);
+			$videoEntry = $videoFeed[0];
+			$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+			$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+			$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+		}
+		else{
+			$videoId = '';
+			if((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false)){
+				$videoId = substr($socUsername, (strpos($socUsername, 'watch?v=') + 8));
+				
+				Yii::import('ext.ZendGdata.library.*');
+				require_once('Zend/Gdata/YouTube.php');
+				require_once('Zend/Gdata/AuthSub.php');
+				
+				$yt = new Zend_Gdata_YouTube();
+				$yt->setMajorProtocolVersion(2);				
+				
+				$videoEntry = $yt->getVideoEntry($videoId);
+				$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+				$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();				
+				$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+			}
+		}
 
       }elseif($socNet == 'Instagram'){
         if(!isset(Yii::app()->user->token) || (Yii::app()->user->service != 'instagram'))
-          $this->userDetail['soc_username'] = 'Сначала авторизуйтесь черз Ваш профиль в Instagram';
+          $this->userDetail['soc_username'] = Yii::t('eauth','Сначала авторизуйтесь черз Ваш профиль в Instagram');
         else{
         /*
           //Parce html
@@ -867,11 +893,13 @@ class SocInfo extends CFormModel
         $username = substr($username, (strpos($username, 'flickr.com/photos/') + 18));
       $username = $this->rmGetParam($username);
     }elseif($socNet == 'YouTube'){
+	/*
       if((strpos($username, 'youtube.com/channel/') > 0) ||(strpos($username, 'youtube.com/channel/') !== false))
         $username = substr($username, (strpos($username, 'youtube.com/channel/') + 20));
       if((strpos($username, 'youtube.com/user/') > 0) ||(strpos($username, 'youtube.com/user/') !== false))
         $username = substr($username, (strpos($username, 'youtube.com/user/') + 17));
       $username = $this->rmGetParam($username);
+	*/
     }elseif($socNet == 'Instagram'){
       if(strpos($username, 'instagram.com/') !== false)
         $username = substr($username, (strpos($username, 'instagram.com/') + 14));
