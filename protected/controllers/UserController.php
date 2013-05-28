@@ -2,7 +2,7 @@
 
 class UserController extends MController {
 
-  public $defaultAction='account';
+  public $defaultAction='profile';
 
   // Вывод профиля
   public function actionProfile() {
@@ -43,8 +43,8 @@ class UserController extends MController {
   public function actionPersonal() {
   $this->layout='//layouts/spots';
 
-	$defDiscodes = '';
-	$defKey = '';
+    $defDiscodes = '';
+    $defKey = '';
 
     if (!Yii::app()->user->id) {
       $this->setAccess();
@@ -56,29 +56,29 @@ class UserController extends MController {
         $this->redirect('/');
       }
 
-	  if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
-		$spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
-		if ($spot){
-			$spotContent=SpotContent::getSpotContent($spot);
+    if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
+    $spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
+    if ($spot){
+      $spotContent=SpotContent::getSpotContent($spot);
 
-			if($spotContent) {
-				$SocInfo = new SocInfo;
-				$key = Yii::app()->session['bind_key'];
-				$netName = $SocInfo->detectNetByLink($spotContent->content['data'][$key]);
-				if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth')){
-					$content = $spotContent->content;
-					$content['keys'][$key]='socnet';
-					$spotContent->content=$content;
-					if ($spotContent->save()){
-						$defDiscodes = Yii::app()->session['bind_discodes'];
-						$defKey = Yii::app()->session['bind_key'];
-					}
-				}
-			}
-		}
-		unset(Yii::app()->session['bind_discodes']);
-		unset(Yii::app()->session['bind_key']);
-	  }
+      if($spotContent) {
+        $SocInfo = new SocInfo;
+        $key = Yii::app()->session['bind_key'];
+        $netName = $SocInfo->detectNetByLink($spotContent->content['data'][$key]);
+        if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth')){
+          $content = $spotContent->content;
+          $content['keys'][$key]='socnet';
+          $spotContent->content=$content;
+          if ($spotContent->save()){
+            $defDiscodes = Yii::app()->session['bind_discodes'];
+            $defKey = Yii::app()->session['bind_key'];
+          }
+        }
+      }
+    }
+    unset(Yii::app()->session['bind_discodes']);
+    unset(Yii::app()->session['bind_key']);
+    }
 
       $dataProvider=new CActiveDataProvider(
         Spot::model()->personal()->used()->selectUser($user_id),
@@ -92,8 +92,8 @@ class UserController extends MController {
       $this->render('personal', array(
           'dataProvider'=>$dataProvider,
           'spot_type_all'=>SpotType::getSpotTypeArray(),
-		  'defDiscodes'=>$defDiscodes,
-		  'defKey'=>$defKey,
+      'defDiscodes'=>$defDiscodes,
+      'defKey'=>$defKey,
       ));
     }
   }
@@ -157,31 +157,31 @@ class UserController extends MController {
     }
   }
 
-  public function actionBindSocLogin(){
+  public function actionBindSocLogin()  {
     $service = Yii::app()->request->getQuery('service');
     $sinfo = new SocInfo;
-    if (isset($service)){  //&& (!isset(Yii::app()->session[$service]))
 
-	  $authIdentity = Yii::app()->eauth->getIdentity($service);
-	  $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-	  $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+    if (isset($service))  {
 
-	  if ($authIdentity->authenticate()) {
-  	    $identity = new ServiceUserIdentity($authIdentity);
+      $authIdentity = Yii::app()->eauth->getIdentity($service);
+      $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+      $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
 
-	    if ($identity->authenticate()) {
-		  Yii::app()->session[$service] = 'auth';
+      if ($authIdentity->authenticate()) {
+          $identity = new ServiceUserIdentity($authIdentity);
 
-		  $authIdentity->redirect(array('user/personal'));
-	    }
-	    else {
-		  $authIdentity->cancel();
-	    }
-	  }
-    }else
-	   throw new CHttpException(404, 'The requested page does not exist.');
-	Yii::app()->end();
+        if ($identity->authenticate()) {
+          Yii::app()->session[$service] = 'auth';
+          $authIdentity->redirect(array('user/personal'));
+        }
+        else {
+          $authIdentity->cancel();
+        }
+      }
+    }
+    else {
+      $this->setNotFound();
+    }
+    Yii::app()->end();
   }
-  
-  
 }

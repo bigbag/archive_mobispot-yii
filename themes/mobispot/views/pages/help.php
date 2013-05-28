@@ -1,6 +1,6 @@
 <div class="row" ng-controller="HelpCtrl">
   <div class="twelve columns singlebox-margin">
-    <div ng-controller="HelpCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
+    <div ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
       <div class="row">
         <div class="six columns">
           <h4><?php echo Yii::t('help', 'Have a question? Need a hand? Anything bugging you? Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.');?></h4>

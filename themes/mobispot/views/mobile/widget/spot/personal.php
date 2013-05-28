@@ -6,7 +6,9 @@
 		</div>
 	<?php elseif($type == 'image'): ?>
 		<div class="item-area text-center">
-			<img src="<?php echo $folderUploads.$content['data'][$key]; ?>">
+			<a href="<?php echo $folderUploads.$content['data'][$key]; ?>">
+				<img src="<?php echo $folderUploads.'tmb_'.$content['data'][$key]; ?>">
+			</a>
 		</div>
 	<?php elseif($type == 'obj'): ?>
 		<a href="<?php echo $folderUploads.$content['data'][$key]; ?>" class="item-area text-center">
@@ -74,7 +76,7 @@
 						  <param name="allowFullScreen" value="true"></param>
 						  <embed src="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"
 							type="application/x-shockwave-flash"
-							width="640" height="480" 
+							width="640" height="480"
 							allowfullscreen="true"></embed>
 						</object>
 						<?php if(isset($content['data'][$key]['ytube_video_view_count'])):?>
@@ -82,7 +84,7 @@
 						<?php endif; ?>
 						</div>
 					<?php }?>
-				<?php }?>				
+				<?php }?>
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> 
