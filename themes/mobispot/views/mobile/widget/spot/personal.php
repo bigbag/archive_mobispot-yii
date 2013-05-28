@@ -74,11 +74,25 @@
 						<object>
 						  <param name="movie" value="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"></param>
 						  <param name="allowFullScreen" value="true"></param>
-						  <embed src="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"
+						  <embed class="yt_player" id="player_<?php echo $key; ?>" src="<?php echo $content['data'][$key]['ytube_video_flash']; ?>"
 							type="application/x-shockwave-flash"
-							width="640" height="480"
+							<?php if(isset($content['data'][$key]['ytube_video_rel'])): ?>
+							width="100%" height="480"
+							<?php else: ?>
+							width="120" height="90"
+							<?php endif; ?>
 							allowfullscreen="true"></embed>
 						</object>
+						<?php if(isset($content['data'][$key]['ytube_video_rel'])): ?>
+						<script>
+							$(document).ready(function(){
+								$('#player_<?php echo $key; ?>').height($('#player_<?php echo $key; ?>').width()/<?php echo $content['data'][$key]['ytube_video_rel']; ?>);
+							});
+							$(window).resize(function(){
+								$('#player_<?php echo $key; ?>').height($('#player_<?php echo $key; ?>').width()/<?php echo $content['data'][$key]['ytube_video_rel']; ?>);
+							});
+						</script>
+						<?php endif; ?>
 						<?php if(isset($content['data'][$key]['ytube_video_view_count'])):?>
 							<p><?php echo Yii::t('eauth','View count: ').$content['data'][$key]['ytube_video_view_count']; ?></p>
 						<?php endif; ?>

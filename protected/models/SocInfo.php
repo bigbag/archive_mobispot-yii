@@ -723,6 +723,11 @@ class SocInfo extends CFormModel
 					$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
 					$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
 					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+	
+					$videoThumbnails = $videoEntry->getVideoThumbnails();
+					if(isset($videoThumbnails[0])){
+						$this->userDetail['ytube_video_rel'] = $videoThumbnails[0]['width']/$videoThumbnails[0]['height'];
+					}
 				}
 			}
 			catch (Exception $e){
@@ -745,6 +750,11 @@ class SocInfo extends CFormModel
 					$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
 					$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();				
 					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+					
+					$videoThumbnails = $videoEntry->getVideoThumbnails();
+					if(isset($videoThumbnails[0])){
+						$this->userDetail['ytube_video_rel'] = $videoThumbnails[0]['width']/$videoThumbnails[0]['height'];
+					}
 				}
 				catch (Exception $e){
 					$this->userDetail['soc_username'] = Yii::t('eauth','Не удалось получить видео: ').$socUsername;

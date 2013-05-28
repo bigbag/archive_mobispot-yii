@@ -18,6 +18,7 @@
   	<link rel="stylesheet" href="/themes/mobile/stylesheets/style.css">
 	
 	<?php Yii::app()->getClientScript()->registerScriptFile('https://maps.google.com/maps/api/js?key='.Yii::app()->eauth->services['google_oauth']['key'].'&sensor=true'); ?>
+	<?php Yii::app()->getClientScript()->registerScriptFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'); ?>
 </head>
 <body>
 	<div class="content-wrapper bg-gray">
