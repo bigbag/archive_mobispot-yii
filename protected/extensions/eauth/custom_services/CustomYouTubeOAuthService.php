@@ -23,7 +23,7 @@ class CustomYouTubeOAuthService extends EOAuth2Service {
 		Yii::import('ext.ZendGdata.library.*');
 		require_once('Zend/Gdata/YouTube.php');
 		require_once('Zend/Gdata/AuthSub.php');
-
+		
 		$httpClient = Zend_Gdata_AuthSub::getHttpClient($this->getState('auth_token'));
 		$httpClient->setHeaders('X-GData-Key', 'key='.$this->key);		
 		
@@ -42,10 +42,15 @@ class CustomYouTubeOAuthService extends EOAuth2Service {
 		$this->attributes['work'] = $userProfileEntry->getCompany();
 		$this->attributes['about'] = $userProfileEntry->getOccupation();	
 		$videoFeed = $yt->getuserUploads('default');
-		$videoEntry = $videoFeed[0];
-		$this->attributes['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-		$this->attributes['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+		if(isset($videoFeed[0])){
+			$videoEntry = $videoFeed[0];
+			try{
+				$this->attributes['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+				$this->attributes['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+			}catch (Exception $e){
 				
+			}
+		}
 	}
 
 	protected function getCodeUrl($redirect_uri) {

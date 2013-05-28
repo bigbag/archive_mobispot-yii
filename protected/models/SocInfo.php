@@ -173,7 +173,7 @@ class SocInfo extends CFormModel
 
     if($socNet == 'google_oauth'){
       $url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key='.Yii::app()->eauth->services['google_oauth']['key'];
-//$url = 'https://www.googleapis.com/plus/v1/people/+GuyKawasaki?key=AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak';
+
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -183,7 +183,7 @@ class SocInfo extends CFormModel
       curl_close($ch);
 
       $socUser = CJSON::decode($curl_result, true);
-//$this->userDetail['last_status'] = 'last_status';
+
       if(!isset($socUser['error'])){
         $this->userDetail['UserExists'] = true;
         if(isset($socUser['displayName']))
@@ -217,6 +217,17 @@ class SocInfo extends CFormModel
             $this->userDetail['about'] = $socUser['aboutMe'];
         if(isset($socUser['url']))
             $this->userDetail['soc_url'] = $socUser['url'];
+		/*
+		$urlFeed = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'/activities/public?key='.Yii::app()->eauth->services['google_oauth']['key'];
+		curl_setopt($ch, CURLOPT_URL, $urlFeed);
+		$curl_result = curl_exec($ch);
+		curl_close($ch);
+
+		$userFeed = CJSON::decode($curl_result, true);
+		
+		//$this->userDetail['last_status'] = print_r($userFeed, true);
+		
+			*/
       }else{
         $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
       }
@@ -693,22 +704,30 @@ class SocInfo extends CFormModel
 
 			$yt = new Zend_Gdata_YouTube();
 			$yt->setMajorProtocolVersion(2);
-			$userProfileEntry = $yt->getUserProfile($username);
+			try{
+				$userProfileEntry = $yt->getUserProfile($username);
 
-			$this->userDetail['soc_username'] = $userProfileEntry->title->text;
-			$this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
-			$this->userDetail['age'] = $userProfileEntry->getAge();
-			$this->userDetail['gender'] = $userProfileEntry->getGender();
-			$this->userDetail['location'] = $userProfileEntry->getLocation();
-			$this->userDetail['school'] = $userProfileEntry->getSchool();
-			$this->userDetail['work'] = $userProfileEntry->getCompany();
-			$this->userDetail['about'] = $userProfileEntry->getOccupation();
+				$this->userDetail['soc_username'] = $userProfileEntry->title->text;
+				$this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
+				$this->userDetail['age'] = $userProfileEntry->getAge();
+				$this->userDetail['gender'] = $userProfileEntry->getGender();
+				$this->userDetail['location'] = $userProfileEntry->getLocation();
+				$this->userDetail['school'] = $userProfileEntry->getSchool();
+				$this->userDetail['work'] = $userProfileEntry->getCompany();
+				$this->userDetail['about'] = $userProfileEntry->getOccupation();
 
-			$videoFeed = $yt->getuserUploads($username);
-			$videoEntry = $videoFeed[0];
-			$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-			$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-			$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+				$videoFeed = $yt->getuserUploads($username);
+				
+				if(isset($videoFeed[0])){
+					$videoEntry = $videoFeed[0];
+					$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+					$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+				}
+			}
+			catch (Exception $e){
+				$this->userDetail['soc_username'] = Yii::t('eauth','Не удалось получить профиль: ').$socUsername;
+			}
 		}
 		else{
 			$videoId = '';
@@ -721,11 +740,15 @@ class SocInfo extends CFormModel
 				
 				$yt = new Zend_Gdata_YouTube();
 				$yt->setMajorProtocolVersion(2);				
-				
-				$videoEntry = $yt->getVideoEntry($videoId);
-				$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-				$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();				
-				$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+				try{
+					$videoEntry = $yt->getVideoEntry($videoId);
+					$this->userDetail['ytube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+					$this->userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();				
+					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+				}
+				catch (Exception $e){
+					$this->userDetail['soc_username'] = Yii::t('eauth','Не удалось получить видео: ').$socUsername;
+				}
 			}
 		}
 
