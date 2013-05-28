@@ -246,6 +246,7 @@ class ServiceController extends MController {
   public function actionSocial() {
     $service=Yii::app()->request->getQuery('service');
     $denied=Yii::app()->request->getQuery('denied');
+    $error=Yii::app()->request->getQuery('error');
 
     if (Yii::app()->request->isPostRequest) {
       $error="yes";
@@ -299,7 +300,7 @@ class ServiceController extends MController {
       }
       echo json_encode(array('error'=>$error, 'content'=>$content));
     }
-    else if (isset($denied)){
+    else if (isset($denied) or isset($error)){
       $this->redirect('/');
     }
     else if (isset($service)) {
@@ -335,7 +336,7 @@ class ServiceController extends MController {
           $this->redirect('/');
         }
         else {
-          $authIdentity->cancel();
+          $this->redirect('/user/personal');
         }
       }
       $this->redirect('/');
@@ -363,13 +364,16 @@ class ServiceController extends MController {
 // Привязка и отвязка соц сетей
   public function actionSocialConnect() {
     $service=Yii::app()->request->getQuery('service');
+    $denied=Yii::app()->request->getQuery('denied');
+    $error=Yii::app()->request->getQuery('error');
 
     if (isset(Yii::app()->user->id)) {
       $user=User::model()->findByPk(Yii::app()->user->id);
-
       if ($user) {
-
-        if (isset($service)){
+        if (isset($denied) or isset($error)){
+          $this->redirect('/user/profile');
+        }
+        else if (isset($service)){
           if (!empty($user->{$service.'_id'})) {
             $user->{$service.'_id'}='';
             $user->save(false);
@@ -388,11 +392,12 @@ class ServiceController extends MController {
                 $authIdentity->redirectUrl='/user/profile';
               }
               else {
-                $authIdentity->cancel();
+                $this->redirect('/user/profile');
               }
             }
             $this->redirect('/service/socialConnect');
           }
+
         }
         else if (isset(Yii::app()->request->cookies['service_name']) and
           isset(Yii::app()->request->cookies['service_id'])) {
@@ -405,8 +410,8 @@ class ServiceController extends MController {
           unset(Yii::app()->request->cookies['service_name']);
           unset(Yii::app()->request->cookies['service_id']);
         }
-        $this->redirect('/user/profile');
       }
+      $this->redirect('/user/profile');
     }
     $this->redirect('/');
   }

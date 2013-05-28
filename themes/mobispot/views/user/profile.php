@@ -5,6 +5,7 @@
   <div class="twelve columns singlebox-margin">
     <div class="row">
       <div class="six columns">
+        <h4><?php echo Yii::t('profile', 'Connect with:');?></h4>
         <span class="soc-connect">
           <?php $facebookStatus=(!empty($user->facebook_id))?'active':'';?>
           <a class="spot-button six <?php echo $facebookStatus;?>" href="/service/socialConnect?service=facebook">
@@ -20,10 +21,6 @@
             <span>&#xe002;</span> <?php echo Yii::t('profile', 'Google');?>
           </a>
         </span>
-
-
-
-
       </div>
       <div class="six columns">
 
