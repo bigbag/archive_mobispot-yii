@@ -41,7 +41,7 @@ class UserController extends MController {
 
   // Страница управления персональными спотами
   public function actionPersonal() {
-    $this->layout='//layouts/spots';
+  $this->layout='//layouts/spots';
 
     $defDiscodes = '';
     $defKey = '';
@@ -157,21 +157,21 @@ class UserController extends MController {
     }
   }
 
-  public function actionBindSocLogin(){
+  public function actionBindSocLogin()  {
     $service = Yii::app()->request->getQuery('service');
     $sinfo = new SocInfo;
-    if (isset($service) && (!isset(Yii::app()->session[$service]))){
+
+    if (isset($service))  {
 
       $authIdentity = Yii::app()->eauth->getIdentity($service);
       $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
       $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
 
       if ($authIdentity->authenticate()) {
-        $identity = new ServiceUserIdentity($authIdentity);
+          $identity = new ServiceUserIdentity($authIdentity);
 
         if ($identity->authenticate()) {
           Yii::app()->session[$service] = 'auth';
-
           $authIdentity->redirect(array('user/personal'));
         }
         else {
@@ -179,6 +179,9 @@ class UserController extends MController {
         }
       }
     }
-    $this->redirect(array('user/personal'));
+    else {
+      $this->setNotFound();
+    }
+    Yii::app()->end();
   }
 }

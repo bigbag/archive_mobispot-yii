@@ -262,7 +262,8 @@ class SpotController extends MController {
     $content='';
     $data=$this->getJson();
     $netName = 'no';
-
+    $isSocLogged = false;
+	
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
       if (isset($data['discodes']) and isset($data['key'])){
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
@@ -274,25 +275,24 @@ class SpotController extends MController {
 
             if($netName != 'no'){
               $content=$spotContent->content;
-              $isSocLogged = false;
-
+			  
               if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
-              {
+              {		  
                 $isSocLogged = true;
                 $content['keys'][$data['key']]='socnet';
                 $spotContent->content=$content;
                 if ($spotContent->save()){
-                  $content=$this->renderPartial('//widget/spot/personal/new_text',
+                  $content=$this->renderPartial('//widget/spot/personal/new_socnet',
                   array(
                     'content'=>$content['data'][$data['key']],
                     'key'=>$data['key'],
                   ),
                   true);
                 }
-                Yii::app()->session['bind_discodes'] =  $data['discodes'];
-                Yii::app()->session['bind_key'] = $data['key'];
+				unset(Yii::app()->session['bind_discodes']);
+                unset(Yii::app()->session['bind_key']);
               }
-              else {
+              else {	  
                 Yii::app()->session['bind_discodes'] =  $data['discodes'];
                 Yii::app()->session['bind_key'] = $data['key'];
               }
@@ -302,7 +302,6 @@ class SpotController extends MController {
           }
         }
       }
-
     }
     echo json_encode(array('error'=>$error, 'content'=>$content, 'socnet'=>$netName, 'loggedIn'=>$isSocLogged));
   }

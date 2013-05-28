@@ -245,12 +245,12 @@ function SpotCtrl($scope, $http, $compile) {
   // Привязка соцсетей
   var popup;
   $scope.bindSocial  = function(spot, key, e) {
-      spot.key = key;
-    //alert('start bind!');
+    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+    spot.key = key;
     $http.post('/spot/BindSocial', spot).success(function(data) {
       if(data.error == 'no') {
         //alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
-        if(data.socnet != 'no') {
+        if((data.socnet != 'no') && (data.socnet.length > 0)){
           if (!data.loggedIn) {
             var options = $.extend({
               id: '',
@@ -274,12 +274,9 @@ function SpotCtrl($scope, $http, $compile) {
             popup.focus();
           }
           else {
-            window.location = '/user/personal';
-          /*
-              var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+            //window.location = '/user/personal';
             spotEdit.before($compile(data.content)($scope));
             spotEdit.remove();
-          */
           }
         }
       }
