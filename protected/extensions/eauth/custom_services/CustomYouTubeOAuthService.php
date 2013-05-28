@@ -44,12 +44,8 @@ class CustomYouTubeOAuthService extends EOAuth2Service {
 		$videoFeed = $yt->getuserUploads('default');
 		if(isset($videoFeed[0])){
 			$videoEntry = $videoFeed[0];
-			try{
-				$this->attributes['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-				$this->attributes['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-			}catch (Exception $e){
-				
-			}
+			$this->attributes['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
+			$this->attributes['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
 		}
 	}
 
