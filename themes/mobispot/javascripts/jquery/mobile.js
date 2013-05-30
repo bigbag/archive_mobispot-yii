@@ -14,6 +14,8 @@ $(document).ready(function(){
     aMargin = maxMargin;
   else if(aMargin < minMargin)
     aMargin = minMargin;
+  aWidth = Math.round(aWidth);
+  aMargin = Math.round(aMargin);
   $('.default-avatar').width(aWidth+'px');
   $('.default-avatar').css('margin-right', (aMargin+'px'));
 });
