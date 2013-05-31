@@ -90,7 +90,7 @@ class SocInfo extends CFormModel
 
     $net['name'] = 'Behance';
     $net['baseUrl'] = 'behance.net';
-    $net['invite'] = Yii::t('eauth', '');
+    $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
@@ -582,21 +582,43 @@ class SocInfo extends CFormModel
 
       }elseif($socNet == 'vimeo'){
         $socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
-        if(!is_string($socUser)){
+        if(!is_string($socUser) && isset($socUser['id'])){
           $this->userDetail['soc_username'] = $socUser['display_name'];
           $this->userDetail['soc_url'] = $socUser['profile_url'];
-          if (isset($socUser['portrait_small']) and !empty($socUser['portrait_small']))
+		  
+          if (isset($socUser['portrait_medium']) and strlen($socUser['portrait_medium']) > 0)
+            $this->userDetail['photo'] = $socUser['portrait_medium'];
+		  elseif (isset($socUser['portrait_small']) and strlen($socUser['portrait_small']) > 0)
             $this->userDetail['photo'] = $socUser['portrait_small'];
+		  /*
           if (isset($socUser['location']) and !empty($socUser['location']))
             $this->userDetail['location'] = $socUser['location'];
           if (isset($socUser['bio']) and !empty($socUser['bio']))
             $this->userDetail['about'] = $socUser['bio'];
-
+          */
           $video = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/videos.json');
-          if(isset($video[0]['id']))
+          if(isset($video[0]) && isset($video[0]['id'])){
             $this->userDetail['vimeo_last_video'] = $video[0]['id'];
-        }else
-          $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
+			if(isset($video[0]['video_stats_number_of_plays']))
+			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
+			elseif(isset($video[0]['stats_number_of_plays']))
+			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
+		  }
+        }
+		else{
+		  $video = $this->makeCurlRequest('http://vimeo.com/api/v2/video/'.$socUsername.'.json');
+		  //$this->userDetail['last_status'] = print_r($video, true);
+		  if(!is_string($video) && isset($video[0])){
+            $this->userDetail['vimeo_last_video'] = $socUsername;
+			if(isset($video[0]['video_stats_number_of_plays']))
+			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
+			elseif(isset($video[0]['stats_number_of_plays']))
+			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
+		  }
+		  else{
+		    $this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
+		  }
+		}
       // Last.fm
       }elseif($socNet == 'Last.fm'){
         $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='.$socUsername.'&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');

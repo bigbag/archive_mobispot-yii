@@ -24,17 +24,32 @@ return array( // You can change the providers and their classes.
     'client_secret'=>'4db65a911817eff54a6a94df6f0d7433',
   ),
   'youtube' => array(
+    //https://code.google.com/apis/console/  
 	'class' => 'CustomYouTubeOAuthService',
 	'client_id' => '894792426634.apps.googleusercontent.com',
 	'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
 	'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
 	'title' => 'YouTube',
   ),
-  //https://www.deviantart.com/settings/myapps
   'deviantart' =>array(
+  //https://www.deviantart.com/settings/myapps
 	'class' =>'CustomDeviantartAuthService',
 	'client_id' =>'435',
 	'client_secret' => '08b4e16e0c5ecaf174a9c999bd2a6140',
 	'title' => 'DeviantART'
+  ),    
+  'behance' =>array(
+  //http://www.behance.net/dev/apps  
+    'class' =>'CustomBehanceAuthService',
+    'client_id' =>'RPVsyWeNfqLTWWrNcvZTcajTVSbrFmVy',
+    'client_secret' => 'R31sssl4Vof65tQ_ukss9WTsv5ayD9pI',
+    'title' => 'Behance'
+  ),
+  'vimeo' => array(
+  //https://developer.vimeo.com/apps/
+    'class' => 'CustomVimeoOAuthService',
+    'key' => ' 	05646d75a6e8a06e5d46776c15c367171681bea6',
+    'secret' => '5061a7c3414dc31d6832abb88ae93d06835251d2',
+	'title' => 'Vimeo'
   ),    
 );
