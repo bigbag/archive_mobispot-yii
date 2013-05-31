@@ -19,13 +19,26 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
+  // Параметры сортировки, плюс ватчдог на поредке блоков
   $scope.sortableOptions = {
-    update: function(e, ui) {
-    //  alert($scope.keys);
+    stop: function(e, ui) {
+      $scope.saveOrder();
     },
-    //'containment':'parent',
+    'containment':'.spot-content',
+    'tolerance':'pointer',
     'opacity':0.8
   };
+
+  // Сохраняем порядок блоков
+  $scope.saveOrder = function() {
+    var spot = $scope.spot;
+    spot.keys = $scope.keys;
+    $http.post('/spot/saveOrder', spot).success(function(data) {
+      if(data.error == 'no') {
+
+      }
+    });
+  }
 
   // Закачка файла html5
   function fileDragHover(e) {
@@ -48,16 +61,6 @@ function SpotCtrl($scope, $http, $compile) {
       $scope.uploadFile(f);
       // $scope.parseFile(f);
     }
-  }
-
-  function uploadProgress(evt) {
-    $scope.$apply(function(){
-      if (evt.lengthComputable) {
-        $scope.progress = Math.round(evt.loaded * 100 / evt.total)
-      } else {
-        $scope.progress = 'unable to compute'
-      }
-    })
   }
 
   $scope.uploadComplete = function(e) {
@@ -158,29 +161,29 @@ function SpotCtrl($scope, $http, $compile) {
 
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
-          if(data.error == 'no') {
-            var oldSpotContent = angular.element('.spot-content');
-            angular.element('.spot-content_li').removeClass('open');
-            oldSpotContent.slideUp('slow', function () {
-              oldSpotContent.remove();
-            });
+        if(data.error == 'no') {
+          var oldSpotContent = angular.element('.spot-content');
+          angular.element('.spot-content_li').removeClass('open');
+          oldSpotContent.slideUp('slow', function () {
+            oldSpotContent.remove();
+          });
 
-            spotHat.after($compile(data.content)($scope));
-            spot.addClass('open');
-            spot.find('.spot-content').slideToggle('slow');
+          spotHat.after($compile(data.content)($scope));
+          spot.addClass('open');
+          spot.find('.spot-content').slideToggle('slow');
 
-            $scope.spot.content='';
+          $scope.spot.content='';
 
-            var filedrag = $id('dropbox');
-            if (filedrag) {
-              var xhr = new XMLHttpRequest();
-              if (xhr.upload) {
-                filedrag.addEventListener("dragover", fileDragHover, false);
-                filedrag.addEventListener("dragleave", fileDragHover, false);
-                filedrag.addEventListener("drop", fileSelectHandler, false);
-              }
+          var filedrag = $id('dropbox');
+          if (filedrag) {
+            var xhr = new XMLHttpRequest();
+            if (xhr.upload) {
+              filedrag.addEventListener("dragover", fileDragHover, false);
+              filedrag.addEventListener("dragleave", fileDragHover, false);
+              filedrag.addEventListener("drop", fileSelectHandler, false);
             }
           }
+        }
       });
     }
     else {

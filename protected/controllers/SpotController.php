@@ -10,7 +10,7 @@ class SpotController extends MController {
   // Действие по умолчанию - редикт на мобильную версию
   public function actionIndex() {
     if (Yii::app()->request->getQuery('url', 0)) {
-      $url = Yii::app()->request->getQuery('url', 0);
+      $url=Yii::app()->request->getQuery('url', 0);
       $this->redirect('http://m.tmp.mobispot.com/' . $url);
     }
   }
@@ -23,6 +23,7 @@ class SpotController extends MController {
 
     $discodes=(isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
     $file=(isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
+
     if ($file and $discodes) {
       $fileType=strtolower(substr(strrchr($file, '.'), 1));
       $file=md5(time().$discodes).'_'.$file;
@@ -80,9 +81,12 @@ class SpotController extends MController {
 
     $data=$this->getJson();
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes'])) {
+
         $spot=Spot::model()->findByPk($data['discodes']);
         if ($spot) {
+
           $spotContent=SpotContent::getSpotContent($spot);
           $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
             array(
@@ -107,8 +111,11 @@ class SpotController extends MController {
       $data=$this->getJson();
 
       if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
         if (isset($data['content']) and isset($data['user'])){
+
           if (isset($data['discodes'])){
+
             $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
             $spotContent=SpotContent::getSpotContent($spot);
 
@@ -144,7 +151,9 @@ class SpotController extends MController {
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes'])){
+
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
         if ($spot){
           $spotContent=SpotContent::getSpotContent($spot);
@@ -174,7 +183,9 @@ class SpotController extends MController {
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes']) and isset($data['key'])){
+
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
         if ($spot){
           $spotContent=SpotContent::getSpotContent($spot);
@@ -211,7 +222,9 @@ class SpotController extends MController {
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes']) and isset($data['key'])){
+
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
         if ($spot){
           $spotContent=SpotContent::getSpotContent($spot);
@@ -261,27 +274,33 @@ class SpotController extends MController {
     $error="yes";
     $content='';
     $data=$this->getJson();
-    $netName = 'no';
-    $isSocLogged = false;
-	
+    $netName='no';
+    $isSocLogged=false;
+
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes']) and isset($data['key'])){
+
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
+        if ($spot)  {
+
           $spotContent=SpotContent::getSpotContent($spot);
           if($spotContent) {
-            $SocInfo = new SocInfo;
-            $netName = $SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
 
-            if($netName != 'no'){
+            $SocInfo=new SocInfo;
+            $netName=$SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
+
+            if($netName!='no'){
               $content=$spotContent->content;
-			  
-              if(isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
-              {		  
-                $isSocLogged = true;
+
+              if(isset(Yii::app()->session[$netName])
+                and (Yii::app()->session[$netName]=='auth')){
+
+                $isSocLogged=true;
                 $content['keys'][$data['key']]='socnet';
                 $spotContent->content=$content;
-                if ($spotContent->save()){
+
+                if ($spotContent->save()) {
                   $content=$this->renderPartial('//widget/spot/personal/new_socnet',
                   array(
                     'content'=>$content['data'][$data['key']],
@@ -289,21 +308,27 @@ class SpotController extends MController {
                   ),
                   true);
                 }
-				unset(Yii::app()->session['bind_discodes']);
+				        unset(Yii::app()->session['bind_discodes']);
                 unset(Yii::app()->session['bind_key']);
               }
-              else {	  
-                Yii::app()->session['bind_discodes'] =  $data['discodes'];
-                Yii::app()->session['bind_key'] = $data['key'];
+              else {
+                Yii::app()->session['bind_discodes']= $data['discodes'];
+                Yii::app()->session['bind_key']=$data['key'];
               }
-
               $error="no";
             }
           }
         }
       }
     }
-    echo json_encode(array('error'=>$error, 'content'=>$content, 'socnet'=>$netName, 'loggedIn'=>$isSocLogged));
+    echo json_encode(
+      array(
+        'error'=>$error,
+        'content'=>$content,
+        'socnet'=>$netName,
+        'loggedIn'=>$isSocLogged
+        )
+      );
   }
 
   //Отвязка соцсети
@@ -311,16 +336,22 @@ class SpotController extends MController {
     $error="yes";
     $content='';
     $data=$this->getJson();
+
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes']) and isset($data['key'])){
+
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
         if ($spot){
+
           $spotContent=SpotContent::getSpotContent($spot);
           if($spotContent) {
+
             $content=$spotContent->content;
             if($content['keys'][$data['key']]=='socnet'){
               $content['keys'][$data['key']]='text';
-              $spotContent->content = $content;
+              $spotContent->content=$content;
+
               if ($spotContent->save()){
                 $content=$this->renderPartial('//widget/spot/personal/new_text',
                 array(
@@ -346,13 +377,18 @@ class SpotController extends MController {
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['code'])) {
+
         $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
         if ($spot) {
           $spot->status=Spot::STATUS_REGISTERED;
           $spot->lang=$this->getLang();
           $spot->user_id=Yii::app()->user->id;
-          if (isset($data['name'])) $spot->name=$data['name'];
+
+          if (isset($data['name'])) {
+            $spot->name=$data['name'];
+          }
           $spot->spot_type_id=Spot::TYPE_PERSONAL;
 
           if ($spot->save()) {
@@ -362,7 +398,6 @@ class SpotController extends MController {
               ),
               true);
             $error="no";
-
           }
         }
       }
@@ -377,6 +412,7 @@ class SpotController extends MController {
     $data=$this->getJson();
 
     if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+
       if (isset($data['discodes'])) {
         $spot=Spot::model()->findByPk($data['discodes']);
         if ($spot) {
@@ -458,181 +494,215 @@ class SpotController extends MController {
     }
   }
 
-  public function actionSpotRetype() {
+  //Сохраняем
+  public function actionSaveOrder() {
     $error="yes";
-    $discodes="";
-    $type="";
-    $type_id="";
     $data=$this->getJson();
 
-    if (isset($data['type_id']) and isset($data['discodes'])) {
-      $spot=Spot::model()->findByPk($data['discodes']);
-      $spot_type_id=$data['type_id'];
-      if ($spot) {
-        $spot->spot_type_id=$spot_type_id;
-        if ($spot->save()) {
-          $all_type=SpotType::getSpotTypeArray();
+    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+      if (isset($data['discodes']) and isset($data['keys'])){
 
-          $discodes=$spot->discodes_id;
-          $type_id=$spot_type_id;
-          $type=$all_type[$spot_type_id];
-          $error="no";
-        }
-      }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'type'=>$type));
-    }
-  }
+        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+        if ($spot){
 
-  public function actionSpotCopy() {
-    $error="yes";
-    $name="";
-    $type="";
-    $discodes="";
-    $data=$this->getJson();
+          $spotContent=SpotContent::getSpotContent($spot);
+          if($spotContent) {
 
-    if (isset($data['discodes_from']) and isset($data['discodes_to'])) {
-      $spot_id_from=$data['discodes_from'];
-      $spot_id_to=trim($data['discodes_to']);
-
-      $spot_from=Spot::model()->findByAttributes(
-              array(
-                  'discodes_id'=>$spot_id_from,
-                  'user_id'=>Yii::app()->user->id
-      ));
-      $spot_to=Spot::model()->findByAttributes(
-              array(
-                  'discodes_id'=>$spot_id_to,
-                  'user_id'=>Yii::app()->user->id
-      ));
-      if ($spot_from and $spot_to) {
-        $spot_to->name=$spot_from->name;
-        $spot_to->spot_type_id=$spot_from->spot_type_id;
-        $spot_to->status=Spot::STATUS_CLONES;
-        if ($spot_to->save()) {
-          $to=SpotModel::model()->findAllByAttributes(array('spot_id'=>$spot_id_to));
-          foreach ($to as $row) {
-            $row->delete();
-          }
-          $from=SpotModel::model()->findAllByAttributes(array('spot_id'=>$spot_id_from));
-          foreach ($from as $row) {
-            $to=new SpotModel();
-            $to->attributes=$row->attributes;
-            $to->spot_id=$spot_id_to;
-            $to->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id));
-
-            $soft_field=SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id);
-            foreach ($soft_field as $slug) {
-              $to->__set($slug, $row->__get($slug));
+            $content=$spotContent->content;
+            $newkeys=[];
+            foreach ($data['keys'] as $key) {
+              if(isset($content['keys'][$key])) {
+                $newkeys[$key]=$content['keys'][$key];
+              }
             }
+            $content['keys']=$newkeys;
+            $spotContent->content=$content;
 
-            $to->save();
+            if ($spotContent->save()){
+              $error="no";
+            }
           }
-
-          $type=$spot_to->spot_type->name;
-          $name=$spot_to->name;
-          $discodes=$spot_to->discodes_id;
-          $error="no";
         }
       }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name, 'type'=>$type));
+      echo json_encode(array('error'=>$error));
     }
   }
 
-  public function actionSpotEdit() {
-    if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
+  // public function actionSpotRetype() {
+  //   $error="yes";
+  //   $discodes="";
+  //   $type="";
+  //   $type_id="";
+  //   $data=$this->getJson();
 
-      $spot_id=$_POST['SpotModel']['spot_id'];
-      $spot_type_id=($_POST['SpotModel']['spot_type_id']);
-      $spot=Spot::model()->findByPk($spot_id);
+  //   if (isset($data['type_id']) and isset($data['discodes'])) {
+  //     $spot=Spot::model()->findByPk($data['discodes']);
+  //     $spot_type_id=$data['type_id'];
+  //     if ($spot) {
+  //       $spot->spot_type_id=$spot_type_id;
+  //       if ($spot->save()) {
+  //         $all_type=SpotType::getSpotTypeArray();
 
-      $content=SpotModel::getContent($spot->lang, $spot_id, Yii::app()->user->id, $spot_type_id);
-      if ($content) {
-        $content=SpotModel::setField($content, $_POST['SpotModel']);
+  //         $discodes=$spot->discodes_id;
+  //         $type_id=$spot_type_id;
+  //         $type=$all_type[$spot_type_id];
+  //         $error="no";
+  //       }
+  //     }
+  //     echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'type'=>$type));
+  //   }
+  // }
 
-        if ($content->update()) {
-          echo json_encode(array('discodes_id'=>$content->spot_id));
-        }
-      }
-    }
-  }
+  // public function actionSpotCopy() {
+  //   $error="yes";
+  //   $name="";
+  //   $type="";
+  //   $discodes="";
+  //   $data=$this->getJson();
 
-  public function actionSpotFeedbackContent() {
-    $error="yes";
-    $content="";
+  //   if (isset($data['discodes_from']) and isset($data['discodes_to'])) {
+  //     $spot_id_from=$data['discodes_from'];
+  //     $spot_id_to=trim($data['discodes_to']);
 
-    $data=$this->getJson();
-    if (isset($data['discodes'])) {
-      $spot=FeedbackContent::model()->findAllByAttributes(array('spot_id'=>$data['discodes']));
-      $content=$this->renderPartial('//widget/spot/feedback_content', array(
-          'discodes_id'=>$data['discodes'],
-          'spot'=>$spot,
-              ), true);
-      $error="no";
-      echo json_encode(array('error'=>$error, 'content'=>$content));
-    }
-  }
+  //     $spot_from=Spot::model()->findByAttributes(
+  //             array(
+  //                 'discodes_id'=>$spot_id_from,
+  //                 'user_id'=>Yii::app()->user->id
+  //     ));
+  //     $spot_to=Spot::model()->findByAttributes(
+  //             array(
+  //                 'discodes_id'=>$spot_id_to,
+  //                 'user_id'=>Yii::app()->user->id
+  //     ));
+  //     if ($spot_from and $spot_to) {
+  //       $spot_to->name=$spot_from->name;
+  //       $spot_to->spot_type_id=$spot_from->spot_type_id;
+  //       $spot_to->status=Spot::STATUS_CLONES;
+  //       if ($spot_to->save()) {
+  //         $to=SpotModel::model()->findAllByAttributes(array('spot_id'=>$spot_id_to));
+  //         foreach ($to as $row) {
+  //           $row->delete();
+  //         }
+  //         $from=SpotModel::model()->findAllByAttributes(array('spot_id'=>$spot_id_from));
+  //         foreach ($from as $row) {
+  //           $to=new SpotModel();
+  //           $to->attributes=$row->attributes;
+  //           $to->spot_id=$spot_id_to;
+  //           $to->initSoftAttributes(SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id));
 
-  public function actionSpotPersonalContent() {
-    if (isset($_POST['discodes_id']) and isset($_POST['type_id'])) {
-      $select_field=UserPersonalField::getField($_POST['discodes_id']);
+  //           $soft_field=SpotLinkTypeField::getSpotFieldSlug($row->spot_type_id);
+  //           foreach ($soft_field as $slug) {
+  //             $to->__set($slug, $row->__get($slug));
+  //           }
 
-      if (!$select_field)
-        $select_field=false;
+  //           $to->save();
+  //         }
 
-      $all_field=SpotPersonalField::getPersonalField((int) $_POST['type_id']);
-      $txt=$this->renderPartial('//widget/spot/personal_field', array(
-          'discodes_id'=>(int) $_POST['discodes_id'],
-          'all_field'=>$all_field,
-          'select_field'=>$select_field,
-          'type_id'=>(int) $_POST['type_id'],
-              ), true);
-      echo $txt;
-    }
-  }
+  //         $type=$spot_to->spot_type->name;
+  //         $name=$spot_to->name;
+  //         $discodes=$spot_to->discodes_id;
+  //         $error="no";
+  //       }
+  //     }
+  //     echo json_encode(array('error'=>$error, 'discodes'=>$discodes, 'name'=>$name, 'type'=>$type));
+  //   }
+  // }
 
-  public function actionSpotPersonalField() {
-    if (isset($_POST['discodes_id']) and isset($_POST['Fields']) and isset($_POST['type_id'])) {
+  // public function actionSpotEdit() {
+  //   if (isset($_POST['SpotModel']) and isset($_POST['SpotModel']['spot_id']) and isset($_POST['SpotModel']['spot_type_id'])) {
 
-      $data=array();
-      foreach ($_POST['Fields'] as $key=>$value) {
-        $data[]=$key;
-      }
+  //     $spot_id=$_POST['SpotModel']['spot_id'];
+  //     $spot_type_id=($_POST['SpotModel']['spot_type_id']);
+  //     $spot=Spot::model()->findByPk($spot_id);
 
-      UserPersonalField::setField($_POST['discodes_id'], $_POST['type_id'], $data);
-      Yii::app()->cache->delete('spot_personal_field_'.$_POST['discodes_id']);
-      echo true;
-    }
-  }
+  //     $content=SpotModel::getContent($spot->lang, $spot_id, Yii::app()->user->id, $spot_type_id);
+  //     if ($content) {
+  //       $content=SpotModel::setField($content, $_POST['SpotModel']);
 
-  public function actionSpotPersonalPhoto() {
-    if (isset($_POST['user_id']) and isset($_POST['file_name'])) {
-      $user_id=$_POST['user_id'];
+  //       if ($content->update()) {
+  //         echo json_encode(array('discodes_id'=>$content->spot_id));
+  //       }
+  //     }
+  //   }
+  // }
 
-      $photo=UserPersonalPhoto::getPhoto($user_id);
-      if (count($photo) > 9)
-        unset($photo[0]);
-      $photo[]=$_POST['file_name'];
-      echo UserPersonalPhoto::setPhoto($user_id, array_values($photo));
-    }
-  }
+  // public function actionSpotFeedbackContent() {
+  //   $error="yes";
+  //   $content="";
 
-  public function actionSpotGetGallery() {
-    if (isset($_POST['user_id'])) {
-      $user_id=$_POST['user_id'];
+  //   $data=$this->getJson();
+  //   if (isset($data['discodes'])) {
+  //     $spot=FeedbackContent::model()->findAllByAttributes(array('spot_id'=>$data['discodes']));
+  //     $content=$this->renderPartial('//widget/spot/feedback_content', array(
+  //         'discodes_id'=>$data['discodes'],
+  //         'spot'=>$spot,
+  //             ), true);
+  //     $error="no";
+  //     echo json_encode(array('error'=>$error, 'content'=>$content));
+  //   }
+  // }
 
-      $text=$this->renderPartial('/widget/spot/personal_gallery', array(
-          'photo'=>UserPersonalPhoto::getPhoto($user_id),
-          'user_id'=>$user_id,
-              ), true);
-      echo $text;
-    }
-  }
+  // public function actionSpotPersonalContent() {
+  //   if (isset($_POST['discodes_id']) and isset($_POST['type_id'])) {
+  //     $select_field=UserPersonalField::getField($_POST['discodes_id']);
 
-  public function actionSpotRemovePhoto() {
-    if (isset($_POST['user_id']) and isset($_POST['file'])) {
-      #UserPersonalPhoto::removePhoto($_POST['user_id'], $_POST['file']);
-      echo $_POST['file'];
-    }
-  }
+  //     if (!$select_field)
+  //       $select_field=false;
+
+  //     $all_field=SpotPersonalField::getPersonalField((int) $_POST['type_id']);
+  //     $txt=$this->renderPartial('//widget/spot/personal_field', array(
+  //         'discodes_id'=>(int) $_POST['discodes_id'],
+  //         'all_field'=>$all_field,
+  //         'select_field'=>$select_field,
+  //         'type_id'=>(int) $_POST['type_id'],
+  //             ), true);
+  //     echo $txt;
+  //   }
+  // }
+
+  // public function actionSpotPersonalField() {
+  //   if (isset($_POST['discodes_id']) and isset($_POST['Fields']) and isset($_POST['type_id'])) {
+
+  //     $data=array();
+  //     foreach ($_POST['Fields'] as $key=>$value) {
+  //       $data[]=$key;
+  //     }
+
+  //     UserPersonalField::setField($_POST['discodes_id'], $_POST['type_id'], $data);
+  //     Yii::app()->cache->delete('spot_personal_field_'.$_POST['discodes_id']);
+  //     echo true;
+  //   }
+  // }
+
+  // public function actionSpotPersonalPhoto() {
+  //   if (isset($_POST['user_id']) and isset($_POST['file_name'])) {
+  //     $user_id=$_POST['user_id'];
+
+  //     $photo=UserPersonalPhoto::getPhoto($user_id);
+  //     if (count($photo) > 9)
+  //       unset($photo[0]);
+  //     $photo[]=$_POST['file_name'];
+  //     echo UserPersonalPhoto::setPhoto($user_id, array_values($photo));
+  //   }
+  // }
+
+  // public function actionSpotGetGallery() {
+  //   if (isset($_POST['user_id'])) {
+  //     $user_id=$_POST['user_id'];
+
+  //     $text=$this->renderPartial('/widget/spot/personal_gallery', array(
+  //         'photo'=>UserPersonalPhoto::getPhoto($user_id),
+  //         'user_id'=>$user_id,
+  //             ), true);
+  //     echo $text;
+  //   }
+  // }
+
+  // public function actionSpotRemovePhoto() {
+  //   if (isset($_POST['user_id']) and isset($_POST['file'])) {
+  //     #UserPersonalPhoto::removePhoto($_POST['user_id'], $_POST['file']);
+  //     echo $_POST['file'];
+  //   }
+  // }
 
 }

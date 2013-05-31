@@ -12,22 +12,11 @@ class UserController extends MController {
       $user=User::model()->findByPk(Yii::app()->user->id);
       $profile=UserProfile::model()->findByPk(Yii::app()->user->id);
 
-      $user_id=Yii::app()->user->id;
-      $personal_photo=Yii::app()->cache->get('personal_photo_'.$user_id);
-
-      if ($personal_photo=false) {
-        if (!empty($profile->photo))
-          Yii::app()->cache->set('personal_photo_'.$user_id, $profile->photo, 3600);
-      }
-      else
-        $profile->photo=Yii::app()->cache->get('personal_photo_'.$user_id);
-
       if (isset($_POST['UserProfile'])) {
         $profile->attributes=$_POST['UserProfile'];
 
         if ($profile->validate()) {
           $profile->save();
-          Yii::app()->cache->delete('personal_photo_'.$user_id);
           $this->refresh();
         }
       }

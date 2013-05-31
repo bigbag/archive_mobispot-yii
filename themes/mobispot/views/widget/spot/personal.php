@@ -8,9 +8,6 @@
     </a>
   </li>
 </ul>
-<ul ui-sortable="sortableOptions" ng-model="items">
-  <li ng-repeat="item in items">{{ item }}</li>
-</ul>
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status;?>'">
     <?php if(!empty($spotContent->content)):?>
       <?php $content=$spotContent->content?>
@@ -19,51 +16,72 @@
 
         <?php $keys=(isset($content['keys'])?array_keys($content['keys']):array())?>
         <?php $keys='['.implode(',', $keys).']';?>
+
         <span ng-init="spot.vcard=<?php echo $content['vcard'];?>; spot.private=<?php echo $content['private'];?>; keys=<?php echo $keys;?>;"></span>
-        <div>
-        <?php foreach ($content['data'] as $key=>$value):?>
+
+        <div ui-sortable="sortableOptions" ng-model="keys">
+        <?php foreach ($content['keys'] as $key=>$type):?>
+          <?php $value=$content['data'][$key];?>
 
         <div class="spot-item spot-block">
           <div class="item-area <?php echo (($content['keys'][$key]!='text') && ($content['keys'][$key]!='socnet'))?'text-center':''?>">
-            <?php if ($content['keys'][$key]=='text'):?>
-            <p class="item-area item-type__text"><?php echo CHtml::encode($value); ?></p>
-            <?php elseif ($content['keys'][$key]=='image'):?>
-            <img src="/uploads/spot/tmb_<?php echo $value?>">
-      	  <?php elseif ($content['keys'][$key]=='socnet'):?>
-            <p class="item-area item-type__text"><img src="/themes/mobile/images/icons/<?php $socInf = new SocInfo; echo $socInf->getSmallIcon($value); ?>" height="14" width="14" style="display: inline-block;">	 <?php echo CHtml::encode($value)?></p>
+
+            <?php if ($type=='text'):?>
+              <p class="item-area item-type__text"><?php echo CHtml::encode($value); ?></p>
+
+            <?php elseif ($type=='image'):?>
+              <img src="/uploads/spot/tmb_<?php echo $value?>">
+
+            <?php elseif ($type=='socnet'):?>
+              <p class="item-area item-type__text"><img src="/themes/mobile/images/icons/<?php $socInf = new SocInfo; echo $socInf->getSmallIcon($value); ?>" height="14" width="14" style="display: inline-block;">   <?php echo CHtml::encode($value)?></p>
+
             <?php else:?>
-            <a href="<?php echo CHtml::encode($value)?>">
-              <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">
-              <span><?php echo CHtml::encode(substr(strchr($value, '_'), 1))?></span>
-            </a>
+              <a href="<?php echo CHtml::encode($value)?>">
+                <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">
+                <span><?php echo CHtml::encode(substr(strchr($value, '_'), 1))?></span>
+              </a>
             <?php endif;?>
-            <?php if ($content['keys'][$key]=='text'):?>
-              <div class="spot-cover slow"  ui-event="{dblclick : 'editContent(spot, <?php echo $key;?>, $event)'}">
-            <?php else:?>
-              <div class="spot-cover slow">
-            <?php endif;?>
+
+
+            <div class="spot-cover slow"
+              <?php if ($type=='text'):?>
+                ui-event="{dblclick : 'editContent(spot, <?php echo $key;?>, $event)'}"
+              <?php endif;?>
+            >
+
               <div class="spot-activity">
-                <?php if ($content['keys'][$key]=='text'):?>
-				  <?php if (SocInfo::isSocLink($value)):?>
-                  <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)">&#xe005;</a>
-				  <?php endif;?>
+                <?php if ($type=='text'):?>
+                  <?php if (SocInfo::isSocLink($value)):?>
+                    <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key;?>, $event)">&#xe005;</a>
+                  <?php endif;?>
                   <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key;?>, $event)">&#xe009;</a>
                 <?php endif;?>
-                <?php if ($content['keys'][$key]=='socnet'):?>
+
+                <?php if ($type=='socnet'):?>
                   <a class="button unbind-spot round" ng-click="unBindSocial(spot, <?php echo $key;?>, $event)">&#xe003;</a>
                 <?php endif;?>
+
                 <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key;?>, $event)">&#xe00b;</a>
               </div>
 
-              <div class="move-spot"><i></i><span>
-                <?php if ($content['keys'][$key]=='text'):?>
-                  <?php echo Yii::t('spots', 'Move your text');?>
-                <?php elseif ($content['keys'][$key]=='image'):?>
-                  <?php echo Yii::t('spots', 'Move your image');?>
-                <?php else:?>
-                  <?php echo Yii::t('spots', 'Move your file');?>
-                <?php endif;?>
-              </span></div>
+              <div class="move-spot"><i></i>
+                <span>
+                  <?php if ($type=='text'or $type=='socnet'):?>
+                    <?php echo Yii::t('spots', 'Move your text');?>
+                  <?php elseif ($type=='image'):?>
+                    <?php echo Yii::t('spots', 'Move your image');?>
+                  <?php else:?>
+                    <?php echo Yii::t('spots', 'Move your file');?>
+                  <?php endif;?>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="add-content" class="spot-item">
+          <div class="item-area type-progress">
+            <div class="progress-bar">
+              <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
             </div>
           </div>
         </div>
@@ -73,13 +91,6 @@
     <?php else:?>
       <span ng-init="spot.vcard=0; spot.private=0"></span>
     <?php endif;?>
-      <div id="add-content" class="spot-item">
-        <div class="item-area type-progress">
-          <div class="progress-bar">
-            <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
-          </div>
-        </div>
-      </div>
 
   <div class="spot-content_row">
     <div id="error-upload" class="spot-item">
@@ -102,18 +113,5 @@
         </span>
       </label>
     </div>
-  </div>
-  <div class="spot-content_row spot-options toggle-active">
-    <?php $vcardActive=(isset($content) and isset($content['vcard']) and $content['vcard']==1)?'active':''?>
-    <?php $privateActive=(isset($content) and isset($content['private']) and $content['private']==1)?'active':''?>
-  <!--
-    <a class="checkbox vcard <?php echo $vcardActive;?>" href="javascript:;"  ng-click="getVcard(spot)">
-      <i class="large"></i>
-      <?php echo Yii::t('spots', 'Allow to download as a V-card');?>
-    </a>
-    <a class="checkbox private <?php echo $privateActive;?>" href="javascript:;" ng-click="getPrivate(spot)">
-      <i class="large"></i>
-      <?php echo Yii::t('spots', 'Make it private');?>
-    </a> -->
   </div>
 </div>
