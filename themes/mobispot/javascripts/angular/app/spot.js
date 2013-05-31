@@ -68,7 +68,7 @@ function SpotCtrl($scope, $http, $compile) {
     if (result){
       var data = angular.fromJson(result);
       if(data.error == 'no') {
-        var content = angular.element('#add-content');
+        var content = angular.element('#progress-content');
         content.hide().before($compile(data.content)($scope));
         $scope.keys.push(data.key);
       }
@@ -93,7 +93,7 @@ function SpotCtrl($scope, $http, $compile) {
 
     var xhr = new XMLHttpRequest();
     if (xhr.upload && file.size <= $scope.maxSize) {
-      angular.element('#add-content').show();
+      angular.element('#progress-content').show();
 
       xhr.upload.onprogress = function(e) {
         if (e.lengthComputable) {
@@ -202,7 +202,7 @@ function SpotCtrl($scope, $http, $compile) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
-          angular.element('#add-content').before($compile(data.content)($scope));
+          angular.element('#add-content').append($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
           $scope.spot.content='';
@@ -277,7 +277,7 @@ function SpotCtrl($scope, $http, $compile) {
             popup.focus();
           }
           else {
-            //window.location = '/user/personal';
+
             spotEdit.before($compile(data.content)($scope));
             spotEdit.remove();
           }
