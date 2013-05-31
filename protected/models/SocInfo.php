@@ -82,7 +82,7 @@ class SocInfo extends CFormModel
 
     $net['name'] = 'deviantart';
     $net['baseUrl'] = 'deviantart.com';
-    $net['invite'] = Yii::t('eauth', 'Watch more');
+    $net['invite'] = Yii::t('eauth', 'Watch more on deviantART');
     $net['inviteClass'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'deviantart16.png';
@@ -184,16 +184,17 @@ class SocInfo extends CFormModel
 
       $socUser = CJSON::decode($curl_result, true);
 
-      if(!isset($socUser['error'])){
+      if(!isset($socUser['error']) && isset($socUser['id'])){
         $this->userDetail['UserExists'] = true;
         if(isset($socUser['displayName']))
             $this->userDetail['soc_username'] = $socUser['displayName'];
-        if(isset($socUser['image']['url']))
+        if(isset($socUser['image']) && isset($socUser['image']['url']))
             $this->userDetail['photo'] = $socUser['image']['url'];
-        if(isset($socUser['name']['givenName']))
+        if(isset($socUser['name']) && isset($socUser['name']['givenName']))
             $this->userDetail['first_name'] = $socUser['name']['givenName'];
-        if(isset($socUser['name']['familyName']))
+        if(isset($socUser['name']) && isset($socUser['name']['familyName']))
             $this->userDetail['last_name'] = $socUser['name']['familyName'];
+/*
         if(isset($socUser['gender']))
             $this->userDetail['gender'] = $socUser['gender'];
         if(isset($socUser['placesLived'])){
@@ -217,17 +218,64 @@ class SocInfo extends CFormModel
             $this->userDetail['about'] = $socUser['aboutMe'];
         if(isset($socUser['url']))
             $this->userDetail['soc_url'] = $socUser['url'];
-		/*
-		$urlFeed = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'/activities/public?key='.Yii::app()->eauth->services['google_oauth']['key'];
-		curl_setopt($ch, CURLOPT_URL, $urlFeed);
-		$curl_result = curl_exec($ch);
-		curl_close($ch);
+*/
+		//Последний пост
+		$url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'/activities/public?key='.Yii::app()->eauth->services['google_oauth']['key'];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
+		
+        $curl_result = curl_exec($ch);
+        curl_close($ch);
 
-		$userFeed = CJSON::decode($curl_result, true);
+		//$userFeed = CJSON::decode($curl_result, true);
+		$userFeed = json_decode($curl_result, true);
 		
-		//$this->userDetail['last_status'] = print_r($userFeed, true);
+		unset($lastPost);
+        $i=0;
+        $prevPageUrl= '';
 		
-			*/
+  	    while(!isset($lastPost)){
+		  if(isset($userFeed['items']) && isset($userFeed['items'][$i]) && isset($userFeed['items'][$i]['actor']) && isset($userFeed['items'][$i]['actor']['id']) && ($userFeed['items'][$i]['actor']['id'] == $socUser['id']) && isset($userFeed['items'][$i]['object'])){
+		    $lastPost = $userFeed['items'][$i];
+		  }
+		  elseif(!isset($userFeed['items']) || (!isset($userFeed['items'][$i]))){
+			$lastPost = 'no';
+		  }
+		  else{
+		    $i++;
+		  }
+		}
+		
+		if($lastPost != 'no'){
+		  if(isset($lastPost['object']['content']))
+		    $this->userDetail['last_status'] = $lastPost['object']['content'];
+		  //Картинка
+		  if(isset($lastPost['object']['attachments'])){
+		    $i=0;
+			unset($imgSrc);
+			while(isset($lastPost['object']['attachments'][$i]) && !isset($imgSrc)){
+			  if(isset($lastPost['object']['attachments'][$i]['image']) && isset($lastPost['object']['attachments'][$i]['image']['url']) && (strlen($lastPost['object']['attachments'][$i]['image']['url']) > 0) && ($lastPost['object']['attachments'][$i]['image']['url'] != ' https:')){
+			    $imgSrc = $lastPost['object']['attachments'][$i]['image']['url'];
+			  }else
+			    $i++;
+			}
+			if(isset($imgSrc)){
+			  $this->userDetail['last_img'] = $imgSrc;
+			  if(isset($lastPost['object']['attachments'][$i]['displayName']) && (strlen($lastPost['object']['attachments'][$i]['displayName']) > 0))
+			    $this->userDetail['last_img_msg'] = $lastPost['object']['attachments'][$i]['displayName'];
+			  elseif(isset($lastPost['object']['attachments'][$i]['content']) && (strlen($lastPost['object']['attachments'][$i]['content']) > 0))
+			    $this->userDetail['last_img_msg'] = $lastPost['object']['attachments'][$i]['content'];
+			  elseif(isset($this->userDetail['last_status'])){
+			    $this->userDetail['last_img_msg'] = $this->userDetail['last_status'];
+			    unset($this->userDetail['last_status']);
+			  }
+			  if(isset($lastPost['object']['attachments'][$i]['url']))
+			    $this->userDetail['last_img_href'] = $lastPost['object']['attachments'][$i]['url'];
+			}
+		  }
+		}
       }else{
         $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
       }
@@ -284,9 +332,8 @@ class SocInfo extends CFormModel
               if(isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
                 $lastPost = $userFeed['data'][$i];
               }
-
               //следующая страница
-              if(!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))){
+              elseif(!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))){
                 if(isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)){
                   $prevPageUrl = $userFeed['paging']['previous'];
                   $userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
@@ -580,21 +627,25 @@ class SocInfo extends CFormModel
 
           $userLent = $this->makeRequest('http://backend.deviantart.com/rss.xml?q=by%3A'.$socUsername.'+sort%3Atime+meta%3Aall', $options, false);
           $xml = new SimpleXMLElement($userLent);
-          if(isset($xml->channel->item[0]->link))
-            $this->userDetail['last_status'] = '';
           $i=0;//оставлено под счетчик, если требуется вытащить более одной записи
 
-          if(isset($xml->channel->item[$i]->link)){
+          if(isset($xml) && isset($xml->channel) && isset($xml->channel->item) && isset($xml->channel->item[$i]) && isset($xml->channel->item[$i]->link)){
             $dev_link = (string)$xml->channel->item[$i]->link;
             $last_dev = $this->makeRequest('http://backend.deviantart.com/oembed?url='.$dev_link);
 
             if(!empty($last_dev['title'])){
 				$this->userDetail['last_status'] = $last_dev['title'];
-              //if($i > 0)
-              //  $this->userDetail['last_status'] .= '<hr/>';
               if(!empty($last_dev['thumbnail_url'])){
                 $this->userDetail['last_img'] = $last_dev['thumbnail_url'];
-				//$this->userDetail['last_img_msg'] = $last_dev['title'];
+				$this->userDetail['last_img_msg'] = $last_dev['title'];
+				unset($this->userDetail['last_status']);
+				if(!empty($xml->channel->item[$i]->description)){
+				  $this->userDetail['last_img_story'] = (string)$xml->channel->item[$i]->description;
+				  if(strpos($this->userDetail['last_img_story'], '<br') !== false)
+				    $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<br'));
+				  if(strpos($this->userDetail['last_img_story'], '<div') !== false)
+				    $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<div'));
+				}
               }
             }
           }

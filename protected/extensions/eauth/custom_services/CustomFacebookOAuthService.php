@@ -15,6 +15,7 @@ class CustomFacebookOAuthService extends FacebookOAuthService
     $info = (object)$this->makeSignedRequest('https://graph.facebook.com/me');
 
 	$this->attributes['id'] = $info->id;
+	$this->attributes['photo'] = 'http://graph.facebook.com/'.$info->username.'/picture';
 	if(!empty($info->name))
 	  $this->attributes['name'] = $info->name;
 	if(!empty($info->link))
@@ -26,10 +27,9 @@ class CustomFacebookOAuthService extends FacebookOAuthService
 	  $this->attributes['language'] = $info->locale == 'ru_RU' ? 'ru' : $info->locale;
 	if(!empty($info->timezone))
 	  $this->attributes['timezone'] = $info->timezone == 4 ? 'Moscow(UTC+4)' : $info->timezone;
-	*/  
-	$this->attributes['photo'] = 'http://graph.facebook.com/'.$info->username.'/picture';
 	if (!empty($info->gender))
-	  $this->attributes['gender'] = $info->gender == 'male' ? 'М' : 'Ж';
-	//Yii::app()->session['facebook_token'] = $this->getState('auth_token');
+	  $this->attributes['gender'] = $info->gender;
+	Yii::app()->session['facebook_token'] = $this->getState('auth_token');
+	*/
   }
 }

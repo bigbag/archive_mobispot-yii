@@ -32,12 +32,18 @@
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
 					<div class="item-area text-center">
+						<?php if(isset($content['data'][$key]['last_img_href'])): ?>
+						<a href="<?php echo $content['data'][$key]['last_img_href']; ?>">
+						<?php endif; ?>
 						<?php if(isset($content['data'][$key]['last_img_msg'])): ?>
 							<p><?php echo $content['data'][$key]['last_img_msg']; ?></p>
 						<?php endif; ?>
 						<img src="<?php echo $content['data'][$key]['last_img']; ?>">
 						<?php if(isset($content['data'][$key]['last_img_story'])): ?>
 							<p><?php echo $content['data'][$key]['last_img_story']; ?></p>
+						<?php endif; ?>
+						<?php if(isset($content['data'][$key]['last_img_href'])): ?>
+						</a>
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
