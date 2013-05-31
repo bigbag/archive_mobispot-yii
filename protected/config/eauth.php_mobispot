@@ -30,4 +30,11 @@ return array( // You can change the providers and their classes.
 	'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
 	'title' => 'YouTube',
   ),
+  //https://www.deviantart.com/settings/myapps
+  'deviantart' =>array(
+	'class' =>'CustomDeviantartAuthService',
+	'client_id' =>'435',
+	'client_secret' => '08b4e16e0c5ecaf174a9c999bd2a6140',
+	'title' => 'DeviantART'
+  ),    
 );

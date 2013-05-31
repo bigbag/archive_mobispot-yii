@@ -23,19 +23,11 @@ class CustomDeviantartAuthService extends EOAuth2Service {
 		$this->attributes['url'] = 'http://'.$info->username.'.deviantart.com';
 		if(!empty($info->usericonurl))
 			$this->attributes['photo'] = $info->usericonurl;
-		
+		/*
 		$options=array();
 		$userLent = $this->makeRequest('http://backend.deviantart.com/rss.xml?q=by%3A'.$info->username.'+sort%3Atime+meta%3Aall', $options, false);
 		$xml = new SimpleXMLElement($userLent);
-		$dev_link = (string)$xml->channel->item[0]->link;
-		$last_dev = $this->makeRequest('http://backend.deviantart.com/oembed?url='.$dev_link);
-		
-		if(!empty($last_dev->title)){
-			if($last_dev->type == 'photo')
-				$this->attributes['last_status'] = '<a href="'.$dev_link.'" target="_blank">'.$last_dev->title.'<br/><img src="'.$last_dev->thumbnail_url.'" />'.'</a>';
-			else
-				$this->attributes['last_status'] = '<a href="'.$dev_link.'" target="_blank">'.$last_dev->title.'</a>';
-		}
+		*/
 	}
 	
 	public function authenticate() {
