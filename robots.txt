@@ -1,3 +1,2 @@
 User-agent: *
-Disallow: /admin/
-Host: mobispot.com
+Host: campus.mobispot.com

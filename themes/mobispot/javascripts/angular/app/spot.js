@@ -19,13 +19,26 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
+  // Параметры сортировки, плюс ватчдог на поредке блоков
   $scope.sortableOptions = {
-    update: function(e, ui) {
-    //  alert($scope.keys);
+    stop: function(e, ui) {
+      $scope.saveOrder();
     },
-    //'containment':'parent',
+    'containment':'.spot-content',
+    'tolerance':'pointer',
     'opacity':0.8
   };
+
+  // Сохраняем порядок блоков
+  $scope.saveOrder = function() {
+    var spot = $scope.spot;
+    spot.keys = $scope.keys;
+    $http.post('/spot/saveOrder', spot).success(function(data) {
+      if(data.error == 'no') {
+
+      }
+    });
+  }
 
   // Закачка файла html5
   function fileDragHover(e) {
@@ -50,22 +63,12 @@ function SpotCtrl($scope, $http, $compile) {
     }
   }
 
-  function uploadProgress(evt) {
-    $scope.$apply(function(){
-      if (evt.lengthComputable) {
-        $scope.progress = Math.round(evt.loaded * 100 / evt.total)
-      } else {
-        $scope.progress = 'unable to compute'
-      }
-    })
-  }
-
   $scope.uploadComplete = function(e) {
     var result = e.target.responseText;
     if (result){
       var data = angular.fromJson(result);
       if(data.error == 'no') {
-        var content = angular.element('#add-content');
+        var content = angular.element('#progress-content');
         content.hide().before($compile(data.content)($scope));
         $scope.keys.push(data.key);
       }
@@ -90,7 +93,7 @@ function SpotCtrl($scope, $http, $compile) {
 
     var xhr = new XMLHttpRequest();
     if (xhr.upload && file.size <= $scope.maxSize) {
-      angular.element('#add-content').show();
+      angular.element('#progress-content').show();
 
       xhr.upload.onprogress = function(e) {
         if (e.lengthComputable) {
@@ -158,29 +161,29 @@ function SpotCtrl($scope, $http, $compile) {
 
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
-          if(data.error == 'no') {
-            var oldSpotContent = angular.element('.spot-content');
-            angular.element('.spot-content_li').removeClass('open');
-            oldSpotContent.slideUp('slow', function () {
-              oldSpotContent.remove();
-            });
+        if(data.error == 'no') {
+          var oldSpotContent = angular.element('.spot-content');
+          angular.element('.spot-content_li').removeClass('open');
+          oldSpotContent.slideUp('slow', function () {
+            oldSpotContent.remove();
+          });
 
-            spotHat.after($compile(data.content)($scope));
-            spot.addClass('open');
-            spot.find('.spot-content').slideToggle('slow');
+          spotHat.after($compile(data.content)($scope));
+          spot.addClass('open');
+          spot.find('.spot-content').slideToggle('slow');
 
-            $scope.spot.content='';
+          $scope.spot.content='';
 
-            var filedrag = $id('dropbox');
-            if (filedrag) {
-              var xhr = new XMLHttpRequest();
-              if (xhr.upload) {
-                filedrag.addEventListener("dragover", fileDragHover, false);
-                filedrag.addEventListener("dragleave", fileDragHover, false);
-                filedrag.addEventListener("drop", fileSelectHandler, false);
-              }
+          var filedrag = $id('dropbox');
+          if (filedrag) {
+            var xhr = new XMLHttpRequest();
+            if (xhr.upload) {
+              filedrag.addEventListener("dragover", fileDragHover, false);
+              filedrag.addEventListener("dragleave", fileDragHover, false);
+              filedrag.addEventListener("drop", fileSelectHandler, false);
             }
           }
+        }
       });
     }
     else {
@@ -199,7 +202,7 @@ function SpotCtrl($scope, $http, $compile) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
-          angular.element('#add-content').before($compile(data.content)($scope));
+          angular.element('#add-content').append($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
           $scope.spot.content='';
@@ -274,7 +277,7 @@ function SpotCtrl($scope, $http, $compile) {
             popup.focus();
           }
           else {
-            //window.location = '/user/personal';
+
             spotEdit.before($compile(data.content)($scope));
             spotEdit.remove();
           }

@@ -95,7 +95,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     else user.terms = 1;
   };
 
-  // // Регистрация
+  // Регистрация
   $scope.registration = function(user, valid){
     if (!valid) return false;
 
