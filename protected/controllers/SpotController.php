@@ -509,7 +509,7 @@ class SpotController extends MController {
           if($spotContent) {
 
             $content=$spotContent->content;
-            $newkeys=[];
+            $newkeys=array();
             foreach ($data['keys'] as $key) {
               if(isset($content['keys'][$key])) {
                 $newkeys[$key]=$content['keys'][$key];
