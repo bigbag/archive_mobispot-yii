@@ -75,102 +75,112 @@ class SpotController extends MController {
 
   // Просмотр содержимого спота
   public function actionSpotView() {
-  if (Yii::app()->request->isPostRequest) {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
     $error="yes";
     $content="";
 
-    $data=$this->getJson();
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+    if (isset($data['discodes'])) {
 
-      if (isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
 
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-
-          $spotContent=SpotContent::getSpotContent($spot);
-          $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
-            array(
-              'spot'=>$spot,
-              'spotContent'=>$spotContent,
-            ),
-            true);
-          $error="no";
-        }
+        $spotContent=SpotContent::getSpotContent($spot);
+        $content=$this->renderPartial('//widget/spot/'.$spot->spot_type->key,
+          array(
+            'spot'=>$spot,
+            'spotContent'=>$spotContent,
+          ),
+          true);
+        $error="no";
       }
     }
-      echo json_encode(array('error'=>$error, 'content'=>$content));
-    }
+    echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
   // Добавление блока в спот
   public function actionSpotAddContent() {
-    if (Yii::app()->request->isPostRequest) {
-      $error="yes";
-      $content="";
-      $key="";
-      $data=$this->getJson();
-
-      if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
-        if (isset($data['content']) and isset($data['user'])){
-
-          if (isset($data['discodes'])){
-
-            $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-            $spotContent=SpotContent::getSpotContent($spot);
-
-            if(!$spotContent) {
-              $spotContent=SpotContent::initPersonal($spot);
-            }
-
-            $content=$spotContent->content;
-            $content['keys'][$content['counter']]='text';
-            $key=$content['counter'];
-            $content['data'][$key]=$data['content'];
-            $content['counter']=$content['counter']+1;
-            $spotContent->content=$content;
-            $spotContent->save();
-            $content=$this->renderPartial('//widget/spot/personal/new_text',
-              array(
-                'content'=>$data['content'],
-                'key'=>$key,
-              ),
-              true);
-            $error="no";
-          }
-        }
-      }
-
-      echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
     }
-  }
 
-  // Изменение атрибутов спота - приватность и возможность скачать визитку
-  public function actionSpotAtributeSave() {
-    $error="yes";
     $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+    $error="yes";
+    $content="";
+    $key="";
+
+    if (isset($data['content']) and isset($data['user'])){
 
       if (isset($data['discodes'])){
 
         $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
-          $spotContent=SpotContent::getSpotContent($spot);
+        $spotContent=SpotContent::getSpotContent($spot);
 
-          if(!$spotContent) {
-            $spotContent=SpotContent::initPersonal($spot);
-          }
+        if(!$spotContent) {
+          $spotContent=SpotContent::initPersonal($spot);
+        }
 
-          $content=$spotContent->content;
-          $content['private']=$data['private'];
-          $content['vcard']=$data['vcard'];
-          $spotContent->content=$content;
-          if ($spotContent->save()){
-            $error="no";
-          }
+        $content=$spotContent->content;
+        $content['keys'][$content['counter']]='text';
+        $key=$content['counter'];
+        $content['data'][$key]=$data['content'];
+        $content['counter']=$content['counter']+1;
+        $spotContent->content=$content;
+        $spotContent->save();
+        $content=$this->renderPartial('//widget/spot/personal/new_text',
+          array(
+            'content'=>$data['content'],
+            'key'=>$key,
+          ),
+          true);
+        $error="no";
+      }
+    }
+    echo json_encode(array('error'=>$error, 'content'=>$content, 'key'=>$key));
+  }
+
+  // Изменение атрибутов спота - приватность и возможность скачать визитку
+  public function actionSpotAtributeSave() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
+    $error="yes";
+
+    if (isset($data['discodes'])){
+
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+        $spotContent=SpotContent::getSpotContent($spot);
+
+        if(!$spotContent) {
+          $spotContent=SpotContent::initPersonal($spot);
+        }
+
+        $content=$spotContent->content;
+        $content['private']=$data['private'];
+        $content['vcard']=$data['vcard'];
+        $spotContent->content=$content;
+        if ($spotContent->save()){
           $error="no";
         }
+        $error="no";
       }
     }
     echo json_encode(array('error'=>$error));
@@ -178,36 +188,41 @@ class SpotController extends MController {
 
   // Удаление блока из спота
   public function actionSpotRemoveContent() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
     $error="yes";
     $keys="";
-    $data=$this->getJson();
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+    if (isset($data['discodes']) and isset($data['key'])){
 
-      if (isset($data['discodes']) and isset($data['key'])){
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+        $spotContent=SpotContent::getSpotContent($spot);
 
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
-          $spotContent=SpotContent::getSpotContent($spot);
+        if($spotContent) {
+          $content=$spotContent->content;
 
-          if($spotContent) {
-            $content=$spotContent->content;
+          if ($content['keys'][$data['key']]!='text'){
+            $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            @unlink($patch.$content['data'][$data['key']]);
+            @unlink($patch.'tmb_'.$content['data'][$data['key']]);
+          }
 
-            if ($content['keys'][$data['key']]!='text'){
-              $patch=Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-              @unlink($patch.$content['data'][$data['key']]);
-              @unlink($patch.'tmb_'.$content['data'][$data['key']]);
-            }
-
-            unset($content['keys'][$data['key']]);
-            unset($content['data'][$data['key']]);
-            $spotContent->content=$content;
-            if ($spotContent->save()){
-              $error="no";
-              $keys=array();
-              foreach ($content['keys'] as $key => $value) {
-                $keys[]=$key;
-              }
+          unset($content['keys'][$data['key']]);
+          unset($content['data'][$data['key']]);
+          $spotContent->content=$content;
+          if ($spotContent->save()){
+            $error="no";
+            $keys=array();
+            foreach ($content['keys'] as $key => $value) {
+              $keys[]=$key;
             }
           }
         }
@@ -218,19 +233,24 @@ class SpotController extends MController {
 
   // Редактирование содержимого блока
   public function actionSpotEditContent() {
-    $error="yes";
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
     $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+    $error="yes";
 
-      if (isset($data['discodes']) and isset($data['key'])){
+    if (isset($data['discodes']) and isset($data['key'])){
 
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
-          $spotContent=SpotContent::getSpotContent($spot);
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+        $spotContent=SpotContent::getSpotContent($spot);
 
-          if($spotContent) {}
-        }
+        if($spotContent) {}
       }
     }
     echo json_encode(array('error'=>$error));
@@ -238,25 +258,133 @@ class SpotController extends MController {
 
   // Сохранение содержимого блока
   public function actionSpotSaveContent() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
     $error="yes";
     $content='';
+
+    if (isset($data['discodes']) and isset($data['key'])){
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+        $spotContent=SpotContent::getSpotContent($spot);
+
+        if($spotContent) {
+          $content=$spotContent->content;
+          $content['data'][$data['key']]=$data['content_new'];
+
+          $spotContent->content=$content;
+          if ($spotContent->save()){
+            $content=$this->renderPartial('//widget/spot/personal/new_text',
+            array(
+              'content'=>$data['content_new'],
+              'key'=>$data['key'],
+            ),
+            true);
+            $error="no";
+          }
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error, 'content'=>$content));
+  }
+
+  //Привязка соцсетей
+  public function actionBindSocial() {
     $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['discodes']) and isset($data['key'])){
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
-          $spotContent=SpotContent::getSpotContent($spot);
+    $error="yes";
+    $content='';
+    $netName='no';
+    $isSocLogged=false;
 
-          if($spotContent) {
+    if (isset($data['discodes']) and isset($data['key'])){
+
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot)  {
+
+        $spotContent=SpotContent::getSpotContent($spot);
+        if($spotContent) {
+
+          $SocInfo=new SocInfo;
+          $netName=$SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
+
+          if($netName!='no'){
             $content=$spotContent->content;
-            $content['data'][$data['key']]=$data['content_new'];
 
+            if(isset(Yii::app()->session[$netName])
+              and (Yii::app()->session[$netName]=='auth')){
+
+              $isSocLogged=true;
+              $content['keys'][$data['key']]='socnet';
+              $spotContent->content=$content;
+
+              if ($spotContent->save()) {
+                $content=$this->renderPartial('//widget/spot/personal/new_socnet',
+                array(
+                  'content'=>$content['data'][$data['key']],
+                  'key'=>$data['key'],
+                ),
+                true);
+              }
+			        unset(Yii::app()->session['bind_discodes']);
+              unset(Yii::app()->session['bind_key']);
+            }
+            else {
+              Yii::app()->session['bind_discodes']= $data['discodes'];
+              Yii::app()->session['bind_key']=$data['key'];
+            }
+            $error="no";
+          }
+        }
+      }
+    }
+    echo json_encode(
+      array(
+        'error'=>$error,
+        'content'=>$content,
+        'socnet'=>$netName,
+        'loggedIn'=>$isSocLogged
+      )
+    );
+  }
+
+  //Отвязка соцсети
+  public function actionUnBindSocial(){
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
+    $error="yes";
+    $content='';
+
+    if (isset($data['discodes']) and isset($data['key'])){
+
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+
+        $spotContent=SpotContent::getSpotContent($spot);
+        if($spotContent) {
+
+          $content=$spotContent->content;
+          if($content['keys'][$data['key']]=='socnet'){
+            $content['keys'][$data['key']]='text';
             $spotContent->content=$content;
+
             if ($spotContent->save()){
               $content=$this->renderPartial('//widget/spot/personal/new_text',
               array(
-                'content'=>$data['content_new'],
+                'content'=>$content['data'][$data['key']],
                 'key'=>$data['key'],
               ),
               true);
@@ -269,263 +397,199 @@ class SpotController extends MController {
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
-  //Привязка соцсетей
-  public function actionBindSocial() {
-    $error="yes";
-    $content='';
-    $data=$this->getJson();
-    $netName='no';
-    $isSocLogged=false;
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
-      if (isset($data['discodes']) and isset($data['key'])){
-
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot)  {
-
-          $spotContent=SpotContent::getSpotContent($spot);
-          if($spotContent) {
-
-            $SocInfo=new SocInfo;
-            $netName=$SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
-
-            if($netName!='no'){
-              $content=$spotContent->content;
-
-              if(isset(Yii::app()->session[$netName])
-                and (Yii::app()->session[$netName]=='auth')){
-
-                $isSocLogged=true;
-                $content['keys'][$data['key']]='socnet';
-                $spotContent->content=$content;
-
-                if ($spotContent->save()) {
-                  $content=$this->renderPartial('//widget/spot/personal/new_socnet',
-                  array(
-                    'content'=>$content['data'][$data['key']],
-                    'key'=>$data['key'],
-                  ),
-                  true);
-                }
-				        unset(Yii::app()->session['bind_discodes']);
-                unset(Yii::app()->session['bind_key']);
-              }
-              else {
-                Yii::app()->session['bind_discodes']= $data['discodes'];
-                Yii::app()->session['bind_key']=$data['key'];
-              }
-              $error="no";
-            }
-          }
-        }
-      }
+  // Добавление нового спота
+  public function actionAddSpot() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
     }
-    echo json_encode(
-      array(
-        'error'=>$error,
-        'content'=>$content,
-        'socnet'=>$netName,
-        'loggedIn'=>$isSocLogged
-        )
-      );
-  }
 
-  //Отвязка соцсети
-  public function actionUnBindSocial(){
-    $error="yes";
-    $content='';
     $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
+    $error="yes";
+    $content="";
 
-      if (isset($data['discodes']) and isset($data['key'])){
+    if (isset($data['code'])) {
 
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
+      $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
+      if ($spot) {
+        $spot->status=Spot::STATUS_REGISTERED;
+        $spot->lang=$this->getLang();
+        $spot->user_id=Yii::app()->user->id;
 
-          $spotContent=SpotContent::getSpotContent($spot);
-          if($spotContent) {
+        if (isset($data['name'])) {
+          $spot->name=$data['name'];
+        }
+        $spot->spot_type_id=Spot::TYPE_PERSONAL;
 
-            $content=$spotContent->content;
-            if($content['keys'][$data['key']]=='socnet'){
-              $content['keys'][$data['key']]='text';
-              $spotContent->content=$content;
-
-              if ($spotContent->save()){
-                $content=$this->renderPartial('//widget/spot/personal/new_text',
-                array(
-                  'content'=>$content['data'][$data['key']],
-                  'key'=>$data['key'],
-                ),
-                true);
-                $error="no";
-              }
-            }
-          }
+        if ($spot->save()) {
+          $content=$this->renderPartial('//user/block/spots',
+            array(
+              'data'=>$spot,
+            ),
+            true);
+          $error="no";
         }
       }
     }
     echo json_encode(array('error'=>$error, 'content'=>$content));
   }
 
-
-  // Добавление нового спота
-  public function actionAddSpot() {
-    $error="yes";
-    $content="";
-    $data=$this->getJson();
-
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
-      if (isset($data['code'])) {
-
-        $spot=Spot::model()->findByAttributes(array('code'=>$data['code']));
-        if ($spot) {
-          $spot->status=Spot::STATUS_REGISTERED;
-          $spot->lang=$this->getLang();
-          $spot->user_id=Yii::app()->user->id;
-
-          if (isset($data['name'])) {
-            $spot->name=$data['name'];
-          }
-          $spot->spot_type_id=Spot::TYPE_PERSONAL;
-
-          if ($spot->save()) {
-            $content=$this->renderPartial('//user/block/spots',
-              array(
-                'data'=>$spot,
-              ),
-              true);
-            $error="no";
-          }
-        }
-      }
-      echo json_encode(array('error'=>$error, 'content'=>$content));
-    }
-  }
-
   // Удаление спота
   public function actionRemoveSpot() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
     $error="yes";
     $discodes="";
-    $data=$this->getJson();
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-          $spot->status=Spot::STATUS_REMOVED_USER;
-          if ($spot->save()) {
-            $discodes=$data['discodes'];
-            $error="no";
-          }
+    if (isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
+        $spot->status=Spot::STATUS_REMOVED_USER;
+        if ($spot->save()) {
+          $discodes=$data['discodes'];
+          $error="no";
         }
       }
-      echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
     }
+    echo json_encode(array('error'=>$error, 'discodes'=>$discodes));
   }
 
   // Очистка спота
   public function actionCleanSpot() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
     $error="yes";
     $data=$this->getJson();
 
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
+    if (isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
 
-          $spotContent=SpotContent::getSpotContent($spot);
-          $spotContent=SpotContent::initPersonal($spot, $spotContent);
+        $spotContent=SpotContent::getSpotContent($spot);
+        $spotContent=SpotContent::initPersonal($spot, $spotContent);
+
+        if ($spotContent->save()){
+          $error="no";
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error));
+  }
+
+  //Делаем спот невидимым
+  public function actionInvisibleSpot() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
+    $error="yes";
+    $data=$this->getJson();
+
+    if (isset($data['discodes'])) {
+        $spot=Spot::model()->findByPk($data['discodes']);
+
+      if ($spot) {
+        if ($spot->status==Spot::STATUS_INVISIBLE)
+          $spot->status=Spot::STATUS_REGISTERED;
+        else
+          $spot->status=Spot::STATUS_INVISIBLE;
+
+        if ($spot->save()) {
+          $error="no";
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error));
+  }
+
+  //Переименовываем спот
+  public function actionRenameSpot() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
+    $error="yes";
+    $name='';
+
+    if (isset($data['newName']) and isset($data['discodes'])) {
+      $spot=Spot::model()->findByPk($data['discodes']);
+      if ($spot) {
+        $spot->name=CHtml::encode($data['newName']);
+        if ($spot->save(false)) {
+          $name=mb_substr($spot->name, 0, 45, 'utf-8');
+          $error="no";
+        }
+      }
+    }
+    echo json_encode(array('error'=>$error, 'name'=>$name));
+  }
+
+  //Сохраняем
+  public function actionSaveOrder() {
+    if (!Yii::app()->request->isPostRequest) {
+      $this->setBadReques();
+    }
+
+    $data=$this->getJson();
+    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+      $this->setBadReques();
+    }
+
+    $error="yes";
+
+    if (isset($data['discodes']) and isset($data['keys'])){
+
+      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+      if ($spot){
+
+        $spotContent=SpotContent::getSpotContent($spot);
+        if($spotContent) {
+
+          $content=$spotContent->content;
+          $newkeys=array();
+          foreach ($data['keys'] as $key) {
+            if(isset($content['keys'][$key])) {
+              $newkeys[$key]=$content['keys'][$key];
+            }
+          }
+          $content['keys']=$newkeys;
+          $spotContent->content=$content;
 
           if ($spotContent->save()){
             $error="no";
           }
         }
       }
-      echo json_encode(array('error'=>$error));
     }
-  }
-
-  //Делаем спот невидимым
-  public function actionInvisibleSpot() {
-    $error="yes";
-    $data=$this->getJson();
-
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-
-        if ($spot) {
-          if ($spot->status==Spot::STATUS_INVISIBLE)
-            $spot->status=Spot::STATUS_REGISTERED;
-          else
-            $spot->status=Spot::STATUS_INVISIBLE;
-
-          if ($spot->save()) {
-            $error="no";
-          }
-        }
-      }
-      echo json_encode(array('error'=>$error));
-    }
-  }
-
-  //Переименовываем спот
-  public function actionRenameSpot() {
-    $error="yes";
-    $data=$this->getJson();
-    $name='';
-
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['newName']) and isset($data['discodes'])) {
-        $spot=Spot::model()->findByPk($data['discodes']);
-        if ($spot) {
-          $spot->name=CHtml::encode($data['newName']);
-          if ($spot->save(false)) {
-            $name=mb_substr($spot->name, 0, 45, 'utf-8');
-            $error="no";
-          }
-        }
-      }
-      echo json_encode(array('error'=>$error, 'name'=>$name));
-    }
-  }
-
-  //Сохраняем
-  public function actionSaveOrder() {
-    $error="yes";
-    $data=$this->getJson();
-
-    if (isset($data['token']) and $data['token']==Yii::app()->request->csrfToken) {
-      if (isset($data['discodes']) and isset($data['keys'])){
-
-        $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-        if ($spot){
-
-          $spotContent=SpotContent::getSpotContent($spot);
-          if($spotContent) {
-
-            $content=$spotContent->content;
-            $newkeys=array();
-            foreach ($data['keys'] as $key) {
-              if(isset($content['keys'][$key])) {
-                $newkeys[$key]=$content['keys'][$key];
-              }
-            }
-            $content['keys']=$newkeys;
-            $spotContent->content=$content;
-
-            if ($spotContent->save()){
-              $error="no";
-            }
-          }
-        }
-      }
-      echo json_encode(array('error'=>$error));
-    }
+    echo json_encode(array('error'=>$error));
   }
 
   // public function actionSpotRetype() {
