@@ -29,6 +29,9 @@
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+					<?php if(isset($content['data'][$key]['vimeo_last_video_counter'])):?>
+					<p><?php echo Yii::t('eauth','View count: ').$content['data'][$key]['vimeo_last_video_counter']; ?></p>
+					<?php endif; ?>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
 					<div class="item-area text-center">
