@@ -73,11 +73,15 @@ class MController extends Controller{
   }
 
   public function setAccess(){
-    throw new CHttpException(403, Yii::t('user', 'У вас не хватает прав для доступа.'));
+    throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
   }
 
   public function setNotFound(){
     throw new CHttpException(404, Yii::t('user', 'The requested page does not exist.'));
+  }
+
+  public function setBadReques(){
+    throw new CHttpException(400, Yii::t('user', 'Bad Reques'));
   }
 
   public function init(){

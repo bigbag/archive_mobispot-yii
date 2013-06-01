@@ -140,7 +140,7 @@
               <?php echo Yii::t('spot', 'No')?>
             </a>
           </div>
-        <li id="delSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
+        <li id="deleteSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
           <?php echo Yii::t('spot', 'Delete your spot')?>
         </li>
           <div class="sub-content text-center confirm" id="delSpotForm">
