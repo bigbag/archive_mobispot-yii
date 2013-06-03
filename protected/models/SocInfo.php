@@ -20,6 +20,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'facebook.com';
     $net['invite'] = Yii::t('eauth', 'Read more on');
     $net['inviteClass'] = 'i-soc-fac';
+	$net['inviteValue'] = '&#xe008;';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-fb.2x.png';
     $socNetworks[] = $net;
@@ -28,6 +29,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'twitter.com';
     $net['invite'] = Yii::t('eauth', 'Follow me on');
     $net['inviteClass'] = 'i-soc-twi';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-twitter.2x.png';
     $socNetworks[] = $net;
@@ -36,6 +38,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'google.com';
     $net['invite'] = Yii::t('eauth', 'Read more on Google');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'google16.png';
     $socNetworks[] = $net;
@@ -44,6 +47,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'vk.com';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -52,6 +56,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'linkedin.com';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -60,6 +65,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'foursquare.com';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -68,6 +74,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'vimeo.com';
     $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = 'i-soc-vimeo';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-vimeo.2x.png';
     $socNetworks[] = $net;
@@ -76,6 +83,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'lastfm.ru';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -84,6 +92,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'deviantart.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on deviantART');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'deviantart16.png';
     $socNetworks[] = $net;
@@ -92,6 +101,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'behance.net';
     $net['invite'] = Yii::t('eauth', 'Watch more');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -100,6 +110,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'flickr.com';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -108,6 +119,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'youtube.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on YouTube');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'youtube16.png';
     $socNetworks[] = $net;
@@ -116,6 +128,7 @@ class SocInfo extends CFormModel
     $net['baseUrl'] = 'instagram.com';
     $net['invite'] = Yii::t('eauth', '');
     $net['inviteClass'] = '';
+	$net['inviteValue'] = '';
     $net['note'] =  Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
@@ -136,6 +149,7 @@ class SocInfo extends CFormModel
       $this->getSocInfo($this->socNet, $this->socUsername);
       $this->userDetail['invite'] = $net['invite'];
       $this->userDetail['inviteClass'] = $net['inviteClass'];
+	  //$this->userDetail['inviteValue'] = $net['inviteValue'];
       $this->userDetail['netName'] = $this->socNet;
     }
     return $this->userDetail;
@@ -604,6 +618,10 @@ class SocInfo extends CFormModel
 			elseif(isset($video[0]['stats_number_of_plays']))
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
 		  }
+		  if(isset($video[0]['width']) && isset($video[0]['height'])){
+		    $this->userDetail['vimeo_video_width'] = $video[0]['width'];
+		    $this->userDetail['vimeo_video_height']= $video[0]['height'];
+		  }
         }
 		else{
 		  $video = $this->makeCurlRequest('http://vimeo.com/api/v2/video/'.$socUsername.'.json');
@@ -614,6 +632,10 @@ class SocInfo extends CFormModel
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
 			elseif(isset($video[0]['stats_number_of_plays']))
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
+			  if(isset($video[0]['width']) && isset($video[0]['height'])){
+			    $this->userDetail['vimeo_video_width'] = $video[0]['width'];
+			    $this->userDetail['vimeo_video_height']= $video[0]['height'];
+			  }		  
 		  }
 		  else{
 		    $this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
@@ -798,7 +820,7 @@ class SocInfo extends CFormModel
 					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
 	
 					$videoThumbnails = $videoEntry->getVideoThumbnails();
-					if(isset($videoThumbnails[0])){
+					if(isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height'])){
 						$this->userDetail['ytube_video_rel'] = $videoThumbnails[0]['width']/$videoThumbnails[0]['height'];
 					}
 				}
