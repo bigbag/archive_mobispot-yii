@@ -28,9 +28,25 @@
 					<p><?php echo $this->hrefActivate($content['data'][$key]['last_status']); ?></p>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
-					<iframe src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+				  <div class="item-area text-center" id="div_<?php echo $key; ?>">
+					<iframe 
+					  id="vimeo_<?php echo $key; ?>" src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+					</iframe>
 					<?php if(isset($content['data'][$key]['vimeo_last_video_counter'])):?>
 					<p><?php echo Yii::t('eauth','View count: ').$content['data'][$key]['vimeo_last_video_counter']; ?></p>
+					<?php endif; ?>
+					<?php if(isset($content['data'][$key]['vimeo_video_width']) && isset($content['data'][$key]['vimeo_video_height'])):?>
+					<script type="text/javascript">
+					  $(document).ready(function(){
+						$('#vimeo_<?php echo $key; ?>').width($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>);
+						$('#vimeo_<?php echo $key; ?>').height(($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>)/<?php echo $content['data'][$key]['vimeo_video_width']/$content['data'][$key]['vimeo_video_height']; ?>);
+					  });
+					  $(window).resize(function(){
+					    $('#vimeo_<?php echo $key; ?>').width($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>);
+						$('#vimeo_<?php echo $key; ?>').height(($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>)/<?php echo $content['data'][$key]['vimeo_video_width']/$content['data'][$key]['vimeo_video_height']; ?>);
+					  });
+					</script>
+				  </div>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
@@ -56,7 +72,7 @@
 							<p><?php echo $content['data'][$key]['place_msg']; ?></p>
 						<?php endif; ?>
 						<div id="map_canvas_<?php echo $key; ?>" style="width:400px; height:200px; margin:0 auto"></div>
-						<script>
+						<script type="text/javascript">
 							var initLat = <?php echo $content['data'][$key]['place_lat']; ?>;
 							var initLng = <?php echo $content['data'][$key]['place_lng']; ?>;
 							var latlng = new google.maps.LatLng(initLat, initLng);
@@ -93,7 +109,7 @@
 							allowfullscreen="true"></embed>
 						</object>
 						<?php if(isset($content['data'][$key]['ytube_video_rel'])): ?>
-						<script>
+						<script type="text/javascript">
 							$(document).ready(function(){
 								$('#player_<?php echo $key; ?>').height($('#player_<?php echo $key; ?>').width()/<?php echo $content['data'][$key]['ytube_video_rel']; ?>);
 							});

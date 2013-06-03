@@ -604,6 +604,10 @@ class SocInfo extends CFormModel
 			elseif(isset($video[0]['stats_number_of_plays']))
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
 		  }
+		  if(isset($video[0]['width']) && isset($video[0]['height'])){
+		    $this->userDetail['vimeo_video_width'] = $video[0]['width'];
+		    $this->userDetail['vimeo_video_height']= $video[0]['height'];
+		  }
         }
 		else{
 		  $video = $this->makeCurlRequest('http://vimeo.com/api/v2/video/'.$socUsername.'.json');
@@ -614,6 +618,10 @@ class SocInfo extends CFormModel
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
 			elseif(isset($video[0]['stats_number_of_plays']))
 			  $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
+			  if(isset($video[0]['width']) && isset($video[0]['height'])){
+			    $this->userDetail['vimeo_video_width'] = $video[0]['width'];
+			    $this->userDetail['vimeo_video_height']= $video[0]['height'];
+			  }		  
 		  }
 		  else{
 		    $this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
@@ -798,7 +806,7 @@ class SocInfo extends CFormModel
 					$this->userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
 	
 					$videoThumbnails = $videoEntry->getVideoThumbnails();
-					if(isset($videoThumbnails[0])){
+					if(isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height'])){
 						$this->userDetail['ytube_video_rel'] = $videoThumbnails[0]['width']/$videoThumbnails[0]['height'];
 					}
 				}
