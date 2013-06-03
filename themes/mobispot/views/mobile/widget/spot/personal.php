@@ -128,7 +128,7 @@
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> 
 					<?php if(isset($content['data'][$key]['inviteClass']) && (strlen($content['data'][$key]['inviteClass']) > 0) ): ?>
-						<i class="<?php echo $content['data'][$key]['inviteClass']; ?> round"></i>
+						<i class="i-soc <?php echo $content['data'][$key]['inviteClass']; ?> round"><?php if(isset($content['data'][$key]['inviteValue']) && (strlen($content['data'][$key]['inviteValue']) > 0))echo $content['data'][$key]['inviteValue']; ?></i>
 					<?php endif; ?>		
 					</a>
 				<?php endif; ?>
