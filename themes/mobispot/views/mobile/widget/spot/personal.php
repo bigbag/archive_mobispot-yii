@@ -132,7 +132,6 @@
 					<?php endif; ?>		
 					</a>
 				<?php endif; ?>
-
 			</div>
 		</div>
 	<?php endif; ?>

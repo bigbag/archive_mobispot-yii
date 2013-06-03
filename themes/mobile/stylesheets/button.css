@@ -86,7 +86,6 @@
 	height: 60px;
 	width: 60px;
 	line-height: 60px;
-	background-image: url(../images/icons/i-small.png);
 	background-position: -173px 15px;
 }
 .button.add-spot:hover,
@@ -126,13 +125,12 @@
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	background: #fff url("../images/icons/i-small.png") no-repeat -100%;
 	margin-right: 7px;
 	position: relative;
 	top:4px
 }
 .checkbox.active i{
-	background-position: -135px -41px;
+	background-position: -173px -41px;
 }
 .radio-link.open i,
 .radio-link.active i,
