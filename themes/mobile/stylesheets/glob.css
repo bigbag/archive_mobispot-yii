@@ -24,9 +24,18 @@ img{
 	url('../fonts/mobispot-webfont.ttf') format('truetype'),
 	url('../fonts/mobispot-webfont.svg#webfontjSpbZQRv') format('svg');
 }
+@font-face {
+	font-family: Mobispot-icon;
+	src: url('../fonts/mobispot-icon.eot');
+	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
+	url('../fonts/mobispot-icon.woff') format('woff'),
+	url('../fonts/mobispot-icon.ttf') format('truetype'),
+	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
+}
+
 a{
 	color: #000;
-	/*text-decoration: none;*/
+	text-decoration: none;
 	line-height: inherit;
 }
 *{
