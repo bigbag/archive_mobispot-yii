@@ -52,4 +52,12 @@ return array( // You can change the providers and their classes.
     'secret' => '5061a7c3414dc31d6832abb88ae93d06835251d2',
 	'title' => 'Vimeo'
   ),    
+  'vk' => array(
+  //app http://vkontakte.ru/editapp?act=create&site=1
+    'class' => 'CustomVKontakteOAuthService',
+	'scope' => 'status',
+    'client_id' => '3691415',
+    'client_secret' => 'DF4IIcRDA53x3KnjuuPk',
+    'title' => 'ВКонтакте',
+  ),  
 );
