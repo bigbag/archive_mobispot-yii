@@ -20,13 +20,23 @@
 	<?php elseif($type == 'socnet'): ?>
 		<div class="spot-item">
 			<div class="item-area type-mess">
+				<!-- Avatar -->
 				<?php if(isset($content['data'][$key]['photo'])): ?>
 					<div class="default-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
 					</div>
 				<?php endif; ?>
+				<!-- Text post -->
 				<?php if(isset($content['data'][$key]['last_status'])): ?>
 					<p><?php echo $this->hrefActivate($content['data'][$key]['last_status']); ?></p>
 				<?php endif; ?>
+				<!-- Text link -->
+				<?php if(isset($content['data'][$key]['link_href']) && isset($content['data'][$key]['link_text'])): ?>
+				  <a href="<?php echo $this->hrefActivate($content['data'][$key]['link_href']); ?>"><?php echo $content['data'][$key]['link_text']; ?></a>
+				  <?php if(isset($content['data'][$key]['link_descr'])): ?>
+				    <p><?php echo $content['data'][$key]['link_descr']; ?></p>
+				  <?php endif; ?>
+				<?php endif; ?>
+				<!-- Vimeo video -->
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 				  <div class="item-area text-center" id="div_<?php echo $key; ?>">
 					<iframe 
@@ -49,23 +59,25 @@
 				  </div>
 					<?php endif; ?>
 				<?php endif; ?>
+				<!-- Image -->
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
 					<div class="item-area text-center">
 						<?php if(isset($content['data'][$key]['last_img_href'])): ?>
 						<a href="<?php echo $content['data'][$key]['last_img_href']; ?>">
 						<?php endif; ?>
 						<?php if(isset($content['data'][$key]['last_img_msg'])): ?>
-							<p><?php echo $content['data'][$key]['last_img_msg']; ?></p>
+							<p><?php echo $this->hrefActivate($content['data'][$key]['last_img_msg']); ?></p>
 						<?php endif; ?>
 						<img src="<?php echo $content['data'][$key]['last_img']; ?>">
 						<?php if(isset($content['data'][$key]['last_img_story'])): ?>
-							<p><?php echo $content['data'][$key]['last_img_story']; ?></p>
+							<p><?php echo $this->hrefActivate($content['data'][$key]['last_img_story']); ?></p>
 						<?php endif; ?>
 						<?php if(isset($content['data'][$key]['last_img_href'])): ?>
 						</a>
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
+				<!-- Map -->
 				<?php if(isset($content['data'][$key]['place_lat']) && isset($content['data'][$key]['place_lng'])): ?>
 					<div class="item-area text-center">
 						<?php if(isset($content['data'][$key]['place_msg'])): ?>
@@ -93,6 +105,7 @@
 						<p><?php echo $content['data'][$key]['place_name']; ?></p>
 					</div>
 				<?php endif; ?>
+				<!-- YouTube video -->
 				<?php if(isset($content['data'][$key]['ytube_video_link'])) {?>
 					<?php if(isset($content['data'][$key]['ytube_video_flash'])) {?>
 						<div class="item-area text-center">
@@ -124,6 +137,7 @@
 						</div>
 					<?php }?>
 				<?php }?>
+				<!-- Follow button -->
 				<?php if(isset($content['data'][$key]['soc_url'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> 

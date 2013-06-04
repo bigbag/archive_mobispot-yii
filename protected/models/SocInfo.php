@@ -43,13 +43,13 @@ class SocInfo extends CFormModel
     $net['smallIcon'] = 'google16.png';
     $socNetworks[] = $net;
 
-    $net['name'] = 'ВКонтакте';
+    $net['name'] = 'vk';
     $net['baseUrl'] = 'vk.com';
     $net['invite'] = Yii::t('eauth', 'Read more on');
     $net['inviteClass'] = 'i-soc_vk';
 	$net['inviteValue'] = '&#xe002;';
     $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'vk16.png';
     $socNetworks[] = $net;
 /*
     $net['name'] = 'Linkedin';
@@ -61,6 +61,7 @@ class SocInfo extends CFormModel
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
 */
+/*
     $net['name'] = 'Foursquare';
     $net['baseUrl'] = 'foursquare.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -69,7 +70,7 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
-
+*/
     $net['name'] = 'vimeo';
     $net['baseUrl'] = 'vimeo.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -78,7 +79,7 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-vimeo.2x.png';
     $socNetworks[] = $net;
-
+/*
     $net['name'] = 'Last.fm';
     $net['baseUrl'] = 'lastfm.ru';
     $net['invite'] = Yii::t('eauth', '');
@@ -87,7 +88,7 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
-
+*/
     $net['name'] = 'deviantart';
     $net['baseUrl'] = 'deviantart.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -96,7 +97,7 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'deviantart16.png';
     $socNetworks[] = $net;
-
+/*
     $net['name'] = 'Behance';
     $net['baseUrl'] = 'behance.net';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -105,7 +106,8 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
-
+*/
+/*
     $net['name'] = 'Flickr';
     $net['baseUrl'] = 'flickr.com';
     $net['invite'] = Yii::t('eauth', '');
@@ -114,7 +116,7 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
-
+*/
     $net['name'] = 'YouTube';
     $net['baseUrl'] = 'youtube.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -414,30 +416,18 @@ class SocInfo extends CFormModel
         }else{
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
-      }elseif($socNet == 'ВКонтакте'){
-        $url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
+      }elseif($socNet == 'vk'){
+        $url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
+//'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
+		$curl_result = $this->makeCurlRequest($url);
+        $socUser = $curl_result['response'][0];
 
-        $curl_result = curl_exec($ch);
-        //curl_error($ch);
-        curl_close($ch);
-
-        $socUser = CJSON::decode($curl_result, true);
-        $socUser = $socUser['response'][0];
         if(!isset($socUser['error'])){
-          $this->userDetail['soc_username']= $socUser['first_name'].' '.$socUser['last_name'];
-          if(!empty($socUser['photo']))
+          //$this->userDetail['last_status'] = print_r($socUser, true);
+		  if(!empty($socUser['photo_medium']))
+            $this->userDetail['photo'] = $socUser['photo_medium'];
+          elseif(!empty($socUser['photo']))
             $this->userDetail['photo'] = $socUser['photo'];
-          $this->userDetail['soc_url'] = 'http://vk.com/id'.$socUsername;
-          if(!empty($socUser['sex']))
-            $this->userDetail['gender'] = $socUser['sex'] == 1 ? 'Ж' : 'М';
-          if (!empty($socUser['university_name']))
-            $this->userDetail['school'] = $socUser['university_name'];
-          if (!empty($socUser['timezone']))
-            $this->userDetail['timezone'] = timezone_name_from_abbr('', $socUser['timezone']*3600, date('I'));
           /*if (!empty($socUser['country'])){
             //$countries = (array)$this->makeSignedRequest('https://api.vk.com/method/places.getCountries.json');
             /*$token
@@ -449,10 +439,79 @@ class SocInfo extends CFormModel
               if($country->cid == $socUser['country'])
                 $socUser['location'] = $country->title;
             }
-
-
           }
           */
+		  //Последний пост
+		  if(isset($socUser['uid'])){
+		    $userFeed = $this->makeCurlRequest('https://api.vk.com/method/wall.get?owner_id='.$socUser['uid']);
+	  
+            unset($lastPost);
+            $i=0;
+            $prevPageUrl= '';
+          
+            while(!isset($lastPost)){
+              if(isset($userFeed['response']) && isset($userFeed['response'][$i]) && isset($userFeed['response'][$i]['from_id']) && ($userFeed['response'][$i]['from_id'] == $socUser['uid'])){
+                $lastPost = $userFeed['response'][$i];
+              }
+              elseif(!isset($userFeed['response']) || ($i >= count($userFeed['response'])) || (!isset($userFeed['response'][$i]))){
+                $lastPost = 'no';
+              } else{
+                $i++;
+              }
+            }
+
+            if($lastPost != 'no'){
+			  if(!empty($lastPost['text']))
+			    $this->userDetail['last_status'] = $lastPost['text'];
+			  if(isset($lastPost['attachment']) && isset($lastPost['attachment']['type'])){
+                switch($lastPost['attachment']['type']) {
+                  case 'photo':
+				    if(isset($lastPost['attachment']['photo']) && !empty($lastPost['attachment']['photo']['src'])){
+				      $this->userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
+					  if(!empty($lastPost['text']))
+					    $this->userDetail['last_img_msg'] = $lastPost['text'];
+					  unset($this->userDetail['last_status']);
+					}
+				  break;
+                  case 'posted_photo': 
+				  	if(isset($lastPost['attachment']['photo']) && !empty($lastPost['attachment']['photo']['src'])){
+				      $this->userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
+					  if(!empty($lastPost['text']))
+					    $this->userDetail['last_img_msg'] = $lastPost['text'];
+					  unset($this->userDetail['last_status']);
+					}
+					elseif(isset($lastPost['attachment']['posted_photo']) && !empty($lastPost['attachment']['posted_photo']['src'])){
+				      $this->userDetail['last_img'] = $lastPost['attachment']['posted_photo']['src'];
+					  if(!empty($lastPost['text']))
+					    $this->userDetail['last_img_msg'] = $lastPost['text'];
+					  unset($this->userDetail['last_status']);
+					}
+				  break;
+				  case 'link':
+				    if(isset($lastPost['attachment']['link']) && isset($lastPost['attachment']['link']['image_src']) && isset($lastPost['attachment']['link']['url'])){
+					  $this->userDetail['last_img'] = $lastPost['attachment']['link']['image_src'];
+					  $this->userDetail['last_img_href'] = $lastPost['attachment']['link']['url'];
+					  if(!empty($lastPost['attachment']['link']['title']))
+					    $this->userDetail['last_img_msg'] = $lastPost['attachment']['link']['title'];
+					  if(!empty($lastPost['attachment']['link']['description']))
+					    $this->userDetail['last_img_story'] = $lastPost['attachment']['link']['description'];
+					}
+					elseif(isset($lastPost['attachment']['link']) && !empty($lastPost['attachment']['link']['url'])){
+					  $this->userDetail['link_href'] = $lastPost['attachment']['link']['url'];
+					  $this->userDetail['link_text'] = '';
+					  if(!empty($lastPost['attachment']['link']['title']))
+					    $this->userDetail['link_text'] .= $lastPost['attachment']['link']['title'].'<br/>';
+					  if(!empty($lastPost['text']))
+			            $this->userDetail['link_text'] .= $lastPost['text'];
+					  unset($this->userDetail['last_status']);
+					  if(!empty($lastPost['attachment']['link']['description']))
+			            $this->userDetail['link_descr'] = $lastPost['attachment']['link']['description'];
+					}
+				  break;
+                }
+			  }
+            }
+          }
         }else{
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
@@ -952,7 +1011,7 @@ class SocInfo extends CFormModel
           $username = substr($username, 0, strpos($username, '&'));
         }
       }
-    }elseif($socNet == 'ВКонтакте'){
+    }elseif($socNet == 'vk'){
       if((strpos($username, 'vk.com/') > 0) ||(strpos($username, 'vk.com/') !== false)){
         $username = substr($username, (strpos($username, 'vk.com/')+7) );
         if(strpos($username, '?') > 0){
