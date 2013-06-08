@@ -59,5 +59,11 @@ return array( // You can change the providers and their classes.
     'client_id' => '3691415',
     'client_secret' => 'DF4IIcRDA53x3KnjuuPk',
     'title' => 'ВКонтакте',
-  ),  
+  ), 
+  'foursquare' => array(
+    'class' => 'CustomFoursquareOAuthService',
+    'client_id' => 'ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP',
+    'client_secret' => 'EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG',
+    'title' => 'Foursquare'
+  ),   
 );

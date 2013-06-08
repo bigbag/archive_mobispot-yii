@@ -104,8 +104,6 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 	 * @return string url to request. 
 	 */
 	protected function getCodeUrl($redirect_uri) {
-		$this->setState('redirect_uri', $redirect_uri);
-		
 		$url = parent::getCodeUrl($redirect_uri);
 		$this->setState('vk_redirect_uri', $url);
 		if (isset($_GET['js']))
