@@ -59,6 +59,22 @@
 				  </div>
 					<?php endif; ?>
 				<?php endif; ?>
+				<!-- Checkin -->
+				<?php if(isset($content['data'][$key]['venue_name'])): ?>
+				  <div class="item-area text-center">
+				  <p><?php echo Yii::t('eauth','в ').$content['data'][$key]['venue_name']?><?php if(isset($content['data'][$key]['venue_address'])): ?>, <?php echo $content['data'][$key]['venue_address']?><?php endif; ?>
+				  </p>
+				  <?php if(isset($content['data'][$key]['checkin_shout'])): ?>
+				    <p><?php echo $content['data'][$key]['checkin_shout']?></p>
+				  <?php endif; ?>
+				  <?php if(isset($content['data'][$key]['checkin_date'])): ?>
+				    <p><?php echo $content['data'][$key]['checkin_date']?></p>
+				  <?php endif; ?>
+				  <?php if(isset($content['data'][$key]['checkin_photo'])): ?>
+				    <img src="<?php echo $content['data'][$key]['checkin_photo']; ?>">
+				  <?php endif; ?>
+				  </div>
+				<?php endif; ?>
 				<!-- Image -->
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
 					<div class="item-area text-center">

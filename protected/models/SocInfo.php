@@ -61,16 +61,16 @@ class SocInfo extends CFormModel
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
 */
-/*
-    $net['name'] = 'Foursquare';
+
+    $net['name'] = 'foursquare';
     $net['baseUrl'] = 'foursquare.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
     $net['inviteClass'] = 'i-soc-fo';
 	$net['inviteValue'] = '&#xe00a;';
     $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'foursquare16.png';
     $socNetworks[] = $net;
-*/
+
     $net['name'] = 'vimeo';
     $net['baseUrl'] = 'vimeo.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -563,10 +563,10 @@ class SocInfo extends CFormModel
         }else{
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
-      }elseif($socNet == 'Foursquare'){
+      }elseif($socNet == 'foursquare'){
         if(!is_numeric($socUsername)){
           $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, 'https://ru.foursquare.com/'.$socUsername);
+          curl_setopt($ch, CURLOPT_URL, 'https://foursquare.com/'.$socUsername);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
           curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
           $profile = curl_exec($ch);
@@ -587,7 +587,7 @@ class SocInfo extends CFormModel
           $socUsername = $socUser['id'];
         */
 
-          $socUser = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
+          $socUser = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
           $socUser = $socUser['response']['user'];
 
           if(!empty($socUser['firstName'])){
@@ -597,62 +597,124 @@ class SocInfo extends CFormModel
               $this->userDetail['soc_username'] = $socUser['firstName'];
           }else
             $this->userDetail['soc_username'] = $socUser['id'];
-          $this->userDetail['url'] = 'https://ru.foursquare.com/user/'.$socUser['id'];
-          if (!empty($socUser['photo']['prefix']))
+          if (isset($socUser['photo']) && !empty($socUser['photo']['prefix']) && isset($socUser['photo']['suffix']))
             $this->userDetail['photo'] = $socUser['photo']['prefix'].'100x100'.$socUser['photo']['suffix'];
+			
+
+		  //Последний чекин
+		  if(!empty($socUser['id'])){
+		    $user=User::model()->findByAttributes(array(
+		      'foursquare_id'=>$socUser['id']
+		    ));
+		  
+		    if($user && !empty($user->foursquare_token)){
+			  $checkins = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUser['id'].'/checkins?limit=250&sort=newestfirst&oauth_token='.$user->foursquare_token.'&v=20130211');
+		      if(isset($checkins['response']) && isset($checkins['response']['checkins']) && isset($checkins['response']['checkins']['items'])){
+			    unset($lastCheckin);
+				$i=0;
+				
+				while(!isset($lastCheckin)){
+				  if(isset($checkins['response']['checkins']['items'][$i]) && isset($checkins['response']['checkins']['items'][$i]['type']) && ($checkins['response']['checkins']['items'][$i]['type'] == 'checkin') && isset($checkins['response']['checkins']['items'][$i]['venue']) && isset($checkins['response']['checkins']['items'][$i]['venue']['name']) && !isset($checkins['response']['checkins']['items'][$i]['private'])){
+				    $lastCheckin = $checkins['response']['checkins']['items'][$i];
+				  }
+				  elseif(!isset($checkins['response']['checkins']['items'][$i])){
+				    $lastCheckin = 'no';
+				  }
+				  else
+				    $i++;
+			    }
+				
+				if($lastCheckin != 'no'){
+				  $this->userDetail['venue_name'] = $lastCheckin['venue']['name'];
+				  if(!empty($lastCheckin['shout']))
+				    $this->userDetail['checkin_shout'] = $lastCheckin['shout'];
+				  if(isset($lastCheckin['venue']['location']) && isset($lastCheckin['venue']['location']['address']))
+				    $this->userDetail['venue_address'] = $lastCheckin['venue']['location']['address'];
+				  if(isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
+				    $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
+				  if(isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height'])){
+				    $this->userDetail['checkin_photo'] = $lastCheckin['photos']['items'][0]['prefix'].$lastCheckin['photos']['items'][0]['width'].'x'.$lastCheckin['photos']['items'][0]['height'].$lastCheckin['photos']['items'][0]['suffix'];
+				  }
+				}
+			  }
+		    }
+          }
+          //Последний бейдж
+          $badges = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'/badges?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
+          $last_badge = array();
+		  if(isset($badges['response']) && isset($badges['response']['badges'])){
+            foreach($badges['response']['badges'] as $badge){
+              if(isset($badge['unlocks']) && isset($badge['unlocks'][0]) && !isset($last_badge['id'])){
+                $last_badge['id'] = $badge['id'];
+				if(isset($badge['image']) && isset($badge['image']['prefix']) && isset($badge['image']['sizes']) && isset($badge['image']['sizes']['1']) && isset($badge['image']['name']))
+                  $last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
+				if(!empty($badge['name']))
+                  $last_badge['name'] = $badge['name'];
+				if(isset($badge['unlocks']) && isset($badge['unlocks'][0]) && isset($badge['unlocks'][0]['checkins']) && isset($badge['unlocks'][0]['checkins'][0]) && isset($badge['unlocks'][0]['checkins'][0]['createdAt']) && isset($badge['unlocks'][0]['checkins'][0]['timeZoneOffset'])){
+                  $last_badge['date'] = $badge['unlocks'][0]['checkins'][0]['createdAt'];
+                  $last_badge['timeZoneOffset'] = $badge['unlocks'][0]['checkins'][0]['timeZoneOffset'];
+				}
+				if(!empty($badge['description']))
+                  $last_badge['description'] = $badge['description'];
+				if(!empty($badge['badgeText']))
+                  $last_badge['badgeText'] = $badge['badgeText'];
+				if(isset($badge['unlocks']) && isset($last_badge['date'])){
+                  foreach($badge['unlocks'] as $unlock){
+				    if(isset($unlock['checkins'])){
+                      foreach($unlock['checkins'] as $checkin){
+                        if(isset($checkin['createdAt']) && isset($checkin['timeZoneOffset']) && ($checkin['createdAt'] > $last_badge['date'])){
+                          $last_badge['date'] = $checkin['createdAt'];
+						  $last_badge['timeZoneOffset'] = $checkin['timeZoneOffset'];
+						}
+                      }
+					}
+                  }
+				}
+              }
+			  else{
+			    if(isset($badge['unlocks'])){
+                  foreach($badge['unlocks'] as $unlock){
+					if(isset($unlock['checkins'])){
+                      foreach($unlock['checkins'] as $checkin){
+                        if($checkin['createdAt'] > $last_badge['date']){
+                          $last_badge['id'] = $badge['id'];
+                          $last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
+                          $last_badge['name'] = $badge['name'];
+                          $last_badge['date'] = $checkin['createdAt'];
+                          $last_badge['timeZoneOffset'] = $checkin['timeZoneOffset'];
+                          $last_badge['description'] = $badge['description'];
+                          $last_badge['badgeText'] = $badge['badgeText'];
+                        }
+                      }
+					}
+                  }
+				}
+              }
+            }
+		  }
+          if(!empty($last_badge['id']) && !empty($last_badge['image'])){
+		    $this->userDetail['last_img'] = $last_badge['image'];
+			$this->userDetail['last_img_href'] = 'https://foursquare.com/user/'.$socUsername.'/badge/'.$last_badge['id'];
+			if(!empty($last_badge['name'])){
+			  $this->userDetail['last_img_msg'] = $last_badge['name'];
+			  if(!empty($last_badge['date']) && isset($last_badge['timeZoneOffset']))
+			    $this->userDetail['last_img_msg'] .= '<br/>'.date('F j, Y', ($last_badge['date'] + $last_badge['timeZoneOffset']));
+			}
+			if(!empty($last_badge['description']))
+			  $this->userDetail['last_img_story'] = $last_badge['description'];
+		  }
+/*			
+          $this->userDetail['url'] = 'https://foursquare.com/user/'.$socUser['id'];
           if (!empty($socUser['gender']))
             $this->userDetail['gender'] = $socUser['gender'];
           if (!empty($socUser['homeCity']))
             $this->userDetail['location'] = $socUser['homeCity'];
           if (!empty($socUser['bio']))
             $this->userDetail['about'] = $socUser['bio'];
-          $tips = $this->makeCurlRequest('https://api.foursquare.com/v2/lists/'.$socUsername.'/tips?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
+          $tips = $this->makeCurlRequest('https://api.foursquare.com/v2/lists/'.$socUsername.'/tips?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
           if (!empty($tips['response']['list']['listItems']['items']['0']))
             $this->userDetail['last_tip'] = '"<a href="'.$tips['response']['list']['listItems']['items']['0']['venue']['canonicalUrl'].'">'.$tips['response']['list']['listItems']['items']['0']['venue']['name'].'</a> :'.$tips['response']['list']['listItems']['items']['0']['tip']['text'].'"';
-          $badges = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'/badges?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
-          $last_badge = array();
-          foreach($badges['response']['badges'] as $badge){
-            if(isset($badge['unlocks'][0]) && !isset($last_badge['id'])){
-              $last_badge['id'] = $badge['id'];
-              $last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
-              $last_badge['name'] = $badge['name'];
-              $last_badge['date'] = $badge['unlocks'][0]['checkins'][0]['createdAt'];
-              $last_badge['timeZoneOffset'] = $badge['unlocks'][0]['checkins'][0]['timeZoneOffset'];
-              $last_badge['description'] = $badge['description'];
-              $last_badge['badgeText'] = $badge['badgeText'];
-              foreach($badge['unlocks'] as $unlock){
-                foreach($unlock['checkins'] as $checkin){
-                  if($checkin['createdAt'] > $last_badge['date'])
-                    $last_badge['date'] = $checkin['createdAt'];
-                }
-              }
-            }else{
-              foreach($badge['unlocks'] as $unlock){
-                foreach($unlock['checkins'] as $checkin){
-                  if($checkin['createdAt'] > $last_badge['date']){
-                    $last_badge['id'] = $badge['id'];
-                    $last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
-                    $last_badge['name'] = $badge['name'];
-                    $last_badge['date'] = $checkin['createdAt'];
-                    $last_badge['timeZoneOffset'] = $checkin['timeZoneOffset'];
-                    $last_badge['description'] = $badge['description'];
-                    $last_badge['badgeText'] = $badge['badgeText'];
-                  }
-                }
-              }
-
-            }
-          }
-
-          if(isset($last_badge['id']))
-            $this->userDetail['last_badge'] = '<div class="badge" style="text-align:center;float:left;"><a href="https://ru.foursquare.com/user/'.$socUsername.'/badge/'.$last_badge['id'].'"><img src="'.$last_badge['image'].'" style="width:115px; height:115px;"></a>
-
-            <p><a href="https://ru.foursquare.com/user/'.$socUsername.'/badge/'.$last_badge['id'].'">'.$last_badge['name'].'</a> </p>
-            <p>'.date('F j, Y', ($last_badge['date'] + $last_badge['timeZoneOffset'])).'&nbsp;</p>
-      <p>'.$last_badge['description'].'</p>
-          </div>';
-
-
+*/	
       }elseif($socNet == 'vimeo'){
         $socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
         if(!is_string($socUser) && isset($socUser['id'])){
@@ -1024,11 +1086,11 @@ class SocInfo extends CFormModel
           $username = substr($username, 0, strpos($username, '&'));
         }
       }
-    }elseif($socNet == 'Foursquare'){
-      if((strpos($username, 'ru.foursquare.com/user/') > 0) ||(strpos($username, 'ru.foursquare.com/user/') !== false)){
-        $username = substr($username, (strpos($username, 'ru.foursquare.com/user/')+23) );
+    }elseif($socNet == 'foursquare'){
+      if(strpos($username, 'foursquare.com/user/') !== false){
+        $username = substr($username, (strpos($username, 'foursquare.com/user/')+20) );
       }
-      if((strpos($username, 'foursquare.com') > 0) ||(strpos($username, 'foursquare.com') !== false)){
+      if(strpos($username, 'foursquare.com') !== false){
         $username = substr($username, (strpos($username, 'foursquare.com')+15));
       }
       if(strpos($username, '?') > 0){

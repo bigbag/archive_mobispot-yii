@@ -48,7 +48,7 @@ return array( // You can change the providers and their classes.
   'vimeo' => array(
   //https://developer.vimeo.com/apps/
     'class' => 'CustomVimeoOAuthService',
-    'key' => ' 	05646d75a6e8a06e5d46776c15c367171681bea6',
+    'key' => '05646d75a6e8a06e5d46776c15c367171681bea6',
     'secret' => '5061a7c3414dc31d6832abb88ae93d06835251d2',
 	'title' => 'Vimeo'
   ),    
@@ -59,5 +59,11 @@ return array( // You can change the providers and their classes.
     'client_id' => '3691415',
     'client_secret' => 'DF4IIcRDA53x3KnjuuPk',
     'title' => 'ВКонтакте',
-  ),  
+  ), 
+  'foursquare' => array(
+    'class' => 'CustomFoursquareOAuthService',
+    'client_id' => 'ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP',
+    'client_secret' => 'EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG',
+    'title' => 'Foursquare'
+  ),   
 );

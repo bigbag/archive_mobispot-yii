@@ -50,9 +50,9 @@ class CustomVimeoOAuthService extends EOAuthService {
       }
     }
 	
-    if(isset($info->bio) && !empty($info->bio))
+    if(!empty($info->bio))
       $this->attributes['about'] = $info->bio;
-    if(isset($info->location) && !empty($info->location))
+    if(!empty($info->location))
       $this->attributes['location'] = $info->location;
 			
 	/*		
