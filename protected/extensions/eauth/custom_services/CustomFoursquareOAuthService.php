@@ -38,6 +38,10 @@ class CustomFoursquareOAuthService extends EOAuth2Service {
 	  $this->attributes['photo'] = $info->photo;
 	if (!empty($info->contact->email))
 	  $this->attributes['email'] = $info->contact->email;	  
+	  
+	$user=User::model()->findByPk(Yii::app()->user->id);
+	$user->foursquare_id = $info->id;
+	$user->save();	  
 /*
 	if (!empty($info->gender))
 	  $this->attributes['gender'] = $info->gender;
@@ -100,6 +104,16 @@ class CustomFoursquareOAuthService extends EOAuth2Service {
 */		  
   }
 
+  protected function getAccessToken($code)
+  {
+	$token_answer = $this->makeRequest($this->getTokenUrl($code));
+	$user=User::model()->findByPk(Yii::app()->user->id);
+	$user->foursquare_token = $token_answer->access_token;
+	$user->save();
+    return $token_answer;
+  }
+  
+  
   protected function getCodeUrl($redirect_uri){
     $this->setState('foursquare_redirect_uri', urlencode($redirect_uri));
     $url = parent::getCodeUrl($redirect_uri).'&v=20130607';

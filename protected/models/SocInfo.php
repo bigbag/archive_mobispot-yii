@@ -599,18 +599,47 @@ class SocInfo extends CFormModel
             $this->userDetail['soc_username'] = $socUser['id'];
           if (isset($socUser['photo']) && !empty($socUser['photo']['prefix']) && isset($socUser['photo']['suffix']))
             $this->userDetail['photo'] = $socUser['photo']['prefix'].'100x100'.$socUser['photo']['suffix'];
-/*			
-          $this->userDetail['url'] = 'https://foursquare.com/user/'.$socUser['id'];
-          if (!empty($socUser['gender']))
-            $this->userDetail['gender'] = $socUser['gender'];
-          if (!empty($socUser['homeCity']))
-            $this->userDetail['location'] = $socUser['homeCity'];
-          if (!empty($socUser['bio']))
-            $this->userDetail['about'] = $socUser['bio'];
-          $tips = $this->makeCurlRequest('https://api.foursquare.com/v2/lists/'.$socUsername.'/tips?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
-          if (!empty($tips['response']['list']['listItems']['items']['0']))
-            $this->userDetail['last_tip'] = '"<a href="'.$tips['response']['list']['listItems']['items']['0']['venue']['canonicalUrl'].'">'.$tips['response']['list']['listItems']['items']['0']['venue']['name'].'</a> :'.$tips['response']['list']['listItems']['items']['0']['tip']['text'].'"';
-*/			
+			
+
+		  //Последний чекин
+		  if(!empty($socUser['id'])){
+		    $user=User::model()->findByAttributes(array(
+		      'foursquare_id'=>$socUser['id']
+		    ));
+		  
+		    if($user && !empty($user->foursquare_token)){
+			  $checkins = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUser['id'].'/checkins?limit=250&sort=newestfirst&oauth_token='.$user->foursquare_token.'&v=20130211');
+		      if(isset($checkins['response']) && isset($checkins['response']['checkins']) && isset($checkins['response']['checkins']['items'])){
+			    unset($lastCheckin);
+				$i=0;
+				
+				while(!isset($lastCheckin)){
+				  if(isset($checkins['response']['checkins']['items'][$i]) && isset($checkins['response']['checkins']['items'][$i]['type']) && ($checkins['response']['checkins']['items'][$i]['type'] == 'checkin') && isset($checkins['response']['checkins']['items'][$i]['venue']) && isset($checkins['response']['checkins']['items'][$i]['venue']['name']) && !isset($checkins['response']['checkins']['items'][$i]['private'])){
+				    $lastCheckin = $checkins['response']['checkins']['items'][$i];
+				  }
+				  elseif(!isset($checkins['response']['checkins']['items'][$i])){
+				    $lastCheckin = 'no';
+				  }
+				  else
+				    $i++;
+			    }
+				
+				if($lastCheckin != 'no'){
+				  $this->userDetail['venue_name'] = $lastCheckin['venue']['name'];
+				  if(!empty($lastCheckin['shout']))
+				    $this->userDetail['checkin_shout'] = $lastCheckin['shout'];
+				  if(isset($lastCheckin['venue']['location']) && isset($lastCheckin['venue']['location']['address']))
+				    $this->userDetail['venue_address'] = $lastCheckin['venue']['location']['address'];
+				  if(isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
+				    $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
+				  if(isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height'])){
+				    $this->userDetail['checkin_photo'] = $lastCheckin['photos']['items'][0]['prefix'].$lastCheckin['photos']['items'][0]['width'].'x'.$lastCheckin['photos']['items'][0]['height'].$lastCheckin['photos']['items'][0]['suffix'];
+				  }
+				}
+			  }
+		    }
+          }
+          //Последний бейдж
           $badges = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'/badges?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
           $last_badge = array();
 		  if(isset($badges['response']) && isset($badges['response']['badges'])){
@@ -674,7 +703,18 @@ class SocInfo extends CFormModel
 			if(!empty($last_badge['description']))
 			  $this->userDetail['last_img_story'] = $last_badge['description'];
 		  }
-$this->userDetail['last_status'] = print_r($socUser, true);		  
+/*			
+          $this->userDetail['url'] = 'https://foursquare.com/user/'.$socUser['id'];
+          if (!empty($socUser['gender']))
+            $this->userDetail['gender'] = $socUser['gender'];
+          if (!empty($socUser['homeCity']))
+            $this->userDetail['location'] = $socUser['homeCity'];
+          if (!empty($socUser['bio']))
+            $this->userDetail['about'] = $socUser['bio'];
+          $tips = $this->makeCurlRequest('https://api.foursquare.com/v2/lists/'.$socUsername.'/tips?client_id='.Yii::app()->eauth->services['foursquare']['client_id'].'&client_secret='.Yii::app()->eauth->services['foursquare']['client_secret'].'&v=20130211');
+          if (!empty($tips['response']['list']['listItems']['items']['0']))
+            $this->userDetail['last_tip'] = '"<a href="'.$tips['response']['list']['listItems']['items']['0']['venue']['canonicalUrl'].'">'.$tips['response']['list']['listItems']['items']['0']['venue']['name'].'</a> :'.$tips['response']['list']['listItems']['items']['0']['tip']['text'].'"';
+*/	
       }elseif($socNet == 'vimeo'){
         $socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
         if(!is_string($socUser) && isset($socUser['id'])){
