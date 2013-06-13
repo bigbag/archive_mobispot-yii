@@ -1,5 +1,6 @@
 <?php
 return array( // You can change the providers and their classes.
+  'ssl'=>array('path'=>'/etc/nginx/ssl/mobispot/mobispot.com-combined.crt'),
   'twitter'=>array(
     // register your app here: https://dev.twitter.com/apps/new
   'class' => 'CustomTwitterService',
