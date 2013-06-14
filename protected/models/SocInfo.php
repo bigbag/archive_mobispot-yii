@@ -314,6 +314,7 @@ class SocInfo extends CFormModel
             $this->userDetail['gender'] = $socUser['gender'];
           if(isset($socUser['locale']))
             $this->userDetail['locale'] = $socUser['locale'];
+			
           //последний пост
           $appToken = Yii::app()->cache->get('facebookAppToken');
           $isAppTokenValid = false;
@@ -389,33 +390,48 @@ class SocInfo extends CFormModel
         }
 
       }elseif($socNet == 'twitter'){
-        if (@fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r')){
-          $t_json = fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r');
-          $curl_result = fgets($t_json);
-          fclose($t_json);
+	  
+	    //$appToken = Yii::app()->cache->get('twitterAppToken');
+		$appToken = false;		
+		if($appToken === false){
+		  $credentials = base64_encode(urlencode(Yii::app()->eauth->services['twitter']['key']).':'.urlencode(Yii::app()->eauth->services['twitter']['secret']));
+		  $url = 'https://api.twitter.com/oauth2/token';
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, $url);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+          curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);//dirname(__FILE__).'/../config/ca-bundle.crt');
+		  curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic '.$credentials,
+            'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'
+          ));		  
+          $curl_result = curl_exec($ch);
+          curl_close($ch);		  
+		  $curl_result = CJSON::decode($curl_result, true);
+		  $appToken = $curl_result['access_token'];
+		  //Yii::app()->cache->set('twitterAppToken', $appToken);
+		}
 
-          $socUser = CJSON::decode($curl_result, true);
-          $this->userDetail['UserExists'] = true;
-          if(isset($socUser['profile_image_url']))
-            $this->userDetail['photo'] = $socUser['profile_image_url'];
-          if(isset($socUser['name']))
-            $this->userDetail['soc_username'] = $socUser['name'];
-          if(isset($socUser['location']))
-            $this->userDetail['location'] = $socUser['location'];
-          if(isset($socUser['screen_name']))
-            $this->userDetail['soc_url'] = 'https://twitter.com/'.$socUser['screen_name'];
-          if(isset($socUser['url']))
-            $this->userDetail['user_site'] = $socUser['url'];
-          if(isset($socUser['locale']))
-            $this->userDetail['locale'] = $socUser['locale'];
-          if(isset($socUser['description']))
-            $this->userDetail['about'] = $socUser['description'];
-          if(isset($socUser['status']['text']))
-            $this->userDetail['last_status'] = $socUser['status']['text'];
-
-        }else{
-          $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-        }
+		$url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=1';
+		if(is_numeric($socUsername))
+		  $url .= '&user_id='.$socUsername;
+		else
+		  $url .= '&screen_name='.$socUsername;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+          'Authorization: Bearer '.$appToken
+        ));
+        $curl_result = curl_exec($ch);
+        curl_close($ch);		  
+		$userFeed = CJSON::decode($curl_result, true);		
+        
+		if(isset($userFeed[0]) && isset($userFeed[0]['text']))
+		  $this->userDetail['last_status'] = $userFeed[0]['text'];
+		if(isset($userFeed[0]) && isset($userFeed[0]['user']) && isset($userFeed[0]['user']['profile_image_url']))
+		  $this->userDetail['photo'] = $userFeed[0]['user']['profile_image_url'];
       }elseif($socNet == 'vk'){
         $url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
 //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
