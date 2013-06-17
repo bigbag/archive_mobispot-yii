@@ -5,7 +5,7 @@
     </div>
     <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
     <div class="five columns centered">
-      <form name="activPersonForm">
+      <form id="personSpotForm" name="activPersonForm">
         <input
           name='email'
           type="email"

@@ -42,14 +42,15 @@ class SpotController extends MController
         $spotContent=SpotContent::getSpotContent($spot);
         $content=$spotContent['content'];
 
-        $dataKeys=array_keys($content['keys']);
-        $fileKeys=array_keys($content['keys'], 'file');
-
-        if (count($dataKeys)==0) {
+		if(isset($content['keys']) && is_array($content['keys']) && (count($content['keys']) > 0)){
+          $dataKeys=array_keys($content['keys']);
+          $fileKeys=array_keys($content['keys'], 'file');
+        }
+        else{
           $this->setNotFound();
         }
 
-        if($content['private'] == 0) {
+        if(isset($content['private']) && ($content['private'] == 0)) {
           //только файлы
           if(count($fileKeys) == count($dataKeys)){
             $this->render('/widget/spot/send',  array('content'=>$content));

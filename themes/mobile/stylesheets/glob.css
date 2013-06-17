@@ -125,3 +125,9 @@ html[xmlns] .clearfix {
 ::-moz-placeholder {color:#9E9E9E !important;}
 :-ms-input-placeholder { color:#9E9E9E !important; }
 input:-moz-placeholder { color:#9E9E9E !important; }
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}

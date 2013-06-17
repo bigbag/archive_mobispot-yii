@@ -105,6 +105,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       if (data.error == 'yes') {
         angular.element('#personSpotForm input[name=email]').addClass('error');
         angular.element('#personSpotForm input[name=code]').addClass('error');
+	angular.element('#personSpotForm input[name=password]').addClass('error');
       }
       else if (data.error == 'no'){
         angular.element('#actSpotForm').slideUp(400, function() {

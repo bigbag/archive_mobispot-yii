@@ -18,11 +18,30 @@
 			</div>
 		</a>
 	<?php elseif($type == 'socnet'): ?>
-		<div class="spot-item">
+		<div class="spot-item<?php if(isset($content['data'][$key]['tweet_author'])):?> spot-item_twi<?php endif; ?>">
 			<div class="item-area type-mess">
 				<!-- Avatar -->
 				<?php if(isset($content['data'][$key]['photo'])): ?>
 					<div class="default-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
+					</div>
+				<?php endif; ?>
+				<!-- Tweet -->
+				<?php if(isset($content['data'][$key]['tweet_author']) && isset($content['data'][$key]['tweet_username']) && isset($content['data'][$key]['tweet_text']) && isset($content['data'][$key]['soc_url']) && isset($content['data'][$key]['tweet_id'])): ?>
+					<div class="twee-body">
+						<div class="author-row"><a class="authot-name" href="<?php echo $content['data'][$key]['soc_url']; ?>"><?php echo $content['data'][$key]['tweet_author']; ?></a><a class="user-name" href="<?php echo $content['data'][$key]['soc_url']; ?>">@<?php echo $content['data'][$key]['tweet_username']; ?></a></div>
+						<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+						<p><?php echo $content['data'][$key]['tweet_text']; ?></p>
+						<footer>
+							<?php if(isset($content['data'][$key]['tweet_datetime'])):?>
+							<div class="left timestamp"><?php echo $content['data'][$key]['tweet_datetime']; ?></div>
+							<?php endif; ?>
+							<div class="right actions">
+								<a href="https://twitter.com/intent/tweet?in_reply_to=<?php echo $content['data'][$key]['tweet_id']; ?>"><i>&#xf112;</i><span>Reply</span></a>
+								<a href="https://twitter.com/intent/retweet?tweet_id=<?php echo $content['data'][$key]['tweet_id']; ?>"><i>&#xf079;</i><span>Retweet</span></a>
+								<a href="https://twitter.com/intent/favorite?tweet_id=<?php echo $content['data'][$key]['tweet_id']; ?>"><i>&#xf005;</i><span>Favorite</span></a>
+							</div>
+						</footer>
 					</div>
 				<?php endif; ?>
 				<!-- Text post -->
@@ -154,7 +173,7 @@
 					<?php }?>
 				<?php }?>
 				<!-- Follow button -->
-				<?php if(isset($content['data'][$key]['soc_url'])): ?>
+				<?php if(isset($content['data'][$key]['soc_url']) && !isset($content['data'][$key]['tweet_author'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> 
 					<?php if(isset($content['data'][$key]['inviteClass']) && (strlen($content['data'][$key]['inviteClass']) > 0) ): ?>
