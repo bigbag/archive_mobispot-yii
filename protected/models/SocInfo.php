@@ -61,7 +61,6 @@ class SocInfo extends CFormModel
     $net['smallIcon'] = '';
     $socNetworks[] = $net;
 */
-
     $net['name'] = 'foursquare';
     $net['baseUrl'] = 'foursquare.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -428,10 +427,21 @@ class SocInfo extends CFormModel
         curl_close($ch);		  
 		$userFeed = CJSON::decode($curl_result, true);		
         
-		if(isset($userFeed[0]) && isset($userFeed[0]['text']))
-		  $this->userDetail['last_status'] = $userFeed[0]['text'];
-		if(isset($userFeed[0]) && isset($userFeed[0]['user']) && isset($userFeed[0]['user']['profile_image_url']))
-		  $this->userDetail['photo'] = $userFeed[0]['user']['profile_image_url'];
+		
+		if(isset($userFeed[0]) && isset($userFeed[0]['id'])){
+		  $this->userDetail['tweet_id'] = $userFeed[0]['id'];
+ 		  if(isset($userFeed[0]['user']) && isset($userFeed[0]['user']['name']))
+		    $this->userDetail['tweet_author'] = $userFeed[0]['user']['name'];
+ 		  if(isset($userFeed[0]['user']) && isset($userFeed[0]['user']['screen_name']))
+		    $this->userDetail['tweet_username'] = $userFeed[0]['user']['screen_name'];		  
+		  if(isset($userFeed[0]['text']))
+		    $this->userDetail['tweet_text'] = $userFeed[0]['text'];
+		  if(isset($userFeed[0]['user']) && isset($userFeed[0]['user']['profile_image_url']))
+		    $this->userDetail['photo'] = $userFeed[0]['user']['profile_image_url'];
+		  if(isset($userFeed[0]['created_at']))
+			$this->userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($userFeed[0]['created_at']));
+		}
+//$this->userDetail['last_status'] = print_r($userFeed, true);
       }elseif($socNet == 'vk'){
         $url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
 //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
@@ -532,10 +542,12 @@ class SocInfo extends CFormModel
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
       }elseif($socNet == 'Linkedin'){
+/*	  
         Yii::import('ext.eoauth.*');
 
         $consumer = new OAuthConsumer('pgweaq9fm86c', 'hlGC8Jy64THUXdqA');
         $scope = 'r_basicprofile';
+*/
 /*
         $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
                   ? 'https://' : 'http://';
@@ -543,6 +555,7 @@ class SocInfo extends CFormModel
 
         $token = EOAuthUtils::GetRequestToken($consumer, $scope, 'https://api.linkedin.com/uas/oauth/requestToken', 'My Web Application', $callbackUrl);
 */
+/*
         $token = Yii::app()->user->token;
 
         $methodApi = 'id=';
@@ -579,6 +592,7 @@ class SocInfo extends CFormModel
         }else{
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
+		*/
       }elseif($socNet == 'foursquare'){
         if(!is_numeric($socUsername)){
           $ch = curl_init();
