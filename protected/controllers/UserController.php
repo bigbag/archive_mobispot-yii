@@ -146,31 +146,37 @@ class UserController extends MController {
     }
   }
 
+
   public function actionBindSocLogin()  {
     $service = Yii::app()->request->getQuery('service');
-    $sinfo = new SocInfo;
 
     if (isset($service))  {
+      if (!Yii::app()->user->id) {
+        $this->setAccess();
+      }
+      else{	  
+	    if(($service == 'instagram') && isset($_GET['tech']) && ($_GET['tech'] == Yii::app()->eauth->services['instagram']['client_id'])){
+		  Yii::app()->session['instagram_tech'] = $_GET['tech'];
+		}
+        $authIdentity = Yii::app()->eauth->getIdentity($service);
+        $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+        $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
 
-      $authIdentity = Yii::app()->eauth->getIdentity($service);
-      $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-      $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
-
-      if ($authIdentity->authenticate()) {
+        if ($authIdentity->authenticate()) {
           $identity = new ServiceUserIdentity($authIdentity);
 
-        if ($identity->authenticate()) {
-          Yii::app()->session[$service] = 'auth';
-          $authIdentity->redirect(array('user/personal'));
-        }
-        else {
-          $authIdentity->cancel();
+          if ($identity->authenticate()) {
+            Yii::app()->session[$service] = 'auth';
+            $authIdentity->redirect(array('user/personal'));
+          }
+          else {
+            $authIdentity->cancel();
+          }
         }
       }
-    }
+	}
     else {
       $this->setNotFound();
     }
-    Yii::app()->end();
   }
 }
