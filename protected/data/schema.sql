@@ -1,3 +1,15 @@
+DROP TABLE IF EXISTS `user_soc`;
+CREATE TABLE IF NOT EXISTS `user_soc`(
+	id serial not null,
+	type bigint unsigned not null,
+	user_id bigint null,
+	soc_id varchar(256) null,
+	user_token varchar(1024) null,
+	token_expires bigint null,
+	data varchar(2048) null,
+	is_tech boolean null
+) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+
 DROP TABLE IF EXISTS `wallet`;
 CREATE TABLE IF NOT EXISTS `wallet`(
 	id serial not null,

@@ -124,16 +124,16 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'youtube16.png';
     $socNetworks[] = $net;
-/*
-    $net['name'] = 'Instagram';
+
+    $net['name'] = 'instagram';
     $net['baseUrl'] = 'instagram.com';
-    $net['invite'] = Yii::t('eauth', '');
+    $net['invite'] = Yii::t('eauth', 'Watch more on');
     $net['inviteClass'] = 'i-soc_ing';
 	$net['inviteValue'] = '&#xe006;';
     $net['note'] =  Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'instagram16.png';
     $socNetworks[] = $net;
-*/
+
     return $socNetworks;
   }
 
@@ -1008,49 +1008,60 @@ class SocInfo extends CFormModel
 			}
 		}
 
-      }elseif($socNet == 'Instagram'){
-        if(!isset(Yii::app()->user->token) || (Yii::app()->user->service != 'instagram'))
-          $this->userDetail['soc_username'] = Yii::t('eauth','Сначала авторизуйтесь черз Ваш профиль в Instagram');
-        else{
-        /*
-          //Parce html
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, 'http://instagram.com/'.$socUsername);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-          $profile = curl_exec($ch);
-          $headers = curl_getinfo($ch);
-          curl_close($ch);
-          $profile = substr($profile, (strpos($profile, ('"username":'.$socUsername))));
-          $match = array();
-          preg_match('~"id":"[0-9]+"~', $profile, $match);
-          if(isset($match[0])){
-            $socUsername = str_replace('"id":"', '', $match[0]);
-            $socUsername = str_replace('"', '', $socUsername);
-          }
-        */
-          $socUser = $this->makeRequest('https://api.instagram.com/v1/users/search?q='.$socUsername.'&count=1&access_token='.Yii::app()->user->token);
-          if(!is_string($socUser)){
+      }elseif($socNet == 'instagram'){
+        $socUser = $this->makeRequest('https://api.instagram.com/v1/users/search?q='.$socUsername.'&count=1&client_id='.Yii::app()->eauth->services['instagram']['client_id']);
+        if(!is_string($socUser) && isset($socUser['data']) && isset($socUser['data'][0])){
             $socUser = $socUser['data'][0];
             if(!empty($socUser['full_name']))
               $this->userDetail['soc_username'] = $socUser['full_name'];
-            else
+            elseif(!empty($socUser['username']))
               $this->userDetail['soc_username'] = $socUser['username'];
-            $this->userDetail['soc_url'] = 'http://instagram.com/'.$socUser['username'];
-            $this->userDetail['photo'] = $socUser['profile_picture'];
-            if(!empty($socUser['bio']))
-              $this->userDetail['about'] = $socUser['bio'];
-            if(!empty($socUser['website']))
-              $this->userDetail['url'] = $socUser['website'];
-            $userId = $socUser['id'];
-            $media = $this->makeRequest('https://api.instagram.com/v1/users/'.$userId.'/media/recent?access_token='.Yii::app()->user->token);
-            if(!empty($media['data'][0])){
-              $media = $media['data'][0];
-              $this->userDetail['last_status'] = '<a href="'.$media['link'].'" target="_blank">'.$media['caption']['text'].'<br/><img src="'.$media['images']['standard_resolution']['url'].'"/></a>';
-            }
-          }else
-            $this->userDetail['soc_username'] = Yii::t('eauth','Пользователя с таким именем не существует:').$socUsername;
-        }
+			if(!empty($socUser['username']))
+              $this->userDetail['soc_url'] = 'http://instagram.com/'.$socUser['username'];
+			if(!empty($socUser['profile_picture']))
+              $this->userDetail['photo'] = $socUser['profile_picture'];
+
+	
+            $techSoc=UserSoc::model()->findByAttributes(array(
+	          'type'=>10,
+		      'is_tech'=>true
+	        ));
+			
+			if($techSoc && isset($socUser['id'])){
+			  $media = $this->makeRequest('https://api.instagram.com/v1/users/'.$socUser['id'].'/media/recent?count=1&access_token='.$techSoc->user_token);
+              if(isset($media['data']) && isset($media['data'][0])){
+				if(isset($media['data'][0]['images']) && isset($media['data'][0]['images']['standard_resolution']) && !empty($media['data'][0]['images']['standard_resolution']['url']))
+				  $this->userDetail['last_img'] = $media['data'][0]['images']['standard_resolution']['url'];
+				elseif(isset($media['data'][0]['images']) && isset($media['data'][0]['images']['thumbnail']) && !empty($media['data'][0]['images']['thumbnail']['url']))
+                  $this->userDetail['last_img'] = $media['data'][0]['images']['thumbnail']['url'];
+				if(isset($media['data'][0]['caption']) && !empty($media['data'][0]['caption']['text']))
+				  $this->userDetail['last_img_msg'] = $media['data'][0]['caption']['text'];
+				if(!empty($media['data'][0]['link']))
+				  $this->userDetail['last_img_href'] = $media['data'][0]['link'];
+              }
+			  
+			  
+			}
+/*
+			$user=User::model()->findByAttributes(array(
+		      'instagram_id'=>$socUser['id']
+		    ));
+			if($user && strlen($user->instagram_media_id > 0)){
+              $media = $this->makeRequest('https://api.instagram.com/v1/media/'.$user->instagram_media_id.'?client_id='.Yii::app()->eauth->services['instagram']['client_id']);
+              if(isset($media['data'])){
+				if(isset($media['data']['images']) && isset($media['data']['images']['standard_resolution']) && !empty($media['data']['images']['standard_resolution']['url']))
+				  $this->userDetail['last_img'] = $media['data']['images']['standard_resolution']['url'];
+				elseif(isset($media['data']['images']) && isset($media['data']['images']['thumbnail']) && !empty($media['data']['images']['thumbnail']['url']))
+                  $this->userDetail['last_img'] = $media['data']['images']['thumbnail']['url'];
+				if(isset($media['data']['caption']) && !empty($media['data']['caption']['text']))
+				  $this->userDetail['last_img_msg'] = $media['data']['caption']['text'];
+				if(!empty($media['data']['link']))
+				  $this->userDetail['last_img_href'] = $media['data']['link'];
+              }
+			}
+*/			
+        }else
+          $this->userDetail['soc_username'] = Yii::t('eauth','Пользователя с таким именем не существует:').$socUsername;
       }else{
         $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
       }
@@ -1179,7 +1190,7 @@ class SocInfo extends CFormModel
         $username = substr($username, (strpos($username, 'youtube.com/user/') + 17));
       $username = $this->rmGetParam($username);
 	*/
-    }elseif($socNet == 'Instagram'){
+    }elseif($socNet == 'instagram'){
       if(strpos($username, 'instagram.com/') !== false)
         $username = substr($username, (strpos($username, 'instagram.com/') + 14));
       $username = $this->rmGetParam($username);
