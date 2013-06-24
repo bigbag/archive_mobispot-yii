@@ -51,16 +51,16 @@ class SocInfo extends CFormModel
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'vk16.png';
     $socNetworks[] = $net;
-/*
-    $net['name'] = 'Linkedin';
+
+    $net['name'] = 'linkedin';
     $net['baseUrl'] = 'linkedin.com';
     $net['invite'] = Yii::t('eauth', 'Read more on');
     $net['inviteClass'] = 'i-soc_in';
 	$net['inviteValue'] = '&#xe005;';
     $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = '';
+    $net['smallIcon'] = 'linkedin16.png';
     $socNetworks[] = $net;
-*/
+
     $net['name'] = 'foursquare';
     $net['baseUrl'] = 'foursquare.com';
     $net['invite'] = Yii::t('eauth', 'Watch more on');
@@ -137,7 +137,7 @@ class SocInfo extends CFormModel
     return $socNetworks;
   }
 
-  public function getNetData($link){
+  public function getNetData($link, $discodesId = null, $dataKey = null){
     $this->socNet = '';
     $this->socUsername = '';
     $this->userDetail = array();
@@ -147,7 +147,7 @@ class SocInfo extends CFormModel
       $net = $this->getNetByName($isSocNet);
       $this->socNet = $net['name'];
       $this->socUsername = $this->parceSocUrl($this->socNet, $link);
-      $this->getSocInfo($this->socNet, $this->socUsername);
+      $this->getSocInfo($this->socNet, $this->socUsername, $discodesId, $dataKey);
       $this->userDetail['invite'] = $net['invite'];
       $this->userDetail['inviteClass'] = $net['inviteClass'];
 	  $this->userDetail['inviteValue'] = $net['inviteValue'];
@@ -178,7 +178,7 @@ class SocInfo extends CFormModel
     return $answer;
   }
 
-  public function getSocInfo($socNet, $socUsername){
+  public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null){
     $this->socNet = $socNet;
     $this->socUsername = $socUsername;
 
@@ -441,7 +441,6 @@ class SocInfo extends CFormModel
 		  if(isset($userFeed[0]['created_at']))
 			$this->userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($userFeed[0]['created_at']));
 		}
-//$this->userDetail['last_status'] = print_r($userFeed, true);
       }elseif($socNet == 'vk'){
         $url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
 //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
@@ -541,58 +540,42 @@ class SocInfo extends CFormModel
         }else{
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
-      }elseif($socNet == 'Linkedin'){
-/*	  
-        Yii::import('ext.eoauth.*');
+      }elseif($socNet == 'linkedin'){
+	    if(!empty($discodesId) && is_numeric($discodesId)){
+		  $spot= Spot::model()->findByPk($discodesId);
+		  if($spot){
+		    $userSoc = UserSoc::model()->findByAttributes(array('user_id'=>$spot->user_id, 'type'=>9));
+			if($userSoc){
+              Yii::import('ext.eoauth.*');
+              $consumer = new OAuthConsumer(Yii::app()->eauth->services['linkedin']['key'], Yii::app()->eauth->services['linkedin']['secret']);
+              $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
+              $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+              parse_str($userSoc->user_token, $values);
+//              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
+              $token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
+		      $url = 'http://api.linkedin.com/v1/people/id='.$userSoc->soc_id.':(id,first-name,last-name,public-profile-url,headline,picture-url)';
+              $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
+              $options = array();
+              $query = null;
+              $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
+              $request->sign_request($signatureMethod, $consumer, $token);
+              $answer = $this->makeRequest($request->to_url(), $options, false);
 
-        $consumer = new OAuthConsumer('pgweaq9fm86c', 'hlGC8Jy64THUXdqA');
-        $scope = 'r_basicprofile';
-*/
-/*
-        $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
-                  ? 'https://' : 'http://';
-        $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
-
-        $token = EOAuthUtils::GetRequestToken($consumer, $scope, 'https://api.linkedin.com/uas/oauth/requestToken', 'My Web Application', $callbackUrl);
-*/
-/*
-        $token = Yii::app()->user->token;
-
-        $methodApi = 'id=';
-        if (strpos($socUsername, 'http://www.linkedin.com/pub/') === true){
-          $methodApi= 'url=';
-          $socUsername = $this->js_urlencode($socUsername);
-        }
-
-        $url = 'http://api.linkedin.com/v1/people/'.$methodApi.$socUsername.':(id,first-name,last-name,public-profile-url,headline,picture-url,location,current-status)';
-
-        $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
-
-        $options = array();
-        $query = null;
-
-        $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
-        $request->sign_request($signatureMethod, $consumer, $token);
-        $answer = $this->makeRequest($request->to_url(), $options, false);
-
-        if($answer != 'error:404'){
-
-          $socUser = $this->xmlToArray(simplexml_load_string($answer));
-
-          $this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
-
-          if (!empty($socUser['headline']))
-            $this->userDetail['about'] = $socUser['headline'];
-          if (!empty($socUser['picture-url']))
-            $this->userDetail['photo'] = $socUser['picture-url'];
-          if (!empty($socUser['location']['name']))
-            $this->userDetail['location'] = $socUser['location']['name'];
-          if (!empty($socUser['current-status']))
-            $this->userDetail['last_status'] = $socUser['current-status'];
-        }else{
-          $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-        }
-		*/
+              if(strpos($answer, 'error:') === false){
+                $socUser = $this->xmlToArray(simplexml_load_string($answer));
+                $this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
+                if (!empty($socUser['picture-url']))
+                  $this->userDetail['photo'] = $socUser['picture-url'];
+                if (!empty($socUser['headline']))
+                  $this->userDetail['last_status'] = $socUser['headline'];
+				if (!empty($socUser['public-profile-url']))
+				  $this->userDetail['soc_url'] = $socUser['public-profile-url'];
+              }else{
+                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
+              }
+		    }
+		  }
+	    }
       }elseif($socNet == 'foursquare'){
         if(!is_numeric($socUsername)){
           $ch = curl_init();
@@ -1245,17 +1228,11 @@ class SocInfo extends CFormModel
         'Options: '.var_export($options, true).PHP_EOL.
         'Result: '.$result,
         CLogger::LEVEL_ERROR, 'application.extensions.eauth'
-      );
-      if($headers['http_code'] == 404)
-        $result = 'error:'.$headers['http_code'];
-      else
-        throw new CException(Yii::t('eauth', 'Invalid response http code: {code}.', array('{code}' => $headers['http_code'])), $headers['http_code']);
+	  );
+	  $result = 'error:'.$headers['http_code'];
     }elseif ($parseJson)
       $result = CJSON::decode($result, true);
-
     curl_close($ch);
-
-
 
     return $result;
   }

@@ -67,6 +67,14 @@ return array( // You can change the providers and their classes.
     'client_secret' => 'EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG',
     'title' => 'Foursquare'
   ), 
+  'linkedin' => array(
+  // app https://www.linkedin.com/secure/developer
+    'class' => 'CustomLinkedinOAuthService',
+    'key' => 'pgweaq9fm86c',
+    'secret' => 'hlGC8Jy64THUXdqA',
+	'token'=> '13273519-31e5-4102-bd8b-a3285006b0e8',
+	'token_secret' => '31e54848-b2d9-44ad-9ffc-39f5ba781d95',
+  ),
   'instagram' => array(
   //http://instagram.com/developer/clients/manage/
     'class' => 'CustomInstagramOAuthService',
