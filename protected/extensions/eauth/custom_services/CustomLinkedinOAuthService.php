@@ -68,9 +68,11 @@ class CustomLinkedinOAuthService extends EOAuthService {
         if (isset($component))
             $this->setComponent($component);
 
-        foreach ($options as $key => $val)
-            $this->$key = $val;
-
+        foreach ($options as $key => $val){
+			if(($key == 'key') || ($key == 'secret') || ($key == 'class'))
+				$this->$key = $val;
+		}
+			
         $this->setRedirectUrl(Yii::app()->user->returnUrl);
         $server = Yii::app()->request->getHostInfo();
         $path = Yii::app()->request->getPathInfo();
