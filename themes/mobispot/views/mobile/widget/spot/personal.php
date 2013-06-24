@@ -64,7 +64,7 @@
 					<?php if(isset($content['data'][$key]['vimeo_last_video_counter'])):?>
 					<p><?php echo Yii::t('eauth','View count: ').$content['data'][$key]['vimeo_last_video_counter']; ?></p>
 					<?php endif; ?>
-					<?php if(isset($content['data'][$key]['vimeo_video_width']) && isset($content['data'][$key]['vimeo_video_height'])):?>
+					<?php if(isset($content['data'][$key]['vimeo_video_width']) && isset($content['data'][$key]['vimeo_video_height']) && ($content['data'][$key]['vimeo_video_width'] > 0) && ($content['data'][$key]['vimeo_video_height'] > 0)):?>
 					<script type="text/javascript">
 					  $(document).ready(function(){
 						$('#vimeo_<?php echo $key; ?>').width($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>);

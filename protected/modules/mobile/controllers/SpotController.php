@@ -70,11 +70,16 @@ class SpotController extends MController
                 if ($content['keys'][$dataKeys[$i]] == 'socnet'){
                   $link=$content['data'][$dataKeys[$i]];
                   $SocInfo=new SocInfo;
-                  $socData=$SocInfo->getNetData($link);
-                  if(isset($socData['netName'])){
-                    $socData['soc_url']=$link;
+                  $socData=$SocInfo->getNetData($link, $spot->discodes_id, $dataKeys[$i]);
+                  if(isset($socData['netName']) && !(isset($socData['soc_username']) && (strpos($socData['soc_username'], Yii::t('eauth', "Пользователя с таким именем не существует:")) !== false))){
+				    if(!empty($socData['soc_url']))
+                      $socData['soc_url'] = $socData['soc_url'];
+					else
+					  $socData['soc_url'] = $link;
                     $content['data'][$dataKeys[$i]]=$socData;
                   }
+				  else
+				    $content['keys'][$dataKeys[$i]] == 'text';
                 }
               }
               $this->render('/widget/spot/personal', array('content'=>$content));
