@@ -544,16 +544,16 @@ class SocInfo extends CFormModel
 	    if(!empty($discodesId) && is_numeric($discodesId)){
 		  $spot= Spot::model()->findByPk($discodesId);
 		  if($spot){
-		    $userSoc = UserSoc::model()->findByAttributes(array('user_id'=>$spot->user_id, 'type'=>9));
-			if($userSoc){
+		    $socToken = SocToken::model()->findByAttributes(array('user_id'=>$spot->user_id, 'type'=>9));
+			if($socToken){
               Yii::import('ext.eoauth.*');
               $consumer = new OAuthConsumer(Yii::app()->eauth->services['linkedin']['key'], Yii::app()->eauth->services['linkedin']['secret']);
               $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
               $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
-              parse_str($userSoc->user_token, $values);
+//              parse_str($socToken->user_token, $values);
 //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
               $token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
-		      $url = 'http://api.linkedin.com/v1/people/id='.$userSoc->soc_id.':(id,first-name,last-name,public-profile-url,headline,picture-url)';
+		      $url = 'http://api.linkedin.com/v1/people/id='.$socToken->soc_id.':(id,first-name,last-name,public-profile-url,headline,picture-url)';
               $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
               $options = array();
               $query = null;
@@ -1005,7 +1005,7 @@ class SocInfo extends CFormModel
               $this->userDetail['photo'] = $socUser['profile_picture'];
 
 	
-            $techSoc=UserSoc::model()->findByAttributes(array(
+            $techSoc=SocToken::model()->findByAttributes(array(
 	          'type'=>10,
 		      'is_tech'=>true
 	        ));
