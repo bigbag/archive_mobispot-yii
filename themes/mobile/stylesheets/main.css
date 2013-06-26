@@ -553,7 +553,6 @@ a.active .tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-
 }
 .item-area.text-center{
 	padding: 17px;
@@ -782,13 +781,14 @@ a.active .tooltip{
 	width: 542px;
 }
 .spot-item_twi .type-mess iframe{
-	max-width: auto;
-	min-height: auto;
+	max-width: 100%;
+	min-height: 0;
 	width: auto;
-	margin: 0;
-	position: absolute;
-	top: 10px;
-	right: 17px;
+	margin: 3px 0 0;
+	float: right;
+}
+.spot-item_twi p{
+	float: left;
 }
 .item-footer {
 	overflow: hidden;
@@ -907,6 +907,9 @@ label input[type=checkbox]:checked + i {
 .author-row a{
 	margin-right: 10px;
 }
+.spot-item_twi .author-row{
+	float: left;
+}
 .authot-name{
 	font-weight: 600;
 }
@@ -947,6 +950,35 @@ label input[type=checkbox]:checked + i {
 .spot-item_twi .actions a:hover span{
 	text-decoration: underline;
 }
-.twee-body{
-	padding-left: 104px;
+.mess-body{
+	padding-left: 72px;
+}
+.default-avatar{
+	float: left;
+}
+@media screen and (max-width: 700px) {
+	.spot-item_twi .type-mess iframe{
+		float: left;
+		margin-top: 8px;
+	}
+	.spot-item_twi .author-row{
+		float: none;
+	}
+	.spot-item_twi footer .actions{
+		float: none;
+		width: 100%;
+		text-align: center;
+		clear: both;
+	}
+	.spot-item_twi .actions a{
+		font-size: 15px !important;
+		font-weight: 200;
+		display: inline-block;
+		margin: 20px 5% 10px;
+
+	}
+	.spot-item_twi .actions a i{
+		margin-top: 0;
+	}
+
 }

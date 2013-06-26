@@ -20,14 +20,14 @@
 	<?php elseif($type == 'socnet'): ?>
 		<div class="spot-item<?php if(isset($content['data'][$key]['tweet_author'])):?> spot-item_twi<?php endif; ?>">
 			<div class="item-area type-mess">
-				<!-- Avatar -->
+				<?php /* Avatar *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['photo'])): ?>
-					<div class="default-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
+					<div class="user-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
 					</div>
 				<?php endif; ?>
-				<!-- Tweet -->
+				<?php /* Tweet *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['tweet_author']) && isset($content['data'][$key]['tweet_username']) && isset($content['data'][$key]['tweet_text']) && isset($content['data'][$key]['soc_url']) && isset($content['data'][$key]['tweet_id'])): ?>
-					<div class="twee-body">
+					<div class="mess-body">
 						<div class="author-row"><a class="authot-name" href="<?php echo $content['data'][$key]['soc_url']; ?>"><?php echo $content['data'][$key]['tweet_author']; ?></a><a class="user-name" href="<?php echo $content['data'][$key]['soc_url']; ?>">@<?php echo $content['data'][$key]['tweet_username']; ?></a></div>
 						<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow</a>
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -44,18 +44,18 @@
 						</footer>
 					</div>
 				<?php endif; ?>
-				<!-- Text post -->
+				<?php /* Text post *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['last_status'])): ?>
 					<p><?php echo $this->hrefActivate($content['data'][$key]['last_status']); ?></p>
 				<?php endif; ?>
-				<!-- Text link -->
+				<?php /* Text link *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['link_href']) && isset($content['data'][$key]['link_text'])): ?>
 				  <a href="<?php echo $this->hrefActivate($content['data'][$key]['link_href']); ?>"><?php echo $content['data'][$key]['link_text']; ?></a>
 				  <?php if(isset($content['data'][$key]['link_descr'])): ?>
 				    <p><?php echo $content['data'][$key]['link_descr']; ?></p>
 				  <?php endif; ?>
 				<?php endif; ?>
-				<!-- Vimeo video -->
+				<?php /* Vimeo video *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['vimeo_last_video'])): ?>
 				  <div class="item-area text-center" id="div_<?php echo $key; ?>">
 					<iframe 
@@ -78,7 +78,7 @@
 				  </div>
 					<?php endif; ?>
 				<?php endif; ?>
-				<!-- Checkin -->
+				<?php /* Checkin *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['venue_name'])): ?>
 				  <div class="item-area text-center">
 				  <p><?php echo Yii::t('eauth','в ').$content['data'][$key]['venue_name']?><?php if(isset($content['data'][$key]['venue_address'])): ?>, <?php echo $content['data'][$key]['venue_address']?><?php endif; ?>
@@ -94,7 +94,7 @@
 				  <?php endif; ?>
 				  </div>
 				<?php endif; ?>
-				<!-- Image -->
+				<?php /* Image *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['last_img'])): ?>
 					<div class="item-area text-center">
 						<?php if(isset($content['data'][$key]['last_img_href'])): ?>
@@ -112,7 +112,7 @@
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				<!-- Map -->
+				<?php /* Map *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['place_lat']) && isset($content['data'][$key]['place_lng'])): ?>
 					<div class="item-area text-center">
 						<?php if(isset($content['data'][$key]['place_msg'])): ?>
@@ -140,7 +140,7 @@
 						<p><?php echo $content['data'][$key]['place_name']; ?></p>
 					</div>
 				<?php endif; ?>
-				<!-- YouTube video -->
+				<?php /* YouTube video *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['ytube_video_link'])) {?>
 					<?php if(isset($content['data'][$key]['ytube_video_flash'])) {?>
 						<div class="item-area text-center">
@@ -172,7 +172,7 @@
 						</div>
 					<?php }?>
 				<?php }?>
-				<!-- Follow button -->
+				<?php /* Follow button *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['soc_url']) && !isset($content['data'][$key]['tweet_author'])): ?>
 					<a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
 					<span><?php echo $content['data'][$key]['invite']; ?></span> 

@@ -43,13 +43,13 @@ class CustomLinkedinOAuthService extends EOAuthService {
 	$this->attributes['name'] = $info['first-name'].' '.$info['last-name'];
 	if(!empty($info['public-profile-url']))
 	  $this->attributes['url'] = $info['public-profile-url'];
-    $userSoc=UserSoc::model()->findByAttributes(array(
+    $socToken=SocToken::model()->findByAttributes(array(
 	  'user_id'=>Yii::app()->user->id,
 	  'type'=>9,
 	));	
-	if($userSoc)	  
-	  $userSoc->soc_id = $info['id'];
-	$userSoc->save();
+	if($socToken)
+	  $socToken->soc_id = $info['id'];
+	$socToken->save();
 		
 	/*	
 	if (!empty($info['headline']))
@@ -89,17 +89,18 @@ class CustomLinkedinOAuthService extends EOAuthService {
   
   protected function getAccessToken()
   {
-    $userSoc=UserSoc::model()->findByAttributes(array(
+
+    $socToken=SocToken::model()->findByAttributes(array(
 	  'user_id'=>Yii::app()->user->id,
 	  'type'=>9,
 	));	
-	if(!$userSoc)
-	    $userSoc = new UserSoc;	
-	$userSoc->type = 9;
-	$userSoc->user_id = Yii::app()->user->id;
-	$userSoc->user_token = $this->auth->getProvider()->token;
-	$userSoc->token_expires = time() + $this->auth->token_expires - 20;
-	$userSoc->save();
+	if(!$socToken)
+	    $socToken = new SocToken;
+	$socToken->type = 9;
+	$socToken->user_id = Yii::app()->user->id;
+	$socToken->user_token = $this->auth->getProvider()->token;
+	$socToken->token_expires = time() + $this->auth->token_expires - 20;
+	$socToken->save();
 	
     return $this->auth->getProvider()->token;
   }  

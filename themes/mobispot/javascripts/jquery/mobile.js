@@ -16,6 +16,6 @@ $(document).ready(function(){
     aMargin = minMargin;
   aWidth = Math.round(aWidth);
   aMargin = Math.round(aMargin);
-  $('.default-avatar').width(aWidth+'px');
-  $('.default-avatar').css('margin-right', (aMargin+'px'));
+  $('.user-avatar').width(aWidth+'px');
+  $('.user-avatar').css('margin-right', (aMargin+'px'));
 });
