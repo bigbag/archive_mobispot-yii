@@ -252,7 +252,6 @@ function SpotCtrl($scope, $http, $compile) {
     spot.key = key;
     $http.post('/spot/BindSocial', spot).success(function(data) {
       if(data.error == 'no') {
-        //alert('data.socnet:' + data.socnet + ' data.loggedIn:' + data.loggedIn);
         if((data.socnet != 'no') && (data.socnet.length > 0)){
           if (!data.loggedIn) {
             var options = $.extend({
@@ -277,11 +276,28 @@ function SpotCtrl($scope, $http, $compile) {
             popup.focus();
           }
           else {
-
-            spotEdit.before($compile(data.content)($scope));
-            spotEdit.remove();
+            if(data.linkCorrect == 'ok'){
+              spotEdit.before($compile(data.content)($scope));
+              spotEdit.remove();
+			}
+			else{
+              var resultModal = angular.element('.m-result');
+              var resultContent = resultModal.find('p');
+              resultModal.show();
+              resultContent.text(data.linkCorrect);
+              resultModal.fadeOut(10000, function() {
+              });			
+			}
           }
         }
+		else if(data.linkCorrect != 'ok'){
+          var resultModal = angular.element('.m-result');
+          var resultContent = resultModal.find('p');
+          resultModal.show();
+          resultContent.text(data.linkCorrect);
+          resultModal.fadeOut(10000, function() {
+          });		
+		}
       }
       else {
         alert(data.error);
@@ -469,4 +485,15 @@ function SpotCtrl($scope, $http, $compile) {
     var defSelector = '#' + discodes;
     $scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
   }
+  
+  //стандартное сообщение
+  $scope.message = function(text){
+    var resultModal = angular.element('.m-result');
+    var resultContent = resultModal.find('p');
+    resultModal.show();
+    resultContent.text(text);
+    resultModal.fadeOut(10000, function() {
+    }); 
+  }
+  
 }

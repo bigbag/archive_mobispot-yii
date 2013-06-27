@@ -10,12 +10,23 @@ class SocInfo extends CFormModel
 
   public function __construct(){
     $this->socNetworks = SocInfo::getSocNetworks();
+	Yii::import('webroot.protected.models.SocContent.*');
   }
 
   public static function getSocNetworks(){
     $socNetworks = array();
     $net = array();
 
+    $net['name'] = 'google_oauth';
+    $net['baseUrl'] = 'google.com';
+    $net['invite'] = Yii::t('eauth', 'Read more on');
+    $net['inviteClass'] = 'i-soc_g';
+	$net['inviteValue'] = '&#xe009;';
+    $net['note'] = Yii::t('eauth', '');
+    $net['smallIcon'] = 'google16.png';
+	$net['contentClass'] = 'GoogleContent';
+    $socNetworks[] = $net;
+	
     $net['name'] = 'facebook';
     $net['baseUrl'] = 'facebook.com';
     $net['invite'] = Yii::t('eauth', 'Read more on');
@@ -32,15 +43,6 @@ class SocInfo extends CFormModel
 	$net['inviteValue'] = '&#xe007';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-twitter.2x.png';
-    $socNetworks[] = $net;
-
-    $net['name'] = 'google_oauth';
-    $net['baseUrl'] = 'google.com';
-    $net['invite'] = Yii::t('eauth', 'Read more on');
-    $net['inviteClass'] = 'i-soc_g';
-	$net['inviteValue'] = '&#xe009;';
-    $net['note'] = Yii::t('eauth', '');
-    $net['smallIcon'] = 'google16.png';
     $socNetworks[] = $net;
 
     $net['name'] = 'vk';
@@ -178,6 +180,29 @@ class SocInfo extends CFormModel
     return $answer;
   }
 
+    public function getNetByLink($link){
+    $answer = 'no';
+    foreach($this->socNetworks as $net){
+      if (strpos($link, $net['baseUrl']) !== false){
+        $answer = $net;
+        break;
+      }
+    }
+    return $answer;
+  }
+  
+  public function isLinkCorrect($link){
+    $answer = 'ok';
+
+    $net = $this->getNetByLink($link);
+    if(isset($net['contentClass'])){
+      $class  = $net['contentClass'];
+	  $answer = $class::isLinkCorrect($link);
+    }
+
+    return $answer;
+  }  
+  
   public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null){
     $this->socNet = $socNet;
     $this->socUsername = $socUsername;
@@ -192,7 +217,8 @@ class SocInfo extends CFormModel
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
+	  curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+      //curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
 
       $curl_result = curl_exec($ch);
       curl_close($ch);
@@ -239,8 +265,8 @@ class SocInfo extends CFormModel
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-		
+		curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+        		
         $curl_result = curl_exec($ch);
         curl_close($ch);
 
@@ -581,7 +607,7 @@ class SocInfo extends CFormModel
           $ch = curl_init();
           curl_setopt($ch, CURLOPT_URL, 'https://foursquare.com/'.$socUsername);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-          curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
+		  curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
           $profile = curl_exec($ch);
           //$headers = curl_getinfo($ch);
           curl_close($ch);
@@ -1195,7 +1221,7 @@ class SocInfo extends CFormModel
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
+    curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
 
 
     $curl_result = curl_exec($ch);
@@ -1295,14 +1321,6 @@ class SocInfo extends CFormModel
       $out .= '%u'.bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
     }
     return $out;
-  }
-
-  public function isProfileExists($socNet, $socUsername){
-    $answer = false;
-  $answer = true;//заглушка
-
-
-    return $answer;
   }
 
   public function getSmallIcon($link){

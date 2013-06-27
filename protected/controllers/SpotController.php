@@ -302,10 +302,11 @@ class SpotController extends MController {
       $this->setBadReques();
     }
 
-    $error="yes";
+    $error="error";
     $content='';
     $netName='no';
     $isSocLogged=false;
+	$linkCorrect=Yii::t('eauth', "Такого профиля не существует!");
 
     if (isset($data['discodes']) and isset($data['key'])){
 
@@ -317,7 +318,7 @@ class SpotController extends MController {
 
           $SocInfo=new SocInfo;
           $netName=$SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
-
+		  
           if($netName!='no'){
             $content=$spotContent->content;
 
@@ -325,26 +326,31 @@ class SpotController extends MController {
               and (Yii::app()->session[$netName]=='auth')){
 
               $isSocLogged=true;
-              $content['keys'][$data['key']]='socnet';
-              $spotContent->content=$content;
+			  $linkCorrect=$SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']]);  
 
-              if ($spotContent->save()) {
-                $content=$this->renderPartial('//widget/spot/personal/new_socnet',
-                array(
-                  'content'=>$content['data'][$data['key']],
-                  'key'=>$data['key'],
-                ),
-                true);
-              }
-			        unset(Yii::app()->session['bind_discodes']);
-              unset(Yii::app()->session['bind_key']);
+			  if($linkCorrect == 'ok'){
+                $content['keys'][$data['key']]='socnet';
+                $spotContent->content=$content;
+
+                if ($spotContent->save()){
+				
+                  $content=$this->renderPartial('//widget/spot/personal/new_socnet',
+                  array(
+                    'content'=>$content['data'][$data['key']],
+                    'key'=>$data['key'],
+                  ),
+                  true);
+                }
+			    unset(Yii::app()->session['bind_discodes']);
+                unset(Yii::app()->session['bind_key']);
+			  }
             }
             else {
               Yii::app()->session['bind_discodes']= $data['discodes'];
               Yii::app()->session['bind_key']=$data['key'];
             }
-            $error="no";
           }
+		  $error="no";
         }
       }
     }
@@ -353,7 +359,8 @@ class SpotController extends MController {
         'error'=>$error,
         'content'=>$content,
         'socnet'=>$netName,
-        'loggedIn'=>$isSocLogged
+        'loggedIn'=>$isSocLogged,
+		'linkCorrect'=>$linkCorrect
       )
     );
   }

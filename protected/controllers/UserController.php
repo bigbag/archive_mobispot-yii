@@ -34,6 +34,7 @@ class UserController extends MController {
 
     $defDiscodes = '';
     $defKey = '';
+	$message = ''; 
 
     if (!Yii::app()->user->id) {
       $this->setAccess();
@@ -45,29 +46,31 @@ class UserController extends MController {
         $this->redirect('/');
       }
 
-    if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
-    $spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
-    if ($spot){
-      $spotContent=SpotContent::getSpotContent($spot);
+      if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
+	    $defDiscodes = Yii::app()->session['bind_discodes'];
+        $defKey = Yii::app()->session['bind_key'];
+        $spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
+        if ($spot){
+          $spotContent=SpotContent::getSpotContent($spot);
 
-      if($spotContent) {
-        $SocInfo = new SocInfo;
-        $key = Yii::app()->session['bind_key'];
-        $netName = $SocInfo->detectNetByLink($spotContent->content['data'][$key]);
-        if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth')){
-          $content = $spotContent->content;
-          $content['keys'][$key]='socnet';
-          $spotContent->content=$content;
-          if ($spotContent->save()){
-            $defDiscodes = Yii::app()->session['bind_discodes'];
-            $defKey = Yii::app()->session['bind_key'];
+          if($spotContent) {
+            $socInfo = new SocInfo;
+            $key = Yii::app()->session['bind_key'];
+            $netName = $socInfo->detectNetByLink($spotContent->content['data'][$key]);
+			$linkCorrect=$socInfo->isLinkCorrect($spotContent->content['data'][$key]);
+			if(isset($linkCorrect) && ($linkCorrect != 'ok'))
+			  $message = $linkCorrect;
+            if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth') && isset($linkCorrect) && ($linkCorrect == 'ok')){
+              $content = $spotContent->content;
+              $content['keys'][$key]='socnet';
+              $spotContent->content=$content;
+              $spotContent->save();
+            }
           }
         }
+        unset(Yii::app()->session['bind_discodes']);
+        unset(Yii::app()->session['bind_key']);
       }
-    }
-    unset(Yii::app()->session['bind_discodes']);
-    unset(Yii::app()->session['bind_key']);
-    }
 
       $dataProvider=new CActiveDataProvider(
         Spot::model()->personal()->used()->selectUser($user_id),
@@ -83,6 +86,7 @@ class UserController extends MController {
           'spot_type_all'=>SpotType::getSpotTypeArray(),
       'defDiscodes'=>$defDiscodes,
       'defKey'=>$defKey,
+	  'message'=>$message,
       ));
     }
   }

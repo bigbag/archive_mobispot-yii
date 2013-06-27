@@ -13,8 +13,8 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="twelve columns" <?php if(strlen($defDiscodes)) echo 'ng-init="defOpen(\''.$defDiscodes.'\')"';?>>
+<div class="row"<?php if(strlen($message) > 0) echo ' ng-init="message(\''.$message.'\')"';?>>
+  <div class="twelve columns"<?php if(strlen($defDiscodes)) echo ' ng-init="defOpen(\''.$defDiscodes.'\')"';?>>
   <?php $this->widget('MListView', array(
       'dataProvider'=>$dataProvider,
       'itemView'=>'block/spots',
