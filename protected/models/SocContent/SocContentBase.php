@@ -3,10 +3,6 @@
 class SocContentBase
 {
 
-
-
-
-
   public static function rmGetParam($str){
     if(strpos($str, '?') > 0)
       $str = substr($str, 0, strpos($str, '?'));
@@ -17,7 +13,7 @@ class SocContentBase
     return $str;
   }
 
-  protected function initRequest($url, $options = array()) {
+  public static function initRequest($url, $options = array()) {
     $ch = curl_init();
     //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // error with open_basedir or safe mode
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
@@ -59,8 +55,8 @@ class SocContentBase
     return $ch;
   }
   
-  protected function makeRequest($url, $options = array(), $parseJson = true) {
-    $ch = $this->initRequest($url, $options);
+  public static function makeRequest($url, $options = array(), $parseJson = true) {
+    $ch = self::initRequest($url, $options);
 
     $result = curl_exec($ch);
     $headers = curl_getinfo($ch);
@@ -75,8 +71,8 @@ class SocContentBase
         'Options: '.var_export($options, true).PHP_EOL.
         'Result: '.$result,
         CLogger::LEVEL_ERROR, 'application.extensions.eauth'
-	  );
-	  $result = 'error:'.$headers['http_code'];
+      );
+      $result = 'error:'.$headers['http_code'];
     }elseif ($parseJson)
       $result = CJSON::decode($result, true);
     curl_close($ch);

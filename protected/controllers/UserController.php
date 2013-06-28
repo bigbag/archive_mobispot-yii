@@ -171,6 +171,7 @@ class UserController extends MController {
 
           if ($identity->authenticate()) {
             Yii::app()->session[$service] = 'auth';
+			Yii::app()->session[$service.'_id'] = $identity->getId();
             $authIdentity->redirect(array('user/personal'));
           }
           else {
