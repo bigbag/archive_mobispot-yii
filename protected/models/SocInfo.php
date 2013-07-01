@@ -84,7 +84,7 @@ class SocInfo extends CFormModel
 	$net['inviteValue'] = '&#xe003;';
     $net['note'] = Yii::t('eauth', '');
     $net['smallIcon'] = 'i-vimeo.2x.png';
-	$net['contentClass'] = '';
+	$net['contentClass'] = 'VimeoContent';
     $socNetworks[] = $net;
 /*
     $net['name'] = 'Last.fm';
