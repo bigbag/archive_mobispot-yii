@@ -82,7 +82,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe00a;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'foursquare16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
