@@ -296,74 +296,76 @@ class SpotController extends MController {
   }
 
   //Привязка соцсетей
-  public function actionBindSocial() {
-    $data=$this->getJson();
-    if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
-      $this->setBadReques();
-    }
-
-    $error="error";
-    $content='';
-    $netName='no';
-    $isSocLogged=false;
-	$linkCorrect=Yii::t('eauth', "Такого профиля не существует!");
-
-    if (isset($data['discodes']) and isset($data['key'])){
-
-      $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
-      if ($spot)  {
-
-        $spotContent=SpotContent::getSpotContent($spot);
-        if($spotContent) {
-
-          $SocInfo=new SocInfo;
-          $netName=$SocInfo->detectNetByLink($spotContent->content['data'][$data['key']]);
-		  
-          if($netName!='no'){
-            $content=$spotContent->content;
-
-            if(isset(Yii::app()->session[$netName])
-              and (Yii::app()->session[$netName]=='auth')){
-
-              $isSocLogged=true;
-			  $linkCorrect=$SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']]);  
-
-			  if($linkCorrect == 'ok'){
-                $content['keys'][$data['key']]='socnet';
-                $spotContent->content=$content;
-
-                if ($spotContent->save()){
-				
-                  $content=$this->renderPartial('//widget/spot/personal/new_socnet',
-                  array(
-                    'content'=>$content['data'][$data['key']],
-                    'key'=>$data['key'],
-                  ),
-                  true);
-                }
-			    unset(Yii::app()->session['bind_discodes']);
-                unset(Yii::app()->session['bind_key']);
-			  }
-            }
-            else {
-              Yii::app()->session['bind_discodes']= $data['discodes'];
-              Yii::app()->session['bind_key']=$data['key'];
-            }
-          }
-		  $error="no";
+    public function actionBindSocial() 
+    {
+        $data=$this->getJson();
+        if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken) {
+          $this->setBadReques();
         }
-      }
+
+        $error="error";
+        $content='';
+        $netName='no';
+        $isSocLogged=false;
+        $linkCorrect=Yii::t('eauth', "Такого профиля не существует!");
+
+        if (isset($data['discodes']) and isset($data['key'])){
+
+            $spot=Spot::getSpot(array('discodes_id'=>$data['discodes']));
+            if ($spot){
+
+                $spotContent=SpotContent::getSpotContent($spot);
+                if($spotContent){
+
+                    $SocInfo=new SocInfo;
+                    $socNet=$SocInfo->getNetByLink($spotContent->content['data'][$data['key']]);
+          
+                    if(!empty($socNet['name'])){
+                        $netName = $socNet['name'];
+                        $content=$spotContent->content;
+
+                        if((isset(Yii::app()->session[$netName]) and (Yii::app()->session[$netName]=='auth'))
+                            || (isset($socNet['needAuth']) and $socNet['needAuth']===false)){
+
+                            $isSocLogged=true;
+                            $linkCorrect=$SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']]);  
+
+                            if($linkCorrect == 'ok'){
+                                $content['keys'][$data['key']]='socnet';
+                                $spotContent->content=$content;
+
+                                if ($spotContent->save()){
+                
+                                    $content=$this->renderPartial('//widget/spot/personal/new_socnet',
+                                    array(
+                                        'content'=>$content['data'][$data['key']],
+                                        'key'=>$data['key'],
+                                    ),
+                                    true);
+                                }
+                                unset(Yii::app()->session['bind_discodes']);
+                                unset(Yii::app()->session['bind_key']);
+                            }
+                        }
+                        else {
+                          Yii::app()->session['bind_discodes']= $data['discodes'];
+                          Yii::app()->session['bind_key']=$data['key'];
+                        }
+                    }
+                    $error="no";
+                }
+            }
+        }
+        echo json_encode(
+            array(
+                'error'=>$error,
+                'content'=>$content,
+                'socnet'=>$netName,
+                'loggedIn'=>$isSocLogged,
+                'linkCorrect'=>$linkCorrect
+            )
+        );
     }
-    echo json_encode(
-      array(
-        'error'=>$error,
-        'content'=>$content,
-        'socnet'=>$netName,
-        'loggedIn'=>$isSocLogged,
-		'linkCorrect'=>$linkCorrect
-      )
-    );
-  }
 
   //Отвязка соцсети
   public function actionUnBindSocial(){

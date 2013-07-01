@@ -81,5 +81,12 @@ return array( // You can change the providers and their classes.
 	'client_id' => '5b0c354ebbb549999b60bcc438aee20b',
 	'client_secret' => '7da237808b2d40fb91d4d1b42538aa85',
 	'title' => 'Instagram',
-  ),    
+  ),
+    'behance' =>array(
+    //http://www.behance.net/dev/apps
+        'class' =>'CustomBehanceAuthService',
+        'client_id' =>'RPVsyWeNfqLTWWrNcvZTcajTVSbrFmVy',
+        'client_secret' => 'R31sssl4Vof65tQ_ukss9WTsv5ayD9pI',
+        'title' => 'Behance'
+    ),
 );
