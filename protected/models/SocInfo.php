@@ -606,9 +606,10 @@ class SocInfo extends CFormModel
               $consumer = new OAuthConsumer(Yii::app()->eauth->services['linkedin']['key'], Yii::app()->eauth->services['linkedin']['secret']);
               $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
               $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
-//              parse_str($socToken->user_token, $values);
+              parse_str($socToken->user_token, $values);
 //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
-              $token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
+              //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
+			  $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
               $url = 'http://api.linkedin.com/v1/people/id='.$socToken->soc_id.':(id,first-name,last-name,public-profile-url,headline,picture-url)';
               $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
               $options = array();
