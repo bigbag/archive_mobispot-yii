@@ -32,6 +32,7 @@ class ServiceUserIdentity extends CUserIdentity
    // $user = User::model()->findByAttributes(array('email' => $this->service->email));
 
     if ($this->service->isAuthenticated) {
+	  $this->_id = $this->service->getAttribute('id');
 /* 		$this->_id = $user->id;
 		$this->_email = $user->email;
 		$this->username = $user->email;
