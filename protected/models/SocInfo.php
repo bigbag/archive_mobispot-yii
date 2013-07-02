@@ -596,6 +596,7 @@ class SocInfo extends CFormModel
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
       }elseif($socNet == 'linkedin'){
+		$getProfile=false;
         if(!empty($discodesId) && is_numeric($discodesId)){
           $spot= Spot::model()->findByPk($discodesId);
           if($spot){
@@ -617,20 +618,22 @@ class SocInfo extends CFormModel
               $answer = $this->makeRequest($request->to_url(), $options, false);
 
               if(strpos($answer, 'error:') === false){
-                $socUser = $this->xmlToArray(simplexml_load_string($answer));
-                $this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
-                if (!empty($socUser['picture-url']))
-                  $this->userDetail['photo'] = $socUser['picture-url'];
-                if (!empty($socUser['headline']))
-                  $this->userDetail['last_status'] = $socUser['headline'];
-                if (!empty($socUser['public-profile-url']))
-                  $this->userDetail['soc_url'] = $socUser['public-profile-url'];
-              }else{
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
+			      $getProfile = true;
+                  $socUser = $this->xmlToArray(simplexml_load_string($answer));
+                  $this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
+                  if (!empty($socUser['picture-url']))
+                      $this->userDetail['photo'] = $socUser['picture-url'];
+                  if (!empty($socUser['headline']))
+                      $this->userDetail['last_status'] = $socUser['headline'];
+                  if (!empty($socUser['public-profile-url']))
+                      $this->userDetail['soc_url'] = $socUser['public-profile-url'];
               }
             }
           }
         }
+		if(!$getProfile){
+		  $this->userDetail['last_status'] = $socUsername;
+		}
       }elseif($socNet == 'foursquare'){
         if(!is_numeric($socUsername)){
           $ch = curl_init();
