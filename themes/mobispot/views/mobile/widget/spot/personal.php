@@ -25,6 +25,9 @@
 					<div class="user-avatar"><img src="<?php echo $content['data'][$key]['photo']; ?>">
 					</div>
 				<?php endif; ?>
+				<?php if(isset($content['data'][$key]['soc_username'])): ?>
+					<div class="author-row"><a class="authot-name" <?php if(isset($content['data'][$key]['soc_url'])) echo 'href="'.$content['data'][$key]['soc_url'].'"';?>><?php echo $content['data'][$key]['soc_username']; ?></a></div>
+				<?php endif; ?>
 				<?php /* Tweet *////////////////////////////////////////////////////////////////////////////////// ?>
 				<?php if(isset($content['data'][$key]['tweet_author']) && isset($content['data'][$key]['tweet_username']) && isset($content['data'][$key]['tweet_text']) && isset($content['data'][$key]['soc_url']) && isset($content['data'][$key]['tweet_id'])): ?>
 					<div class="mess-body">

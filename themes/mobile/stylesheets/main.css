@@ -789,6 +789,7 @@ a.active .tooltip{
 }
 .spot-item_twi p{
 	float: left;
+	width: 100%;
 }
 .item-footer {
 	overflow: hidden;

@@ -4,7 +4,7 @@
 class VimeoContent extends SocContentBase
 {
 
-    public static function isLinkCorrect($link)
+    public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = self::parseUsername($link);
         $result = 'ok';

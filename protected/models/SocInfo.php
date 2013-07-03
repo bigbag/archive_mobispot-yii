@@ -71,7 +71,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe005;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'linkedin16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
@@ -126,7 +126,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe00c;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'behance16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
 
@@ -149,7 +149,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe000;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'youtube16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
@@ -160,7 +160,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe006;';
         $net['note'] =  Yii::t('eauth', '');
         $net['smallIcon'] = 'instagram16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
@@ -220,13 +220,13 @@ class SocInfo extends CFormModel
     return $answer;
   }
   
-  public function isLinkCorrect($link){
+  public function isLinkCorrect($link, $discodesId = null, $dataKey = null){
     $answer = 'ok';
 
     $net = $this->getNetByLink($link);
     if(isset($net['contentClass']) && strlen($net['contentClass'])){
       $class  = $net['contentClass'];
-      $answer = $class::isLinkCorrect($link);
+      $answer = $class::isLinkCorrect($link, $discodesId, $dataKey);
     }
 
     return $answer;
@@ -358,10 +358,8 @@ class SocInfo extends CFormModel
           $this->userDetail['photo'] = 'http://graph.facebook.com/'.$socUsername.'/picture';
           if(isset($socUser['name']))
             $this->userDetail['soc_username'] = $socUser['name'];
-          if(isset($socUser['first_name']))
-            $this->userDetail['first_name'] = $socUser['first_name'];
-          if(isset($socUser['last_name']))
-            $this->userDetail['last_name'] = $socUser['last_name'];
+          if(!empty($socUser['first_name']) && !empty($socUser['last_name']))
+			$this->userDetail['soc_username'] = $socUser['first_name'].' '.$socUser['last_name'];
           if(isset($socUser['soc_url']))
             $this->userDetail['soc_url'] = $socUser['link'];
           if(isset($socUser['gender']))
@@ -790,7 +788,7 @@ class SocInfo extends CFormModel
       }elseif($socNet == 'vimeo'){
         $socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
         if(!is_string($socUser) && isset($socUser['id'])){
-          $this->userDetail['soc_username'] = $socUser['display_name'];
+          //$this->userDetail['soc_username'] = $socUser['display_name'];
           $this->userDetail['soc_url'] = $socUser['profile_url'];
           
           if (isset($socUser['portrait_medium']) and strlen($socUser['portrait_medium']) > 0)
@@ -859,7 +857,7 @@ class SocInfo extends CFormModel
         $headers = curl_getinfo($ch);
         if($headers['http_code'] == 200){
 
-          $this->userDetail['soc_username'] = $socUsername;
+          //$this->userDetail['soc_username'] = $socUsername;
           $this->userDetail['soc_url'] = 'http://'.$socUsername.'.deviantart.com';
 
           $userLent = $this->makeRequest('http://backend.deviantart.com/rss.xml?q=by%3A'.$socUsername.'+sort%3Atime+meta%3Aall', $options, false);
@@ -1004,7 +1002,7 @@ class SocInfo extends CFormModel
             try{
                 $userProfileEntry = $yt->getUserProfile($username);
 
-                $this->userDetail['soc_username'] = $userProfileEntry->title->text;
+                //$this->userDetail['soc_username'] = $userProfileEntry->title->text;
                 $this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
                 $this->userDetail['age'] = $userProfileEntry->getAge();
                 $this->userDetail['gender'] = $userProfileEntry->getGender();
@@ -1063,15 +1061,16 @@ class SocInfo extends CFormModel
         $socUser = $this->makeRequest('https://api.instagram.com/v1/users/search?q='.$socUsername.'&count=1&client_id='.Yii::app()->eauth->services['instagram']['client_id']);
         if(!is_string($socUser) && isset($socUser['data']) && isset($socUser['data'][0])){
             $socUser = $socUser['data'][0];
-            if(!empty($socUser['full_name']))
+           /* if(!empty($socUser['full_name']))
               $this->userDetail['soc_username'] = $socUser['full_name'];
             elseif(!empty($socUser['username']))
               $this->userDetail['soc_username'] = $socUser['username'];
+			  */
             if(!empty($socUser['username']))
               $this->userDetail['soc_url'] = 'http://instagram.com/'.$socUser['username'];
-            if(!empty($socUser['profile_picture']))
+          /*  if(!empty($socUser['profile_picture']))
               $this->userDetail['photo'] = $socUser['profile_picture'];
-
+			*/
     
             $techSoc=SocToken::model()->findByAttributes(array(
               'type'=>10,
