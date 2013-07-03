@@ -9,7 +9,10 @@ class BehanceContent extends SocContentBase
         $socUsername = self::parseUsername($link);
         $result = 'ok';
         
-
+        $options = array();
+        $socUser = self::makeRequest('http://www.behance.net/v2/users/'.$socUsername.'?api_key='.Yii::app()->eauth->services['behance']['client_id'], $options, false);
+        if(strpos($socUser, 'error:') !== false)
+            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
 
         return $result;
     }
