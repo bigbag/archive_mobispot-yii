@@ -34,7 +34,7 @@ class UserController extends MController {
 
     $defDiscodes = '';
     $defKey = '';
-	$message = ''; 
+    $message = ''; 
 
     if (!Yii::app()->user->id) {
       $this->setAccess();
@@ -47,7 +47,7 @@ class UserController extends MController {
       }
 
       if(isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key'])){
-	    $defDiscodes = Yii::app()->session['bind_discodes'];
+        $defDiscodes = Yii::app()->session['bind_discodes'];
         $defKey = Yii::app()->session['bind_key'];
         $spot=Spot::getSpot(array('discodes_id'=>Yii::app()->session['bind_discodes']));
         if ($spot){
@@ -57,9 +57,9 @@ class UserController extends MController {
             $socInfo = new SocInfo;
             $key = Yii::app()->session['bind_key'];
             $netName = $socInfo->detectNetByLink($spotContent->content['data'][$key]);
-			$linkCorrect=$socInfo->isLinkCorrect($spotContent->content['data'][$key]);
-			if(isset($linkCorrect) && ($linkCorrect != 'ok'))
-			  $message = $linkCorrect;
+            $linkCorrect=$socInfo->isLinkCorrect($spotContent->content['data'][$key], $defDiscodes, $defKey);
+            if(isset($linkCorrect) && ($linkCorrect != 'ok'))
+              $message = $linkCorrect;
             if(($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth') && isset($linkCorrect) && ($linkCorrect == 'ok')){
               $content = $spotContent->content;
               $content['keys'][$key]='socnet';
@@ -86,7 +86,7 @@ class UserController extends MController {
           'spot_type_all'=>SpotType::getSpotTypeArray(),
       'defDiscodes'=>$defDiscodes,
       'defKey'=>$defKey,
-	  'message'=>$message,
+      'message'=>$message,
       ));
     }
   }
@@ -158,10 +158,10 @@ class UserController extends MController {
       if (!Yii::app()->user->id) {
         $this->setAccess();
       }
-      else{	  
-	    if(($service == 'instagram') && isset($_GET['tech']) && ($_GET['tech'] == Yii::app()->eauth->services['instagram']['client_id'])){
-		  Yii::app()->session['instagram_tech'] = $_GET['tech'];
-		}
+      else{      
+        if(($service == 'instagram') && isset($_GET['tech']) && ($_GET['tech'] == Yii::app()->eauth->services['instagram']['client_id'])){
+          Yii::app()->session['instagram_tech'] = $_GET['tech'];
+        }
         $authIdentity = Yii::app()->eauth->getIdentity($service);
         $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
         $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
@@ -171,7 +171,7 @@ class UserController extends MController {
 
           if ($identity->authenticate()) {
             Yii::app()->session[$service] = 'auth';
-			Yii::app()->session[$service.'_id'] = $identity->getId();
+            Yii::app()->session[$service.'_id'] = $identity->getId();
             $authIdentity->redirect(array('user/personal'));
           }
           else {
@@ -179,7 +179,7 @@ class UserController extends MController {
           }
         }
       }
-	}
+    }
     else {
       $this->setNotFound();
     }

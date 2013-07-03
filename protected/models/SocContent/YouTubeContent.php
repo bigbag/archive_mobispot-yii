@@ -3,7 +3,7 @@
 class YouTubeContent extends SocContentBase
 {
 
-    public static function isLinkCorrect($link)
+    public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
         $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");

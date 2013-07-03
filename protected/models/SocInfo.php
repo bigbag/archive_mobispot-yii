@@ -71,7 +71,7 @@ class SocInfo extends CFormModel
         $net['inviteValue'] = '&#xe005;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'linkedin16.png';
-        $net['contentClass'] = '';
+        $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
@@ -220,13 +220,13 @@ class SocInfo extends CFormModel
     return $answer;
   }
   
-  public function isLinkCorrect($link){
+  public function isLinkCorrect($link, $discodesId = null, $dataKey = null){
     $answer = 'ok';
 
     $net = $this->getNetByLink($link);
     if(isset($net['contentClass']) && strlen($net['contentClass'])){
       $class  = $net['contentClass'];
-      $answer = $class::isLinkCorrect($link);
+      $answer = $class::isLinkCorrect($link, $discodesId, $dataKey);
     }
 
     return $answer;

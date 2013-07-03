@@ -328,7 +328,7 @@ class SpotController extends MController {
                             || (isset($socNet['needAuth']) and $socNet['needAuth']===false)){
 
                             $isSocLogged=true;
-                            $linkCorrect=$SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']]);  
+                            $linkCorrect=$SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);  
 
                             if($linkCorrect == 'ok'){
                                 $content['keys'][$data['key']]='socnet';
