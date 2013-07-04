@@ -164,6 +164,16 @@ class SocInfo extends CFormModel
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
+        $net['name'] = 'pinterest';
+        $net['baseUrl'] = 'http://pinterest.com';
+        $net['invite'] = Yii::t('eauth', 'Watch more on Pinterest');
+        $net['inviteClass'] = '';
+        $net['inviteValue'] = '';
+        $net['note'] =  Yii::t('eauth', '');
+        $net['smallIcon'] = 'pinterest16.png';
+        $net['contentClass'] = 'PinterestContent';
+        $net['needAuth'] = false;
+        $socNetworks[] = $net;
         return $socNetworks;
   }
 
@@ -359,7 +369,7 @@ class SocInfo extends CFormModel
           if(isset($socUser['name']))
             $this->userDetail['soc_username'] = $socUser['name'];
           if(!empty($socUser['first_name']) && !empty($socUser['last_name']))
-			$this->userDetail['soc_username'] = $socUser['first_name'].' '.$socUser['last_name'];
+            $this->userDetail['soc_username'] = $socUser['first_name'].' '.$socUser['last_name'];
           if(isset($socUser['soc_url']))
             $this->userDetail['soc_url'] = $socUser['link'];
           if(isset($socUser['gender']))
@@ -594,7 +604,7 @@ class SocInfo extends CFormModel
           $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
         }
       }elseif($socNet == 'linkedin'){
-		$getProfile=false;
+        $getProfile=false;
         if(!empty($discodesId) && is_numeric($discodesId)){
           $spot= Spot::model()->findByPk($discodesId);
           if($spot){
@@ -607,7 +617,7 @@ class SocInfo extends CFormModel
               parse_str($socToken->user_token, $values);
 //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
               //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
-			  $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
+              $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
               $url = 'http://api.linkedin.com/v1/people/id='.$socToken->soc_id.':(id,first-name,last-name,public-profile-url,headline,picture-url)';
               $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
               $options = array();
@@ -617,7 +627,7 @@ class SocInfo extends CFormModel
               $answer = $this->makeRequest($request->to_url(), $options, false);
 
               if(strpos($answer, 'error:') === false){
-			      $getProfile = true;
+                  $getProfile = true;
                   $socUser = $this->xmlToArray(simplexml_load_string($answer));
                   $this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
                   if (!empty($socUser['picture-url']))
@@ -630,9 +640,9 @@ class SocInfo extends CFormModel
             }
           }
         }
-		if(!$getProfile){
-		  $this->userDetail['last_status'] = $socUsername;
-		}
+        if(!$getProfile){
+          $this->userDetail['last_status'] = $socUsername;
+        }
       }elseif($socNet == 'foursquare'){
         if(!is_numeric($socUsername)){
           $ch = curl_init();
@@ -1065,12 +1075,12 @@ class SocInfo extends CFormModel
               $this->userDetail['soc_username'] = $socUser['full_name'];
             elseif(!empty($socUser['username']))
               $this->userDetail['soc_username'] = $socUser['username'];
-			  */
+              */
             if(!empty($socUser['username']))
               $this->userDetail['soc_url'] = 'http://instagram.com/'.$socUser['username'];
           /*  if(!empty($socUser['profile_picture']))
               $this->userDetail['photo'] = $socUser['profile_picture'];
-			*/
+            */
     
             $techSoc=SocToken::model()->findByAttributes(array(
               'type'=>10,
@@ -1112,8 +1122,15 @@ class SocInfo extends CFormModel
 */            
         }else
           $this->userDetail['soc_username'] = Yii::t('eauth','Пользователя с таким именем не существует:').$socUsername;
-      }else{
-        $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
+      }
+      else{
+            $net = $this->getNetByLink($socUsername);
+            if(isset($net['contentClass']) && strlen($net['contentClass'])){
+                $class = $net['contentClass'];
+                $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
+            }
+            else
+                $this->userDetail['soc_username'] =  Yii::t('eauth', 'Социальная сеть не поддерживается: ').$socNet;
       }
     return $this->userDetail;
   }
@@ -1263,7 +1280,7 @@ class SocInfo extends CFormModel
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
 
 
     $curl_result = curl_exec($ch);
@@ -1310,7 +1327,7 @@ class SocInfo extends CFormModel
     //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // error with open_basedir or safe mode
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
     curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
