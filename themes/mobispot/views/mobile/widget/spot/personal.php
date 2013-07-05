@@ -71,6 +71,7 @@
 					<script type="text/javascript">
 					  $(document).ready(function(){
 						$('#vimeo_<?php echo $key; ?>').width($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>);
+						$('#vimeo_<?php echo $key; ?>').css('min-height', '10px');
 						$('#vimeo_<?php echo $key; ?>').height(($('body').width()-<?php echo isset($content['data'][$key]['photo']) ? '146' : '80';?>)/<?php echo $content['data'][$key]['vimeo_video_width']/$content['data'][$key]['vimeo_video_height']; ?>);
 					  });
 					  $(window).resize(function(){
