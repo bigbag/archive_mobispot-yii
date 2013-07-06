@@ -21,7 +21,6 @@ class SiteController extends MController
 
     public function actionIndex()
     {
-        #$this->layout='//layouts/slider';
         $this->layout = '//layouts/all';
         $this->render('index');
     }

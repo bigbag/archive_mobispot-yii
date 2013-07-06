@@ -48,7 +48,7 @@ class MController extends Controller
 
         Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
 
-        Yii::app()->cache->flush();
+        //Yii::app()->cache->flush();
 
         return true;
     }
@@ -77,11 +77,15 @@ class MController extends Controller
 
     public function lastVisit()
     {
-        Yii::app()->db->createCommand()
-                ->update('user', array(
-                    'lastvisit' => new CDbExpression('NOW()'),
-                        ), 'id=:id', array(':id' => Yii::app()->user->id));
-        return true;
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user)
+        {
+            $user->lastvisit = new CDbExpression('NOW()');
+            if ($user->save(false))
+                return true;
+        }
+        return false;
+
     }
 
     public function setAccess()
@@ -114,13 +118,9 @@ class MController extends Controller
             $lang = Yii::app()->request->cookies['lang']->value;
 
             if (isset($all_lang[$lang]))
-            {
                 Yii::app()->language = $lang;
-            }
             else
-            {
                 Yii::app()->language = $userLang;
-            }
         }
         else if (Yii::app()->user->id)
         {
@@ -129,9 +129,7 @@ class MController extends Controller
             Yii::app()->language = $user->lang;
         }
         else
-        {
             Yii::app()->language = $userLang;
-        }
     }
 
     public function getLang()
@@ -169,9 +167,7 @@ class MController extends Controller
     public function hrefActivate($text)
     {
         return preg_replace_callback(
-                '{
-        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?
-      }xis', 'MController::hrefCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::hrefCallback', $text
         );
     }
 
@@ -185,9 +181,7 @@ class MController extends Controller
     public function urlActivate($text)
     {
         return preg_replace_callback(
-                '{
-        (https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?
-      }xis', 'MController::urlCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::urlCallback', $text
         );
     }
 
