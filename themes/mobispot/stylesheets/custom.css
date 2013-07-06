@@ -105,11 +105,27 @@ form.custom div.custom.dropdown ul li:hover:after{
 .row {
     max-width: 1100px;
 }
-.column,
-.columns {
+.column{
 	padding: 0 2em;
 }
-
+.row .row .column:first-child{
+	padding-left: 0;
+}
+.column:last-child{
+	padding-right: 0;
+}
+.row .row .columns{
+	padding: 0 3px;
+}
+.row .row .columns:first-child  {
+	margin-left: -3px;
+}
+.row .row .columns:last-child  {
+	margin-right: -3px;
+}
+.row .row{
+	margin: 0;
+}
 .orbit .orbit-slide {
 	width:100%;
 }
@@ -540,8 +556,9 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	background: rgba(235, 235, 235, 0.88);
 	color: #000;
 	font-size: 14px;
-	padding: 26px;
-	margin-top: -11px;
+	padding: 16px 20px;
+	margin-top: -30px;
+	margin-left: -13px;
 }
 .tooltip b{
 	color: #0062FF;
@@ -600,3 +617,134 @@ input.error::-webkit-input-placeholder {color: #ed578d !important;}
 input.error::-moz-placeholder {color: #ed578d !important;}
 input.error:-ms-input-placeholder { color: #ed578d !important; }
 input.error:-moz-placeholder { color: #ed578d !important; }
+
+form.custom span.custom{
+	border: 3px solid #0062FF;
+	margin-right: 3px;
+}
+form.custom span.custom.radio.checked{
+	background:#0062FF;
+}
+form.custom span.custom.radio.checked:before{
+	display: none;
+}
+
+div.switch.radius {
+	border-radius: 4px 4px 4px 4px;
+}
+div.switch {
+	background: none repeat scroll 0 0 white;
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	height: 36px;
+	margin-bottom: 1.25em;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	width: 70px;
+	cursor: pointer;
+}
+div.switch *{
+	cursor: pointer;
+}
+.small-4 {
+	position: relative;
+	width: 33.3333%;
+}
+div.switch input:checked {
+	display: none !important;
+}
+div.switch input {
+	display: block !important;
+	left: 0;
+}
+div.switch input {
+	-moz-appearance: none;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 3;
+}
+div.switch input:first-of-type:checked + label, div.switch input:first-of-type:checked + span + label {
+	left: 0;
+}
+div.switch input:first-of-type + label, div.switch input:first-of-type + span + label {
+	left: -50%;
+}
+div.switch label {
+	font-size: 0.875em;
+	line-height: 2.9em;
+	padding: 0 10px;
+}
+div.switch label {
+	float: left;
+	font-weight: bold;
+	height: 100%;
+	left: 0;
+	margin: 0;
+	position: relative;
+	text-align: left;
+	transition: all 0.1s ease-out 0s;
+	width: 50%;
+	z-index: 2;
+}
+div.switch input:first-of-type:checked ~ span {
+	left: 100%;
+	margin-left: -2.1875em;
+}
+div.switch.radius > span {
+	border-radius: 3px 3px 3px 3px;
+}
+div.switch > span {
+	background: linear-gradient(to bottom, white 0%, #F2F2F2 100%) repeat scroll 0 0 transparent;
+	border-color: #B3B3B3;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 980px #E1F5D1, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
+}
+div.switch > span {
+	height: 2.56em;
+	width: 2.28em;
+}
+div.switch > span {
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	left: -1px;
+	padding: 0;
+	position: absolute;
+	top: -1px;
+	transition: all 0.1s ease-out 0s;
+	z-index: 1;
+}
+.switch span.custom.radio{
+	display: none;
+}
+div.switch input:last-of-type:checked + label, div.switch input:last-of-type:checked + span + label {
+	left: auto;
+	right: 0;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:not(:checked) + label {
+	opacity: 0;
+}
+form.custom div.custom.dropdown{
+	margin-top: 0;
+}
+form.custom div.custom.dropdown a.current{
+	padding-top: 4px;
+}
+.row:last-child form.custom div.custom.dropdown ul{
+	bottom: 40px;
+	top: auto;
+}

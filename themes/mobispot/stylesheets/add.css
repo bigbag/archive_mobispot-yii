@@ -59,7 +59,7 @@
 }
 
 .personal-cover {
-  width: 1040px;
+  width: 1070px;
   margin: 0px auto;
   height: 390px;
   background: #0061FF;
@@ -78,11 +78,11 @@
   display: none;
 }
 
-.content-wrapper:after{
+/*.content-wrapper:after{
   height: 0px;
   width: 100%;
 }
-
+*/
 .logo a{
   margin-left: 40px;
 }

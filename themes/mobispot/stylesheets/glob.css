@@ -15,11 +15,11 @@ body{
 }
 @font-face {
 	font-family: Mobispot-icon;
-	src: url('../fonts/mobispot-icon.eot');
-	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
-	url('../fonts/mobispot-icon.woff') format('woff'),
-	url('../fonts/mobispot-icon.ttf') format('truetype'),
-	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
+	src: url('../fonts/icomoon.eot');
+	src: url('../fonts/icomoon.eot?iefix') format('eot'),
+	url('../fonts/icomoon.woff') format('woff'),
+	url('../fonts/icomoon.ttf') format('truetype'),
+	url('../fonts/icomoon.svg#webfontjSpbZQRv') format('svg');
 }
 .color{
 	color: #0063ff;
@@ -27,12 +27,15 @@ body{
 .content-wrapper{
 	min-height: 100%;
 	margin-bottom: -258px;
-	padding-bottom: 289px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+
 }
 .content-wrapper:after{
 	content: "";
 	display: block;
-	height: 258px;
+	height: 350px;
 	width: 100%;
 }
 
@@ -42,7 +45,6 @@ li{
 .logo a{
 	display: block;
 	max-width: 207px;
-	margin: 0 2px;
 }
 
 ::-webkit-input-placeholder {color:#000 !important;}
@@ -61,6 +63,10 @@ input:-moz-placeholder { color:#000!important; }
 
 .clearfix {
 	display: inline-block;
+}
+.clear{
+	clear: both;
+	float: none;
 }
 
 html[xmlns] .clearfix {
@@ -102,4 +108,7 @@ input::-webkit-inner-spin-button {
 	display: none;
 	-webkit-appearance: none;
 	margin: 0;
+}
+.icon{
+	font-family: mobispot-icon !important;
 }
