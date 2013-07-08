@@ -30,3 +30,7 @@ protected/messages
 mobispot.sublime*
 .phptidy-cache
 robot.txt
+/index.php
+/console.php
+/index.php
+/console.php

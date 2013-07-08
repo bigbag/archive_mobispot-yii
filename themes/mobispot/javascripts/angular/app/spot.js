@@ -19,7 +19,7 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
-  // Параметры сортировки, плюс ватчдог на поредке блоков
+  // Параметры сортировки
   $scope.sortableOptions = {
     stop: function(e, ui) {
       $scope.saveOrder();
@@ -286,7 +286,7 @@ function SpotCtrl($scope, $http, $compile) {
               resultModal.show();
               resultContent.text(data.linkCorrect);
               resultModal.fadeOut(10000, function() {
-              });			
+              });
 			}
           }
         }
@@ -296,7 +296,7 @@ function SpotCtrl($scope, $http, $compile) {
           resultModal.show();
           resultContent.text(data.linkCorrect);
           resultModal.fadeOut(10000, function() {
-          });		
+          });
 		}
       }
       else {
@@ -485,7 +485,7 @@ function SpotCtrl($scope, $http, $compile) {
     var defSelector = '#' + discodes;
     $scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
   }
-  
+
   //стандартное сообщение
   $scope.message = function(text){
     var resultModal = angular.element('.m-result');
@@ -493,7 +493,7 @@ function SpotCtrl($scope, $http, $compile) {
     resultModal.show();
     resultContent.text(text);
     resultModal.fadeOut(10000, function() {
-    }); 
+    });
   }
-  
+
 }

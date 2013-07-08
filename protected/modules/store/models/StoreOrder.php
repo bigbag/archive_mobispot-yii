@@ -11,17 +11,19 @@
  * @property string $payment
  * @property integer $status
  */
-class storeOrder extends CActiveRecord {
+class storeOrder extends CActiveRecord
+{
 
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
- 
-    public function getDbConnection(){
+
+    public function getDbConnection()
+    {
         return Yii::app()->dbStore;
-    } 
- 
+    }
+
     public function tableName()
     {
         return 'store.store_order';

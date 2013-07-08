@@ -1,6 +1,8 @@
 <?php
+
 class YServerErrorException extends CException
 {
+
     /**
      * @var integer HTTP status code, such as 403, 404, 500, etc.
      */
@@ -15,6 +17,7 @@ class YServerErrorException extends CException
     {
         parent::__construct($message, $code);
     }
+
 }
 
 ?>

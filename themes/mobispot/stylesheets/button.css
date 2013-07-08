@@ -42,6 +42,7 @@
 	line-height: 27px;
 	padding: 4px 11px 2px;
 	margin-bottom: 14px;
+	cursor: pointer;
 }
 .row__head-slider .spot-button{
 	background-color: #F7F8F8;
@@ -165,6 +166,7 @@
 .checkbox.active{
 	color: #0061FF;
 }
+
 .checkbox i{
 	display: inline-block;
 	height: 20px;
@@ -376,6 +378,8 @@ footer .button:hover + .active,
 .spot-hat-button li{
 	display: inline-block;
 	margin-left: 8px;
+	vertical-align: top;
+	line-height: 34px;
 }
 .spot-list .open .spot-hat-button{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
@@ -527,4 +531,72 @@ footer .button:hover + .active,
 	float: right;
 	margin-bottom: 12px;
 	margin-top: 3px;
+}
+.columns .spot-button{
+	margin-bottom: 5px;
+	text-align: center;
+}
+.spot-hat-button a{
+	font-size: 26px;
+	font-family: Mobispot, arial, sans-serif;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	margin-left: 10px;
+	line-height: 36px;
+}
+.spot-hat-button a:hover{
+	color: #0063ff;
+}
+a.icon-spot-button{
+	color: #fff;
+	font-size: 34px;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	line-height: 34px;
+}
+.icon-spot-button:hover{
+	color: #0063ff;
+}
+.cover-fast-link a{
+	font-size: 24px;
+	margin: 10px 10px;
+	display: inline-block;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+}
+.cover-fast-link a:hover{
+	color: #0063ff;
+}
+.cover-sub-link {
+	margin: 0;
+	text-align: right;
+	margin-right: 30px;
+	height: 0;
+	margin-bottom: -4px;
+	position: relative;
+	z-index: 10;
+}
+.cover-sub-link li{
+	background: #fff;
+display: inline-block;
+	text-align: center;
+	height: 31px;
+	width: 31px;
+	line-height: 31px;
+	position: relative;
+	top: -20px;
+	margin-left: 5px;
+	cursor: pointer;
+	font-size: 14px;
+}
+.spot-list li .cover-sub-link li:hover,
+.spot-list li .cover-sub-link li.open{
+	background: #0063ff;
+	color: #fff;
 }

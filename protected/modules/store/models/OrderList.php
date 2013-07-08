@@ -11,17 +11,19 @@
  * @property string $color
  * @property string $size
  */
-class OrderList extends CActiveRecord {
+class OrderList extends CActiveRecord
+{
 
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
-    public function getDbConnection(){
+    public function getDbConnection()
+    {
         return Yii::app()->dbStore;
     }
-	
+
     public function tableName()
     {
         return 'store.order_list';

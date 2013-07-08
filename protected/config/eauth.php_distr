@@ -1,40 +1,41 @@
 <?php
-return array( // You can change the providers and their classes.
-  'twitter'=>array(
-    // register your app here: https://dev.twitter.com/apps/new
-  'class' => 'CustomTwitterService',
-  'key' => 'QlnOol9mGgTn6zZXrWZOow',
-  'secret' => 'J1eJFs0J4YlbaFyAvYEa4IXK0yQRV6HKxzchjN60M',
-  'title' => 'Twitter',
-  ),
-  'google_oauth'=>array(
-  // register your app here: https://code.google.com/apis/console/
-    'class'=>'CustomGoogleOAuthService',
-    'client_id' => '894792426634.apps.googleusercontent.com',
-    'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
-    'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
-    'scope' =>'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-    'title'=>'Google (OAuth)',
-  ),
-  'facebook'=>array(
-    // register your app here: https://developers.facebook.com/apps/
-    'class'=>'CustomFacebookOAuthService',
-    'scope'=>'email, user_status, read_stream, user_photos',
-    'client_id'=>'382791045167658',
-    'client_secret'=>'5ce849c2bab389c307ac70bb0723dc0c',
-  ),
-  'youtube' => array(
-	'class' => 'CustomYouTubeOAuthService',
-	'client_id' => '894792426634.apps.googleusercontent.com',
-	'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
-	'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
-	'title' => 'YouTube',
-  ),	
-  //https://www.deviantart.com/settings/myapps
-  'deviantart' =>array(
-	'class' =>'CustomDeviantartAuthService',
-	'client_id' =>'422',
-	'client_secret' => '4bcaa594e6968ce30e7e37d640384b9d',
-	'title' => 'DeviantART'
-  ),  
+
+return array(// You can change the providers and their classes.
+    'twitter' => array(
+        // register your app here: https://dev.twitter.com/apps/new
+        'class' => 'CustomTwitterService',
+        'key' => 'QlnOol9mGgTn6zZXrWZOow',
+        'secret' => 'J1eJFs0J4YlbaFyAvYEa4IXK0yQRV6HKxzchjN60M',
+        'title' => 'Twitter',
+    ),
+    'google_oauth' => array(
+        // register your app here: https://code.google.com/apis/console/
+        'class' => 'CustomGoogleOAuthService',
+        'client_id' => '894792426634.apps.googleusercontent.com',
+        'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
+        'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
+        'scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'title' => 'Google (OAuth)',
+    ),
+    'facebook' => array(
+        // register your app here: https://developers.facebook.com/apps/
+        'class' => 'CustomFacebookOAuthService',
+        'scope' => 'email, user_status, read_stream, user_photos',
+        'client_id' => '382791045167658',
+        'client_secret' => '5ce849c2bab389c307ac70bb0723dc0c',
+    ),
+    'youtube' => array(
+        'class' => 'CustomYouTubeOAuthService',
+        'client_id' => '894792426634.apps.googleusercontent.com',
+        'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
+        'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
+        'title' => 'YouTube',
+    ),
+    //https://www.deviantart.com/settings/myapps
+    'deviantart' => array(
+        'class' => 'CustomDeviantartAuthService',
+        'client_id' => '422',
+        'client_secret' => '4bcaa594e6968ce30e7e37d640384b9d',
+        'title' => 'DeviantART'
+    ),
 );

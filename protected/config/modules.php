@@ -1,20 +1,21 @@
 <?php
+
 return array(
-  'gii'=>array(
-    'class'=>'system.gii.GiiModule',
-    'password'=>'mobispot',
-    'ipFilters'=>array('127.0.0.1'),
-    'generatorPaths'=>array(
-      'ext.mongo.gii'
+    'gii' => array(
+        'class' => 'system.gii.GiiModule',
+        'password' => 'mobispot',
+        'ipFilters' => array('127.0.0.1'),
+        'generatorPaths' => array(
+            'ext.mongo.gii'
+        ),
     ),
-  ),
-  'admin'=>array(
-    'defaultController'=>'settings',
-  ),
-  'mobile'=>array(
-    'defaultController'=>'user',
-  ),
-  'store'=>array(
-    'defaultController'=>'product',
-  ),
+    'admin' => array(
+        'defaultController' => 'settings',
+    ),
+    'mobile' => array(
+        'defaultController' => 'user',
+    ),
+    'store' => array(
+        'defaultController' => 'product',
+    ),
 );

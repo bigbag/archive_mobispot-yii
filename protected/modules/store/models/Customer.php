@@ -15,32 +15,36 @@
  * @property string $phone
  * @property string $country 
  */
-class Customer extends CActiveRecord {
+class Customer extends CActiveRecord
+{
 
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
-	
-    public function getDbConnection(){
+
+    public function getDbConnection()
+    {
         return Yii::app()->dbStore;
     }
- 
+
     public function tableName()
     {
         return 'store.customer';
     }
-	
-  /**
-   * @return array validation rules for model attributes.
-   */
-	public function rules() {
-    // NOTE: you should only define rules for those attributes that
-    // will receive user inputs.
-    return array(
-        array('email, address', 'required'),
-        array('email', 'email'),
-        array('email', 'unique'),
-    );
-  }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('email, address', 'required'),
+            array('email', 'email'),
+            array('email', 'unique'),
+        );
+    }
+
 }
