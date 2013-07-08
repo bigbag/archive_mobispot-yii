@@ -24,7 +24,7 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 
 	protected $client_id = '';
 	protected $client_secret = '';
-	protected $scope = 'friends';
+	protected $scope = '';
 	protected $providerOptions = array(
 		'authorize' => 'http://api.vk.com/oauth/authorize',
 		'access_token' => 'https://api.vk.com/oauth/access_token',
@@ -43,18 +43,16 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 		$info = $info['response'][0];
 
 		$this->attributes['id'] = $info->uid;
-		$this->attributes['name'] = $info->first_name.' '.$info->last_name;
+		if(isset($info->first_name) && isset($info->last_name))
+		  $this->attributes['name'] = $info->first_name.' '.$info->last_name;
 		$this->attributes['url'] = 'http://vk.com/id'.$info->uid;
-
-
+/*
 		if (!empty($info->nickname))
 			$this->attributes['username'] = $info->nickname;
 		else
 			$this->attributes['username'] = 'id'.$info->uid;
-
 		if (!empty($info->sex))
-			$this->attributes['gender'] = $info->sex == 1 ? 'Ж' : 'М';
-
+			$this->attributes['gender'] = $info->sex;
 
 		if (!empty($info->country)){
 			$countries = (array)$this->makeSignedRequest('https://api.vk.com/method/places.getCountries.json');
@@ -82,7 +80,7 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 			
 		if (!empty($info->university_name))	
 			$this->attributes['school'] = $info->university_name;
-			
+*/			
 /*
 		$wall = (array)$this->makeSignedRequest('https://api.vk.com/method/wall.get.json', array(
 			'query' => array(
@@ -92,11 +90,12 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 			),
 		));
 
-			
-		/*
+*/			
+/*
 		$this->attributes['photo_medium'] = $info->photo_medium;
 		$this->attributes['photo_big'] = $info->photo_big;
-		$this->attributes['photo_rec'] = $info->photo_rec;*/
+		$this->attributes['photo_rec'] = $info->photo_rec;
+*/
 	}
 
 	/**
@@ -105,9 +104,8 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 	 * @return string url to request. 
 	 */
 	protected function getCodeUrl($redirect_uri) {
-		$this->setState('redirect_uri', $redirect_uri);
-		
 		$url = parent::getCodeUrl($redirect_uri);
+		$this->setState('vk_redirect_uri', $url);
 		if (isset($_GET['js']))
 			$url .= '&display=popup';
 				
@@ -156,4 +154,9 @@ class CustomVKontakteOAuthService extends EOAuth2Service {
 		else
 			return null;
 	}
+	
+    protected function getTokenUrl($code)
+    {
+        return $this->providerOptions['access_token'] . '?client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&code=' . $code . '&redirect_uri='.$this->getState('vk_redirect_uri');
+    }
 }

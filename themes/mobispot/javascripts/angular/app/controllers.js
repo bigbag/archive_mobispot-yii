@@ -58,6 +58,13 @@ function UserCtrl($scope, $http, $compile, $timeout) {
    if (!valid) return false;
     $http.post('/service/login', user).success(function(data) {
       if (data.error == 'yes') {
+        resultModal.addClass('m-negative');
+        resultModal.show();
+          resultContent.text(data.content);
+          resultModal.fadeOut(10000, function() {
+            resultModal.removeClass('m-negative');
+          });
+
         angular.element('#sign-in input[name=email]').addClass('error');
         angular.element('#sign-in input[name=password]').addClass('error');
       }
@@ -105,6 +112,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       if (data.error == 'yes') {
         angular.element('#personSpotForm input[name=email]').addClass('error');
         angular.element('#personSpotForm input[name=code]').addClass('error');
+	angular.element('#personSpotForm input[name=password]').addClass('error');
       }
       else if (data.error == 'no'){
         angular.element('#actSpotForm').slideUp(400, function() {
@@ -206,6 +214,12 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     $http.post('/service/recovery', user).success(function(data) {
       if (data.error == 'yes') {
         angular.element('#recPassForm input[name=email]').addClass('error');
+        resultModal.addClass('m-negative');
+        resultModal.show();
+          resultContent.text(data.content);
+          resultModal.fadeOut(10000, function() {
+            resultModal.removeClass('m-negative');
+          });
       }
       else if (data.error == 'no'){
         angular.element('#recPassForm').slideUp(400, function() {

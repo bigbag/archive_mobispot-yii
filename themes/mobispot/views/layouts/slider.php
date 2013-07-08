@@ -5,14 +5,14 @@
 <!--[if IE 8]> <html class="no-js lt-ie9" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 
-<?php include('block/head.php');?>
-<body ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
-<div class="content-wrapper">
-	<?php include('block/header/slider.php');?>
-	<?php echo $content; ?>
-</div>
+    <?php include('block/head.php'); ?>
+    <body ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
+        <div class="content-wrapper">
+            <?php include('block/header/slider.php'); ?>
+            <?php echo $content; ?>
+        </div>
 
-<?php include('block/footer/all.php');?>
-<?php include('block/script/all.php');?>
-</body>
+        <?php include('block/footer/all.php'); ?>
+        <?php include('block/script/all.php'); ?>
+    </body>
 </html>
