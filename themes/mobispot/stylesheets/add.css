@@ -94,3 +94,11 @@
 .user-menu {
   margin-right: 40px;
 }
+
+.item-area.text-photo img{
+  margin: 0 auto;
+  width: 100%;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
