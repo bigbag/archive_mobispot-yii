@@ -57,7 +57,7 @@ class ServiceController extends MController
                 $error = "no";
             }
             else
-                $content = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
+                $content = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
         }
 
         echo json_encode(array(
@@ -130,9 +130,12 @@ class ServiceController extends MController
                     $spot->save();
 
                     MMail::activation($model->email, $model->activkey, $this->getLang());
-                    $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration. ");
+                    $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
                     $error = "no";
                 }
+            }
+            else {
+                $content = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
             }
         }
         echo json_encode(array(

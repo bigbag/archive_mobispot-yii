@@ -26,7 +26,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_g';
         $net['inviteValue'] = '&#xe009;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'google16.png';
+        $net['smallIcon'] = 'google.png';
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -37,7 +37,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc-fac';
         $net['inviteValue'] = '&#xe008;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-fb.2x.png';
+        $net['smallIcon'] = 'facebook.png';
         $net['contentClass'] = 'FacebookContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -48,7 +48,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_twi';
         $net['inviteValue'] = '&#xe007';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-twitter.2x.png';
+        $net['smallIcon'] = 'twitter.png';
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -70,7 +70,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_in';
         $net['inviteValue'] = '&#xe005;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'linkedin16.png';
+        $net['smallIcon'] = 'linkedin.png';
         $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -81,7 +81,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc-fo';
         $net['inviteValue'] = '&#xe00a;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'foursquare16.png';
+        $net['smallIcon'] = 'foursquare.png';
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -92,7 +92,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_vo';
         $net['inviteValue'] = '&#xe003;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-vimeo.2x.png';
+        $net['smallIcon'] = 'vimeo.png';
         $net['contentClass'] = 'VimeoContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -114,7 +114,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc-da';
         $net['inviteValue'] = '&#xe00b;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'deviantart16.png';
+        $net['smallIcon'] = 'deviantart.png';
         $net['contentClass'] = 'DeviantARTContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -125,7 +125,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc-be';
         $net['inviteValue'] = '&#xe00c;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'behance16.png';
+        $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
@@ -148,7 +148,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_yt';
         $net['inviteValue'] = '&#xe000;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'youtube16.png';
+        $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -159,7 +159,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_ing';
         $net['inviteValue'] = '&#xe006;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'instagram16.png';
+        $net['smallIcon'] = 'instagram.png';
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -170,7 +170,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = '';
         $net['inviteValue'] = '';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'pinterest16.png';
+        $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
