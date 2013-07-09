@@ -387,117 +387,6 @@ class SocInfo extends CFormModel
                 $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
             }
         }
-        elseif ($socNet == 'facebook')
-        {
-            $socUser = $this->makeRequest('https://graph.facebook.com/' . $socUsername);
-
-            if (!isset($socUser['error']))
-            {
-                $this->userDetail['UserExists'] = true;
-                //$this->userDetail['soc_id'] = $socUser['id'];
-                $this->userDetail['photo'] = 'http://graph.facebook.com/' . $socUsername . '/picture';
-                if (isset($socUser['name']))
-                    $this->userDetail['soc_username'] = $socUser['name'];
-                if (!empty($socUser['first_name']) && !empty($socUser['last_name']))
-                    $this->userDetail['soc_username'] = $socUser['first_name'] . ' ' . $socUser['last_name'];
-                if (isset($socUser['soc_url']))
-                    $this->userDetail['soc_url'] = $socUser['link'];
-                if (isset($socUser['gender']))
-                    $this->userDetail['gender'] = $socUser['gender'];
-                if (isset($socUser['locale']))
-                    $this->userDetail['locale'] = $socUser['locale'];
-
-                //последний пост
-                $appToken = Yii::app()->cache->get('facebookAppToken');
-                $isAppTokenValid = false;
-
-                if ($appToken !== false)
-                {
-                    $validation = $this->makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
-                    $validation = CJSON::decode($validation, true);
-                    if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                        $isAppTokenValid = true;
-                }
-
-                if (!$isAppTokenValid)
-                {
-                    if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
-                    {
-                        $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
-                        $appToken = fgets($textToken);
-                        fclose($textToken);
-                        if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-                            $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
-                        Yii::app()->cache->set('facebookAppToken', $appToken);
-                        $isAppTokenValid = true;
-                    }
-                }
-
-                $userFeed = $this->makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $appToken);
-                unset($lastPost);
-                $i = 0;
-                $prevPageUrl = '';
-
-                if (isset($socUser['id']))
-                {
-                    while (!isset($lastPost))
-                    {
-
-                        if (isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application']))
-                        {
-                            $lastPost = $userFeed['data'][$i];
-                        }
-                        //следующая страница
-                        elseif (!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i])))
-                        {
-                            if (isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl))
-                            {
-                                $prevPageUrl = $userFeed['paging']['previous'];
-                                $userFeed = $this->makeRequest($userFeed['paging']['previous'] . '&access_token=' . $appToken);
-                                $i = 0;
-                            }
-                            else
-                            {
-                                $lastPost = 'no';
-                            }
-                        }
-                        else
-                        {
-                            $i++;
-                        }
-                    }
-
-                    if ($lastPost != 'no')
-                    {
-                        if ($lastPost['type'] == 'photo')
-                        {
-                            $this->userDetail['last_img'] = $lastPost['picture'];
-                            if (isset($lastPost['message']))
-                                $this->userDetail['last_img_msg'] = $lastPost['message'];
-                            if (isset($lastPost['story']))
-                                $this->userDetail['last_img_story'] = $lastPost['story'];
-                        }elseif (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
-                        {
-                            //"место" на карте
-                            if (isset($lastPost['message']))
-                                $this->userDetail['place_msg'] = $lastPost['message'];
-                            $this->userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
-                            $this->userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
-                            $this->userDetail['place_name'] = $lastPost['place']['name'];
-                        }else
-                        {
-                            if (isset($lastPost['message']))
-                                $this->userDetail['last_status'] = $lastPost['message'];
-                            elseif (isset($lastPost['story']))
-                                $this->userDetail['last_status'] = $lastPost['story'];
-                        }
-                    }
-                }
-            }else
-            {
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
-            }
-        }
         elseif ($socNet == 'twitter')
         {
 
@@ -1281,26 +1170,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'facebook')
-        {
-            if ((strpos($username, 'facebook.com/') > 0) || (strpos($username, 'facebook.com/') !== false))
-            {
-                $username = substr($username, (strpos($username, 'facebook.com/') + 13));
-                if (strpos($username, '?') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '?'));
-                }
-                if (strpos($username, '/') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '/'));
-                }
-                if (strpos($username, '&') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '&'));
-                }
-            }
-        }
-        elseif ($socNet == 'twitter')
+        if ($socNet == 'twitter')
         {
             if ((strpos($username, 'twitter.com/') > 0) || (strpos($username, 'twitter.com/') !== false))
             {
