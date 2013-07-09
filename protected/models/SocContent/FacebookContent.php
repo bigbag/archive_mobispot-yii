@@ -59,8 +59,10 @@ class FacebookContent extends SocContentBase
                 $userDetail['soc_username'] = $socUser['name'];
             if (!empty($socUser['first_name']) && !empty($socUser['last_name']))
                 $userDetail['soc_username'] = $socUser['first_name'] . ' ' . $socUser['last_name'];
-            if (isset($socUser['soc_url']))
+            if (isset($socUser['link']))
                 $userDetail['soc_url'] = $socUser['link'];
+            else
+                $userDetail['soc_url'] = 'https://www.facebook.com/' . $socUsername;
             if (isset($socUser['gender']))
                 $userDetail['gender'] = $socUser['gender'];
             if (isset($socUser['locale']))

@@ -1469,6 +1469,18 @@ class SocInfo extends CFormModel
         }
         return $answer;
     }
+    
+    public function contentNeedSave($link){
+        $answer = false;
+
+        $net = $this->getNetByLink($link);
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::contentNeedSave($link);
+        }
+        return $answer;
+    }
 
     public static function isSocLink($link)
     {

@@ -81,13 +81,23 @@ class SpotController extends MController
                                 if ($content['keys'][$dataKeys[$i]] == 'socnet')
                                 {
                                     $link = $content['data'][$dataKeys[$i]];
-                                    $SocInfo = new SocInfo;
-                                    $socData = $SocInfo->getNetData($link);
+                                    $socInfo = new SocInfo;
+                                    $socData = $socInfo->getNetData($link);
                                     if (isset($socData['netName']))
                                     {
                                         $socData['soc_url'] = $link;
                                         $content['data'][$dataKeys[$i]] = $socData;
                                     }
+                                }
+                                elseif ($content['keys'][$dataKeys[$i]] == 'content')
+                                {
+                                    $socInfo = new SocInfo;
+                                    $net = $socInfo->getNetByLink($content['data'][$dataKeys[$i]]['binded_link']);
+                                    $content['data'][$dataKeys[$i]]['invite'] = $net['invite'];
+                                    $content['data'][$dataKeys[$i]]['inviteClass'] = $net['inviteClass'];
+                                    $content['data'][$dataKeys[$i]]['inviteValue'] = $net['inviteValue'];
+                                    $content['data'][$dataKeys[$i]]['netName'] = $net['name'];
+                                
                                 }
                             }
                             $this->render('/widget/spot/personal', array('content' => $content));

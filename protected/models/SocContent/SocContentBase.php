@@ -13,11 +13,11 @@ class SocContentBase
             $str = substr($str, 0, strpos($str, '&'));
         return $str;
     }
-	
-	public static function contentNeedSave($link)
-	{
-		return false;
-	}
+    
+    public static function contentNeedSave($link)
+    {
+        return false;
+    }
 
     public static function initRequest($url, $options = array())
     {
