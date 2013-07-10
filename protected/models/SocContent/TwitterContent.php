@@ -48,7 +48,7 @@ class TwitterContent extends SocContentBase
 
         if (!empty($socUser['error']) || empty($socUser['id']))
         {
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
 
         return $result;

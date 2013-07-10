@@ -19,16 +19,16 @@ class FacebookContent extends SocContentBase
         $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername);
 
         if (!empty($socUser['error']) || empty($socUser['id']))
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         elseif ((empty($socUser['is_published']) || ($socUser['is_published'] != 'true')) && !isset($postId))
         {
             if (empty(Yii::app()->session['facebook_id']))
             {
-                $result = Yii::t('eauth', "Для этого действия требуется авторизация через Facebook!");
+                $result = Yii::t('eauth', "Please log in with your Facebook account to perform this action");
             }
             elseif (Yii::app()->session['facebook_id'] != $socUser['id'])
             {
-                $result = Yii::t('eauth', "Вы не можете привязать чужкю личную страницу Facebook!");
+                $result = Yii::t('eauth', "You are not allowed to use page of another person in your spot");
             }
         }
 
@@ -100,7 +100,7 @@ class FacebookContent extends SocContentBase
             {
                 $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $appToken);
                 if(is_string($socPost) && (strpos($socPost, 'error') !== false)){
-                    $userDetail['error'] = Yii::t('eauth', "Пользователь не дал разрешения на привязку публикации: $link");
+                    $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
                 }elseif (isset($socPost['type']) && ($socPost['type'] == 'photo') && isset($socPost['picture']))
                 {
                     $userDetail['last_img'] = $socPost['picture'];
@@ -125,7 +125,7 @@ class FacebookContent extends SocContentBase
                         $userDetail['last_status'] = $socPost['story'];
                 }
                 if(empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']))
-                    $userDetail['error'] =  Yii::t('eauth', "Публикация не существует: $link");
+                    $userDetail['error'] =  Yii::t('eauth', "This post doesn't exist:") . $link;
             }
             //последний пост
     
@@ -195,7 +195,7 @@ class FacebookContent extends SocContentBase
             }
         }else
         {
-            $userDetail['error'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+            $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
 
         return $userDetail;

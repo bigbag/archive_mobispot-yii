@@ -14,7 +14,7 @@ class VimeoContent extends SocContentBase
             $video = self::makeRequest('http://vimeo.com/api/v2/video/' . $socUsername . '.json');
             if (is_string($video) || !isset($video[0]))
             {
-                $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
 

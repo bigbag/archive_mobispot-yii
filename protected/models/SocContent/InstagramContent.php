@@ -11,7 +11,7 @@ class InstagramContent extends SocContentBase
         $socUser = self::makeRequest('https://api.instagram.com/v1/users/search?q=' . $socUsername . '&count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
         if (is_string($socUser) || !isset($socUser['data']) || !isset($socUser['data'][0]))
         {
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
 
         return $result;

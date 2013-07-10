@@ -6,7 +6,7 @@ class LinkedInContent extends SocContentBase
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
-        $result = Yii::t('eauth', "Для этого действия требуется авторизация через LinkedIn!");
+        $result = Yii::t('eauth', "Please log in with your LinkedIn account to perform this action");
 
         if (!empty($discodesId) && is_numeric($discodesId) && !empty($dataKey))
         {
@@ -38,7 +38,7 @@ class LinkedInContent extends SocContentBase
                         if ($spotContent)
                         {
                             $content = $spotContent->content;
-                            $result = Yii::t('eauth', "Для LinkedIn Вы можете привязать только свой профиль");
+                            $result = Yii::t('eauth', "You are not allowed to use page of another person in your spot");
 
                             if (!empty($socUser['public-profile-url']) && isset($content['data']) && isset($content['data'][$dataKey]))
                             {
