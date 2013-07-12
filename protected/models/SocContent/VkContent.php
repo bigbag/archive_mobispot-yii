@@ -11,7 +11,7 @@ class VkContent extends SocContentBase
         $url = 'https://api.vk.com/method/users.get.json?uids=' . $socUsername;
         $socUser = self::makeRequest($url);
         if (empty($socUser['response']) || empty($socUser['response'][0]) || empty($socUser['response'][0]['uid']))
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }

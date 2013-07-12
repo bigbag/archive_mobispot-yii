@@ -16,7 +16,7 @@ class GoogleContent extends SocContentBase
 
         $socUser = CJSON::decode($curl_result, true);
         if (empty($socUser['id']) || !empty($socUser['error']) || !empty($socUser['errors']))
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }

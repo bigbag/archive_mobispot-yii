@@ -17,7 +17,7 @@
                 <img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
             </div>
         </a>
-    <?php elseif ($type == 'socnet'): ?>
+    <?php elseif (($type == 'socnet') || ($type == 'content')): ?>
         <div class="spot-item<?php if (isset($content['data'][$key]['tweet_author'])): ?> spot-item_twi<?php endif; ?>">
             <div class="item-area type-mess">
                 <?php /* Avatar *////////////////////////////////////////////////////////////////////////////////// ?>

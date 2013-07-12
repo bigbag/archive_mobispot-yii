@@ -13,7 +13,7 @@ class PinterestContent extends SocContentBase
         $curl_result = curl_exec($ch);
         $headers = curl_getinfo($ch);
         if ($headers['http_code'] != 200)
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
