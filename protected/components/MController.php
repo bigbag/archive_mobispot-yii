@@ -105,31 +105,32 @@ class MController extends Controller
 
     public function init()
     {
-        $langRequest = Yii::app()->getRequest()->getPreferredLanguage();
-        $userLang = $langRequest[0] . $langRequest[1];
+        // $langRequest = Yii::app()->getRequest()->getPreferredLanguage();
+        // $userLang = $langRequest[0] . $langRequest[1];
 
-        $all_lang = Lang::getLangArray();
+        // $all_lang = Lang::getLangArray();
 
-        if (!isset($all_lang[$userLang]))
-            $userLang = 'en';
+        // if (!isset($all_lang[$userLang]))
+        //     $userLang = 'en';
 
-        if (isset(Yii::app()->request->cookies['lang']))
-        {
-            $lang = Yii::app()->request->cookies['lang']->value;
+        // if (isset(Yii::app()->request->cookies['lang']))
+        // {
+        //     $lang = Yii::app()->request->cookies['lang']->value;
 
-            if (isset($all_lang[$lang]))
-                Yii::app()->language = $lang;
-            else
-                Yii::app()->language = $userLang;
-        }
-        else if (Yii::app()->user->id)
-        {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $user->lang);
-            Yii::app()->language = $user->lang;
-        }
-        else
-            Yii::app()->language = $userLang;
+        //     if (isset($all_lang[$lang]))
+        //         Yii::app()->language = $lang;
+        //     else
+        //         Yii::app()->language = $userLang;
+        // }
+        // else if (Yii::app()->user->id)
+        // {
+        //     $user = User::model()->findByPk(Yii::app()->user->id);
+        //     Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $user->lang);
+        //     Yii::app()->language = $user->lang;
+        // }
+        // else
+        //     Yii::app()->language = $userLang;
+        Yii::app()->language = 'en';
     }
 
     public function getLang()

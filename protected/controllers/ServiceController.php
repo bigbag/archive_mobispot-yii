@@ -134,8 +134,22 @@ class ServiceController extends MController
                     $error = "no";
                 }
             }
-            else {
-                $content = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
+            else
+            {
+                $validate_errors = $model->getErrors();
+                if (isset($validate_errors['activ_code']))
+                {
+                    $content = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
+                    $error = 'code';
+                }
+                elseif (isset($validate_errors['email']))
+                {
+                    $content = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
+                }
+                else
+                {
+                    $content = Yii::t('user', "Password is too short (minimum is 5 characters).");
+                }
             }
         }
         echo json_encode(array(

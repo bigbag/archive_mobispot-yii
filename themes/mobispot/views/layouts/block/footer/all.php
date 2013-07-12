@@ -3,7 +3,7 @@
         <div class="twelve columns">
             <h3><?php echo Yii::t('footer', 'Footer title') ?></h3>
             <?php $allLang = Lang::getLangArray(); ?>
-            <ul class="lang-dropdown">
+            <!-- <ul class="lang-dropdown">
                 <li class="dropdown">
                     <a class="spot-button" href="javascript:;"><?php echo $allLang[Yii::app()->language]; ?></a>
                     <div class="options">
@@ -18,7 +18,7 @@
                         </ul>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
             <ul class="link-list left">
               <!-- <li><a href="/pages/about"><?php echo Yii::t('footer', 'About us') ?></a></li> -->
                 <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
