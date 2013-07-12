@@ -1,5 +1,5 @@
 <div class="spot-item spot-block">
-    <div class="item-area text-center">
+    <div class="item-area">
         <div class="file-block">
             <a href="<?php echo CHtml::encode($content) ?>">
                 <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">

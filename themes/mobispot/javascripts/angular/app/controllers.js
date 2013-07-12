@@ -20,7 +20,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     if(period == 1000)
       var mytimeout = $timeout($scope.onFastTimeout, 1000);
     else
-      var mytimeout = $timeout($scope.onTimeout, 10000);
+      var mytimeout = $timeout($scope.onTimeout, 8000);
   };
 
   $scope.onTimeout = function(){
@@ -28,7 +28,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       $scope.itemsInCart = data.itemsInCart;
     });
 
-    var mytimeout = $timeout($scope.onTimeout, 10000);
+    var mytimeout = $timeout($scope.onTimeout, 8000);
   };
 
   $scope.onFastTimeout = function(){
@@ -61,7 +61,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         resultModal.addClass('m-negative');
         resultModal.show();
           resultContent.text(data.content);
-          resultModal.fadeOut(10000, function() {
+          resultModal.fadeOut(8000, function() {
             resultModal.removeClass('m-negative');
           });
 
@@ -106,19 +106,22 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   $scope.registration = function(user, valid){
     if (!valid) return false;
 
+    var emailId = angular.element('#personSpotForm input[name=email]');
+    var passwordId = angular.element('#personSpotForm input[name=password]');
+    var codeId = angular.element('#personSpotForm input[name=code]');
+
     resultModal.hide();
 
     $http.post('/service/registration', user).success(function(data) {
-      if (data.error == 'yes') {
-        angular.element('#personSpotForm input[name=email]').addClass('error');
-        angular.element('#personSpotForm input[name=code]').addClass('error');
-	angular.element('#personSpotForm input[name=password]').addClass('error');
-      }
-      else if (data.error == 'no'){
+      emailId.removeClass('error');
+      passwordId.removeClass('error');
+      codeId.removeClass('error');
+
+      if (data.error == 'no'){
         angular.element('#actSpotForm').slideUp(400, function() {
           resultModal.show();
           resultContent.text(data.content);
-          resultModal.fadeOut(10000, function() {
+          resultModal.fadeOut(8000, function() {
           });
         });
 
@@ -126,8 +129,19 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         $scope.user.password="";
         $scope.user.activ_code="";
         $scope.user.terms=0;
-        angular.element('#personSpotForm input[name=email]').removeClass('error');
-        angular.element('#personSpotForm input[name=code]').removeClass('error');
+      }
+      else {
+        if (data.error == 'yes') {
+          emailId.addClass('error');
+          passwordId.addClass('error');
+        }
+        else if (data.error == 'code'){
+          codeId.addClass('error');
+        }
+        resultModal.addClass('m-negative');
+        resultModal.show();
+        resultContent.text(data.content);
+        resultModal.fadeOut(8000);
       }
     });
   };
@@ -167,7 +181,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         resultModal.addClass('m-negative');
         resultModal.show();
         resultContent.text(data.content);
-        resultModal.fadeOut(10000);
+        resultModal.fadeOut(8000);
       }
       else if (data.error == 'no'){
         $scope.user.email="";
@@ -176,7 +190,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
 
         resultModal.show();
         resultContent.text(data.content);
-        resultModal.fadeOut(10000, function() {
+        resultModal.fadeOut(8000, function() {
           $(location).attr('href','/');
         });
 
@@ -217,7 +231,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         resultModal.addClass('m-negative');
         resultModal.show();
           resultContent.text(data.content);
-          resultModal.fadeOut(10000, function() {
+          resultModal.fadeOut(8000, function() {
             resultModal.removeClass('m-negative');
           });
       }
@@ -225,7 +239,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         angular.element('#recPassForm').slideUp(400, function() {
           resultModal.show();
           resultContent.text(data.content);
-          resultModal.fadeOut(10000, function() {
+          resultModal.fadeOut(8000, function() {
           });
         });
 

@@ -354,6 +354,7 @@ class SpotController extends MController
         $netName = 'no';
         $isSocLogged = false;
         $linkCorrect = Yii::t('eauth', "Такого профиля не существует!");
+        $needSave = false;
 
         if (isset($data['discodes']) and isset($data['key']))
         {
@@ -376,22 +377,46 @@ class SpotController extends MController
 
                         if ((isset(Yii::app()->session[$netName]) and (Yii::app()->session[$netName] == 'auth')) || (isset($socNet['needAuth']) and $socNet['needAuth'] === false))
                         {
-
                             $isSocLogged = true;
-                            $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+                            $needSave = $SocInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
 
+                            if ($needSave)
+                            {
+                                $userDetail = $SocInfo->getSocInfo($socNet, $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+                                if (empty($userDetail['error']))
+                                {
+                                    $userDetail['binded_link'] = $spotContent->content['data'][$data['key']];
+                                    $content['keys'][$data['key']] = 'content';
+                                    $content['data'][$data['key']] = $userDetail;
+                                    $spotContent->content = $content;
+;
+                                    $linkCorrect = 'ok';
+                                }
+                                else
+                                    $linkCorrect = $userDetail['error'];
+                            }
+                            else{
+                                $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+                                if ($linkCorrect == 'ok')
+                                {
+                                    $content['keys'][$data['key']] = 'socnet';
+                                    $spotContent->content = $content;
+                                }
+                            }
                             if ($linkCorrect == 'ok')
                             {
-                                $content['keys'][$data['key']] = 'socnet';
-                                $spotContent->content = $content;
-
                                 if ($spotContent->save())
                                 {
-
-                                    $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
-                                        'content' => $content['data'][$data['key']],
-                                        'key' => $data['key'],
-                                            ), true);
+                                    if ($needSave)
+                                        $content = $this->renderPartial('//widget/spot/personal/new_content', array(
+                                            'content' => $content['data'][$data['key']],
+                                            'key' => $data['key'],
+                                                ), true);
+                                    else
+                                        $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                            'content' => $content['data'][$data['key']],
+                                            'key' => $data['key'],
+                                                ), true);
                                 }
                                 unset(Yii::app()->session['bind_discodes']);
                                 unset(Yii::app()->session['bind_key']);
@@ -427,7 +452,7 @@ class SpotController extends MController
             $this->setBadReques();
         }
 
-        $error = "yes";
+        $error = "error";
         $content = '';
 
         if (isset($data['discodes']) and isset($data['key']))
@@ -445,6 +470,21 @@ class SpotController extends MController
                     if ($content['keys'][$data['key']] == 'socnet')
                     {
                         $content['keys'][$data['key']] = 'text';
+                        $spotContent->content = $content;
+
+                        if ($spotContent->save())
+                        {
+                            $content = $this->renderPartial('//widget/spot/personal/new_text', array(
+                                'content' => $content['data'][$data['key']],
+                                'key' => $data['key'],
+                                    ), true);
+                            $error = "no";
+                        }
+                    }
+                    elseif ($content['keys'][$data['key']] == 'content')
+                    {
+                        $content['keys'][$data['key']] = 'text';
+                        $content['data'][$data['key']] = $content['data'][$data['key']]['binded_link'];
                         $spotContent->content = $content;
 
                         if ($spotContent->save())

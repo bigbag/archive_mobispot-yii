@@ -28,7 +28,7 @@ class FoursquareContent extends SocContentBase
 
         $socUser = self::makeRequest('https://api.foursquare.com/v2/users/' . $socId . '?client_id=' . Yii::app()->eauth->services['foursquare']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['foursquare']['client_secret'] . '&v=20130211');
         if (!is_array($socUser) || empty($socUser['response']) || empty($socUser['response']['user']))
-            $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }

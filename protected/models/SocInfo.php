@@ -22,22 +22,22 @@ class SocInfo extends CFormModel
 
         $net['name'] = 'google_oauth';
         $net['baseUrl'] = 'google.com';
-        $net['invite'] = Yii::t('eauth', 'Read more on');
+        $net['invite'] = Yii::t('eauth', 'Add me to circles on');
         $net['inviteClass'] = 'i-soc_g';
         $net['inviteValue'] = '&#xe009;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'google16.png';
+        $net['smallIcon'] = 'google.png';
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'facebook';
         $net['baseUrl'] = 'facebook.com';
-        $net['invite'] = Yii::t('eauth', 'Read more on');
+        $net['invite'] = Yii::t('eauth', 'Make friends on');
         $net['inviteClass'] = 'i-soc-fac';
         $net['inviteValue'] = '&#xe008;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-fb.2x.png';
+        $net['smallIcon'] = 'facebook.png';
         $net['contentClass'] = 'FacebookContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -48,14 +48,14 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_twi';
         $net['inviteValue'] = '&#xe007';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-twitter.2x.png';
+        $net['smallIcon'] = 'twitter.png';
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'vk';
         $net['baseUrl'] = 'vk.com';
-        $net['invite'] = Yii::t('eauth', 'Read more on');
+        $net['invite'] = Yii::t('eauth', 'Make friends on');
         $net['inviteClass'] = 'i-soc_vk';
         $net['inviteValue'] = '&#xe002;';
         $net['note'] = Yii::t('eauth', '');
@@ -66,22 +66,22 @@ class SocInfo extends CFormModel
 
         $net['name'] = 'linkedin';
         $net['baseUrl'] = 'linkedin.com';
-        $net['invite'] = Yii::t('eauth', 'Read more on');
+        $net['invite'] = Yii::t('eauth', 'Connect me on');
         $net['inviteClass'] = 'i-soc_in';
         $net['inviteValue'] = '&#xe005;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'linkedin16.png';
+        $net['smallIcon'] = 'linkedin.png';
         $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'foursquare';
         $net['baseUrl'] = 'foursquare.com';
-        $net['invite'] = Yii::t('eauth', 'Watch more on');
+        $net['invite'] = Yii::t('eauth', 'See my places on');
         $net['inviteClass'] = 'i-soc-fo';
         $net['inviteValue'] = '&#xe00a;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'foursquare16.png';
+        $net['smallIcon'] = 'foursquare.png';
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -92,7 +92,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_vo';
         $net['inviteValue'] = '&#xe003;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'i-vimeo.2x.png';
+        $net['smallIcon'] = 'vimeo.png';
         $net['contentClass'] = 'VimeoContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
@@ -110,22 +110,22 @@ class SocInfo extends CFormModel
          */
         $net['name'] = 'deviantart';
         $net['baseUrl'] = 'deviantart.com';
-        $net['invite'] = Yii::t('eauth', 'Watch more on');
+        $net['invite'] = Yii::t('eauth', 'Enjoy more on');
         $net['inviteClass'] = 'i-soc-da';
         $net['inviteValue'] = '&#xe00b;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'deviantart16.png';
+        $net['smallIcon'] = 'deviantart.png';
         $net['contentClass'] = 'DeviantARTContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'Behance';
         $net['baseUrl'] = 'behance.net';
-        $net['invite'] = Yii::t('eauth', 'Watch more on');
+        $net['invite'] = Yii::t('eauth', 'Enjoy more on');
         $net['inviteClass'] = 'i-soc-be';
         $net['inviteValue'] = '&#xe00c;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'behance16.png';
+        $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
@@ -148,29 +148,29 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_yt';
         $net['inviteValue'] = '&#xe000;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'youtube16.png';
+        $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'instagram';
         $net['baseUrl'] = 'instagram.com';
-        $net['invite'] = Yii::t('eauth', 'Watch more on');
+        $net['invite'] = Yii::t('eauth', 'Follow me on');
         $net['inviteClass'] = 'i-soc_ing';
         $net['inviteValue'] = '&#xe006;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'instagram16.png';
+        $net['smallIcon'] = 'instagram.png';
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $socNetworks[] = $net;
 
         $net['name'] = 'pinterest';
         $net['baseUrl'] = 'http://pinterest.com';
-        $net['invite'] = Yii::t('eauth', 'Watch more on Pinterest');
-        $net['inviteClass'] = '';
-        $net['inviteValue'] = '';
+        $net['invite'] = Yii::t('eauth', 'See more pins on');
+        $net['inviteClass'] = 'i-soc-pin';
+        $net['inviteValue'] = '&#xe017;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'pinterest16.png';
+        $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
@@ -384,118 +384,7 @@ class SocInfo extends CFormModel
                 }
             }else
             {
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
-            }
-        }
-        elseif ($socNet == 'facebook')
-        {
-            $socUser = $this->makeRequest('https://graph.facebook.com/' . $socUsername);
-
-            if (!isset($socUser['error']))
-            {
-                $this->userDetail['UserExists'] = true;
-                //$this->userDetail['soc_id'] = $socUser['id'];
-                $this->userDetail['photo'] = 'http://graph.facebook.com/' . $socUsername . '/picture';
-                if (isset($socUser['name']))
-                    $this->userDetail['soc_username'] = $socUser['name'];
-                if (!empty($socUser['first_name']) && !empty($socUser['last_name']))
-                    $this->userDetail['soc_username'] = $socUser['first_name'] . ' ' . $socUser['last_name'];
-                if (isset($socUser['soc_url']))
-                    $this->userDetail['soc_url'] = $socUser['link'];
-                if (isset($socUser['gender']))
-                    $this->userDetail['gender'] = $socUser['gender'];
-                if (isset($socUser['locale']))
-                    $this->userDetail['locale'] = $socUser['locale'];
-
-                //последний пост
-                $appToken = Yii::app()->cache->get('facebookAppToken');
-                $isAppTokenValid = false;
-
-                if ($appToken !== false)
-                {
-                    $validation = $this->makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
-                    $validation = CJSON::decode($validation, true);
-                    if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                        $isAppTokenValid = true;
-                }
-
-                if (!$isAppTokenValid)
-                {
-                    if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
-                    {
-                        $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
-                        $appToken = fgets($textToken);
-                        fclose($textToken);
-                        if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-                            $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
-                        Yii::app()->cache->set('facebookAppToken', $appToken);
-                        $isAppTokenValid = true;
-                    }
-                }
-
-                $userFeed = $this->makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $appToken);
-                unset($lastPost);
-                $i = 0;
-                $prevPageUrl = '';
-
-                if (isset($socUser['id']))
-                {
-                    while (!isset($lastPost))
-                    {
-
-                        if (isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application']))
-                        {
-                            $lastPost = $userFeed['data'][$i];
-                        }
-                        //следующая страница
-                        elseif (!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i])))
-                        {
-                            if (isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl))
-                            {
-                                $prevPageUrl = $userFeed['paging']['previous'];
-                                $userFeed = $this->makeRequest($userFeed['paging']['previous'] . '&access_token=' . $appToken);
-                                $i = 0;
-                            }
-                            else
-                            {
-                                $lastPost = 'no';
-                            }
-                        }
-                        else
-                        {
-                            $i++;
-                        }
-                    }
-
-                    if ($lastPost != 'no')
-                    {
-                        if ($lastPost['type'] == 'photo')
-                        {
-                            $this->userDetail['last_img'] = $lastPost['picture'];
-                            if (isset($lastPost['message']))
-                                $this->userDetail['last_img_msg'] = $lastPost['message'];
-                            if (isset($lastPost['story']))
-                                $this->userDetail['last_img_story'] = $lastPost['story'];
-                        }elseif (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
-                        {
-                            //"место" на карте
-                            if (isset($lastPost['message']))
-                                $this->userDetail['place_msg'] = $lastPost['message'];
-                            $this->userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
-                            $this->userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
-                            $this->userDetail['place_name'] = $lastPost['place']['name'];
-                        }else
-                        {
-                            if (isset($lastPost['message']))
-                                $this->userDetail['last_status'] = $lastPost['message'];
-                            elseif (isset($lastPost['story']))
-                                $this->userDetail['last_status'] = $lastPost['story'];
-                        }
-                    }
-                }
-            }else
-            {
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
         elseif ($socNet == 'twitter')
@@ -668,7 +557,7 @@ class SocInfo extends CFormModel
                 }
             }else
             {
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
         elseif ($socNet == 'linkedin')
@@ -952,7 +841,7 @@ class SocInfo extends CFormModel
                 }
                 else
                 {
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
                 }
             }
             // Last.fm
@@ -1017,7 +906,7 @@ class SocInfo extends CFormModel
                 }
             }
             else
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }elseif ($socNet == 'Behance')
         {
 
@@ -1120,7 +1009,7 @@ class SocInfo extends CFormModel
                 }
             }
             else
-                $this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:") . $socUsername;
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             //$this->userDetail['about'] = print_r($socUser, true);
         }elseif ($socNet == 'YouTube')
         {
@@ -1170,7 +1059,7 @@ class SocInfo extends CFormModel
                     }
                 } catch (Exception $e)
                 {
-                    $this->userDetail['soc_username'] = Yii::t('eauth', 'Не удалось получить профиль: ') . $socUsername;
+                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
                 }
             }
             else
@@ -1200,7 +1089,7 @@ class SocInfo extends CFormModel
                         }
                     } catch (Exception $e)
                     {
-                        $this->userDetail['soc_username'] = Yii::t('eauth', 'Не удалось получить видео: ') . $socUsername;
+                        $this->userDetail['soc_username'] = Yii::t('eauth', "This post doesn't exist:") . $socUsername;
                     }
                 }
             }
@@ -1262,7 +1151,7 @@ class SocInfo extends CFormModel
                  */
             }
             else
-                $this->userDetail['soc_username'] = Yii::t('eauth', 'Пользователя с таким именем не существует:') . $socUsername;
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
         else
         {
@@ -1273,7 +1162,7 @@ class SocInfo extends CFormModel
                 $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
             }
             else
-                $this->userDetail['soc_username'] = Yii::t('eauth', 'Социальная сеть не поддерживается: ') . $socNet;
+                $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
         }
         return $this->userDetail;
     }
@@ -1281,26 +1170,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'facebook')
-        {
-            if ((strpos($username, 'facebook.com/') > 0) || (strpos($username, 'facebook.com/') !== false))
-            {
-                $username = substr($username, (strpos($username, 'facebook.com/') + 13));
-                if (strpos($username, '?') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '?'));
-                }
-                if (strpos($username, '/') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '/'));
-                }
-                if (strpos($username, '&') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '&'));
-                }
-            }
-        }
-        elseif ($socNet == 'twitter')
+        if ($socNet == 'twitter')
         {
             if ((strpos($username, 'twitter.com/') > 0) || (strpos($username, 'twitter.com/') !== false))
             {
@@ -1596,6 +1466,18 @@ class SocInfo extends CFormModel
                 $answer = $net['smallIcon'];
                 break;
             }
+        }
+        return $answer;
+    }
+    
+    public function contentNeedSave($link){
+        $answer = false;
+
+        $net = $this->getNetByLink($link);
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::contentNeedSave($link);
         }
         return $answer;
     }

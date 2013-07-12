@@ -6,7 +6,7 @@ class YouTubeContent extends SocContentBase
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
-        $result = Yii::t('eauth', "Такого профиля не существует: $socUsername");
+        $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         $result = 'ok';
 
         $username = '';
@@ -30,7 +30,7 @@ class YouTubeContent extends SocContentBase
                 $result = 'ok';
             } catch (Exception $e)
             {
-                $result = Yii::t('eauth', "Такого профиля не существует: $username");
+                $result = Yii::t('eauth', "Такого профиля не существует:") . $socUsername;
             }
         }
         else
@@ -52,7 +52,7 @@ class YouTubeContent extends SocContentBase
                     $result = 'ok';
                 } catch (Exception $e)
                 {
-                    $result = Yii::t('eauth', "Такого видео не существует: $videoId");
+                    $result =  Yii::t('eauth', "This post doesn't exist:") . $videoId;
                 }
             }
         }
