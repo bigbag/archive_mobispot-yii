@@ -353,7 +353,7 @@ class SpotController extends MController
         $content = '';
         $netName = 'no';
         $isSocLogged = false;
-        $linkCorrect = Yii::t('eauth', "Такого профиля не существует!");
+        $linkCorrect = Yii::t('eauth', "This account doesn't exist:");
         $needSave = false;
 
         if (isset($data['discodes']) and isset($data['key']))
@@ -389,13 +389,14 @@ class SpotController extends MController
                                     $content['keys'][$data['key']] = 'content';
                                     $content['data'][$data['key']] = $userDetail;
                                     $spotContent->content = $content;
-;
+
                                     $linkCorrect = 'ok';
                                 }
                                 else
                                     $linkCorrect = $userDetail['error'];
                             }
-                            else{
+                            else
+                            {
                                 $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
                                 if ($linkCorrect == 'ok')
                                 {
