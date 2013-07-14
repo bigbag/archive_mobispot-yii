@@ -392,6 +392,11 @@ class SpotController extends MController
 
                                     $linkCorrect = 'ok';
                                 }
+                                elseif($userDetail['error'] == 'User not logged in'){
+                                    $isSocLogged = false;
+                                    Yii::app()->session['bind_discodes'] = $data['discodes'];
+                                    Yii::app()->session['bind_key'] = $data['key'];
+                                }
                                 else
                                     $linkCorrect = $userDetail['error'];
                             }
