@@ -95,4 +95,47 @@ class SocContentBase
         return $result;
     }
 
+    public static function saveImage($url)
+    {
+        $file_name=false;
+
+        $fileType = strtolower(substr(strrchr($url, '.'), 1));
+        $images = array('jpeg' => 'jpeg', 'jpg' => 'jpg', 'png' => 'png', 'gif' => 'gif');
+
+        if (isset($images[$fileType]))
+        {
+            $file = md5(time() . $url) . '_' . self::urlToName($url);
+
+            $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            $file_name = $patch . $file;
+            
+            $i=0;
+            while (file_exists($file_name))
+            {
+                $file = md5((time() + $i) . $url) . '_' . self::urlToName($url);
+                $file_name = $patch . $file;
+                $i++;
+            }
+            
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            $rawdata = curl_exec($ch);
+            curl_close($ch);
+
+            $fp = fopen($file_name, 'x');
+            fwrite($fp, $rawdata);
+            fclose($fp);
+        }
+
+        return $file_name;
+    }
+
+    public static function urlToName($url)
+    {
+        return str_replace('/', '_', str_ireplace('https://', '', str_ireplace('https://', '', $url)));
+    }
 }
