@@ -387,63 +387,7 @@ class SocInfo extends CFormModel
                 $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
-        elseif ($socNet == 'twitter')
-        {
-
-            //$appToken = Yii::app()->cache->get('twitterAppToken');
-            $appToken = false;
-            if ($appToken === false)
-            {
-                $credentials = base64_encode(urlencode(Yii::app()->eauth->services['twitter']['key']) . ':' . urlencode(Yii::app()->eauth->services['twitter']['secret']));
-                $url = 'https://api.twitter.com/oauth2/token';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']); //dirname(__FILE__).'/../config/ca-bundle.crt');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Authorization: Basic ' . $credentials,
-                    'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'
-                ));
-                $curl_result = curl_exec($ch);
-                curl_close($ch);
-                $curl_result = CJSON::decode($curl_result, true);
-                $appToken = $curl_result['access_token'];
-                //Yii::app()->cache->set('twitterAppToken', $appToken);
-            }
-
-            $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=1';
-            if (is_numeric($socUsername))
-                $url .= '&user_id=' . $socUsername;
-            else
-                $url .= '&screen_name=' . $socUsername;
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization: Bearer ' . $appToken
-            ));
-            $curl_result = curl_exec($ch);
-            curl_close($ch);
-            $userFeed = CJSON::decode($curl_result, true);
-
-
-            if (isset($userFeed[0]) && isset($userFeed[0]['id']))
-            {
-                $this->userDetail['tweet_id'] = $userFeed[0]['id'];
-                if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['name']))
-                    $this->userDetail['tweet_author'] = $userFeed[0]['user']['name'];
-                if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['screen_name']))
-                    $this->userDetail['tweet_username'] = $userFeed[0]['user']['screen_name'];
-                if (isset($userFeed[0]['text']))
-                    $this->userDetail['tweet_text'] = $userFeed[0]['text'];
-                if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['profile_image_url']))
-                    $this->userDetail['photo'] = $userFeed[0]['user']['profile_image_url'];
-                if (isset($userFeed[0]['created_at']))
-                    $this->userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($userFeed[0]['created_at']));
-            }
-        }elseif ($socNet == 'vk')
+        elseif ($socNet == 'vk')
         {
             $url = 'https://api.vk.com/method/users.get.json?uids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
 //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
@@ -1170,26 +1114,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'twitter')
-        {
-            if ((strpos($username, 'twitter.com/') > 0) || (strpos($username, 'twitter.com/') !== false))
-            {
-                $username = substr($username, (strpos($username, 'twitter.com/') + 12));
-                if (strpos($username, '?') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '?'));
-                }
-                if (strpos($username, '/') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '/'));
-                }
-                if (strpos($username, '&') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '&'));
-                }
-            }
-        }
-        elseif ($socNet == 'google_oauth')
+        if ($socNet == 'google_oauth')
         {
             if ((strpos($username, 'google.com') > 0) || (strpos($username, 'google.com') !== false))
             {
