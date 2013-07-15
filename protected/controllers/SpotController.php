@@ -289,7 +289,7 @@ class SpotController extends MController
 
                 if ($spotContent)
                 {
-                    
+
                 }
             }
         }
@@ -433,13 +433,13 @@ class SpotController extends MController
             }
         }
         echo json_encode(
-                array(
-                    'error' => $error,
-                    'content' => $content,
-                    'socnet' => $netName,
-                    'loggedIn' => $isSocLogged,
-                    'linkCorrect' => $linkCorrect
-                )
+            array(
+                'error' => $error,
+                'content' => $content,
+                'socnet' => $netName,
+                'loggedIn' => $isSocLogged,
+                'linkCorrect' => $linkCorrect
+            )
         );
     }
 
@@ -537,9 +537,23 @@ class SpotController extends MController
 
                 if ($spot->save())
                 {
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id' => $spot->discodes_id,
+                            'user_id' => 0,
+                        )
+                    );
+                    if ($wallet)
+                    {
+                        $wallet->status = PaymentWallet::STATUS_ACTIVE;
+                        $wallet->user_id = $spot->user_id;
+                        $wallet->save();
+
+                    }
+
                     $content = $this->renderPartial('//user/block/spots', array(
                         'data' => $spot,
-                            ), true);
+                        ), true);
                     $error = "no";
                 }
             }

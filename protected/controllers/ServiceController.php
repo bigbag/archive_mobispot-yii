@@ -129,6 +129,20 @@ class ServiceController extends MController
                     $spot->status = Spot::STATUS_REGISTERED;
                     $spot->save();
 
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id' => $spot->discodes_id,
+                            'user_id' => 0,
+                        )
+                    );
+                    if ($wallet)
+                    {
+                        $wallet->status = PaymentWallet::STATUS_ACTIVE;
+                        $wallet->user_id = $spot->user_id;
+                        $wallet->save();
+
+                    }
+
                     MMail::activation($model->email, $model->activkey, $this->getLang());
                     $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
                     $error = "no";

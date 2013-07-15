@@ -237,12 +237,12 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       }
       else if (data.error == 'no'){
         angular.element('#recPassForm').slideUp(400, function() {
-          resultModal.show();
-          resultContent.text(data.content);
-          resultModal.fadeOut(8000, function() {
+            resultModal.show();
+            resultContent.text(data.content);
+            resultModal.fadeOut(8000, function() {
+            });
           });
-        });
-
+        
         $scope.user.email="";
         $scope.recovery.email="";
         angular.element('#recPassForm input[name=email]').removeClass('error');

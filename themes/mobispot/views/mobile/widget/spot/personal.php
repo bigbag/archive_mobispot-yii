@@ -69,7 +69,7 @@
                 <?php /* Vimeo video *////////////////////////////////////////////////////////////////////////////////// ?>
                 <?php if (isset($content['data'][$key]['vimeo_last_video'])): ?>
                     <div class="item-area text-center" id="div_<?php echo $key; ?>">
-                        <iframe 
+                        <iframe
                             id="vimeo_<?php echo $key; ?>" src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
                         </iframe>
                         <?php if (isset($content['data'][$key]['vimeo_last_video_counter'])): ?>
@@ -191,10 +191,10 @@
         <?php /* Follow button *//////////////////////////////////////////////////////////////////////////////////   ?>
                     <?php if (isset($content['data'][$key]['soc_url']) && !isset($content['data'][$key]['tweet_author'])): ?>
                     <a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
-                        <span><?php echo $content['data'][$key]['invite']; ?></span> 
+                        <span><?php echo $content['data'][$key]['invite']; ?></span>
                         <?php if (isset($content['data'][$key]['inviteClass']) && (strlen($content['data'][$key]['inviteClass']) > 0)): ?>
                             <i class="i-soc <?php echo $content['data'][$key]['inviteClass']; ?> round"><?php if (isset($content['data'][$key]['inviteValue']) && (strlen($content['data'][$key]['inviteValue']) > 0)) echo $content['data'][$key]['inviteValue']; ?></i>
-                    <?php endif; ?>		
+                    <?php endif; ?>
                     </a>
         <?php endif; ?>
             </div>

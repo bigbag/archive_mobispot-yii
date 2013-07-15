@@ -199,11 +199,8 @@ input:-moz-input-placeholder { color: rgba(0, 0, 0, 0.75) }
 	background-color: #0061ff;
 	color: #fff;
 }
-.header-top .columns{
-	padding: 0;
-}
 .row__head-slider .header-top .columns{
-	padding: 0 2em;
+	padding: 0 15px;
 	height: 0;
 	margin-top: -2px;
 }
@@ -560,7 +557,7 @@ a.active .m-tooltip{
 	left:100%;
 }
 .add-spot-box{
-	padding: 136px 0 44px;
+	padding: 65px 0 44px;
 }
 .form-row{
 	margin-bottom: 5px;
@@ -656,6 +653,10 @@ a.active .m-tooltip{
 	padding: 34px;
 	box-sizing: border-box;
 	height: 166px;
+	position: relative;
+	z-index: 20;
+	background: none;
+	margin-bottom: 0;
 }
 @-moz-document url-prefix(){
 	.spot-item textarea{
@@ -674,7 +675,6 @@ a.active .m-tooltip{
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	padding: 6px 35px;
-	overflow: hidden;
 }
 .item-area img{
 	display: block;
@@ -683,14 +683,10 @@ a.active .m-tooltip{
 	padding: 17px 35px;
 }
 .item-area.text-photo{
-	padding: 0;
+	padding: 35px;
 }
 .item-area.text-photo img{
 	margin: 0 auto;
-	width: 100%;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 }
 .item-type__text{
 	padding: 28px 35px;
@@ -1629,6 +1625,10 @@ textarea[tabindex]{
 }
 .spot-main-input{
 	margin-bottom: 50px;
+	background: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius:3px;
+	border-radius: 3px;
 }
 .spot-sub-slide{
 	background: #fafafa;
@@ -1645,6 +1645,9 @@ textarea[tabindex]{
 }
 .spot-sub-slide a img{
 	display: block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 .spot-sub-slide:after,
 .spot-sub-slide:before{
@@ -1678,4 +1681,97 @@ textarea[tabindex]{
 	width: 45px;
 	text-align: center;
 	font-family: Mobispot, arial;
+}
+.spot-hat .icon{
+	display: inline-block;
+	line-height: 19px;
+	margin-right: 10px;
+	color:  #fff;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+
+}
+.spot-hat .icon:hover{
+	color: #0063ff;
+}
+.invisible-icon{
+	display: none;
+}
+.invisible-spot .invisible-icon{
+	display: inline-block;
+}
+.invisible-spot .spot-hat h3{
+	color:  rgb(163, 163, 163);
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+}
+.invisible-spot:hover .spot-hat h3,
+.invisible-spot.open .spot-hat h3{
+	color: #000;
+}
+.post-content{
+	margin-left: 69px;
+}
+
+.post-content h5{
+	color: #0063ff;
+	margin: 2px 7px 2px 2px;
+}
+.post-content header span{
+	color: rgb(163, 163, 163);
+}
+
+.post-content p{
+	margin: 4px 0;
+}
+.post-content p a{
+	color: #0063ff;
+}
+.post-content img{
+	display: block;
+	margin: 20px auto 0;
+	float: none;
+}
+.item-area .avatar{
+	position: absolute;
+}
+.item-area .avatar img{
+	margin-top: 0;
+}
+.item-area-hat{
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+
+}
+.item-area-hat h5{
+	color: #000;
+ }
+.item-area-hat.fb h5{
+	color: #fff;
+}
+.item-area-hat{
+	background: rgb(252, 252, 252);
+	padding: 0 13px;
+}
+.item-area-hat img{
+	border-radius: 50%;
+	margin-top: 7px;
+}
+.item-area-hat.fb{
+	background: #617ABA;
+}
+.item-area-hat + .post-box{
+	margin-top: 40px;
+}
+.form-item-buton{
+	margin: 15px 0 0;
+}
+.form-item-30{
+	margin-top: 30px;
 }

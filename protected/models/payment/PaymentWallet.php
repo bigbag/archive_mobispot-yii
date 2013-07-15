@@ -12,9 +12,23 @@
  * @property integer $discodes_id
  * @property string $creation_date
  * @property string $balance
+ * @property string $status
  */
 class PaymentWallet extends CActiveRecord
 {
+
+    const STATUS_NOACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_BANNED = -1;
+
+    public function getStatusList()
+    {
+        return array(
+            self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
+            self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
+            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
+        );
+    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -51,14 +65,14 @@ class PaymentWallet extends CActiveRecord
         // will receive user inputs.
         return array(
             array('hard_id, name, payment_id, user_id, creation_date, balance', 'required'),
-            array('user_id, discodes_id', 'numerical', 'integerOnly' => true),
+            array('user_id, discodes_id, status', 'numerical', 'integerOnly' => true),
             array('hard_id, payment_id', 'length', 'max' => 20),
             array('name', 'filter', 'filter' => 'trim'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
             array('balance', 'length', 'max' => 150),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, hard_id, payment_id, name, user_id, discodes_id, creation_date, balance', 'safe', 'on' => 'search'),
+            array('id, hard_id, payment_id, name, user_id, discodes_id, status, creation_date, balance', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,17 +81,38 @@ class PaymentWallet extends CActiveRecord
         if ($this->isNewRecord)
         {
             $this->creation_date = new CDbExpression('NOW()');
+            if (!$this->status)
+            {
+                $this->status = self::STATUS_ACTIVE;
+            }
             if (!$this->balance)
+            {
                 $this->balance = 0;
+            }
             if (!$this->discodes_id)
+            {
                 $this->balance = 0;
+            }
             if (!$this->name)
+            {
                 $this->name = 'No name';
+            }
         }
-        if (!$this->payment_id)
-            $this->payment_id = $this->hard_id;
 
         return parent::beforeValidate();
+    }
+
+    public function beforeSave()
+    {
+        $this->balance = ($this->balance) * 100;
+        return parent::beforeSave();
+    }
+
+    public function afterFind()
+    {
+        $this->balance = ($this->balance) / 100;
+
+        return parent::afterFind();
     }
 
     public function selectUser($user_id)
@@ -96,8 +131,17 @@ class PaymentWallet extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'user' => array(self::BELONGS_TO, 'PaymentUser', 'user_id'),
+            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'spot' => array(self::BELONGS_TO, 'Spot', 'discodes_id'),
+        );
+    }
+
+    public function scopes()
+    {
+        return array(
+            'blacklist' => array(
+                'condition' => 'balance<=0',
+            ),
         );
     }
 
@@ -115,6 +159,7 @@ class PaymentWallet extends CActiveRecord
             'creation_date' => 'Creation Date',
             'balance' => 'Balance',
             'name' => 'Name',
+            'status' => 'Status',
         );
     }
 
@@ -134,6 +179,7 @@ class PaymentWallet extends CActiveRecord
         $criteria->compare('payment_id', $this->payment_id, true);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('discodes_id', $this->discodes_id);
+        $criteria->compare('status', $this->status);
         $criteria->compare('creation_date', $this->creation_date, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('balance', $this->balance, true);
