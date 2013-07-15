@@ -489,12 +489,24 @@ class SpotController extends MController
                     }
                     elseif ($content['keys'][$data['key']] == 'content')
                     {
+                        $toDelete = array();
+                        if(!empty($content['data'][$data['key']]['last_img']) && strpos($content['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
+                            $toDelete[] = $content['data'][$data['key']]['last_img'];
+                        if(!empty($content['data'][$data['key']]['photo']) && strpos($content['data'][$data['key']]['photo'], '/uploads/spot/') === 0)
+                            $toDelete[] = $content['data'][$data['key']]['photo'];
                         $content['keys'][$data['key']] = 'text';
                         $content['data'][$data['key']] = $content['data'][$data['key']]['binded_link'];
                         $spotContent->content = $content;
 
                         if ($spotContent->save())
                         {
+                            foreach($toDelete as $path)
+                            {
+                                $path = substr($path, (strpos($path, '/uploads/spot/') + 14));
+                                $path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $path;
+                                if (file_exists($path))
+                                    unlink($path);
+                            }
                             $content = $this->renderPartial('//widget/spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],

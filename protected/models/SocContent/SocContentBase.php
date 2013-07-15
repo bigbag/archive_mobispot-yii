@@ -97,7 +97,7 @@ class SocContentBase
 
     public static function saveImage($url)
     {
-        $file_name=false;
+        $web_name=false;
 
         $fileType = strtolower(substr(strrchr($url, '.'), 1));
         $images = array('jpeg' => 'jpeg', 'jpg' => 'jpg', 'png' => 'png', 'gif' => 'gif');
@@ -129,9 +129,11 @@ class SocContentBase
             $fp = fopen($file_name, 'x');
             fwrite($fp, $rawdata);
             fclose($fp);
+
+            $web_name = '/uploads/spot/' . $file;
         }
 
-        return $file_name;
+        return $web_name;
     }
 
     public static function urlToName($url)

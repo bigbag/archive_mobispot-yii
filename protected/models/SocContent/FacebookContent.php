@@ -57,6 +57,7 @@ class FacebookContent extends SocContentBase
 
         if (!empty($photoId))
         {
+        //привязана картинка
             if (isset(Yii::app()->user->id))
             {
                 $socToken=SocToken::model()->findByAttributes(array(
@@ -78,6 +79,9 @@ class FacebookContent extends SocContentBase
                         elseif (!empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
                         {
                             $userDetail['last_img'] = $photoData['source'];
+                            $savedImg = self::saveImage($userDetail['last_img']);
+                            if ($savedImg)
+                                $userDetail['last_img'] = $savedImg;
                             if (!empty($photoData['name']))
                                 $userDetail['last_img_msg'] = $photoData['name'];
                             if (!empty($photoData['link']))
@@ -167,6 +171,9 @@ class FacebookContent extends SocContentBase
                     }elseif (isset($socPost['type']) && ($socPost['type'] == 'photo') && isset($socPost['picture']))
                     {
                         $userDetail['last_img'] = $socPost['picture'];
+                        $savedImg = self::saveImage($userDetail['last_img']);
+                        if ($savedImg)
+                            $userDetail['last_img'] = $savedImg;
                         if (isset($socPost['message']))
                             $userDetail['last_img_msg'] = $socPost['message'];
                         if (isset($socPost['story']))
