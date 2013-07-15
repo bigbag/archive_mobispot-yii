@@ -30,7 +30,7 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
                 </p>
                 <span class="form-soc-link soc-link gray">
                     <?php $facebookStatus = (!empty($user->facebook_id)) ? 'active' : ''; ?>
-                    <a href="/service/socialConnect?service=facebook" class="<?php echo $facebookStatus; ?>">&#xe000;</a>
+                    <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>
                     
                     <?php $twitterStatus = (!empty($user->twitter_id)) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=twitter" class="<?php echo $twitterStatus; ?>">&#xe001;</a>
@@ -41,17 +41,15 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
                 <p class="sub-txt"><?php echo Yii::t('user', "Note: This action will not connect your spots' content with your social networks. Please make it separately when editing your spots."); ?></p>
             </form>
         </div>
-        <div class="six columns" ng-controller="UserCtrl">
+        <div id="recPassForm" class="six columns" ng-controller="UserCtrl">
             <h3><?php echo Yii::t('user', 'Change password'); ?></h3>
             <form name="recoveryForm">
             <p class="sub-txt" ng-init="recovery.email='<?php echo $user->email?>'">
                 <?php echo Yii::t('user', 'You can change your password following the instructions in a special email from us. Please click the button below to proceed.'); ?>
             </p>
-            <div id="recPassForm">
             <a class="spot-button toggle-box" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
                 <?php echo Yii::t('user', 'Send to email'); ?>
             </a>
-            </div>
             </form>
         </div>
     </div>

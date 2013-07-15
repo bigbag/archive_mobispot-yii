@@ -681,15 +681,7 @@ display: inline-block;
 	font-size: 20px;
 	margin: 0 19px;
 }
-.i-round-twi.active{
-	background: #96CBEF !important;
-	color: #fff !important;
-}
-.i-round-fb.active{
-	background: #617ABA !important;
-	color: #fff !important;
-}
-.i-round-g.active{
-	background: #4C4C4C !important;
-	color: #fff !important;
+.form-soc-link.soc-link a.active{
+	background: #0063ff;
+	color: #fff;
 }
