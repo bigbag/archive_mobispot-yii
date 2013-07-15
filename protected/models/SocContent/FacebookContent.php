@@ -69,7 +69,33 @@ class FacebookContent extends SocContentBase
                 {
                     $userToken = $socToken->user_token;
                     
-                    $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $userToken . '&access_token=' . $userToken, array(), false);
+                    //жетон приложения
+                    $appToken = Yii::app()->cache->get('facebookAppToken');
+                    $isAppTokenValid = false;
+
+                    if ($appToken !== false)
+                    {
+                        $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
+                        $validation = CJSON::decode($validation, true);
+                        if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
+                            $isAppTokenValid = true;
+                    }
+
+                    if (!$isAppTokenValid)
+                    {
+                        if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
+                        {
+                            $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
+                            $appToken = fgets($textToken);
+                            fclose($textToken);
+                            if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
+                                $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
+                            Yii::app()->cache->set('facebookAppToken', $appToken);
+                            $isAppTokenValid = true;
+                        }
+                    }
+                    
+                    $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $userToken . '&access_token=' . $appToken, array(), false);
                     $validation = CJSON::decode($validation, true);
                     if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
                     {
