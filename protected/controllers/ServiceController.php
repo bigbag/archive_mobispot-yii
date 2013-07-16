@@ -403,7 +403,8 @@ class ServiceController extends MController
                         $this->setCookies('service_name', $service);
                         $this->setCookies('service_id', $social_id);
                         $this->setCookies('service_email', $service_email);
-                        $authIdentity->redirectUrl = '/service/social';
+                        //$authIdentity->redirectUrl = '/service/social';
+                        $authIdentity->redirect(array('service/social'));
                     }
                     else
                     {
