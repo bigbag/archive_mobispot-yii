@@ -344,13 +344,21 @@ class ServiceController extends MController
                         $model->type = User::TYPE_USER;
                         $model->status = User::STATUS_NOACTIVE;
 
-                        $service = Yii::app()->request->cookies['service_name']->value . '_id';
-                        $model->{$service} = Yii::app()->request->cookies['service_id']->value;
+                        $service = Yii::app()->request->cookies['service_name']->value;
+                        $soc_id = Yii::app()->request->cookies['service_id']->value;
+                        
                         unset(Yii::app()->request->cookies['service_name']);
                         unset(Yii::app()->request->cookies['service_id']);
 
                         if ($model->save())
                         {
+                            $userToken = new SocToken;
+                            $userToken->type = SocToken::getTypeByService($service);
+                            $userToken->user_id = $model->id;
+                            $userToken->soc_id = $soc_id;
+                            $userToken->allow_login = true;
+                            $userToken->save();
+                            
                             $spot = Spot::model()->findByAttributes(array(
                                 'code' => $model->activ_code,
                                 'status' => Spot::STATUS_ACTIVATED
@@ -408,9 +416,12 @@ class ServiceController extends MController
                     }
                     else
                     {
-                        $find = User::model()->findByAttributes(array(
-                            $service . '_id' => $social_id
+                        $userToken = SocToken::model()->findByAttributes(array(
+                            'type' => SocToken::getTypeByService($service),
+                            'soc_id' => $social_id
                         ));
+                        
+                        $find = User::model()->findByPk($userToken->user_id);
                         $identity = new SUserIdentity($find->email, $find->password);
                         $identity->authenticate();
                         $this->lastVisit();
@@ -472,10 +483,15 @@ class ServiceController extends MController
             }
             else if (isset($service))
             {
-                if (!empty($user->{$service . '_id'}))
+                $userToken = SocToken::model()->findByAttributes(array(
+                    'type' => SocToken::getTypeByService($service),
+                    'user_id' => $user->id,
+                ));
+
+                if ($userToken && $userToken->allow_login && !empty($userToken->soc_id))
                 {
-                    $user->{$service . '_id'} = '';
-                    $user->save(false);
+                    $userToken->allow_login = false;
+                    $userToken->save();
                 }
                 else
                 {
@@ -501,14 +517,27 @@ class ServiceController extends MController
                     $this->redirect('/service/socialConnect');
                 }
             }
-            else if (isset(Yii::app()->request->cookies['service_name']) and isset(Yii::app()->request->cookies['service_id']))
+            elseif (isset(Yii::app()->request->cookies['service_name']) and isset(Yii::app()->request->cookies['service_id']))
             {
                 $service_name = Yii::app()->request->cookies['service_name'];
                 $service_id = Yii::app()->request->cookies['service_id'];
 
-                $user->{$service_name . '_id'} = $service_id;
-                $user->save(false);
+                $userToken = SocToken::model()->findByAttributes(array(
+                    'type' => SocToken::getTypeByService($service_name),
+                    'soc_id' => $service_id,
+                ));
+                
+                if (!$userToken)
+                {
+                    $userToken = new SocToken;
+                    $userToken->type = SocToken::getTypeByService($service_name);
+                    $userToken->soc_id = $service_id;
+                }
 
+                $userToken->user_id = $user->id;
+                $userToken->allow_login = true;
+                $userToken->save();
+                
                 unset(Yii::app()->request->cookies['service_name']);
                 unset(Yii::app()->request->cookies['service_id']);
             }

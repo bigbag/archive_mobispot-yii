@@ -19,10 +19,10 @@ class SocToken extends CActiveRecord
     const TYPE_LINKEDIN = 9;
     const TYPE_INSTAGRAM = 10;
 
-    public function getTypeList()
+    public static function getTypeList()
     {
         return array(
-            self::TYPE_GOOGLE => Yii::t('user', 'google'),
+            self::TYPE_GOOGLE => Yii::t('user', 'google_oauth'),
             self::TYPE_FACEBOOK => Yii::t('user', 'facebook'),
             self::TYPE_TWITTER => Yii::t('user', 'twitter'),
             self::TYPE_YOUTUBE => Yii::t('user', 'youtube'),
@@ -38,8 +38,26 @@ class SocToken extends CActiveRecord
 
     public function getType()
     {
-        $data = $this->getTypeList();
+        $data = self::getTypeList();
         return $data[$this->type];
+    }
+    
+    public static function getTypeByService($service)
+    {
+        $data = self::getTypeList();
+        $ind = -1;
+
+        $size = count($data);
+        for ($i = 0; $i < $size; $i++)
+        {
+            if ($data[$i] == $service)
+            {
+                $ind = $i;
+                break;
+            }
+        }
+
+        return $ind;
     }
 
     /**

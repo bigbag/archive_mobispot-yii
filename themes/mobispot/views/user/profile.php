@@ -29,13 +29,13 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
                     <?php echo Yii::t('user', 'Connect your Mobispot profile with your favourite social network accounts. This will make your sign in easy. If you connect several accounts you will be able to sign in with any of them.'); ?>
                 </p>
                 <span class="form-soc-link soc-link gray">
-                    <?php $facebookStatus = (!empty($user->facebook_id)) ? 'active' : ''; ?>
+                    <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>
                     
-                    <?php $twitterStatus = (!empty($user->twitter_id)) ? 'active' : ''; ?>
+                    <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=twitter" class="<?php echo $twitterStatus; ?>">&#xe001;</a>
                     
-                    <?php $googleStatus = (!empty($user->google_oauth_id)) ? 'active' : ''; ?>
+                    <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=google_oauth" class="<?php echo $googleStatus; ?>">&#xe002;</a>
                 </span>
                 <p class="sub-txt"><?php echo Yii::t('user', "Note: This action will not connect your spots' content with your social networks. Please make it separately when editing your spots."); ?></p>

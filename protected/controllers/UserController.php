@@ -27,10 +27,26 @@ class UserController extends MController
                     $this->refresh();
                 }
             }
+            
+            $socnet = array();
+            
+            if ($user)
+            {
+                $userTokens = SocToken::model()->findAllByAttributes(array(
+                    'user_id' => $user->id,
+                    'allow_login' => true,
+                ));
+            
+                foreach ($userTokens as $net)
+                {
+                    $socnet[$net->getType()] = 1;
+                }
+            }
 
             $this->render('profile', array(
                 'profile' => $profile,
                 'user' => $user,
+                'socnet' => $socnet,
             ));
         }
     }
@@ -99,13 +115,13 @@ class UserController extends MController
                                 else
                                 {
                                     $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$defKey], $defDiscodes, $defKey);
-									
-									if ($linkCorrect == 'ok')
-									{
-										$content['keys'][$defKey] = 'socnet';
-										$spotContent->content = $content;
-										$spotContent->save();
-									}
+                                    
+                                    if ($linkCorrect == 'ok')
+                                    {
+                                        $content['keys'][$defKey] = 'socnet';
+                                        $spotContent->content = $content;
+                                        $spotContent->save();
+                                    }
                                 }
                                 if (isset($linkCorrect) && ($linkCorrect != 'ok'))
                                     $message = $linkCorrect;
