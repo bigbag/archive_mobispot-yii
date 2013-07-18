@@ -23,7 +23,7 @@ class CustomFacebookOAuthService extends FacebookOAuthService
         if(!empty($info->email))
             $this->attributes['email'] = $info->email;
 
-        if ($this->hasState('auth_token'))
+        if ($this->hasState('auth_token') && !Yii::app()->user->isGuest)
         {
             $socToken=SocToken::model()->findByAttributes(array(
                 'user_id'=>Yii::app()->user->id,

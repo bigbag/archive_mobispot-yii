@@ -177,7 +177,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         }
         codeField.addClass('error');
       }
-      else if (data.error == 'email'){
+      else if ((data.error == 'email') || (data.error == 'code')){
         resultModal.addClass('m-negative');
         resultModal.show();
         resultContent.text(data.content);

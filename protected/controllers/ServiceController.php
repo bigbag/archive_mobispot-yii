@@ -334,45 +334,65 @@ class ServiceController extends MController
                 {
                     $model = new RegistrationSocialForm;
                     $model->attributes = $data;
-
-                    if ($model->validate())
-                    {
-                        $password = md5(sha1(time()));
-                        $model->activkey = sha1(microtime() . $password);
-                        $model->password = Yii::app()->hasher->hashPassword($password);
-
-                        $model->type = User::TYPE_USER;
-                        $model->status = User::STATUS_NOACTIVE;
-
-                        $service = Yii::app()->request->cookies['service_name']->value;
-                        $soc_id = Yii::app()->request->cookies['service_id']->value;
-                        
-                        unset(Yii::app()->request->cookies['service_name']);
-                        unset(Yii::app()->request->cookies['service_id']);
-
-                        if ($model->save())
-                        {
-                            $userToken = new SocToken;
-                            $userToken->type = SocToken::getTypeByService($service);
-                            $userToken->user_id = $model->id;
-                            $userToken->soc_id = $soc_id;
-                            $userToken->allow_login = true;
-                            $userToken->save();
-                            
-                            $spot = Spot::model()->findByAttributes(array(
+                    
+                    $spot = Spot::model()->findByAttributes(array(
                                 'code' => $model->activ_code,
                                 'status' => Spot::STATUS_ACTIVATED
-                            ));
+                    ));
 
-                            $spot->user_id = $model->id;
-                            $spot->status = Spot::STATUS_REGISTERED;
-                            $spot->save();
+                    if ($spot)
+                    {
+                        if ($model->validate())
+                        {
+                            $password = md5(sha1(time()));
+                            $model->activkey = sha1(microtime() . $password);
+                            $model->password = Yii::app()->hasher->hashPassword($password);
 
-                            MMail::activation($model->email, $model->activkey, $this->getLang());
+                            $model->type = User::TYPE_USER;
+                            $model->status = User::STATUS_NOACTIVE;
 
-                            $error = "no";
-                            $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration. ");
+                            $service = Yii::app()->request->cookies['service_name']->value;
+                            $soc_id = Yii::app()->request->cookies['service_id']->value;
+                            
+                            unset(Yii::app()->request->cookies['service_name']);
+                            unset(Yii::app()->request->cookies['service_id']);
+
+                            if ($model->save())
+                            {
+                                $userToken = SocToken::model()->findByAttributes(array(
+                                    'type' => SocToken::getTypeByService($service),
+                                    'soc_id' => $soc_id,
+                                ));
+                                
+                                if(!$userToken)
+                                    $userToken = new SocToken;
+                                
+                                $userToken->type = SocToken::getTypeByService($service);
+                                $userToken->user_id = $model->id;
+                                $userToken->soc_id = $soc_id;
+                                $userToken->allow_login = true;
+                                $userToken->save();
+                                
+                                $spot = Spot::model()->findByAttributes(array(
+                                    'code' => $model->activ_code,
+                                    'status' => Spot::STATUS_ACTIVATED
+                                ));
+
+                                $spot->user_id = $model->id;
+                                $spot->status = Spot::STATUS_REGISTERED;
+                                $spot->save();
+
+                                MMail::activation($model->email, $model->activkey, $this->getLang());
+
+                                $error = "no";
+                                $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration. ");
+                            }
                         }
+                    }
+                    else
+                    {
+                        $error = "code";
+                        $content = Yii::t('user', "Код активации спота неверен");
                     }
                 }
                 else
@@ -412,6 +432,7 @@ class ServiceController extends MController
                         $this->setCookies('service_id', $social_id);
                         $this->setCookies('service_email', $service_email);
                         //$authIdentity->redirectUrl = '/service/social';
+                        unset(Yii::app()->session['__eauth_' . $service . '__auth_token']);
                         $authIdentity->redirect(array('service/social'));
                     }
                     else
