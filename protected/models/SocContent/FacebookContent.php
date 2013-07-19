@@ -139,6 +139,7 @@ class FacebookContent extends SocContentBase
         }
         else
         {
+            //привязан пост или профиль
             $socUsername = self::parseUsername($link);
             $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername);
 
@@ -187,25 +188,13 @@ class FacebookContent extends SocContentBase
                     }
                 }
                 
-                
                 //привязан пост
                 if (isset($postId) && isset($socUser['id']) && $isAppTokenValid)
                 {
                     $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $appToken);
                     if(is_string($socPost) && (strpos($socPost, 'error') !== false)){
                         $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
-                    }elseif (isset($socPost['type']) && ($socPost['type'] == 'photo') && isset($socPost['picture']))
-                    {
-                        $userDetail['last_img'] = $socPost['picture'];
-                        $savedImg = self::saveImage($userDetail['last_img']);
-                        if ($savedImg)
-                            $userDetail['last_img'] = $savedImg;
-                        if (isset($socPost['message']))
-                            $userDetail['last_img_msg'] = $socPost['message'];
-                        if (isset($socPost['story']))
-                            $userDetail['last_img_story'] = $socPost['story'];
-                    }
-                    elseif (($socPost['type'] == 'status') && isset($socPost['place']) && isset($socPost['place']['location']) && isset($socPost['place']['location']['latitude']) && isset($socPost['place']['location']['longitude']) && isset($socPost['place']['name']))
+                    }elseif (isset($socPost['type']) && ($socPost['type'] == 'status') && isset($socPost['place']) && isset($socPost['place']['location']) && isset($socPost['place']['location']['latitude']) && isset($socPost['place']['location']['longitude']))
                     {
                         //"место" на карте
                         if (isset($socPost['message']))
@@ -213,17 +202,48 @@ class FacebookContent extends SocContentBase
                         $userDetail['place_lat'] = $socPost['place']['location']['latitude'];
                         $userDetail['place_lng'] = $socPost['place']['location']['longitude'];
                         $userDetail['place_name'] = $socPost['place']['name'];
-                    }else
+                    }
+                    else
                     {
-                        if (isset($socPost['message']))
+                        if (!empty($socPost['picture']))
+                        {
+                            $userDetail['last_img'] = $socPost['picture'];
+                            if (!empty($socPost['link']))
+                                $userDetail['last_img_href'] = $socPost['link'];
+                            if (!empty($socPost['message']))
+                                $userDetail['last_img_msg'] = $socPost['message'];
+                            elseif (!empty($socPost['story']))
+                                $userDetail['last_img_msg'] = $socPost['story'];
+                            if (!empty($socPost['name']) && ($socPost['name'] != 'Timeline Photos'))
+                                $userDetail['last_img_story'] = '<p>'.$socPost['name'].'</p>';
+                            else
+                                $userDetail['last_img_story'] = '';
+                            if (!empty($socPost['description']))
+                                $userDetail['last_img_story'] .= '<p>'.$socPost['description'].'</p>';
+                            if (!empty($socPost['caption']))
+                                $userDetail['last_img_story'] .= '<p>'.$socPost['caption'].'</p>';
+                            if (!empty($socPost['story']) && !empty($socPost['message']))    
+                                $userDetail['last_img_story'] .= '<p>'.$socPost['story'].'</p>';
+                            if ($userDetail['last_img_story'] == '')
+                                unset($userDetail['last_img_story']);
+                        }
+                        elseif(!empty($socPost['link']) && (!empty($socPost['message']) || !empty($socPost['story'])))
+                        {
+                            $userDetail['link_href'] = $socPost['link'];
+                            if (!empty($socPost['message']))
+                                $userDetail['link_text'] = $socPost['message'];
+                            elseif (!empty($socPost['story']))
+                                $userDetail['link_text'] = $socPost['story'];
+                        }
+                        elseif (!empty($socPost['message']))
                             $userDetail['last_status'] = $socPost['message'];
-                        elseif (isset($socPost['story']))
+                        elseif (!empty($socPost['story']))
                             $userDetail['last_status'] = $socPost['story'];
                     }
                     if(empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']))
                         $userDetail['error'] =  Yii::t('eauth', "This post doesn't exist:") . $link;
                 }
-                //последний пост
+                //последний пост из профиля
         
                 elseif (!empty($appToken) && $isAppTokenValid)
                 {
@@ -238,7 +258,17 @@ class FacebookContent extends SocContentBase
                         while (!isset($lastPost))
                         {
 
-                            if (isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) /*&& !isset($userFeed['data'][$i]['application'])*/)
+                            if (isset($userFeed['data']) 
+                                && isset($userFeed['data'][$i]) 
+                                && isset($userFeed['data'][$i]['from']) 
+                                && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) 
+                                && (empty($userFeed['data'][$i]['status_type']) || ($userFeed['data'][$i]['status_type'] != 'approved_friend'))//не приглашение в друзья
+                                && !(!empty($userFeed['data'][$i]['type']) 
+                                    && !empty($userFeed['data'][$i]['story']) 
+                                    && ($userFeed['data'][$i]['type'] == 'status') 
+                                    && (strpos($userFeed['data'][$i]['story'], 'is now using Facebook in') !== false)
+                                    )//не смена языка Facebook
+                                )
                             {
                                 $lastPost = $userFeed['data'][$i];
                             }
@@ -264,14 +294,7 @@ class FacebookContent extends SocContentBase
 
                         if ($lastPost != 'no')
                         {
-                            if ($lastPost['type'] == 'photo')
-                            {
-                                $userDetail['last_img'] = $lastPost['picture'];
-                                if (isset($lastPost['message']))
-                                    $userDetail['last_img_msg'] = $lastPost['message'];
-                                if (isset($lastPost['story']))
-                                    $userDetail['last_img_story'] = $lastPost['story'];
-                            }elseif (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
+                            if (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
                             {
                                 //"место" на карте
                                 if (isset($lastPost['message']))
@@ -279,11 +302,42 @@ class FacebookContent extends SocContentBase
                                 $userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
                                 $userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
                                 $userDetail['place_name'] = $lastPost['place']['name'];
-                            }else
+                            }
+                            else
                             {
-                                if (isset($lastPost['message']))
+                                if (!empty($lastPost['picture']))
+                                {
+                                    $userDetail['last_img'] = $lastPost['picture'];
+                                    if (!empty($lastPost['link']))
+                                        $userDetail['last_img_href'] = $lastPost['link'];
+                                    if (!empty($lastPost['message']))
+                                        $userDetail['last_img_msg'] = $lastPost['message'];
+                                    elseif (!empty($lastPost['story']))
+                                        $userDetail['last_img_msg'] = $lastPost['story'];
+                                    if (!empty($lastPost['name']) && ($lastPost['name'] != 'Timeline Photos'))
+                                        $userDetail['last_img_story'] = '<p>'.$lastPost['name'].'</p>';
+                                    else
+                                        $userDetail['last_img_story'] = '';
+                                    if (!empty($lastPost['description']))
+                                        $userDetail['last_img_story'] .= '<p>'.$lastPost['description'].'</p>';
+                                    if (!empty($lastPost['caption']))
+                                        $userDetail['last_img_story'] .= '<p>'.$lastPost['caption'].'</p>';
+                                    if (!empty($lastPost['story']) && !empty($lastPost['message']))    
+                                        $userDetail['last_img_story'] .= '<p>'.$lastPost['story'].'</p>';
+                                    if ($userDetail['last_img_story'] == '')
+                                        unset($userDetail['last_img_story']);
+                                }
+                                elseif(!empty($lastPost['link']) && (!empty($lastPost['message']) || !empty($lastPost['story'])))
+                                {
+                                    $userDetail['link_href'] = $lastPost['link'];
+                                    if (!empty($lastPost['message']))
+                                        $userDetail['link_text'] = $lastPost['message'];
+                                    elseif (!empty($lastPost['story']))
+                                        $userDetail['link_text'] = $lastPost['story'];
+                                }
+                                elseif (!empty($lastPost['message']))
                                     $userDetail['last_status'] = $lastPost['message'];
-                                elseif (isset($lastPost['story']))
+                                elseif (!empty($lastPost['story']))
                                     $userDetail['last_status'] = $lastPost['story'];
                             }
                         }
