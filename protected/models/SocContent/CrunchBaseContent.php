@@ -7,15 +7,32 @@ class CrunchBaseContent extends SocContentBase
     {
         $result = 'ok';
         
-        if ((strpos($link, 'crunchbase.com/person/') === false) && (strpos($link, 'crunchbase.com/company/') === false) && (strpos($link, 'crunchbase.com/product/') === false))
-            $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+        if (strpos($link, 'crunchbase.com/person/') !== false)
+        {
+            $person = substr($link, (strpos($link, 'crunchbase.com/person/') + strlen('crunchbase.com/person/')));
+            $person = self::rmGetParam($person);
+            
+            $socUser = self::makeRequest('http://api.crunchbase.com/v/1/person/' . $person . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
+        }
+        elseif (strpos($link, 'crunchbase.com/company/') !== false)
+        {
+            $company = substr($link, (strpos($link, 'crunchbase.com/company/') + strlen('crunchbase.com/company/')));
+            $company = self::rmGetParam($company);
+            $socUser = self::makeRequest('http://api.crunchbase.com/v/1/company/' . $company . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
+        }
+        elseif (strpos($link, 'crunchbase.com/product/') !== false)
+        {
+            $product = substr($link, (strpos($link, 'crunchbase.com/product/') + strlen('crunchbase.com/product/')));
+            $product = self::rmGetParam($product);
+            $socUser = self::makeRequest('http://api.crunchbase.com/v/1/product/' . $product . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
+        }
         else
         {
-            $socUser = self::makeRequest('http://api.crunchbase.com/v/1/person/' . $person . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
-            if (is_string($socUser) && (strpos($socUser, 'error:') !== false))
-                $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+            $result = Yii::t('eauth', "This post doesn't exist:") . $link;
         }
-        
+        if (isset($socUser) && is_string($socUser) && (strpos($socUser, 'error:') !== false))
+            $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+            
         return $result;
     }
 
