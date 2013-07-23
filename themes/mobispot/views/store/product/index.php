@@ -47,7 +47,7 @@
                             </div>
                             <div class="columns six inline choose">
                                 <span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
-                                <input type="number" ng-model="product.quantity" />
+                                <input type="number" ng-model="product.quantity" ng-change="resetAddedText(product.jsID)" />
                             </div>
                         </div>
                         <div class="columns twelve" ng-show="product.color.length > 0">
@@ -57,7 +57,7 @@
                             </ul>
                         </div>
                         <footer class="columns twelve">
-                            <a class="spot-button" href="" ng-click="addToCart(product.jsID)"><?php echo Yii::t('store', 'Add to cart'); ?></a><span ng-class="totalClass(product.totalInCart)"><?php echo Yii::t('store', 'Already in cart: '); ?>{{product.totalInCart}}</span>
+                            <a class="spot-button" href="" ng-click="addToCart(product.jsID)">{{product.addText}}</a>
                         </footer>
                     </div>
                 </td>
