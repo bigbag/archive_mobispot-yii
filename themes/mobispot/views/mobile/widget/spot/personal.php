@@ -188,6 +188,38 @@
                         </div>
                     <?php } ?>
                 <?php } ?>
+        <?php /* list *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php if (!empty($content['data'][$key]['list'])): ?>
+                <?php if (!empty($content['data'][$key]['list']['title'])): ?>
+                <h4><?php echo $content['data'][$key]['list']['title']; ?></h4>
+                <?php endif; ?>
+                <ul>
+                <?php foreach ($content['data'][$key]['list']['values'] as $li): ?>
+                    <?php if (!empty($li['href']) && !empty($li['title'])): ?>
+                        <li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php elseif (!empty($li['title'])): ?>
+                        <li><?php echo $li['title']; ?>
+                            <?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        <?php /* list2 *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php if (!empty($content['data'][$key]['list2'])): ?>
+                <?php if (!empty($content['data'][$key]['list2']['title'])): ?>
+                <h4><?php echo $content['data'][$key]['list2']['title']; ?></h4>
+                <?php endif; ?>
+                <ul>
+                <?php foreach ($content['data'][$key]['list2']['values'] as $li): ?>
+                    <?php if (!empty($li['href']) && !empty($li['title'])): ?>
+                        <li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php elseif (!empty($li['title'])): ?>
+                        <li><?php echo $li['title']; ?>
+                            <?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
         <?php /* Follow button *//////////////////////////////////////////////////////////////////////////////////   ?>
                     <?php if (isset($content['data'][$key]['soc_url']) && !isset($content['data'][$key]['tweet_author'])): ?>
                     <a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >

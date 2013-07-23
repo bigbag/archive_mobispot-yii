@@ -165,7 +165,7 @@ class SocInfo extends CFormModel
         $socNetworks[] = $net;
 
         $net['name'] = 'pinterest';
-        $net['baseUrl'] = 'http://pinterest.com';
+        $net['baseUrl'] = 'pinterest.com';
         $net['invite'] = Yii::t('eauth', 'See more pins on');
         $net['inviteClass'] = 'i-soc-pin';
         $net['inviteValue'] = '&#xe017;';
@@ -174,6 +174,18 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
         $socNetworks[] = $net;
+        
+        $net['name'] = 'crunchbase';
+        $net['baseUrl'] = 'crunchbase.com';
+        $net['invite'] = Yii::t('eauth', 'Watch more on CrunchBase');
+        $net['inviteClass'] = '';
+        $net['inviteValue'] = '';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = '';
+        $net['contentClass'] = 'CrunchBaseContent';
+        $net['needAuth'] = false;
+        $socNetworks[] = $net;
+        
         return $socNetworks;
     }
 
