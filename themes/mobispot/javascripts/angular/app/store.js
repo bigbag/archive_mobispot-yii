@@ -18,6 +18,12 @@ function ProductCtrl($scope, $http) {
                     $scope.products[i].quantity = 1;
                     $scope.products[i].listposition = {left:"0px"};
                     $scope.products[i].addText = $scope.settings.addToCart;
+                    var tsTop = 90;
+                    if ($scope.products[i].color.length > 0)
+                        tsTop += 155;
+                    if ($scope.products[i].photo.length > 3)
+                        tsTop -= 56;
+                    $scope.products[i].thumbShellStyle = {top:(tsTop+"px")};
                 }
                 $scope.inRequest = false;
             }).error(function(error){

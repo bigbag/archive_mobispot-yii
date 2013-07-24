@@ -1,4 +1,4 @@
-<div class="m-content-block" ng-controller="ProductCtrl" ng-init="StoreInit('<?php echo Yii::app()->request->csrfToken; ?>')">
+<div class="m-content-block store-content" ng-controller="ProductCtrl" ng-init="StoreInit('<?php echo Yii::app()->request->csrfToken; ?>')">
     <table class="twelve store-items">
         <tbody>
             <tr ng-repeat="product in products">
@@ -12,7 +12,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="thumbsshell">
+                    <div class="thumbsshell" ng-style="product.thumbShellStyle">
                         <div class="thumbswrapper">
                             <ul class="aslide">
                                 <li ng-repeat="image in product.photo" ng-class="thumbLiClass($index)" ng-click="scrollTo(image,$index, product.jsID)">
