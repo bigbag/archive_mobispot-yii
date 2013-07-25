@@ -41,6 +41,7 @@ return array(
             'allowAutoLogin' => true,
         ),
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
+        'ut' => include(dirname(__FILE__) . '/ut.php'),
         'db' => require(dirname(__FILE__) . '/db.php'),
         'dbStore' => require(dirname(__FILE__) . '/dbStore.php'),
         'dbPayment' => require(dirname(__FILE__) . '/dbPayment.php'),

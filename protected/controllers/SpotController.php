@@ -711,6 +711,17 @@ class SpotController extends MController
                 {
                     $name = mb_substr($spot->name, 0, 45, 'utf-8');
                     $error = "no";
+
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id'=>$data['discodes']
+                            )
+                        );
+                    if ($wallet) 
+                    {
+                        $wallet->name = $spot->name;
+                        $wallet->save(false);
+                    }
                 }
             }
         }
