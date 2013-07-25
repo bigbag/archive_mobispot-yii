@@ -40,7 +40,7 @@
                                         <ul class="choose inline add-active long">
                                             <li ng-repeat="surface in product.surface" ng-class="surfaceClass(product.selectedSurface, surface)" ng-click="setSurface(product.jsID, surface)">{{surface}}</li>
                                         </ul>
-                                    </div>							
+                                    </div>                            
                                     <div class="columns six inline choose">
                                         <span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
                                         <input type="number" ng-model="product.quantity" ng-change="changeQuantity()"/>
@@ -61,12 +61,12 @@
 
             <div class="twelve total-amount clearfix">
                 <h1 class="biggest-heading left"><?php echo Yii::t('store', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
-                <a id="proceedNext" class="spot-button toggle-box right slideTo" href="#proceedNextForm" ng-click="checkOut()" ng-show="products.length > 0"><?php echo Yii::t('store', 'Proceed to checkout'); ?></a>
+                <a id="proceedNext" class="spot-button toggle-box right slideToThis" href="javascript:;" ng-click="checkOut()"><?php echo Yii::t('store', 'Proceed to checkout'); ?></a>
             </div>
         </div>
     </div>
 
-    <div id="proceedNextForm" class="row hide-content-box">
+    <div id="proceedNextForm" class="row sub-proceed hide-content-box">
         <div class="row">
             <form name="formCustomer" class="customer-info clearfix">
                 <div class="six columns">
@@ -86,7 +86,7 @@
                     <input type="text" name="country" ng-model="customer.country" placeholder="Country" required="" ng-class="valClass(formCustomer.country.$valid)">
                     <a class="spot-button toggle-box slideTo" style="cursor: pointer" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
                     <div style="visibility: hidden">
-                        <a id="proceedFinish" class="spot-button toggle-box slideTo" href="#proceedFinishForm"></a>
+                        <a id="proceedFinish" class="spot-button toggle-box slideToThis" href="javascript:;">Save</a>
                     </div>
                 </div>
             </form>

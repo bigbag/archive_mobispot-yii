@@ -428,7 +428,7 @@ class Cart extends CFormModel
 
     public function saveCustomer($newCustomer)
     {
-        $error = Yii::t('store', 'Пожалуйста, заполните все поля формы!');
+        $error = Yii::t('store', 'Please, fill all required fields!');
         if (isset(Yii::app()->session['storeEmail']))
         {
             $customer = Customer::model()->findByAttributes(array(
@@ -532,7 +532,7 @@ class Cart extends CFormModel
     public function buy($dcustomer, $products, $selectedDelivery, $selectedPayment)
     {
         $mailOrder = array();
-        $error = Yii::t('store', 'Fill all required fields!');
+        $error = Yii::t('store', 'Please, fill all required fields!');
         if (isset(Yii::app()->session['storeEmail']))
         {
             $customer = Customer::model()->findByAttributes(array(

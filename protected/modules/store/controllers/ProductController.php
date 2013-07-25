@@ -124,12 +124,17 @@ class ProductController extends MController
             $data = $this->getJson();
             if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken)
             {
-                $cart = new Cart;
-                $answer['error'] = $cart->saveCustomer($data['customer']);
-                if ($answer['error'] == 'no')
+                if (isset($data['customer']))
                 {
-                    $answer['message'] = Yii::t('store', 'Saved!');
+                    $cart = new Cart;
+                    $answer['error'] = $cart->saveCustomer($data['customer']);
+                    if ($answer['error'] == 'no')
+                    {
+                        $answer['message'] = Yii::t('store', 'Saved!');
+                    }
                 }
+                else
+                    $answer['error'] = Yii::t('store', 'Please, fill all required fields!');
             }
             header('Content-Type: application/json; charset=UTF-8');
             echo CJSON::encode($answer);
