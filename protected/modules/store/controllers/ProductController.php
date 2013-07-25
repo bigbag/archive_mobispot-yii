@@ -25,6 +25,10 @@ class ProductController extends MController
             {
                 $cart = new Cart;
                 $answer['products'] = $cart->getPriceList();
+                $settings = array();
+                $settings['addToCart'] = Yii::t('store', 'Add to cart');
+                $settings['added'] = Yii::t('store', 'Added');
+                $answer['settings'] = $settings;
                 /*
                   if(isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
                   $answer['itemsInCart'] = Yii::app()->session['itemsInCart'];

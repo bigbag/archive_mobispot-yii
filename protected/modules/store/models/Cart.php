@@ -428,7 +428,7 @@ class Cart extends CFormModel
 
     public function saveCustomer($newCustomer)
     {
-        $error = '';
+        $error = Yii::t('store', 'Пожалуйста, заполните все поля формы!');
         if (isset(Yii::app()->session['storeEmail']))
         {
             $customer = Customer::model()->findByAttributes(array(
