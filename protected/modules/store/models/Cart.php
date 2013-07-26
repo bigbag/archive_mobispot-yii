@@ -160,6 +160,15 @@ class Cart extends CFormModel
         return $fullCart;
     }
 
+    public function getDiscount()
+    {
+        $discount = array();
+        $discount['promoCode'] = '';
+        $discount['value'] = 0;
+
+        return $discount;
+    }
+    
     public function getCustomer()
     {
         $customer = array();
@@ -426,6 +435,31 @@ class Cart extends CFormModel
         return $success;
     }
 
+    public function confirmPromo($userCode)
+    {
+        $discount = array();
+        $discount['error'] = Yii::t('store', 'Введен неверный код!');
+        $discount['promoCode'] = $userCode;
+    
+        $promoCode = PromoCode::model()->findByAttributes(array(
+            'code' => $userCode
+        ));
+        
+        if ($promoCode)
+        {
+            if ($promoCode->expires > Time())
+            {
+                $discount['value'] = $promoCode->discount;
+                $discount['products'] = $promoCode->products;
+                $discount['error'] = 'no';
+            }
+            else
+                $discount['error'] = Yii::t('store', 'Код устарел!');
+        }
+    
+        return $discount;
+    }
+
     public function saveCustomer($newCustomer)
     {
         $error = Yii::t('store', 'Please, fill all required fields!');
@@ -529,7 +563,7 @@ class Cart extends CFormModel
         return $error;
     }
 
-    public function buy($dcustomer, $products, $selectedDelivery, $selectedPayment)
+    public function buy($newCustomer, $products, $discount, $selectedDelivery, $selectedPayment)
     {
         $mailOrder = array();
         $error = Yii::t('store', 'Please, fill all required fields!');
@@ -631,8 +665,6 @@ class Cart extends CFormModel
                     $subtotal += $list->price;
                 }
 
-                $transaction->commit();
-
                 $iSize = count($items);
                 for ($i = 0; $i < $iSize; $i++)
                 {
@@ -645,7 +677,44 @@ class Cart extends CFormModel
                 }
 
                 $tax = 0;
+                $discountSumm = 0;
 
+                if (!empty($discount['promoCode']) && !empty($discount['summ']))
+                {
+                    $promoCode = PromoCode::model()->findByAttributes(array(
+                        'code' => $discount['promoCode']
+                    ));
+        
+                    if ($promoCode)
+                    {
+                        if ($promoCode->expires > Time())
+                        {
+                            $promoProducts = $promoCode->products;
+                            foreach ($this->storeCart as $product)
+                            {
+                                foreach ($promoProducts as $promoId)
+                                {
+                                    if (($promoId == $product['id']) && ($product['selectedSize']['price'] >= $promoCode->discount))
+                                    {
+                                        $discountSumm += $promoCode->discount*$product['quantity'];
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if ($discountSumm > 0)
+                            {
+                                $order->promo_id = $promoCode->id;
+                                if (!$promoCode->is_multifold)
+                                {
+                                    $promoCode->expires = Time() - 1;
+                                    $promoCode->save();
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 $mailOrder['id'] = $order->id;
                 $mailOrder['email'] = $customer->email;
                 $mailOrder['target_first_name'] = $customer->target_first_name;
@@ -660,6 +729,8 @@ class Cart extends CFormModel
                     'name' => $selectedDelivery
                 ));
                 $mailOrder['subtotal'] = $subtotal;
+                if ($discountSumm > 0)
+                    $mailOrder['discount'] = $discountSumm;
                 $mailOrder['tax'] = $tax;
                 $mailOrder['items'] = $items;
 
@@ -667,12 +738,17 @@ class Cart extends CFormModel
                 {
                     $mailOrder['delivery'] = $deliv->name;
                     $mailOrder['shipping'] = $deliv->price;
-                    $mailOrder['total'] = $subtotal + $deliv->price;
+                    $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
 
                     $error = 'no';
                 }
                 else
                     $error = Yii::t('store', 'Incorrect delivery!');
+                
+                $order->status = 1;
+                $order->save();
+                
+                $transaction->commit();
             } catch (Exception $e)
             {
                 $transaction->rollback();

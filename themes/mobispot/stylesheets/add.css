@@ -104,5 +104,13 @@
 }
 
 .store-content{
-	margin-top:80px;
+    margin-top:80px;
+}
+
+#promoForm{
+    margin-top:30px;
+}
+
+#codeConfirm{
+    margin-top:10px;
 }

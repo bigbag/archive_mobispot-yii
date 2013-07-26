@@ -52,6 +52,7 @@ class ProductController extends MController
                 $cart = new Cart;
                 $data = array();
                 $data['products'] = $cart->getStoreCart();
+                $data['discount'] = $cart->getDiscount();
                 header('Content-Type: application/json; charset=UTF-8');
                 echo CJSON::encode($data);
                 Yii::app()->end();
@@ -116,6 +117,29 @@ class ProductController extends MController
         }
     }
 
+    public function actionConfirmPromo()
+    {
+        if (Yii::app()->request->isPostRequest)
+        {
+            $answer = array();
+            $answer['error'] = Yii::t('store', 'Please, enter the code!');
+            $data = $this->getJson();
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken)
+            {
+                if(!empty($data['promoCode']))
+                {
+                    $cart = new Cart;
+                    $discount = $cart->confirmPromo($data['promoCode']);
+                    $answer['error'] = $discount['error'];
+                    $answer['discount'] = $discount;
+                }
+            }
+            header('Content-Type: application/json; charset=UTF-8');
+            echo CJSON::encode($answer);
+            Yii::app()->end();
+        }
+    }
+
     public function actionSaveCustomer()
     {
         if (Yii::app()->request->isPostRequest)
@@ -168,10 +192,10 @@ class ProductController extends MController
         {
             $answer = array();
             $data = $this->getJson();
-            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products']) && isset($data['delivery']) && isset($data['payment']))
+            if (isset($data['token']) and $data['token'] == Yii::app()->request->csrfToken && isset($data['customer']) && isset($data['products']) && isset($data['delivery']) && isset($data['payment']) && isset($data['discount']))
             {
                 $cart = new Cart;
-                $mailOrder = $cart->buy($data['customer'], $data['products'], $data['delivery'], $data['payment']);
+                $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
                 $answer['error'] = $mailOrder['error'];
                 if ($mailOrder['error'] == 'no')
                 {

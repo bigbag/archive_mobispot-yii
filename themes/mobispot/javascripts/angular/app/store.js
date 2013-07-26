@@ -147,6 +147,7 @@ function CartCtrl($scope, $http) {
         $scope.token = token;
         $http.post('/store/product/GetCart', { token : token}).success(function(data) {
             $scope.products = data.products;
+            $scope.discount = data.discount;
         
             for (var i = 0; i < $scope.products.length; i++) {
                 $scope.products[i].jsID = i;
@@ -154,6 +155,21 @@ function CartCtrl($scope, $http) {
                 $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                 $scope.products[i].listposition = {left:"0px"};
             }
+            
+            if ($scope.discount.value > 0){
+                $scope.discount.summ = 0;
+                for (var i = 0; i < $scope.products.length; i++) {
+                    for (var j = 0; j < $scope.discount.products.length; j++) {
+                        if ($scope.products[i].id == $scope.discount.products[j]){
+                            $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                            break;
+                        }
+                    }
+                }
+                if ($scope.discount.summ > 0)
+                    $scope.summ -= $scope.discount.summ;
+            }
+            
             $scope.checkingOut = false;
             $scope.inRequest = false;
         }).error(function(error){
@@ -252,6 +268,20 @@ function CartCtrl($scope, $http) {
                 $scope.products[i].quantity = 0;
             $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
         }
+        
+        if ($scope.discount.value > 0){
+            $scope.discount.summ = 0;
+            for (var i = 0; i < $scope.products.length; i++) {
+                for (var j = 0; j < $scope.discount.products.length; j++) {
+                    if ($scope.products[i].id == $scope.discount.products[j]){
+                        $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                        break;
+                    }
+                }
+            }
+            if ($scope.discount.summ > 0)
+                $scope.summ -= $scope.discount.summ;
+        }
     };
     
     $scope.checkOut = function(){
@@ -294,6 +324,19 @@ function CartCtrl($scope, $http) {
                         $scope.products[i].jsID = i;                    
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
+                    if ($scope.discount.value > 0){
+                        $scope.discount.summ = 0;
+                        for (var i = 0; i < $scope.products.length; i++) {
+                            for (var j = 0; j < $scope.discount.products.length; j++) {
+                                if ($scope.products[i].id == $scope.discount.products[j]){
+                                    $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                                    break;
+                                }
+                            }
+                        }
+                        if ($scope.discount.summ > 0)
+                            $scope.summ -= $scope.discount.summ;
+                    }
                     
                     if(!($scope.products.length > 0)){
                         window.location = "/store";
@@ -306,7 +349,62 @@ function CartCtrl($scope, $http) {
             $scope.inRequest = false;
         }
     };
-    
+
+    $scope.confirmPromo = function(){
+        if(!$scope.inRequest){
+            $scope.inRequest = true;
+            $http.post(('/store/product/ConfirmPromo'), {
+                token: $scope.token,
+                promoCode : $scope.discount.promoCode,  
+            }).success(function(data, status) {
+                if (data.error == 'no'){
+                    angular.element('#promoForm input[name=promo]').removeClass('error');
+                    var oldDiscount = $scope.discount.summ;
+                    $scope.discount = data.discount;
+                    if ($scope.discount.value > 0){
+                        $scope.discount.summ = 0;
+                        for (var i = 0; i < $scope.products.length; i++) {
+                            for (var j = 0; j < $scope.discount.products.length; j++) {
+                                if ($scope.products[i].id == $scope.discount.products[j]){
+                                    $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                                    break;
+                                }
+                            }
+                        }
+                        if ($scope.discount.summ > 0){
+                            if (oldDiscount > 0){
+                                $scope.summ += parseFloat(oldDiscount);
+                            }
+                            $scope.summ -= $scope.discount.summ;
+                        }
+                        else if (oldDiscount > 0){
+                            $scope.summ += parseFloat(oldDiscount);
+                        }
+                    }
+                }
+                else
+                {
+                    //alert('error: ' + data.error);
+                    angular.element('#promoForm input[name=promo]').addClass('error');
+                    if ($scope.discount.summ > 0){
+                        $scope.summ += parseFloat($scope.discount.summ);
+                        $scope.discount.summ = 0;
+                        $scope.discount.value = 0;
+                    }
+                }
+            }).error(function(error){
+                angular.element('#promoForm input[name=promo]').addClass('error');
+                if ($scope.discount.summ > 0){
+                    $scope.summ += parseFloat($scope.discount.summ);
+                    $scope.discount.summ = 0;
+                    $scope.discount.value = 0;
+                }
+                alert(error);
+            });
+        }
+        $scope.inRequest = false;
+    };
+
     $scope.saveCustomer = function(){
         if(!$scope.inRequest){
             $scope.inRequest = true;
@@ -333,7 +431,8 @@ function CartCtrl($scope, $http) {
             customer : $scope.customer,
             products : $scope.products,
             delivery : $scope.selectedDelivery,
-            payment     : $scope.selectedPayment
+            payment  : $scope.selectedPayment,
+            discount : $scope.discount
         }).success(function(data, status) {
             if (data.error == 'no')
                 alert('Message sent!');

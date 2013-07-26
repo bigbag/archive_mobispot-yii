@@ -58,6 +58,12 @@
 
                 </tbody>
             </table>
+            
+            <div id="promoForm" class="six columns">
+                <div class="label">Got a promo-code? Put it in here and get your discount.</div>
+                <input type="text" name="promo" ng-model="discount.promoCode" placeholder="<?php echo Yii::t('store', 'Promo-code'); ?>">
+                <a id="codeConfirm" class="spot-button right" ng-click="confirmPromo()"><?php echo Yii::t('store', 'Confirm'); ?></a>
+            </div>
 
             <div class="twelve total-amount clearfix">
                 <h1 class="biggest-heading left"><?php echo Yii::t('store', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
@@ -71,19 +77,19 @@
             <form name="formCustomer" class="customer-info clearfix">
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'New customer'); ?></h3>
-                    <input type="text" ng-model="customer.first_name" placeholder="First name">
-                    <input type="text" ng-model="customer.last_name" placeholder="Last name">
-                    <input type="email" name="email" ng-model="customer.email" placeholder="Email address" required="" <?php if (!Yii::app()->user->isGuest) echo 'disabled'; ?>ng-class="valClass(formCustomer.email.$valid)">
+                    <input type="text" ng-model="customer.first_name" placeholder="<?php echo Yii::t('store', 'First name'); ?>">
+                    <input type="text" ng-model="customer.last_name" placeholder="<?php echo Yii::t('store', 'Last name'); ?>">
+                    <input type="email" name="email" ng-model="customer.email" placeholder="<?php echo Yii::t('store', 'Email address'); ?>" required="" <?php if (!Yii::app()->user->isGuest) echo 'disabled'; ?>ng-class="valClass(formCustomer.email.$valid)">
                 </div>
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
-                    <input type="text" ng-model="customer.target_first_name" placeholder="First name">
-                    <input type="text" ng-model="customer.target_last_name" placeholder="Last name">
-                    <input type="text" name="address" ng-model="customer.address" placeholder="Address" required="" ng-class="valClass(formCustomer.address.$valid)">
-                    <input type="text" name="city" ng-model="customer.city" placeholder="City" required="" ng-class="valClass(formCustomer.city.$valid)">
-                    <input type="text" name="zip" ng-model="customer.zip" placeholder="Zip / Postal code" required="" ng-class="valClass(formCustomer.zip.$valid)">
-                    <input type="text" name="phone" ng-model="customer.phone" placeholder="Phone" required="" ng-class="valClass(formCustomer.phone.$valid)">
-                    <input type="text" name="country" ng-model="customer.country" placeholder="Country" required="" ng-class="valClass(formCustomer.country.$valid)">
+                    <input type="text" ng-model="customer.target_first_name" placeholder="<?php echo Yii::t('store', 'First name'); ?>">
+                    <input type="text" ng-model="customer.target_last_name" placeholder="<?php echo Yii::t('store', 'Last name'); ?>">
+                    <input type="text" name="address" ng-model="customer.address" placeholder="<?php echo Yii::t('store', 'Address'); ?>" required="" ng-class="valClass(formCustomer.address.$valid)">
+                    <input type="text" name="city" ng-model="customer.city" placeholder="<?php echo Yii::t('store', 'City'); ?>" required="" ng-class="valClass(formCustomer.city.$valid)">
+                    <input type="text" name="zip" ng-model="customer.zip" placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>" required="" ng-class="valClass(formCustomer.zip.$valid)">
+                    <input type="text" name="phone" ng-model="customer.phone" placeholder="<?php echo Yii::t('store', 'Phone'); ?>" required="" ng-class="valClass(formCustomer.phone.$valid)">
+                    <input type="text" name="country" ng-model="customer.country" placeholder="<?php echo Yii::t('store', 'Country'); ?>" required="" ng-class="valClass(formCustomer.country.$valid)">
                     <a class="spot-button toggle-box slideTo" style="cursor: pointer" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
                     <div style="visibility: hidden">
                         <a id="proceedFinish" class="spot-button toggle-box slideToThis" href="javascript:;">Save</a>
