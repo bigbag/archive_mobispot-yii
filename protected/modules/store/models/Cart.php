@@ -632,7 +632,9 @@ class Cart extends CFormModel
                 $items = array();
 
                 $subtotal = 0;
-                foreach ($this->storeCart as $product)
+
+                $newCart = array();
+                foreach ($products as $product)
                 {
                     $list = new OrderList;
                     $item = array();
@@ -662,6 +664,7 @@ class Cart extends CFormModel
                     $list->save();
 
                     $items[] = $item;
+                    $newCart[] = $product;
                     $subtotal += $list->price;
                 }
 
@@ -690,7 +693,7 @@ class Cart extends CFormModel
                         if ($promoCode->expires > Time())
                         {
                             $promoProducts = $promoCode->products;
-                            foreach ($this->storeCart as $product)
+                            foreach ($products as $product)
                             {
                                 foreach ($promoProducts as $promoId)
                                 {
@@ -749,6 +752,9 @@ class Cart extends CFormModel
                 $order->save();
                 
                 $transaction->commit();
+                $this->storeCart = $newCart;
+                Yii::app()->session['storeCart'] = $newCart;
+                Yii::app()->session['itemsInCart'] = count($newCart);
             } catch (Exception $e)
             {
                 $transaction->rollback();
