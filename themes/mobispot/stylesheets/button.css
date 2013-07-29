@@ -117,8 +117,6 @@
 	height: 60px;
 	width: 60px;
 	line-height: 60px;
-	background-image: url(../images/icons/i-small.png);
-	background-position: -173px 15px;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
@@ -128,11 +126,60 @@
 	-o-transition: background-color 600ms ease-out;
 	transition: background-color 600ms ease-out;
 }
-.button.add-spot:hover,
-.button.add-spot:active,
-.button.add-spot.active,
-.button.add-spot.open{
+.button.add-spot .m-tooltip-open{
+	display: block;
+}
+.button.add-spot .m-tooltip-close{
+	opacity: 0;
+
+}
+.button.add-spot.open:hover .m-tooltip-close{
+	opacity: 1;
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+}
+.button.add-spot.open:hover .m-tooltip-open{
+	opacity: 0;
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+
+
+}
+
+.button.add-spot:before{
+	content: '';
+	display: inline-block;
+	height: 60px;
+	width: 60px;
+	background-image: url(../images/icons/i-small.png);
+	background-position: -173px 15px;
+	background-repeat: no-repeat;
+	float: left;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	-webkit-transition: -webkit-transform 600ms ease-out;
+	-moz-transition: -moz-transform 600ms ease-out;
+	-o-transition: -o-transform 600ms ease-out;
+	transition: transform 600ms ease-out;
+}
+.button.add-spot:hover:before,
+.button.add-spot:active:before,
+.button.add-spot.active:before,
+.button.add-spot.open:before{
 	background-position: -225px 15px;
+}
+.button.add-spot.open:before{
+	-webkit-transform: rotate(-135deg);
+	-moz-transform: rotate(-135deg);
+	-o-transform: rotate(-135deg);
+	-ms-transform: rotate(-135deg);
+	transform: rotate(-135deg);
+
 }
 .radio-link i{
 	display: inline-block;
@@ -294,7 +341,7 @@
 }
 .change-cover{
 	position: absolute;
-	right: 2em;
+	right: 15px;
 	bottom: 0;
 	overflow: hidden;
 }
@@ -374,6 +421,12 @@ footer .button:hover + .active,
 	position: absolute;
 	top:5px;
 	right: 40px;
+}
+.spot-hat-button{
+	display: none;
+}
+.open .spot-hat-button{
+	display: block;
 }
 .spot-hat-button li{
 	display: inline-block;
@@ -569,6 +622,8 @@ a.icon-spot-button{
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
 	transition: color 600ms ease-out;
+	position: relative;
+	z-index: 40;
 }
 .cover-fast-link a:hover{
 	color: #0063ff;
@@ -578,25 +633,55 @@ a.icon-spot-button{
 	text-align: right;
 	margin-right: 30px;
 	height: 0;
-	margin-bottom: -4px;
 	position: relative;
-	z-index: 10;
+	z-index: 30;
 }
 .cover-sub-link li{
 	background: #fff;
 display: inline-block;
 	text-align: center;
-	height: 31px;
-	width: 31px;
-	line-height: 31px;
+	height: 32px;
+	width: 32px;
+	line-height: 32px;
 	position: relative;
-	top: -20px;
+	top: -16px;
 	margin-left: 5px;
 	cursor: pointer;
 	font-size: 14px;
 }
 .spot-list li .cover-sub-link li:hover,
-.spot-list li .cover-sub-link li.open{
+.spot-list li .cover-sub-link li.open,
+.spot-list li .cover-sub-link li.active{
+	background: #0063ff;
+	color: #fff;
+}
+.cover-sub-link li.i-round-fb.active{
+	background: #617ABA;
+	color: #fff;
+}
+.cover-sub-link li.i-round-twi.active{
+	background: #96CBEF;
+	color: #fff;
+}
+.soc-link.gray a{
+	background: #f1f3f4;
+}
+.soc-link + .sub-txt{
+	margin-top: 10px;
+}
+.form-soc-link{
+	display: block;
+	text-align: center;
+	margin: 27px 0 16px;
+}
+.form-soc-link.soc-link  a{
+	height: 42px;
+	width: 42px;
+	line-height: 42px;
+	font-size: 20px;
+	margin: 0 19px;
+}
+.form-soc-link.soc-link a.active{
 	background: #0063ff;
 	color: #fff;
 }

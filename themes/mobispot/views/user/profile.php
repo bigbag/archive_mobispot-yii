@@ -3,115 +3,54 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
 ?>
 <div class="row">
     <div class="singlebox-margin">
-        <div class="six columns">
+        <div class="five columns">
             <form class="custom">
                 <h3><?php echo Yii::t('user', 'Profile info'); ?></h3>
-                <input type="text" placeholder="<?php echo Yii::t('user', 'Name'); ?>">
+                <input type="text" value="" placeholder="<?php echo Yii::t('user', 'Name'); ?>">
                 <label for="radio1" class="label-custom left">
                     <input id="radio1" type="radio" checked="" style="display:none;" name="radio1">
                     <span class="custom radio checked"></span>
-                    Male
+                    <?php echo Yii::t('user', 'Male'); ?>
                 </label>
                 <label for="radio2" class="label-custom left">
                     <input id="radio2" type="radio" style="display:none;" name="radio1">
                     <span class="custom radio"></span>
-                    Female
+                    <?php echo Yii::t('user', 'Female'); ?>
                 </label>
                 <div class="date-input clear">
-                    <input type="text" value="24.04.1984" placeholder="Birthday"><i>&#xe007;</i>
+                    <input type="text" value="" placeholder="<?php echo Yii::t('user', 'Birthday'); ?>"><i>&#xe007;</i>
                 </div>
-                <input type="text" value="Minsk" placeholder="City">
+                <input type="text" value="" placeholder="<?php echo Yii::t('user', 'City'); ?>">
 
-                <input type="email" value="dmitry.smolog@gmail.com" placeholder="Email">
-                <ul class="m-soc-linking clearfix">
-                    <li class="m-switch-case left">
-                        <h5>Facebook</h5>
-                        <div class="small-4 switch radius">
-                            <input id="c" type="radio" checked="" name="switch-c1">
-                            <label onclick="" for="c">Off</label>
-                            <input id="c1" type="radio" name="switch-c1">
-                            <label onclick="" for="c1">On</label>
-                            <span></span>
-                        </div>
-                    </li>
-                    <li class="m-switch-case left">
-                        <h5>Google +</h5>
-                        <div class="small-4 switch radius">
-                            <input id="c2" type="radio" checked="" name="switch-c2">
-                            <label onclick="" for="c2">Off</label>
-                            <input id="c3" type="radio" name="switch-c2">
-                            <label onclick="" for="c3">On</label>
-                            <span></span>
-                        </div>
-                    </li>
-                    <li class="m-switch-case left">
-                        <h5>Twitter</h5>
-                        <div class="small-4 switch radius">
-                            <input id="c4" type="radio" checked="" name="switch-c3">
-                            <label onclick="" for="c4">Off</label>
-                            <input id="c5" type="radio" name="switch-c3">
-                            <label onclick="" for="c5">On</label>
-                            <span></span>
-                        </div>
-                    </li>
-                </ul>
+                <div class="form-item-buton">
+                    <a class="spot-button toggle-box"><?php echo Yii::t('user', 'Save'); ?></a>
+                </div>
+                <p class="form-item-30">
+                    <?php echo Yii::t('user', 'Connect your Mobispot profile with your favourite social network accounts. This will make your sign in easy. If you connect several accounts you will be able to sign in with any of them.'); ?>
+                </p>
+                <span class="form-soc-link soc-link gray">
+                    <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'active' : ''; ?>
+                    <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>
+                    
+                    <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'active' : ''; ?>
+                    <a href="/service/socialConnect?service=twitter" class="<?php echo $twitterStatus; ?>">&#xe001;</a>
+                    
+                    <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'active' : ''; ?>
+                    <a href="/service/socialConnect?service=google_oauth" class="<?php echo $googleStatus; ?>">&#xe002;</a>
+                </span>
+                <p class="sub-txt"><?php echo Yii::t('user', "Note: This action will not connect your spots' content with your social networks. Please make it separately when editing your spots."); ?></p>
             </form>
         </div>
-        <div class="six columns">
+        <div id="recPassForm" class="six columns" ng-controller="UserCtrl">
             <h3><?php echo Yii::t('user', 'Change password'); ?></h3>
-            <a class="spot-button toggle-box"><?php echo Yii::t('user', 'Send to email'); ?></a>
+            <form name="recoveryForm">
+            <p class="sub-txt" ng-init="recovery.email='<?php echo $user->email?>'">
+                <?php echo Yii::t('user', 'You can change your password following the instructions in a special email from us. Please click the button below to proceed.'); ?>
+            </p>
+            <a class="spot-button toggle-box" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
+                <?php echo Yii::t('user', 'Send to email'); ?>
+            </a>
+            </form>
         </div>
     </div>
 </div>
-<!-- <div class="row" ng-controller="HelpCtrl">
-    <div class="twelve columns singlebox-margin">
-        <div class="row">
-            <div class="six columns">
-                <form id="sign-in" name="signForm">
-                    <input
-                        type="text"
-                        ng-model="user.name"
-                        placeholder="<?php echo Yii::t('user', 'Name'); ?>">
-                    <input
-                        type="text"
-                        ng-model="user.city"
-                        placeholder="<?php echo Yii::t('user', 'City'); ?>">
-                    <div class="spot-content_row toggle-active">
-                        <a class="checkbox agree" href="javascript:;">
-                            <i class="large"></i>
-                            Name
-                        </a>
-                        <a class="checkbox agree" href="javascript:;">
-                            <i class="large"></i>
-                            Phone
-                        </a>
-
-                    </div>
-                    <div class="form-control">
-                        <a class="spot-button" href="javascript:;" ng-click="login(user, signForm.$valid)" >
-                            <?php echo Yii::t('profile', 'Save'); ?>
-                        </a>
-                    </div>
-                </form>
-            </div>
-            <div class="six columns">
-                <h4><?php echo Yii::t('profile', 'Connect with:'); ?></h4>
-                <span class="soc-connect">
-                    <?php $facebookStatus = (!empty($user->facebook_id)) ? 'active' : ''; ?>
-                    <a class="spot-button eight <?php echo $facebookStatus; ?>" href="/service/socialConnect?service=facebook">
-                        <span>&#xe000;</span> <?php echo Yii::t('profile', 'Facebook'); ?>
-                    </a>
-                    <?php $twitterStatus = (!empty($user->twitter_id)) ? 'active' : ''; ?>
-                    <a class="spot-button eight <?php echo $twitterStatus; ?>" href="/service/socialConnect?service=twitter">
-                        <span>&#xe001;</span> <?php echo Yii::t('profile', 'Twitter'); ?>
-                    </a>
-
-                    <?php $googleStatus = (!empty($user->google_oauth_id)) ? 'active' : ''; ?>
-                    <a class="spot-button eight <?php echo $googleStatus; ?>" href="/service/socialConnect?service=google_oauth">
-                        <span>&#xe002;</span> <?php echo Yii::t('profile', 'Google'); ?>
-                    </a>
-                </span>
-            </div>
-        </div>
-    </div>
-</div> -->

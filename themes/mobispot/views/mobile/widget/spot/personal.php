@@ -69,7 +69,7 @@
                 <?php /* Vimeo video *////////////////////////////////////////////////////////////////////////////////// ?>
                 <?php if (isset($content['data'][$key]['vimeo_last_video'])): ?>
                     <div class="item-area text-center" id="div_<?php echo $key; ?>">
-                        <iframe 
+                        <iframe
                             id="vimeo_<?php echo $key; ?>" src="http://player.vimeo.com/video/<?php echo $content['data'][$key]['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
                         </iframe>
                         <?php if (isset($content['data'][$key]['vimeo_last_video_counter'])): ?>
@@ -188,13 +188,45 @@
                         </div>
                     <?php } ?>
                 <?php } ?>
+        <?php /* list *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php if (!empty($content['data'][$key]['list'])): ?>
+                <?php if (!empty($content['data'][$key]['list']['title'])): ?>
+                <h4><?php echo $content['data'][$key]['list']['title']; ?></h4>
+                <?php endif; ?>
+                <ul>
+                <?php foreach ($content['data'][$key]['list']['values'] as $li): ?>
+                    <?php if (!empty($li['href']) && !empty($li['title'])): ?>
+                        <li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php elseif (!empty($li['title'])): ?>
+                        <li><?php echo $li['title']; ?>
+                            <?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        <?php /* list2 *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php if (!empty($content['data'][$key]['list2'])): ?>
+                <?php if (!empty($content['data'][$key]['list2']['title'])): ?>
+                <h4><?php echo $content['data'][$key]['list2']['title']; ?></h4>
+                <?php endif; ?>
+                <ul>
+                <?php foreach ($content['data'][$key]['list2']['values'] as $li): ?>
+                    <?php if (!empty($li['href']) && !empty($li['title'])): ?>
+                        <li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php elseif (!empty($li['title'])): ?>
+                        <li><?php echo $li['title']; ?>
+                            <?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
         <?php /* Follow button *//////////////////////////////////////////////////////////////////////////////////   ?>
                     <?php if (isset($content['data'][$key]['soc_url']) && !isset($content['data'][$key]['tweet_author'])): ?>
                     <a href="<?php echo $content['data'][$key]['soc_url']; ?>" class="spot-button soc-link" >
-                        <span><?php echo $content['data'][$key]['invite']; ?></span> 
+                        <span><?php echo $content['data'][$key]['invite']; ?></span>
                         <?php if (isset($content['data'][$key]['inviteClass']) && (strlen($content['data'][$key]['inviteClass']) > 0)): ?>
                             <i class="i-soc <?php echo $content['data'][$key]['inviteClass']; ?> round"><?php if (isset($content['data'][$key]['inviteValue']) && (strlen($content['data'][$key]['inviteValue']) > 0)) echo $content['data'][$key]['inviteValue']; ?></i>
-                    <?php endif; ?>		
+                    <?php endif; ?>
                     </a>
         <?php endif; ?>
             </div>

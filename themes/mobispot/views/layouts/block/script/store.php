@@ -1,12 +1,11 @@
 <script src="/themes/mobispot/javascripts/jquery/jquery.foundation.mediaQueryToggle.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/jquery.foundation.forms.js"></script>
-<script src="/themes/mobispot/javascripts/foundation/modernizr.foundation.js"></script>
-<script src="/themes/mobispot/javascripts/jquery/app.js"></script>
-
-<script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/jquery.event.move.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/jquery.event.swipe.js"></script>
+<script src="/themes/mobispot/javascripts/foundation/modernizr.foundation.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/img-slider.min.js"></script>
+<script src="/themes/mobispot/javascripts/jquery/app.js"></script>
+<script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
 <script src="/themes/mobispot/javascripts/jquery/script.js"></script>
 
 <script src="/themes/mobispot/javascripts/angular/angular-ui/modules/directives/keypress/keypress.js"></script>
@@ -16,7 +15,7 @@
 <script src="/themes/mobispot/javascripts/angular/app/filters.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/directives.js"></script>
 <script src="/themes/mobispot/javascripts/angular/app/store.js"></script>
-<script src="/themes/mobispot/javascripts/jquery/slide-box.min.js"></script>
+
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/a-slider.css'); ?>
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/main.css'); ?>
 <?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/add.css'); ?>

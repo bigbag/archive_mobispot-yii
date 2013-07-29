@@ -178,7 +178,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         }
         codeField.addClass('error');
       }
-      else if (data.error == 'email'){
+      else if ((data.error == 'email') || (data.error == 'code')){
         resultModal.addClass('m-negative');
         resultModal.show();
         resultContent.text(data.content);
@@ -243,8 +243,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
           resultContent.text(data.content);
           resultModal.fadeOut(8000, function() {
           });
-        });
-
+        
         $scope.user.email="";
         $scope.recovery.email="";
         angular.element('#recPassForm input[name=email]').removeClass('error');

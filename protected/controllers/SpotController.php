@@ -289,7 +289,7 @@ class SpotController extends MController
 
                 if ($spotContent)
                 {
-                    
+
                 }
             }
         }
@@ -353,7 +353,7 @@ class SpotController extends MController
         $content = '';
         $netName = 'no';
         $isSocLogged = false;
-        $linkCorrect = Yii::t('eauth', "Такого профиля не существует!");
+        $linkCorrect = Yii::t('eauth', "This account doesn't exist:");
         $needSave = false;
 
         if (isset($data['discodes']) and isset($data['key']))
@@ -389,13 +389,19 @@ class SpotController extends MController
                                     $content['keys'][$data['key']] = 'content';
                                     $content['data'][$data['key']] = $userDetail;
                                     $spotContent->content = $content;
-;
+
                                     $linkCorrect = 'ok';
+                                }
+                                elseif($userDetail['error'] == 'User not logged in'){
+                                    $isSocLogged = false;
+                                    Yii::app()->session['bind_discodes'] = $data['discodes'];
+                                    Yii::app()->session['bind_key'] = $data['key'];
                                 }
                                 else
                                     $linkCorrect = $userDetail['error'];
                             }
-                            else{
+                            else
+                            {
                                 $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
                                 if ($linkCorrect == 'ok')
                                 {
@@ -433,13 +439,13 @@ class SpotController extends MController
             }
         }
         echo json_encode(
-                array(
-                    'error' => $error,
-                    'content' => $content,
-                    'socnet' => $netName,
-                    'loggedIn' => $isSocLogged,
-                    'linkCorrect' => $linkCorrect
-                )
+            array(
+                'error' => $error,
+                'content' => $content,
+                'socnet' => $netName,
+                'loggedIn' => $isSocLogged,
+                'linkCorrect' => $linkCorrect
+            )
         );
     }
 
@@ -483,12 +489,24 @@ class SpotController extends MController
                     }
                     elseif ($content['keys'][$data['key']] == 'content')
                     {
+                        $toDelete = array();
+                        if(!empty($content['data'][$data['key']]['last_img']) && strpos($content['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
+                            $toDelete[] = $content['data'][$data['key']]['last_img'];
+                        if(!empty($content['data'][$data['key']]['photo']) && strpos($content['data'][$data['key']]['photo'], '/uploads/spot/') === 0)
+                            $toDelete[] = $content['data'][$data['key']]['photo'];
                         $content['keys'][$data['key']] = 'text';
                         $content['data'][$data['key']] = $content['data'][$data['key']]['binded_link'];
                         $spotContent->content = $content;
 
                         if ($spotContent->save())
                         {
+                            foreach($toDelete as $path)
+                            {
+                                $path = substr($path, (strpos($path, '/uploads/spot/') + 14));
+                                $path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $path;
+                                if (file_exists($path))
+                                    unlink($path);
+                            }
                             $content = $this->renderPartial('//widget/spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
@@ -537,9 +555,23 @@ class SpotController extends MController
 
                 if ($spot->save())
                 {
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id' => $spot->discodes_id,
+                            'user_id' => 0,
+                        )
+                    );
+                    if ($wallet)
+                    {
+                        $wallet->status = PaymentWallet::STATUS_ACTIVE;
+                        $wallet->user_id = $spot->user_id;
+                        $wallet->save();
+
+                    }
+
                     $content = $this->renderPartial('//user/block/spots', array(
                         'data' => $spot,
-                            ), true);
+                        ), true);
                     $error = "no";
                 }
             }
@@ -679,6 +711,17 @@ class SpotController extends MController
                 {
                     $name = mb_substr($spot->name, 0, 45, 'utf-8');
                     $error = "no";
+
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id'=>$data['discodes']
+                            )
+                        );
+                    if ($wallet) 
+                    {
+                        $wallet->name = $spot->name;
+                        $wallet->save(false);
+                    }
                 }
             }
         }

@@ -78,6 +78,7 @@ form.custom div.custom.dropdown ul{
 	-ms-border-radius: 3px;
 	-o-border-radius: 3px;
 	overflow: hidden;
+	width: 100% !important;
 }
 form.custom div.custom.dropdown ul li{
 	padding: 7px 20px;
@@ -100,6 +101,9 @@ form.custom div.custom.dropdown ul li:hover:after{
 .bg-gray form.custom div.custom.dropdown a.current,
 .bg-gray form.custom div.custom.dropdown ul{
 	background: #fff;
+}
+.bg-gray .item-area form.custom div.custom.dropdown ul{
+	background: #f1f3f4;
 }
 
 .row {
@@ -553,11 +557,11 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	color: #fff !important;
 }
 .tooltip{
-	background: rgba(235, 235, 235, 0.88);
-	color: #000;
+	background: rgba(0,97,255,.9);
+	color: #fff;
 	font-size: 14px;
 	padding: 16px 20px;
-	margin-top: -30px;
+	margin-top: -20px;
 	margin-left: -13px;
 }
 .tooltip b{
@@ -573,11 +577,12 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	margin-top: 0;
 }
 .tooltip.tip-top > .nub{
+
 	width: 0;
 	height: 0;
 	border: 0;
 	left: 20px;
-	border-top: 10px solid rgba(235, 235, 235, 0.88);
+	border-top: 10px solid rgba(0,97,255,.9);
 	border-left: 10px solid transparent;
 
 }
@@ -740,11 +745,15 @@ div.switch input:not(:checked) + label {
 }
 form.custom div.custom.dropdown{
 	margin-top: 0;
+	width: 100% !important;
 }
 form.custom div.custom.dropdown a.current{
 	padding-top: 4px;
 }
 .row:last-child form.custom div.custom.dropdown ul{
-	bottom: 40px;
+	bottom: 34px;
 	top: auto;
+}
+.tooltip{
+	z-index: 90;
 }

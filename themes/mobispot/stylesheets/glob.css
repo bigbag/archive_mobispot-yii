@@ -5,6 +5,7 @@ body{
 	font-size: 140%;
 }
 
+
 @font-face {
 	font-family: Mobispot;
 	src: url('../fonts/mobispot-webfont.eot');
@@ -15,11 +16,11 @@ body{
 }
 @font-face {
 	font-family: Mobispot-icon;
-	src: url('../fonts/icomoon.eot');
-	src: url('../fonts/icomoon.eot?iefix') format('eot'),
-	url('../fonts/icomoon.woff') format('woff'),
-	url('../fonts/icomoon.ttf') format('truetype'),
-	url('../fonts/icomoon.svg#webfontjSpbZQRv') format('svg');
+	src: url('../fonts/mobispot-icon.eot');
+	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
+	url('../fonts/mobispot-icon.woff') format('woff'),
+	url('../fonts/mobispot-icon.ttf') format('truetype'),
+	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
 }
 .color{
 	color: #0063ff;

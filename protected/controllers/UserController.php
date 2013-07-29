@@ -27,10 +27,26 @@ class UserController extends MController
                     $this->refresh();
                 }
             }
+            
+            $socnet = array();
+            
+            if ($user)
+            {
+                $userTokens = SocToken::model()->findAllByAttributes(array(
+                    'user_id' => $user->id,
+                    'allow_login' => true,
+                ));
+            
+                foreach ($userTokens as $net)
+                {
+                    $socnet[$net->getType()] = 1;
+                }
+            }
 
             $this->render('profile', array(
                 'profile' => $profile,
                 'user' => $user,
+                'socnet' => $socnet,
             ));
         }
     }
@@ -70,17 +86,46 @@ class UserController extends MController
                     if ($spotContent)
                     {
                         $socInfo = new SocInfo;
-                        $key = Yii::app()->session['bind_key'];
-                        $netName = $socInfo->detectNetByLink($spotContent->content['data'][$key]);
-                        $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$key], $defDiscodes, $defKey);
-                        if (isset($linkCorrect) && ($linkCorrect != 'ok'))
-                            $message = $linkCorrect;
-                        if (($netName != 'no') && isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth') && isset($linkCorrect) && ($linkCorrect == 'ok'))
+                        $socNet = $socInfo->getNetByLink($spotContent->content['data'][$defKey]);
+                        
+                        if (!empty($socNet['name']))
                         {
+                            $netName = $socNet['name'];
                             $content = $spotContent->content;
-                            $content['keys'][$key] = 'socnet';
-                            $spotContent->content = $content;
-                            $spotContent->save();
+                            
+                            if (isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
+                            {
+                                $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$defKey]);
+                                
+                                if ($needSave)
+                                {
+                                    $userDetail = $socInfo->getSocInfo($socNet, $spotContent->content['data'][$defKey], $defDiscodes, $defKey);
+                                    if (empty($userDetail['error']))
+                                    {
+                                        $userDetail['binded_link'] = $content['data'][$defKey];
+                                        $content['keys'][$defKey] = 'content';
+                                        $content['data'][$defKey] = $userDetail;
+                                        $spotContent->content = $content;
+                                        $spotContent->save();
+                                        $linkCorrect = 'ok';
+                                    }
+                                    else
+                                        $linkCorrect = $userDetail['error'];
+                                }
+                                else
+                                {
+                                    $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$defKey], $defDiscodes, $defKey);
+                                    
+                                    if ($linkCorrect == 'ok')
+                                    {
+                                        $content['keys'][$defKey] = 'socnet';
+                                        $spotContent->content = $content;
+                                        $spotContent->save();
+                                    }
+                                }
+                                if (isset($linkCorrect) && ($linkCorrect != 'ok'))
+                                    $message = $linkCorrect;
+                            }
                         }
                     }
                 }

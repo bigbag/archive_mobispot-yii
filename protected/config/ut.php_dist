@@ -1,0 +1,9 @@
+<?php
+
+return array(
+'class' => 'ext.uniteller.Uniteller',
+ 'shopId' =>,
+ 'pass' =>,
+ 'login' =>,
+ 'isTest' => false,
+);

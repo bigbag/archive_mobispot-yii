@@ -178,6 +178,7 @@ class User extends CActiveRecord
     protected function afterDelete()
     {
         UserProfile::model()->deleteByPk($this->id);
+        SocToken::model()->deleteAll('user_id=:user_id', array('user_id' => $this->id));
         Spot::model()->updateAll(array(
             'status' => Spot::STATUS_REMOVED_SYS,
             'removed_date' => new CDbExpression('NOW()')
@@ -267,11 +268,12 @@ class User extends CActiveRecord
         $criteria->compare('lastvisit', $this->lastvisit, true);
         $criteria->compare('type', $this->type);
         $criteria->compare('status', $this->status);
+/*
         $criteria->compare('vkontakte_id', $this->vkontakte_id);
         $criteria->compare('facebook_id', $this->facebook_id, true);
         $criteria->compare('google_oauth_id', $this->google_oauth_id, true);
         $criteria->compare('twitter_id', $this->twitter_id, true);
-
+*/
         $criteria->compare('lang', $this->lang);
 
         return new CActiveDataProvider($this, array(
@@ -281,10 +283,17 @@ class User extends CActiveRecord
 
     public function socialCheck($service, $soc_id)
     {
+        return SocToken::model()->findAllByAttributes(array(
+            'type' => SocToken::getTypeByService($service),
+            'soc_id' => $soc_id,
+            'allow_login' => true,
+        ));
+/*
         $field = $service . '_id';
         return User::model()->findAllByAttributes(array(
                     $field => $soc_id
         ));
+*/
     }
 
 }
