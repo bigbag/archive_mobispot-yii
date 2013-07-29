@@ -57,7 +57,9 @@ class ServiceController extends MController
                 $error = "no";
             }
             else
-                $content = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
+            {
+               $content = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
+            }
         }
 
         echo json_encode(array(

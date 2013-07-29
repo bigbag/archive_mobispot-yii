@@ -85,7 +85,6 @@ class MController extends Controller
                 return true;
         }
         return false;
-
     }
 
     public function setAccess()
