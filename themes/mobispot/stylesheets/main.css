@@ -204,6 +204,9 @@ input:-moz-input-placeholder { color: rgba(0, 0, 0, 0.75) }
 	height: 0;
 	margin-top: -2px;
 }
+.row__head-slider .header-top .nav-bar,.row__head-slider .header-top h1{
+	padding-top: 2px;
+}
 #textSlider > div{
 	display: none;
 }
@@ -509,7 +512,7 @@ p + .details{
 	cursor: pointer;
 }
 .spot-list{
-	margin: 100px 0 50px;
+	margin: 9.4em 0 50px;
 }
 .spot-list > li{
 	background: #E9EDF2;
@@ -532,6 +535,8 @@ p + .details{
 }
 .spot-list h3{
 	float: left;
+}
+.spot-hat h3{
 	margin-right: 180px;
 }
 .m-tooltip{
@@ -727,7 +732,8 @@ a.active .m-tooltip{
 	background: #0061ff;
 }
 .item-area_w h3{
-	padding-top: 13px;
+	padding-top: 0;
+	margin-top: 0;
 	padding-bottom: 8px;
 	float: none;
 }
@@ -1538,7 +1544,7 @@ textarea[tabindex]{
 	display: none;
 }
 .two-line{
-	height: 49px;
+	margin-top: 0;
 }
 .contact-info{
 	margin-top: -6px;

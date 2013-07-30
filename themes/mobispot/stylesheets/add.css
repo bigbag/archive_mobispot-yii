@@ -2,116 +2,11 @@
   display: none;
 }
 
+
 .four-line{
   height: 120px;
 }
 
-.soc-link span{
-  font-family: Mobispot, Arial,sans-serif;
-}
-
-.soc-connect a span{
-  font-family: mobispot-icon;
-  line-height: 1.6;
-  font-size: 15px;
-}
-
-.spot-list{
-  margin: 50px 0 50px;
-}
-
-.spot-desc{
-  margin: 50px 0 0;
-}
-
-#error-upload, #confirm, #rename-spot, #progress-content{
-  display:none;
-}
-
-#dropbox {
-  background: #fff;
-}
-
-#dropbox.hover label, #dropbox.hover label h4 {
-  color: #2B46FF;
-}
-
-.long li{
-  width: 60px;
-  font-size: 10px;
-}
-
-.spot-content_row{
-  margin-top: 0px;
-}
-
-
-.m-preload-store  {
-  height: 100%;
-  width: 100%;
-  top:0;
-  left: 0;
-  background: #fff;
-  z-index: 999;
-  text-align: center;
-  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  opacity: 1;
-  display: block;
-}
-
-.m-preload-store img{
-  position: absolute;
-  top: 50%;
-  margin-top: -20px;
-}
-
-.personal-cover {
-  width: 1070px;
-  margin: 0px auto;
-  height: 390px;
-  background: #0061FF;
-  background-image: url(../images/empty-personal-cover.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-/*.personal-cover img{
-  height: 390px;
-  width: 1040px; max-width: 100%; min-width: 768px; margin: 0 auto;
-  margin: 0px auto;
-}*/
-
-/*.content-wrapper:after{
-  height: 0px;
-  width: 100%;
-}
-*/
-.logo a{
-  margin-left: 40px;
-}
-
-.dropdown {
-  margin-right: 40px;
-}
-
-.user-menu {
-  margin-right: 40px;
-}
-
-.item-area.text-photo img{
-  margin: 0 auto;
-  width: 100%;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-#promoForm{
-    margin-top:30px;
-}
-
-#codeConfirm{
-    margin-top:10px;
+.textSlider-box{
+	margin: 0;
 }

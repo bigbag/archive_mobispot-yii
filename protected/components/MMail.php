@@ -120,9 +120,10 @@ Class MMail
         $stack->to = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
-                    'name' => $data->name,
-                    'email' => $data->email,
-                    'question' => $data->question,
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'phone' => (isset($data['phone'])) ? $data['phone'] : false,
+                    'question' => $data['question'],
                         ), true);
 
         if ($stack->save())
