@@ -4,7 +4,7 @@ class ProductController extends MController
 {
 
     public $layout = '//layouts/store';
-    public $imagePath = '/uploads/store/product/';
+    public $imagePath = '/themes/mobispot/images/product/';
 
     public function actionIndex()
     {
