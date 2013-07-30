@@ -1,6 +1,6 @@
 <footer class="footer-page">
     <div class="row">
-        <div class="twelve columns">
+        <div class="large-12 columns">
             <h3><?php echo Yii::t('footer', 'Footer title') ?></h3>
             <?php $allLang = Lang::getLangArray(); ?>
             <!-- <ul class="lang-dropdown">
@@ -35,8 +35,7 @@
                 <span>Keep up</span>
             </div>
             <p>
-
-                © 2013 Mobispot Social Systems. All rights reserved<br>
+                <?php echo Yii::app()->par->load('copyright');?><br>
                 <a href="mailto:sales@mobispot.com">sales@mobispot.com</a><br>
             </p>
         </div>

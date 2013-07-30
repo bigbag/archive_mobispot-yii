@@ -1,8 +1,8 @@
-html,body{
+html{
 	height: 100%;
 }
 body{
-	font-size: 140%;
+	font-size: 87%;
 }
 
 
@@ -23,7 +23,7 @@ body{
 	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
 }
 .color{
-	color: #0063ff;
+	color: #0062ff;
 }
 .content-wrapper{
 	min-height: 100%;
@@ -31,6 +31,7 @@ body{
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
+	padding-bottom: 156px;
 
 }
 .content-wrapper:after{
@@ -39,7 +40,6 @@ body{
 	height: 350px;
 	width: 100%;
 }
-
 li{
 	list-style: none;
 }

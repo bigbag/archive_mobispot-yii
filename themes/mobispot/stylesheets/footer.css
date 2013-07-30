@@ -1,6 +1,6 @@
 .footer-page{
-	background: #f2f3f5;
-	padding-top: 0.8em;
+	background: #E9EDF2;
+	padding-top: 1.4em;
 	height: 258px;
 }
 .footer-page .link-list li{
@@ -29,25 +29,35 @@ footer-page h3{
 	color: #0162ff;
 }
 .footer-page p{
-	margin: 30px 0 10px;
+	margin: 81px 0 10px;
 	clear: both;
 }
 .footer-page .soc-link{
 	line-height: 1.6;
 	font-size: 14px;
-	margin-bottom: 13px;
+	margin-bottom: 0;
+	height: 0;
+	margin-top: -22px;
+}
+.footer-page .soc-link label{
+	display: inline;
+	color: #000;
 }
 .footer-page .soc-link span{
 	margin-right: 10px;
 	font-size: 14px;
 }
-.footer-page .soc-link a{
-	margin: -10px 6px 0 31px;
-	position: relative;
-	top:2px;
+.footer-page .soc-link li{
+	margin-bottom: 17px;
 }
-.footer-page .soc-link a:first-child{
-	margin: -10px 6px 0 0;
+.footer-page .soc-link a{
+	margin: 0 6px 0 42px;
+	position: relative;
+	top:5px;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	font-size: 23px;
 }
 .footer-page .link-list {
 	margin-right: 47px;
@@ -56,6 +66,6 @@ footer-page h3{
 .footer-page .lang-dropdown{
 	display: inline-block;
 	position: absolute;
-	top: 54px;
+	top: 60px;
 	right: 2em;
 }

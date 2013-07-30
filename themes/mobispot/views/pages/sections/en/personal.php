@@ -1,11 +1,11 @@
-<div class="row">
-    <div class="twelve columns text-center">
+large-12<div class="row">
+    <div class="large-12 columns text-center">
         <h1 class="biggest-heading">I <img src="/themes/mobispot/images/icons/i-heart.2x.png" width="104"> my spot</h1>
     </div>
 </div>
 
 <div class="row">
-    <div class="twelve columns">
+    <div class="large-12 columns">
         <h2>Create. Wear. Connect. Share</h2>
 
         <p>Never stop creating. Never stop sharing. Buy a spot. Load it up. Your digital life’s all
@@ -24,7 +24,7 @@
 </div>
 
 <div class="row">
-    <div class="twelve columns text-center">
+    <div class="large-12 columns text-center">
         <a class="round-button-large" href="http://store.mobispot.com">Get one</a>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="twelve columns">
-        <h1 class="text-center"><?php echo $model->title; ?></h1>
+    <div class="large-12 columns">
+        <h1 class="color text-center"><?php echo $model->title; ?></h1>
 
         <div class="content">
             <?php if (!empty($model->menu)): ?>

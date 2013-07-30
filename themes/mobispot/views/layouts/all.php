@@ -10,7 +10,7 @@
         <div class="content-wrapper">
             <?php include('block/header/all.php'); ?>
             <div class="row">
-                <div class="twelve columns singlebox-margin">
+                <div class="large-12 columns singlebox-margin">
                     <?php echo $content; ?>
                 </div>
             </div>

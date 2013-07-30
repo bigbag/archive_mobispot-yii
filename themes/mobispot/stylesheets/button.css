@@ -2,7 +2,7 @@
 .button,
 .spot-button:focus,
 .button:focus{
-	background-color: #F1F3F4;
+	background-color: #E9EDF2;
 	color: #000000;
 	font-family: Mobispot,Arial,"Helvetica",Helvetica,sans-serif;
 	font-size: 18px;
@@ -21,7 +21,7 @@
 .bg-white .spot-button,
 .bg-white input,
 .bg-white textarea{
-	background-color: #f1f3f4;
+	background-color: #E9EDF2;
 }
 
 .spot-button{
@@ -45,8 +45,7 @@
 	cursor: pointer;
 }
 .row__head-slider .spot-button{
-	background-color: #F7F8F8;
-	background-color: rgba(241, 243, 244, 0.6);
+	background-color: #fff;
 }
 .row__head-slider .spot-button.opacity{
 	background-color: #F7F8F8;
@@ -73,13 +72,13 @@
 }
 .round-button-large{
 	display: inline-block;
-	height: 230px;
-	width: 230px;
-	line-height: 230px;
+	height: 250px;
+	width: 250px;
+	line-height: 250px;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	background-color: #f1f3f4;
+	background-color: #E9EDF2;
 	color: #000;
 	font-size: 48px;
 	font-family: Mobispot, Arial, sans-serif;
@@ -101,12 +100,12 @@
 	color: #fff;
 }
 .total-order + .round-button-large {
-	margin: 83px 0 31px;
+	margin: 0;
 }
 .total-amount .spot-button{
 	position: absolute;
 	right: 0;
-	bottom: 37px;
+	bottom: 45px;
 	padding: 4px 26px 2px;
 }
 .customer-info .spot-button{
@@ -114,9 +113,9 @@
 	padding: 4px 42px 2px;
 }
 .button.add-spot{
-	height: 60px;
-	width: 60px;
-	line-height: 60px;
+	height: 99px;
+	width: 99px;
+	line-height: 99px;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
@@ -150,15 +149,14 @@
 
 }
 
-.button.add-spot:before{
-	content: '';
+.button.add-spot i{
 	display: inline-block;
-	height: 60px;
-	width: 60px;
-	background-image: url(../images/icons/i-small.png);
-	background-position: -173px 15px;
-	background-repeat: no-repeat;
 	float: left;
+	color: #000;
+	font-style: normal;
+	font-size: 38px;
+	width: 99px;
+	text-align: center;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -166,14 +164,14 @@
 	-moz-transition: -moz-transform 600ms ease-out;
 	-o-transition: -o-transform 600ms ease-out;
 	transition: transform 600ms ease-out;
+	font-weight: 100;
 }
-.button.add-spot:hover:before,
-.button.add-spot:active:before,
-.button.add-spot.active:before,
-.button.add-spot.open:before{
-	background-position: -225px 15px;
+.button.add-spot:hover i,
+.button.add-spot:active i,
+.button.add-spot.open i{
+	color: #fff;
 }
-.button.add-spot.open:before{
+.button.add-spot.open i{
 	-webkit-transform: rotate(-135deg);
 	-moz-transform: rotate(-135deg);
 	-o-transform: rotate(-135deg);
@@ -218,7 +216,7 @@
 	display: inline-block;
 	height: 20px;
 	width: 20px;
-	border: 1px solid #cfd2d3;
+	border: 1px solid #D6DDE4;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -272,8 +270,10 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	margin:-12px 0 14px;
+	margin:-3px 0 14px;
 	opacity: 0;
+	position: absolute;
+	width: 100%;
 
 }
 .dropdown:hover .spot-button{
@@ -314,6 +314,10 @@
 	display: inline-block;
 	position: relative;
 }
+.dropdown__light .options {
+	margin: -12px 0 14px;
+}
+
 .dropdown__light .spot-button{
 	font-family: Arial, sans-serif;
 	font-size: 14px;
@@ -322,13 +326,11 @@
 	padding: 0 15px;
 }
 .dropdown__light:hover .spot-button{
-	background-color: rgb(241, 243, 244) !important;
-	background-color: rgba(241, 243, 244, 0.6) !important;
+	background-color: #fff !important;
 	color: #0062ff;
 }
 .dropdown__light .options{
-	background-color: rgb(241, 243, 244);
-	background-color: rgba(241, 243, 244, 0.6);
+	background-color: #fff;
 }
 .dropdown__light .options a{
 	padding: 2px 15px;
@@ -368,7 +370,7 @@
 	min-width: 155px;
 }
 .spot-options{
-	padding-top: 14px;
+	padding-bottom: 14px;
 }
 
 .spot-options a{
@@ -380,13 +382,25 @@
 }
 footer .button,
 .sub-content .button{
-	height: 78px;
-	width: 78px;
-	line-height: 78px;
+	height: 100px;
+	width: 100px;
+	line-height: 100px;
 	text-align: center;
-	margin-right: 20px;
-	margin-top: 32px;
+	margin-right: 24px;
 	font-weight: 100;
+	font-size: 24px;
+	display: block;
+	float: left;
+	margin-bottom: 50px;
+
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+	-webkit-transition: background-color 600ms ease-out;
+	-moz-transition: background-color 600ms ease-out;
+	-o-transition: background-color 600ms ease-out;
+	transition: background-color 600ms ease-out;
 
 }
 footer .button:hover + .active,
@@ -407,6 +421,7 @@ footer .button:hover + .active,
 }
 .sub-content{
 	display: none;
+	overflow: hidden !important;
 }
 .spot-list .spot-hat-button{
 	margin: 12px 0 0;
@@ -419,18 +434,33 @@ footer .button:hover + .active,
 	-o-transition: opacity linear .3s;
 	transition: opacity linear .3s;
 	position: absolute;
-	top:5px;
+	top: 16px;
 	right: 40px;
+	-webkit-transition-delay: 100ms;
+	-moz-transition-delay: 100ms;
+	-o-transition-delay: 100ms;
+	transition-delay: 100ms;
 }
-.spot-hat-button{
-	display: none;
+.spot-list .spot-hat-button:after{
+	content: '';
+	display: block;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top:0;
+	left: 0;
+	z-index: 10;
 }
+
 .open .spot-hat-button{
 	display: block;
 }
+.open .spot-hat-button:after{
+	 display: none;
+ }
 .spot-hat-button li{
 	display: inline-block;
-	margin-left: 8px;
+	margin-left: 44px;
 	vertical-align: top;
 	line-height: 34px;
 }
@@ -439,13 +469,15 @@ footer .button:hover + .active,
 	-moz-opacity: 1;
 	-khtml-opacity: 1;
 	opacity: 1;
+	z-index: 10;
+
 }
 
 .button-disable:focus,
 .button-disable:hover,
 .button-disable {
 	color: #BBB;
-	background: rgba(255,255,255,.8) !important;
+	background: #E9EDF2;
 	cursor: default;
 	outline: none;
 }
@@ -499,7 +531,7 @@ footer .button:hover + .active,
 	display: inline-block;
 	height: 34px;
 	width: 46px;
-	background: #f1f3f4 url('../images/icons/i-small.png') no-repeat;
+	background: #E9EDF2 url('../images/icons/i-small.png') no-repeat;
 	cursor: pointer;
 }
 .bg-gray .b-input-number span{
@@ -584,13 +616,14 @@ footer .button:hover + .active,
 	float: right;
 	margin-bottom: 12px;
 	margin-top: 3px;
+	font-size: 14px;
 }
 .columns .spot-button{
 	margin-bottom: 5px;
 	text-align: center;
 }
 .spot-hat-button a{
-	font-size: 26px;
+	font-size: 30px;
 	font-family: Mobispot, arial, sans-serif;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
@@ -604,19 +637,19 @@ footer .button:hover + .active,
 }
 a.icon-spot-button{
 	color: #fff;
-	font-size: 34px;
+	font-size: 33px;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
 	transition: color 600ms ease-out;
-	line-height: 34px;
+	line-height: 33px;
 }
 .icon-spot-button:hover{
 	color: #0063ff;
 }
-.cover-fast-link a{
-	font-size: 24px;
-	margin: 10px 10px;
+.cover-fast-link .icon{
+	font-size: 34px;
+	margin: 3px 7px;
 	display: inline-block;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
@@ -624,9 +657,14 @@ a.icon-spot-button{
 	transition: color 600ms ease-out;
 	position: relative;
 	z-index: 40;
+	color: #000;
 }
-.cover-fast-link a:hover{
+.cover-fast-link .icon:hover,
+.cover-fast-link .icon.open{
 	color: #0063ff;
+}
+.cover-fast-link input{
+	display: none;
 }
 .cover-sub-link {
 	margin: 0;
@@ -664,7 +702,7 @@ display: inline-block;
 	color: #fff;
 }
 .soc-link.gray a{
-	background: #f1f3f4;
+	background: #E9EDF2;
 }
 .soc-link + .sub-txt{
 	margin-top: 10px;

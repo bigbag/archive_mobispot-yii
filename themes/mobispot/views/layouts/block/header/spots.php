@@ -1,5 +1,5 @@
 <header class="header-page">
-    <div class="row row__head-slider">
+    <div class="row">
         <div class="twelve">
             <div class="header-top">
                 <div class="four columns">

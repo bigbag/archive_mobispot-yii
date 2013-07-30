@@ -138,3 +138,7 @@
 .content-slider{
 	margin: 10px 0 48px;
 }
+
+.textSlider-box .orbit-bullets {
+	top: 143px;
+}
