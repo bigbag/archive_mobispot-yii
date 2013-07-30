@@ -7,7 +7,7 @@
         </div>
     <?php endif; ?>
     <div class="row">
-        <div class="large-12 columns">
+        <div class="twelve">
             <div class="header-top">
                 <?php
                     if ((Yii::app()->controller->action->id == 'index') 

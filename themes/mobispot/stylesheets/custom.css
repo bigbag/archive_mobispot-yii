@@ -774,8 +774,11 @@ form.custom div.custom.dropdown a.current{
 	padding-top: 4px;
 }
 .row:last-child form.custom div.custom.dropdown ul{
-	bottom: 34px;
+	bottom: 40px;
 	top: auto;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
 .tooltip{
 	z-index: 90;
@@ -823,4 +826,8 @@ img{
 }
 .orbit-bullets li {
 	border: none;
+}
+.column, .columns{
+	padding-left: 15px;
+	padding-right: 15px;
 }
