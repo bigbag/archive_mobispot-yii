@@ -447,14 +447,18 @@ class Cart extends CFormModel
         
         if ($promoCode)
         {
-            if ($promoCode->expires > Time())
+            if ($promoCode->expires < Time())
+                $discount['error'] = Yii::t('store', 'Код устарел!');
+            elseif (!$promoCode->is_multifold && $promoCode->used)
+            {
+                $discount['error'] = Yii::t('store', 'Код уже был использован!');
+            }
+            else
             {
                 $discount['value'] = $promoCode->discount;
                 $discount['products'] = $promoCode->products;
                 $discount['error'] = 'no';
             }
-            else
-                $discount['error'] = Yii::t('store', 'Код устарел!');
         }
     
         return $discount;
@@ -633,7 +637,6 @@ class Cart extends CFormModel
 
                 $subtotal = 0;
 
-                $newCart = array();
                 foreach ($products as $product)
                 {
                     $list = new OrderList;
@@ -659,24 +662,22 @@ class Cart extends CFormModel
                         $item['surface'] = '';
                     $list->size_name = $product['selectedSize']['value'];
                     $item['size_name'] = str_replace('single', '-', $product['selectedSize']['value']);
-                    $list->price = $product['selectedSize']['price'];
-                    $item['price'] = $product['selectedSize']['price'];
-                    $list->save();
-
-                    $items[] = $item;
-                    $newCart[] = $product;
-                    $subtotal += $list->price;
-                }
-
-                $iSize = count($items);
-                for ($i = 0; $i < $iSize; $i++)
-                {
-                    $dbProduct = Product::model()->findByPk($items[$i]['id_product']);
-                    if ($dbProduct)
+                    $dbProduct = Product::model()->findByPk($product['id']);
+                    $item['name'] = $dbProduct->name;
+                    $items['code'] = $dbProduct->code;
+                    $dbSizes = unserialize($dbProduct->size);
+                    foreach ($dbSizes as $dbSize)
                     {
-                        $items[$i]['name'] = $dbProduct->name;
-                        $items[$i]['code'] = $dbProduct->code;
+                        if ($dbSize['value'] == $product['selectedSize']['value'])
+                        {
+                            $list->price = $dbSize['price'];
+                            $item['price'] = $dbSize['price'];
+                        }
                     }
+                    
+                    $list->save();
+                    $items[] = $item;
+                    $subtotal += $list->price * $list->quantity;
                 }
 
                 $tax = 0;
@@ -690,7 +691,7 @@ class Cart extends CFormModel
         
                     if ($promoCode)
                     {
-                        if ($promoCode->expires > Time())
+                        if ($promoCode->expires > Time() && !(!$promoCode->is_multifold && $promoCode->used))
                         {
                             $promoProducts = $promoCode->products;
                             foreach ($products as $product)
@@ -708,9 +709,9 @@ class Cart extends CFormModel
                             if ($discountSumm > 0)
                             {
                                 $order->promo_id = $promoCode->id;
-                                if (!$promoCode->is_multifold)
+                                if (!$promoCode->used)
                                 {
-                                    $promoCode->expires = Time() - 1;
+                                    $promoCode->used = true;
                                     $promoCode->save();
                                 }
                             }
@@ -725,11 +726,11 @@ class Cart extends CFormModel
                 $mailOrder['address'] = $customer->address;
                 $mailOrder['city'] = $customer->city;
                 $mailOrder['zip'] = $customer->zip;
+                $mailOrder['customer_id'] = $order->id_customer;
 
-
-                $mailOrder['delivery_id'] = $order->delivery_id;
+                $mailOrder['delivery_id'] = $order->delivery;
                 $deliv = Delivery::model()->findByAttributes(array(
-                    'name' => $selectedDelivery
+                    'name' => $selectedDelivery['name']
                 ));
                 $mailOrder['subtotal'] = $subtotal;
                 if ($discountSumm > 0)
@@ -742,19 +743,32 @@ class Cart extends CFormModel
                     $mailOrder['delivery'] = $deliv->name;
                     $mailOrder['shipping'] = $deliv->price;
                     $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
+                    $order->delivery = $deliv->id;
 
                     $error = 'no';
                 }
                 else
                     $error = Yii::t('store', 'Incorrect delivery!');
+
+                $pay = Payment::model()->findByAttributes(array(
+                    'name' => $selectedPayment['name']
+                ));
+                
+                if ($pay)
+                {
+                    $mailOrder['payment'] = $pay->name;
+                    $order->payment = $pay->id;
+                } 
+                else
+                    $error = Yii::t('store', 'Incorrect payment!');
                 
                 $order->status = 1;
                 $order->save();
                 
                 $transaction->commit();
-                $this->storeCart = $newCart;
-                Yii::app()->session['storeCart'] = $newCart;
-                Yii::app()->session['itemsInCart'] = count($newCart);
+                $this->storeCart = array();
+                unset(Yii::app()->session['storeCart']);
+                Yii::app()->session['itemsInCart'] = 0;
             } catch (Exception $e)
             {
                 $transaction->rollback();
@@ -774,4 +788,82 @@ class Cart extends CFormModel
         return $mailOrder;
     }
 
+    public static function getMessageByOrder($orderId)
+    {
+        $mailOrder = array();
+        
+        $order = StoreOrder::model()->findByPk($orderId);
+        if ($order)
+        {
+            $customer = Customer::model()->findByPk($order->id_customer);
+            
+            $mailOrder['id'] = $order->id;
+            $mailOrder['email'] = $customer->email;
+            $mailOrder['target_first_name'] = $customer->target_first_name;
+            $mailOrder['target_last_name'] = $customer->target_last_name;
+            $mailOrder['address'] = $customer->address;
+            $mailOrder['city'] = $customer->city;
+            $mailOrder['zip'] = $customer->zip;
+            $mailOrder['customer_id'] = $order->id_customer;
+            $mailOrder['delivery_id'] = $order->delivery;
+            $deliv = Delivery::model()->findByPk($order->delivery);
+            $mailOrder['delivery'] = $deliv->name;
+            $mailOrder['shipping'] = $deliv->price;
+            $pay = Payment::model()->findByPk($order->payment);
+            $mailOrder['payment'] = $pay->name;
+            
+            $list = OrderList::model()->findAllByAttributes(array(
+                'id_order' => $order->id
+            ));
+            
+            $items = array();
+            $subtotal = 0;
+            $tax = 0;
+            $discountSumm = 0;
+            
+            foreach ($list as $product)
+            {
+                $item = array();
+                $selectedSize = array();
+                $item['id_product'] = $product->id_product;
+                $dbProduct = Product::model()->findByPk($product->id_product);
+                $item['name'] = $dbProduct->name;
+                $item['code'] = $dbProduct->code;
+                $item['quantity'] = $product->quantity;
+                $item['color'] = $product->color;
+                $item['surface'] = $product->surface;
+                $item['size_name'] = str_replace('standart', '-', $product->size_name);
+                $item['price'] = $product->price;
+                $items[] = $item;
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            
+
+            $promoCode = PromoCode::Model()->findByPk($order->promo_id);
+            if ($promoCode)
+            {
+                $promoProducts = $promoCode->products;
+                foreach ($list as $product)
+                {
+                    foreach ($promoProducts as $promoId)
+                    {
+                        if (($promoId == $product->id_product) && ($product->price >= $promoCode->discount))
+                        {
+                            $discountSumm += $promoCode->discount*$product->quantity;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            $mailOrder['subtotal'] = $subtotal;
+            if ($discountSumm > 0)
+                $mailOrder['discount'] = $discountSumm;
+            $mailOrder['tax'] = $tax;
+            $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
+            $mailOrder['items'] = $items;
+        }
+            
+        return $mailOrder;
+    }
 }

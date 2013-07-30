@@ -133,6 +133,18 @@
                     <a class="round-button-large" href="" ng-click="buy()"><?php echo Yii::t('store', 'Buy'); ?></a>
                 </div>
             </div>
+            <div style="display: none;">
+            <form id="payUniteller" action="<?php echo Yii::app()->ut->getPayUrl(); ?>">
+                <input type="text" name="Shop_IDP"/>
+                <input type="text" name="Order_IDP"/>
+                <input type="text" name="Customer_IDP"/>
+                <input type="text" name="Subtotal_P"/>
+                <input type="text" name="Signature"/>
+                <input type="text" name="URL_RETURN_OK"/>
+                <input type="text" name="URL_RETURN_NO"/>
+                <input id="submitUniteller" type="submit" value="Submit"/>
+            </form>
+            </div>
         </div>
     </div>
 

@@ -434,12 +434,23 @@ function CartCtrl($scope, $http) {
             payment  : $scope.selectedPayment,
             discount : $scope.discount
         }).success(function(data, status) {
-            if (data.error == 'no')
-                alert('Message sent!');
+            if (data.error == 'no'){
+                if (data.payment == 'Uniteller'){
+                    angular.element('#payUniteller input[name=Shop_IDP]').val(data.order.shopId);
+                    angular.element('#payUniteller input[name=Order_IDP]').val(data.order.orderId);
+                    angular.element('#payUniteller input[name=Customer_IDP]').val(data.order.customerId);
+                    angular.element('#payUniteller input[name=Subtotal_P]').val(data.order.amount);
+                    angular.element('#payUniteller input[name=Signature]').val(data.order.signature);
+                    angular.element('#payUniteller input[name=URL_RETURN_OK]').val(data.order.return_ok);
+                    angular.element('#payUniteller input[name=URL_RETURN_NO]').val(data.order.return_error);
+                    document.getElementById('submitUniteller').click();
+                }
+                //alert('Message sent!');
+            }
             else
                 alert('Action error:' + data.error);
         }).error(function(error){
-                alert('Connection error: '+ error);
+                alert('Connection error: '+ error.toString());
         });        
     };
     
