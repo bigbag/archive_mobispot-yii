@@ -30,9 +30,10 @@ DROP TABLE IF EXISTS `store_order`;
 CREATE TABLE IF NOT EXISTS `store_order`(
     id serial not null,
     id_customer bigint unsigned not null,
-    delivery varchar(1024) null,
-    delivery_id varchar(256) null,
-    payment varchar(1024) null,
+    delivery bigint unsigned null,
+    delivery_data text null,
+    payment bigint unsigned null,
+    payment_data text null,
     status integer not null,
     promo_id bigint unsigned null,
     foreign key (id_customer) references customer (id)
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `order_list`(
     quantity integer not null,
     color varchar(1024) not null,
     size_name varchar(1024) not null,
-    price integer not null,
+    price float not null,
     surface varchar(1024) null
     foreign key (id_product) references product (id)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
@@ -77,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `promo_code`(
     discount int not null,
     expires bigint unsigned not null,
     is_multifold boolean null,
+    used boolean null,
     PRIMARY KEY (`id`)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 

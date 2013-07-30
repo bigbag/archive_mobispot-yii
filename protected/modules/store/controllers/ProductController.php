@@ -199,12 +199,127 @@ class ProductController extends MController
                 $answer['error'] = $mailOrder['error'];
                 if ($mailOrder['error'] == 'no')
                 {
-                    MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+                    if ($mailOrder['payment'] == 'Uniteller')
+                    {
+                        $answer['payment'] = $mailOrder['payment'];
+                        $payment = Yii::app()->ut;
+                        $order['shopId'] = $payment->shopId;
+                        $order['customerId'] = $mailOrder['customer_id'];
+                        $order['orderId'] = $mailOrder['id'];
+                        $order['amount'] = $mailOrder['total'];
+                        $order['signature'] = $payment->getPaySign($order);
+                        $token = sha1(Yii::app()->request->csrfToken);
+                        $order['return_ok'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=success&token=' . $token;
+                        $order['return_error'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=error&token=' . $token;
+                        $answer['order'] = $order;
+                    }
                 }
             }
             echo CJSON::encode($answer);
         }
         Yii::app()->end();
     }
+    
+    public function actionPayUniteller()
+    {
+        $token = Yii::app()->request->getParam('token', 0);
+        $orderId = Yii::app()->request->getParam('Order_ID', 0);
 
+        if ($token and $token == sha1(Yii::app()->request->csrfToken) and $orderId)
+        {
+            $order = StoreOrder::model()->findByPk($orderId);
+            if ($order && $order->status == 1)
+            {
+                $payment = Yii::app()->ut;
+            
+                $sPostFields = "Shop_ID=" . $payment->shopId . "&Login=" . $payment->login . "&Password=" . $payment->pass . "&Format=1&ShopOrderNumber=" . $order->id . "&S_FIELDS=Status;ApprovalCode;BillNumber"; 
+
+                $ch = curl_init(); 
+                curl_setopt($ch, CURLOPT_URL, $payment->getResultUrl());
+                curl_setopt($ch, CURLOPT_HEADER, 0); 
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+                curl_setopt($ch, CURLOPT_VERBOSE, 0); 
+                curl_setopt($ch, CURLOPT_TIMEOUT, 60); 
+                curl_setopt($ch, CURLOPT_POST, 1); 
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $sPostFields); 
+                curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1); 
+                curl_setopt($ch, CURLINFO_HEADER_OUT, 1); 
+                $curl_response = curl_exec($ch); 
+                $curl_error = curl_error($ch); 
+   
+                $data = array();
+                if (!$curl_error) 
+                {
+                    $arr = explode( ";", $curl_response); 
+                    if (count($arr) > 2) 
+                    { 
+                        $data = array( 
+                            "Status" => $arr[0],
+                            "ApprovalCode" => $arr[1],
+                            "BillNumber"   => $arr[2] 
+                        ); 
+                        
+                        $order->payment_data = $data;
+
+                        if (strtolower($data['Status']) == 'authorized' || strtolower($data['Status']) == 'paid')
+                        {
+                            $mailOrder = Cart::getMessageByOrder($order->id);
+                            $to = array();
+                            $to[] = $mailOrder['email'];
+                            $to[] = Yii::app()->par->load('generalEmail');//admiin
+                            
+                            $order->status = 2;
+                            MMail::order_track($to, $mailOrder, $this->getLang());
+                        }
+                        else
+                        {
+                            $order->status = -1;
+                            
+                            if (!isset(Yii::app()->session['itemsInCart']) || Yii::app()->session['itemsInCart'] == 0)
+                            {
+                                //Восстановление заказа в корзину
+                                $cartList = array();
+                                $list = OrderList::model()->findAllByAttributes(array(
+                                    'id_order' => $order->id
+                                ));
+                                if ($list)
+                                {
+                                    foreach ($list as $item)
+                                    {
+                                        $product = array();
+                                        $selectedSize = array();
+                                        $product['id'] = $item->id_product;
+                                        $product['quantity'] = $item->quantity;
+                                        $product['selectedColor'] = $item->color;
+                                        $product['selectedSurface'] = $item->surface;
+                                        $selectedSize['value'] = $item->size_name;
+                                        $selectedSize['price'] = $item->price;
+                                        $product['selectedSize'] = $selectedSize;
+                                        $cartList[] = $product;
+                                    }
+                                }
+                                Yii::app()->session['storeCart'] = $cartList;
+                                Yii::app()->session['itemsInCart'] = count($cartList);
+                                
+                                //Восстановление одноразового промо-кода
+                                if (!empty($order->promo_id))
+                                {
+                                    $promoCode = PromoCode::model()->findByPk($order->promo_id);
+                                    if ($promoCode && !$promoCode->is_multifold && $promoCode->used)
+                                    {
+                                        $promoCode->used = false;
+                                        $promoCode->save();
+                                    }
+                                }
+                            }
+                        }
+                        $order->save();
+                    }
+                }
+            }
+        }
+        $this->redirect('/store');
+    }
 }

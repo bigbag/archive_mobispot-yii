@@ -28,5 +28,19 @@ class storeOrder extends CActiveRecord
     {
         return 'store.store_order';
     }
+    
+    public function beforeSave()
+    {
+        $this->delivery_data = serialize($this->delivery_data);
+        $this->payment_data = serialize($this->payment_data);
+        return parent::beforeSave();
+    }
+
+    protected function afterFind()
+    {
+        $this->delivery_data = unserialize($this->delivery_data);
+        $this->payment_data = unserialize($this->payment_data);
+        return parent::afterFind();
+    }
 
 }
