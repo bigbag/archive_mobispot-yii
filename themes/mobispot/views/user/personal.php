@@ -100,12 +100,13 @@
                         </form>
                     </div>
                 </div>
+
                 <li id="invisibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-show="spot.invisible">
                     <?php echo Yii::t('spot', 'Make spot invisible') ?>
                 </li>
                 <div class="sub-content text-center confirm" id="invisibleSpotForm">
                     <p>
-                        <?php echo Yii::t('spot', 'Hide the content of your spot from other people. When they tap it with phone they will see page 404?') ?>
+                        <?php echo Yii::t('spot', 'Hide the content of your spot from other people. When they tap it with phone they will see page 404') ?>
                     </p>
                     <h4><?php echo Yii::t('spot', 'Continue?') ?><h4>
                         <p></p>

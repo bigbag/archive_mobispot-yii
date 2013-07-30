@@ -152,12 +152,6 @@ function SpotCtrl($scope, $http, $compile) {
     var spotHat = spot.find('.spot-hat');
     $scope.keys = [];
 
-    if ($scope.spot.status == 2){
-      $scope.spot.invisible = true;
-    }
-    else {
-      $scope.spot.invisible = false;
-    }
 
     if (spotContent.attr('class') == null) {
       $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
@@ -182,6 +176,12 @@ function SpotCtrl($scope, $http, $compile) {
               filedrag.addEventListener("dragleave", fileDragHover, false);
               filedrag.addEventListener("drop", fileSelectHandler, false);
             }
+          }
+          if ($scope.spot.status == 2){
+            $scope.spot.invisible = true;
+          }
+          else {
+            $scope.spot.invisible = false;
           }
         }
       });
