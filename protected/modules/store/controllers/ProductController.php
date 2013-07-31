@@ -224,6 +224,7 @@ class ProductController extends MController
     {
         $token = Yii::app()->request->getParam('token', 0);
         $orderId = Yii::app()->request->getParam('Order_ID', 0);
+        $result = Yii::app()->request->getParam('result', 0);
 
         if ($token and $token == sha1(Yii::app()->request->csrfToken) and $orderId)
         {
@@ -273,51 +274,52 @@ class ProductController extends MController
                             $order->status = 2;
                             MMail::order_track($to, $mailOrder, $this->getLang());
                         }
-                        else
-                        {
-                            $order->status = -1;
-                            
-                            if (!isset(Yii::app()->session['itemsInCart']) || Yii::app()->session['itemsInCart'] == 0)
-                            {
-                                //Восстановление заказа в корзину
-                                $cartList = array();
-                                $list = OrderList::model()->findAllByAttributes(array(
-                                    'id_order' => $order->id
-                                ));
-                                if ($list)
-                                {
-                                    foreach ($list as $item)
-                                    {
-                                        $product = array();
-                                        $selectedSize = array();
-                                        $product['id'] = $item->id_product;
-                                        $product['quantity'] = $item->quantity;
-                                        $product['selectedColor'] = $item->color;
-                                        $product['selectedSurface'] = $item->surface;
-                                        $selectedSize['value'] = $item->size_name;
-                                        $selectedSize['price'] = $item->price;
-                                        $product['selectedSize'] = $selectedSize;
-                                        $cartList[] = $product;
-                                    }
-                                }
-                                Yii::app()->session['storeCart'] = $cartList;
-                                Yii::app()->session['itemsInCart'] = count($cartList);
-                                
-                                //Восстановление одноразового промо-кода
-                                if (!empty($order->promo_id))
-                                {
-                                    $promoCode = PromoCode::model()->findByPk($order->promo_id);
-                                    if ($promoCode && !$promoCode->is_multifold && $promoCode->used)
-                                    {
-                                        $promoCode->used = false;
-                                        $promoCode->save();
-                                    }
-                                }
-                            }
-                        }
-                        $order->save();
                     }
                 }
+                
+                if (($result == 'error' and !isset($data['Status'])) || (isset($data['Status']) && !(strtolower($data['Status']) == 'authorized' || strtolower($data['Status']) == 'paid')))
+                {
+                    $order->status = -1;
+                    
+                    if (!isset(Yii::app()->session['itemsInCart']) || Yii::app()->session['itemsInCart'] == 0)
+                    {
+                        //Восстановление заказа в корзину
+                        $cartList = array();
+                        $list = OrderList::model()->findAllByAttributes(array(
+                            'id_order' => $order->id
+                        ));
+                        if ($list)
+                        {
+                            foreach ($list as $item)
+                            {
+                                $product = array();
+                                $selectedSize = array();
+                                $product['id'] = $item->id_product;
+                                $product['quantity'] = $item->quantity;
+                                $product['selectedColor'] = $item->color;
+                                $product['selectedSurface'] = $item->surface;
+                                $selectedSize['value'] = $item->size_name;
+                                $selectedSize['price'] = $item->price;
+                                $product['selectedSize'] = $selectedSize;
+                                $cartList[] = $product;
+                            }
+                        }
+                        Yii::app()->session['storeCart'] = $cartList;
+                        Yii::app()->session['itemsInCart'] = count($cartList);
+                    }
+                        
+                    //Восстановление одноразового промо-кода
+                    if (!empty($order->promo_id))
+                    {
+                        $promoCode = PromoCode::model()->findByPk($order->promo_id);
+                        if ($promoCode && !$promoCode->is_multifold && $promoCode->used)
+                        {
+                            $promoCode->used = false;
+                            $promoCode->save();
+                        }
+                    }
+                }
+                $order->save();
             }
         }
         $this->redirect('/store');

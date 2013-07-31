@@ -90,9 +90,9 @@
                     <input type="text" name="zip" ng-model="customer.zip" placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>" required="" ng-class="valClass(formCustomer.zip.$valid)">
                     <input type="text" name="phone" ng-model="customer.phone" placeholder="<?php echo Yii::t('store', 'Phone'); ?>" required="" ng-class="valClass(formCustomer.phone.$valid)">
                     <input type="text" name="country" ng-model="customer.country" placeholder="<?php echo Yii::t('store', 'Country'); ?>" required="" ng-class="valClass(formCustomer.country.$valid)">
-                    <a class="spot-button toggle-box slideTo" style="cursor: pointer" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Save'); ?></a>
+                    <a class="spot-button toggle-box slideTo" style="cursor: pointer" ng-click="saveCustomer()"><?php echo Yii::t('store', 'Confirm'); ?></a>
                     <div style="visibility: hidden">
-                        <a id="proceedFinish" class="spot-button toggle-box slideToThis" href="javascript:;">Save</a>
+                        <a id="proceedFinish" class="spot-button toggle-box slideToThis" href="javascript:;">Confirm</a>
                     </div>
                 </div>
             </form>
