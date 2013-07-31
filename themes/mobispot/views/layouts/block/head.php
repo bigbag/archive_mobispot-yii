@@ -16,8 +16,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
-    <script src="/themes/mobispot/angular/angular-ui/build/angular-ui.min.js"></script>
-    <script src="/themes/mobispot/angular/angular-ui/common/module.js"></script>
 
     <script src="/themes/mobispot/foundation/js/vendor/custom.modernizr.js"></script>
 
