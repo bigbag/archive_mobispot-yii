@@ -107,11 +107,11 @@ class Cart extends CFormModel
             $item['id'] = $product->id;
             $item['name'] = $product->name;
             $item['code'] = $product->code;
-            $item['photo'] = unserialize($product->photo);
+            $item['photo'] = $product->photo;
             $item['description'] = $product->description;
-            $item['color'] = unserialize($product->color);
-            $item['surface'] = unserialize($product->surface);
-            $item['size'] = unserialize($product->size);
+            $item['color'] = $product->color;
+            $item['surface'] = $product->surface;
+            $item['size'] = $product->size;
             $item['totalInCart'] = 0;
             if ($itemsInCart > 0)
             {
@@ -150,10 +150,10 @@ class Cart extends CFormModel
             {
                 $product['name'] = $dbProduct->name;
                 $product['code'] = $dbProduct->code;
-                $product['photo'] = unserialize($dbProduct->photo);
-                $product['color'] = unserialize($dbProduct->color);
-                $product['surface'] = unserialize($dbProduct->surface);
-                $product['size'] = unserialize($dbProduct->size);
+                $product['photo'] = $dbProduct->photo;
+                $product['color'] = $dbProduct->color;
+                $product['surface'] = $dbProduct->surface;
+                $product['size'] = $dbProduct->size;
                 $fullCart[] = $product;
             }
         }
@@ -349,9 +349,9 @@ class Cart extends CFormModel
                 $etalone = Product::model()->findByPK($newProduct['id']);
                 if ($etalone)
                 {
-                    $etalone->color = unserialize($etalone->color);
-                    $etalone->size = unserialize($etalone->size);
-                    $etalone->surface = unserialize($etalone->surface);
+                    $etalone->color = $etalone->color;
+                    $etalone->size = $etalone->size;
+                    $etalone->surface = $etalone->surface;
                     if ((!is_array($etalone->color)) || in_array($newProduct['selectedColor'], $etalone->color))
                     {
                         $correctSize = false;
@@ -665,7 +665,7 @@ class Cart extends CFormModel
                     $dbProduct = Product::model()->findByPk($product['id']);
                     $item['name'] = $dbProduct->name;
                     $items['code'] = $dbProduct->code;
-                    $dbSizes = unserialize($dbProduct->size);
+                    $dbSizes = $dbProduct->size;
                     foreach ($dbSizes as $dbSize)
                     {
                         if ($dbSize['value'] == $product['selectedSize']['value'])

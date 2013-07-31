@@ -29,5 +29,22 @@ class Product extends CActiveRecord
     {
         return 'store.product';
     }
+    
+    public function beforeSave()
+    {
+        $this->photo = serialize($this->photo);
+        $this->color = serialize($this->color);
+        $this->surface = serialize($this->surface);
+        $this->size = serialize($this->size);
+        return parent::beforeSave();
+    }
 
+    protected function afterFind()
+    {
+        $this->photo = unserialize($this->photo);
+        $this->color = unserialize($this->color);
+        $this->surface = unserialize($this->surface);
+        $this->size = unserialize($this->size);
+        return parent::afterFind();
+    }
 }
