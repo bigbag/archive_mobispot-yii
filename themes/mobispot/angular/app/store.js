@@ -23,8 +23,8 @@ function ProductCtrl($scope, $http) {
                         tsTop += 155;
                     if ($scope.products[i].photo.length > 3)
                         tsTop -= 56;
-					if ($scope.products[i].description.length > 0)
-						tsTop += ($scope.products[i].description.length/76.5) * 10;
+                    if ($scope.products[i].description.length > 0)
+                        tsTop += ($scope.products[i].description.length/76.5) * 10;
                     $scope.products[i].thumbShellStyle = {top:(tsTop+"px")};
                 }
                 $scope.inRequest = false;
@@ -150,7 +150,8 @@ function CartCtrl($scope, $http) {
         $http.post('/store/product/GetCart', { token : token}).success(function(data) {
             $scope.products = data.products;
             $scope.discount = data.discount;
-        
+            if(!($scope.products.length > 0))
+                 window.location = "/store";        
             for (var i = 0; i < $scope.products.length; i++) {
                 $scope.products[i].jsID = i;
                 $scope.products[i].quantity = parseInt($scope.products[i].quantity);
