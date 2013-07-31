@@ -1,18 +1,14 @@
-<!-- <div class="row">
+<div class="row">
     <div class="large-12 columns spot-desc">
         <h3 class="color">Welcome back. Ready to make a change?</h3>
 
         <p>Your spots are listed below. Click on the spot name you want to edit.
             When it opens, you can change whatever you want.</p>
 
-        <p>What else can you do? You can change your spot from a personal spot
-            to a business spot, make your spot private, clean your spot, or even
-            delete it.<p>
-
         <p>How much you share is up to you.</p>
     </div>
 </div>
- -->
+
 <div class="row"<?php if (strlen($message) > 0) echo ' ng-init="message(\'' . $message . '\')"'; ?>>
     <div class="large-12 columns" <?php if (strlen($defDiscodes)) echo ' ng-init="defOpen(\'' . $defDiscodes . '\')"'; ?>>
         <?php
