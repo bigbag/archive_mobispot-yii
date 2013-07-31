@@ -23,6 +23,8 @@ function ProductCtrl($scope, $http) {
                         tsTop += 155;
                     if ($scope.products[i].photo.length > 3)
                         tsTop -= 56;
+					if ($scope.products[i].description.length > 0)
+						tsTop += ($scope.products[i].description.length/76.5) * 10;
                     $scope.products[i].thumbShellStyle = {top:(tsTop+"px")};
                 }
                 $scope.inRequest = false;

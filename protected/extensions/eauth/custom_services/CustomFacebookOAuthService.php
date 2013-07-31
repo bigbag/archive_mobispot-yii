@@ -33,6 +33,7 @@ class CustomFacebookOAuthService extends FacebookOAuthService
                 $socToken = new SocToken;
             $socToken->type = 1;
             $socToken->user_id = Yii::app()->user->id;
+            $socToken->soc_id = $info->id;
             $socToken->user_token = $this->getState('auth_token');
             if ($this->hasState('expires'))
                 $socToken->token_expires = $this->getState('expires');

@@ -127,12 +127,14 @@
                     </ul>
                 </div>
             </div>
+
             <div class="row">
-                <div class="twelve columns text-center">
+                <div class="twelve buy-box columns text-center">
                     <h3 class="total-order"><?php echo Yii::t('store', 'Total for this order:'); ?><span class="color"> ${{summ + (selectedDelivery.price - 0)}}</span></h3>
                     <a class="round-button-large" href="" ng-click="buy()"><?php echo Yii::t('store', 'Buy'); ?></a>
                 </div>
             </div>
+        </div>
             <div style="display: none;">
             <form id="payUniteller" action="<?php echo Yii::app()->ut->getPayUrl(); ?>">
                 <input type="text" name="Shop_IDP"/>
@@ -145,6 +147,5 @@
                 <input id="submitUniteller" type="submit" value="Submit"/>
             </form>
             </div>
-        </div>
     </div>
-
+</div>

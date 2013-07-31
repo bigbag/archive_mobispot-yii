@@ -547,17 +547,17 @@ class ServiceController extends MController
 
                 $userToken = SocToken::model()->findByAttributes(array(
                     'type' => SocToken::getTypeByService($service_name),
-                    'soc_id' => $service_id,
+                    'user_id' => $user->id,
                 ));
                 
                 if (!$userToken)
                 {
                     $userToken = new SocToken;
                     $userToken->type = SocToken::getTypeByService($service_name);
-                    $userToken->soc_id = $service_id;
+                    $userToken->user_id = $user->id;
                 }
-
-                $userToken->user_id = $user->id;
+                
+                $userToken->soc_id = $service_id;
                 $userToken->allow_login = true;
                 $userToken->save();
                 
