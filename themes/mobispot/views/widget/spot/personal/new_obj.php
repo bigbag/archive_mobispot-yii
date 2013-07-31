@@ -1,9 +1,9 @@
 <div class="spot-item spot-block">
-    <div class="item-area">
+    <div class="item-area item-area type-file">
         <div class="file-block">
             <a href="<?php echo CHtml::encode($content) ?>">
-                <img src="/themes/mobispot/images/icons/i-files.2x.png" width="80">
-                <span><?php echo CHtml::encode(substr(strchr($content, '_'), 1)) ?></span>
+                <span class="icon">&#xe00e;</span>
+                <span><b><?php echo CHtml::encode(substr(strchr($content, '_'), 1)) ?></b></span>
             </a>
         </div>
         <div class="spot-cover slow">

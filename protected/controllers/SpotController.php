@@ -263,39 +263,6 @@ class SpotController extends MController
         echo json_encode(array('error' => $error, 'keys' => $keys));
     }
 
-    // Редактирование содержимого блока
-    public function actionSpotEditContent()
-    {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
-
-        $error = "yes";
-
-        if (isset($data['discodes']) and isset($data['key']))
-        {
-
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
-            {
-                $spotContent = SpotContent::getSpotContent($spot);
-
-                if ($spotContent)
-                {
-
-                }
-            }
-        }
-        echo json_encode(array('error' => $error));
-    }
-
     // Сохранение содержимого блока
     public function actionSpotSaveContent()
     {
