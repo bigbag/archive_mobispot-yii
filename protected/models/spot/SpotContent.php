@@ -109,7 +109,8 @@ class SpotContent extends CActiveRecord
                     array(
                         'discodes_id' => $spot->discodes_id,
                         'spot_type_id' => $spot->spot_type_id,
-                    )
+                    ),
+                    array('order'=>'id DESC')
             );
 
             Yii::app()->cache->set('spot_content_' . $spot->discodes_id, $spot_content, 60);

@@ -1,9 +1,93 @@
 <ul class="spot-hat-button">
     <li>
-        <a data-tooltip title=" <?php echo Yii::t('spots', 'Settings'); ?>" id="j-settings"class="tip-top icon-spot-button right text-center settings-button icon" href="javascript:;">&#xe00f;</a>
+        <a data-tooltip 
+            title="<?php echo Yii::t('spots', 'Settings'); ?>" 
+            id="j-settings" 
+            class="tip-top icon-spot-button right text-center settings-button icon" 
+            href="javascript:;">
+            &#xe00f;
+        </a>
     </li>
 </ul>
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status; ?>'">
+    <div class="spot-content_row">
+        <div id="dropbox" class="spot-item spot-main-input">
+            <textarea ng-model="spot.content" ui-keypress="{enter: 'addContent(spot)'}">
+
+            </textarea>
+            <div class="text-center label-cover">
+                <h4><?php echo Yii::t('spots', 'Drag your files here or begin to type info or links'); ?></h4>
+                <span><?php echo Yii::t('spots', 'A maximum file size limit of 25mb for free accounts'); ?></span>
+                <div class="cover-fast-link">
+                    <label for="add-file" data-tooltip title="<?php echo Yii::t('spots', 'Add file'); ?>"  class="icon tip-left">&#xe00e;</label>
+                    <a data-tooltip href="javascripts:;" title="<?php echo Yii::t('spots', 'Add links & social accaunts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
+                    <input id="add-file" type="file">
+                </div>
+                <div class="hat-cover"></div>
+            </div>
+
+            <div id="extraMediaForm" class="spot-sub-slide slide-content">
+                <a data-tooltip title="Facebook" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/facebook.png"> 
+                </a>
+                <a data-tooltip title="Flickr" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/flickr.png"> 
+                </a>
+                <a data-tooltip title="Behance" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/behance.png"> 
+                </a>
+                <a data-tooltip title="Vimeo" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/vimeo.png"> 
+                </a>
+                <a data-tooltip title="LinkEdin" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/linkedin.png"> 
+                </a>
+                <a data-tooltip title="LastFM" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/lastfm.png"> 
+                </a>
+                <a data-tooltip title="MySpace" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/myspace.png"> 
+                </a>
+                <a data-tooltip title="tumblr" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/tumblr.png"> 
+                </a>
+                <a data-tooltip title="YouTube" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/youtube.png"> 
+                </a>
+                <a data-tooltip title="Twitter" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/twitter.png"> 
+                </a>
+                <a data-tooltip title="Google+" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/google.png"> 
+                </a>
+                <a data-tooltip title="VKontakte" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/vk.png"> 
+                </a>
+                <a data-tooltip title="Instagram" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/instagram.png"> 
+                </a>
+                <a data-tooltip title="Pinterest" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
+                </a>
+                <a data-tooltip title="DeviantART" class="tip-top" href="#">
+                    <img width="36" src="/themes/mobispot/images/icons/social/deviantart.png"> 
+                </a>
+            </div>
+        </div>
+        <div id="error-upload" class="spot-item">
+            <div class="item-area text-center type-error">
+                <h4 class="color"><?php echo Yii::t('spot', 'Oops!') ?></h4>
+                <h4><?php echo Yii::t('spot', 'There was an error when attempting to upload this file<br/>Please try again') ?></h4>
+            </div>
+        </div>
+        <div id="progress-content" class="spot-item">
+            <div class="item-area type-progress">
+                <div class="progress-bar">
+                    <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
+                </div>
+            </div>
+        </div>
+
     <?php if (!empty($spotContent->content)): ?>
         <?php $content = $spotContent->content ?>
 
@@ -15,7 +99,9 @@
             <span ng-init="spot.vcard=<?php echo $content['vcard']; ?>; spot.private=<?php echo $content['private']; ?>; keys=<?php echo $keys; ?>;"></span>
 
             <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
-                <?php foreach ($content['keys'] as $key => $type): ?>
+                <?php $content_keys = $content['keys'];?>
+                <?php krsort($content_keys);?>
+                <?php foreach ($content_keys as $key => $type): ?>
                     <?php $value = $content['data'][$key]; ?>
                         <?php echo $this->renderPartial('/widget/spot/personal/new_' . $type,
                             array(
@@ -27,39 +113,14 @@
                         ?>
                 <?php endforeach; ?>
             </div>
-            <div id="progress-content" class="spot-item">
-                <div class="item-area type-progress">
-                    <div class="progress-bar">
-                        <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
-                    </div>
-                </div>
-            </div>
+            
         <?php endif; ?>
     <?php else: ?>
         <span ng-init="spot.vcard=0; spot.private=0"></span>
     <?php endif; ?>
 
-
-    <div class="spot-content_row">
-        <div id="error-upload" class="spot-item">
-            <div class="item-area text-center type-error">
-                <h1><?php echo Yii::t('spot', 'Error') ?></h1>
-                <h4><?php echo Yii::t('spot', 'There was an error when attempting to upload this file') ?></h4>
-                <h4><?php echo Yii::t('spot', 'Please try again') ?></a></h4>
-            </div>
-        </div>
-        <div id="dropbox" class="spot-item" ng-init="spot.discodes=<?php echo $spot->discodes_id ?>">
-            <textarea ng-model="spot.content" ui-keypress="{enter: 'addContent(spot)'}">
-
-            </textarea>
-            <label class="text-center label-cover">
-                <h4><?php echo Yii::t('spot', 'Drag your files here or begin to type info or links') ?></h4>
-                <span>
-                    <?php echo Yii::t('spot', 'You can store up to 25 MB inside one spot') ?>
-                    <br />
-                    <?php echo Yii::t('spot', 'Use Ctrl+enter for a new paragraph') ?>
-                </span>
-            </label>
-        </div>
-    </div>
 </div>
+
+<script type="text/javascript">
+    $('textarea').autosize();
+</script>

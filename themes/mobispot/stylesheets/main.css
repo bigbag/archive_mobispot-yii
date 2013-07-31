@@ -981,7 +981,7 @@ a.active .m-tooltip{
 }
 .slide-content{
 	display: none;
-	padding: 0 50px;
+	padding: 0 50px 47px;
 }
 .form-list li{
 	margin-top: 0;
@@ -1540,9 +1540,7 @@ span.settings-button{
 .m-content-form{
 	margin-top: 36px;
 }
-textarea[tabindex]{
-	display: none;
-}
+
 .two-line{
 	margin-top: 0;
 }

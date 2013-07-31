@@ -1,4 +1,4 @@
-.m-result{
+.m-result, #error-upload, #progress-content{
   display: none;
 }
 

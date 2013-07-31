@@ -138,7 +138,7 @@ function SpotCtrl($scope, $http, $compile) {
   };
 
   // Аккордеон в списке личных спотов
-  $scope.accordion = function(e, token, init) {
+  $scope.accordion = function(e, init) {
     var spot;
     if(init == 1) {
       spot = e;
@@ -147,14 +147,15 @@ function SpotCtrl($scope, $http, $compile) {
       spot = angular.element(e.currentTarget).parent();
     }
 
-    var discodes = spot.attr('id');
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
+
+    $scope.spot.discodes = spot.attr('id');
     $scope.keys = [];
 
-
     if (spotContent.attr('class') == null) {
-      $http.post('/spot/spotView', {discodes:discodes, token:token}).success(function(data) {
+      var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
+      $http.post('/spot/spotView', data).success(function(data) {
         if(data.error == 'no') {
           var oldSpotContent = angular.element('.spot-content');
           angular.element('.spot-content_li').removeClass('open');
@@ -187,6 +188,7 @@ function SpotCtrl($scope, $http, $compile) {
       });
     }
     else {
+      delete $scope.spot.discodes;
       delete $scope.spot.content_new;
       spotContent.slideUp('slow',
         function () {
@@ -202,7 +204,7 @@ function SpotCtrl($scope, $http, $compile) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
-          angular.element('#add-content').append($compile(data.content)($scope));
+          angular.element('#add-content').prepend($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
           $scope.spot.content='';
@@ -230,11 +232,11 @@ function SpotCtrl($scope, $http, $compile) {
     if (!spot.content_new){
       var spotItem = angular.element(e.currentTarget).parents('.spot-item');
       var spotEdit = angular.element('#spot-edit').clone();
-      var spotData = spotItem.find('.item-type__text');
+      var spotData = spotItem.find('.item-type__text p');
 
       $scope.spot.content_new = spotData.text();
       var spotEditText = spotEdit.find('textarea');
-      spotEditText.text($scope.spot.content_new);
+      spotEditText.text('1');
 
       spotEdit.removeClass('hide');
       spotEditText.focus(1);

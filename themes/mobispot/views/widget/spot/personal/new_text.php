@@ -1,6 +1,6 @@
 <div class="spot-item spot-block">
-    <div class="item-area">
-        <p class="item-area item-type__text"><?php echo CHtml::encode($content) ?></p>
+    <div class="item-area item-type__text">
+        <p><?php echo CHtml::encode($content)?></p>
         <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">
             <div class="spot-activity">
                 <?php if (SocInfo::isSocLink(CHtml::encode($content))): ?>
