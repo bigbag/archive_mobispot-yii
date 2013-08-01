@@ -267,12 +267,10 @@ class ProductController extends MController
                         if (strtolower($data['Status']) == 'authorized' || strtolower($data['Status']) == 'paid')
                         {
                             $mailOrder = Cart::getMessageByOrder($order->id);
-                            $to = array();
-                            $to[] = $mailOrder['email'];
-                            $to[] = Yii::app()->par->load('generalEmail');//admiin
-                            
+
                             $order->status = 2;
-                            MMail::order_track($to, $mailOrder, $this->getLang());
+                            MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+                            MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
                         }
                     }
                 }
