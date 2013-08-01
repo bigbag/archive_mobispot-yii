@@ -1,76 +1,73 @@
 <div ng-controller="CartCtrl" ng-init="CartInit('<?php echo Yii::app()->request->csrfToken; ?>')">
-    <div class="row">
-        <div class="twelve columns singlebox-margin">
-            <table class="twelve store-items store-items__bag">
-                <tbody>
-                    <tr>
-                        <td id="emptyCart" colspan="2" ng-class="emptyClass()">
-                            <h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
-                            <span><a class="spot-button" href="/store"><?php echo Yii::t('store', 'Back to the store'); ?></a></span>
-                        </td>
-                    </tr>
-                    <tr ng-repeat="product in products | orderBy:'id'">
-                        <td>
-                            <div class="mainimageshell">
-                                <div class="viewwindow">
-                                    <ul class="fullsizelist aslide" ng-style="product.listposition">
-                                        <li class="aslide">
-                                            <img class="large" ng-src="<?php echo $imagePath; ?>{{product.photo[0]}}" />
-                                        </li>
-                                    </ul>
-                                </div>
+    <table class="twelve store-items store-items__bag">
+        <tbody>
+            <tr>
+                <td id="emptyCart" colspan="2" ng-class="emptyClass()">
+                    <h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
+                    <span><a class="spot-button" href="/store"><?php echo Yii::t('store', 'Back to the store'); ?></a></span>
+                </td>
+            </tr>
+            <tr ng-repeat="product in products | orderBy:'id'">
+                <td>
+                    <div class="mainimageshell">
+                        <div class="viewwindow">
+                            <ul class="fullsizelist aslide" ng-style="product.listposition">
+                                <li class="aslide">
+                                    <img class="large" ng-src="<?php echo $imagePath; ?>{{product.photo[0]}}" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+                <td class="store-items__description">
+                    <header>
+                        <h1>{{product.name}}</h1>
+                        <span>{{product.code}}</span>
+                        <div class="store-items__price store-items__close" ng-click="deleteItem(product.jsID)">${{product.selectedSize.price}}</div>
+                    </header>
+                    <div class="details">
+                        <div class="twelve clearfix">
+                            <div class="columns six" ng-show="product.size.length > 1">
+                                <span class="label label-left"><?php echo Yii::t('store', 'Size'); ?></span>
+                                <ul class="choose inline  add-active">
+                                    <li ng-repeat="size in product.size" ng-class="sizeClass(product.selectedSize.value, size.value)" ng-click="setSize(product.jsID, size)">{{size.value}}</li>
+                                </ul>
                             </div>
-                        </td>
-                        <td class="store-items__description">
-                            <header>
-                                <h1>{{product.name}}</h1>
-                                <span>{{product.code}}</span>
-                                <div class="store-items__price store-items__close" ng-click="deleteItem(product.jsID)">${{product.selectedSize.price}}</div>
-                            </header>
-                            <div class="details">
-                                <div class="twelve clearfix">
-                                    <div class="columns six" ng-show="product.size.length > 1">
-                                        <span class="label label-left"><?php echo Yii::t('store', 'Size'); ?></span>
-                                        <ul class="choose inline  add-active">
-                                            <li ng-repeat="size in product.size" ng-class="sizeClass(product.selectedSize.value, size.value)" ng-click="setSize(product.jsID, size)">{{size.value}}</li>
-                                        </ul>
-                                    </div>
-                                    <div class="columns six" ng-show="product.surface.length > 0">
-                                        <span class="label label-left"><?php echo Yii::t('store', 'Surface'); ?></span>
-                                        <ul class="choose inline add-active long">
-                                            <li ng-repeat="surface in product.surface" ng-class="surfaceClass(product.selectedSurface, surface)" ng-click="setSurface(product.jsID, surface)">{{surface}}</li>
-                                        </ul>
-                                    </div>                            
-                                    <div class="columns six inline choose">
-                                        <span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
-                                        <input type="number" ng-model="product.quantity" ng-change="changeQuantity()"/>
-                                    </div>
-                                </div>
-                                <div class="columns twelve" ng-show="product.color.length > 0">
-                                    <div class="label"><?php echo Yii::t('store', 'Choose your color'); ?></div>
-                                    <ul class="choose-color add-active">
-                                        <li ng-repeat="color in product.color" ng-class="colorClass(product.selectedColor, color)" ng-click="setColor(product.jsID, color)"><i class="bg-{{color}}"></i></li>
-                                    </ul>
-                                </div>
+                            <div class="columns six" ng-show="product.surface.length > 0">
+                                <span class="label label-left"><?php echo Yii::t('store', 'Surface'); ?></span>
+                                <ul class="choose inline add-active long">
+                                    <li ng-repeat="surface in product.surface" ng-class="surfaceClass(product.selectedSurface, surface)" ng-click="setSurface(product.jsID, surface)">{{surface}}</li>
+                                </ul>
+                            </div>                            
+                            <div class="columns six inline choose">
+                                <span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
+                                <input type="number" ng-model="product.quantity" ng-change="changeQuantity()"/>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                        <div class="columns twelve" ng-show="product.color.length > 0">
+                            <div class="label"><?php echo Yii::t('store', 'Choose your color'); ?></div>
+                            <ul class="choose-color add-active">
+                                <li ng-repeat="color in product.color" ng-class="colorClass(product.selectedColor, color)" ng-click="setColor(product.jsID, color)"><i class="bg-{{color}}"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
 
-                </tbody>
-            </table>
-            
-            <div id="promoForm" class="six columns">
-                <div class="label">Got a promo-code? Put it in here and get your discount.</div>
-                <input type="text" name="promo" ng-model="discount.promoCode" placeholder="<?php echo Yii::t('store', 'Promo-code'); ?>">
-                <a id="codeConfirm" class="spot-button right" ng-click="confirmPromo()"><?php echo Yii::t('store', 'Confirm'); ?></a>
-            </div>
-
-            <div class="twelve total-amount clearfix">
-                <h1 class="biggest-heading left"><?php echo Yii::t('store', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
-                <a id="proceedNext" class="spot-button toggle-box right slideToThis" href="javascript:;" ng-click="checkOut()"><?php echo Yii::t('store', 'Proceed to checkout'); ?></a>
-            </div>
-        </div>
+        </tbody>
+    </table>
+    
+    <div id="promoForm" class="six columns">
+        <div class="label">Got a promo-code? Put it in here and get your discount.</div>
+        <input type="text" name="promo" ng-model="discount.promoCode" placeholder="<?php echo Yii::t('store', 'Promo-code'); ?>">
+        <a id="codeConfirm" class="spot-button right" ng-click="confirmPromo()"><?php echo Yii::t('store', 'Confirm'); ?></a>
     </div>
+
+    <div class="twelve total-amount clearfix">
+        <h1 class="biggest-heading left"><?php echo Yii::t('store', 'Total '); ?><img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">{{summ}}$</h1>
+        <a id="proceedNext" class="spot-button toggle-box right slideToThis" href="javascript:;" ng-click="checkOut()"><?php echo Yii::t('store', 'Proceed to checkout'); ?></a>
+    </div>
+
 
     <div id="proceedNextForm" class="row sub-proceed hide-content-box">
         <div class="row">
