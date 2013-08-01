@@ -2,10 +2,7 @@
     <div class="item-area  type-link">
         <?php $socInf = new SocInfo;?>
         <a href="<?php echo CHtml::encode(CHtml::encode($content)) ?>">
-            <img src="/themes/mobispot/images/icons/social/<?php echo $socInf->getSmallIcon(CHtml::encode($content));?>"
-            height="32"
-            width="32"
-            style="display: inline-block;">
+            <img src="/themes/mobispot/images/icons/social/<?php echo $socInf->getSmallIcon(CHtml::encode($content));?>" class="spot-soc-icon" width="36">
             <?php echo CHtml::encode(CHtml::encode($content)) ?>
         </a>
 

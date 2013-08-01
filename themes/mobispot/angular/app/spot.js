@@ -204,7 +204,7 @@ function SpotCtrl($scope, $http, $compile) {
     if (spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
-          angular.element('#add-content').prepend($compile(data.content)($scope));
+          angular.element('#add-content').append($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
           $scope.spot.content='';

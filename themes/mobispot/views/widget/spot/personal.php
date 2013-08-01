@@ -100,7 +100,7 @@
 
             <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
                 <?php $content_keys = $content['keys'];?>
-                <?php krsort($content_keys);?>
+                <?php #krsort($content_keys);?>
                 <?php foreach ($content_keys as $key => $type): ?>
                     <?php $value = $content['data'][$key]; ?>
                         <?php echo $this->renderPartial('/widget/spot/personal/new_' . $type,
