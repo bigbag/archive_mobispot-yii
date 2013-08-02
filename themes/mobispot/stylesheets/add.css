@@ -8,7 +8,7 @@
 }
 
 .textSlider-box{
-	margin: 0;
+    margin: 0;
 }
 
 .long li{
@@ -43,4 +43,15 @@
 
 #codeConfirm{
     margin-top:10px;
+}
+
+#dropbox.hover *{
+    color: #0063ff;
+}
+
+#dropbox.hover *{
+    -webkit-transition: color 600ms ease-out;
+    -moz-transition: color 600ms ease-out;
+    -o-transition: color 600ms ease-out;
+    transition: color 600ms ease-out;
 }

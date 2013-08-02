@@ -429,7 +429,7 @@ function CartCtrl($scope, $http) {
     };
     
     $scope.buy = function(){
-        $http.post(('/store/product/Buy'), {
+        $http.post(('/store/product/buy'), {
             token: $scope.token,
             customer : $scope.customer,
             products : $scope.products,

@@ -110,7 +110,6 @@ class Uniteller extends CApplicationComponent
   */
   const PAID_STATUS=2;
 
-
   /**
    * Получаем URL для платежа
    * @return string

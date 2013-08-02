@@ -132,17 +132,15 @@
                 </div>
             </div>
         </div>
-            <div style="display: none;">
             <form id="payUniteller" action="<?php echo Yii::app()->ut->getPayUrl(); ?>">
-                <input type="text" name="Shop_IDP"/>
-                <input type="text" name="Order_IDP"/>
-                <input type="text" name="Customer_IDP"/>
-                <input type="text" name="Subtotal_P"/>
-                <input type="text" name="Signature"/>
-                <input type="text" name="URL_RETURN_OK"/>
-                <input type="text" name="URL_RETURN_NO"/>
+                <input id="unitell_shop_id" type="hidden" name="Shop_IDP" value="">
+                <input id="unitell_customer" type="hidden" name="Customer_IDP" value="">
+                <input id="unitell_order_id" type="hidden" name="Order_IDP" value="">
+                <input id="unitell_subtotal" type="hidden" name="Subtotal_P" value="">
+                <input id="unitell_signature" type="hidden" name="Signature" value="">
+                <input id="unitell_url_ok" type="hidden" name="URL_RETURN_OK" value="">
+                <input id="unitell_url_no" type="hidden" name="URL_RETURN_NO" value="">
                 <input id="submitUniteller" type="submit" value="Submit"/>
             </form>
-            </div>
     </div>
 </div>

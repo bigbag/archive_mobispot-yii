@@ -68,8 +68,8 @@ function SpotCtrl($scope, $http, $compile) {
     if (result){
       var data = angular.fromJson(result);
       if(data.error == 'no') {
-        var content = angular.element('#progress-content');
-        content.hide().before($compile(data.content)($scope));
+        angular.element('#progress-content').hide();
+        angular.element('#add-content').append($compile(data.content)($scope));
         $scope.keys.push(data.key);
       }
     }
@@ -456,10 +456,15 @@ function SpotCtrl($scope, $http, $compile) {
     else if ($scope.action == 'invisibleSpot' || $scope.action == 'visibleSpot'){
       $http.post('/spot/invisibleSpot', spot).success(function(data) {
         if(data.error == 'no') {
+          var spot = angular.element('#' + $scope.spot.discodes);
           if ($scope.spot.invisible){
+            spot.addClass('invisible-spot');
+            spot.find('.invisible-icon').hide();
             $scope.spot.invisible = false;
           }
           else {
+            spot.removeClass('invisible-spot');
+            spot.find('.invisible-icon').hide();
             $scope.spot.invisible = true;
           }
         }
