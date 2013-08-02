@@ -84,34 +84,35 @@
                 <li id="renameSpot" class="toggle-box spot-action"  ng-click="actionSpot(spot, $event)">
                     <?php echo Yii::t('spot', 'Rename spot') ?>
                 </li>
-                <div class="sub-content text-center rename-spot" id="renameSpotForm">
-                    <div class="popup-row">
+                <div class="sub-content rename-spot" id="renameSpotForm">
+                    <div class="sub-content-container">
                         <form name="renameSpotForm">
-                            <input
-                                type="text"
-                                class="b-short-input"
-                                ng-model="spot.newName"
-                                name="newName"
-                                placeholder="<?php echo Yii::t('spot', 'New Name') ?>"
-                                autocomplete="off"
-                                maxlength="50"
-                                required>
-                            <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
-                            <?php echo Yii::t('spot', 'Save') ?>
-                            </a>
-                        </form>
+                        <input
+                            type="text"
+                            class="b-short-input"
+                            ng-model="spot.newName"
+                            name="newName"
+                            placeholder="<?php echo Yii::t('spot', 'New Name') ?>"
+                            autocomplete="off"
+                            maxlength="50"
+                            required>
+                        <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
+                        <?php echo Yii::t('spot', 'Save') ?>
+                        </a>
+                    </form>
                     </div>
                 </div>
 
                 <li id="invisibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-show="spot.invisible">
                     <?php echo Yii::t('spot', 'Make spot invisible') ?>
                 </li>
-                <div class="sub-content text-center confirm" id="invisibleSpotForm">
-                    <p>
-                        <?php echo Yii::t('spot', 'Hide the content of your spot from other people. When they tap it with phone they will see page 404') ?>
-                    </p>
-                    <h4><?php echo Yii::t('spot', 'Continue?') ?><h4>
-                        <p></p>
+                <div class="sub-content confirm" id="invisibleSpotForm">
+                    <div class="sub-content-container">
+                        <h4><?php echo Yii::t('spot', 'Continue?') ?></h4>
+                        <p>
+                            <?php echo Yii::t('spot', 'Hide the content of your spot from other people. When they tap it with phone they will see page 404') ?>
+                        </p>
+                    </div>
                     <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
@@ -119,15 +120,17 @@
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
+
                 <li id="visibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-hide="spot.invisible">
                     <?php echo Yii::t('spot', 'Make spot visible') ?>
                 </li>
-                <div class="sub-content text-center confirm" id="visibleSpotForm">
-                    <p>
-                        <?php echo Yii::t('spot', "Bring back your spot's content to your friends") ?>
-                    </p>
-                    <h4><?php echo Yii::t('spot', 'Continue?') ?><h4>
-                    <p></p>
+                <div class="sub-content confirm" id="visibleSpotForm">
+                    <div class="sub-content-container">
+                        <h4><?php echo Yii::t('spot', 'Continue?') ?></h4>
+                        <p>
+                            <?php echo Yii::t('spot', "Bring back your spot's content to your friends") ?>
+                        </p>
+                    </div>
                     <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
@@ -135,15 +138,17 @@
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
+
                 <li id="cleanSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
                     <?php echo Yii::t('spot', 'Clean spot') ?>
                 </li>
-                <div class="sub-content text-center confirm" id="cleanSpotForm">
-                    <p>
-                        <?php echo Yii::t('spot', 'Erase all the content of your spot with one click. You will not be able to cancel this action.') ?>
-                    </p>
-                    <h4><?php echo Yii::t('spot', 'Are you sure?') ?><h4>
-                    <p></p>
+                <div class="sub-content confirm" id="cleanSpotForm">
+                    <div class="sub-content-container">
+                        <h4><?php echo Yii::t('spot', 'Are you sure?') ?></h4>
+                        <p>
+                            <?php echo Yii::t('spot', 'Erase all the content of your spot with one click. You will not be able to cancel this action.') ?>
+                        </p>
+                    </div>
                     <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
@@ -151,15 +156,17 @@
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
+
                 <li id="deleteSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)">
                     <?php echo Yii::t('spot', 'Delete your spot') ?>
                 </li>
-                <div class="sub-content text-center confirm" id="deleteSpotForm">
-                    <p>
-                        <?php echo Yii::t('spot', 'Make your spot disappear forever from your personal account. You will not be able to cancel this action or to re-store your spot.') ?>
-                    </p>
-                    <h4><?php echo Yii::t('spot', 'Are you sure?') ?><h4>
-                    <p></p>
+                <div class="sub-content confirm" id="deleteSpotForm">
+                    <div class="sub-content-container">
+                        <h4><?php echo Yii::t('spot', 'Are you sure?') ?></h4>
+                        <p>
+                            <?php echo Yii::t('spot', 'Make your spot disappear forever from your personal account. You will not be able to cancel this action or to re-store your spot.') ?>
+                        </p>
+                    </div>
                     <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>

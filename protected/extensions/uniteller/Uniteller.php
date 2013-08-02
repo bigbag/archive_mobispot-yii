@@ -110,14 +110,6 @@ class Uniteller extends CApplicationComponent
   */
   const PAID_STATUS=2;
 
-  public function init() {
-    if ($this->isTest) {
-      $this->shopId=$this->testShopId;
-      $this->pass=$this->testPass;
-      $this->login=$this->testLogin;
-    }
-  }
-
   /**
    * Получаем URL для платежа
    * @return string

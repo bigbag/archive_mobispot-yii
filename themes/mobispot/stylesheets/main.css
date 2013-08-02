@@ -1574,8 +1574,12 @@ span.settings-button{
 	background-color: #ff2400;
 }
 .label-custom{
-	margin: 10px 25px 19px 0;
+	margin: 10px 25px 16px 0;
 	color: #0061ff;
+	font-size: 14px;
+}
+.label-custom{
+
 }
 .date-input{
 	position: relative;

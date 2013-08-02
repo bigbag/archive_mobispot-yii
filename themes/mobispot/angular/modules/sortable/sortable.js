@@ -36,7 +36,7 @@ angular.module('ui.sortable', [])
             if (ngModel) {
 
               ngModel.$render = function() {
-                element.sortable( "refresh" );
+                element.sortable(opts);
               };
 
               callbacks.start = function(e, ui) {
@@ -84,6 +84,8 @@ angular.module('ui.sortable', [])
 
             }
 
+            // element.sortable('destroy');
+
 
               scope.$watch(attrs.uiSortable, function(newVal, oldVal){
                   angular.forEach(newVal, function(value, key){
@@ -103,7 +105,7 @@ angular.module('ui.sortable', [])
               });
 
               // Create sortable
-
+            //element.sortable('destroy');
             element.sortable(opts);
           }
         };

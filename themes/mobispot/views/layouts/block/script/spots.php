@@ -11,6 +11,7 @@
 <script src="/themes/mobispot/angular/modules/keypress/keypress.js"></script>
 <script src="/themes/mobispot/angular/modules/sortable/sortable.js"></script>
 <script src="/themes/mobispot/angular/modules/event/event.js"></script>
+<script src="/themes/mobispot/angular/modules/date/date.js"></script>
 <script src="/themes/mobispot/angular/app/app.js"></script>
 <script src="/themes/mobispot/angular/app/controllers.js"></script>
 <script src="/themes/mobispot/angular/app/directives.js"></script>

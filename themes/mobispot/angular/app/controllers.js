@@ -9,6 +9,11 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   var resultModal = angular.element('.m-result');
   var resultContent = resultModal.find('p');
 
+  $scope.dateOptions = {
+      yearRange: '1900:-0',
+      dateFormat: 'dd.mm.yy'
+  };
+
   // Таймер отслеживания состояния корзины
   $scope.initTimer = function(period){
     $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
