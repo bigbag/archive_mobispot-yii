@@ -9,6 +9,7 @@
     </div>
 </div>
 
+
 <div class="row"<?php if (strlen($message) > 0) echo ' ng-init="message(\'' . $message . '\')"'; ?>>
     <div class="large-12 columns" <?php if (strlen($defDiscodes)) echo ' ng-init="defOpen(\'' . $defDiscodes . '\')"'; ?>>
         <?php

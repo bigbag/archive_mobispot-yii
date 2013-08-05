@@ -55,3 +55,19 @@
     -o-transition: color 600ms ease-out;
     transition: color 600ms ease-out;
 }
+
+.sex-options li.active a{
+  color: #0062FF;
+}
+
+.sex-options{
+  margin-top: -10px;
+  margin-bottom: 50px;
+}
+
+.sex-options li{
+  width: 100px;
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+}

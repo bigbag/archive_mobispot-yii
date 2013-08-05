@@ -222,17 +222,19 @@ table.store-items{
 	-webkir-border-radius:0;
 	-moz-border-radius:0;
 	border-radius: 0;
-	border-spacing: 3px;
-	margin: -3px;
+	border-spacing: 0;
 }
 table.store-items td{
 	background: #E9EDF2;
 	overflow: hidden;
+	border-bottom: 3px solid #fff;
 }
 table.store-items td:first-child{
 	padding-top: 50px;
 	text-align: center;
 	width: 37%;
+	border-right: 3px solid #fff;
+
 }
 table.store-items td img,
 table.store-items td .orbit{
@@ -623,6 +625,7 @@ a.active .m-tooltip{
 	background: rgba(224,230,237,.95);
 	z-index: 99;
 	opacity: 0;
+	overflow-y: scroll;
 }
 .settings-list{
 	padding: 0 0 6px;
@@ -667,7 +670,6 @@ a.active .m-tooltip{
 	margin-bottom: 16px;
 }
 .popup{
-	overflow: auto;
 	padding: 3em 0;
 }
 .spot-item{
@@ -1888,4 +1890,64 @@ span.settings-button{
 }
 textarea{
 	max-width: 1030px;
+}
+.label-cover *{
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
+}
+textarea:hover + .label-cover *{
+	color: #0063ff;
+}
+.bag-link:hover,
+.bag-link{
+	position: relative;
+	display: block;
+	padding: 5px;
+	z-index: 10;
+	text-align: center;
+	background: rgba(0, 97, 255, 0.9);
+	line-height: 20px;
+	font-weight: 100;
+	color: #fff;
+}
+.bag-link.fixed-line{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	margin: 0;
+}
+.bag-link *{
+	cursor: pointer;
+}
+.bag-link h3{
+	color: #fff;
+}
+.bag-link span{
+	text-decoration: underline;
+}
+.bag-link i{
+	font-family: Mobispot;
+	position: absolute;
+	right: 25px;
+	font-style: normal;
+	top: 50%;
+	font-size: 50px;
+	margin-top: -9px
+}
+.icon-bag-link{
+	position: fixed;
+	top: 25px;
+	right: 0;
+}
+.icon-bag-link span{
+	position: absolute;
+	left: 0;
+	bottom: 14px;
+	width: 50px;
+	text-align: center;
+	font-size: 32px;
+	font-family: Mobispot;
+	color: rgb(255, 255, 255);
 }

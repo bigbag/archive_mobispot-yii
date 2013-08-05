@@ -1,5 +1,5 @@
 'use strict';
-var mobispot = angular.module('mobispot', ['ui.keypress', 'ui.event', 'ui.sortable', 'ui.date']);
+var mobispot = angular.module('mobispot', ['ui.keypress', 'ui.event', 'ui.sortable']);
 
 
 // mobispot.config(function($httpProvider) {

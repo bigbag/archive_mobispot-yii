@@ -798,13 +798,13 @@ form.custom div.custom.dropdown a.current{
 	border: solid 7px;
 }
 .tooltip.tip-left, .tooltip.tip-right{
-	margin-top: 17px;
+	margin-top: -17px;
 }
 .tooltip.tip-right{
-	margin-left: -6px;
+	margin-left: 10px;
 }
 .tooltip.tip-left{
-	margin-right: -6px;
+	margin-left: -33px;
 }
 h1, h2, h3, h4, h5, h6{
 	margin-bottom: 14px;
@@ -939,4 +939,7 @@ img{
 }
 ul.orbit-bullets{
 	bottom: -42px;
+}
+.custom select{
+	display: none;
 }
