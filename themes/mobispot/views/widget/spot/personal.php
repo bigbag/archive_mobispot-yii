@@ -20,7 +20,7 @@
                 <span><?php echo Yii::t('spots', 'A maximum file size limit of 25mb for free accounts'); ?></span>
                 <div class="cover-fast-link">
                     <label for="add-file" data-tooltip title="<?php echo Yii::t('spots', 'Add file'); ?>"  class="icon tip-left">&#xe00e;</label>
-                    <a data-tooltip href="javascripts:;" title="<?php echo Yii::t('spots', 'Add links & social accaunts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
+                    <a data-tooltip href="javascripts:;" title="<?php echo Yii::t('spots', 'Add links and social accounts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
                     <input id="add-file" type="file">
                 </div>
                 <div class="hat-cover"></div>
@@ -124,3 +124,4 @@
 <script type="text/javascript">
     $('textarea').autosize();
 </script>
+<!-- <script src="/themes/mobispot/js/slide-box.min.js"></script> -->

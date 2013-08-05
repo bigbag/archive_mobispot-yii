@@ -93,10 +93,18 @@ html[xmlns] .clearfix {
 	border-radius: 50%;
 }
 .slow{
-	-webkit-transition: all linear .2s;
-	-moz-transition: all linear .2s;
-	-o-transition: all linear .2s;
-	transition: all linear .2s;
+	-webkit-transition: color linear .2s;
+	-moz-transition: color linear .2s;
+	-o-transition: color linear .2s;
+	transition: color linear .2s;
+	-webkit-transition: background linear .2s;
+	-moz-transition: background linear .2s;
+	-o-transition: background linear .2s;
+	transition: background linear .2s;
+	-webkit-transition: opacity linear .2s;
+	-moz-transition: opacity linear .2s;
+	-o-transition: opacity linear .2s;
+	transition: opacity linear .2s;
 }
 .hide{
 	display: none;

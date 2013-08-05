@@ -3,7 +3,7 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
 ?>
 
 <div class="large-5 columns" ng-controller="UserCtrl" >
-    <form class="custom" in="personInfo" name="setInfoForm">
+    <form id="personInfo" name="setInfoForm">
         <h3><?php echo Yii::t('user', 'Profile info'); ?></h3>
         <input 
             name='name'
@@ -12,36 +12,32 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
             placeholder="<?php echo Yii::t('user', 'Name'); ?>"
             autocomplete="off"
             maxlength="300">
-        <label for="radio1" class="label-custom left">
-            <input 
-                id="radio1" 
-                type="radio" 
-                ng-model="user.sex"
-                value="0" 
-                style="display:none;" 
-                name="radio1">
-            <span class="custom radio checked"></span>
-            <?php echo Yii::t('user', 'Male'); ?>
-        </label>
-        <label for="radio2" class="label-custom left">
-            <input 
-                id="radio2" 
-                type="radio"
-                ng-model="user.sex" 
-                ng-change="{alert(1)}" 
-                value="1" 
-              
-                name="radio1">
-            <span class="custom radio"></span>
-            <?php echo Yii::t('user', 'Female'); ?>
-        </label>
+        <div class="sex-options"> 
+            <ul class="add-active">
+                <li class="active">
+                    <a href="javascript:;" ng-click="setSex(0)" class="radio-link">
+                        <i class="large"></i><?php echo Yii::t('user', 'None'); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="setSex(1)" class="radio-link">
+                        <i class="large"></i><?php echo Yii::t('user', 'Male'); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="setSex(2)" class="radio-link">
+                        <i class="large"></i><?php echo Yii::t('user', 'Female'); ?>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
         <div class="date-input clear">
             <input 
-                ui-date="dateOptions" 
                 id="birthday" 
                 name='birthday'
                 type="text" 
-                ng-model="user.birthday"
+                value=''
                 placeholder="<?php echo Yii::t('user', 'Birthday'); ?>"><i>&#xe007;</i>
         </div>
         <input 
@@ -50,9 +46,8 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
             maxlength="300"
             ng-model="user.city"
             placeholder="<?php echo Yii::t('user', 'City'); ?>">
-        {{user}}
         <div class="form-item-buton">
-            <a class="spot-button toggle-box"><?php echo Yii::t('user', 'Save'); ?></a>
+            <a class="spot-button toggle-box" ng-click="setProfile(user)"><?php echo Yii::t('user', 'Save'); ?></a>
         </div>
         <h3 class="form-item-30"><?php echo Yii::t('user', 'Easy sign in')?></h3>
         <p class="form-item-30">

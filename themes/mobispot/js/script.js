@@ -13,22 +13,18 @@ var toggleActive = function () {
 	$(this).toggleClass('active');
 };
 
+
 var calculateHeightPage = function(){
 	var winHeight = $(window).height();
 	var docHeight =  $(document).height();
 	if(docHeight > winHeight ){
-		return true;
+			return true;
+	}else{
+		return false;
+
 	}
 }
 
-var calculateHeightPopup = function(){
-	var winHeight = $(window).height();
-	var popupHeight =  $('.popup-content').height();
-	var popupHeight = popupHeight + 67;
-	if(popupHeight > winHeight ){
-		return true;
-	}
-}
 
 var showPopup = function(){
 
@@ -36,8 +32,10 @@ var showPopup = function(){
 	var popupId =  'popup-' + $(this).attr('id');
 	$popup.removeClass('hide').attr('id', popupId).animate({opacity: 1}, 50, function(){
 		$body.addClass('overflow-h');
-		if(calculateHeightPage() && calculateHeightPopup() && scrollWidth){
+		if(calculateHeightPage() && scrollWidth){
 			$body.css('padding-right', scrollWidth);
+		} else{
+			$popup.css('padding-left', scrollWidth);
 		}
 	});
 	return false;
@@ -49,6 +47,7 @@ var hidePopup = function(){
 		$popup.animate({opacity: 0}, 200, function(){
 			$(this).addClass('hide');
 			$body.removeClass('overflow-h').css('padding-right', '0');
+			$popup.css('padding-left', '0');
 		});
 	}
 };
@@ -62,6 +61,7 @@ div.style.visibility = 'hidden';
 document.body.appendChild(div);
 var scrollWidth = div.offsetWidth - div.clientWidth;
 document.body.removeChild(div);
+
 
 
 $(window).load(function() {

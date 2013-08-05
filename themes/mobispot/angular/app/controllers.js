@@ -9,9 +9,25 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   var resultModal = angular.element('.m-result');
   var resultContent = resultModal.find('p');
 
-  $scope.dateOptions = {
+  $scope.user.sex = 0;
+
+  $('#birthday').datepicker({
       yearRange: '1900:-0',
-      dateFormat: 'dd.mm.yy'
+      dateFormat: 'dd.mm.yy',
+
+      onSelect: function (dateText, inst) {
+        $scope.user.birthday = dateText;
+      }
+    });
+
+  //Редактирование профиля пользователя
+  $scope.setProfile = function(user){
+    console.log(user);
+  };
+
+   //Устанавливаем переменную sex
+  $scope.setSex = function(sex){
+    $scope.user.sex = sex;
   };
 
   // Таймер отслеживания состояния корзины
