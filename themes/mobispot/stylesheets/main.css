@@ -1904,7 +1904,7 @@ textarea:hover + .label-cover *{
 .bag-link{
 	position: relative;
 	display: block;
-	padding: 5px;
+	padding: 5px 0 20px;
 	z-index: 10;
 	text-align: center;
 	background: rgba(0, 97, 255, 0.9);
@@ -1912,25 +1912,27 @@ textarea:hover + .label-cover *{
 	font-weight: 100;
 	color: #fff;
 }
-.bag-link.fixed-line{
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	margin: 0;
-}
 .bag-link *{
 	cursor: pointer;
 }
 .bag-link h3{
 	color: #fff;
+	margin-bottom: 0;
 }
-.bag-link span{
+.bag-link div{
 	text-decoration: underline;
+}
+.bag-link .icon{
+	position: absolute;
+	left: 50px;
+	top: 50%;
+	font-size: 69px;
+	margin-top: -11px;
 }
 .bag-link i{
 	font-family: Mobispot;
 	position: absolute;
-	right: 25px;
+	right: 50px;
 	font-style: normal;
 	top: 50%;
 	font-size: 50px;
@@ -1939,7 +1941,8 @@ textarea:hover + .label-cover *{
 .icon-bag-link{
 	position: fixed;
 	top: 25px;
-	right: 0;
+	right: 5px;
+	display: none;
 }
 .icon-bag-link span{
 	position: absolute;

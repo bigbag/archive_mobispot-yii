@@ -9,20 +9,19 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   var resultModal = angular.element('.m-result');
   var resultContent = resultModal.find('p');
 
-  $scope.user.sex = 0;
-
   $('#birthday').datepicker({
       yearRange: '1900:-0',
       dateFormat: 'dd.mm.yy',
 
-      onSelect: function (dateText, inst) {
-        $scope.user.birthday = dateText;
-      }
+
     });
 
   //Редактирование профиля пользователя
   $scope.setProfile = function(user){
     console.log(user);
+    // $http.post('/user/editProfile',user).success(function(data) {
+      
+    // });
   };
 
    //Устанавливаем переменную sex
@@ -60,20 +59,6 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     var mytimeout = $timeout($scope.onFastTimeout, 1000);
   };
 
-  //Меняем статус активности кнопки войти в зависимости от валидности формы
-  $scope.$watch('user.email + user.password', function(user) {
-
-    if ($scope.user) {
-      var loginButton = angular.element('#sign-in .form-control a.login');
-      if ($scope.user.email && $scope.user.password){
-        loginButton.removeClass('button-disable');
-      }
-      else {
-        loginButton.addClass('button-disable');
-      }
-    }
-  });
-
   //Авторизация
   $scope.login = function(user, valid) {
    if (!valid) return false;
@@ -97,25 +82,6 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       }
     });
   };
-
-  //Меняем статус активности кнопки зарегистрироваться в зависимости от валидности формы
-  $scope.$watch('user.email + user.password + user.activ_code + user.terms', function(user) {
-    if ($scope.user) {
-      var personButton = angular.element('#actSpotForm .form-control a.activ');
-
-      if ($scope.user.email && $scope.user.password && $scope.user.activ_code && $scope.user.terms){
-        if (($scope.user.terms == 1) && ($scope.user.activ_code.length == 10)) {
-          personButton.removeClass('button-disable');
-        }
-        else {
-          personButton.addClass('button-disable');
-        }
-      }
-      else {
-        personButton.addClass('button-disable');
-      }
-    }
-  });
 
   // Атрибут согласия с условиями сервиса
   $scope.setTerms = function(user){
@@ -224,19 +190,6 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
 
   };
-
-  //Меняем статус активности кнопки отправить в форме востановления пароля
-  $scope.$watch('recovery.email', function(recovery) {
-    if ($scope.recovery) {
-      var activButton = angular.element('#recovery-pass .form-control a');
-      if ($scope.recovery.email){
-        activButton.removeClass('button-disable');
-      }
-      else {
-        activButton.addClass('button-disable');
-      }
-    }
-  });
 
   // Восстановление пароля
   $scope.recovery = function(recovery, valid){

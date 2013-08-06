@@ -51,6 +51,31 @@ class UserController extends MController
         }
     }
 
+    // Обновление профиля
+    public function actionEditProfile()
+    {
+
+        if (!Yii::app()->request->isPostRequest)
+        {
+            $this->setBadReques();
+        }
+
+        $data = $this->getJson();
+        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
+        {
+            $this->setBadReques();
+        }
+
+        $error = "yes";
+        $content = "";
+
+        if (isset($data['id']))
+        {
+            $profile = UserProfile::model()->findByPk((int)$data['id']);
+        }
+
+    }
+
     // Страница управления персональными спотами
     public function actionPersonal()
     {
@@ -151,72 +176,72 @@ class UserController extends MController
         }
     }
 
-    public function actionUploadFile()
-    {
-        if (!empty($_FILES))
-        {
-            $spot_id = $_POST['spot_id'];
+    // public function actionUploadFile()
+    // {
+    //     if (!empty($_FILES))
+    //     {
+    //         $spot_id = $_POST['spot_id'];
 
-            $tempFile = $_FILES['Filedata']['tmp_name'];
-            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $targetFileName = $spot_id . '_' . time() . '_' . $_FILES['Filedata']['name'];
-            $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+    //         $tempFile = $_FILES['Filedata']['tmp_name'];
+    //         $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+    //         $targetFileName = $spot_id . '_' . time() . '_' . $_FILES['Filedata']['name'];
+    //         $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
 
-            move_uploaded_file($tempFile, $targetFile);
+    //         move_uploaded_file($tempFile, $targetFile);
 
-            echo json_encode(array('file' => $targetFileName));
-        }
-    }
+    //         echo json_encode(array('file' => $targetFileName));
+    //     }
+    // }
 
-    public function actionUploadCouponLogo()
-    {
-        if (!empty($_FILES))
-        {
+    // public function actionUploadCouponLogo()
+    // {
+    //     if (!empty($_FILES))
+    //     {
 
-            $spot_id = $_POST['spot_id'];
-            $tempFile = $_FILES['Filedata']['tmp_name'];
+    //         $spot_id = $_POST['spot_id'];
+    //         $tempFile = $_FILES['Filedata']['tmp_name'];
 
-            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $targetFileName = $spot_id . '_' . time() . '.png';
-            $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
+    //         $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+    //         $targetFileName = $spot_id . '_' . time() . '.png';
+    //         $targetFile = rtrim($targetPath, '/') . '/' . $targetFileName;
 
-            $image = new CImageHandler();
-            $image->load($tempFile);
-            if ($image->thumb(70, 70, true))
-            {
-                $image->save($targetFile, 3);
-                echo json_encode(array('file' => $targetFileName));
-            }
-            else
-                echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
-        }
-    }
+    //         $image = new CImageHandler();
+    //         $image->load($tempFile);
+    //         if ($image->thumb(70, 70, true))
+    //         {
+    //             $image->save($targetFile, 3);
+    //             echo json_encode(array('file' => $targetFileName));
+    //         }
+    //         else
+    //             echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+    //     }
+    // }
 
-    public function actionUpload()
-    {
-        if (!empty($_FILES))
-        {
-            $action = $_POST['action'];
-            $tempFile = $_FILES['Filedata']['tmp_name'];
+    // public function actionUpload()
+    // {
+    //     if (!empty($_FILES))
+    //     {
+    //         $action = $_POST['action'];
+    //         $tempFile = $_FILES['Filedata']['tmp_name'];
 
-            $fileParts = pathinfo($_FILES['Filedata']['name']);
+    //         $fileParts = pathinfo($_FILES['Filedata']['name']);
 
-            $fileName = $action . '_' . md5(time() . $fileParts['basename']);
-            $targetFileName = $fileName . '.jpg';
+    //         $fileName = $action . '_' . md5(time() . $fileParts['basename']);
+    //         $targetFileName = $fileName . '.jpg';
 
-            $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+    //         $targetPath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
 
-            $image = new CImageHandler();
-            $image->load($tempFile);
-            if ($image->thumb(400, 600, true))
-            {
-                $image->save($targetPath . $fileName . '.jpg');
-                echo json_encode(array('file' => $targetFileName));
-            }
-            else
-                echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
-        }
-    }
+    //         $image = new CImageHandler();
+    //         $image->load($tempFile);
+    //         if ($image->thumb(400, 600, true))
+    //         {
+    //             $image->save($targetPath . $fileName . '.jpg');
+    //             echo json_encode(array('file' => $targetFileName));
+    //         }
+    //         else
+    //             echo json_encode(array('error' => Yii::t('images', 'Загруженный файл не является изображением.')));
+    //     }
+    // }
 
     public function actionBindSocLogin()
     {

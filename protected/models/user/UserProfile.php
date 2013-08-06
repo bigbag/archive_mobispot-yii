@@ -6,16 +6,10 @@
  * The followings are the available columns in table 'user_profile':
  * @property integer $user_id
  * @property string $name
- * @property string $place
+ * @property string $city
  * @property integer $sex
- * @property integer $birthday_day
- * @property integer $birthday_month
- * @property integer $birthday_year
+ * @property integer $birthday
  * @property string $photo
- * @property string $personal_cover
- * @property string $facebook_id
- * @property string $twitter_id
- * @property integer $use_photo
  *
  * The followings are the available model relations:
  * @property User $user
@@ -67,11 +61,11 @@ class UserProfile extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, sex, use_photo', 'required'),
-            array('user_id, sex, birthday_day, birthday_month, birthday_year, use_photo', 'numerical', 'integerOnly' => true),
-            array('name, place', 'filter', 'filter' => 'trim'),
-            array('name, place', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('name, place, photo, personal_cover', 'length', 'max' => 300),
+            array('user_id, sex', 'required'),
+            array('user_id, sex', 'numerical', 'integerOnly' => true),
+            array('name, city', 'filter', 'filter' => 'trim'),
+            array('name, city', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
+            array('name, city, birthday', 'length', 'max' => 300),
         );
     }
 
@@ -95,16 +89,10 @@ class UserProfile extends CActiveRecord
         return array(
             'user_id' => 'Пользователь',
             'name' => 'Имя',
-            'place' => 'Город',
+            'city' => 'Город',
             'sex' => 'Пол',
-            'birthday_day' => 'Birthday Day',
-            'birthday_month' => 'Birthday Month',
-            'birthday_year' => 'Birthday Year',
+            'birthday' => 'Birthday',
             'photo' => 'Photo',
-            'facebook_id' => 'Facebook',
-            'twitter_id' => 'Twitter',
-            'use_photo' => 'Use Photo',
-            'personal_cover' => 'personal_cover',
         );
     }
 
@@ -134,16 +122,9 @@ class UserProfile extends CActiveRecord
 
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('place', $this->place, true);
+        $criteria->compare('city', $this->city, true);
         $criteria->compare('sex', $this->sex);
-        $criteria->compare('birthday_day', $this->birthday_day);
-        $criteria->compare('birthday_month', $this->birthday_month);
-        $criteria->compare('birthday_year', $this->birthday_year);
-        $criteria->compare('photo', $this->photo, true);
-        $criteria->compare('facebook_id', $this->facebook_id, true);
-        $criteria->compare('twitter_id', $this->twitter_id, true);
-        $criteria->compare('personal_cover', $this->personal_cover, true);
-        $criteria->compare('use_photo', $this->use_photo);
+        $criteria->compare('birthday', $this->birthday, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

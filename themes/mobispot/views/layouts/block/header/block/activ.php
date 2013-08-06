@@ -36,7 +36,7 @@
                     <a class="checkbox agree"  href="javascript:;" ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></a>
                 </div>
                 <div class="form-control">
-                    <a class="spot-button activ button-disable" href="javascript:;" ng-click="registration(user, activPersonForm.$valid)">
+                    <a class="spot-button activ {{ activPersonForm.$valid || 'button-disable'}}" href="javascript:;" ng-click="registration(user, activPersonForm.$valid)">
                         <?php echo Yii::t('user', 'Activate spot'); ?>
                     </a>
                     <span class="right soc-link">

@@ -18,7 +18,7 @@
                     maxlength="300"
                     required >
                 <div class="form-control">
-                    <a class="spot-button  button-disable" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
+                    <a class="spot-button {{ recoveryForm.$valid || 'button-disable'}}" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
                         <?php echo Yii::t('user', 'Send') ?>
                     </a>
                 </div>

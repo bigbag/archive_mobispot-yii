@@ -168,7 +168,6 @@ class User extends CActiveRecord
             $profile = new UserProfile;
             $profile->user_id = $this->id;
             $profile->sex = UserProfile::SEX_UNKNOWN;
-            $profile->use_photo = 0;
             $profile->save();
         }
 
