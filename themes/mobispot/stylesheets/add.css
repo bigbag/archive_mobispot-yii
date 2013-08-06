@@ -66,8 +66,18 @@
 }
 
 .sex-options li{
-  width: 100px;
+  width: 120px;
   display: inline-block;
   float: left;
   cursor: pointer;
+}
+
+
+.tooltip.tip-top{
+  margin-top: -10px;
+}
+
+.tooltip.tip-left, .tooltip.tip-right{
+  margin-top: 15px;
+  margin-left: 0;
 }

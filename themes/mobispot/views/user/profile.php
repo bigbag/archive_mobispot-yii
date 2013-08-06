@@ -3,7 +3,11 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
 ?>
 
 <div class="large-5 columns" ng-controller="UserCtrl" >
-    <form id="personInfo" name="setInfoForm">
+    <form id="personInfo" name="setInfoForm" 
+        ng-init="user.id='<?php echo $user->id;?>'; 
+                user.name='<?php echo $profile->name;?>';
+                user.city='<?php echo $profile->city;?>';
+                user.birthday='<?php echo $profile->birthday;?>'">
         <h3><?php echo Yii::t('user', 'Profile info'); ?></h3>
         <input 
             name='name'
@@ -12,11 +16,12 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
             placeholder="<?php echo Yii::t('user', 'Name'); ?>"
             autocomplete="off"
             maxlength="300">
+
         <div class="sex-options"> 
             <ul class="add-active">
                 <li class="active">
                     <a href="javascript:;" ng-click="setSex(0)" class="radio-link">
-                        <i class="large"></i><?php echo Yii::t('user', 'None'); ?>
+                        <i class="large"></i><?php echo Yii::t('user', 'Not specified'); ?>
                     </a>
                 </li>
                 <li>
@@ -36,7 +41,8 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
             <input 
                 id="birthday" 
                 name='birthday'
-                type="text" 
+                type="text"
+                ng-model="user.birthday"
                 value=''
                 placeholder="<?php echo Yii::t('user', 'Birthday'); ?>"><i>&#xe007;</i>
         </div>

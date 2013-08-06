@@ -6,6 +6,7 @@
             When it opens, you can change whatever you want.</p>
 
         <p>How much you share is up to you.</p>
+    </li>
     </div>
 </div>
 
