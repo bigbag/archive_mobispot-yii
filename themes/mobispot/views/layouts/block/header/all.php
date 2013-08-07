@@ -46,14 +46,14 @@
                     <?php endif; ?>
                  </ul>                    
 
-                <div class="large-4 columns">
+                <div class="four columns">
                     <h1 class="logo">
                         <a href="/">
                             <img src="/themes/mobispot/images/logo.png" />
                         </a>
                     </h1>
                 </div>
-                <div class="large-8 columns">
+                <div class="eight columns">
                     <?php include('block/menu.php'); ?>
                 </div>
             </div>

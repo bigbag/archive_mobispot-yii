@@ -32,15 +32,9 @@ class ServiceController extends MController
     //Авторизация
     public function actionLogin()
     {
-        if (!Yii::app()->request->isPostRequest)
-            $this->setBadReques();
-
+        $data = $this->validateRequest();
         $error = "yes";
         $content = "";
-        $data = $this->getJson();
-
-        if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken)
-            $this->setBadReques();
 
         if (isset($data['email']) and isset($data['password']))
         {
@@ -93,15 +87,10 @@ class ServiceController extends MController
     public function actionRegistration()
     {
 
-        if (!Yii::app()->request->isPostRequest)
-            $this->setBadReques();
+        $data = $this->validateRequest();
+        $error = 'code';
+        $content = Yii::t('user', "You've made a mistake in spot activation code.");  ;
 
-        $error = "yes";
-        $content = "";
-        $data = $this->getJson();
-
-        if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken)
-            $this->setBadReques();
 
         if (isset($data['email']) and isset($data['password']))
         {

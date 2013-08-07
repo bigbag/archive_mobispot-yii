@@ -97,9 +97,25 @@ class MController extends Controller
         throw new CHttpException(404, Yii::t('user', 'The requested page does not exist.'));
     }
 
-    public function setBadReques()
+    public function setBadRequest()
     {
         throw new CHttpException(400, Yii::t('user', 'Bad Reques'));
+    }
+
+    public function validateRequest()
+    {
+        if (!Yii::app()->request->isPostRequest)
+        {
+            $this->setBadReques();
+        }
+
+        $data = $this->getJson();
+        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
+        {
+            $this->setBadReques();
+        }
+
+        return $data;
     }
 
     public function init()
@@ -167,7 +183,7 @@ class MController extends Controller
     public function hrefActivate($text)
     {
         return preg_replace_callback(
-                '{(https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::hrefCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::hrefCallback', $text
         );
     }
 
@@ -181,7 +197,7 @@ class MController extends Controller
     public function urlActivate($text)
     {
         return preg_replace_callback(
-                '{(https?://)?(www\.)?([a-zA-Z0-9_%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::urlCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::urlCallback', $text
         );
     }
 

@@ -1,12 +1,12 @@
 <div id="recPassForm" class="slide-box"  ng-controller="UserCtrl">
     <div class="row">
-        <div class="large-7 large-centered columns text-center">
+        <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('user', 'Forgot password?') ?></h3>
         </div>
         <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
     </div>
     <div class="row">
-        <div class="large-4 large-centered columns">
+        <div class="five columns centered">
             <form id="recovery-pass" name="recoveryForm">
                 <input
                     name='email'

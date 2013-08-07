@@ -2,14 +2,15 @@
 
 /* Controllers */
 
-function ProductCtrl($scope, $http) {
+function ProductCtrl($scope, $http, $compile, $timeout) {
 
-    $scope.StoreInit = function(token){
-            $scope.token = token;
-            $http.post('/store/product/GetPriceList', {token : $scope.token}).success(function(data) {
+    $scope.StoreInit = function(){
+            var data = {token: $scope.user.token};
+
+            $http.post('/store/product/getPriceList', data).success(function(data) {
                 $scope.products = data.products;
                 $scope.settings = data.settings;
-                //$scope.itemsInCart = data.itemsInCart;
+
                 for (var i = 0; i < $scope.products.length; i++) {
                     $scope.products[i].jsID = i;
                     $scope.products[i].selectedSize = $scope.products[i].size[0];
@@ -28,8 +29,6 @@ function ProductCtrl($scope, $http) {
                     $scope.products[i].thumbShellStyle = {top:(tsTop+"px")};
                 }
                 $scope.inRequest = false;
-            }).error(function(error){
-                    alert(error);
             });
 
             angular.element('body').removeClass('overflow-h');
@@ -50,25 +49,28 @@ function ProductCtrl($scope, $http) {
                 $scope.products[jsID].totalInCart += parseInt($scope.products[jsID].quantity);
                 added = true;
             }
-            $http.post(('/store/product/AddToCart'), {
-                token: $scope.token,
+
+            var data = {
+                token: $scope.user.token,
                 id : $scope.products[jsID].id,
                 quantity : parseInt($scope.products[jsID].quantity),
                 selectedColor : $scope.products[jsID].selectedColor,
                 selectedSurface : $scope.products[jsID].selectedSurface,
                 selectedSize : $scope.products[jsID].selectedSize        
-            }).success(function(data, status) {
+            };
+            $http.post(('/store/product/addToCart'), data).success(function(data, status) {
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
-                }else{
+                }
+                else{
                     if(added)
                         $scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
-                    alert(data.error);
+                    console.log(error);
                 }
             }).error(function(error){
                 if(added)
                     $scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
-                alert(error);
+                console.log(error);
             });
 
             $scope.inRequest = false;
@@ -143,11 +145,12 @@ function ProductCtrl($scope, $http) {
 }
 
 
-function CartCtrl($scope, $http) {
-    $scope.CartInit = function(token){
+function CartCtrl($scope, $http, $compile, $timeout) {
+    $scope.CartInit = function(){
         $scope.summ = 0;
-        $scope.token = token;
-        $http.post('/store/product/GetCart', { token : token}).success(function(data) {
+        var data = {token: $scope.user.token};
+
+        $http.post('/store/product/GetCart', data).success(function(data) {
             $scope.products = data.products;
             $scope.discount = data.discount;
             if(!($scope.products.length > 0))
@@ -175,9 +178,8 @@ function CartCtrl($scope, $http) {
             
             $scope.checkingOut = false;
             $scope.inRequest = false;
-        }).error(function(error){
-                alert(error);
         });
+
         angular.element('body').removeClass('overflow-h');
         angular.element('.m-cover-preload').fadeOut(600);
     };
@@ -189,11 +191,13 @@ function CartCtrl($scope, $http) {
     };        
     
     $scope.emptyClass = function() {
-        if ($scope.products.length > 0) {
-            return "hide";
-        } else {
-            return "";
-        }
+        if ($scope.products){
+            if ($scope.products.length > 0) {
+                return "hide";
+            } else {
+                return "";
+            }
+        }  
     };
     
     $scope.sizeClass = function(selectedSize, size) {
@@ -219,20 +223,6 @@ function CartCtrl($scope, $http) {
             return "";
         }
     };    
-    
-    $scope.deliveryClass = function(jsID){
-        if ($scope.deliveries[jsID].id == $scope.selectedDelivery.id)
-            return "active";
-        else
-            return "";
-    };
-
-    $scope.paymentClass = function(jsID){
-        if ($scope.payments[jsID].id == $scope.selectedPayment.id)
-            return "active";
-        else
-            return "";
-    };
     
     $scope.chekingOutClass = function(){
         if(!$scope.checkingOut){
@@ -282,14 +272,16 @@ function CartCtrl($scope, $http) {
                     }
                 }
             }
-            if ($scope.discount.summ > 0)
+            if ($scope.discount.summ > 0) {
                 $scope.summ -= $scope.discount.summ;
+            }   
         }
     };
     
     $scope.checkOut = function(){
         if(!$scope.checkingOut){
-            $http.post('/store/product/GetCustomer', {token: $scope.token}).success(function(data) {
+             var data = {token: $scope.user.token};
+            $http.post('/store/product/getCustomer', data).success(function(data) {
                 $scope.deliveries = data.delivery;
                 $scope.payments = data.payment;
                 $scope.customer = data.customer;
@@ -301,25 +293,25 @@ function CartCtrl($scope, $http) {
                 }
                 $scope.selectedDelivery = $scope.deliveries[0];
                 $scope.selectedPayment = $scope.payments[0];
-            }).error(function(error){
-                alert(error);
             });
             $scope.checkingOut = true;
         }
-
     };
 
     $scope.deleteItem = function(jsID){
         if(!$scope.inRequest){
             $scope.inRequest = true;
-            $http.post(('/store/product/DeleteFromCart'), {
-                token: $scope.token,
-                id : $scope.products[jsID].id,
-                quantity : $scope.products[jsID].quantity,
-                selectedColor : $scope.products[jsID].selectedColor,
-                selectedSurface : $scope.products[jsID].selectedSurface,
-                selectedSize : $scope.products[jsID].selectedSize    
-            }).success(function(data, status) {
+            var data = 
+                {
+                    token: $scope.user.token,
+                    id : $scope.products[jsID].id,
+                    quantity : $scope.products[jsID].quantity,
+                    selectedColor : $scope.products[jsID].selectedColor,
+                    selectedSurface : $scope.products[jsID].selectedSurface,
+                    selectedSize : $scope.products[jsID].selectedSize    
+                };
+
+            $http.post(('/store/product/DeleteFromCart'), data).success(function(data, status) {
                 if (data.error == 'no'){
                     $scope.products.splice(jsID, 1);
                     $scope.summ = 0;
@@ -344,10 +336,7 @@ function CartCtrl($scope, $http) {
                     if(!($scope.products.length > 0)){
                         window.location = "/store";
                     }                    
-                }else
-                    alert(data.error);
-            }).error(function(error){
-                    alert(error);
+                }
             });
             $scope.inRequest = false;
         }
@@ -356,10 +345,9 @@ function CartCtrl($scope, $http) {
     $scope.confirmPromo = function(){
         if(!$scope.inRequest){
             $scope.inRequest = true;
-            $http.post(('/store/product/ConfirmPromo'), {
-                token: $scope.token,
-                promoCode : $scope.discount.promoCode,  
-            }).success(function(data, status) {
+
+            var data = {token: $scope.user.token, promoCode: $scope.discount.promoCode};
+            $http.post(('/store/product/ConfirmPromo'), data).success(function(data, status) {
                 if (data.error == 'no'){
                     angular.element('#promoForm input[name=promo]').removeClass('error');
                     var oldDiscount = $scope.discount.summ;
@@ -387,7 +375,6 @@ function CartCtrl($scope, $http) {
                 }
                 else
                 {
-                    //alert('error: ' + data.error);
                     angular.element('#promoForm input[name=promo]').addClass('error');
                     if ($scope.discount.summ > 0){
                         $scope.summ += parseFloat($scope.discount.summ);
@@ -402,7 +389,7 @@ function CartCtrl($scope, $http) {
                     $scope.discount.summ = 0;
                     $scope.discount.value = 0;
                 }
-                alert(error);
+                console.log(error);
             });
         }
         $scope.inRequest = false;
@@ -412,16 +399,13 @@ function CartCtrl($scope, $http) {
         if(!$scope.inRequest){
             $scope.inRequest = true;
 
-            $http.post(('/store/product/SaveCustomer'), {
-                token: $scope.token,
-                customer : $scope.customer
-            }).success(function(data, status) {
+            var data = {token: $scope.user.token, customer: $scope.customer};
+
+            $http.post(('/store/product/SaveCustomer'), data).success(function(data, status) {
                 if (data.error == 'no')
                     document.getElementById('proceedFinish').click();
                 else
-                    alert(data.error);
-            }).error(function(error){
-                    alert(error);
+                    console.log(error);
             });        
 
             $scope.inRequest = false;
@@ -429,31 +413,27 @@ function CartCtrl($scope, $http) {
     };
     
     $scope.buy = function(){
-        $http.post(('/store/product/buy'), {
-            token: $scope.token,
+
+        if (!$scope.selectedPayment)  return false;
+        if (!$scope.selectedDelivery) return false;
+
+        var data = {
+            token: $scope.user.token,
             customer : $scope.customer,
             products : $scope.products,
             delivery : $scope.selectedDelivery,
             payment  : $scope.selectedPayment,
             discount : $scope.discount
-        }).success(function(data, status) {
+        };
+        $http.post(('/store/product/buy'), data).success(function(data, status) {
             if (data.error == 'no'){
                 if (data.payment == 'Uniteller'){
-                    angular.element('#payUniteller input[name=Shop_IDP]').val(data.order.shopId);
-                    angular.element('#payUniteller input[name=Order_IDP]').val(data.order.orderId);
-                    angular.element('#payUniteller input[name=Customer_IDP]').val(data.order.customerId);
-                    angular.element('#payUniteller input[name=Subtotal_P]').val(data.order.amount);
-                    angular.element('#payUniteller input[name=Signature]').val(data.order.signature);
-                    angular.element('#payUniteller input[name=URL_RETURN_OK]').val(data.order.return_ok);
-                    angular.element('#payUniteller input[name=URL_RETURN_NO]').val(data.order.return_error);
-                    document.getElementById('submitUniteller').click();
+                    angular.element('#proceedFinishForm').after($compile(data.content)($scope));
+                    angular.element('#payUniteller').submit();        
                 }
-                //alert('Message sent!');
             }
             else
-                alert('Action error:' + data.error);
-        }).error(function(error){
-                alert('Connection error: '+ error.toString());
+                console.log(error);
         });        
     };
     

@@ -2,10 +2,10 @@
     <div class="row">
         <div class="twelve">
             <div class="header-top">
-                <div class="large-4 columns">
+                <div class="four columns">
                     <h1 class="logo"><a href="/"><img src="/themes/mobispot/images/logo.png" /></a></h1>
                 </div>
-                <div class="large-8 columns user-menu">
+                <div class="eight columns user-menu">
                     <ul class="nav-bar right">
                         <li class="dropdown toggle-active">
                             <?php $userInfo = $this->userInfo() ?>

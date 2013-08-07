@@ -1942,7 +1942,7 @@ textarea:hover + .label-cover *{
 	position: fixed;
 	top: 25px;
 	right: 5px;
-	display: none;
+	z-index: 99;
 }
 .icon-bag-link span{
 	position: absolute;

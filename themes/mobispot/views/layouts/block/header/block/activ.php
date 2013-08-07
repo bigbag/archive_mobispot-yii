@@ -1,10 +1,10 @@
 <div id="actSpotForm" ng-controller="UserCtrl" class="slide-box">
     <div class="row">
-        <div class="large-7 large-centered columns text-center">
+        <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('activate', 'Start using your spot right now'); ?></h3>
         </div>
         <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
-        <div class="large-4 large-centered columns">
+        <div class="five columns centered">
             <form id="personSpotForm" name="activPersonForm">
                 <input
                     name='email'

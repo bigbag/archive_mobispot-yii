@@ -45,6 +45,11 @@ class SpotController extends MController
                 }
 
                 $spotContent = SpotContent::getSpotContent($spot);
+
+                if (!$spotContent) {
+                    $this->setNotFound();
+                }
+
                 $content = $spotContent['content'];
 
                 $dataKeys = array_keys($content['keys']);

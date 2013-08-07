@@ -85,16 +85,7 @@ class SpotController extends MController
     // Просмотр содержимого спота
     public function actionSpotView()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $content = "";
@@ -120,16 +111,7 @@ class SpotController extends MController
     // Добавление блока в спот
     public function actionSpotAddContent()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $content = "";
@@ -169,16 +151,7 @@ class SpotController extends MController
     // Изменение атрибутов спота - приватность и возможность скачать визитку
     public function actionSpotAtributeSave()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
 
@@ -212,16 +185,7 @@ class SpotController extends MController
     // Удаление блока из спота
     public function actionSpotRemoveContent()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $keys = "";
@@ -266,16 +230,7 @@ class SpotController extends MController
     // Сохранение содержимого блока
     public function actionSpotSaveContent()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $content = '';
@@ -310,11 +265,7 @@ class SpotController extends MController
     //Привязка соцсетей
     public function actionBindSocial()
     {
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "error";
         $content = '';
@@ -419,11 +370,7 @@ class SpotController extends MController
     //Отвязка соцсети
     public function actionUnBindSocial()
     {
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "error";
         $content = '';
@@ -490,16 +437,7 @@ class SpotController extends MController
     // Добавление нового спота
     public function actionAddSpot()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $content = "";
@@ -549,16 +487,7 @@ class SpotController extends MController
     // Удаление спота
     public function actionRemoveSpot()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $discodes = "";
@@ -582,16 +511,7 @@ class SpotController extends MController
     // Очистка спота
     public function actionCleanSpot()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $data = $this->getJson();
@@ -617,16 +537,7 @@ class SpotController extends MController
     //Делаем спот невидимым
     public function actionInvisibleSpot()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $data = $this->getJson();
@@ -654,16 +565,7 @@ class SpotController extends MController
     //Переименовываем спот
     public function actionRenameSpot()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
         $name = '';
@@ -698,16 +600,7 @@ class SpotController extends MController
     //Сохраняем
     public function actionSaveOrder()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadReques();
-        }
-
-        $data = $this->getJson();
-        if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
-            $this->setBadReques();
-        }
+        $data = $this->validateRequest();
 
         $error = "yes";
 

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="large-12 columns spot-desc">
+    <div class="twelve columns spot-desc">
         <h3 class="color">Welcome back. Ready to make a change?</h3>
 
         <p>Your spots are listed below. Click on the spot name you want to edit.
@@ -12,7 +12,7 @@
 
 
 <div class="row"<?php if (strlen($message) > 0) echo ' ng-init="message(\'' . $message . '\')"'; ?>>
-    <div class="large-12 columns" <?php if (strlen($defDiscodes)) echo ' ng-init="defOpen(\'' . $defDiscodes . '\')"'; ?>>
+    <div class="twelve columns" <?php if (strlen($defDiscodes)) echo ' ng-init="defOpen(\'' . $defDiscodes . '\')"'; ?>>
         <?php
         $this->widget('MListView', array(
             'dataProvider' => $dataProvider,
@@ -28,7 +28,7 @@
     </div>
 </div>
 <div class="row">
-  <div class="large-12 columns text-center toggle-active">
+  <div class="twelve columns text-center toggle-active">
     <a href="#actSpotForm" id="actSpot" class="add-spot toggle-box button round slideToThis">
       <i class="icon">&#xe015;</i>
       <span class="m-tooltip m-tooltip-open">
@@ -42,7 +42,7 @@
 </div>
 <div id="actSpotForm" class="slide-box add-spot-box">
     <div class="row popup-content">
-        <div class="large-6 columns centered column">
+        <div class="six columns centered">
             <form id="add-spot" name="addSpotForm">
                 <input type="text"
                        ng-model="spot.code"
@@ -81,7 +81,7 @@
 
 <div class="popup slow bg-gray hide">
     <div class="row popup-content content-settings">
-        <div class="large-12 columns">
+        <div class="twelve columns">
             <ul class="add-active settings-list">
                 <li id="renameSpot" class="toggle-box spot-action"  ng-click="actionSpot(spot, $event)">
                     <?php echo Yii::t('spot', 'Rename spot') ?>

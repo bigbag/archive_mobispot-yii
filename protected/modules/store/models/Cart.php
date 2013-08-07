@@ -130,14 +130,36 @@ class Cart extends CFormModel
 
     public static function getDelivery()
     {
-        $delivery = Delivery::model()->findAll('1');
-        return $delivery;
+        $result = false;
+        $delivery = Delivery::model()->findAll();
+
+        if ($delivery) 
+        {
+           $result = array();
+            foreach ($delivery as $row) {
+                $result[$row->id]['id'] = $row->id;
+                $result[$row->id]['name'] = $row->name;
+                $result[$row->id]['period'] = $row->period;
+                $result[$row->id]['price'] = $row->price;
+            } 
+        }
+        return $result;
     }
 
     public static function getPayment()
     {
-        $payment = Payment::model()->findAll('1');
-        return $payment;
+        $result = false;
+        $payment = Payment::model()->findAll();
+
+        if ($payment) 
+        {
+           $result = array();
+            foreach ($payment as $row) {
+                $result[$row->id]['id'] = $row->id;
+                $result[$row->id]['name'] = $row->name;
+            } 
+        }
+        return $result;
     }
 
     public function getStoreCart()

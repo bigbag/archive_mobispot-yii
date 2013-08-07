@@ -81,3 +81,15 @@
   margin-top: 15px;
   margin-left: 0;
 }
+
+.currency{
+  font-size: 18px;
+}
+
+.biggest-currency{
+  font-size: 55px;
+}
+
+.small-currency{
+  font-size: 8px;
+}
