@@ -19,7 +19,7 @@ var calculateHeightPage = function(){
 	var docHeight =  $(document).height();
 	if(docHeight > winHeight ){
 			return true;
-	}else{
+	} else {
 		return false;
 
 	}
@@ -34,7 +34,7 @@ var showPopup = function(){
 		$body.addClass('overflow-h');
 		if(calculateHeightPage() && scrollWidth){
 			$body.css('padding-right', scrollWidth);
-		} else{
+		} else {
 			$popup.css('padding-left', scrollWidth);
 		}
 	});
@@ -63,6 +63,23 @@ var scrollWidth = div.offsetWidth - div.clientWidth;
 document.body.removeChild(div);
 
 
+var $iconBag = $('.icon-bag-link');
+var $win = $(window);
+var $marker = $('.bag-link');
+var markerHeight =  $('.bag-link').height();
+var markerHeight = markerHeight / 2;
+
+var showHideBagIcon = function(aaa){
+	if ($win.scrollTop() + $win.height() - markerHeight >= $marker.offset().top) {
+		$iconBag.fadeOut(aaa)
+	} else {
+		$iconBag.fadeIn(aaa)
+	}
+}
+
+$win.scroll(function() {
+	showHideBagIcon(600);
+});
 
 $(window).load(function() {
 	$(document).on('click','.add-active > *', addActive);

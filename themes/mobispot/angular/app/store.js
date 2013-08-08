@@ -3,6 +3,18 @@
 /* Controllers */
 
 function ProductCtrl($scope, $http, $compile, $timeout) {
+    var resultModal = angular.element('.m-result');
+    var resultContent = resultModal.find('p');
+
+    $scope.setModal = function(content, type){
+        resultModal.removeClass('m-negative');
+        if (type == 'error') {
+            resultModal.addClass('m-negative');
+        }
+        resultModal.show();
+        resultContent.text(content);
+        resultModal.fadeOut(8000);
+    };
 
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
@@ -61,6 +73,7 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
             $http.post(('/store/product/addToCart'), data).success(function(data, status) {
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
+                    $scope.items.count = $scope.items.count + 1;
                 }
                 else{
                     if(added)
@@ -146,6 +159,20 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
 
 
 function CartCtrl($scope, $http, $compile, $timeout) {
+
+    var resultModal = angular.element('.m-result');
+    var resultContent = resultModal.find('p');
+
+    $scope.setModal = function(content, type){
+        resultModal.removeClass('m-negative');
+        if (type == 'error') {
+            resultModal.addClass('m-negative');
+        }
+        resultModal.show();
+        resultContent.text(content);
+        resultModal.fadeOut(8000);
+    };
+
     $scope.CartInit = function(){
         $scope.summ = 0;
         var data = {token: $scope.user.token};
@@ -381,6 +408,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                         $scope.discount.summ = 0;
                         $scope.discount.value = 0;
                     }
+                    $scope.setModal(data.error, 'error');
                 }
             }).error(function(error){
                 angular.element('#promoForm input[name=promo]').addClass('error');
@@ -389,7 +417,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                     $scope.discount.summ = 0;
                     $scope.discount.value = 0;
                 }
-                console.log(error);
+                
             });
         }
         $scope.inRequest = false;
@@ -402,10 +430,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
             var data = {token: $scope.user.token, customer: $scope.customer};
 
             $http.post(('/store/product/SaveCustomer'), data).success(function(data, status) {
-                if (data.error == 'no')
+                if (data.error == 'no'){
                     document.getElementById('proceedFinish').click();
-                else
-                    console.log(error);
+                }
+                else{
+                    $scope.setModal(data.error, 'error');
+                }
             });        
 
             $scope.inRequest = false;

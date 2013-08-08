@@ -9,6 +9,16 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   var resultModal = angular.element('.m-result');
   var resultContent = resultModal.find('p');
 
+  $scope.setModal = function(content, type){
+    resultModal.removeClass('m-negative');
+    if (type == 'error') {
+        resultModal.addClass('m-negative');
+    }
+    resultModal.show();
+    resultContent.text(content);
+    resultModal.fadeOut(8000);
+  };
+
   $('#birthday').datepicker({
       yearRange: '1900:-0',
       dateFormat: 'dd.mm.yy',
@@ -30,46 +40,41 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   };
 
   // Таймер отслеживания состояния корзины
-  $scope.initTimer = function(period){
-    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-      $scope.itemsInCart = data.itemsInCart;
-    }).error(function(error){
-      $scope.itemsInCart = 0;
-    });
+  // $scope.initTimer = function(period){
+  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
+  //     $scope.itemsInCart = data.itemsInCart;
+  //   }).error(function(error){
+  //     $scope.itemsInCart = 0;
+  //   });
 
-    if(period == 1000)
-      var mytimeout = $timeout($scope.onFastTimeout, 1000);
-    else
-      var mytimeout = $timeout($scope.onTimeout, 8000);
-  };
+  //   if(period == 1000)
+  //     var mytimeout = $timeout($scope.onFastTimeout, 1000);
+  //   else
+  //     var mytimeout = $timeout($scope.onTimeout, 8000);
+  // };
 
-  $scope.onTimeout = function(){
-    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-      $scope.itemsInCart = data.itemsInCart;
-    });
+  // $scope.onTimeout = function(){
+  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
+  //     $scope.itemsInCart = data.itemsInCart;
+  //   });
 
-    var mytimeout = $timeout($scope.onTimeout, 8000);
-  };
+  //   var mytimeout = $timeout($scope.onTimeout, 8000);
+  // };
 
-  $scope.onFastTimeout = function(){
-    $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-      $scope.itemsInCart = data.itemsInCart;
-    });
+  // $scope.onFastTimeout = function(){
+  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
+  //     $scope.itemsInCart = data.itemsInCart;
+  //   });
 
-    var mytimeout = $timeout($scope.onFastTimeout, 1000);
-  };
+  //   var mytimeout = $timeout($scope.onFastTimeout, 1000);
+  // };
 
   //Авторизация
   $scope.login = function(user, valid) {
    if (!valid) return false;
     $http.post('/service/login', user).success(function(data) {
       if (data.error == 'yes') {
-        resultModal.addClass('m-negative');
-        resultModal.show();
-        resultContent.text(data.content);
-        resultModal.fadeOut(8000, function() {
-          resultModal.removeClass('m-negative');
-        });
+        $scope.setModal(data.content, 'error');
 
         angular.element('#sign-in input[name=email]').addClass('error');
         angular.element('#sign-in input[name=password]').addClass('error');
@@ -106,11 +111,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
 
       if (data.error == 'no'){
         angular.element('#actSpotForm').slideUp(400, function() {
-          resultModal.removeClass('m-negative');
-          resultModal.show();
-          resultContent.text(data.content);
-          resultModal.fadeOut(8000, function() {
-          });
+          $scope.setModal(data.content, 'none');
         });
 
         $scope.user.email="";
@@ -126,10 +127,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         else if (data.error == 'code'){
           codeId.addClass('error');
         }
-        resultModal.addClass('m-negative');
-        resultModal.show();
-        resultContent.text(data.content);
-        resultModal.fadeOut(8000);
+        $scope.setModal(data.content, 'error');
       }
     });
   };
@@ -166,10 +164,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         codeField.addClass('error');
       }
       else if ((data.error == 'email') || (data.error == 'code')){
-        resultModal.addClass('m-negative');
-        resultModal.show();
-        resultContent.text(data.content);
-        resultModal.fadeOut(8000);
+        $scope.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         $scope.user.email="";
@@ -203,12 +198,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     $http.post('/service/recovery', user).success(function(data) {
       if (data.error == 'yes') {
         angular.element('#recPassForm input[name=email]').addClass('error');
-        resultModal.addClass('m-negative');
-        resultModal.show();
-        resultContent.text(data.content);
-        resultModal.fadeOut(8000, function() {
-          resultModal.removeClass('m-negative');
-        });
+        $scope.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         angular.element('#recPassForm').slideUp(400, function() {

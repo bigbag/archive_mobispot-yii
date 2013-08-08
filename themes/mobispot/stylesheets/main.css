@@ -267,6 +267,7 @@ table.store-items td ul.orbit-bullets{
 	font-size: 13px;
 	width: 500px;
 	margin-bottom: 46px;
+	margin-top: 50px;
 }
 .store-items .store-items__price{
 	position: absolute;
@@ -282,7 +283,13 @@ table.store-items td ul.orbit-bullets{
 	font-size: 31px;
 	font-family:Mobispot, Arial,sans-serif;
 	text-align: center;
-	line-height: 80px;
+	line-height: 82px;
+}
+.store-items .store-items__price .curency{
+	font-size: 22px !important;
+	position: relative;
+	top: -1px;
+	margin-left: 6px;
 }
 .store-items tr:hover td{
 	background: #E0E6ED;

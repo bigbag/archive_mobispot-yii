@@ -580,7 +580,7 @@ class Cart extends CFormModel
             $error = 'no';
         } else
         {
-            $modelErrors = getErrors();
+            $modelErrors = $this->getErrors();
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';
@@ -795,12 +795,11 @@ class Cart extends CFormModel
             {
                 $transaction->rollback();
                 $error = $e;
-                //$error = print_r($e, true);
             }
         }
         else
         {
-            $modelErrors = getErrors();
+            $modelErrors = $this->getErrors();
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';

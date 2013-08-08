@@ -230,7 +230,7 @@
                                     {{delivery.period}}
                                 </td>
                                 <td class="text-right">
-                                    {{delivery.price}}<span class="icon">&#xe019;</span>
+                                    {{delivery.price}}<span class="icon small-currency">&#xe019;</span>
                                 </td>
                             </tr>
                         </tbody>

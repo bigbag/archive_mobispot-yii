@@ -48,7 +48,7 @@ class MController extends Controller
 
         Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
 
-        //Yii::app()->cache->flush();
+        Yii::app()->cache->flush();
 
         return true;
     }
@@ -80,13 +80,13 @@ class MController extends Controller
         $user = User::model()->findByPk(Yii::app()->user->id);
         if ($user)
         {
-            $user->lastvisit = new CDbExpression('NOW()');
+            $user->lastvisit = date('Y-m-d H:i:s');
             if ($user->save(false))
                 return true;
         }
         return false;
     }
-
+    
     public function setAccess()
     {
         throw new CHttpException(403, Yii::t('user', 'Forbidden.'));

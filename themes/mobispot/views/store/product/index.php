@@ -1,6 +1,14 @@
 <div class="m-content-block store-content" 
     ng-controller="ProductCtrl" 
     ng-init="StoreInit()">
+    <div  
+        ng-init="items.count=<?php echo $items_count;?>"
+        ng-hide="items.count < 1">
+        <a href="/store/product/cart" class="icon-bag-link">
+            <img src="/themes/mobispot/images/icons/i-bag.2x.png" height="115">
+            <span>{{items.count}}</span>
+        </a>
+    </div>
     <table class="twelve store-items">
         <tbody>
             <tr ng-repeat="product in products">
@@ -100,4 +108,12 @@
             </tr>
         </tbody>
     </table>
+    <div ng-hide="items.count < 1">
+        <a class="bag-link" href="store/product/cart">
+            <span class="icon">&#xe01a;</span>
+            <h3><?php echo Yii::t('store', 'В корзину добавленно {{items.count}} спот'); ?></h3>
+            <div><?php echo Yii::t('store', 'Перейти к оформлению'); ?></div>
+            <i>></i>
+        </a>
+    </div>
 </div>			

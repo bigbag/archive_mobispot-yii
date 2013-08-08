@@ -83,13 +83,13 @@
 }
 
 .currency{
-  font-size: 18px;
+  font-size: 18px !important;
 }
 
 .biggest-currency{
-  font-size: 55px;
+  font-size: 55px !important;
 }
 
 .small-currency{
-  font-size: 8px;
+  font-size: 10px !important;
 }

@@ -8,12 +8,22 @@ class ProductController extends MController
 
     public function actionIndex()
     {
-        $this->render('index', array('imagePath' => $this->imagePath));
+        $this->render('index', 
+            array(
+                'imagePath' => $this->imagePath,
+                'items_count' => $this->getItemsInCart(),
+                )
+            );
     }
 
     public function actionCart()
     {
-        $this->render('cart', array('imagePath' => $this->imagePath));
+        $this->render('cart', 
+            array(
+                'imagePath' => $this->imagePath,
+                
+                )
+            );
     }
 
     public function actionGetPriceList()
@@ -30,6 +40,19 @@ class ProductController extends MController
 
         echo json_encode($answer);
     }
+
+    
+    public function getItemsInCart()
+    {
+        $count = 0;
+        if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
+        {
+            $count = Yii::app()->session['itemsInCart'];
+        }
+
+        return $count;
+    }
+
 
     public function actionGetCart()
     {
@@ -62,6 +85,7 @@ class ProductController extends MController
         $answer = array();
 
         $cart = new Cart;
+        $answer['count'] = $this->getItemsInCart();
         $answer['error'] = $cart->addToCart($data);
 
         echo json_encode($answer);
@@ -86,7 +110,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         $answer = array();
-        $answer['error'] = Yii::t('store', 'Please, enter the code!');
+        $answer['error'] = Yii::t('store', 'Пожалуйста, введите код!');
         
         if(!empty($data['promoCode']))
         {
@@ -103,6 +127,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         $answer = array();
+        $answer['error'] = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
 
         if (isset($data['customer']))
         {
@@ -113,28 +138,7 @@ class ProductController extends MController
                 $answer['message'] = Yii::t('store', 'Saved!');
             }
         }
-        else
-        {
-            $answer['error'] = Yii::t('store', 'Please, fill all required fields!');
-        }
 
-        echo json_encode($answer);
-    }
-
-    public function actionGetItemsInCart()
-    {
-        $data = $this->validateRequest();
-        $answer = array();
-
-        if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
-        {
-            $answer['itemsInCart'] = Yii::app()->session['itemsInCart'];
-        }
-        else
-        {
-            $answer['itemsInCart'] = 0;
-        }
-            
         echo json_encode($answer);
     }
 
@@ -190,29 +194,27 @@ class ProductController extends MController
                 $payment = Yii::app()->ut;
 
                 $info = $payment->getCheckData($order->id);
-            
-                $data = array( 
-                    "Status" => $info['status'],
-                    "ApprovalCode" => $info['response_code'],
-                    "BillNumber"   => $info['billnumber'] 
-                ); 
-                        
-                $order->payment_data = $data;
 
-                $status = strtolower($data['Status']);
-
-                if ($status == 'authorized' or $status == 'paid')
+                if (isset($info['status']))
                 {
-                    $mailOrder = Cart::getMessageByOrder($order->id);
+                   $data = array( 
+                        "Status" => $info['status'],
+                        "ApprovalCode" => $info['response_code'],
+                        "BillNumber"   => $info['billnumber'] 
+                    ); 
+                            
+                    $order->payment_data = $data;
 
-                    $order->status = 2;
-                    MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
-                    MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
+                    $status = strtolower($data['Status']); 
                 }
                 else
+                {   
+                    $status = false;
+                }
+                
+                if ($status != 'authorized' and $status != 'paid')
                 {
                     $order->status = -1;
-                    
                     if (!isset(Yii::app()->session['itemsInCart']) || Yii::app()->session['itemsInCart'] == 0)
                     {
                         //Восстановление заказа в корзину
@@ -251,6 +253,15 @@ class ProductController extends MController
                         }
                     }
                 }
+                else
+                {
+                    $mailOrder = Cart::getMessageByOrder($order->id);
+
+                    $order->status = 2;
+                    MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+                    MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
+                }
+
                 $order->save();
             }
         }
