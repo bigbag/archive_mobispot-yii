@@ -56,11 +56,6 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     $scope.addToCart = function addToCart(jsID){
         if(!$scope.inRequest){
             $scope.inRequest = true;
-            var added = false;
-            if($scope.products[jsID].quantity == parseInt($scope.products[jsID].quantity)){
-                $scope.products[jsID].totalInCart += parseInt($scope.products[jsID].quantity);
-                added = true;
-            }
 
             var data = {
                 token: $scope.user.token,
@@ -73,16 +68,12 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
             $http.post(('/store/product/addToCart'), data).success(function(data, status) {
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
-                    $scope.items.count = $scope.items.count + 1;
+                    $scope.items.count += parseInt($scope.products[jsID].quantity);
                 }
                 else{
-                    if(added)
-                        $scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
                     console.log(error);
                 }
             }).error(function(error){
-                if(added)
-                    $scope.products[jsID].totalInCart -= parseInt($scope.products[jsID].quantity);
                 console.log(error);
             });
 
@@ -111,14 +102,6 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
             return "active";
         } else {
             return "";
-        }
-    };
-    
-    $scope.totalClass = function(totalInCart) {
-        if (parseInt(totalInCart) > 0) {
-            return "label";
-        } else {
-            return "hide";
         }
     };
     

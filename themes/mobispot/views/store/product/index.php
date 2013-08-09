@@ -109,7 +109,7 @@
         </tbody>
     </table>
     <div ng-hide="items.count < 1">
-        <a class="bag-link" href="store/product/cart">
+        <a class="bag-link" href="/store/product/cart">
             <span class="icon">&#xe01a;</span>
             <h3><?php echo Yii::t('store', 'В корзину добавленно {{items.count}} спот'); ?></h3>
             <div><?php echo Yii::t('store', 'Перейти к оформлению'); ?></div>

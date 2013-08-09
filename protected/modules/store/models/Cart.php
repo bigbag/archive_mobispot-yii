@@ -21,12 +21,14 @@ class Cart extends CFormModel
                 if ($dbCustomer)
                 {
                     $dbCartList = $this->getCartList($dbCustomer->id);
+                    $itemsInCart = 0;
                     foreach ($dbCartList as $dbProduct)
                     {
                         $this->storeCart[] = $dbProduct;
+                        $itemsInCart += $dbProduct['quantity'];
                     }
                     Yii::app()->session['storeCart'] = $this->storeCart;
-                    Yii::app()->session['itemsInCart'] = count($this->storeCart);
+                    Yii::app()->session['itemsInCart'] = $itemsInCart;
                 }
             }
         }
@@ -57,7 +59,7 @@ class Cart extends CFormModel
             {
                 $cartList = $this->getCartList($dbCustomer->id);
                 Yii::app()->session['storeCart'] = $cartList;
-                Yii::app()->session['itemsInCart'] = count($cartList);
+                Yii::app()->session['itemsInCart'] = $this->getListQuantity($cartList);
             }
         }
     }
@@ -93,15 +95,26 @@ class Cart extends CFormModel
         }
         return $cartList;
     }
+    
+    public function getListQuantity($cartList)
+    {
+        $itemsInCart = 0;
+        
+        if(is_array($cartList) && count($cartList))
+        {
+            foreach($cartList as $item)
+                $itemsInCart += $item['quantity'];
+        }
+        
+        return $itemsInCart;
+    }
 
     public function getPriceList()
     {
         $products = Product::model()->findAll('1');
         $data = array();
         $item = array();
-        $itemsInCart = 0;
-        if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
-            $itemsInCart = Yii::app()->session['itemsInCart'];
+
         foreach ($products as $product)
         {
             $item['id'] = $product->id;
@@ -112,17 +125,7 @@ class Cart extends CFormModel
             $item['color'] = $product->color;
             $item['surface'] = $product->surface;
             $item['size'] = $product->size;
-            $item['totalInCart'] = 0;
-            if ($itemsInCart > 0)
-            {
-                foreach ($this->storeCart as $cartItem)
-                {
-                    if ($cartItem['id'] == $item['id'])
-                    {
-                        $item['totalInCart'] = $item['totalInCart'] + $cartItem['quantity'];
-                    }
-                }
-            }
+
             $data[] = $item;
         }
         return $data;
@@ -265,7 +268,10 @@ class Cart extends CFormModel
                 $this->storeCart[] = $prodArray;
             }
             Yii::app()->session['storeCart'] = $this->storeCart;
-            Yii::app()->session['itemsInCart'] = count($this->storeCart);
+            if (isset(Yii::app()->session['itemsInCart']))
+                Yii::app()->session['itemsInCart'] += $newProduct['quantity'];
+            else
+                Yii::app()->session['itemsInCart'] = $newProduct['quantity'];
 
             if (isset(Yii::app()->session['storeEmail']))
             {
@@ -420,7 +426,7 @@ class Cart extends CFormModel
             }
             $this->storeCart = $newCart;
             Yii::app()->session['storeCart'] = $newCart;
-            Yii::app()->session['itemsInCart'] = count($this->storeCart);
+            Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] - $deleted['quantity'];
 
             if (isset(Yii::app()->session['storeEmail']))
             {
