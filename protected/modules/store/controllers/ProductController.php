@@ -133,11 +133,7 @@ class ProductController extends MController
         if (isset($data['customer']))
         {
             $cart = new Cart;
-            $answer['error'] = $cart->saveCustomer($data['customer']);
-            if ($answer['error'] == 'no')
-            {
-                $answer['message'] = Yii::t('store', 'Saved!');
-            }
+            $answer['error'] = $cart->validateCustomer($data['customer']);
         }
 
         echo json_encode($answer);

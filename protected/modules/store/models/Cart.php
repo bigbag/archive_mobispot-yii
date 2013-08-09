@@ -221,41 +221,48 @@ class Cart extends CFormModel
         $customer = array();
         $customer['email'] = '';
 
-        if (!Yii::app()->user->isGuest)
+        if(isset(Yii::app()->session['storeCustomer']))
         {
-            $user_id = Yii::app()->user->id;
-            $user = User::model()->findByPk($user_id);
-
-            $customer['email'] = $user->email;
-            $dbCustomer = Customer::model()->findByAttributes(array(
-                'email' => $user->email
-            ));
-        }
-        elseif (isset(Yii::app()->session['storeEmail']))
-        {
-            $dbCustomer = Customer::model()->findByAttributes(array(
-                'email' => Yii::app()->session['storeEmail']
-            ));
-        }
-
-        if (isset($dbCustomer) && ($dbCustomer))
-        {
-            foreach ($dbCustomer as $key => $attr)
-                $customer[$key] = $attr;
+            $customer = Yii::app()->session['storeCustomer'];
         }
         else
         {
-            $customer['first_name'] = '';
-            $customer['last_name'] = '';
-            $customer['target_first_name'] = '';
-            $customer['target_last_name'] = '';
-            $customer['address'] = '';
-            $customer['city'] = '';
-            $customer['zip'] = '';
-            $customer['phone'] = '';
-            $customer['country'] = '';
-        }
+            if (!Yii::app()->user->isGuest)
+            {
+                $user_id = Yii::app()->user->id;
+                $user = User::model()->findByPk($user_id);
 
+                $customer['email'] = $user->email;
+                $dbCustomer = Customer::model()->findByAttributes(array(
+                    'email' => $user->email
+                ));
+            }
+            elseif (isset(Yii::app()->session['storeEmail']))
+            {
+                $dbCustomer = Customer::model()->findByAttributes(array(
+                    'email' => Yii::app()->session['storeEmail']
+                ));
+            }
+
+            if (isset($dbCustomer) && ($dbCustomer))
+            {
+                foreach ($dbCustomer as $key => $attr)
+                    $customer[$key] = $attr;
+            }
+            else
+            {
+                $customer['first_name'] = '';
+                $customer['last_name'] = '';
+                $customer['target_first_name'] = '';
+                $customer['target_last_name'] = '';
+                $customer['address'] = '';
+                $customer['city'] = '';
+                $customer['zip'] = '';
+                $customer['phone'] = '';
+                $customer['country'] = '';
+            }
+        }
+        
         return $customer;
     }
 
@@ -427,7 +434,7 @@ class Cart extends CFormModel
                 $error = Yii::t('store', 'Incorrect quantity!');
         }
         else
-            $error = Yii::t('store', 'Fill all required fields!');
+            $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
 
         return $error;
     }
@@ -516,7 +523,7 @@ class Cart extends CFormModel
 
     public function saveCustomer($newCustomer)
     {
-        $error = Yii::t('store', 'Please, fill all required fields!');
+        $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
         if (isset(Yii::app()->session['storeEmail']))
         {
             $customer = Customer::model()->findByAttributes(array(
@@ -617,10 +624,65 @@ class Cart extends CFormModel
         return $error;
     }
 
+    public function validateCustomer($newCustomer)
+    {
+        $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
+        Yii::app()->session['storeCustomer'] = $newCustomer;
+        
+        $customer = new Customer;
+
+        if (!empty($newCustomer['first_name']))
+            $customer->first_name = $newCustomer['first_name'];
+        if (!empty($newCustomer['last_name']))
+            $customer->last_name = $newCustomer['last_name'];
+        if (!Yii::app()->user->isGuest)
+        {
+            $user_id = Yii::app()->user->id;
+            $user = User::model()->findByPk($user_id);
+            if ($user)
+                $customer->email = $user->email;
+            elseif (!empty($newCustomer['email']))
+                $customer->email = $newCustomer['email'];
+        }elseif (!empty($newCustomer['email']))
+            $customer->email = $newCustomer['email'];
+        
+        if(!empty($customer->email))
+            Yii::app()->session['storeEmail'] = $customer->email;
+        
+        if (!empty($newCustomer['target_first_name']))
+            $customer->target_first_name = $newCustomer['target_first_name'];
+        if (!empty($newCustomer['target_last_name']))
+            $customer->target_last_name = $newCustomer['target_last_name'];
+        if (!empty($newCustomer['address']))
+            $customer->address = $newCustomer['address'];
+        if (!empty($newCustomer['city']))
+            $customer->city = $newCustomer['city'];
+        if (!empty($newCustomer['zip']))
+            $customer->zip = $newCustomer['zip'];
+        if (!empty($newCustomer['phone']))
+            $customer->phone = $newCustomer['phone'];
+        if (!empty($newCustomer['country']))
+            $customer->country = $newCustomer['country'];
+
+        if ($customer->validate())
+        {
+            $error = 'no';
+        } else
+        {
+            $modelErrors = $this->getErrors();
+            foreach ($modelErrors as $mError)
+            {
+                $error .= $mError . ' /n';
+            }
+        }
+        return $error;
+    }
+    
     public function buy($newCustomer, $products, $discount, $selectedDelivery, $selectedPayment)
     {
         $mailOrder = array();
-        $error = Yii::t('store', 'Please, fill all required fields!');
+        $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
+        Yii::app()->session['storeCustomer'] = $newCustomer;
         if (isset(Yii::app()->session['storeEmail']))
         {
             $customer = Customer::model()->findByAttributes(array(
@@ -633,6 +695,10 @@ class Cart extends CFormModel
                 'email' => $newCustomer['email']
             ));
         }
+		
+		if (!isset($customer) || !$customer)
+            $customer = new Customer;
+		
         if (!empty($newCustomer['first_name']))
             $customer->first_name = $newCustomer['first_name'];
         if (!empty($newCustomer['last_name']))
