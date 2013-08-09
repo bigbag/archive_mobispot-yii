@@ -629,25 +629,29 @@ class Cart extends CFormModel
         $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
         Yii::app()->session['storeCustomer'] = $newCustomer;
         
-        $customer = new Customer;
-
-        if (!empty($newCustomer['first_name']))
-            $customer->first_name = $newCustomer['first_name'];
-        if (!empty($newCustomer['last_name']))
-            $customer->last_name = $newCustomer['last_name'];
         if (!Yii::app()->user->isGuest)
         {
             $user_id = Yii::app()->user->id;
             $user = User::model()->findByPk($user_id);
             if ($user)
-                $customer->email = $user->email;
-            elseif (!empty($newCustomer['email']))
-                $customer->email = $newCustomer['email'];
-        }elseif (!empty($newCustomer['email']))
-            $customer->email = $newCustomer['email'];
+                $newCustomer['email'] = $user->email;
+        }
         
-        if(!empty($customer->email))
-            Yii::app()->session['storeEmail'] = $customer->email;
+        if (!empty($newCustomer['email']))
+        {
+            Yii::app()->session['storeEmail'] = $newCustomer['email'];
+            $customer = Customer::model()->findByAttributes(array(
+                'email' => $newCustomer['email']
+            ));
+        }
+        
+        if (!isset($customer) || !$customer)
+            $customer = new Customer;
+
+        if (!empty($newCustomer['first_name']))
+            $customer->first_name = $newCustomer['first_name'];
+        if (!empty($newCustomer['last_name']))
+            $customer->last_name = $newCustomer['last_name'];
         
         if (!empty($newCustomer['target_first_name']))
             $customer->target_first_name = $newCustomer['target_first_name'];
@@ -669,7 +673,7 @@ class Cart extends CFormModel
             $error = 'no';
         } else
         {
-            $modelErrors = $this->getErrors();
+            $modelErrors = $customer->getErrors();
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';
@@ -695,10 +699,10 @@ class Cart extends CFormModel
                 'email' => $newCustomer['email']
             ));
         }
-		
-		if (!isset($customer) || !$customer)
+        
+        if (!isset($customer) || !$customer)
             $customer = new Customer;
-		
+        
         if (!empty($newCustomer['first_name']))
             $customer->first_name = $newCustomer['first_name'];
         if (!empty($newCustomer['last_name']))
@@ -893,7 +897,7 @@ class Cart extends CFormModel
         }
         else
         {
-            $modelErrors = $this->getErrors();
+            $modelErrors = $customer->getErrors();
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';
