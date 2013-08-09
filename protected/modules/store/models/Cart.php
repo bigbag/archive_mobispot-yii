@@ -7,60 +7,82 @@ class Cart extends CFormModel
 
     public function __construct()
     {
-        if (isset(Yii::app()->session['storeCart']) && (!isset(Yii::app()->session['storeEmail'])) && (!Yii::app()->user->isGuest))
+        if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0) && (!isset(Yii::app()->session['isLoggedIn'])) && (!Yii::app()->user->isGuest))
         {
+            //Пользователь залогинился, корзина была заполнена до логина - сохранение нового заказа в базу
             $this->storeCart = Yii::app()->session['storeCart'];
             $user_id = Yii::app()->user->id;
             $user = User::model()->findByPk($user_id);
             if ($user)
             {
                 Yii::app()->session['storeEmail'] = $user->email;
+                Yii::app()->session['isLoggedIn'] = true;
                 $dbCustomer = Customer::model()->findByAttributes(array(
                     'email' => $user->email
                 ));
-                if ($dbCustomer)
+                
+                if (!$dbCustomer)
                 {
-                    $dbCartList = $this->getCartList($dbCustomer->id);
-                    $itemsInCart = 0;
-                    foreach ($dbCartList as $dbProduct)
-                    {
-                        $this->storeCart[] = $dbProduct;
-                        $itemsInCart += $dbProduct['quantity'];
-                    }
-                    Yii::app()->session['storeCart'] = $this->storeCart;
-                    Yii::app()->session['itemsInCart'] = $itemsInCart;
+                    $dbCustomer = new Customer;
+                    $dbCustomer->email = $user->email;
+                    $dbCustomer->save();
+                }
+                
+                $order = StoreOrder::model()->findByAttributes(array(
+                    'id_customer' => $dbCustomer->id,
+                    'status' => 0
+                ));
+                
+                if(!$order)
+                {
+                    $order = new StoreOrder;
+                    $order->id_customer = $dbCustomer->id;
+                    $order->status = 0;
+                    $order->save;
+                }
+                
+                OrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
+        
+                foreach ($this->storeCart as $product)
+                {
+                    $addProduct = new OrderList;
+                    $addProduct->id_order = $order->id;
+                    $addProduct->id_product = $product['id'];
+                    $addProduct->quantity = $product['quantity'];
+                    if (!empty($product['selectedColor']))
+                        $addProduct->color = $product['selectedColor'];
+                    if (!empty($product['selectedSurface']))
+                        $addProduct->surface = $product['selectedSurface'];
+                    $addProduct->size_name = $product['selectedSize']['value'];
+                    $addProduct->price = $product['selectedSize']['price'];
+                    $addProduct->save();
                 }
             }
         }
-        elseif (isset(Yii::app()->session['storeCart']))
+        elseif ((!isset(Yii::app()->session['itemsInCart']) || (Yii::app()->session['itemsInCart'] == 0)) && (!isset(Yii::app()->session['isLoggedIn'])) && (!Yii::app()->user->isGuest))
         {
-            $this->storeCart = Yii::app()->session['storeCart'];
-        }
-        else
-        {
-            if (!Yii::app()->user->isGuest)
-            {
-                $user_id = Yii::app()->user->id;
-                $user = User::model()->findByPk($user_id);
-                if ($user)
-                    Yii::app()->session['storeEmail'] = $user->email;
+            //Пользователь залогинился, корзина была пуста до логина - восстановление корзины из базы
 
-                $dbCustomer = Customer::model()->findByAttributes(array(
-                    'email' => $user->email
-                ));
-            }elseif (isset(Yii::app()->session['storeEmail']))
-            {
-                $dbCustomer = Customer::model()->findByAttributes(array(
-                    'email' => Yii::app()->session['storeEmail']
-                ));
-            }
+            $user_id = Yii::app()->user->id;
+            $user = User::model()->findByPk($user_id);
+            if ($user)
+                Yii::app()->session['storeEmail'] = $user->email;
 
-            if (isset($dbCustomer) && ($dbCustomer))
+            Yii::app()->session['isLoggedIn'] = true;
+            $dbCustomer = Customer::model()->findByAttributes(array(
+                'email' => $user->email
+            ));
+        
+            if ($dbCustomer)
             {
                 $cartList = $this->getCartList($dbCustomer->id);
                 Yii::app()->session['storeCart'] = $cartList;
                 Yii::app()->session['itemsInCart'] = $this->getListQuantity($cartList);
             }
+        }
+        elseif (isset(Yii::app()->session['storeCart']))
+        {
+            $this->storeCart = Yii::app()->session['storeCart'];
         }
     }
 
