@@ -45,6 +45,7 @@ class ProductController extends MController
     public function getItemsInCart()
     {
         $count = 0;
+        $cart = new Cart; //для проверки в конструкторе Cart - если юзер залогинился
         if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
         {
             $count = Yii::app()->session['itemsInCart'];
@@ -87,6 +88,7 @@ class ProductController extends MController
         $cart = new Cart;
         $answer['error'] = $cart->addToCart($data);
 	    $answer['count'] = $this->getItemsInCart();
+
 
         echo json_encode($answer);
     }
