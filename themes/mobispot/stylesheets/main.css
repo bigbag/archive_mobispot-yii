@@ -253,6 +253,7 @@ table.store-items td ul.orbit-bullets{
 .store-items__description{
 	padding: 29px 50px;
 	min-width: 274px;
+	position: relative;
 }
 .store-items__description header{
 	position: relative;
@@ -267,7 +268,6 @@ table.store-items td ul.orbit-bullets{
 	font-size: 13px;
 	width: 500px;
 	margin-bottom: 46px;
-	margin-top: 50px;
 }
 .store-items .store-items__price{
 	position: absolute;
@@ -499,6 +499,12 @@ p + .details{
 .delivery-options{
 	width: 100%;
 	margin: 14px 0;
+}
+.delivery-options .currency{
+	position: relative;
+	top:-1px;
+	font-size: 9px;
+	margin-left: 3px;
 }
 .delivery-options td{
 	cursor: pointer;
@@ -1890,10 +1896,10 @@ span.settings-button{
 	font-size: 14px;
 }
 .total-order{
-	margin-bottom: 40px;
+	margin-bottom: 50px;
 }
 .buy-box{
-	padding-top: 150px;
+	padding-top: 80px;
 }
 textarea{
 	max-width: 1030px;
@@ -1945,12 +1951,16 @@ textarea:hover + .label-cover *{
 	font-size: 50px;
 	margin-top: -9px
 }
-.icon-bag-link{
+.icon-bag-conteiner{
 	position: fixed;
 	top: 25px;
 	right: 5px;
 	z-index: 99;
 }
+.icon-bag-link{
+	position: relative;
+}
+
 .icon-bag-link span{
 	position: absolute;
 	left: 0;
@@ -1966,4 +1976,16 @@ textarea:hover + .label-cover *{
 	position: relative;
 	top:-2px;
 	margin-left: 6px;
+}
+.biggest-heading .currency{
+	font-size: 63px;
+	position: relative;
+	top: -4px;
+	margin-left: 15px;
+}
+.total-order .currency{
+	font-size: 21px;
+	margin-left: 5px;
+	position: relative;
+	top: -1px;
 }

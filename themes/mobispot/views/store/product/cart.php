@@ -196,7 +196,8 @@
                     <div style="visibility: hidden">
                         <a 
                             id="proceedFinish" 
-                            class="spot-button toggle-box slideToThis">
+                            class="spot-button toggle-box slideToThis"
+                            href="#deliveryStep">
                             <?php echo Yii::t('store', 'Confirm'); ?>
                         </a>
                     </div>
@@ -207,9 +208,7 @@
         <div id="proceedFinishForm" class="hide-content-box">
             <div class="row row__magrin-b buy-options">
                 <div class="six columns">
-                    <h3>
-                        <?php echo Yii::t('store', 'Delivery'); ?>
-                    </h3>
+                    <h3><?php echo Yii::t('store', 'Delivery'); ?></h3>
                     <span>
                         <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
                     </span>
@@ -257,18 +256,13 @@
                         </li>
                     </ul>
                 </div>
-                <div class="twelve buy-box columns text-center">
+            </div>
+            <div class="row">
+                <div class="twelve buy-box column text-center">
                     <h3 class="total-order">
                         <?php echo Yii::t('store', 'Total for this order:'); ?>
-                        <span class="color"> 
-                            {{summ + (selectedDelivery.price - 0)}}<span class="icon currency">&#xe019;</span>
-                        </span>
+                        <span class="color">{{summ + (selectedDelivery.price - 0)}}<span class="icon currency">&#xe019;</span></span>
                     </h3>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="twelve buy-box columns text-center">
                     <a class="round-button-large" href="" ng-click="buy()">
                         <?php echo Yii::t('store', 'Buy'); ?>
                     </a>

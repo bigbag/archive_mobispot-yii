@@ -106,13 +106,13 @@ class MController extends Controller
     {
         if (!Yii::app()->request->isPostRequest)
         {
-            $this->setBadReques();
+            $this->setBadRequest();
         }
 
         $data = $this->getJson();
         if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
         {
-            $this->setBadReques();
+            $this->setBadRequest();
         }
 
         return $data;

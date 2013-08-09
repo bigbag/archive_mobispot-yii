@@ -1,14 +1,6 @@
 <div class="m-content-block store-content" 
     ng-controller="ProductCtrl" 
     ng-init="StoreInit()">
-    <div  
-        ng-init="items.count=<?php echo $items_count;?>"
-        ng-hide="items.count < 1">
-        <a href="/store/product/cart" class="icon-bag-link">
-            <img src="/themes/mobispot/images/icons/i-bag.2x.png" height="115">
-            <span>{{items.count}}</span>
-        </a>
-    </div>
     <table class="twelve store-items">
         <tbody>
             <tr ng-repeat="product in products">
@@ -116,4 +108,13 @@
             <i>></i>
         </a>
     </div>
-</div>			
+</div>		
+<div  
+    class="icon-bag-conteiner"
+    ng-init="items.count=<?php echo $items_count;?>"
+    ng-hide="items.count < 1">
+    <a href="/store/product/cart" class="icon-bag-link">
+        <img src="/themes/mobispot/images/icons/i-bag.2x.png" height="115">
+        <span>{{items.count}}</span>
+    </a>
+</div>

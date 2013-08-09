@@ -94,6 +94,7 @@
                             class="b-short-input"
                             ng-model="spot.newName"
                             name="newName"
+                            ui-keypress="{enter: 'setNewName(spot)'}"
                             placeholder="<?php echo Yii::t('spot', 'New Name') ?>"
                             autocomplete="off"
                             maxlength="50"
