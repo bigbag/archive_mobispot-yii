@@ -86,7 +86,7 @@ class ProductController extends MController
 
         $cart = new Cart;
         $answer['error'] = $cart->addToCart($data);
-	$answer['count'] = $this->getItemsInCart();
+	    $answer['count'] = $this->getItemsInCart();
 
         echo json_encode($answer);
     }

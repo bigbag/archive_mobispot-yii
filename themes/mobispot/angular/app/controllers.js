@@ -22,52 +22,21 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   $('#birthday').datepicker({
       yearRange: '1900:-0',
       dateFormat: 'dd.mm.yy',
-
-
+      onSelect: function (dateText, inst) {
+        $scope.$apply(function () {
+            $scope.user.birthday = dateText;
+        }); 
+      }
     });
 
   //Редактирование профиля пользователя
   $scope.setProfile = function(user){
-    console.log(user);
-    // $http.post('/user/editProfile',user).success(function(data) {
-      
-    // });
+    $http.post('/user/editProfile',user).success(function(data) {
+        if (data.error == 'no'){
+          $scope.setModal(data.content, 'none');
+        }
+    });
   };
-
-   //Устанавливаем переменную sex
-  $scope.setSex = function(sex){
-    $scope.user.sex = sex;
-  };
-
-  // Таймер отслеживания состояния корзины
-  // $scope.initTimer = function(period){
-  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-  //     $scope.itemsInCart = data.itemsInCart;
-  //   }).error(function(error){
-  //     $scope.itemsInCart = 0;
-  //   });
-
-  //   if(period == 1000)
-  //     var mytimeout = $timeout($scope.onFastTimeout, 1000);
-  //   else
-  //     var mytimeout = $timeout($scope.onTimeout, 8000);
-  // };
-
-  // $scope.onTimeout = function(){
-  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-  //     $scope.itemsInCart = data.itemsInCart;
-  //   });
-
-  //   var mytimeout = $timeout($scope.onTimeout, 8000);
-  // };
-
-  // $scope.onFastTimeout = function(){
-  //   $http.post('/store/product/GetItemsInCart',{token: $scope.user.token}).success(function(data) {
-  //     $scope.itemsInCart = data.itemsInCart;
-  //   });
-
-  //   var mytimeout = $timeout($scope.onFastTimeout, 1000);
-  // };
 
   //Авторизация
   $scope.login = function(user, valid) {
@@ -101,8 +70,6 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     var emailId = angular.element('#personSpotForm input[name=email]');
     var passwordId = angular.element('#personSpotForm input[name=password]');
     var codeId = angular.element('#personSpotForm input[name=code]');
-
-    resultModal.hide();
 
     $http.post('/service/registration', user).success(function(data) {
       emailId.removeClass('error');
@@ -189,8 +156,6 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   // Восстановление пароля
   $scope.recovery = function(recovery, valid){
     if (!valid) return false;
-
-    resultModal.hide();
 
     var user = $scope.user;
     user.email = recovery.email;

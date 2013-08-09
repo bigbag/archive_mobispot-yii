@@ -14,15 +14,6 @@
 		letter-spacing: 20px;
 	}
 }
-
-@media screen and (min-width: 994px) {
-
-	.total-order{
-		position: absolute;
-		top:250px;
-		left: 1em;
-	}
-}
 @media screen and (max-width: 994px) {
 
 	body{

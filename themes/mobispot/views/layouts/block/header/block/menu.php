@@ -2,11 +2,6 @@
 <ul class="nav-bar right">
     <?php if (Yii::app()->user->isGuest): ?>
         <li>
-            <a class="spot-button" href="/store/">
-                <?php echo Yii::t('menu', 'Store') ?>
-            </a>
-        </li>
-        <li>
             <a id="actSpot" class="spot-button toggle-box" href="#actSpotForm">
                 <?php echo Yii::t('menu', 'Activate spot') ?>
             </a>

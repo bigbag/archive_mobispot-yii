@@ -7,7 +7,8 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
         ng-init="user.id='<?php echo $user->id;?>'; 
                 user.name='<?php echo $profile->name;?>';
                 user.city='<?php echo $profile->city;?>';
-                user.birthday='<?php echo $profile->birthday;?>'">
+                user.birthday='<?php echo $profile->birthday;?>';
+                user.sex=<?php echo $profile->sex;?>">
         <h3><?php echo Yii::t('user', 'Profile info'); ?></h3>
         <input 
             name='name'
@@ -19,17 +20,17 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
 
         <div class="sex-options"> 
             <ul class="add-active">
-                <li class="active">
-                    <a href="javascript:;" ng-click="setSex(0)" class="radio-link">
+                <li <?php echo ($profile->sex==0)?'class="active"':''?>>
+                    <a href="javascript:;" ng-click="user.sex=0" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Not specified'); ?>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript:;" ng-click="setSex(1)" class="radio-link">
+                <li <?php echo ($profile->sex==1)?'class="active"':''?>>
+                    <a href="javascript:;" ng-click="user.sex=1" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Male'); ?>
                     </a>
                 </li>
-                <li>
+                <li <?php echo ($profile->sex==2)?'user.sex=2"':''?>>
                     <a href="javascript:;" ng-click="setSex(2)" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Female'); ?>
                     </a>

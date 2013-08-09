@@ -69,17 +69,13 @@ var $marker = $('.bag-link');
 var markerHeight =  $('.bag-link').height();
 var markerHeight = markerHeight / 2;
 
-var showHideBagIcon = function(aaa){
+var showHideBagIcon = function(speed){
 	if ($win.scrollTop() + $win.height() - markerHeight >= $marker.offset().top) {
-		$iconBag.fadeOut(aaa)
+		$iconBag.fadeOut(speed)
 	} else {
-		$iconBag.fadeIn(aaa)
+		$iconBag.fadeIn(speed)
 	}
 }
-
-$win.scroll(function() {
-	showHideBagIcon(600);
-});
 
 $(window).load(function() {
 	$(document).on('click','.add-active > *', addActive);
