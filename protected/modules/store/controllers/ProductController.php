@@ -87,7 +87,7 @@ class ProductController extends MController
 
         $cart = new Cart;
         $answer['error'] = $cart->addToCart($data);
-	    $answer['count'] = $this->getItemsInCart();
+        $answer['count'] = $this->getItemsInCart();
 
 
         echo json_encode($answer);
@@ -217,6 +217,7 @@ class ProductController extends MController
                     {
                         //Восстановление заказа в корзину
                         $cartList = array();
+                        $itemsInCart = 0;
                         $list = OrderList::model()->findAllByAttributes(array(
                             'id_order' => $order->id
                         ));
@@ -234,10 +235,11 @@ class ProductController extends MController
                                 $selectedSize['price'] = $item->price;
                                 $product['selectedSize'] = $selectedSize;
                                 $cartList[] = $product;
+                                $itemsInCart += $item->quantity;
                             }
                         }
                         Yii::app()->session['storeCart'] = $cartList;
-                        Yii::app()->session['itemsInCart'] = count($cartList);
+                        Yii::app()->session['itemsInCart'] = $itemsInCart;
                     }
                         
                     //Восстановление одноразового промо-кода
