@@ -616,6 +616,7 @@ class Cart extends CFormModel
         } else
         {
             $modelErrors = $this->getErrors();
+            $error = '';
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';
@@ -674,6 +675,7 @@ class Cart extends CFormModel
         } else
         {
             $modelErrors = $customer->getErrors();
+            $error = '';
             foreach ($modelErrors as $mError)
             {
                 $error .= $mError . ' /n';
