@@ -1961,3 +1961,9 @@ textarea:hover + .label-cover *{
 	font-family: Mobispot;
 	color: rgb(255, 255, 255);
 }
+.store-items__price .currency{
+	font-size: 21px;
+	position: relative;
+	top:-2px;
+	margin-left: 6px;
+}

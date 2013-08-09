@@ -26,7 +26,7 @@
                 <td class="store-items__description">
                     <header>
                         <h1>{{product.name}}</h1>
-                        <span>{{product.code}}</span>
+                        <!-- <span>{{product.code}}</span> -->
                         <div 
                             class="store-items__price store-items__close" 
                             ng-click="deleteItem(product.jsID)">
@@ -62,7 +62,9 @@
                                 </ul>
                             </div>                            
                             <div class="columns six inline choose">
-                                <span class="label label-left"><?php echo Yii::t('store', 'Quantity'); ?></span>
+                                <span class="label label-left">
+                                    <?php echo Yii::t('store', 'Quantity'); ?>
+                                </span>
                                 <input 
                                     type="number" 
                                     ng-model="product.quantity" 
@@ -110,7 +112,7 @@
         <h1 class="biggest-heading left">
             <?php echo Yii::t('store', 'Total '); ?>
             <img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">
-            {{summ}}<span class="icon biggest-currency">&#xe019;</span>
+            {{summ}}<span class="icon currency">&#xe019;</span>
         </h1>
         <a 
             id="proceedNext" 
@@ -129,65 +131,62 @@
                     <input 
                         type="text" 
                         ng-model="customer.first_name" 
-                        placeholder="<?php echo Yii::t('store', 'First name'); ?>">
+                        placeholder="<?php echo Yii::t('store', 'First name'); ?>"
+                        required>
                     <input 
                         type="text" 
                         ng-model="customer.last_name" 
-                        placeholder="<?php echo Yii::t('store', 'Last name'); ?>">
+                        placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
+                        required>
                     <input 
                         type="email" 
                         name="email" 
                         ng-model="customer.email" 
                         placeholder="<?php echo Yii::t('store', 'Email address'); ?>" 
-                        required="" 
-                        <?php echo (Yii::app()->user->isGuest)?'':'disabled'; ?>
-                        ng-class="valClass(formCustomer.email.$valid)">
+                        required>
                 </div>
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
                     <input 
                         type="text" 
                         ng-model="customer.target_first_name" 
-                        placeholder="<?php echo Yii::t('store', 'First name'); ?>">
+                        placeholder="<?php echo Yii::t('store', 'First name'); ?>"
+                        required>
                     <input 
                         type="text" 
                         ng-model="customer.target_last_name" 
-                        placeholder="<?php echo Yii::t('store', 'Last name'); ?>">
+                        placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
+                        required>
                     <input 
                         type="text" 
                         name="address" 
                         ng-model="customer.address" 
                         placeholder="<?php echo Yii::t('store', 'Address'); ?>" 
-                        required="" 
-                        ng-class="valClass(formCustomer.address.$valid)">
+                        required>
                     <input 
                         type="text" 
                         name="city" 
                         ng-model="customer.city" 
                         placeholder="<?php echo Yii::t('store', 'City'); ?>" 
-                        required="" 
-                        ng-class="valClass(formCustomer.city.$valid)">
+                        required>
                     <input 
                         type="text" 
                         name="zip" 
                         ng-model="customer.zip" 
                         placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>" 
-                        required="" 
-                        ng-class="valClass(formCustomer.zip.$valid)">
+                        required>
                     <input 
                         type="text" 
                         name="phone" 
                         ng-model="customer.phone" 
                         placeholder="<?php echo Yii::t('store', 'Phone'); ?>" 
-                        required="" 
-                        ng-class="valClass(formCustomer.phone.$valid)">
+                        required>
                     <input 
                         type="text" 
                         name="country" 
                         ng-model="customer.country" 
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>" 
-                        required="" 
-                        ng-class="valClass(formCustomer.country.$valid)">
+                        required>
                     <a 
                         class="spot-button toggle-box slideTo" 
                         style="cursor: pointer" 
@@ -230,7 +229,7 @@
                                     {{delivery.period}}
                                 </td>
                                 <td class="text-right">
-                                    {{delivery.price}}<span class="icon small-currency">&#xe019;</span>
+                                    {{delivery.price}}<span class="icon currency">&#xe019;</span>
                                 </td>
                             </tr>
                         </tbody>

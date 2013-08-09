@@ -44,7 +44,7 @@
                 <td class="store-items__description">
                     <header>
                         <h1>{{product.name}}</h1>
-                        <span>{{product.code}}</span>
+                        <!-- <span>{{product.code}}</span> -->
                         <div class="store-items__price">
                             {{product.selectedSize.price}}<span class="icon currency">&#xe019;</span>
                         </div>
