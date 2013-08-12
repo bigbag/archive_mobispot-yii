@@ -182,6 +182,7 @@ class Cart extends CFormModel
             foreach ($payment as $row) {
                 $result[$row->id]['id'] = $row->id;
                 $result[$row->id]['name'] = $row->name;
+                $result[$row->id]['caption'] = $row->caption;
             } 
         }
         return $result;
