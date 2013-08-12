@@ -4,16 +4,20 @@ li.aslide {
 }
 
 ul.thumblist {
-    width: 250px;
+    width: 300px;
     margin:0 auto;
 }
 
 li.thumbitem {
     display:inline-block;
-    width:80px;
-    margin:0px;
+    width:75px;
+    margin:3px;
     vertical-align:top;
     text-align:center;
+    overflow:hidden;
+    -webkot-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
 }
 
 /*
