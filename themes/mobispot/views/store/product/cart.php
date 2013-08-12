@@ -251,7 +251,7 @@
                                 class="radio-link"
                                 ng-click="setPayment({{payment.id}})">
                                 <i class="large"></i>
-                                {{payment.name}}
+                                {{payment.caption}}
                             </a>
                         </li>
                     </ul>
