@@ -252,6 +252,7 @@ class ProductController extends MController
                             $promoCode->save();
                         }
                     }
+                    $order->save();
                 }
                 else
                 {
@@ -260,11 +261,29 @@ class ProductController extends MController
                     $order->status = 2;
                     MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
                     MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
+                    $order->save();
+                    $this->redirect('/store/product/order?Order_ID=' . $orderId);
                 }
-
-                $order->save();
             }
         }
         $this->redirect('/store');
+    }
+    
+    public function actionOrder()
+    {
+        $orderId = Yii::app()->request->getParam('Order_ID', 0);
+        $order = StoreOrder::model()->findByPk($orderId);
+        if ($order && $order->status >= 2)
+        {
+            $mailOrder = Cart::getMessageByOrder($orderId);
+            $mail_template = MailTemplate::getTemplate('store_order', $this->getLang());
+            
+            $path = Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/' . $this->getLang() . '_' . $mail_template->slug . '.php';
+            if (!file_exists($path))
+                throw new Exception('Template ' . $path . ' does not exist.');
+            $this->render('order', array('order' => $mailOrder, 'path'=>$path));
+        }
+        else
+            $this->redirect('/store');
     }
 }
