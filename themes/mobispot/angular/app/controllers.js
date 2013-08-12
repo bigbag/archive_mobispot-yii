@@ -5,7 +5,6 @@ function $id(id) {
 }
 
 function UserCtrl($scope, $http, $compile, $timeout) {
-
   var resultModal = angular.element('.m-result');
   var resultContent = resultModal.find('p');
 
@@ -16,7 +15,11 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     }
     resultModal.show();
     resultContent.text(content);
-    resultModal.fadeOut(8000);
+    if($('html').hasClass('no-opacity')){
+      setTimeout(function(){resultModal.hide}, 5000);
+    } else {
+      resultModal.fadeOut(5000);
+    }
   };
 
   $('#birthday').datepicker({
@@ -57,7 +60,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     });
   };
 
-  // Атрибут согласия с условиями сервиса
+  // Атрибут огласия с условиями сервиса
   $scope.setTerms = function(user){
     if (user.terms == 1) user.terms = 0;
     else user.terms = 1;

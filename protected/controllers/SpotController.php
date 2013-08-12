@@ -425,7 +425,7 @@ class SpotController extends MController
                                 if (file_exists($path))
                                     unlink($path);
                             }
-                            $answer['content']t = $this->renderPartial('//widget/spot/personal/new_text', array(
+                            $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);

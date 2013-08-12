@@ -6,6 +6,7 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     var resultModal = angular.element('.m-result');
     var resultContent = resultModal.find('p');
 
+
     $scope.setModal = function(content, type){
         resultModal.removeClass('m-negative');
         if (type == 'error') {
@@ -13,7 +14,11 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
         }
         resultModal.show();
         resultContent.text(content);
-        resultModal.fadeOut(8000);
+        if($('html').hasClass('no-opacity')){
+          setTimeout(function(){resultModal.hide}, 5000);
+        } else {
+          resultModal.fadeOut(5000);
+        }
     };
 
     $scope.StoreInit = function(){
