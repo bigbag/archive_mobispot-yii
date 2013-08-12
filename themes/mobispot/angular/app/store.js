@@ -130,14 +130,14 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
         else
             return "thumbswrapper";
     }
-    
+/*
     $scope.thumbLiClass = function(ind){
         if ((ind % 3) == 0)
             return "brslide";
         else
             return "thimbslide";
     }    
-
+*/
 }
 
 
@@ -456,14 +456,14 @@ function CartCtrl($scope, $http, $compile, $timeout) {
         else
             return "thumbswrapper";
     }    
-    
+/*
     $scope.thumbLiClass = function(ind){
         if ((ind % 3) == 0)
             return "brslide";
         else
             return "thimbslide";
     }        
-    
+*/
     
     $scope.valClass = function(isValid){
         if(isValid)

@@ -20,10 +20,10 @@
                     </div>
                     <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
                         <div class="thumbswrapper">
-                            <ul class="aslide">
+                            <ul class = "thumblist">
                                 <li 
+                                    class = "thumbitem"
                                     ng-repeat="image in product.photo" 
-                                    ng-class="thumbLiClass($index)" 
                                     ng-click="scrollTo(image,$index, product.jsID)">
                                     <div class="thumbwrapper">
                                         <img  class="thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
@@ -108,7 +108,7 @@
             <i>></i>
         </a>
     </div>
-</div>		
+</div>        
 <div  
     class="icon-bag-conteiner"
     ng-init="items.count=<?php echo $items_count;?>"

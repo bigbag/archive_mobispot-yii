@@ -3,6 +3,20 @@ li.aslide {
     display:inline-block;
 }
 
+ul.thumblist {
+    width: 250px;
+    margin:0 auto;
+}
+
+li.thumbitem {
+    display:inline-block;
+    width:80px;
+    margin:0px;
+    vertical-align:top;
+    text-align:center;
+}
+
+/*
 li.thimbslide {
     list-style:none;
     display:inline-block;
@@ -11,7 +25,7 @@ li.thimbslide {
 li.brslide {
     list-style:none;
 }
-
+*/
 ul.aslide {
     padding:0;
     margin:0;
@@ -19,14 +33,14 @@ ul.aslide {
 }
 
 .clearleft {
-	clear:left;
+    clear:left;
 }
 
 .thumbnail {
-	width: 50px;
-	max-height:50px;
-	max-width: 50px;
-	cursor: pointer;
+    width: 50px;
+    max-height:50px;
+    max-width: 50px;
+    cursor: pointer;
 }
 
 .large {
@@ -36,7 +50,7 @@ ul.aslide {
 .mainimageshell {
     background-color:transparent;
     width:242px;
-	margin:0 auto;
+    margin:0 auto;
 }
 
 .viewwindow {
@@ -61,8 +75,8 @@ ul.aslide {
 .thumbsshell {
     background-color:transparent;
     width:240px;
-	margin:0 auto;
-	position:relative;
+    margin:0 auto;
+    position:relative;
 }
 
 .thumbswrapper {
@@ -70,15 +84,15 @@ ul.aslide {
     width:240px;
     height:75px;
     margin:0 auto;
-	text-align:left;
+    text-align:left;
 }
 
 .xscrolled{
-	overflow-x: scroll;
+    overflow-x: scroll;
 }
 
 .thumbwrapper {
     float:left;
     max-height:50px;
-	max-width:80px;
+    max-width:80px;
 }
