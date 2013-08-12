@@ -9,17 +9,19 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   var resultContent = resultModal.find('p');
 
   $scope.setModal = function(content, type){
-    resultModal.removeClass('m-negative');
-    if (type == 'error') {
-        resultModal.addClass('m-negative');
-    }
-    resultModal.show();
-    resultContent.text(content);
-    if($('html').hasClass('no-opacity')){
-      setTimeout(function(){resultModal.hide}, 5000);
-    } else {
-      resultModal.fadeOut(5000);
-    }
+    if (content != '0'){
+      resultModal.removeClass('m-negative');
+      if (type == 'error') {
+          resultModal.addClass('m-negative');
+      }
+      resultModal.show();
+      resultContent.text(content);
+      if($('html').hasClass('no-opacity')){
+        setTimeout(function(){resultModal.hide}, 5000);
+      } else {
+        resultModal.fadeOut(5000);
+      }
+    } 
   };
 
   $('#birthday').datepicker({

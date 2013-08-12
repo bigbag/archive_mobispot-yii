@@ -85,6 +85,12 @@ class UserController extends MController
         $defDiscodes = '';
         $defKey = '';
         $message = '';
+        $open_spot_id = 0;
+
+        if (Yii::app()->request->getQuery('id', 0))
+        {
+            $open_spot_id = Yii::app()->request->getQuery('id', 0);
+        }
 
         if (!Yii::app()->user->id)
         {
@@ -168,6 +174,7 @@ class UserController extends MController
             ));
 
             $this->render('personal', array(
+                'open_spot_id' => $open_spot_id,
                 'dataProvider' => $dataProvider,
                 'spot_type_all' => SpotType::getSpotTypeArray(),
                 'defDiscodes' => $defDiscodes,
@@ -181,6 +188,9 @@ class UserController extends MController
     public function actionBindSocLogin()
     {
         $service = Yii::app()->request->getQuery('service');
+        $discodes = Yii::app()->request->getQuery('discodes');
+
+        if (!isset($discodes)) $discodes = '';
 
         if (isset($service))
         {
@@ -196,7 +206,7 @@ class UserController extends MController
                 }
                 $authIdentity = Yii::app()->eauth->getIdentity($service);
                 $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-                $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal');
+                $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal/' . $discodes);
 
                 if ($authIdentity->authenticate())
                 {

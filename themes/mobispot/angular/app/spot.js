@@ -5,6 +5,27 @@ function $id(id) {
 }
 
 function SpotCtrl($scope, $http, $compile) {
+
+  var resultModal = angular.element('.m-result');
+  var resultContent = resultModal.find('p');
+
+
+  $scope.setModal = function(content, type){
+    if (content != '0'){
+      resultModal.removeClass('m-negative');
+      if (type == 'error') {
+          resultModal.addClass('m-negative');
+      }
+      resultModal.show();
+      resultContent.text(content);
+      if($('html').hasClass('no-opacity')){
+        setTimeout(function(){resultModal.hide}, 5000);
+      } else {
+        resultModal.fadeOut(5000);
+      }
+    } 
+  };
+
   $scope.maxSize = 25*1024*1024;
   $scope.progress = 0;
   $scope.spot_edit = false;
@@ -146,7 +167,6 @@ function SpotCtrl($scope, $http, $compile) {
     else {
       spot = angular.element(e.currentTarget).parent();
     }
-
     var spotContent = spot.find('.spot-content');
     var spotHat = spot.find('.spot-hat');
 
@@ -165,7 +185,7 @@ function SpotCtrl($scope, $http, $compile) {
 
           spotHat.after($compile(data.content)($scope));
           spot.addClass('open');
-          spot.find('.spot-content').slideToggle('slow');
+          spot.find('.spot-content').slideToggle('slow'); 
 
           $scope.spot.content='';
 
@@ -178,6 +198,7 @@ function SpotCtrl($scope, $http, $compile) {
               filedrag.addEventListener("drop", fileSelectHandler, false);
             }
           }
+
           if ($scope.spot.status == 2){
             $scope.spot.invisible = true;
           }
@@ -252,7 +273,7 @@ function SpotCtrl($scope, $http, $compile) {
   $scope.bindSocial  = function(spot, key, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
     spot.key = key;
-    $http.post('/spot/BindSocial', spot).success(function(data) {
+    $http.post('/spot/bindSocial', spot).success(function(data) {
       if(data.error == 'no') {
         if((data.socnet != 'no') && (data.socnet.length > 0)){
           if (!data.loggedIn) {
@@ -264,7 +285,7 @@ function SpotCtrl($scope, $http, $compile) {
               }
             }, options);
 
-            var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+            var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/bindSocLogin?service=' + data.socnet + '?discodes=' + $scope.spot.discodes;
 
             url += url.indexOf('?') >= 0 ? '&' : '?';
             if (url.indexOf('redirect_uri=') === -1)
@@ -281,32 +302,24 @@ function SpotCtrl($scope, $http, $compile) {
             if(data.linkCorrect == 'ok'){
               spotEdit.before($compile(data.content)($scope));
               spotEdit.remove();
-			}
-			else{
-              var resultModal = angular.element('.m-result');
-              var resultContent = resultModal.find('p');
-              resultModal.show();
-              resultContent.text(data.linkCorrect);
-              resultModal.fadeOut(10000, function() {
-              });
-			}
+            }
+      			else{
+                    var resultModal = angular.element('.m-result');
+                    var resultContent = resultModal.find('p');
+                    resultModal.show();
+                    resultContent.text(data.linkCorrect);
+                    resultModal.fadeOut(10000, function() {
+                    });
+      			}
           }
         }
-		else if(data.linkCorrect != 'ok'){
-          var resultModal = angular.element('.m-result');
-          var resultContent = resultModal.find('p');
-          resultModal.show();
-          resultContent.text(data.linkCorrect);
-          resultModal.fadeOut(10000, function() {
-          });
-		}
+  		else if(data.linkCorrect != 'ok'){
+         $scope.setModal(data.linkCorrect, 'none');
+  		}
       }
       else {
-        alert(data.error);
+        console.log(data.error);
       }
-    })
-    .error(function(error){
-      alert(error);
     });
   };
 
@@ -320,11 +333,8 @@ function SpotCtrl($scope, $http, $compile) {
         spotEdit.remove();
       }
       else {
-        alert(data.error);
+        console.log(data.error);
       }
-    })
-    .error(function(error){
-      alert(error);
     });
 
   };
@@ -489,18 +499,13 @@ function SpotCtrl($scope, $http, $compile) {
 
   //Открыть спот по коду
   $scope.defOpen = function(discodes){
+    if (discodes == 0)  return false;
+
     var defSelector = '#' + discodes;
-    $scope.accordion(angular.element(defSelector), $scope.spot.token, 1);
-  }
-
-  //стандартное сообщение
-  $scope.message = function(text){
-    var resultModal = angular.element('.m-result');
-    var resultContent = resultModal.find('p');
-    resultModal.show();
-    resultContent.text(text);
-    resultModal.fadeOut(10000, function() {
-    });
-  }
-
+    var spot = angular.element(defSelector);
+    $scope.accordion(spot, 1);
+    $('html, body').animate({
+      scrollTop: $(defSelector).offset().top
+    }, 200);
+  };
 }
