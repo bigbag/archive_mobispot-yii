@@ -18,7 +18,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="thumbsshell" ng-style="product.thumbShellStyle">
+                    <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
                         <div class="thumbswrapper">
                             <ul class="aslide">
                                 <li 
