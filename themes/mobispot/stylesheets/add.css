@@ -85,3 +85,47 @@
 .buy-box{
   padding-top: 10px;
 }
+
+/* store/product/order */
+
+#orderBody{
+    bgcolor="#ffffff";
+    padding:30px 0;
+    margin:0; 
+    width:660px;  
+    font-family: Mobispot, Arial,sans-serif;
+    font-size:12pt;
+}
+
+#thankImg{
+    position:relative;
+    top:15px;
+
+}
+
+#orderTable{
+    width:100%;
+    border:0;
+}
+
+.borderTop{
+    border-top:1px solid #bfbfbf;
+}
+
+#orderNo{
+    color: #0062ff;
+    text-align:left; 
+    border-top:1px solid #bfbfbf;
+    padding:20px 0;
+}
+
+.vTop{
+    vertical-align:top;
+}
+
+.itemName{
+    padding:20px 0;
+}
+
+
+
