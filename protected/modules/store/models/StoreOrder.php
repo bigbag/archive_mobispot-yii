@@ -11,7 +11,7 @@
  * @property string $payment
  * @property integer $status
  */
-class storeOrder extends CActiveRecord
+class StoreOrder extends CActiveRecord
 {
 
     public static function model($className = __CLASS__)

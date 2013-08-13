@@ -38,7 +38,7 @@ class Cart extends CFormModel
                     $order = new StoreOrder;
                     $order->id_customer = $dbCustomer->id;
                     $order->status = 0;
-                    $order->save;
+                    $order->save();
                 }
                 
                 OrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
