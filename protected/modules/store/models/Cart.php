@@ -967,6 +967,7 @@ class Cart extends CFormModel
             
             $mailOrder['id'] = $order->id;
             $mailOrder['email'] = $customer->email;
+            $mailOrder['phone'] = $customer->phone;
             $mailOrder['target_first_name'] = $customer->target_first_name;
             $mailOrder['target_last_name'] = $customer->target_last_name;
             $mailOrder['address'] = $customer->address;
