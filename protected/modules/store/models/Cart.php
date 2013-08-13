@@ -133,57 +133,75 @@ class Cart extends CFormModel
 
     public function getPriceList()
     {
-        $products = Product::model()->findAll('1');
-        $data = array();
-        $item = array();
+        $result = Yii::app()->cache->get('products');
+            if (!$result)
+            {
 
-        foreach ($products as $product)
-        {
-            $item['id'] = $product->id;
-            $item['name'] = $product->name;
-            $item['code'] = $product->code;
-            $item['photo'] = $product->photo;
-            $item['description'] = $product->description;
-            $item['color'] = $product->color;
-            $item['surface'] = $product->surface;
-            $item['size'] = $product->size;
+                $products = Product::model()->findAll('1');
+                $data = array();
+                $item = array();
 
-            $data[] = $item;
-        }
-        return $data;
+                foreach ($products as $product)
+                {
+                    $item['id'] = $product->id;
+                    $item['name'] = $product->name;
+                    $item['code'] = $product->code;
+                    $item['photo'] = $product->photo;
+                    $item['description'] = $product->description;
+                    $item['color'] = $product->color;
+                    $item['surface'] = $product->surface;
+                    $item['size'] = $product->size;
+
+                    $data[] = $item;
+                }
+                $result = $data;
+                Yii::app()->cache->set('products', $result, 120);
+            }
+        return $result;
     }
 
     public static function getDelivery()
     {
-        $result = false;
-        $delivery = Delivery::model()->findAll();
-
-        if ($delivery) 
+        $result = Yii::app()->cache->get('delivery');
+        if (!$result)
         {
-           $result = array();
-            foreach ($delivery as $row) {
-                $result[$row->id]['id'] = $row->id;
-                $result[$row->id]['name'] = $row->name;
-                $result[$row->id]['period'] = $row->period;
-                $result[$row->id]['price'] = $row->price;
-            } 
+            $result = false;
+            $delivery = Delivery::model()->findAll();
+
+            if ($delivery) 
+            {
+                $result = array();
+                foreach ($delivery as $row) {
+                    $result[$row->id]['id'] = $row->id;
+                    $result[$row->id]['name'] = $row->name;
+                    $result[$row->id]['period'] = $row->period;
+                    $result[$row->id]['price'] = $row->price;
+                } 
+            }
+
+            Yii::app()->cache->set('delivery', $result, 120);
         }
         return $result;
     }
 
     public static function getPayment()
     {
-        $result = false;
-        $payment = Payment::model()->findAll();
-
-        if ($payment) 
+        $result = Yii::app()->cache->get('payment');
+        if (!$result)
         {
-           $result = array();
-            foreach ($payment as $row) {
-                $result[$row->id]['id'] = $row->id;
-                $result[$row->id]['name'] = $row->name;
-                $result[$row->id]['caption'] = $row->caption;
-            } 
+            $result = false;
+            $payment = Payment::model()->findAll();
+
+            if ($payment) 
+            {
+               $result = array();
+                foreach ($payment as $row) {
+                    $result[$row->id]['id'] = $row->id;
+                    $result[$row->id]['name'] = $row->name;
+                    $result[$row->id]['caption'] = $row->caption;
+                } 
+            }
+            Yii::app()->cache->set('payment', $result, 120);
         }
         return $result;
     }
