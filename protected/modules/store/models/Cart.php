@@ -648,8 +648,12 @@ class Cart extends CFormModel
         }
         
         if (!isset($customer) || !$customer)
+        {
             $customer = new Customer;
-
+            if (!empty($newCustomer['email']))
+                $customer->email = $newCustomer['email'];
+        }
+        
         if (!empty($newCustomer['first_name']))
             $customer->first_name = $newCustomer['first_name'];
         if (!empty($newCustomer['last_name']))
@@ -673,13 +677,25 @@ class Cart extends CFormModel
         if ($customer->validate())
         {
             $error = 'no';
-        } else
+        } 
+        else
         {
             $modelErrors = $customer->getErrors();
             $error = '';
             foreach ($modelErrors as $mError)
             {
-                $error .= $mError . ' /n';
+                if (is_array($mError))
+                {
+                    foreach ($mError as $subError)
+                    {
+                        if (is_array($subError))
+                            $error .= print_r($subError, true) . ' ';
+                        else
+                            $error .= $subError . ' ';
+                    }
+                }
+                else
+                    $error .= $mError . ' ';
             }
         }
         return $error;
@@ -901,11 +917,24 @@ class Cart extends CFormModel
         else
         {
             $modelErrors = $customer->getErrors();
+            $error = '';
             foreach ($modelErrors as $mError)
             {
-                $error .= $mError . ' /n';
+                if (is_array($mError))
+                {
+                    foreach ($mError as $subError)
+                    {
+                        if (is_array($subError))
+                            $error .= print_r($subError, true) . ' ';
+                        else
+                            $error .= $subError . ' ';
+                    }
+                }
+                else
+                    $error .= $mError . ' ';
             }
         }
+
         $mailOrder['error'] = $error;
         return $mailOrder;
     }
