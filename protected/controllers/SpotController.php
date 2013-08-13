@@ -377,7 +377,7 @@ class SpotController extends MController
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = 'yes';
-        $answer['content'] = 'yes';
+        $answer['content'] = '';
 
         if (isset($data['discodes']) and isset($data['key']))
         {
@@ -398,11 +398,11 @@ class SpotController extends MController
 
                         if ($spotContent->save())
                         {
-                            $content = $this->renderPartial('//widget/spot/personal/new_text', array(
+                            $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);
-                            $error = "no";
+                            $answer['error'] = "no";
                         }
                     }
                     elseif ($content['keys'][$data['key']] == 'content')
@@ -425,7 +425,7 @@ class SpotController extends MController
                                 if (file_exists($path))
                                     unlink($path);
                             }
-                            $answer['content']t = $this->renderPartial('//widget/spot/personal/new_text', array(
+                            $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);

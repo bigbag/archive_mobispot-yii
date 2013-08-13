@@ -10,9 +10,11 @@
     </div>
 </div>
 
-
-<div class="row"<?php if (strlen($message) > 0) echo ' ng-init="message(\'' . $message . '\')"'; ?>>
-    <div class="twelve columns" <?php if (strlen($defDiscodes)) echo ' ng-init="defOpen(\'' . $defDiscodes . '\')"'; ?>>
+<?php $message = (isset($message[1]))?$message:0;?>
+<div 
+    class="row"
+    ng-init="defOpen(<?php echo $open_spot_id;?>);setModal('<?php echo $message ;?>', 'none')">
+    <div class="twelve columns">
         <?php
         $this->widget('MListView', array(
             'dataProvider' => $dataProvider,
