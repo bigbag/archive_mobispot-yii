@@ -7,7 +7,7 @@ return array(
     'password' => 'gjevebwtyf',
     'emulatePrepare' => true,
     'charset' => 'utf8',
-    //'schemaCachingDuration' => 108000,
+    'schemaCachingDuration' => 108000,
     'tablePrefix' => '',
 );
 ?>

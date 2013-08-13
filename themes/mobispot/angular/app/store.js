@@ -7,22 +7,22 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     var resultContent = resultModal.find('p');
 
 
-  $scope.setModal = function(content, type){
-    if (content != '0'){
-      resultModal.removeClass('m-negative');
-      if (type == 'error') {
-          resultModal.addClass('m-negative');
-      }
-      resultModal.show();
-      resultContent.text(content);
-      if($('html').hasClass('no-opacity')){
-        setTimeout(function(){resultModal.hide}, 5000);
-      } else {
-        resultModal.fadeOut(5000);
-      }
-    } 
-  };
-    
+    $scope.setModal = function(content, type){
+        if (content != '0'){
+            resultModal.removeClass('m-negative');
+            if (type == 'error') {
+              resultModal.addClass('m-negative');
+            }
+            resultModal.show();
+            resultContent.text(content);
+            if($('html').hasClass('no-opacity')){
+            setTimeout(function(){resultModal.hide}, 5000);
+            } else {
+            resultModal.fadeOut(5000);
+            }
+        } 
+    };
+
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
 
@@ -76,6 +76,8 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
                     $scope.items.count += parseInt($scope.products[jsID].quantity);
+                    var basket = angular.element('a.icon-bag-link span');
+                    basket.text($scope.items.count);
                 }
                 else{
                     console.log(error);
@@ -153,21 +155,21 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     var resultModal = angular.element('.m-result');
     var resultContent = resultModal.find('p');
 
-  $scope.setModal = function(content, type){
-    if (content != '0'){
-      resultModal.removeClass('m-negative');
-      if (type == 'error') {
-          resultModal.addClass('m-negative');
-      }
-      resultModal.show();
-      resultContent.text(content);
-      if($('html').hasClass('no-opacity')){
-        setTimeout(function(){resultModal.hide}, 5000);
-      } else {
-        resultModal.fadeOut(5000);
-      }
-    } 
-  };
+    $scope.setModal = function(content, type){
+        if (content != '0'){
+            resultModal.removeClass('m-negative');
+            if (type == 'error') {
+              resultModal.addClass('m-negative');
+            }
+            resultModal.show();
+            resultContent.text(content);
+            if($('html').hasClass('no-opacity')){
+            setTimeout(function(){resultModal.hide}, 5000);
+            } else {
+            resultModal.fadeOut(5000);
+            }
+        } 
+    };
 
     $scope.CartInit = function(){
         $scope.summ = 0;
