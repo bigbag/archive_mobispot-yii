@@ -159,6 +159,12 @@
                         required>
                     <input 
                         type="text" 
+                        name="phone" 
+                        ng-model="customer.phone" 
+                        placeholder="<?php echo Yii::t('store', 'Phone'); ?>" 
+                        required>
+                    <input 
+                        type="text" 
                         name="address" 
                         ng-model="customer.address" 
                         placeholder="<?php echo Yii::t('store', 'Address'); ?>" 
@@ -177,30 +183,16 @@
                         required>
                     <input 
                         type="text" 
-                        name="phone" 
-                        ng-model="customer.phone" 
-                        placeholder="<?php echo Yii::t('store', 'Phone'); ?>" 
-                        required>
-                    <input 
-                        type="text" 
                         name="country" 
                         ng-model="customer.country" 
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>" 
                         required>
                     <a 
-                        class="spot-button toggle-box slideTo" 
+                        class="spot-button toggle-box {{ formCustomer.$valid || 'button-disable'}}" 
                         style="cursor: pointer" 
-                        ng-click="saveCustomer()">
+                        ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
                     </a>
-                    <div style="visibility: hidden">
-                        <a 
-                            id="proceedFinish" 
-                            class="spot-button toggle-box slideTo"
-                            href="#deliveryStep">
-                            <?php echo Yii::t('store', 'Confirm'); ?>
-                        </a>
-                    </div>
                 </div>
             </form>
 
