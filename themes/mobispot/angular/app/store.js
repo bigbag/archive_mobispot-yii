@@ -187,12 +187,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 $scope.products[i].listposition = {left:"0px"};
             }
             
-            if ($scope.discount.value > 0){
+            if ($scope.discount.products.length > 0){
                 $scope.discount.summ = 0;
                 for (var i = 0; i < $scope.products.length; i++) {
                     for (var j = 0; j < $scope.discount.products.length; j++) {
-                        if ($scope.products[i].id == $scope.discount.products[j]){
-                            $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                        if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                            $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
                             break;
                         }
                     }
@@ -287,12 +287,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
             $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
         }
         
-        if ($scope.discount.value > 0){
+        if ($scope.discount.products.length > 0){
             $scope.discount.summ = 0;
             for (var i = 0; i < $scope.products.length; i++) {
                 for (var j = 0; j < $scope.discount.products.length; j++) {
-                    if ($scope.products[i].id == $scope.discount.products[j]){
-                        $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                    if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                        $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
                         break;
                     }
                 }
@@ -344,12 +344,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                         $scope.products[i].jsID = i;                    
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
-                    if ($scope.discount.value > 0){
+                    if ($scope.discount.products.length > 0){
                         $scope.discount.summ = 0;
                         for (var i = 0; i < $scope.products.length; i++) {
                             for (var j = 0; j < $scope.discount.products.length; j++) {
-                                if ($scope.products[i].id == $scope.discount.products[j]){
-                                    $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                                if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                                    $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
                                     break;
                                 }
                             }
@@ -377,12 +377,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                     angular.element('#promoForm input[name=promo]').removeClass('error');
                     var oldDiscount = $scope.discount.summ;
                     $scope.discount = data.discount;
-                    if ($scope.discount.value > 0){
+                    if ($scope.discount.products.length > 0){
                         $scope.discount.summ = 0;
                         for (var i = 0; i < $scope.products.length; i++) {
                             for (var j = 0; j < $scope.discount.products.length; j++) {
-                                if ($scope.products[i].id == $scope.discount.products[j]){
-                                    $scope.discount.summ += $scope.discount.value*parseInt($scope.products[i].quantity);
+                                if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                                    $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
                                     break;
                                 }
                             }
@@ -404,7 +404,6 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                     if ($scope.discount.summ > 0){
                         $scope.summ += parseFloat($scope.discount.summ);
                         $scope.discount.summ = 0;
-                        $scope.discount.value = 0;
                     }
                     $scope.setModal(data.error, 'error');
                 }
@@ -413,7 +412,6 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 if ($scope.discount.summ > 0){
                     $scope.summ += parseFloat($scope.discount.summ);
                     $scope.discount.summ = 0;
-                    $scope.discount.value = 0;
                 }
                 
             });
