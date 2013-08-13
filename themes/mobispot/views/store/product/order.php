@@ -61,7 +61,9 @@
             </tr>   
         <?php endforeach ?>     
         <tr>
-            <td class="borderTop"><?php echo Yii::t('store', 'Subtotal'); ?></td><td class="borderTop"><?php echo $order["subtotal"]; ?></td><td colspan="3" class="borderTop"></td>
+            <td class="borderTop"><?php echo Yii::t('store', 'Subtotal'); ?></td>
+            <td class="borderTop"><?php echo $order["subtotal"]; ?></td>
+            <td colspan="3" class="borderTop"></td>
         </tr>
         <tr>
             <td>

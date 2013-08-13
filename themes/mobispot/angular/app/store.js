@@ -419,7 +419,8 @@ function CartCtrl($scope, $http, $compile, $timeout) {
         $scope.inRequest = false;
     };
 
-    $scope.saveCustomer = function(){
+    $scope.saveCustomer = function(valid){
+        if (!valid) return false;
         if(!$scope.inRequest){
             $scope.inRequest = true;
 
@@ -427,7 +428,10 @@ function CartCtrl($scope, $http, $compile, $timeout) {
 
             $http.post(('/store/product/saveCustomer'), data).success(function(data, status) {
                 if (data.error == 'no'){
-                    document.getElementById('proceedFinish').click();
+                    angular.element('#proceedFinishForm').removeClass('hide-content-box');
+                    $('html, body').animate({
+                      scrollTop: $('#proceedFinishForm').offset().top
+                    }, 600);
                 }
                 else{
                     $scope.setModal(data.error, 'error');
