@@ -187,18 +187,20 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 $scope.products[i].listposition = {left:"0px"};
             }
             
-            if ($scope.discount.products.length > 0){
-                $scope.discount.summ = 0;
-                for (var i = 0; i < $scope.products.length; i++) {
-                    for (var j = 0; j < $scope.discount.products.length; j++) {
-                        if ($scope.products[i].id == $scope.discount.products[j].id_product){
-                            $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
-                            break;
+            if ($scope.discount.products){
+                if ($scope.discount.products.length > 0){
+                    $scope.discount.summ = 0;
+                    for (var i = 0; i < $scope.products.length; i++) {
+                        for (var j = 0; j < $scope.discount.products.length; j++) {
+                            if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                                $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
+                                break;
+                            }
                         }
                     }
-                }
-                if ($scope.discount.summ > 0)
-                    $scope.summ -= $scope.discount.summ;
+                    if ($scope.discount.summ > 0)
+                        $scope.summ -= $scope.discount.summ;
+                } 
             }
             
             $scope.checkingOut = false;
@@ -336,7 +338,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                     selectedSize : $scope.products[jsID].selectedSize    
                 };
 
-            $http.post(('/store/product/DeleteFromCart'), data).success(function(data, status) {
+            $http.post(('/store/product/deleteFromCart'), data).success(function(data, status) {
                 if (data.error == 'no'){
                     $scope.products.splice(jsID, 1);
                     $scope.summ = 0;
@@ -344,19 +346,23 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                         $scope.products[i].jsID = i;                    
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
-                    if ($scope.discount.products.length > 0){
-                        $scope.discount.summ = 0;
-                        for (var i = 0; i < $scope.products.length; i++) {
-                            for (var j = 0; j < $scope.discount.products.length; j++) {
-                                if ($scope.products[i].id == $scope.discount.products[j].id_product){
-                                    $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
-                                    break;
+                    if ($scope.discount.products) {
+                        if ($scope.discount.products.length > 0){
+                            $scope.discount.summ = 0;
+                            for (var i = 0; i < $scope.products.length; i++) {
+                                for (var j = 0; j < $scope.discount.products.length; j++) {
+                                    if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                                        $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
+                                        break;
+                                    }
                                 }
                             }
+                            if ($scope.discount.summ > 0){
+                                $scope.summ -= $scope.discount.summ;
+                            }  
                         }
-                        if ($scope.discount.summ > 0)
-                            $scope.summ -= $scope.discount.summ;
                     }
+                    
                     
                     if(!($scope.products.length > 0)){
                         window.location = "/store";
