@@ -196,7 +196,7 @@
                     <div style="visibility: hidden">
                         <a 
                             id="proceedFinish" 
-                            class="spot-button toggle-box slideToThis"
+                            class="spot-button toggle-box slideTo"
                             href="#deliveryStep">
                             <?php echo Yii::t('store', 'Confirm'); ?>
                         </a>
@@ -205,67 +205,69 @@
             </form>
 
         </div>
-        <div id="proceedFinishForm" class="hide-content-box">
-            <div class="row row__magrin-b buy-options">
-                <div class="six columns">
-                    <h3><?php echo Yii::t('store', 'Delivery'); ?></h3>
-                    <span>
-                        <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
-                    </span>
+        <div id="deliveryStep">
+            <div id="proceedFinishForm" class="hide-content-box">
+                <div class="row row__magrin-b buy-options">
+                    <div class="six columns">
+                        <h3><?php echo Yii::t('store', 'Delivery'); ?></h3>
+                        <span>
+                            <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
+                        </span>
+                    </div>
+                    <div class="six columns">
+                        <table class="table-reset delivery-options">
+                            <tbody class="add-active">
+                                <tr ng-repeat="delivery in deliveries">
+                                    <td>
+                                        <a  
+                                            class="radio-link"
+                                            ng-click="setDelivery({{delivery.id}})">
+                                            <i class="large"></i>{{delivery.name}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{delivery.period}}
+                                    </td>
+                                    <td class="text-right">
+                                        {{delivery.price}}<span class="icon currency">&#xe019;</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="six columns">
-                    <table class="table-reset delivery-options">
-                        <tbody class="add-active">
-                            <tr ng-repeat="delivery in deliveries">
-                                <td>
-                                    <a  
-                                        class="radio-link"
-                                        ng-click="setDelivery({{delivery.id}})">
-                                        <i class="large"></i>{{delivery.name}}
-                                    </a>
-                                </td>
-                                <td>
-                                    {{delivery.period}}
-                                </td>
-                                <td class="text-right">
-                                    {{delivery.price}}<span class="icon currency">&#xe019;</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="buy-options">
+                    <div class="six columns">
+                        <h3>
+                            <?php echo Yii::t('store', 'Payment'); ?>
+                        </h3>
+                        <span>
+                            <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
+                        </span>
+                    </div>
+                    <div class="six columns">
+                        <ul class="add-active payment-options">
+                            <li ng-repeat="payment in payments">
+                                <a   
+                                    class="radio-link"
+                                    ng-click="setPayment({{payment.id}})">
+                                    <i class="large"></i>
+                                    {{payment.caption}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="row buy-options">
-                <div class="six columns">
-                    <h3>
-                        <?php echo Yii::t('store', 'Payment'); ?>
-                    </h3>
-                    <span>
-                        <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
-                    </span>
-                </div>
-                <div class="six columns">
-                    <ul class="add-active payment-options">
-                        <li ng-repeat="payment in payments">
-                            <a   
-                                class="radio-link"
-                                ng-click="setPayment({{payment.id}})">
-                                <i class="large"></i>
-                                {{payment.caption}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="twelve buy-box column text-center">
-                    <h3 class="total-order">
-                        <?php echo Yii::t('store', 'Total for this order:'); ?>
-                        <span class="color">{{summ + (selectedDelivery.price - 0)}}<span class="icon currency">&#xe019;</span></span>
-                    </h3>
-                    <a class="round-button-large" href="" ng-click="buy()">
-                        <?php echo Yii::t('store', 'Buy'); ?>
-                    </a>
+                <div class="row">
+                    <div class="twelve buy-box column text-center">
+                        <h3 class="total-order">
+                            <?php echo Yii::t('store', 'Total for this order:'); ?>
+                            <span class="color">{{summ + (selectedDelivery.price - 0)}}<span class="icon currency">&#xe019;</span></span>
+                        </h3>
+                        <a class="round-button-large" href="" ng-click="buy()">
+                            <?php echo Yii::t('store', 'Buy'); ?>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
