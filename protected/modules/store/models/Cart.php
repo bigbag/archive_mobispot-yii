@@ -531,7 +531,6 @@ class Cart extends CFormModel
             }
             else
             {
-                $discount['value'] = $promoCode->discount;
                 $discount['products'] = $promoCode->products;
                 $discount['error'] = 'no';
             }
@@ -855,9 +854,9 @@ class Cart extends CFormModel
                             {
                                 foreach ($promoProducts as $promoId)
                                 {
-                                    if (($promoId == $product['id']) && ($product['selectedSize']['price'] >= $promoCode->discount))
+                                    if (($promoId['id_product'] == $product['id']) && ($product['selectedSize']['price'] >= $promoId['discount']))
                                     {
-                                        $discountSumm += $promoCode->discount*$product['quantity'];
+                                        $discountSumm += $promoId['discount']*$product['quantity'];
                                         break;
                                     }
                                 }
@@ -1016,9 +1015,9 @@ class Cart extends CFormModel
                 {
                     foreach ($promoProducts as $promoId)
                     {
-                        if (($promoId == $product->id_product) && ($product->price >= $promoCode->discount))
+                        if (($promoId['id_product'] == $product->id_product) && ($product->price >= $promoId['discount']))
                         {
-                            $discountSumm += $promoCode->discount*$product->quantity;
+                            $discountSumm += $promoId['discount']*$product->quantity;
                             break;
                         }
                     }
