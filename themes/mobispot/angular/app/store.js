@@ -427,7 +427,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
 
             var data = {token: $scope.user.token, customer: $scope.customer};
 
-            $http.post(('/store/product/SaveCustomer'), data).success(function(data, status) {
+            $http.post(('/store/product/saveCustomer'), data).success(function(data, status) {
                 if (data.error == 'no'){
                     document.getElementById('proceedFinish').click();
                 }
