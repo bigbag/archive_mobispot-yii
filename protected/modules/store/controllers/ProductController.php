@@ -262,7 +262,10 @@ class ProductController extends MController
                     MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
                     MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
                     $order->save();
-                    $this->redirect('/store/product/order?Order_ID=' . $orderId);
+                    $token = sha1(Yii::app()->request->csrfToken);
+                    $cacheId = 'StoreOrder' . $orderId;
+                    Yii::app()->cache->set($cacheId, $mailOrder, 300);
+                    $this->redirect('/store/product/order?Order_ID=' . $orderId . '&token=' . $token);
                 }
             }
         }
@@ -271,19 +274,20 @@ class ProductController extends MController
     
     public function actionOrder()
     {
+        $token = Yii::app()->request->getParam('token', 0);
         $orderId = Yii::app()->request->getParam('Order_ID', 0);
         $order = StoreOrder::model()->findByPk($orderId);
-        if ($order && $order->status >= 2)
+        
+        if ($token and $token == sha1(Yii::app()->request->csrfToken) && $order && $order->status >= 2)
         {
-            $mailOrder = Cart::getMessageByOrder($orderId);
-            $mail_template = MailTemplate::getTemplate('store_order', $this->getLang());
-            
-            $path = Yii::getPathOfAlias('webroot.themes.mobispot.views.mail') . '/' . $this->getLang() . '_' . $mail_template->slug . '.php';
-            if (!file_exists($path))
-                throw new Exception('Template ' . $path . ' does not exist.');
-            $this->render('order', array('order' => $mailOrder, 'path'=>$path));
+            $cacheId = 'StoreOrder' . $orderId;
+            $mailOrder = Yii::app()->cache->get($cacheId);
+            if ($mailOrder !== false)
+                $this->render('order', array('order' => $mailOrder));
+            else
+                $this->setNotFound();
         }
         else
-            $this->redirect('/store');
+            $this->setNotFound();
     }
 }
