@@ -51,7 +51,9 @@
                     <?php echo $item["name"]; ?>
                 </td>
                 <td class="borderTop">
+                    <?php if(!empty($item["color"])):?>
                     <img src="http://mobispot.com/themes/mobispot/images/mail/store/color-<?php echo $item["color"]; ?>.png" />
+                    <?php endif;?>
                 </td>
                 <td class="borderTop"><?php echo $item["size_name"]; ?></td>
                 <td class="borderTop"><?php echo $item["price"]; ?></td>
