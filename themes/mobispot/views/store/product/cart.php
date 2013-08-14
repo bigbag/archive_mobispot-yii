@@ -115,8 +115,7 @@
             {{summ}}<span class="icon currency">&#xe019;</span>
         </h1>
         <a 
-            id="proceedNext" 
-            class="spot-button toggle-box right slideToThis" 
+            class="spot-button right" 
             ng-click="checkOut()">
             <?php echo Yii::t('store', 'Proceed to checkout'); ?>
         </a>
@@ -188,7 +187,7 @@
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>" 
                         required>
                     <a 
-                        class="spot-button toggle-box {{ formCustomer.$valid || 'button-disable'}}" 
+                        class="spot-button {{ formCustomer.$valid || 'button-disable'}}" 
                         style="cursor: pointer" 
                         ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
