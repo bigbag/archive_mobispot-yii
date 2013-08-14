@@ -38,6 +38,20 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
                     $scope.products[i].quantity = 1;
                     $scope.products[i].listposition = {left:"0px"};
                     $scope.products[i].addText = $scope.settings.addToCart;
+                    if (typeof $scope.products[i].selectedColor != 'undefined' && typeof $scope.products[i].photo != 'undefined' && $scope.products[i].photo.length > 0)
+                    {
+                        var suffix = '_' + $scope.products[i].selectedColor;
+                        for (var j = 0; j < $scope.products[i].photo.length; j++)
+                        {
+                            var name = $scope.products[i].photo[j].substring(0, $scope.products[i].photo[j].lastIndexOf('.'));
+                            if (name.substr(name.length - suffix.length) == suffix)
+                            {
+                                $scope.products[i].listposition = {left:(IMAGE_WIDTH * j * -1) + "px"};
+                                break;
+                            }
+                        }
+                    }
+                    /*
                     var tsTop = 90;
                     if ($scope.products[i].color.length > 0)
                         tsTop += 155;
@@ -46,6 +60,7 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
                     if ($scope.products[i].description.length > 0)
                         tsTop += ($scope.products[i].description.length/76.5) * 10;
                     $scope.products[i].thumbShellStyle = {top:(tsTop+"px")};
+                    */
                 }
                 $scope.inRequest = false;
             });
