@@ -1,4 +1,4 @@
-<div class="spot-item spot-block">
+<div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area  type-link">
         <?php $socInf = new SocInfo;?>
         <a href="<?php echo CHtml::encode(CHtml::encode($content)) ?>">

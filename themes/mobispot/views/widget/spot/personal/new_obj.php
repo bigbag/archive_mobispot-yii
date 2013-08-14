@@ -1,4 +1,4 @@
-<div class="spot-item spot-block">
+<div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area item-area type-file">
         <div class="file-block">
             <a href="<?php echo CHtml::encode($content) ?>">

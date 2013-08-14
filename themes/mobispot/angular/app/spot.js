@@ -92,6 +92,11 @@ function SpotCtrl($scope, $http, $compile) {
         angular.element('#progress-content').hide();
         angular.element('#add-content').append($compile(data.content)($scope));
         $scope.keys.push(data.key);
+
+        var scroll_height = $('#block-' + data.key).offset().top;
+        $('html, body').animate({
+          scrollTop: scroll_height
+        }, 600);
       }
     }
   }
@@ -230,6 +235,11 @@ function SpotCtrl($scope, $http, $compile) {
           $scope.keys.push(data.key);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
+
+          var scroll_height = $('#block-' + data.key).offset().top;
+          $('html, body').animate({
+            scrollTop: scroll_height
+          }, 600);
         }
       });
     }

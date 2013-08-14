@@ -1,4 +1,4 @@
-<div class="spot-item spot-block">
+<div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area item-type__text">
         <p><?php echo CHtml::encode($content)?></p>
         <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">

@@ -1,4 +1,4 @@
-<div class="spot-item spot-block">
+<div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area  text-photo">
         <img src="/uploads/spot/<?php echo $content ?>">
         <div class="spot-cover slow">

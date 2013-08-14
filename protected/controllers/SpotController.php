@@ -78,7 +78,7 @@ class SpotController extends MController
                     'content' => $file,
                     'key' => $key,
                         ), true);
-                $key = $answer['key'];
+                $answer['key'] = $key;
                 $answer['error'] = "no";
             }
         }

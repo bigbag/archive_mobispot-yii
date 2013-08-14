@@ -1,4 +1,4 @@
-<div class="spot-item spot-block">
+<div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area  type-link">
         <?php if(isset($content['binded_link'])): ?>
         <?php $socInf = new SocInfo;?>
