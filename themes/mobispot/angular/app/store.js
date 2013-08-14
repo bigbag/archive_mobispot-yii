@@ -322,11 +322,11 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 $scope.selectedPayment = $scope.payments[0];
             });
             $scope.checkingOut = true;
-            angular.element('#proceedNextForm').removeClass('hide-content-box');
-            $('html, body').animate({
-              scrollTop: $('#proceedNextForm').offset().top
-            }, 600);
         }
+        angular.element('#proceedNextForm').removeClass('hide-content-box');
+        $('html, body').animate({
+          scrollTop: $('#proceedNextForm').offset().top
+        }, 600);
     };
 
     $scope.deleteItem = function(jsID){
