@@ -116,7 +116,6 @@
     <?php else: ?>
         <span ng-init="spot.vcard=0; spot.private=0"></span>
     <?php endif; ?>
-    <div id="spot_scroll"></div>
 </div>
 
 <script type="text/javascript">

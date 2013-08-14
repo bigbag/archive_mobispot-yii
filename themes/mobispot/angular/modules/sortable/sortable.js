@@ -84,9 +84,6 @@ angular.module('ui.sortable', [])
 
             }
 
-            // element.sortable('destroy');
-
-
               scope.$watch(attrs.uiSortable, function(newVal, oldVal){
                   angular.forEach(newVal, function(value, key){
 

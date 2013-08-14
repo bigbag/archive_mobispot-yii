@@ -40,17 +40,7 @@ function SpotCtrl($scope, $http, $compile) {
     $(this).parents('tr').remove();
   });
 
-  // Параметры сортировки
-  $scope.sortableOptions = {
-    stop: function(e, ui) {
-      $scope.saveOrder();
-    },
-    'containment':'.spot-content',
-    'tolerance':'pointer',
-    'opacity':0.8
-  };
-
-  // Сохраняем порядок блоков
+   // Сохраняем порядок блоков
   $scope.saveOrder = function() {
     var spot = $scope.spot;
     spot.keys = $scope.keys;
@@ -61,6 +51,18 @@ function SpotCtrl($scope, $http, $compile) {
     });
   }
 
+  // Параметры сортировки
+  $scope.sortableOptions = {
+    update: function(e, ui) {
+      $scope.saveOrder();
+    },
+    'containment':'.spot-content',
+    'tolerance':'pointer',
+    'scrollSensitivity': 10,
+    'opacity':0.8
+  };
+
+ 
   // Закачка файла html5
   function fileDragHover(e) {
     e.stopPropagation();
