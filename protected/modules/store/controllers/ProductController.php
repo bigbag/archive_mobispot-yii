@@ -146,35 +146,42 @@ class ProductController extends MController
         $answer = array();
 
         $cart = new Cart;
-        $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
-        $answer['error'] = $mailOrder['error'];
-        if ($mailOrder['error'] == 'no')
+        if (!isset($data['delivery']))
+            $answer['error'] = Yii::t('store', 'Укажите способ доставки');
+        elseif (!isset($data['payment']))
+            $answer['error'] = Yii::t('store', 'Укажите способ оплаты');
+        else
         {
-            if ($mailOrder['payment'] == 'Uniteller')
+            $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
+            $answer['error'] = $mailOrder['error'];
+            if ($mailOrder['error'] == 'no')
             {
-                $payment = Yii::app()->ut;
-                $token = sha1(Yii::app()->request->csrfToken);
+                if ($mailOrder['payment'] == 'Uniteller')
+                {
+                    $payment = Yii::app()->ut;
+                    $token = sha1(Yii::app()->request->csrfToken);
 
-                $order['shopId'] = $payment->shopId;
-                $order['customerId'] = $mailOrder['customer_id'];
-                $order['orderId'] = $mailOrder['id'];
-                $order['amount'] = $mailOrder['total'];
-                $order['signature'] = $payment->getPaySign($order);
-                $order['return_ok'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=success&token=' . $token;
-                $order['return_error'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=error&token=' . $token;
+                    $order['shopId'] = $payment->shopId;
+                    $order['customerId'] = $mailOrder['customer_id'];
+                    $order['orderId'] = $mailOrder['id'];
+                    $order['amount'] = $mailOrder['total'];
+                    $order['signature'] = $payment->getPaySign($order);
+                    $order['return_ok'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=success&token=' . $token;
+                    $order['return_error'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=error&token=' . $token;
 
-                $content = $this->renderPartial('//store/product/_bay_form',
-                    array(
-                        'order' => $order,
-                    ), 
-                    true
-                );
+                    $content = $this->renderPartial('//store/product/_bay_form',
+                        array(
+                            'order' => $order,
+                        ), 
+                        true
+                    );
 
-                $answer['content'] = $content;
-                $answer['payment'] = $mailOrder['payment'];
+                    $answer['content'] = $content;
+                    $answer['payment'] = $mailOrder['payment'];
+                }
             }
         }
-
+        
         echo json_encode($answer);
     }
     

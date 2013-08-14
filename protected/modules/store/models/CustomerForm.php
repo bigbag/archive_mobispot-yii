@@ -15,7 +15,7 @@
  * @property string $phone
  * @property string $country 
  */
-class Customer extends CActiveRecord
+class CustomerForm extends CActiveRecord
 {
 
     public static function model($className = __CLASS__)
@@ -41,7 +41,7 @@ class Customer extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('email', 'required'),
+            array('email, first_name, last_name, target_first_name, target_last_name, address, city, phone, country, zip', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
         );

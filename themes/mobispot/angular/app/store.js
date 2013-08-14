@@ -450,9 +450,6 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     
     $scope.buy = function(){
 
-        if (!$scope.selectedPayment)  return false;
-        if (!$scope.selectedDelivery) return false;
-
         var data = {
             token: $scope.user.token,
             customer : $scope.customer,
@@ -469,8 +466,10 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 }
             }
             else
-                console.log(error);
-        });        
+               $scope.setModal(data.error, 'error');
+        }).error(function(error){
+            console.log(error);
+        });;        
     };
     
     $scope.thumbClass = function(len){
