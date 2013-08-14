@@ -188,7 +188,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
             }
             
             if ($scope.discount.products){
-                if ($scope.discount.products.length > 0){
+                if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
                     $scope.discount.summ = 0;
                     for (var i = 0; i < $scope.products.length; i++) {
                         for (var j = 0; j < $scope.discount.products.length; j++) {
@@ -289,7 +289,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
             $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
         }
         
-        if ($scope.discount.products.length > 0){
+        if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
             $scope.discount.summ = 0;
             for (var i = 0; i < $scope.products.length; i++) {
                 for (var j = 0; j < $scope.discount.products.length; j++) {
@@ -347,7 +347,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
                     if ($scope.discount.products) {
-                        if ($scope.discount.products.length > 0){
+                        if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
                             $scope.discount.summ = 0;
                             for (var i = 0; i < $scope.products.length; i++) {
                                 for (var j = 0; j < $scope.discount.products.length; j++) {
@@ -383,7 +383,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                     angular.element('#promoForm input[name=promo]').removeClass('error');
                     var oldDiscount = $scope.discount.summ;
                     $scope.discount = data.discount;
-                    if ($scope.discount.products.length > 0){
+                    if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
                         $scope.discount.summ = 0;
                         for (var i = 0; i < $scope.products.length; i++) {
                             for (var j = 0; j < $scope.discount.products.length; j++) {
