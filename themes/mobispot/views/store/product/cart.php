@@ -15,9 +15,13 @@
                 <td>
                     <div class="mainimageshell">
                         <div class="viewwindow">
-                            <ul class="fullsizelist aslide" ng-style="product.listposition">
-                                <li class="aslide">
-                                    <img class="large" ng-src="<?php echo $imagePath; ?>{{product.photo[0]}}" />
+                            <ul 
+                                class="fullsizelist aslide" 
+                                ng-style="product.listposition">
+                                <li 
+                                    ng-repeat="image in product.photo" 
+                                    class="aslide">
+                                    <img class="large" ng-src="<?php echo $imagePath; ?>{{image}}" />
                                 </li>
                             </ul>
                         </div>

@@ -120,8 +120,21 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     };
     
     $scope.setColor = function(jsID, color){
-        $scope.products[jsID].selectedColor = color
-        $scope.products[jsID].addText = $scope.settings.addToCart;;
+        $scope.products[jsID].selectedColor = color;
+        $scope.products[jsID].addText = $scope.settings.addToCart;
+
+        if (typeof $scope.products[jsID].photo != 'undefined' && $scope.products[jsID].photo.length > 0){
+            var suffix = '_' + color;
+            for (var i = 0; i < $scope.products[jsID].photo.length; i++)
+            {
+                var name = $scope.products[jsID].photo[i].substring(0, $scope.products[jsID].photo[i].lastIndexOf('.'));
+                if (name.substr(name.length - suffix.length) == suffix)
+                {
+                    $scope.products[jsID].listposition = {left:(IMAGE_WIDTH * i * -1) + "px"};
+                    break;
+                }
+            }
+        }
     };
 
     $scope.setSurface = function(jsID, surface){
@@ -185,10 +198,23 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 $scope.products[i].quantity = parseInt($scope.products[i].quantity);
                 $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                 $scope.products[i].listposition = {left:"0px"};
+                if (typeof $scope.products[i].selectedColor != 'undefined' && typeof $scope.products[i].photo != 'undefined' && $scope.products[i].photo.length > 0)
+                {
+                    var suffix = '_' + $scope.products[i].selectedColor;
+                    for (var j = 0; j < $scope.products[i].photo.length; j++)
+                    {
+                        var name = $scope.products[i].photo[j].substring(0, $scope.products[i].photo[j].lastIndexOf('.'));
+                        if (name.substr(name.length - suffix.length) == suffix)
+                        {
+                            $scope.products[i].listposition = {left:(IMAGE_WIDTH * j * -1) + "px"};
+                            break;
+                        }
+                    }
+                }
             }
             
             if ($scope.discount.products){
-                if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
+                if ($scope.discount.products.length > 0){
                     $scope.discount.summ = 0;
                     for (var i = 0; i < $scope.products.length; i++) {
                         for (var j = 0; j < $scope.discount.products.length; j++) {
@@ -267,6 +293,19 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     
     $scope.setColor = function(jsID, color){
         $scope.products[jsID].selectedColor = color;
+        
+        if (typeof $scope.products[jsID].photo != 'undefined' && $scope.products[jsID].photo.length > 0){
+            var suffix = '_' + color;
+            for (var i = 0; i < $scope.products[jsID].photo.length; i++)
+            {
+                var name = $scope.products[jsID].photo[i].substring(0, $scope.products[jsID].photo[i].lastIndexOf('.'));
+                if (name.substr(name.length - suffix.length) == suffix)
+                {
+                    $scope.products[jsID].listposition = {left:(IMAGE_WIDTH * i * -1) + "px"};
+                    break;
+                }
+            }
+        }
     };
 
     $scope.setSurface = function(jsID, surface){
@@ -351,7 +390,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
                     if ($scope.discount.products) {
-                        if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
+                        if ($scope.discount.products.length > 0){
                             $scope.discount.summ = 0;
                             for (var i = 0; i < $scope.products.length; i++) {
                                 for (var j = 0; j < $scope.discount.products.length; j++) {
