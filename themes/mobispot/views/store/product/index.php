@@ -18,7 +18,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
+                   <!--  <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
                         <div class="thumbswrapper">
                             <ul class = "thumblist">
                                 <li 
@@ -31,7 +31,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </td>
                 <td class="store-items__description">
                     <header>
