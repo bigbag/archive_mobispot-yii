@@ -1,7 +1,7 @@
 <?php
 $this->pageTitle = Yii::t('profile', 'Personal data');
 ?>
-
+<div class="row">
 <div class="five columns" ng-controller="UserCtrl" >
     <form id="personInfo" name="setInfoForm" 
         ng-init="user.id='<?php echo $user->id;?>'; 
@@ -73,7 +73,7 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
         <p class="sub-txt"><?php echo Yii::t('user', "Note: This action will not connect your spots' content with your social networks. Please make it separately when editing your spots."); ?></p>
     </form>
 </div>
-<div id="recPassForm" class="four columns" ng-controller="UserCtrl">
+<div id="recPassForm" class="six columns" ng-controller="UserCtrl">
     <h3><?php echo Yii::t('user', 'Change password'); ?></h3>
     <form name="recoveryForm">
     <p class="sub-txt" ng-init="recovery.email='<?php echo $user->email?>'">
@@ -83,4 +83,5 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
         <?php echo Yii::t('user', 'Send to email'); ?>
     </a>
     </form>
+</div>
 </div>

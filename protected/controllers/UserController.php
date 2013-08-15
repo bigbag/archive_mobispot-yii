@@ -17,6 +17,14 @@ class UserController extends MController
             $user = User::model()->findByPk(Yii::app()->user->id);
             $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
+            if (!$profile)
+            {
+                $profile = new UserProfile;
+                $profile->user_id = $user->id;
+                $profile->sex = UserProfile::SEX_UNKNOWN;
+                $profile->save();
+            }
+
             if (isset($_POST['UserProfile']))
             {
                 $profile->attributes = $_POST['UserProfile'];
