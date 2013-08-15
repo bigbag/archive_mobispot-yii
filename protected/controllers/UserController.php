@@ -114,11 +114,14 @@ class UserController extends MController
                 $this->redirect('/');
             }
 
-            if (isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_key']))
+            if (isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_net']) && !empty(Yii::app()->session[Yii::app()->session['bind_net'] . '_profile_url']))
             {
-                $defDiscodes = Yii::app()->session['bind_discodes'];
-                $defKey = Yii::app()->session['bind_key'];
-                $spot = Spot::getSpot(array('discodes_id' => Yii::app()->session['bind_discodes']));
+                $netName = Yii::app()->session['bind_net'];
+                $open_spot_id = Yii::app()->session['bind_discodes'];
+                unset(Yii::app()->session['bind_discodes']);
+                unset(Yii::app()->session['bind_net']);
+                
+                $spot = Spot::getSpot(array('discodes_id' => $open_spot_id));
                 if ($spot)
                 {
                     $spotContent = SpotContent::getSpotContent($spot);
@@ -126,15 +129,26 @@ class UserController extends MController
                     if ($spotContent)
                     {
                         $socInfo = new SocInfo;
-                        $socNet = $socInfo->getNetByLink($spotContent->content['data'][$defKey]);
+                        $socNet = $socInfo->getNetByName($netName);
                         
                         if (!empty($socNet['name']))
                         {
-                            $netName = $socNet['name'];
+                            $content = $spotContent->content;
+                            $newKeys = array();
+                            $newKeys[$content['counter']] = 'socnet';
+                            foreach($content['keys'] as $key => $type)
+                            {
+                                $newKeys[$key] = $type;
+                            }
+                            $content['keys'] = $newKeys;
+                            $content['data'][$content['counter']] = Yii::app()->session[$netName . '_profile_url'];
+                            $content['counter'] = $content['counter'] + 1;
+                            $spotContent->content = $content;
+                            $spotContent->save();
+                        
+                        /*
                             $content = $spotContent->content;
                             
-                            if (isset(Yii::app()->session[$netName]) && (Yii::app()->session[$netName] == 'auth'))
-                            {
                                 $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$defKey]);
                                 
                                 if ($needSave)
@@ -165,12 +179,10 @@ class UserController extends MController
                                 }
                                 if (isset($linkCorrect) && ($linkCorrect != 'ok'))
                                     $message = $linkCorrect;
-                            }
+                            */
                         }
                     }
                 }
-                unset(Yii::app()->session['bind_discodes']);
-                unset(Yii::app()->session['bind_key']);
             }
 
             $dataProvider = new CActiveDataProvider(
@@ -224,6 +236,7 @@ class UserController extends MController
                     {
                         Yii::app()->session[$service] = 'auth';
                         Yii::app()->session[$service . '_id'] = $identity->getId();
+                        Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
                         $authIdentity->redirect(array('user/personal'));
                     }
                     else

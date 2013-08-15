@@ -271,20 +271,64 @@ class SpotController extends MController
     public function actionBindSocial()
     {
         $data = $this->validateRequest();
-        $error = "error";
+        $error = 'error';
         $content = '';
         $netName = 'no';
         $isSocLogged = false;
         $linkCorrect = Yii::t('eauth', "This account doesn't exist:");
         $needSave = false;
-
-        if (isset($data['discodes']) and isset($data['key']))
+        
+        if (isset($data['spot']) and !empty($data['spot']['discodes']) and isset($data['netName']))
         {
-
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            $spot = Spot::getSpot(array('discodes_id' => $data['spot']['discodes']));
+            $netName = $data['netName'];
             if ($spot)
             {
+                $SocInfo = new SocInfo;
+                $socNet = $SocInfo->getNetByName($netName);
+ /*               
+                if (!empty($socNet['name']) and (!empty(Yii::app()->session[$netName . '_profile_url'])))
+                {
+                    $isSocLogged = true;
+                    $linkCorrect == 'ok';
+                    $error = 'no';
+                    
+                    $spotContent = SpotContent::getSpotContent($spot);
+                    
+                    if ($spotContent)
+                    {
+                        $content = $spotContent->content;
+                        $newKeys = array();
+                        $newKeys[$content['counter']] = 'socnet';
+                        foreach($content['keys'] as $key => $type)
+                        {
+                            $newKeys[$key] = $type;
+                        }
+                        $content['keys'] = $newKeys;
+                        $content['data'][$content['counter']] = Yii::app()->session[$netName . '_profile_url'];
+                        $key = $content['counter'];
+                        $content['counter'] = $content['counter'] + 1;
+                        $spotContent->content = $content;
+                        $spotContent->save();
+                        
+                        $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                'content' => $content['data'][$key],
+                                'key' => $key,
+                            ), true);
+                    }
+                }
+                else
+                {
+*/
+                    Yii::app()->session['bind_discodes'] = $data['spot']['discodes'];
+                    Yii::app()->session['bind_net'] = $netName;
+                    $linkCorrect == 'ok';
+                    $error = 'no';
+/*
+                }
+*/
 
+            /*
                 $spotContent = SpotContent::getSpotContent($spot);
                 if ($spotContent)
                 {
@@ -358,6 +402,8 @@ class SpotController extends MController
                     }
                     $error = "no";
                 }
+                */
+                
             }
         }
         echo json_encode(
@@ -369,7 +415,22 @@ class SpotController extends MController
                 'linkCorrect' => $linkCorrect
             )
         );
+        
     }
+    /*
+    public function isSocialLogged()
+    {
+        $data = $this->validateRequest();
+        $error = "error";
+        echo json_encode(
+            array(
+                'error' => $error,
+                'loggedIn' => $isSocLogged,
+            )
+        );
+    
+    
+    }*/
 
     //Отвязка соцсети
     public function actionUnBindSocial()

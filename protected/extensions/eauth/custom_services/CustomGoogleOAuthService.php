@@ -19,39 +19,41 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
     $this->attributes['id'] = $info['id'];
     $this->attributes['name'] = $info['name'];
-	if (!empty($info['picture']))
-	  $this->attributes['photo'] = $info['picture'];
+    $this->attributes['url'] = $info['link'];
+    if (!empty($info['picture']))
+      $this->attributes['photo'] = $info['picture'];
     if (!empty($info['email']))
       $this->attributes['email'] = $info['email'];
-/*	  
+      
+/*      
     if (!empty($info['link']))
       $this->attributes['url'] = $info['link'];
     if (!empty($info['gender']))
       $this->attributes['gender'] = $info['gender'];
-	if (!empty($info['language']))  
-	  $this->attributes['language'] = $info['locale'];
+    if (!empty($info['language']))  
+      $this->attributes['language'] = $info['locale'];
 */
-/*	  
-	$sinfo = new SocInfo;
-	$FreeUserDetail = array();	
-	$FreeUserDetail = $sinfo->GetSocInfo('Google', $info['id']);
-	if(isset($FreeUserDetail['UserExists']) && ($FreeUserDetail['UserExists'] === true)){
-		if(isset($FreeUserDetail['work']))
-			$this->attributes['work'] = $FreeUserDetail['work'];
-		if(isset($FreeUserDetail['school']))
-			$this->attributes['school'] = $FreeUserDetail['school'];
-		if(isset($FreeUserDetail['first_name']))
-			$this->attributes['first_name'] = $FreeUserDetail['first_name'];
-		if(isset($FreeUserDetail['last_name']))
-			$this->attributes['last_name'] = $FreeUserDetail['last_name'];
-		if(isset($FreeUserDetail['aboutMe']))
-			$this->attributes['about'] = $FreeUserDetail['aboutMe'];
-		if(isset($FreeUserDetail['location']))
-			$this->attributes['location'] = $FreeUserDetail['location'];
-			
-			
-	}
-*/		
+/*      
+    $sinfo = new SocInfo;
+    $FreeUserDetail = array();    
+    $FreeUserDetail = $sinfo->GetSocInfo('Google', $info['id']);
+    if(isset($FreeUserDetail['UserExists']) && ($FreeUserDetail['UserExists'] === true)){
+        if(isset($FreeUserDetail['work']))
+            $this->attributes['work'] = $FreeUserDetail['work'];
+        if(isset($FreeUserDetail['school']))
+            $this->attributes['school'] = $FreeUserDetail['school'];
+        if(isset($FreeUserDetail['first_name']))
+            $this->attributes['first_name'] = $FreeUserDetail['first_name'];
+        if(isset($FreeUserDetail['last_name']))
+            $this->attributes['last_name'] = $FreeUserDetail['last_name'];
+        if(isset($FreeUserDetail['aboutMe']))
+            $this->attributes['about'] = $FreeUserDetail['aboutMe'];
+        if(isset($FreeUserDetail['location']))
+            $this->attributes['location'] = $FreeUserDetail['location'];
+            
+            
+    }
+*/        
 
   }
 }
