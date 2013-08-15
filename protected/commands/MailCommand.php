@@ -2,19 +2,24 @@
 
 class MailCommand extends CConsoleCommand {
 
-  public function SendMail($from, $to, $subject, $body, $attachFile = false) {
+  const MAIL_COUNT = 100;
+
+  public function SendMail($from, $to, $subject, $body, $attachFile = false) 
+  {
     spl_autoload_unregister(array('YiiBase', 'autoload'));
     Yii::import('application.vendors.swift.swift_required', true);
     spl_autoload_register(array('YiiBase', 'autoload'));
 
     $message = Swift_Message::newInstance();
-    $message->setSubject($subject);
-    $message->setBody($body, 'text/html', 'utf-8');
-    $message->setFrom($from);
-    $message->setTo($to);
+    $message -> setSubject($subject);
+    $message -> setBody($body, 'text/html', 'utf-8');
+    $message -> setFrom($from);
+    $message -> setTo($to);
     if ($attachFile) {
-      if (count($attachFile) > 0) {
-        foreach ($attachFile as $file) {
+      if (count($attachFile) > 0) 
+      {
+        foreach ($attachFile as $file) 
+        {
           $file_name = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $file;
           $attachment = Swift_Attachment::fromPath($file_name);
           $message->attach($attachment);
@@ -28,29 +33,41 @@ class MailCommand extends CConsoleCommand {
   }
 
   public function actionIndex() {
-    $conn = Yii::app()->db;
-    $result = $conn->createCommand()
-            ->select('*')
-            ->from('mail_stack')
-            ->where('`lock`!=:lock', array(':lock' => 1))
-            ->limit(10)
-            ->queryAll();
+    for ($i=0; $i < self::MAIL_COUNT; $i++) 
+    {  
+      $mail_stack = MailStack::model()->findByAttributes(
+        array(
+          'lock'=>0
+          )
+        );
+      if (!$mail_stack)
+        continue;
+      
+      $mail_stack->lock = 1;
+      $mail_stack->save();
 
-    foreach ($result as $row) {
-      $conn->createCommand()->update('mail_stack', array('lock' => 1), 'id=:id', array(':id' => $row['id']));
-
-      $attach = unserialize($row['attach']);
+      $attach = unserialize($mail_stack->attach);
       if (count($attach) == 0)
+      {
         $attach = false;
-
-      $test = $this->SendMail(unserialize($row['from']), unserialize($row['to']), $row['subject'], $row['body'], $attach);
-
-      if ($test === NULL) {
-        $conn->createCommand()->delete('mail_stack', 'id=:id', array(':id' => $row['id']));
       }
-      else
-        $conn->createCommand()->update('mail_stack', array('lock' => 0), 'id=:id', array(':id' => $row['id']));
+        
+      $test = $this->SendMail(
+        unserialize($mail_stack->from), 
+        unserialize($mail_stack->to), 
+        $mail_stack->subject, 
+        $mail_stack->body, 
+        $attach
+      );
+
+      if ($test === NULL)
+      {
+        $mail_stack->delete();
+        continue;
+      }
+
+      $mail_stack->lock = 0;
+      $mail_stack->save();
     }
   }
-
 }

@@ -13,7 +13,7 @@
                     type="email"
                     ng-model="recovery.email"
                     placeholder="<?php echo Yii::t('user', 'E-mail') ?>"
-                    ui-keypress="{enter: 'login(recovery, recoveryForm.$valid)'}"
+                    ui-keypress="{enter: 'recovery(recovery, recoveryForm.$valid)'}"
                     autocomplete="off"
                     maxlength="300"
                     required >

@@ -217,18 +217,29 @@ function UserCtrl($scope, $http, $compile, $timeout) {
 }
 
 function HelpCtrl($scope, $http, $compile) {
+  var resultModal = angular.element('.m-result');
+  var resultContent = resultModal.find('p');
 
-  $scope.$watch('user.email + user.fName + user.question', function(user) {
-    if ($scope.user.fName && $scope.user.email && $scope.user.question) {
+  $scope.$watch('user.email + user.name + user.question', function(user) {
+    if ($scope.user.name && $scope.user.email && $scope.user.question) {
       angular.element('#help-in .form-control a').removeClass('button-disable');
     }
   });
 
+  $scope.send = function(user, valid){
+    if (!valid) return false;
 
-  $scope.send = function(user){
-    $http.post('/ajax/sendQuestion', user).success(function(data) {
+    $http.post('/service/sendQuestion', user).success(function(data) {
       if(data.error == 'no') {
-        console.log(1);
+        $scope.user.name = '';
+        $scope.user.email = '';
+        $scope.user.question = '';
+        $scope.user.phone = '';
+
+        resultModal.show();
+          resultContent.text(data.content);
+          resultModal.fadeOut(10000, function() {
+        });
       }
     });
   };

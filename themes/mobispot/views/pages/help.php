@@ -4,19 +4,13 @@
             <h4 class="color"><?php echo Yii::t('help', 'Have a question? Need a hand?<br /> Anything bugging you?<br /> Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.'); ?></h4>
             <form id="help-in" name="helpForm">
                 <input
-                    name='fName'
+                    name='name'
                     type="text"
-                    ng-model="user.fName"
-                    placeholder="<?php echo Yii::t('help', 'First Name'); ?>"
+                    ng-model="user.name"
+                    placeholder="<?php echo Yii::t('help', 'Name'); ?>"
                     maxlength="300"
                     ng-minlength="3"
                     required >
-                <input
-                    name='lname'
-                    type="text"
-                    ng-model="user.lname"
-                    placeholder="<?php echo Yii::t('help', 'Last name'); ?>"
-                    maxlength="300">
                 <input
                     name='email'
                     type="email"
@@ -29,7 +23,7 @@
                     name='phone'
                     type="text"
                     ng-model="user.phone"
-                    placeholder="<?php echo Yii::t('help', 'Mobile'); ?>">
+                    placeholder="<?php echo Yii::t('help', 'Phone'); ?>">
                 <textarea
                     name="question"
                     ng-model="user.question"
@@ -39,7 +33,7 @@
                     required >
                 </textarea>
                 <div class="form-control">
-                    <a class="spot-button button-disable" href="javascript:;" ng-click="send(user)"><?php echo Yii::t('help', 'Send'); ?></a>
+                    <a class="spot-button button-disable" href="javascript:;" ng-click="send(user, helpForm.$valid)"><?php echo Yii::t('help', 'Send'); ?></a>
                 </div>
             </form>
         </div>

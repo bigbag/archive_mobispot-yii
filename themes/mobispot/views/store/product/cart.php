@@ -237,7 +237,7 @@
                             <?php echo Yii::t('store', 'Payment'); ?>
                         </h3>
                         <span>
-                            <?php echo Yii::t('store', 'Choose the most convenient delivery option'); ?>
+                            <?php echo Yii::t('store', 'Choose the most convenient payment option'); ?>
                         </span>
                     </div>
                     <div class="six columns">
