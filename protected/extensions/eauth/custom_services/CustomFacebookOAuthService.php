@@ -20,6 +20,8 @@ class CustomFacebookOAuthService extends FacebookOAuthService
             $this->attributes['name'] = $info->name;
         if(!empty($info->link))
             $this->attributes['url'] = $info->link;
+        elseif(!empty($info->username))
+            $this->attributes['url'] = 'https://www.facebook.com/' . $info->username;
         if(!empty($info->email))
             $this->attributes['email'] = $info->email;
 

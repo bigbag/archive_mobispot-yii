@@ -280,6 +280,73 @@ function SpotCtrl($scope, $http, $compile) {
     }
   };
 
+    $scope.socialButton = function()
+    {
+        if(angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideUp();
+            angular.element('#extraMediaForm').removeClass('open');
+        }
+        else
+        {
+            angular.element('#extraMediaForm').slideDown(500);
+            angular.element('#extraMediaForm').addClass('open');
+        }
+    }
+
+    $scope.bindNet = function(netName)
+    {
+        var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
+        $http.post('/spot/bindSocial', data).success(function(data) {
+            if(data.error == 'no') {
+                if (!data.loggedIn) {
+                    var options = $.extend({
+                      id: '',
+                      popup: {
+                        width: 450,
+                        height: 380
+                      }
+                    }, options);
+
+                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+
+                    url += url.indexOf('?') >= 0 ? '&' : '?';
+                    if (url.indexOf('redirect_uri=') === -1)
+                      url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+                    url += 'js';
+
+                    var centerWidth = (window.screen.width - options.popup.width) / 2,
+                      centerHeight = (window.screen.height - options.popup.height) / 2;
+
+                    popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                    popup.focus();
+                }
+                else {
+                    ;
+              /*
+                if(data.linkCorrect == 'ok'){
+                  spotEdit.before($compile(data.content)($scope));
+                  spotEdit.remove();
+                }
+                    else{
+                        var resultModal = angular.element('.m-result');
+                        var resultContent = resultModal.find('p');
+                        resultModal.show();
+                        resultContent.text(data.linkCorrect);
+                        resultModal.fadeOut(10000, function() {
+                        });
+                    }
+                */
+                }
+            }
+            else {
+                console.log(data.error);
+            }
+        }).error(function(error){
+            console.log(error);
+        });
+    }
+  
   // Привязка соцсетей
   var popup;
   $scope.bindSocial  = function(spot, key, e) {
@@ -315,19 +382,19 @@ function SpotCtrl($scope, $http, $compile) {
               spotEdit.before($compile(data.content)($scope));
               spotEdit.remove();
             }
-      			else{
+                  else{
                     var resultModal = angular.element('.m-result');
                     var resultContent = resultModal.find('p');
                     resultModal.show();
                     resultContent.text(data.linkCorrect);
                     resultModal.fadeOut(10000, function() {
                     });
-      			}
+                  }
           }
         }
-  		else if(data.linkCorrect != 'ok'){
+          else if(data.linkCorrect != 'ok'){
          $scope.setModal(data.linkCorrect, 'none');
-  		}
+          }
       }
       else {
         console.log(data.error);

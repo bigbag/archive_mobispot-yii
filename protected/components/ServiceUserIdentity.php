@@ -8,6 +8,7 @@ class ServiceUserIdentity extends CUserIdentity
     private $_id;
     private $_email;
     private $_password;
+    private $_profileUrl;
 
     /**
      * @var EAuthServiceBase the authorization service instance.
@@ -36,7 +37,8 @@ class ServiceUserIdentity extends CUserIdentity
         if ($this->service->isAuthenticated)
         {
             $this->_id = $this->service->getAttribute('id');
-            /* 		$this->_id = $user->id;
+            $this->_profileUrl = $this->service->getAttribute('url');
+            /*         $this->_id = $user->id;
               $this->_email = $user->email;
               $this->username = $user->email;
               $this->password = $user->password;
@@ -70,6 +72,11 @@ class ServiceUserIdentity extends CUserIdentity
     public function getPassword()
     {
         return $this->_password;
+    }
+
+    public function getProfileUrl()
+    {
+        return $this->_profileUrl;
     }
 
 }

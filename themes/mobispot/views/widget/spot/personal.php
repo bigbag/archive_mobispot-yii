@@ -20,56 +20,72 @@
                 <span><?php echo Yii::t('spots', 'A maximum file size limit of 25mb for free accounts'); ?></span>
                 <div class="cover-fast-link">
                     <label for="add-file" data-tooltip title="<?php echo Yii::t('spots', 'Add file'); ?>"  class="icon tip-left">&#xe00e;</label>
-                    <a data-tooltip href="javascripts:;" title="<?php echo Yii::t('spots', 'Add links and social accounts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
+                    <a data-tooltip ng-click="socialButton();" title="<?php echo Yii::t('spots', 'Add links and social accounts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
                     <input id="add-file" type="file">
                 </div>
                 <div class="hat-cover"></div>
             </div>
 
             <div id="extraMediaForm" class="spot-sub-slide slide-content">
-                <a data-tooltip title="Facebook" class="tip-top" href="#">
+                <a data-tooltip title="Facebook" class="tip-top" ng-click="bindNet('facebook')";>
                     <img width="36" src="/themes/mobispot/images/icons/social/facebook.png"> 
                 </a>
-                <a data-tooltip title="Flickr" class="tip-top" href="#">
+                <?php /*
+                <a data-tooltip title="Flickr" class="tip-top" ng-click="bindNet('')">
                     <img width="36" src="/themes/mobispot/images/icons/social/flickr.png"> 
                 </a>
-                <a data-tooltip title="Behance" class="tip-top" href="#">
+                */?>
+                <?php /*
+                <a data-tooltip title="Behance" class="tip-top" ng-click="bindNet('Behance')">
                     <img width="36" src="/themes/mobispot/images/icons/social/behance.png"> 
                 </a>
-                <a data-tooltip title="Vimeo" class="tip-top" href="#">
+                */?>
+                <a data-tooltip title="Vimeo" class="tip-top" ng-click="bindNet('vimeo')">
                     <img width="36" src="/themes/mobispot/images/icons/social/vimeo.png"> 
                 </a>
-                <a data-tooltip title="LinkEdin" class="tip-top" href="#">
+                <?php /*
+                <a data-tooltip title="LinkedIn" class="tip-top" ng-click="bindNet('linkedin')">
                     <img width="36" src="/themes/mobispot/images/icons/social/linkedin.png"> 
                 </a>
-                <a data-tooltip title="LastFM" class="tip-top" href="#">
+                */?>
+                <?php /*
+                <a data-tooltip title="LastFM" class="tip-top" ng-click="bindNet()">
                     <img width="36" src="/themes/mobispot/images/icons/social/lastfm.png"> 
                 </a>
-                <a data-tooltip title="MySpace" class="tip-top" href="#">
+                */?>
+                <?php /*
+                <a data-tooltip title="MySpace" class="tip-top" ng-click="bindNet()">
                     <img width="36" src="/themes/mobispot/images/icons/social/myspace.png"> 
                 </a>
-                <a data-tooltip title="tumblr" class="tip-top" href="#">
+                */?>
+                <?php /*
+                <a data-tooltip title="tumblr" class="tip-top" ng-click="bindNet('tumblr')">
                     <img width="36" src="/themes/mobispot/images/icons/social/tumblr.png"> 
                 </a>
-                <a data-tooltip title="YouTube" class="tip-top" href="#">
+                */?>
+                <a data-tooltip title="YouTube" class="tip-top" ng-click="bindNet('YouTube')">
                     <img width="36" src="/themes/mobispot/images/icons/social/youtube.png"> 
                 </a>
-                <a data-tooltip title="Twitter" class="tip-top" href="#">
+                <a data-tooltip title="Twitter" class="tip-top" ng-click="bindNet('twitter')">
                     <img width="36" src="/themes/mobispot/images/icons/social/twitter.png"> 
                 </a>
-                <a data-tooltip title="Google+" class="tip-top" href="#">
+                <a data-tooltip title="Google+" class="tip-top" ng-click="bindNet('google_oauth')">
                     <img width="36" src="/themes/mobispot/images/icons/social/google.png"> 
                 </a>
-                <a data-tooltip title="VKontakte" class="tip-top" href="#">
+                <a data-tooltip title="VKontakte" class="tip-top" ng-click="bindNet('vk')">
                     <img width="36" src="/themes/mobispot/images/icons/social/vk.png"> 
                 </a>
-                <a data-tooltip title="Instagram" class="tip-top" href="#">
+                <?php /*
+                <a data-tooltip title="Instagram" class="tip-top" ng-click="bindNet('instagram')">
                     <img width="36" src="/themes/mobispot/images/icons/social/instagram.png"> 
                 </a>
-                <a data-tooltip title="Pinterest" class="tip-top" href="#">
+                */?>
+                <?php /*
+                <a data-tooltip title="Pinterest" class="tip-top" ng-click="bindNet('pinterest')">
                     <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
                 </a>
-                <a data-tooltip title="DeviantART" class="tip-top" href="#">
+                */?>
+                <a data-tooltip title="DeviantART" class="tip-top" ng-click="bindNet('deviantart')">
                     <img width="36" src="/themes/mobispot/images/icons/social/deviantart.png"> 
                 </a>
             </div>
