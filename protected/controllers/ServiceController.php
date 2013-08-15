@@ -564,4 +564,22 @@ class ServiceController extends MController
         Yii::app()->request->cookies[$name] = $cookie;
     }
 
+     //Отсылка вопроса
+    public function actionSendQuestion()
+    {
+        $data = $this->validateRequest();
+        $error = "yes";
+        $content = '';
+        $data = $this->getJson();
+
+        if (isset($data['email']) and isset($data['name']) and isset($data['question']))
+        {
+            MMail::question(Yii::app()->par->load('generalEmail'), $data, $this->getLang());
+            $content = Yii::t('help', 'Question has been submitted');
+            $error = "no";
+        }
+        echo json_encode(array('error' => $error, 'content' => $content));
+    }
+
+
 }
