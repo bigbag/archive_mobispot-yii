@@ -70,7 +70,9 @@
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>
                                 <input 
-                                    type="number" 
+                                    type="text"
+                                    min="1" 
+                                    max="99"
                                     ng-model="product.quantity" 
                                     ng-change="changeQuantity()"/>
                             </div>
@@ -119,7 +121,7 @@
             {{summ}}<span class="icon currency">&#xe019;</span>
         </h1>
         <a 
-            class="spot-button right" 
+            class="spot-button right {{ summ || 'button-disable'}}" 
             ng-click="checkOut()">
             <?php echo Yii::t('store', 'Proceed to checkout'); ?>
         </a>

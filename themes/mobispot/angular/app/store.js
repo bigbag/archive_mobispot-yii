@@ -95,10 +95,8 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
                     basket.text($scope.items.count);
                 }
                 else{
-                    console.log(error);
+                    console.log(data.error);
                 }
-            }).error(function(error){
-                console.log(error);
             });
 
             $scope.inRequest = false;
@@ -159,6 +157,9 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     
     $scope.resetAddedText = function(jsID){
         $scope.products[jsID].addText = $scope.settings.addToCart;
+        if($scope.products[jsID].quantity < 0){
+            $scope.products[jsID].quantity = 0;
+        }     
     }
     
     $scope.thumbClass = function(len){
@@ -360,6 +361,8 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     };
     
     $scope.checkOut = function(){
+        if ($scope.summ == 0) return false;
+
         if(!$scope.checkingOut){
              var data = {token: $scope.user.token};
             $http.post('/store/product/getCustomer', data).success(function(data) {

@@ -474,7 +474,15 @@ class Cart extends CFormModel
             }
             $this->storeCart = $newCart;
             Yii::app()->session['storeCart'] = $newCart;
-            Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] - $deleted['quantity'];
+
+            if (!isset($newCart[1]))
+            {
+                Yii::app()->session['itemsInCart'] = 0;
+            }
+            else {
+                Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] - $deleted['quantity'];
+            }
+
 
             if (isset(Yii::app()->session['storeEmail']))
             {

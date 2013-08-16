@@ -78,7 +78,9 @@
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>
                                 <input 
-                                    type="number" 
+                                    type="text" 
+                                    min="1" 
+                                    max="99"
                                     ng-model="product.quantity" 
                                     ng-change="resetAddedText(product.jsID)" />
                             </div>
