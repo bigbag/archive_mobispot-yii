@@ -21,7 +21,7 @@
                 <div class="cover-fast-link">
                     <label for="add-file" data-tooltip title="<?php echo Yii::t('spots', 'Add file'); ?>"  class="icon tip-left">&#xe00e;</label>
                     <a data-tooltip ng-click="socialButton();" title="<?php echo Yii::t('spots', 'Add links and social accounts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
-                    <input id="add-file" ng-model="test" type="file">
+                    <input id="add-file"  type="file">
                 </div>
                 <div class="hat-cover"></div>
             </div>

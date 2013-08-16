@@ -196,13 +196,15 @@ function SpotCtrl($scope, $http, $compile) {
 
           $scope.spot.content='';
 
-          var filedrag = $id('dropbox');
-          if (filedrag) {
+          var file_drag = $id('dropbox');
+          var file_button = $id('add-file');
+          if (file_drag && file_button) {
             var xhr = new XMLHttpRequest();
             if (xhr.upload) {
-              filedrag.addEventListener("dragover", fileDragHover, false);
-              filedrag.addEventListener("dragleave", fileDragHover, false);
-              filedrag.addEventListener("drop", fileSelectHandler, false);
+              file_drag.addEventListener("dragover", fileDragHover, false);
+              file_drag.addEventListener("dragleave", fileDragHover, false);
+              file_drag.addEventListener("drop", fileSelectHandler, false);
+              file_button.addEventListener('change', fileSelectHandler, false);
             }
           }
 
