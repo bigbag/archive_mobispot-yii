@@ -76,6 +76,8 @@ function ProductCtrl($scope, $http, $compile, $timeout) {
     };
 
     $scope.addToCart = function addToCart(jsID){
+        if($scope.products[jsID].quantity < 1) return false;
+
         if(!$scope.inRequest){
             $scope.inRequest = true;
 
@@ -487,7 +489,9 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     };
 
     $scope.saveCustomer = function(valid){
-        if (!valid) return false;
+        if (!valid ) return false;
+        if ($scope.summ == 0)  return false;
+        
         if(!$scope.inRequest){
             $scope.inRequest = true;
 
@@ -510,6 +514,8 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     };
     
     $scope.buy = function(){
+
+        if ($scope.summ == 0) return false;
 
         var data = {
             token: $scope.user.token,
