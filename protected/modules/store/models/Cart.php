@@ -458,6 +458,40 @@ class Cart extends CFormModel
         return $error;
     }
 
+    public function saveProduct($oldProduct, $newProduct)
+    {
+        $success = false;
+        $newCart = array();
+        $itemsInCart = 0;
+
+        foreach ($this->storeCart as $product)
+        {
+            if ($this->equalProduct($oldProduct, $product))
+            {
+                $newItem = array();
+                foreach ($newProduct as $field => $value)
+                {
+                    if (in_array($field, array('id', 'quantity', 'selectedColor', 'selectedSize', 'selectedSurface')))
+                        $newItem[$field] = $value;
+                }
+                $newCart[] = $newItem;
+                $itemsInCart += $newItem['quantity'];
+            }
+            else
+            {
+                $newCart[] = $product;
+                $itemsInCart += $product['quantity'];
+            }
+        }
+        $this->storeCart = $newCart;
+        Yii::app()->session['storeCart'] = $newCart;
+        Yii::app()->session['itemsInCart'] = $itemsInCart;
+
+        $success = true;
+        
+        return $success;
+    }
+    
     public function deleteFromCart($deleted)
     {
         $success = false;
@@ -465,24 +499,19 @@ class Cart extends CFormModel
         if (!empty($deleted['id']) && !empty($deleted['selectedSize']))
         {
             $newCart = array();
+            $itemsInCart = 0;
+            
             foreach ($this->storeCart as $product)
             {
                 if (!$this->equalProduct($deleted, $product))
                 {
                     $newCart[] = $product;
+                    $itemsInCart += $product['quantity'];
                 }
             }
             $this->storeCart = $newCart;
             Yii::app()->session['storeCart'] = $newCart;
-
-            if (!isset($newCart[1]))
-            {
-                Yii::app()->session['itemsInCart'] = 0;
-            }
-            else {
-                Yii::app()->session['itemsInCart'] = Yii::app()->session['itemsInCart'] - $deleted['quantity'];
-            }
-
+            Yii::app()->session['itemsInCart'] = $itemsInCart;
 
             if (isset(Yii::app()->session['storeEmail']))
             {
@@ -643,6 +672,7 @@ class Cart extends CFormModel
         $customer = $this->getModelCustomer($newCustomer, 'CustomerForm');
         if ($customer->validate())
         {
+            $customer->save();
             $error = 'no';
         } 
         else

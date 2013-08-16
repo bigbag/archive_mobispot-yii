@@ -308,6 +308,12 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     };
     
     $scope.setColor = function(jsID, color){
+        var oldProduct = {id:$scope.products[jsID].id, quantity:$scope.products[jsID].quantity, selectedColor:$scope.products[jsID].selectedColor};
+        if (typeof ($scope.products[jsID].selectedSize != 'undefined'))
+            oldProduct.selectedSize = $scope.products[jsID].selectedSize;
+        if (typeof ($scope.products[jsID].selectedSurface != 'undefined'))
+            oldProduct.selectedSurface = $scope.products[jsID].selectedSurface;
+        
         $scope.products[jsID].selectedColor = color;
         
         if (typeof $scope.products[jsID].photo != 'undefined' && $scope.products[jsID].photo.length > 0){
@@ -322,6 +328,16 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                 }
             }
         }
+        
+        var data = {token: $scope.user.token, oldProduct:oldProduct, newProduct:$scope.products[jsID]}; 
+        $http.post('/store/product/SaveProduct', data).success(function(data) {
+            if (data.error != 'no')
+            {
+                console.log(data.error);
+            }
+        }).error(function(error){
+            console.log(error);
+        });
     };
 
     $scope.setSurface = function(jsID, surface){
@@ -336,27 +352,42 @@ function CartCtrl($scope, $http, $compile, $timeout) {
         $scope.selectedPayment = $scope.payments[jsID];
     };
     
-    $scope.changeQuantity = function(){
-        $scope.summ = 0;
-        for (var i = 0; i < $scope.products.length; i++) {
-            if($scope.products[i].quantity < 0)
-                $scope.products[i].quantity = 0;
-            $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
+    $scope.changeQuantity = function(jsID){
+        if (parseInt($scope.products[jsID].quantity) <= 0)
+        {
+            $scope.deleteItem(jsID);
         }
-        
-        if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
-            $scope.discount.summ = 0;
+        else
+        {
+            $scope.summ = 0;
             for (var i = 0; i < $scope.products.length; i++) {
-                for (var j = 0; j < $scope.discount.products.length; j++) {
-                    if ($scope.products[i].id == $scope.discount.products[j].id_product){
-                        $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
-                        break;
+                $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
+            }
+            
+            if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
+                $scope.discount.summ = 0;
+                for (var i = 0; i < $scope.products.length; i++) {
+                    for (var j = 0; j < $scope.discount.products.length; j++) {
+                        if ($scope.products[i].id == $scope.discount.products[j].id_product){
+                            $scope.discount.summ += $scope.discount.products[j].discount*parseInt($scope.products[i].quantity);
+                            break;
+                        }
                     }
                 }
+                if ($scope.discount.summ > 0) {
+                    $scope.summ -= $scope.discount.summ;
+                }   
             }
-            if ($scope.discount.summ > 0) {
-                $scope.summ -= $scope.discount.summ;
-            }   
+            
+            var data = {token: $scope.user.token, oldProduct:$scope.products[jsID], newProduct:$scope.products[jsID]}; 
+            $http.post('/store/product/SaveProduct', data).success(function(data) {
+                if (data.error != 'no')
+                {
+                    console.log(data.error);
+                }
+            }).error(function(error){
+                console.log(error);
+            });
         }
     };
     
@@ -530,7 +561,7 @@ function CartCtrl($scope, $http, $compile, $timeout) {
                $scope.setModal(data.error, 'error');
         }).error(function(error){
             console.log(error);
-        });;        
+        });       
     };
     
     $scope.thumbClass = function(len){

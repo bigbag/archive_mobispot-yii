@@ -108,6 +108,24 @@ class ProductController extends MController
         echo json_encode($answer);
     }
 
+    public function actionSaveProduct()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = 'error in /store/product/SaveProduct';
+        
+        if (isset($data['oldProduct']) && isset($data['newProduct']))
+        {
+            $cart = new Cart;
+            if ($cart->saveProduct($data['oldProduct'], $data['newProduct']))
+            {
+                $answer['error'] = 'no';
+            }
+        }
+        
+        echo json_encode($answer);
+    }
+    
     public function actionConfirmPromo()
     {
         $data = $this->validateRequest();
@@ -297,4 +315,5 @@ class ProductController extends MController
         else
             $this->setNotFound();
     }
+    
 }

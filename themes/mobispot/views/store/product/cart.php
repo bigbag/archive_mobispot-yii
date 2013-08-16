@@ -74,7 +74,7 @@
                                     min="1" 
                                     max="99"
                                     ng-model="product.quantity" 
-                                    ng-change="changeQuantity()"/>
+                                    ng-change="changeQuantity(product.jsID)"/>
                             </div>
                         </div>
                         <div class="columns twelve" ng-show="product.color.length > 0">
