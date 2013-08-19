@@ -101,9 +101,15 @@ class SpotController extends MController
             {
 
                 $spotContent = SpotContent::getSpotContent($spot);
+                $content = $spotContent->content;
+                $content_keys = $content['keys'];
+                ksort($content_keys);
+
                 $answer['content'] = $this->renderPartial('//widget/spot/' . $spot->spot_type->key, array(
                     'spot' => $spot,
                     'spotContent' => $spotContent,
+                    'content_keys' => $content_keys,
+
                         ), true);
                 $answer['error'] = "no";
             }

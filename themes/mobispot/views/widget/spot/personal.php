@@ -115,8 +115,7 @@
             <span ng-init="spot.vcard=<?php echo $content['vcard']; ?>; spot.private=<?php echo $content['private']; ?>; keys=<?php echo $keys; ?>;"></span>
 
             <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
-                <?php $content_keys = $content['keys'];?>
-                <?php ksort($content_keys);?>
+                
                 <?php foreach ($content_keys as $key => $type): ?>
                     <?php $value = $content['data'][$key]; ?>
                         <?php echo $this->renderPartial('/widget/spot/personal/new_' . $type,
