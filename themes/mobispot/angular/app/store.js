@@ -311,9 +311,9 @@ function CartCtrl($scope, $http, $compile, $timeout) {
     
     $scope.setColor = function(jsID, color){
         var oldProduct = {id:$scope.products[jsID].id, quantity:$scope.products[jsID].quantity, selectedColor:$scope.products[jsID].selectedColor};
-        if (typeof ($scope.products[jsID].selectedSize != 'undefined'))
+        if (typeof ($scope.products[jsID].selectedSize) != 'undefined')
             oldProduct.selectedSize = $scope.products[jsID].selectedSize;
-        if (typeof ($scope.products[jsID].selectedSurface != 'undefined'))
+        if (typeof ($scope.products[jsID].selectedSurface) != 'undefined')
             oldProduct.selectedSurface = $scope.products[jsID].selectedSurface;
         
         $scope.products[jsID].selectedColor = color;
