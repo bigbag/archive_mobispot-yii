@@ -114,77 +114,6 @@ class UserController extends MController
                 $this->redirect('/');
             }
 
-            if (isset(Yii::app()->session['bind_discodes']) && isset(Yii::app()->session['bind_net']) && !empty(Yii::app()->session[Yii::app()->session['bind_net'] . '_profile_url']))
-            {
-                $netName = Yii::app()->session['bind_net'];
-                $open_spot_id = Yii::app()->session['bind_discodes'];
-                unset(Yii::app()->session['bind_discodes']);
-                unset(Yii::app()->session['bind_net']);
-                
-                $spot = Spot::getSpot(array('discodes_id' => $open_spot_id));
-                if ($spot)
-                {
-                    $spotContent = SpotContent::getSpotContent($spot);
-
-                    if ($spotContent)
-                    {
-                        $socInfo = new SocInfo;
-                        $socNet = $socInfo->getNetByName($netName);
-                        
-                        if (!empty($socNet['name']))
-                        {
-                            $content = $spotContent->content;
-                            $newKeys = array();
-                            $newKeys[$content['counter']] = 'socnet';
-                            foreach($content['keys'] as $key => $type)
-                            {
-                                $newKeys[$key] = $type;
-                            }
-                            $content['keys'] = $newKeys;
-                            $content['data'][$content['counter']] = Yii::app()->session[$netName . '_profile_url'];
-                            $content['counter'] = $content['counter'] + 1;
-                            $spotContent->content = $content;
-                            $spotContent->save();
-                        
-                        /*
-                            $content = $spotContent->content;
-                            
-                                $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$defKey]);
-                                
-                                if ($needSave)
-                                {
-                                    $userDetail = $socInfo->getSocInfo($socNet, $spotContent->content['data'][$defKey], $defDiscodes, $defKey);
-                                    if (empty($userDetail['error']))
-                                    {
-                                        $userDetail['binded_link'] = $content['data'][$defKey];
-                                        $content['keys'][$defKey] = 'content';
-                                        $content['data'][$defKey] = $userDetail;
-                                        $spotContent->content = $content;
-                                        $spotContent->save();
-                                        $linkCorrect = 'ok';
-                                    }
-                                    else
-                                        $linkCorrect = $userDetail['error'];
-                                }
-                                else
-                                {
-                                    $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$defKey], $defDiscodes, $defKey);
-                                    
-                                    if ($linkCorrect == 'ok')
-                                    {
-                                        $content['keys'][$defKey] = 'socnet';
-                                        $spotContent->content = $content;
-                                        $spotContent->save();
-                                    }
-                                }
-                                if (isset($linkCorrect) && ($linkCorrect != 'ok'))
-                                    $message = $linkCorrect;
-                            */
-                        }
-                    }
-                }
-            }
-
             $dataProvider = new CActiveDataProvider(
                     Spot::model()->personal()->used()->selectUser($user_id), array(
                 'pagination' => array(
@@ -237,7 +166,6 @@ class UserController extends MController
                         Yii::app()->session[$service] = 'auth';
                         Yii::app()->session[$service . '_id'] = $identity->getId();
                         Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
-                        $authIdentity->redirect(array('user/personal'));
                     }
                     else
                     {
