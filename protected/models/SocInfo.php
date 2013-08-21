@@ -265,6 +265,25 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
+    
+    public function getSocPatterns()
+    {
+        $answer = array();
+        
+        foreach ($this->socNetworks as $net)
+        {
+
+            if (!empty($net['baseUrl']))
+            {
+                $pattern = array();
+                $pattern['name'] = $net['name'];
+                $pattern['baseUrl'] = $net['baseUrl'];
+                $answer[] = $pattern;
+            }
+        }
+        
+        return $answer;
+    }
 
     public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null)
     {

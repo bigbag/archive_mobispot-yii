@@ -300,9 +300,25 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     var popup;
     var socTimer;
     //через плашку
-    $scope.bindByPanel = function(netName)
+    $scope.bindByPanel = function(buttonName)
     {
+        var netName = buttonName;
         var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
+        if ($scope.spot.content.length > 0)
+        {
+            data.link = $scope.spot.content;
+            for (var i = 0; i < $scope.socPatterns.length; i++)
+            {
+                if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+                {
+                    netName = $scope.socPatterns[i].name;
+                    data.netName = $scope.socPatterns[i].name;
+                    break;
+                }
+            }
+            
+        }
+        
         $http.post('/spot/BindByPanel', data).success(function(data) {
             if(data.error == 'no') {
                 if (!data.loggedIn) {
@@ -328,25 +344,39 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                     popup.focus();
                     
                     $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
+                    if ($scope.spot.content.length > 0)
+                        $scope.bindNet.link = $scope.spot.content;
                     socTimer = $timeout($scope.loginTimer, 1000);
                 }
-                else {
-                    if(angular.element('#extraMediaForm').hasClass('open'))
+                else 
+                {
+                    if(data.linkCorrect == 'ok')
                     {
-                        angular.element('#extraMediaForm').slideUp();
-                        angular.element('#extraMediaForm').removeClass('open');
+                        if(angular.element('#extraMediaForm').hasClass('open'))
+                        {
+                            angular.element('#extraMediaForm').slideUp();
+                            angular.element('#extraMediaForm').removeClass('open');
+                        }
+
+                        angular.element('#add-content').append($compile(data.content)($scope));
+
+                        $scope.keys.push(data.key);
+                        $scope.spot.content='';
+                        angular.element('textarea').removeClass('put');
+                        
+                        var scroll_height = $('#block-' + data.key).offset().top - 100;
+                        $('html, body').animate({
+                            scrollTop: scroll_height
+                        }, 600);
                     }
-
-                    angular.element('#add-content').append($compile(data.content)($scope));
-
-                    $scope.keys.push(data.key);
-                    $scope.spot.content='';
-                    angular.element('textarea').removeClass('put');
-                    
-                    var scroll_height = $('#block-' + data.key).offset().top - 100;
-                    $('html, body').animate({
-                        scrollTop: scroll_height
-                    }, 600);
+                    else
+                    {
+                        var resultModal = angular.element('.m-result');
+                        var resultContent = resultModal.find('p');
+                        resultModal.show();
+                        resultContent.text(data.linkCorrect);
+                        resultModal.fadeOut(10000, function() {});
+                    }
                 }
             }
             else {
@@ -425,30 +455,37 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                 {
                     if (data.loggedIn)
                     {
-                        if (data.newField)
+                        if(data.linkCorrect == 'ok')
                         {
-                            if (angular.element('#extraMediaForm').hasClass('open'))
+                            if (data.newField)
                             {
-                                angular.element('#extraMediaForm').slideUp();
-                                angular.element('#extraMediaForm').removeClass('open');
+
+                                if (angular.element('#extraMediaForm').hasClass('open'))
+                                {
+                                    angular.element('#extraMediaForm').slideUp();
+                                    angular.element('#extraMediaForm').removeClass('open');
+                                }
+
+                                angular.element('#add-content').append($compile(data.content)($scope));
+
+                                $scope.keys.push(data.key);
+                                $scope.spot.content='';
+                                angular.element('textarea').removeClass('put');
+                                
+                                var scroll_height = $('#block-' + data.key).offset().top - 100;
+                                $('html, body').animate({
+                                    scrollTop: scroll_height
+                                }, 600);
+                            }
+                            else
+                            {
+                                var spotEdit = $scope.bindNet.spotEdit;
+                                spotEdit.before($compile(data.content)($scope));
+                                spotEdit.remove();
                             }
 
-                            angular.element('#add-content').append($compile(data.content)($scope));
-
-                            $scope.keys.push(data.key);
-                            $scope.spot.content='';
-                            angular.element('textarea').removeClass('put');
-                            
-                            var scroll_height = $('#block-' + data.key).offset().top - 100;
-                            $('html, body').animate({
-                                scrollTop: scroll_height
-                            }, 600);
-                        }
-                        else if(data.linkCorrect == 'ok')
-                        {
-                            var spotEdit = $scope.bindNet.spotEdit;
-                            spotEdit.before($compile(data.content)($scope));
-                            spotEdit.remove();
+                            popup.close();
+                            $scope.bindNet = {};
                         }
                         else
                         {
@@ -458,8 +495,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             resultContent.text(data.linkCorrect);
                             resultModal.fadeOut(10000);
                         }
-                        popup.close();
-                        $scope.bindNet = {};
                     }
                     else
                         socTimer = $timeout($scope.loginTimer, 1000);
@@ -490,7 +525,44 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
   };
 
+    $scope.getSocPatterns = function()
+    {
+        if (typeof ($scope.socPatterns) == 'undefined')
+        {
+            var data = {token:$scope.user.token};
+            $http.post('/spot/SocPatterns', data).success(function(data) {
+                $scope.socPatterns = data.socPatterns;
+            }).error(function(error){
+                console.log(error);
+            });
+        }
+    }
+    
+    $scope.changeContent = function()
+    {
+        var needPanel = false;
 
+        for (var i = 0; i < $scope.socPatterns.length; i++)
+        {
+            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+            {
+                needPanel = true;
+                break;
+            }
+        }
+
+        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideDown(500);
+            angular.element('#extraMediaForm').addClass('open');
+        }
+        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideUp();
+            angular.element('#extraMediaForm').removeClass('open');
+        }
+    }
+  
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
