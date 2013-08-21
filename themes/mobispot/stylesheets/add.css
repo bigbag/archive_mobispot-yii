@@ -131,6 +131,12 @@
   min-width: 120px;
 }
 
+.blackout{
+    opacity:0.2;
+}
 
+a.blackout{
+    cursor: default;
+}
 
 

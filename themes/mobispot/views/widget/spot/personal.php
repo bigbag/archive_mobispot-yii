@@ -27,65 +27,65 @@
             </div>
 
             <div id="extraMediaForm" class="spot-sub-slide slide-content">
-                <a data-tooltip title="Facebook" class="tip-top" ng-click="bindByPanel('facebook')";>
+                <a data-tooltip title="Facebook" net="facebook" class="tip-top" ng-click="bindByPanel('facebook')" ng-mouseenter="socView('facebook')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/facebook.png"> 
                 </a>
                 <?php /*
-                <a data-tooltip title="Flickr" class="tip-top" ng-click="bindByPanel('')">
+                <a data-tooltip title="Flickr" net="Flickr" class="tip-top" ng-click="bindByPanel('')" ng-mouseenter="socView('Flickr')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/flickr.png"> 
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="Behance" class="tip-top" ng-click="bindByPanel('Behance')">
+                <a data-tooltip title="Behance" net="Behance" class="tip-top" ng-click="bindByPanel('Behance')" ng-mouseenter="socView('Behance')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/behance.png"> 
                 </a>
                 */?>
-                <a data-tooltip title="Vimeo" class="tip-top" ng-click="bindByPanel('vimeo')">
+                <a data-tooltip title="Vimeo" net="vimeo" class="tip-top" ng-click="bindByPanel('vimeo')" ng-mouseenter="socView('vimeo')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vimeo.png"> 
                 </a>
                 <?php /*
-                <a data-tooltip title="LinkedIn" class="tip-top" ng-click="bindByPanel('linkedin')">
+                <a data-tooltip title="LinkedIn" net="linkedin" class="tip-top" ng-click="bindByPanel('linkedin')" ng-mouseenter="socView('linkedin')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/linkedin.png"> 
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="LastFM" class="tip-top" ng-click="bindByPanel()">
+                <a data-tooltip title="LastFM" net="Last.fm" class="tip-top" ng-click="bindByPanel()" ng-mouseenter="socView('Last.fm')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/lastfm.png"> 
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="MySpace" class="tip-top" ng-click="bindByPanel()">
+                <a data-tooltip title="MySpace" net="MySpace" class="tip-top" ng-click="bindByPanel()" ng-mouseenter="socView('MySpace')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/myspace.png"> 
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="tumblr" class="tip-top" ng-click="bindByPanel('tumblr')">
+                <a data-tooltip title="tumblr" net="tumblr" class="tip-top" ng-click="bindByPanel('tumblr')" ng-mouseenter="socView('tumblr')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/tumblr.png"> 
                 </a>
                 */?>
-                <a data-tooltip title="YouTube" class="tip-top" ng-click="bindByPanel('YouTube')">
+                <a data-tooltip title="YouTube" net="YouTube" class="tip-top" ng-click="bindByPanel('YouTube')" ng-mouseenter="socView('YouTube')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/youtube.png"> 
                 </a>
-                <a data-tooltip title="Twitter" class="tip-top" ng-click="bindByPanel('twitter')">
+                <a data-tooltip title="Twitter" net="twitter" class="tip-top" ng-click="bindByPanel('twitter')" ng-mouseenter="socView('twitter')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/twitter.png"> 
                 </a>
-                <a data-tooltip title="Google+" class="tip-top" ng-click="bindByPanel('google_oauth')">
+                <a data-tooltip title="Google+" net="google_oauth" class="tip-top" ng-click="bindByPanel('google_oauth')" ng-mouseenter="socView('google_oauth')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/google.png"> 
                 </a>
-                <a data-tooltip title="VKontakte" class="tip-top" ng-click="bindByPanel('vk')">
+                <a data-tooltip title="VKontakte" net="vk" class="tip-top" ng-click="bindByPanel('vk')" ng-mouseenter="socView('vk')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vk.png"> 
                 </a>
                 <?php /*
-                <a data-tooltip title="Instagram" class="tip-top" ng-click="bindByPanel('instagram')">
+                <a data-tooltip title="Instagram" net="instagram" class="tip-top" ng-click="bindByPanel('instagram')" ng-mouseenter="socView('instagram')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/instagram.png"> 
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="Pinterest" class="tip-top" ng-click="bindByPanel('pinterest')">
+                <a data-tooltip title="Pinterest" net="pinterest" class="tip-top" ng-click="bindByPanel('pinterest')" ng-mouseenter="socView('pinterest')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
                 </a>
                 */?>
-                <a data-tooltip title="DeviantART" class="tip-top" ng-click="bindByPanel('deviantart')">
+                <a data-tooltip title="DeviantART" net="deviantart" class="tip-top" ng-click="bindByPanel('deviantart')" ng-mouseenter="socView('deviantart')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/deviantart.png"> 
                 </a>
             </div>

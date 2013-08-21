@@ -291,11 +291,67 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         }
         else
         {
+            $scope.freeSocial = true;
+            angular.element('#extraMediaForm a').removeClass('blackout');
+            angular.element('#extraMediaForm a').fadeTo(0, 1);
             angular.element('#extraMediaForm').slideDown(500);
             angular.element('#extraMediaForm').addClass('open');
         }
     }
 
+    $scope.socView = function(Target)
+    {
+        if($scope.freeSocial)
+        {
+            if (typeof (Target) != 'undefined' && Target.length > 0)
+            {
+                angular.element('#extraMediaForm a').stop();
+                angular.element('#extraMediaForm a[net!=' + Target + ']').fadeTo(600, 0.2);
+                angular.element('#extraMediaForm a[net=' + Target + ']').fadeTo(0, 1);
+            }
+            else{
+                angular.element('#extraMediaForm a').stop();
+                angular.element('#extraMediaForm a').fadeTo(600, 1);
+            }
+        }
+    }
+
+    $scope.changeContent = function()
+    {
+        var needPanel = false;
+        var currentNet;
+
+        for (var i = 0; i < $scope.socPatterns.length; i++)
+        {
+            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+            {
+                needPanel = true;
+                currentNet = i;
+                break;
+            }
+        }
+        
+        if (needPanel && typeof (currentNet) != 'undefined')
+        {
+            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
+            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
+            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
+            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
+            $scope.freeSocial = false;
+        }
+        
+        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideDown(500);
+            angular.element('#extraMediaForm').addClass('open');
+        }
+        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+            angular.element('#extraMediaForm').removeClass('open');
+        }
+    }
+    
     // Привязка соцсетей
     var popup;
     var socTimer;
@@ -527,6 +583,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
     $scope.getSocPatterns = function()
     {
+        $scope.freeSocial = true;
         if (typeof ($scope.socPatterns) == 'undefined')
         {
             var data = {token:$scope.user.token};
@@ -538,31 +595,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         }
     }
     
-    $scope.changeContent = function()
-    {
-        var needPanel = false;
-
-        for (var i = 0; i < $scope.socPatterns.length; i++)
-        {
-            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
-            {
-                needPanel = true;
-                break;
-            }
-        }
-
-        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
-        {
-            angular.element('#extraMediaForm').slideDown(500);
-            angular.element('#extraMediaForm').addClass('open');
-        }
-        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
-        {
-            angular.element('#extraMediaForm').slideUp();
-            angular.element('#extraMediaForm').removeClass('open');
-        }
-    }
-  
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
