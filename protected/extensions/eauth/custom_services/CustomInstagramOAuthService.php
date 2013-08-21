@@ -19,6 +19,7 @@ class CustomInstagramOAuthService extends EOAuth2Service {
   protected function fetchAttributes() {
 	$this->attributes['id'] = $this->getState('instagram_id');
 	$this->attributes['name'] = $this->getState('instagram_username');
+	$this->attributes['url'] = 'http://instagram.com/' . $this->getState('instagram_username');
 /*
     $media = $this->makeSignedRequest('https://api.instagram.com/v1/users/'.$this->attributes['id'].'/media/recent');
 	

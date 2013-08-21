@@ -87,7 +87,7 @@ class SpotController extends MController
                                 {
                                     $link = $content['data'][$dataKeys[$i]];
                                     $socInfo = new SocInfo;
-                                    $socData = $socInfo->getNetData($link);
+                                    $socData = $socInfo->getNetData($link, $spot->discodes_id, $dataKeys[$i]);
                                     if (isset($socData['netName']))
                                     {
                                         if(empty($socData['soc_url']))

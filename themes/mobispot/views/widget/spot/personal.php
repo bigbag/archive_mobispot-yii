@@ -43,11 +43,9 @@
                 <a data-tooltip title="Vimeo" net="vimeo" class="tip-top" ng-click="bindByPanel('vimeo')" ng-mouseenter="socView('vimeo')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vimeo.png"> 
                 </a>
-                <?php /*
                 <a data-tooltip title="LinkedIn" net="linkedin" class="tip-top" ng-click="bindByPanel('linkedin')" ng-mouseenter="socView('linkedin')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/linkedin.png"> 
                 </a>
-                */?>
                 <?php /*
                 <a data-tooltip title="LastFM" net="Last.fm" class="tip-top" ng-click="bindByPanel()" ng-mouseenter="socView('Last.fm')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/lastfm.png"> 
@@ -75,11 +73,9 @@
                 <a data-tooltip title="VKontakte" net="vk" class="tip-top" ng-click="bindByPanel('vk')" ng-mouseenter="socView('vk')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vk.png"> 
                 </a>
-                <?php /*
                 <a data-tooltip title="Instagram" net="instagram" class="tip-top" ng-click="bindByPanel('instagram')" ng-mouseenter="socView('instagram')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/instagram.png"> 
                 </a>
-                */?>
                 <?php /*
                 <a data-tooltip title="Pinterest" net="pinterest" class="tip-top" ng-click="bindByPanel('pinterest')" ng-mouseenter="socView('pinterest')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
