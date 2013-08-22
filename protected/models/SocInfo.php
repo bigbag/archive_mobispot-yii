@@ -30,6 +30,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'google.png';
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'facebook';
@@ -42,6 +43,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'facebook.png';
         $net['contentClass'] = 'FacebookContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'twitter';
@@ -54,6 +56,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'twitter.png';
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'vk';
@@ -66,6 +69,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'vk16.png';
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'linkedin';
@@ -78,6 +82,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'linkedin.png';
         $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'foursquare';
@@ -90,6 +95,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'foursquare.png';
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'vimeo';
@@ -102,6 +108,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'vimeo.png';
         $net['contentClass'] = 'VimeoContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
         /*
           $net['name'] = 'Last.fm';
@@ -114,6 +121,7 @@ class SocInfo extends CFormModel
           $net['smallIcon'] = '';
           $net['contentClass'] = '';
           $net['needAuth'] = true;
+          $net['profileHint'] = '';
           $socNetworks[] = $net;
          */
         $net['name'] = 'deviantart';
@@ -126,6 +134,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'deviantart.png';
         $net['contentClass'] = 'DeviantARTContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'Behance';
@@ -138,6 +147,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Behance');
         $socNetworks[] = $net;
 
         /*
@@ -151,6 +161,7 @@ class SocInfo extends CFormModel
           $net['smallIcon'] = '';
           $net['contentClass'] = '';
           $net['needAuth'] = true;
+          $net['profileHint'] = '';
           $socNetworks[] = $net;
          */
         $net['name'] = 'YouTube';
@@ -163,6 +174,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'instagram';
@@ -175,6 +187,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'instagram.png';
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
+        $net['profileHint'] = '';
         $socNetworks[] = $net;
 
         $net['name'] = 'pinterest';
@@ -187,6 +200,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Pinterest');
         $socNetworks[] = $net;
         
         $net['name'] = 'crunchbase';
@@ -199,6 +213,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = '';
         $net['contentClass'] = 'CrunchBaseContent';
         $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Crunchbase');
         $socNetworks[] = $net;
         
         return $socNetworks;

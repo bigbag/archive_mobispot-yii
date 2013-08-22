@@ -355,11 +355,13 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     // Привязка соцсетей
     var popup;
     var socTimer;
+    var holderTimer;
     //через плашку
     $scope.bindByPanel = function(buttonName)
     {
         var netName = buttonName;
         var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
+        //определение сети по ссылке
         if ($scope.spot.content.length > 0)
         {
             data.link = $scope.spot.content;
@@ -377,72 +379,100 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         
         $http.post('/spot/BindByPanel', data).success(function(data) {
             if(data.error == 'no') {
-                if (!data.loggedIn) {
-                    var options = $.extend({
-                      id: '',
-                      popup: {
-                        width: 450,
-                        height: 380
-                      }
-                    }, options);
-
-                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
-
-                    url += url.indexOf('?') >= 0 ? '&' : '?';
-                    if (url.indexOf('redirect_uri=') === -1)
-                      url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-                    url += 'js';
-
-                    var centerWidth = (window.screen.width - options.popup.width) / 2,
-                      centerHeight = (window.screen.height - options.popup.height) / 2;
-
-                    popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-                    popup.focus();
-                    
-                    $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
-                    if ($scope.spot.content.length > 0)
-                        $scope.bindNet.link = $scope.spot.content;
-                    socTimer = $timeout($scope.loginTimer, 1000);
-                }
-                else 
+                if(data.profileHint.length == 0)
                 {
-                    if(data.linkCorrect == 'ok')
-                    {
-                        if(angular.element('#extraMediaForm').hasClass('open'))
-                        {
-                            angular.element('#extraMediaForm').slideUp();
-                            angular.element('#extraMediaForm').removeClass('open');
-                        }
+                    if (!data.loggedIn) {
+                        var options = $.extend({
+                          id: '',
+                          popup: {
+                            width: 450,
+                            height: 380
+                          }
+                        }, options);
 
-                        angular.element('#add-content').append($compile(data.content)($scope));
+                        var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
 
-                        $scope.keys.push(data.key);
-                        $scope.spot.content='';
-                        angular.element('textarea').removeClass('put');
+                        url += url.indexOf('?') >= 0 ? '&' : '?';
+                        if (url.indexOf('redirect_uri=') === -1)
+                          url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+                        url += 'js';
+
+                        var centerWidth = (window.screen.width - options.popup.width) / 2,
+                          centerHeight = (window.screen.height - options.popup.height) / 2;
+
+                        popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                        popup.focus();
                         
-                        var scroll_height = $('#block-' + data.key).offset().top - 100;
-                        $('html, body').animate({
-                            scrollTop: scroll_height
-                        }, 600);
+                        $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
+                        if ($scope.spot.content.length > 0)
+                            $scope.bindNet.link = $scope.spot.content;
+                        socTimer = $timeout($scope.loginTimer, 1000);
                     }
-                    else
+                    else 
                     {
-                        var resultModal = angular.element('.m-result');
-                        var resultContent = resultModal.find('p');
-                        resultModal.show();
-                        resultContent.text(data.linkCorrect);
-                        resultModal.fadeOut(10000, function() {});
+                        if(data.linkCorrect == 'ok')
+                        {
+                            if(angular.element('#extraMediaForm').hasClass('open'))
+                            {
+                                angular.element('#extraMediaForm').slideUp();
+                                angular.element('#extraMediaForm').removeClass('open');
+                            }
+
+                            angular.element('#add-content').append($compile(data.content)($scope));
+
+                            $scope.keys.push(data.key);
+                            $scope.spot.content='';
+                            angular.element('textarea').removeClass('put');
+                            
+                            var scroll_height = $('#block-' + data.key).offset().top - 100;
+                            $('html, body').animate({
+                                scrollTop: scroll_height
+                            }, 600);
+                        }
+                        else
+                        {
+                            var resultModal = angular.element('.m-result');
+                            var resultContent = resultModal.find('p');
+                            resultModal.show();
+                            resultContent.text(data.linkCorrect);
+                            resultModal.fadeOut(10000, function() {});
+                        }
                     }
+                }
+                else
+                {
+                    $timeout.cancel(holderTimer);
+                    holderTimer = $timeout($scope.hintTimer, 10000);
+                    angular.element('#socLinkHolder h4').html(data.profileHint);
+                    angular.element('#mainHolder').addClass('hide');
+                    angular.element('#socLinkHolder').removeClass('hide');
+                    angular.element('#socLinkHolder h4').stop();
+                    angular.element('#socLinkHolder h4').fadeTo(800, 0.5, 
+                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 1, 
+                            function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
+                                angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
                 }
             }
-            else {
+            else
+            {
                 console.log(data.error);
             }
         }).error(function(error){
             console.log(error);
         });
     }
-    
+  
+    $scope.hintTimer = function()
+    {
+        angular.element('#socLinkHolder h4').stop();
+        angular.element('#socLinkHolder h4').html('');
+        if (angular.element('#mainHolder').hasClass('hide'))
+        {
+            angular.element('#socLinkHolder').addClass('hide');
+            angular.element('#mainHolder').removeClass('hide');
+        }
+    }
+  
   //привязка по кнопке
   $scope.bindSocial  = function(spot, key, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
