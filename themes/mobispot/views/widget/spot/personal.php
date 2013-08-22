@@ -16,8 +16,13 @@
 
             </textarea>
             <div class="text-center label-cover">
-                <h4><?php echo Yii::t('spots', 'Drag your files here or begin to type info or links'); ?></h4>
-                <span><?php echo Yii::t('spots', 'A maximum file size limit of 25mb for free accounts'); ?></span>
+                <div id="mainHolder">
+                    <h4><?php echo Yii::t('spots', 'Drag your files here or begin to type info or links'); ?></h4>
+                    <span><?php echo Yii::t('spots', 'A maximum file size limit of 25mb for free accounts'); ?></span>
+                </div>
+                <div id="socLinkHolder" class="hide">
+                    <h4></h4>
+                </div>
                 <div class="cover-fast-link">
                     <label for="add-file" data-tooltip title="<?php echo Yii::t('spots', 'Add file'); ?>"  class="icon tip-left">&#xe00e;</label>
                     <a data-tooltip ng-click="socialButton();" title="<?php echo Yii::t('spots', 'Add links and social accounts'); ?>" id="extraMedia" class="tip-right icon toggle-box">&#xe005;</a>
@@ -35,11 +40,9 @@
                     <img width="36" src="/themes/mobispot/images/icons/social/flickr.png"> 
                 </a>
                 */?>
-                <?php /*
                 <a data-tooltip title="Behance" net="Behance" class="tip-top" ng-click="bindByPanel('Behance')" ng-mouseenter="socView('Behance')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/behance.png"> 
                 </a>
-                */?>
                 <a data-tooltip title="Vimeo" net="vimeo" class="tip-top" ng-click="bindByPanel('vimeo')" ng-mouseenter="socView('vimeo')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vimeo.png"> 
                 </a>
@@ -76,11 +79,9 @@
                 <a data-tooltip title="Instagram" net="instagram" class="tip-top" ng-click="bindByPanel('instagram')" ng-mouseenter="socView('instagram')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/instagram.png"> 
                 </a>
-                <?php /*
                 <a data-tooltip title="Pinterest" net="pinterest" class="tip-top" ng-click="bindByPanel('pinterest')" ng-mouseenter="socView('pinterest')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
                 </a>
-                */?>
                 <a data-tooltip title="DeviantART" net="deviantart" class="tip-top" ng-click="bindByPanel('deviantart')" ng-mouseenter="socView('deviantart')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/deviantart.png"> 
                 </a>
