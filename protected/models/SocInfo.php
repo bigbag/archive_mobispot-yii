@@ -147,7 +147,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
-        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Behance');
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Behance profile here');
         $socNetworks[] = $net;
 
         /*
@@ -200,7 +200,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
-        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Pinterest');
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Pinterest profile here');
         $socNetworks[] = $net;
         
         $net['name'] = 'crunchbase';
@@ -213,7 +213,7 @@ class SocInfo extends CFormModel
         $net['smallIcon'] = '';
         $net['contentClass'] = 'CrunchBaseContent';
         $net['needAuth'] = false;
-        $net['profileHint'] = Yii::t('eauth', 'Вставьте сюда ссылку на свой профиль в Crunchbase');
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Crunchbase profile here');
         $socNetworks[] = $net;
         
         return $socNetworks;
