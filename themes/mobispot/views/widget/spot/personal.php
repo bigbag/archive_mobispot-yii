@@ -73,6 +73,9 @@
                 <a data-tooltip title="Google+" net="google_oauth" class="tip-top" ng-click="bindByPanel('google_oauth')" ng-mouseenter="socView('google_oauth')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/google.png"> 
                 </a>
+                <a data-tooltip title="Foursquare" net="foursquare" class="tip-top" ng-click="bindByPanel('foursquare')" ng-mouseenter="socView('foursquare')" ng-mouseleave="socView()">
+                    <img width="36" src="/themes/mobispot/images/icons/social/foursquare.png"> 
+                </a>
                 <a data-tooltip title="VKontakte" net="vk" class="tip-top" ng-click="bindByPanel('vk')" ng-mouseenter="socView('vk')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/vk.png"> 
                 </a>
@@ -84,6 +87,9 @@
                 </a>
                 <a data-tooltip title="DeviantART" net="deviantart" class="tip-top" ng-click="bindByPanel('deviantart')" ng-mouseenter="socView('deviantart')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/deviantart.png"> 
+                </a>
+                <a data-tooltip title="CrunchBase" net="crunchbase" class="tip-top" ng-click="bindByPanel('crunchbase')" ng-mouseenter="socView('crunchbase')" ng-mouseleave="socView()">
+                    <img width="36" src="/themes/mobispot/images/icons/social/crunchbase.png"> 
                 </a>
             </div>
         </div>

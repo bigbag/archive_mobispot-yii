@@ -205,12 +205,12 @@ class SocInfo extends CFormModel
         
         $net['name'] = 'crunchbase';
         $net['baseUrl'] = 'crunchbase.com';
-        $net['title'] = 'Crunchbase';
+        $net['title'] = 'CrunchBase';
         $net['invite'] = Yii::t('eauth', 'Watch more on CrunchBase');
         $net['inviteClass'] = '';
         $net['inviteValue'] = '';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = '';
+        $net['smallIcon'] = 'crunchbase.png';
         $net['contentClass'] = 'CrunchBaseContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Crunchbase profile here');
