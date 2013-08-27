@@ -219,7 +219,7 @@ class SocInfo extends CFormModel
         return $socNetworks;
     }
 
-    public function getNetData($link, $discodesId = null, $dataKey = null)
+    public function getNetData($link, $discodesId = null, $dataKey = null, $dinamyc = false)
     {
         $this->socNet = '';
         $this->socUsername = '';
@@ -237,6 +237,13 @@ class SocInfo extends CFormModel
             $this->userDetail['inviteValue'] = $net['inviteValue'];
             $this->userDetail['netName'] = $this->socNet;
         }
+        
+        if ($dinamyc)
+            $this->userDetail['dinamyc'] = true;
+        
+        if (empty($this->userDetail['soc_url']))
+            $this->userDetail['soc_url'] = $link;
+        
         return $this->userDetail;
     }
 

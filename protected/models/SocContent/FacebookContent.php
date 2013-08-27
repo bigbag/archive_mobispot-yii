@@ -163,7 +163,8 @@ class FacebookContent extends SocContentBase
                     $userDetail['locale'] = $socUser['locale'];
 */
                 //жетон приложения
-                $appToken = Yii::app()->cache->get('facebookAppToken');
+                //$appToken = Yii::app()->cache->get('facebookAppToken');
+                $appToken = false;
                 $isAppTokenValid = false;
 
                 if ($appToken !== false)
@@ -183,7 +184,11 @@ class FacebookContent extends SocContentBase
                         fclose($textToken);
                         if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
                             $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
+                        /*
+                        if (Yii::app()->cache->get('facebookAppToken') !== false)
+                            Yii::app()->cache->delete('facebookAppToken');
                         Yii::app()->cache->set('facebookAppToken', $appToken);
+                        */
                         $isAppTokenValid = true;
                     }
                 }

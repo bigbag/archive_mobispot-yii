@@ -179,6 +179,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
     $scope.spot.discodes = spot.attr('id');
     $scope.keys = [];
+    $scope.KeysForLoad = [];
 
     if (spotContent.attr('class') == null) {
       var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
@@ -192,7 +193,8 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
           spotHat.after($compile(data.content)($scope));
           spot.addClass('open');
-          spot.find('.spot-content').slideToggle('slow'); 
+          spot.find('.spot-content').slideToggle('slow');
+          $scope.LoadSocContent();
 
           $scope.spot.content='';
 
@@ -229,6 +231,34 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     }
   }
 
+    $scope.socTask = function(key){
+        $scope.KeysForLoad.push(key);
+
+    }
+    
+    $scope.LoadSocContent = function() {
+        var len = $scope.KeysForLoad.length;
+        for (var i = 0; i < len; i++)
+        {
+            var data = {discodes:$scope.spot.discodes, key:$scope.KeysForLoad[i], token:$scope.user.token};
+            $http.post('/spot/SocNetContent', data).success(function(data) {
+                if(data.error == 'no') 
+                {
+                    var spotEdit = angular.element('#block-' + data.key);
+                    spotEdit.before($compile(data.content)($scope));
+                    spotEdit.remove();
+                }
+                else
+                {
+                    console.log(data.error);
+                }
+            }).error(function(error){
+                console.log(error);
+            });
+        }
+        $scope.KeysForLoad = [];
+    }
+  
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
     if (spot.content && spot.user) {

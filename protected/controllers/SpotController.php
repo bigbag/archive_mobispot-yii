@@ -306,8 +306,8 @@ class SpotController extends MController
                 if ($spotContent)
                 {
 
-                    $SocInfo = new SocInfo;
-                    $socNet = $SocInfo->getNetByLink($spotContent->content['data'][$data['key']]);
+                    $socInfo = new SocInfo;
+                    $socNet = $socInfo->getNetByLink($spotContent->content['data'][$data['key']]);
 
                     if (!empty($socNet['name']))
                     {
@@ -317,11 +317,11 @@ class SpotController extends MController
                         if ((!empty(Yii::app()->session[$netName . '_id'])) || (isset($socNet['needAuth']) and $socNet['needAuth'] === false))
                         {
                             $isSocLogged = true;
-                            $needSave = $SocInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
+                            $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
 
                             if ($needSave)
                             {
-                                $userDetail = $SocInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+                                $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
                                 if (empty($userDetail['error']))
                                 {
                                     $userDetail['binded_link'] = $spotContent->content['data'][$data['key']];
@@ -341,7 +341,7 @@ class SpotController extends MController
                             }
                             else
                             {
-                                $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+                                $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
                                 if ($linkCorrect == 'ok')
                                 {
                                     $content['keys'][$data['key']] = 'socnet';
@@ -358,10 +358,15 @@ class SpotController extends MController
                                             'key' => $data['key'],
                                                 ), true);
                                     else
+                                    {
+                                        $socContent = $socInfo->getNetData($content['data'][$data['key']], $data['discodes'], $data['key'], true);
+                                        
                                         $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
                                             'content' => $content['data'][$data['key']],
+                                            'socContent' => $socContent,
                                             'key' => $data['key'],
                                                 ), true);
+                                    }
                                 }
                             }
                         }
@@ -405,8 +410,8 @@ class SpotController extends MController
             if ($spot)
             {
                 $error = 'no';
-                $SocInfo = new SocInfo;
-                $socNet = $SocInfo->getNetByName($netName);
+                $socInfo = new SocInfo;
+                $socNet = $socInfo->getNetByName($netName);
                 
                 if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link']))
                 {
@@ -417,11 +422,11 @@ class SpotController extends MController
                 {
                     if (!empty($data['link']))
                     {
-                        $socNet = $SocInfo->getNetByLink($data['link']);
-                        $needSave = $SocInfo->contentNeedSave($data['link']);
+                        $socNet = $socInfo->getNetByLink($data['link']);
+                        $needSave = $socInfo->contentNeedSave($data['link']);
                     }
                     else
-                        $socNet = $SocInfo->getNetByName($netName);
+                        $socNet = $socInfo->getNetByName($netName);
                     
                     if (!empty($socNet['name']) and (!empty(Yii::app()->session[$netName . '_profile_url']) || (!empty($data['link']) and !$socNet['needAuth'])))
                     {
@@ -435,7 +440,7 @@ class SpotController extends MController
                             $content = $spotContent->content;
                             if ($needSave && !empty($data['link']))
                             {
-                                $userDetail = $SocInfo->getSocInfo($netName, $data['link'], $discodes_id, null);
+                                $userDetail = $socInfo->getSocInfo($netName, $data['link'], $discodes_id, null);
                                 if (empty($userDetail['error']))
                                 {
                                     $userDetail['binded_link'] = $data['link'];
@@ -458,7 +463,7 @@ class SpotController extends MController
                             else
                             {
                                 if (!empty($data['link']))
-                                    $linkCorrect = $SocInfo->isLinkCorrect($data['link'], $discodes_id, null);
+                                    $linkCorrect = $socInfo->isLinkCorrect($data['link'], $discodes_id, null);
                                 else 
                                     $linkCorrect = 'ok';
                                 
@@ -474,9 +479,11 @@ class SpotController extends MController
                                     $spotContent->content = $content;
                                     $spotContent->save();
                                     
+                                    $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
                                     $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
                                             'content' => $content['data'][$key],
                                             'key' => $key,
+                                            'socContent' => $socContent,
                                         ), true);
                                 }
                             }
@@ -534,17 +541,17 @@ class SpotController extends MController
                 $spotContent = SpotContent::getSpotContent($spot);
                 if ($spotContent)
                 {
-                    $SocInfo = new SocInfo;
-                    $socNet = $SocInfo->getNetByName($netName);
+                    $socInfo = new SocInfo;
+                    $socNet = $socInfo->getNetByName($netName);
 
                     if (!empty($socNet['name']))
                     {
                         $content = $spotContent->content;
-                        $needSave = $SocInfo->contentNeedSave($spotContent->content['data'][$key]);
+                        $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$key]);
 
                         if ($needSave)
                         {
-                            $userDetail = $SocInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$key], $discodes_id, $key);
+                            $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$key], $discodes_id, $key);
                             if (empty($userDetail['error']))
                             {
                                 $userDetail['binded_link'] = $spotContent->content['data'][$key];
@@ -559,7 +566,7 @@ class SpotController extends MController
                         }
                         else
                         {
-                            $linkCorrect = $SocInfo->isLinkCorrect($spotContent->content['data'][$key], $discodes_id, $key);
+                            $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$key], $discodes_id, $key);
                             if ($linkCorrect == 'ok')
                             {
                                 $content['keys'][$key] = 'socnet';
@@ -576,10 +583,15 @@ class SpotController extends MController
                                         'key' => $key,
                                             ), true);
                                 else
+                                {
+                                    $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
+                                    
                                     $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
+                                        'socContent' => $socContent,
                                             ), true);
+                                }
                             }
                         }
                         //$error = "no";
@@ -596,15 +608,15 @@ class SpotController extends MController
             if ($spot)
             {
             
-                $SocInfo = new SocInfo;
-                $socNet = $SocInfo->getNetByName($netName);
+                $socInfo = new SocInfo;
+                $socNet = $socInfo->getNetByName($netName);
                 if (!empty($data['bindNet']['link']))
                 {
-                    $socNet = $SocInfo->getNetByLink($data['bindNet']['link']);
-                    $needSave = $SocInfo->contentNeedSave($data['bindNet']['link']);
+                    $socNet = $socInfo->getNetByLink($data['bindNet']['link']);
+                    $needSave = $socInfo->contentNeedSave($data['bindNet']['link']);
                 }
                 else
-                    $socNet = $SocInfo->getNetByName($netName);
+                    $socNet = $socInfo->getNetByName($netName);
              
                 if (!empty($socNet['name']) and (!empty(Yii::app()->session[$netName . '_profile_url'])))
                 {
@@ -618,7 +630,7 @@ class SpotController extends MController
                         
                         if ($needSave && !empty($data['bindNet']['link']))
                         {
-                            $userDetail = $SocInfo->getSocInfo($netName, $data['bindNet']['link'], $discodes_id, null);
+                            $userDetail = $socInfo->getSocInfo($netName, $data['bindNet']['link'], $discodes_id, null);
                             if (empty($userDetail['error']))
                             {
                                 $userDetail['binded_link'] = $data['bindNet']['link'];
@@ -641,7 +653,7 @@ class SpotController extends MController
                         else
                         {
                             if (!empty($data['bindNet']['link']))
-                                $linkCorrect = $SocInfo->isLinkCorrect($data['bindNet']['link'], $discodes_id);
+                                $linkCorrect = $socInfo->isLinkCorrect($data['bindNet']['link'], $discodes_id);
                             else 
                                 $linkCorrect = 'ok';
                                 
@@ -658,9 +670,11 @@ class SpotController extends MController
                                 $spotContent->save();
                                 $newKey = $key;
                                 
+                                $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
                                 $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
+                                        'socContent' => $socContent,
                                     ), true);
                             }
                         }
@@ -678,6 +692,43 @@ class SpotController extends MController
                 'key' => $newKey,
             )
         );
+    }
+    
+    public function actionSocNetContent()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = 'error in spot/SocNetContent';
+    
+        if (isset($data['discodes']) and isset($data['key']))
+        {
+            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            if ($spot)
+            {
+
+                $spotContent = SpotContent::getSpotContent($spot);
+                if ($spotContent)
+                {
+                    if ($spotContent->content['keys'][$data['key']] == 'socnet')
+                    {
+                        $socInfo = new SocInfo;
+                        $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
+                        
+                        $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                            'content' => $spotContent->content['data'][$data['key']],
+                            'key' => $data['key'],
+                            'socContent' => $socContent,
+                        ), true);
+                        
+                        $answer['content'] = $content;
+                        $answer['key'] = $data['key'];
+                        $answer['error'] = 'no';
+                    }
+                }
+            }
+        }
+        
+        echo json_encode($answer);
     }
     
     //Отвязка соцсети
@@ -751,8 +802,8 @@ class SpotController extends MController
     {
         $data = $this->validateRequest();
         
-        $SocInfo = new SocInfo;
-        $answer['socPatterns'] = $SocInfo->getSocPatterns();
+        $socInfo = new SocInfo;
+        $answer['socPatterns'] = $socInfo->getSocPatterns();
         
         echo json_encode($answer);
     }
