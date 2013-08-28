@@ -29,13 +29,8 @@ return array(
         'messages' => array(
             'class' => 'CPhpMessageSource',
             'onMissingTranslation' => array('Translation', 'missing'),
-        //'cachingDuration'=>3600,
+            'cachingDuration'=>3600,
         ),
-#    'clientScript' => array(
-        #     'scriptMap' => array(
-        #      'jquery.js' => false,
-        #   )
-        # ),
         'user' => array(
             'class' => 'CWebUser',
             'allowAutoLogin' => true,
@@ -90,7 +85,10 @@ return array(
             'connectionID' => 'db',
         ),
         'cache' => array(
-            'class' => 'system.caching.CApcCache',
+            'class'=>'CRedisCache',
+            'hostname'=>'localhost',
+            'port'=>6379,
+            'database'=>0,
         ),
         'hasher' => array(
             'class' => 'Phpass',

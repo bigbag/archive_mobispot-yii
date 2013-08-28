@@ -109,10 +109,10 @@ class SpotController extends MController
 
                 $content = $spotContent->content;
                 $content_keys = $content['keys'];
-                if (!empty($content_keys)) 
-                {
-                    ksort($content_keys);
-                }
+                // if (!empty($content_keys)) 
+                // {
+                //     ksort($content_keys);
+                // }
 
                 $answer['content'] = $this->renderPartial('//widget/spot/' . $spot->spot_type->key, array(
                     'spot' => $spot,

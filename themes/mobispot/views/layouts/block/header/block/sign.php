@@ -31,7 +31,11 @@
                 </a>
            
                 <div class="form-control">
-                    <a class="spot-button login {{ signForm.$valid || 'button-disable'}}" href="javascript:;" ng-click="login(user, signForm.$valid)" >
+                    <a 
+                        class="spot-button login {{ signForm.$valid || 'button-disable'}}" 
+                        href="javascript:;" 
+                        ng-click="login(user, signForm.$valid)" 
+                        >
                         <?php echo Yii::t('user', 'Sign in'); ?>
                     </a>
                     <span class="right soc-link">
