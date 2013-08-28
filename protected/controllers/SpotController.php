@@ -723,6 +723,8 @@ class SpotController extends MController
                         $answer['content'] = $content;
                         $answer['key'] = $data['key'];
                         $answer['error'] = 'no';
+                        if (isset($data['lastKey']))
+                            $answer['lastKey'] = $data['lastKey'];
                     }
                 }
             }

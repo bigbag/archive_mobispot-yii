@@ -241,12 +241,31 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         for (var i = 0; i < len; i++)
         {
             var data = {discodes:$scope.spot.discodes, key:$scope.KeysForLoad[i], token:$scope.user.token};
+            if (len == (i+1)){
+                data.lastKey = true;
+            }
             $http.post('/spot/SocNetContent', data).success(function(data) {
                 if(data.error == 'no') 
                 {
                     var spotEdit = angular.element('#block-' + data.key);
                     spotEdit.before($compile(data.content)($scope));
                     spotEdit.remove();
+                    if (typeof (data.lastKey) != 'undefined' && data.lastKey){
+                        angular.element('.video-vimeo').css('width', '100%');
+                        //angular.element('.video-vimeo').css('height', (parseInt(angular.element('.video-vimeo').css('width'), 10) / 1.3 + 'px'));
+                        angular.element('.yt_player').css('width', '100%');
+                        //angular.element('.yt_player').css('height', (parseInt(angular.element('.yt_player').css('width'), 10) / 1.3 + 'px'));
+                        var elems = angular.element('.yt_player'); 
+                        for (var i = 0; i < elems.length; i++) { 
+                            var player = angular.element(elems[i]); 
+                            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
+                        }
+                        var elems = angular.element('.video-vimeo'); 
+                        for (var i = 0; i < elems.length; i++) { 
+                            var player = angular.element(elems[i]); 
+                            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
+                        }
+                    }
                 }
                 else
                 {

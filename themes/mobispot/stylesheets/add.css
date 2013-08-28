@@ -143,3 +143,88 @@ a.blackout{
     margin-bottom:27px;
 }
 
+.post-box .item-area {
+    background: none repeat scroll 0% 0% rgb(240, 243, 246);
+}
+/*
+.item-area.text-center {
+	border: 1px solid red;
+}
+*/
+/*
+/////tweet
+
+.spot-item_twi p{
+    min-height: 33px;
+    padding: 2px 0 0;
+}
+.spot-item_twi p a{
+    color: #0063ff;
+}
+.spot-item_twi .actions a{
+    font-size: 12px !important;
+    color: #999;
+    vertical-align: top;
+    margin-left: 10px;
+}
+.spot-item_twi .actions a i{
+    font-family: Mobispot-icon;
+    font-style: normal;
+    vertical-align: top;
+    margin-right: 3px;
+    margin-top: 2px;
+    display: inline-block;
+}
+
+.user-avatar{
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+    margin: 10px 14px 6px 0;
+    height: 90px;
+    width: 90px;
+}
+.type-mess  .user-avatar img{
+    margin: 0;
+}
+.type-mess .user-avatar + p{
+    min-height: 90px;
+}
+
+.author-row a{
+    margin-right: 10px;
+}
+
+.spot-item_twi .author-row{
+    float: left;
+}
+
+.author-row{
+    margin-top: 12px;
+}
+
+    .spot-item_twi .author-row{
+        float: none;
+    }
+
+/*
+.post-box{
+    border: 1px solid red;
+}
+
+
+.item-area.type-soc{
+    padding-left:0px !important;
+    padding-right:0px !important;
+    padding-bottom:0px !important;
+
+}
+
+
+ 
+.item-area-hat + .post-box{
+    margin-top: 67px;
+
+}
+ */
+

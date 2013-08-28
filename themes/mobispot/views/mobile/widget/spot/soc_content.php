@@ -1,5 +1,7 @@
+        <?php if (!(isset($socContent['dinamyc']) && isset($socContent['tweet_author']))): ?>
         <div class="spot-item<?php if (isset($socContent['tweet_author'])): ?> spot-item_twi<?php endif; ?>">
             <div class="item-area type-mess">
+        
                 <?php /* Avatar *////////////////////////////////////////////////////////////////////////////////// ?>
                 <?php if (isset($socContent['photo'])): ?>
                     <div class="user-avatar"><img src="<?php echo $socContent['photo']; ?>">
@@ -13,7 +15,7 @@
                 <?php if (isset($socContent['tweet_author']) && isset($socContent['tweet_username']) && isset($socContent['tweet_text']) && isset($socContent['soc_url']) && isset($socContent['tweet_id'])): ?>
                     <div class="mess-body">
                         <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a><a class="user-name" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a></div>
-                        <a href="<?php echo $socContent['soc_url']; ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow</a>
+                        <a href="<?php echo $socContent['soc_url']; ?>" data-show-count="false" data-size="large">Follow</a>
                         <script>!function(d, s, id) {
                                 var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
                                 if (!d.getElementById(id)) {
@@ -51,7 +53,10 @@
                 <?php if (isset($socContent['vimeo_last_video'])): ?>
                     <div class="item-area text-center" id="div_<?php echo $dataKey; ?>">
                         <iframe
-                            id="vimeo_<?php echo $dataKey; ?>" src="http://player.vimeo.com/video/<?php echo $socContent['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+                            id="vimeo_<?php echo $dataKey; ?>" class="video-vimeo" src="http://player.vimeo.com/video/<?php echo $socContent['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen 
+                            <?php if (isset($socContent['vimeo_video_width'])): ?>
+                            rel="<?php echo $socContent['vimeo_video_width'] / $socContent['vimeo_video_height']; ?>"
+                            <?php endif; ?>>
                         </iframe>
                         <?php if (isset($socContent['vimeo_last_video_counter'])): ?>
                             <p><?php echo Yii::t('eauth', 'View count: ') . $socContent['vimeo_last_video_counter']; ?></p>
@@ -147,6 +152,9 @@
                                 <param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>"></param>
                                 <param name="allowFullScreen" value="true"></param>
                                 <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>"
+                                        <?php if (isset($socContent['ytube_video_rel'])): ?>
+                                            rel="<?php echo $socContent['ytube_video_rel']; ?>"
+                                        <?php endif; ?>
                                        type="application/x-shockwave-flash"
                                        <?php if (isset($socContent['ytube_video_rel'])): ?>
                                            width="100%" height="480"
@@ -155,7 +163,7 @@
                             <?php endif; ?>
                                        allowfullscreen="true"></embed>
                             </object>
-                <?php if (isset($socContent['ytube_video_rel'])): ?>
+                            <?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
                                 <script type="text/javascript">
                                     $(document).ready(function() {
                                         $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
@@ -212,5 +220,7 @@
                     <?php endif; ?>
                     </a>
         <?php endif; ?>
+        
             </div>
         </div>
+        <?php endif; ?>
