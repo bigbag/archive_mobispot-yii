@@ -701,13 +701,6 @@ a.active .m-tooltip{
 	background: none;
 	margin-bottom: 0;
 }
-@-moz-document url-prefix(){
-	.spot-item textarea{
-
-		height: 91px;
-
-	}
-}
 
 .item-area{
 	display: block;

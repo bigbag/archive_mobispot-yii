@@ -119,7 +119,7 @@ class UserController extends MController
                 'pagination' => array(
                     'pageSize' => 100,
                 ),
-                'sort' => array('defaultOrder' => 'registered_date desc'),
+                'sort' => array('defaultOrder' => 'registered_date asc'),
             ));
 
             $this->render('personal', array(
