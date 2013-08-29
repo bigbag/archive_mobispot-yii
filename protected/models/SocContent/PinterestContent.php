@@ -32,7 +32,7 @@ class PinterestContent extends SocContentBase
             $xml = new SimpleXMLElement($curl_result);
             if (isset($xml) && isset($xml->channel) && isset($xml->channel->item) && isset($xml->channel->item[0]))
             {
-                $description = $xml->channel->item[0]->description;
+                $description = (string)$xml->channel->item[0]->description;
                 if ((strpos($description, 'src="') !== false))
                 {
                     $img_href = substr($description, (strpos($description, 'src="') + 5));
@@ -40,9 +40,9 @@ class PinterestContent extends SocContentBase
                     {
                         $socUser['last_img'] = substr($img_href, 0, (strpos($img_href, '"')));
                         if (isset($xml->channel->item[0]->title))
-                            $socUser['last_img_msg'] = $xml->channel->item[0]->title;
+                            $socUser['last_img_msg'] = (string)$xml->channel->item[0]->title;
                         if (isset($xml->channel->item[0]->link))
-                            $socUser['last_img_href'] = $xml->channel->item[0]->link;
+                            $socUser['last_img_href'] = (string)$xml->channel->item[0]->link;
                         $socUser['last_img_story'] = strip_tags($description);
                     }
                     else
