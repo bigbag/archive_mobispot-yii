@@ -640,6 +640,7 @@ class SpotController extends MController
                                 $content['counter'] = $content['counter'] + 1;
                                 $spotContent->content = $content;
                                 $spotContent->save();
+                                $newKey = $key;
                                 $linkCorrect = 'ok';
                                 
                                 $content = $this->renderPartial('//widget/spot/personal/new_content', array(
