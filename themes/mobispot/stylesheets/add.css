@@ -146,6 +146,11 @@ a.blackout{
 .post-box .item-area {
     background: none repeat scroll 0% 0% rgb(240, 243, 246);
 }
+
+.item-area.text-center  img {
+    margin: 0px auto;
+}
+
 /*
 .item-area.text-center {
 	border: 1px solid red;
