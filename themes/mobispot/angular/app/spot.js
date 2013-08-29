@@ -217,7 +217,9 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             $scope.spot.invisible = false;
           }
         }
-      });
+      }).error(function(error){
+        console.log(error);
+      });;
     }
     else {
       delete $scope.spot.discodes;
