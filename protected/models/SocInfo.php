@@ -66,7 +66,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = 'i-soc_vk';
         $net['inviteValue'] = '&#xe002;';
         $net['note'] = Yii::t('eauth', '');
-        $net['smallIcon'] = 'vk16.png';
+        $net['smallIcon'] = 'vk.png';
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
