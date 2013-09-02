@@ -316,9 +316,33 @@ class SocInfo extends CFormModel
                 $pattern['name'] = $net['name'];
                 $pattern['baseUrl'] = $net['baseUrl'];
                 $pattern['title'] = $net['title'];
+                if (isset(Yii::app()->session[$net['name'] . '_BindByPaste']))
+                    $pattern['BindByPaste'] = true;
+                else
+                    $pattern['BindByPaste'] = false;
                 $answer[] = $pattern;
             }
         }
+        
+        return $answer;
+    }
+    
+    public function isLoggegOn($netName)
+    {
+        $answer = false;
+        
+        $net = $this->getNetByName($netName);
+        if ($net['needAuth'] == false)
+        {
+            $answer = true;
+        }
+        elseif (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::isLoggegByNet();
+        }
+        elseif(!empty(Yii::app()->session[$net['name'] . '_id']))
+            $answer = true;
         
         return $answer;
     }

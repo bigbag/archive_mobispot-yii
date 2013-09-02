@@ -367,10 +367,11 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         }
     }
 
+    //отслеживает поле редактирования на появление ссылок на соцсети
     $scope.changeContent = function()
     {
         var needPanel = false;
-        var currentNet;
+        var currentNet = -1;
 
         for (var i = 0; i < $scope.socPatterns.length; i++)
         {
@@ -381,25 +382,42 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                 break;
             }
         }
-        
-        if (needPanel && typeof (currentNet) != 'undefined')
+
+        if (needPanel && $scope.socPatterns[currentNet].BindByPaste && ((typeof ($scope.lastContentLength) == 'undefined' && $scope.spot.content.length > 1) || (Math.abs($scope.spot.content.length - $scope.lastContentLength) > 1)))
         {
-            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
-            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
-            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
-            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
-            $scope.freeSocial = false;
+            if (angular.element('#extraMediaForm').hasClass('open'))
+            {
+                angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                angular.element('#extraMediaForm').removeClass('open');
+            }
+            $scope.lastContentLength = 0;
+            angular.element('body').css('cursor', 'wait');
+            angular.element('#dropbox textarea').css('cursor', 'wait');
+            
+            $scope.bindByPanel($scope.socPatterns[currentNet].name);
         }
-        
-        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
+        else 
         {
-            angular.element('#extraMediaForm').slideDown(500);
-            angular.element('#extraMediaForm').addClass('open');
-        }
-        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
-        {
-            angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-            angular.element('#extraMediaForm').removeClass('open');
+            $scope.lastContentLength = $scope.spot.content.length;
+            if (needPanel)
+            {
+                angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
+                angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
+                angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
+                angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
+                $scope.freeSocial = false;
+            }
+            
+            if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
+            {
+                angular.element('#extraMediaForm').slideDown(500);
+                angular.element('#extraMediaForm').addClass('open');
+            }
+            else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
+            {
+                angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                angular.element('#extraMediaForm').removeClass('open');
+            }
         }
     }
     
@@ -474,11 +492,18 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             $scope.keys.push(data.key);
                             $scope.spot.content='';
                             angular.element('textarea').removeClass('put');
+                            angular.element('body').css('cursor', 'default');
+                            angular.element('#dropbox textarea').css('cursor', 'text');
                             
                             var scroll_height = $('#block-' + data.key).offset().top - 100;
                             $('html, body').animate({
                                 scrollTop: scroll_height
                             }, 600);
+                            
+                            var currentNet = $scope.getPatternInd(data.socnet);
+                            if (currentNet > -1)
+                                $scope.socPatterns[currentNet].BindByPaste = true;
+                            $scope.lastContentLength = 0;
                         }
                         else
                         {
@@ -513,6 +538,22 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         });
     }
   
+    //возврашает индекс соцсети в скопе по имени
+    $scope.getPatternInd = function(netName)
+    {
+        var currentNet = -1;
+        for (var i = 0; i < $scope.socPatterns.length; i++)
+        {
+            if ($scope.socPatterns[i].name == netName)
+            {
+                currentNet = i;
+                break;
+            }
+        }
+        return currentNet;
+    }
+  
+    //возврашает исходный плейсхолдер нового поля, вместо сообщения с просьбой вставить ссылку на соцсеть
     $scope.hintTimer = function()
     {
         angular.element('#socLinkHolder h4').stop();
@@ -561,6 +602,10 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             {
                 spotEdit.before($compile(data.content)($scope));
                 spotEdit.remove();
+                var currentNet = $scope.getPatternInd(data.socnet);
+                if (currentNet > -1)
+                    $scope.socPatterns[currentNet].BindByPaste = true;
+                $scope.lastContentLength = 0;
             }
             else
             {
@@ -582,6 +627,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     });
   };
   
+    //привязка соцсети и закрытие попапа, если пользователь залогинился через соцсеть
     $scope.loginTimer = function()
     {
         if (!popup.closed) {
@@ -609,6 +655,9 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                 $scope.spot.content='';
                                 angular.element('textarea').removeClass('put');
                                 
+                                angular.element('body').css('cursor', 'default');
+                                angular.element('#dropbox textarea').css('cursor', 'text');
+                               
                                 var scroll_height = $('#block-' + data.key).offset().top - 100;
                                 $('html, body').animate({
                                     scrollTop: scroll_height
@@ -623,6 +672,11 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
                             popup.close();
                             $scope.bindNet = {};
+                            var currentNet = $scope.getPatternInd(data.socnet);
+                            if (currentNet > -1)
+                                $scope.socPatterns[currentNet].BindByPaste = true;
+
+                            $scope.lastContentLength = 0;
                         }
                         else
                         {
@@ -670,6 +724,11 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             var data = {token:$scope.user.token};
             $http.post('/spot/SocPatterns', data).success(function(data) {
                 $scope.socPatterns = data.socPatterns;
+                for (var i = 0; i < $scope.socPatterns.length; i++)
+                {
+                    if (typeof ($scope.socPatterns[i].BindByPaste) == 'undefined')
+                        $scope.socPatterns[i].BindByPaste = false;
+                }
             }).error(function(error){
                 console.log(error);
             });

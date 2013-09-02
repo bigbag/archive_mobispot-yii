@@ -85,4 +85,13 @@ class LinkedInContent extends SocContentBase
         return $array;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['linkedin_id']))
+            $answer = true;
+        
+        return $answer;
+    }
+}
 }

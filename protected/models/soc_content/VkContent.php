@@ -27,4 +27,12 @@ class VkContent extends SocContentBase
         return $username;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['vk_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

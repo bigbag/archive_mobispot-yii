@@ -168,5 +168,13 @@ class GoogleContent extends SocContentBase
         }
         return $username;
     }
-
+    
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['google_oauth_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

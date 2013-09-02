@@ -68,4 +68,10 @@ class PinterestContent extends SocContentBase
         return $username;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = true;
+
+        return $answer;
+    }
 }

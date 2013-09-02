@@ -66,4 +66,12 @@ class YouTubeContent extends SocContentBase
         return $link;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['YouTube_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

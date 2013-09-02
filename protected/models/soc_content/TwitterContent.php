@@ -189,5 +189,13 @@ class TwitterContent extends SocContentBase
             $result = true;
         return $result;
     }
-
+    
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['twitter_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

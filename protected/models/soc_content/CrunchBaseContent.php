@@ -224,5 +224,11 @@ class CrunchBaseContent extends SocContentBase
 
         return $userDetail;
     }
+    
+    public static function isLoggegByNet()
+    {
+        $answer = true;
 
+        return $answer;
+    }
 }

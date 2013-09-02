@@ -31,5 +31,13 @@ class DeviantARTContent extends SocContentBase
             $username = 'strpos:' . strpos($username, 'http://');
         return $username;
     }
-
+    
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['deviantart_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

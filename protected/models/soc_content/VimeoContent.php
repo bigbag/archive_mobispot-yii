@@ -32,4 +32,12 @@ class VimeoContent extends SocContentBase
         return $username;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['vimeo_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }

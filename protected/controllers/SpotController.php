@@ -314,7 +314,7 @@ class SpotController extends MController
                         $netName = $socNet['name'];
                         $content = $spotContent->content;
 
-                        if ((!empty(Yii::app()->session[$netName . '_id'])) || (isset($socNet['needAuth']) and $socNet['needAuth'] === false))
+                        if ($socInfo->isLoggegOn($netName))
                         {
                             $isSocLogged = true;
                             $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
@@ -367,6 +367,7 @@ class SpotController extends MController
                                             'key' => $data['key'],
                                                 ), true);
                                     }
+                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
                                 }
                             }
                         }
@@ -428,7 +429,7 @@ class SpotController extends MController
                     else
                         $socNet = $socInfo->getNetByName($netName);
                     
-                    if (!empty($socNet['name']) and (!empty(Yii::app()->session[$netName . '_profile_url']) || (!empty($data['link']) and !$socNet['needAuth'])))
+                    if (!empty($socNet['name']) and ($socInfo->isLoggegOn($netName) || (!empty($data['link']) and !$socNet['needAuth'])))
                     {
                         //авторизован через соцсеть, либо сеть не требует авторизации и есть привязываемая ссылка
                         $isSocLogged = true;
@@ -451,6 +452,7 @@ class SpotController extends MController
                                     $spotContent->content = $content;
                                     $spotContent->save();
                                     $linkCorrect = 'ok';
+                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
                                     
                                     $content = $this->renderPartial('//widget/spot/personal/new_content', array(
                                             'content' => $content['data'][$key],
@@ -478,6 +480,7 @@ class SpotController extends MController
                                     $content['counter'] = $content['counter'] + 1;
                                     $spotContent->content = $content;
                                     $spotContent->save();
+                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
                                     
                                     $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
                                     $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
@@ -592,6 +595,7 @@ class SpotController extends MController
                                         'socContent' => $socContent,
                                             ), true);
                                 }
+                                Yii::app()->session[$netName . '_BindByPaste'] = true;
                             }
                         }
                         //$error = "no";
@@ -642,7 +646,7 @@ class SpotController extends MController
                                 $spotContent->save();
                                 $newKey = $key;
                                 $linkCorrect = 'ok';
-                                
+                                Yii::app()->session[$netName . '_BindByPaste'] = true;
                                 $content = $this->renderPartial('//widget/spot/personal/new_content', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
@@ -670,6 +674,7 @@ class SpotController extends MController
                                 $spotContent->content = $content;
                                 $spotContent->save();
                                 $newKey = $key;
+                                Yii::app()->session[$netName . '_BindByPaste'] = true;
                                 
                                 $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
                                 $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
@@ -690,6 +695,7 @@ class SpotController extends MController
                 'linkCorrect' => $linkCorrect,
                 'loggedIn' => $isSocLogged,
                 'newField' => $newField,
+                'socnet' => $netName,
                 'key' => $newKey,
             )
         );

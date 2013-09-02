@@ -48,4 +48,12 @@ class FoursquareContent extends SocContentBase
         return $username;
     }
 
+    public static function isLoggegByNet()
+    {
+        $answer = false;
+        if (!empty(Yii::app()->session['foursquare_id']))
+            $answer = true;
+        
+        return $answer;
+    }
 }
