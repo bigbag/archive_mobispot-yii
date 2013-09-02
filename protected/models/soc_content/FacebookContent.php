@@ -273,6 +273,17 @@ class FacebookContent extends SocContentBase
                                     && ($userFeed['data'][$i]['type'] == 'status') 
                                     && (strpos($userFeed['data'][$i]['story'], 'is now using Facebook in') !== false)
                                     )//не смена языка Facebook
+                                && !(isset($userFeed['data'][$i]['type']) 
+                                        && $userFeed['data'][$i]['type'] == 'status'
+                                        && !empty($userFeed['data'][$i]['application'])
+                                        && isset($userFeed['data'][$i]['privacy'])
+                                        && isset($userFeed['data'][$i]['story'])
+                                        && !isset($userFeed['data'][$i]['message'])
+                                        && !isset($userFeed['data'][$i]['link'])
+                                        && !isset($userFeed['data'][$i]['picture'])
+                                        && !isset($userFeed['data'][$i]['icon'])
+                                        && !isset($userFeed['data'][$i]['comments'])
+                                    )//не комментарий от имени публичного профиля
                                 )
                             {
                                 $lastPost = $userFeed['data'][$i];
