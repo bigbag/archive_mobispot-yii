@@ -31,6 +31,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   $scope.spot_edit = false;
   $scope.keys = [];
   $scope.action = false;
+  $scope.busy = false;
 
   var renameSpot = angular.element('.rename-spot');
   var confirm = angular.element('.confirm');
@@ -282,7 +283,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
-    if (spot.content && spot.user) {
+    if (!$scope.busy && spot.content && spot.user) {
       $http.post('/spot/spotAddContent', spot).success(function(data) {
         if(data.error == 'no') {
           angular.element('#add-content').append($compile(data.content)($scope));
@@ -393,6 +394,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             $scope.lastContentLength = 0;
             angular.element('body').css('cursor', 'wait');
             angular.element('#dropbox textarea').css('cursor', 'wait');
+            $scope.busy = true;
             
             $scope.bindByPanel($scope.socPatterns[currentNet].name);
         }
@@ -494,6 +496,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             angular.element('textarea').removeClass('put');
                             angular.element('body').css('cursor', 'default');
                             angular.element('#dropbox textarea').css('cursor', 'text');
+                            $scope.busy = false;
                             
                             var scroll_height = $('#block-' + data.key).offset().top - 100;
                             $('html, body').animate({
@@ -657,6 +660,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                 
                                 angular.element('body').css('cursor', 'default');
                                 angular.element('#dropbox textarea').css('cursor', 'text');
+                                $scope.busy = false;
                                
                                 var scroll_height = $('#block-' + data.key).offset().top - 100;
                                 $('html, body').animate({
