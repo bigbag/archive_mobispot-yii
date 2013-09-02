@@ -31,7 +31,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   $scope.spot_edit = false;
   $scope.keys = [];
   $scope.action = false;
-  $scope.busy = false;
 
   var renameSpot = angular.element('.rename-spot');
   var confirm = angular.element('.confirm');
@@ -283,21 +282,47 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
-    if (!$scope.busy && spot.content && spot.user) {
-      $http.post('/spot/spotAddContent', spot).success(function(data) {
-        if(data.error == 'no') {
-          angular.element('#add-content').append($compile(data.content)($scope));
+    if (spot.content && spot.user) {
+        var currentNet = -1;
 
-          $scope.keys.push(data.key);
-          $scope.spot.content='';
-          angular.element('textarea').removeClass('put');
-
-          var scroll_height = $('#block-' + data.key).offset().top;
-          $('html, body').animate({
-            scrollTop: scroll_height
-          }, 600);
+        for (var i = 0; i < $scope.socPatterns.length; i++)
+        {
+            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+            {
+                currentNet = i;
+                break;
+            }
         }
-      });
+
+        if (currentNet > -1 && $scope.socPatterns[currentNet].BindByPaste)
+        {
+            angular.element('body').css('cursor', 'wait');
+            angular.element('#dropbox textarea').css('cursor', 'wait');
+            $scope.bindByPanel($scope.socPatterns[currentNet].name);
+        }
+        else
+        {
+          $http.post('/spot/spotAddContent', spot).success(function(data) {
+            if(data.error == 'no') {
+              angular.element('#add-content').append($compile(data.content)($scope));
+
+              $scope.keys.push(data.key);
+              $scope.spot.content='';
+              angular.element('textarea').removeClass('put');
+
+              if (angular.element('#extraMediaForm').hasClass('open'))
+              {
+                    angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                    angular.element('#extraMediaForm').removeClass('open');
+              }
+              
+              var scroll_height = $('#block-' + data.key).offset().top;
+              $('html, body').animate({
+                scrollTop: scroll_height
+              }, 600);
+            }
+          });
+        }
     }
   };
 
@@ -384,43 +409,26 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             }
         }
 
-        if (needPanel && $scope.socPatterns[currentNet].BindByPaste && ((typeof ($scope.lastContentLength) == 'undefined' && $scope.spot.content.length > 1) || (Math.abs($scope.spot.content.length - $scope.lastContentLength) > 1)))
+        if (needPanel)
         {
-            if (angular.element('#extraMediaForm').hasClass('open'))
-            {
-                angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                angular.element('#extraMediaForm').removeClass('open');
-            }
-            $scope.lastContentLength = 0;
-            angular.element('body').css('cursor', 'wait');
-            angular.element('#dropbox textarea').css('cursor', 'wait');
-            $scope.busy = true;
-            
-            $scope.bindByPanel($scope.socPatterns[currentNet].name);
+            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
+            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
+            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
+            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
+            $scope.freeSocial = false;
         }
-        else 
+        
+        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
         {
-            $scope.lastContentLength = $scope.spot.content.length;
-            if (needPanel)
-            {
-                angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
-                angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
-                angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
-                angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
-                $scope.freeSocial = false;
-            }
-            
-            if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
-            {
-                angular.element('#extraMediaForm').slideDown(500);
-                angular.element('#extraMediaForm').addClass('open');
-            }
-            else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
-            {
-                angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                angular.element('#extraMediaForm').removeClass('open');
-            }
+            angular.element('#extraMediaForm').slideDown(500);
+            angular.element('#extraMediaForm').addClass('open');
         }
+        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
+        {
+            angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+            angular.element('#extraMediaForm').removeClass('open');
+        }
+        
     }
     
     // Привязка соцсетей
@@ -496,7 +504,12 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             angular.element('textarea').removeClass('put');
                             angular.element('body').css('cursor', 'default');
                             angular.element('#dropbox textarea').css('cursor', 'text');
-                            $scope.busy = false;
+                            
+                            if (angular.element('#extraMediaForm').hasClass('open'))
+                            {
+                                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                                angular.element('#extraMediaForm').removeClass('open');
+                            }
                             
                             var scroll_height = $('#block-' + data.key).offset().top - 100;
                             $('html, body').animate({
@@ -506,7 +519,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             var currentNet = $scope.getPatternInd(data.socnet);
                             if (currentNet > -1)
                                 $scope.socPatterns[currentNet].BindByPaste = true;
-                            $scope.lastContentLength = 0;
                         }
                         else
                         {
@@ -608,7 +620,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                 var currentNet = $scope.getPatternInd(data.socnet);
                 if (currentNet > -1)
                     $scope.socPatterns[currentNet].BindByPaste = true;
-                $scope.lastContentLength = 0;
             }
             else
             {
@@ -660,8 +671,13 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                 
                                 angular.element('body').css('cursor', 'default');
                                 angular.element('#dropbox textarea').css('cursor', 'text');
-                                $scope.busy = false;
                                
+                                if (angular.element('#extraMediaForm').hasClass('open'))
+                                {
+                                    angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                                    angular.element('#extraMediaForm').removeClass('open');
+                                }
+                                
                                 var scroll_height = $('#block-' + data.key).offset().top - 100;
                                 $('html, body').animate({
                                     scrollTop: scroll_height
@@ -680,7 +696,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                             if (currentNet > -1)
                                 $scope.socPatterns[currentNet].BindByPaste = true;
 
-                            $scope.lastContentLength = 0;
                         }
                         else
                         {
