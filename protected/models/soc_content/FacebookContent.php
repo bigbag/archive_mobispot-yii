@@ -325,7 +325,15 @@ class FacebookContent extends SocContentBase
                                 {
                                     $userDetail['last_img'] = $lastPost['picture'];
                                     if (!empty($lastPost['link']))
+                                    {
                                         $userDetail['last_img_href'] = $lastPost['link'];
+                                        if (strpos($lastPost['link'], 'facebook.com/photo.php?fbid=') !== false)
+                                        {
+                                            $photoId = substr($lastPost['link'], (strpos($lastPost['link'], 'facebook.com/photo.php?fbid=') + 28));
+                                            $photoId = self::rmGetParam($photoId);
+                                            $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
+                                        }
+                                    }
                                     if (!empty($lastPost['message']))
                                         $userDetail['last_img_msg'] = $lastPost['message'];
                                     elseif (!empty($lastPost['story']))
@@ -356,6 +364,44 @@ class FacebookContent extends SocContentBase
                                 elseif (!empty($lastPost['story']))
                                     $userDetail['last_status'] = $lastPost['story'];
                             }
+                        }
+                        else
+                        {
+                            $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+FROM+stream+WHERE+source_id='
+                            .$socUser['id']
+                            .'+and+actor_id='
+                            .$socUser['id']
+                            .'+and+type+in+(46+,+80+,+128+,+247+,+237+,+272)LIMIT+1&access_token='
+                            .$appToken;
+
+                            if (@fopen($query_url, 'r'))
+                            {
+                                $fql_query_result = file_get_contents($query_url);
+                                $lastPost = json_decode($fql_query_result, true);
+
+                                if(isset($lastPost['data']) && isset($lastPost['data'][0])){
+                                    $lastPost = $lastPost['data'][0];
+
+                                    if (isset($lastPost['attachment']) and isset($lastPost['attachment']['media']) and isset($lastPost['attachment']['media'][0]) and isset($lastPost['attachment']['media'][0]['href']) and (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') !== false))
+                                    {
+                                        $photoId = substr($lastPost['attachment']['media'][0]['href'], (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') + 28));
+                                        $photoId = self::rmGetParam($photoId);
+                                    
+                                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
+                                    }
+                                    elseif(!empty($lastPost['message']))
+                                        $userDetail['last_status'] = $lastPost['message'];
+                                }
+                            }
+                        }
+
+                        if (isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
+                        {
+                            $userDetail['last_img'] = $photoData['source'];
+                            if (!empty($photoData['name']))
+                                $userDetail['last_img_msg'] = $photoData['name'];
+                            if (!empty($photoData['link']))
+                                $userDetail['last_img_href'] = $photoData['link'];
                         }
                     }
                 }
