@@ -68,8 +68,8 @@ class YouTubeContent extends SocContentBase
 
     public static function isLoggegByNet()
     {
-        $answer = false;
-        if (!empty(Yii::app()->session['YouTube_id']))
+        //$answer = false;
+        //if (!empty(Yii::app()->session['YouTube_id']))
             $answer = true;
         
         return $answer;

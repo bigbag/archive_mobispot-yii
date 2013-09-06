@@ -41,6 +41,9 @@
                 <a data-tooltip title="Google+" net="google_oauth" class="tip-top" ng-click="bindByPanel('google_oauth')" ng-mouseenter="socView('google_oauth')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/google.png"> 
                 </a>
+                <a data-tooltip title="tumblr" net="tumblr" class="tip-top" ng-click="bindByPanel('tumblr')" ng-mouseenter="socView('tumblr')" ng-mouseleave="socView()">
+                    <img width="36" src="/themes/mobispot/images/icons/social/tumblr.png"> 
+                </a>
                 <a data-tooltip title="Pinterest" net="pinterest" class="tip-top" ng-click="bindByPanel('pinterest')" ng-mouseenter="socView('pinterest')" ng-mouseleave="socView()">
                     <img width="36" src="/themes/mobispot/images/icons/social/pinterest.png"> 
                 </a>
@@ -82,9 +85,7 @@
                 </a>
                 */?>
                 <?php /*
-                <a data-tooltip title="tumblr" net="tumblr" class="tip-top" ng-click="bindByPanel('tumblr')" ng-mouseenter="socView('tumblr')" ng-mouseleave="socView()">
-                    <img width="36" src="/themes/mobispot/images/icons/social/tumblr.png"> 
-                </a>
+
                 */?>
                 <?php /*
                 <a data-tooltip title="Flickr" net="Flickr" class="tip-top" ng-click="bindByPanel('')" ng-mouseenter="socView('Flickr')" ng-mouseleave="socView()">

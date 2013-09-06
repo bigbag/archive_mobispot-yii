@@ -816,6 +816,23 @@ class SpotController extends MController
         
         echo json_encode($answer);
     }
+    
+    public function actionDetectSocNet()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        
+        if (isset($data['link']) && isset($data['iteration']))
+        {
+            $socInfo = new SocInfo;
+            $net = $socInfo->getNetByLink($data['link']);
+            if (!empty($net['name']))
+                $answer['netName'] = $net['name'];
+            $answer['iteration'] = $data['iteration'];
+        }
+        
+        echo json_encode($answer);
+    }
 
     // Добавление нового спота
     public function actionAddSpot()

@@ -180,6 +180,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     $scope.spot.discodes = spot.attr('id');
     $scope.keys = [];
     $scope.KeysForLoad = [];
+    $scope.ContentIteration = 0;
 
     if (spotContent.attr('class') == null) {
       var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
@@ -398,6 +399,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     {
         var needPanel = false;
         var currentNet = -1;
+        $scope.ContentIteration++;
 
         for (var i = 0; i < $scope.socPatterns.length; i++)
         {
@@ -408,7 +410,30 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                 break;
             }
         }
-
+        
+        if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
+        {
+            var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.ContentIteration};
+            $http.post('/spot/DetectSocNet', data).success(function(data) {
+                if (data.iteration == $scope.ContentIteration)
+                {
+                    var currentNet = -1;
+                    var needPanel = false;
+                    if (typeof (data.netName) != 'undefined')
+                    {
+                        currentNet = $scope.getPatternInd(data.netName);
+                        needPanel = true;
+                    }
+                    $scope.panelControl(needPanel, currentNet);
+                }
+            });
+        }
+        else
+            $scope.panelControl(needPanel, currentNet);
+    }
+    
+    $scope.panelControl = function(needPanel, currentNet)
+    {
         if (needPanel)
         {
             angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
@@ -428,7 +453,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
             angular.element('#extraMediaForm').removeClass('open');
         }
-        
     }
     
     // Привязка соцсетей

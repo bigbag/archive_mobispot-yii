@@ -3,7 +3,9 @@
         <p><?php echo CHtml::encode($content)?></p>
         <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">
             <div class="spot-activity">
-                <?php if (SocInfo::isSocLink(CHtml::encode($content))): ?>
+                <?php $socInfo = new SocInfo; ?>
+                <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
+                <?php if (!empty($net['name'])): ?>
                     <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key; ?>, $event)">&#xe005;</a>
                 <?php endif; ?>
                 <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key; ?>, $event)">&#xe009;</a>

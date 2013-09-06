@@ -173,8 +173,8 @@ class SocInfo extends CFormModel
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
-        $net['needAuth'] = true;
-        $net['profileHint'] = '';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your YouTube profile here');
         $socNetworks[] = $net;
 
         $net['name'] = 'instagram';
@@ -216,6 +216,18 @@ class SocInfo extends CFormModel
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Crunchbase profile here');
         $socNetworks[] = $net;
         
+        $net['name'] = 'tumblr';
+        $net['baseUrl'] = 'tumblr.com';
+        $net['title'] = 'tumblr';
+        $net['invite'] = Yii::t('eauth', 'Read more on tumblr');
+        $net['inviteClass'] = '';
+        $net['inviteValue'] = '';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'tumblr.png';
+        $net['contentClass'] = 'TumblrContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your tumblr profile here');
+        $socNetworks[] = $net;
         return $socNetworks;
     }
 
@@ -224,11 +236,10 @@ class SocInfo extends CFormModel
         $this->socNet = '';
         $this->socUsername = '';
         $this->userDetail = array();
-        $isSocNet = $this->detectNetByLink($link);
+        $net = $this->getNetByLink($link);
 
-        if ($isSocNet != 'no')
+        if (!empty($net['name']))
         {
-            $net = $this->getNetByName($isSocNet);
             $this->socNet = $net['name'];
             $this->socUsername = $this->parceSocUrl($this->socNet, $link);
             $this->getSocInfo($this->socNet, $this->socUsername, $discodesId, $dataKey);
@@ -245,20 +256,6 @@ class SocInfo extends CFormModel
             $this->userDetail['soc_url'] = $link;
         
         return $this->userDetail;
-    }
-
-    public function detectNetByLink($link)
-    {
-        $answer = 'no';
-        foreach ($this->socNetworks as $net)
-        {
-            if (strpos($link, $net['baseUrl']) !== false)
-            {
-                $answer = $net['name'];
-                break;
-            }
-        }
-        return $answer;
     }
 
     public function getNetByName($name)
@@ -286,6 +283,15 @@ class SocInfo extends CFormModel
                 break;
             }
         }
+        
+        if (empty($answer['name']) and (strpos($link, '.') !== false))
+        {
+            $tumblrLink = TumblrContent::parseUsername($link);
+            $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
+            if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
+                $answer = $this->getNetByName('tumblr');
+        }
+        
         return $answer;
     }
 
@@ -347,6 +353,17 @@ class SocInfo extends CFormModel
         return $answer;
     }
 
+    public function getSmallIcon($link)
+    {
+        $answer = '';
+        
+        $net = $this->getNetByLink($link);
+        if (!empty($net['smallIcon']))
+            $answer = $net['smallIcon'];
+        
+        return $answer;
+    }
+    
     public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null)
     {
         $this->socNet = $socNet;
@@ -1337,20 +1354,6 @@ class SocInfo extends CFormModel
         return $out;
     }
 
-    public function getSmallIcon($link)
-    {
-        $answer = '';
-        foreach ($this->socNetworks as $net)
-        {
-            if (strpos($link, $net['baseUrl']) !== false)
-            {
-                $answer = $net['smallIcon'];
-                break;
-            }
-        }
-        return $answer;
-    }
-    
     public function contentNeedSave($link){
         $answer = false;
 
@@ -1359,21 +1362,6 @@ class SocInfo extends CFormModel
         {
             $class = $net['contentClass'];
             $answer = $class::contentNeedSave($link);
-        }
-        return $answer;
-    }
-
-    public static function isSocLink($link)
-    {
-        $answer = false;
-        $socNetworks = SocInfo::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if (strpos($link, $net['baseUrl']) !== false)
-            {
-                $answer = true;
-                break;
-            }
         }
         return $answer;
     }
