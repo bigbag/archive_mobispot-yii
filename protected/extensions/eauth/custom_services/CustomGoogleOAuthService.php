@@ -19,7 +19,8 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
     $this->attributes['id'] = $info['id'];
     $this->attributes['name'] = $info['name'];
-    $this->attributes['url'] = $info['link'];
+    if (!empty($info['link']))
+      $this->attributes['url'] = $info['link'];
     if (!empty($info['picture']))
       $this->attributes['photo'] = $info['picture'];
     if (!empty($info['email']))
