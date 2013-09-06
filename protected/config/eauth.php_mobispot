@@ -9,14 +9,14 @@ return array(// You can change the providers and their classes.
         'secret' => 'J1eJFs0J4YlbaFyAvYEa4IXK0yQRV6HKxzchjN60M',
         'title' => 'Twitter',
     ),
-    'google_oauth' => array(
-        // register your app here: https://code.google.com/apis/console/
-        'class' => 'CustomGoogleOAuthService',
-        'client_id' => '894792426634.apps.googleusercontent.com',
-        'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
-        'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
-        'scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-        'title' => 'Google (OAuth)',
+    'google_oauth'=>array(
+        //https://code.google.com/apis/console/
+        'class'=>'CustomGoogleOAuthService',
+        'client_id' => '354141098611.apps.googleusercontent.com',
+        'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
+        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',       
+        'scope' =>'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'title'=>'Google',
     ),
     'facebook' => array(
         // register your app here: https://developers.facebook.com/apps/
@@ -26,11 +26,11 @@ return array(// You can change the providers and their classes.
         'client_secret' => '4db65a911817eff54a6a94df6f0d7433',
     ),
     'youtube' => array(
-        //https://code.google.com/apis/console/  
+        //https://code.google.com/apis/console/
         'class' => 'CustomYouTubeOAuthService',
-        'client_id' => '894792426634.apps.googleusercontent.com',
-        'client_secret' => 'vMQ0PUHTbf1S4VNsNJVebDgL',
-        'key' => 'AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak',
+        'client_id' => '354141098611.apps.googleusercontent.com',
+        'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
+        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',
         'title' => 'YouTube',
     ),
     'deviantart' => array(
@@ -50,8 +50,8 @@ return array(// You can change the providers and their classes.
     'vimeo' => array(
         //https://developer.vimeo.com/apps/
         'class' => 'CustomVimeoOAuthService',
-        'key' => '05646d75a6e8a06e5d46776c15c367171681bea6',
-        'secret' => '5061a7c3414dc31d6832abb88ae93d06835251d2',
+        'key' => '933056cd655731ddee6e0a9fba4015b7a90cbf92',
+        'secret' => '4b83fb51dfbd8cddd045d3d4b4037c00f52872f8',
         'title' => 'Vimeo'
     ),
     'vk' => array(
@@ -63,9 +63,10 @@ return array(// You can change the providers and their classes.
         'title' => '���������',
     ),
     'foursquare' => array(
+        //https://ru.foursquare.com/developers/apps
         'class' => 'CustomFoursquareOAuthService',
-        'client_id' => 'ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP',
-        'client_secret' => 'EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG',
+        'client_id' => 'HON3ALFDSK2RIFF0AMI2SABY3NLDEMENVRQZJP54Z202PM1N',
+        'client_secret' => 'Q1ADZ1J44IMO42ENF5U1WB0OJAKBYLGXAS2JBCYXADYY0EW2',
         'title' => 'Foursquare'
     ),
     'linkedin' => array(
