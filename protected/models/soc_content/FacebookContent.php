@@ -395,7 +395,7 @@ class FacebookContent extends SocContentBase
                             }
                         }
 
-                        if (isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
+                        if (!(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
                         {
                             $userDetail['last_img'] = $photoData['source'];
                             if (!empty($photoData['name']))
