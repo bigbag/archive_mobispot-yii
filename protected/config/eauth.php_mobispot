@@ -99,7 +99,7 @@ return array(// You can change the providers and their classes.
     'tumblr' => array(
         //http://www.tumblr.com/oauth/apps
         'class' => 'CustomTumblrService',
-        'key' => 'vNfQoEFa8CJJeapa8r6SW601RLs336BycGt8y6rAOQ8ynYFFWu',
-        'secret' => 'VzPxbk6nVyLnx3pXUqt0ifuwYYw8XxkDKBRrfgL6xIr0OEZVlv',
+        'key' => 'bvww58nbJSZSdSTL0XfqpqyIqceZBHi7vGOLnZsssOo3ZKwkKG',
+        'secret' => 'Y5Qjc2qIzwy7wNaAnol9ixsUR3EcEHTQO5LzNhkceewCgSe6Fq',
     ),
 );
