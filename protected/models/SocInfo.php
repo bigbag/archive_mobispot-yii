@@ -287,9 +287,12 @@ class SocInfo extends CFormModel
         if (empty($answer['name']) and (strpos($link, '.') !== false))
         {
             $tumblrLink = TumblrContent::parseUsername($link);
-            $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
+            if (!empty(Yii::app()->eauth->services['tumblr']))
+            {
+               $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
             if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
-                $answer = $this->getNetByName('tumblr');
+                $answer = $this->getNetByName('tumblr'); 
+            }
         }
         
         return $answer;
