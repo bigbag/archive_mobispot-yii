@@ -96,4 +96,10 @@ return array(// You can change the providers and their classes.
         'key' => '9bnf99yeabz9c9xwycn278ak',
         'title' => 'CrunchBase'
     ),
+    'tumblr' => array(
+        //http://www.tumblr.com/oauth/apps
+        'class' => 'CustomTumblrService',
+        'key' => 'vNfQoEFa8CJJeapa8r6SW601RLs336BycGt8y6rAOQ8ynYFFWu',
+        'secret' => 'VzPxbk6nVyLnx3pXUqt0ifuwYYw8XxkDKBRrfgL6xIr0OEZVlv',
+    ),
 );
