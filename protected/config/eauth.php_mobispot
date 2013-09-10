@@ -80,8 +80,8 @@ return array(// You can change the providers and their classes.
     'instagram' => array(
         //http://instagram.com/developer/clients/manage/
         'class' => 'CustomInstagramOAuthService',
-        'client_id' => '5b0c354ebbb549999b60bcc438aee20b',
-        'client_secret' => '7da237808b2d40fb91d4d1b42538aa85',
+        'client_id' => '9cf6339232ab49039d3215dc3bd13342',
+        'client_secret' => '3dd3f214f6b84b9f9ee05ba701bd013e',
         'title' => 'Instagram',
     ),
     'behance' => array(
