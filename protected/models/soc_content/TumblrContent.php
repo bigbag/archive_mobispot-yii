@@ -21,10 +21,10 @@ class TumblrContent extends SocContentBase
         $userDetail = array();
         $socUsername = self::parseUsername($link);
         
-        $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/'.$socUsername.'/posts/text?api_key='.Yii::app()->eauth->services['tumblr']['key'].'&limit=1');
+        $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/'.$socUsername.'/posts?api_key='.Yii::app()->eauth->services['tumblr']['key'].'&limit=1');
         if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
         {
-//$userDetail['last_status'] = print_r($blogInfo, true);
+
             if (!empty($blogInfo['response']['blog']['title']))
                 $userDetail['soc_username'] = $blogInfo['response']['blog']['title'];
             elseif (!empty($blogInfo['response']['blog']['name']))
@@ -41,6 +41,18 @@ class TumblrContent extends SocContentBase
                 {
                     if (isset($lastPost['format']) and $lastPost['format'] == 'html' and isset($lastPost['body']))
                         $userDetail['html'] = $lastPost['body'];
+                }
+                elseif ($lastPost['type'] == 'photo')
+                {
+                    if (isset($lastPost['photos']) and isset($lastPost['photos'][0]) and isset($lastPost['photos'][0]['original_size']) and !empty($lastPost['photos'][0]['original_size']['url']))
+                    {
+                        $userDetail['last_img'] = $lastPost['photos'][0]['original_size']['url'];
+                        if (!empty($lastPost['post_url']))
+                            $userDetail['last_img_href'] = $lastPost['post_url'];
+                        if (!empty($lastPost['caption']))
+                            $userDetail['last_img_msg'] = strip_tags($lastPost['caption'], '<p><br>');
+                            
+                    }
                 }
                 elseif ($lastPost['type'] == 'quote')
                 {
@@ -60,6 +72,45 @@ class TumblrContent extends SocContentBase
                     if (!empty($lastPost['player']) && is_array($lastPost['player']) && isset($lastPost['player'][(count($lastPost['player'])-1)]['embed_code']))
                         $userDetail['html'] .= $lastPost['player'][(count($lastPost['player'])-1)]['embed_code'];
                 
+                }
+                elseif ($lastPost['type'] == 'audio')
+                {
+                    $userDetail['html'] = '';
+                    if (!empty($lastPost['caption']))
+                        $userDetail['html'] .= '<p>'.$lastPost['caption'].'</p>';
+                    if (!empty($lastPost['embed']))
+                        $userDetail['html'] .= $lastPost['embed'];
+                
+                }
+                elseif ($lastPost['type'] == 'link')
+                {
+                    if (!empty($lastPost['url']) && !empty($lastPost['description']))
+                    {
+                        $userDetail['link_href'] = $lastPost['url'];
+                        if (!empty($lastPost['title']))
+                            $userDetail['link_text'] = '<p>' . strip_tags($lastPost['title']) . '</p>' . strip_tags($lastPost['description'], '<p><br><img>');
+                        else
+                            $userDetail['link_text'] = strip_tags($lastPost['description'], '<p><br><img>');
+                    }
+                }
+                elseif ($lastPost['type'] == 'answer')
+                {
+                    $userDetail['html'] = '';
+                    if (!empty($lastPost['asking_name']))
+                    {
+                        $userDetail['html'] .= $lastPost['asking_name'];
+                        if(!empty($lastPost['question']))
+                            $userDetail['html'] .= ':' . $lastPost['question'];
+                        $userDetail['html'] = '<p>' . $userDetail['html'] . '</p>';
+                    }
+                    if (!empty($lastPost['answer']))
+                    {
+                        $userDetail['html'] .= '<p>' . $lastPost['blog_name'] . ':' . $lastPost['answer'] . '</p>';
+                    }
+                }
+                else
+                {
+                    $userDetail['last_status'] = print_r($lastPost, true);
                 }
                 
             }

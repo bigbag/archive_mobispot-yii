@@ -44,7 +44,7 @@
                 <?php endif; ?>
                 <?php /* Text link *////////////////////////////////////////////////////////////////////////////////// ?>
                 <?php if (isset($socContent['link_href']) && isset($socContent['link_text'])): ?>
-                    <a href="<?php echo $this->hrefActivate($socContent['link_href']); ?>"><?php echo $socContent['link_text']; ?></a>
+                    <a href="<?php echo $socContent['link_href']; ?>"><?php echo $socContent['link_text']; ?></a>
                     <?php if (isset($socContent['link_descr'])): ?>
                         <p><?php echo $socContent['link_descr']; ?></p>
                     <?php endif; ?>
