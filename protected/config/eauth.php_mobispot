@@ -93,7 +93,7 @@ return array(// You can change the providers and their classes.
     ),
     'crunchbase' =>array(
     //http://developer.crunchbase.com/apps/myapps
-        'key' => '9bnf99yeabz9c9xwycn278ak',
+        'key' => 'cw3gpnarydnrpxwdyac93uaz',
         'title' => 'CrunchBase'
     ),
     'tumblr' => array(
