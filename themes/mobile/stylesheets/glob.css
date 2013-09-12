@@ -12,6 +12,7 @@ body{
 	line-height:1;
 	color:#222;
 	position:relative;
+	background: rgb(224, 230, 237);
 }
 img{
 	border: 0;
@@ -50,7 +51,9 @@ a{
 	min-height: 100%;
 	margin-bottom: -31px;
 	padding-bottom: 12em;
-	padding: 6px;
+	padding: 12px 6px;
+	max-width: 720px;
+	margin: 0 auto;
 }
 .content-wrapper:after{
 	content: "";
@@ -130,4 +133,10 @@ input:-moz-placeholder { color:#9E9E9E !important; }
 }
 .right{
 	float: right;
+}
+.icon{
+	font-family: Mobispot-icon;
+}
+.color-black{
+	color: #343434;
 }

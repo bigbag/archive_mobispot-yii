@@ -87,8 +87,8 @@ return array(// You can change the providers and their classes.
     'behance' => array(
         //http://www.behance.net/dev/apps
         'class' => 'CustomBehanceAuthService',
-        'client_id' => 'RPVsyWeNfqLTWWrNcvZTcajTVSbrFmVy',
-        'client_secret' => 'R31sssl4Vof65tQ_ukss9WTsv5ayD9pI',
+        'client_id' => 'Dbs0CgHSf5o0HLKvbQrX0v6QVvtoTUUr',
+        'client_secret' => 'ui5Z8Xa8VAorkEntojqR8Go8dBkY.Z_h',
         'title' => 'Behance'
     ),
     'crunchbase' =>array(
