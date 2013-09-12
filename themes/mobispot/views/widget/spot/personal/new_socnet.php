@@ -1,4 +1,7 @@
 <?php $dataKey = $key; ?>
+<?php if(isset($socContent)): ?>
+    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
+<?php else:?>
 <div id="block-<?php echo $key;?>" class="spot-item spot-block">
     <div class="item-area  type-soc">
         <div class="item-area-hat">
@@ -8,9 +11,6 @@
         </div>
         
         <div id="post-box-<?php echo $key;?>" class="post-box" ng-init="socTask(<?php echo $key;?>)">
-        <?php if(isset($socContent)): ?>
-            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
-        <?php endif; ?>
         </div>
         
         <div class="spot-cover slow">
@@ -26,3 +26,4 @@
         </div>
     </div>
 </div>
+<?php endif; ?>
