@@ -275,7 +275,6 @@ class FacebookContent extends SocContentBase
                                     )//не смена языка Facebook
                                 && !(isset($userFeed['data'][$i]['type']) 
                                         && $userFeed['data'][$i]['type'] == 'status'
-                                        && !empty($userFeed['data'][$i]['application'])
                                         && isset($userFeed['data'][$i]['privacy'])
                                         && isset($userFeed['data'][$i]['story'])
                                         && !isset($userFeed['data'][$i]['message'])
@@ -395,7 +394,7 @@ class FacebookContent extends SocContentBase
                             }
                         }
 
-                        if (!(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
+                        if (isset($photoData) && !(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
                         {
                             $userDetail['last_img'] = $photoData['source'];
                             if (!empty($photoData['name']))
