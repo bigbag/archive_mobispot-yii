@@ -94,4 +94,3 @@ class LinkedInContent extends SocContentBase
         return $answer;
     }
 }
-}

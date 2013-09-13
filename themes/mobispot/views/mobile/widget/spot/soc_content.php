@@ -91,7 +91,6 @@
 					<?php endif; ?>
 					<?php /* Checkin *////////////////////////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['venue_name'])): ?>
-						<div class="item-area text-center">
 							<p><?php echo Yii::t('eauth', 'в ') . $socContent['venue_name'] ?><?php if (isset($socContent['venue_address'])): ?>, <?php echo $socContent['venue_address'] ?><?php endif; ?>
 							</p>
 							<?php if (isset($socContent['checkin_shout'])): ?>
@@ -103,7 +102,6 @@
 							<?php if (isset($socContent['checkin_photo'])): ?>
 								<img src="<?php echo $socContent['checkin_photo']; ?>">
 							<?php endif; ?>
-						</div>
 					<?php endif; ?>
 					<?php /* Image *////////////////////////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['last_img'])): ?>
