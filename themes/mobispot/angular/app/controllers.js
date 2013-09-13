@@ -245,3 +245,59 @@ function HelpCtrl($scope, $http, $compile) {
   };
 
 }
+
+function PhonesCtrl($scope) {
+/*
+	$scope.parents = [
+		{ brand: 'Samsung',
+			models: [{
+					id: 'samsungativs',
+					name : 'Samsung Ativ S',
+					year : '2012',
+					page : 'http://www.samsung.com/global/ativ/ativ_s.html',
+					turnNfc : 'Options > NFC'
+					},
+				{
+					id: 'samsunggalaxyace2',
+					name : 'Samsung Galaxy Ace 2',
+					year : '2012',
+					page : 'http://www.samsung.com/uk/consumer/mobile-devices/smartphones/android/GT-I8160OKABTU',
+					turnNfc : 'Options > NFC'
+				},
+				{
+					id: 'samsunggalaxymini2',
+					name : 'Samsung Galaxy Mini 2',
+					year : '2012',
+					page : 'http://www.samsung.com/hk_en/consumer/mobile/mobile-phones/smartphone/GT-S6500HADTGY',
+					turnNfc : 'Options > NFC'
+				}]
+		},
+		{ brand: 'NOKIA',
+			models: [
+				{
+					id: 'nokialumia920',
+					name : 'Nokia Lumia 920',
+					year : '2012',
+					page : 'http://www.nokia.com/global/products/phone/lumia920/',
+					turnNfc : 'Options > NFC'
+				},
+				{
+					id: 'nokia808pureview',
+					name : 'Nokia 808 PureView',
+					year : '2012',
+					page : 'http://www.nokia.com/global/products/phone/808pureview/',
+					turnNfc : 'Options > NFC'
+				}]
+		}
+	];
+	var herher = $scope.parents.models;
+	*/
+	
+	$scope.initPhones = function(initValue)
+	{
+		$scope.parents = initValue;
+		var herher = $scope.parents.models;
+	}
+}
+
+
