@@ -47,7 +47,7 @@ class Phone extends CActiveRecord
             if (!isset($brands[$phone->brand]))
                 $brands[$phone->brand] = array();
             
-            $brands[$phone->brand][] = array('id' => $phone->slug,  'name' => $phone->name, 'year' => $phone->year, 'page' => $phone->page, 'turnNfc' => $phone->os->turn_nfc);
+            $brands[$phone->brand][] = array('id' => $phone->slug,  'name' => $phone->name, 'year' => $phone->year, 'page' => $phone->page, 'turnNfc' => $phone->os->turn_nfc, 'OS' =>$phone->os->name);
         }
         
         foreach ($brands as $brand=>$models)
