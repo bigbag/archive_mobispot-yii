@@ -1124,10 +1124,21 @@ h3 + .small-txt{
 	margin-top: -3px;
 }
 .j-list{
-	color: #000;
+	padding: 0;
+	margin: 12px 0;
+	border-spacing: 0;
+	border: none;
+	border-radius: 0;
+	width: 100%;
 }
-.j-list li{
-	margin-bottom: 12px;
+.j-list td{
+	color: #343434;
+	padding: 13px 30px;
+	vertical-align: top;
+	border: none;
+}
+.j-list td:first-child{
+	width: 25%;
 }
 .j-list span{
 	color: #B0B0B0;
@@ -1160,6 +1171,15 @@ h3 + .small-txt{
 .footer-page .i-soc{
 	margin-top: -3px;
 }
+
+table.j-list {
+    background: none repeat scroll 0% 0% rgb(255, 255, 255);
+}
+
+table.j-list tbody tr:nth-child(2n) {
+    background: none repeat scroll 0% 0% rgb(249, 249, 249);
+}
+
 .j-list{
 	padding: 0;
 	margin: 12px 0;

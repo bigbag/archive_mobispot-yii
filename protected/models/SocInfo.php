@@ -518,7 +518,7 @@ class SocInfo extends CFormModel
     //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
                             //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
                             $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
-                            $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url)';
+                            $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url,educations,positions)';
                             $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
                             $options = array();
                             $query = null;
@@ -530,13 +530,103 @@ class SocInfo extends CFormModel
                             {
                                 $getProfile = true;
                                 $socUser = $this->xmlToArray(simplexml_load_string($answer));
+
                                 $this->userDetail['soc_username'] = $socUser['first-name'] . ' ' . $socUser['last-name'];
                                 if (!empty($socUser['picture-url']))
-                                    $this->userDetail['photo'] = $socUser['picture-url'];
+                                    $this->userDetail['photo'] = (string)$socUser['picture-url'];
                                 if (!empty($socUser['headline']))
-                                    $this->userDetail['last_status'] = $socUser['headline'];
+                                    $this->userDetail['sub-line'] = (string)$socUser['headline'];
                                 if (!empty($socUser['public-profile-url']))
-                                    $this->userDetail['soc_url'] = $socUser['public-profile-url'];
+                                    $this->userDetail['soc_url'] = (string)$socUser['public-profile-url'];
+                                $this->userDetail['list'] = array();
+                                $this->userDetail['list']['values'] = array();
+
+                                $currentPosition = '';
+                                $positionString = '';
+                                $educationString = '';
+                                if (isset($socUser['positions']) && isset($socUser['positions']['@attributes']) && !empty($socUser['positions']['@attributes']['total']) && isset($socUser['positions']['position']))
+                                {
+                                    if ($socUser['positions']['@attributes']['total'] > 1)
+                                    {
+                                        for ($i=0; $i < $socUser['positions']['@attributes']['total']; $i++)
+                                        {
+                                            if (isset($socUser['positions']['position'][$i]))
+                                            {
+                                                $position = $this->xmlToArray($socUser['positions']['position'][$i]);
+                                                if (isset($position['company']) && !empty($position['company']['name']) && isset($position['is-current']))
+                                                {
+                                                    if ($position['is-current'] == 'true')
+                                                    {
+                                                        $currentPosition = $position['company']['name'];
+                                                    }
+                                                    elseif (!$positionString)
+                                                        $positionString = (string)$position['company']['name'];
+                                                    else
+                                                        $positionString .= ', ' . (string)$position['company']['name'];
+                                                
+                                                }
+                                            }
+                                        }
+                                    }
+                                    elseif (isset($socUser['positions']['position']['company']) && !empty($socUser['positions']['position']['company']['name']) && isset($socUser['positions']['position']['is-current']))
+                                    {
+                                        if ($socUser['positions']['position']['is-current'] == 'true')
+                                            $currentPosition = $socUser['positions']['position']['company']['name'];
+                                        else
+                                            $positionString = $socUser['positions']['position']['company']['name'];
+                                    }
+                                }
+                                
+                                if (isset($socUser['educations']) && isset($socUser['educations']['@attributes']) && !empty($socUser['educations']['@attributes']['total']) && isset($socUser['educations']['education']))
+                                {
+                                    
+                                    if ($socUser['educations']['@attributes']['total'] > 1)
+                                    {
+                                        for ($i=0; $i < $socUser['educations']['@attributes']['total']; $i++)
+                                        {
+                                            if (isset($socUser['educations']['education'][$i]))
+                                            {
+                                                $education = $this->xmlToArray($socUser['educations']['education'][$i]);
+
+                                                if (!empty($education['school-name']))
+                                                {
+                                                    if (!$educationString)
+                                                        $educationString = (string)$education['school-name'];
+                                                    else
+                                                        $educationString .= ', ' . (string)$education['school-name'];
+                                                }
+                                            }
+                                        }
+                                    }
+                                    elseif (!empty($socUser['educations']['education']['school-name']))
+                                    {
+                                        $educationString = $socUser['educations']['education']['school-name'];
+                                    }
+                                }
+                                
+                                if ($currentPosition)
+                                {
+                                    $userPosition = array();
+                                    $userPosition['title'] = Yii::t('eauth', "Текущая");
+                                    $userPosition['comment'] = $currentPosition;
+                                    $this->userDetail['list']['values'][] = $userPosition;
+                                }
+                                
+                                if ($positionString)
+                                {
+                                    $userPosition = array();
+                                    $userPosition['title'] = Yii::t('eauth', "Предыдущие");
+                                    $userPosition['comment'] = $positionString;
+                                    $this->userDetail['list']['values'][] = $userPosition;
+                                }
+                                    
+                                if ($educationString)
+                                {
+                                    $userEducation = array();
+                                    $userEducation['title'] = Yii::t('eauth', "Образование");
+                                    $userEducation['comment'] = $educationString;
+                                    $this->userDetail['list']['values'][] = $userEducation;
+                                }
                             }
                         }
                     }
@@ -545,6 +635,7 @@ class SocInfo extends CFormModel
                 {
                     $this->userDetail['last_status'] = $socUsername;
                 }
+
             }
             elseif ($socNet == 'foursquare')
             {
@@ -974,15 +1065,15 @@ class SocInfo extends CFormModel
 
                         //$this->userDetail['soc_username'] = $userProfileEntry->title->text;
                         $this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
-						/*
+                        /*
                         $this->userDetail['age'] = $userProfileEntry->getAge();
                         $this->userDetail['gender'] = $userProfileEntry->getGender();
                         $this->userDetail['location'] = $userProfileEntry->getLocation();
                         $this->userDetail['school'] = $userProfileEntry->getSchool();
                         $this->userDetail['work'] = $userProfileEntry->getCompany();
                         $this->userDetail['about'] = $userProfileEntry->getOccupation();
-						*/
-						
+                        */
+                        
                         $videoFeed = $yt->getuserUploads($username);
 
                         if (isset($videoFeed[0]))

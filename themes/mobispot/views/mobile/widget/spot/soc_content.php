@@ -17,7 +17,9 @@
 					<?php endif; ?>
 					<?php /* Username *////////////////////////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['soc_username'])): ?>
-						<div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username']; ?></a><span class="sub-line"> </span></div>
+						<div class="author-row">
+							<a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username']; ?></a>
+							<span class="sub-line"><?php echo isset($socContent['sub-line']) ? $socContent['sub-line'] : ' '; ?></span></div>
 					<?php elseif (isset($socContent['ytube_video_link'])): ?>
 						<div class="author-row">
 							<h3><a class="color" href="<?php echo $socContent['soc_url']; ?>"><?php echo strip_tags($socContent['ytube_video_link']); ?></a></h3>
@@ -191,32 +193,42 @@
 							<?php if (!empty($socContent['list']['title'])): ?>
 							<h4><?php echo $socContent['list']['title']; ?></h4>
 							<?php endif; ?>
-							<ul>
-							<?php foreach ($socContent['list']['values'] as $li): ?>
-								<?php if (!empty($li['href']) && !empty($li['title'])): ?>
-									<li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
-								<?php elseif (!empty($li['title'])): ?>
-									<li><?php echo $li['title']; ?>
-										<?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
-								<?php endif; ?>
-							<?php endforeach; ?>
-							</ul>
+								<table class="j-list">
+								<tbody>
+								<?php foreach ($socContent['list']['values'] as $li): ?>
+								<tr>
+									<td>
+									<?php if (!empty($li['href']) && !empty($li['title'])): ?>
+										<span><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a></span>
+									<?php else:?>
+										<span><?php if (isset($li['title'])) echo $li['title']; ?></span>
+									<?php endif; ?>
+									</td>
+									<td><?php if (isset($li['comment'])) echo $li['comment']; ?></td>
+								</tr>
+								<?php endforeach; ?>
+								</tbody></table>
 						<?php endif; ?>
 					<?php /* list2 *//////////////////////////////////////////////////////////////////////////////////   ?>
 						<?php if (!empty($socContent['list2'])): ?>
 							<?php if (!empty($socContent['list2']['title'])): ?>
 							<h4><?php echo $socContent['list2']['title']; ?></h4>
 							<?php endif; ?>
-							<ul>
-							<?php foreach ($socContent['list2']['values'] as $li): ?>
-								<?php if (!empty($li['href']) && !empty($li['title'])): ?>
-									<li><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a><?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
-								<?php elseif (!empty($li['title'])): ?>
-									<li><?php echo $li['title']; ?>
-										<?php if (!empty($li['comment'])): ?> - <?php echo $li['comment']; ?><?php endif; ?></li>
-								<?php endif; ?>
-							<?php endforeach; ?>
-							</ul>
+								<table class="j-list">
+								<tbody>
+								<?php foreach ($socContent['list2']['values'] as $li): ?>
+								<tr>
+									<td>
+									<?php if (!empty($li['href']) && !empty($li['title'])): ?>
+										<span><a class="authot-name" href="<?php echo $li['href']; ?>"><?php echo $li['title']; ?></a></span>
+									<?php else:?>
+										<span><?php if (isset($li['title'])) echo $li['title']; ?></span>
+									<?php endif; ?>
+									</td>
+									<td><?php if (isset($li['comment'])) echo $li['comment']; ?></td>
+								</tr>
+								<?php endforeach; ?>
+								</tbody></table>
 						<?php endif; ?>
 					<?php /* html *//////////////////////////////////////////////////////////////////////////////////   ?>
 						<?php if (isset($socContent['html'])): ?>
