@@ -379,6 +379,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
     $scope.socView = function(Target)
     {
+        $scope.SocNetTooltip(false);
         if($scope.freeSocial)
         {
             if (typeof (Target) != 'undefined' && Target.length > 0)
@@ -445,14 +446,35 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         
         if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
         {
-            angular.element('#extraMediaForm').slideDown(500);
+            angular.element('#extraMediaForm').slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
             angular.element('#extraMediaForm').addClass('open');
         }
         else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
         {
+            $scope.SocNetTooltip(false);
             angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
             angular.element('#extraMediaForm').removeClass('open');
         }
+        else if (needPanel)
+        {
+            $scope.SocNetTooltip(true, currentNet);
+        }
+    }
+    
+    $scope.SocNetTooltip = function(NeedTooltip, currentNet)
+    {
+        if (NeedTooltip)
+        {
+            angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.socPatterns[currentNet].title + ' to share more');
+            var netPos = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').position();
+            $('#net-tooltip').css('left', netPos.left - ($('#net-tooltip').width()/2) + 66);
+            $('#net-tooltip').css('top', netPos.top + 112);
+            $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
+            $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6)); 
+            angular.element('#net-tooltip').show();
+        }
+        else
+            angular.element('#net-tooltip').hide();
     }
     
     // Привязка соцсетей
