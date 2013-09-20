@@ -151,85 +151,50 @@ a.blackout{
     margin: 0px auto;
 }
 
-/*
-.item-area.text-center {
-	border: 1px solid red;
+/* Socnet Tooltip  */
+.SocnetTooltip {
+    display: none;
+    opacity: 1;
+    margin-top: -3px;
+    padding: 5px 0px;
+    transition: opacity 0.15s linear 0s;
+    position: absolute;
+    z-index: 1030;
+    line-height: 1.4;
+    color: rgb(51, 51, 51);
 }
-*/
-/*
-/////tweet
-
-.spot-item_twi p{
-    min-height: 33px;
-    padding: 2px 0 0;
-}
-.spot-item_twi p a{
-    color: #0063ff;
-}
-.spot-item_twi .actions a{
-    font-size: 12px !important;
-    color: #999;
-    vertical-align: top;
-    margin-left: 10px;
-}
-.spot-item_twi .actions a i{
-    font-family: Mobispot-icon;
-    font-style: normal;
-    vertical-align: top;
-    margin-right: 3px;
-    margin-top: 2px;
-    display: inline-block;
-}
-
-.user-avatar{
-    overflow: hidden;
-    display: inline-block;
-    float: left;
-    margin: 10px 14px 6px 0;
-    height: 90px;
-    width: 90px;
-}
-.type-mess  .user-avatar img{
-    margin: 0;
-}
-.type-mess .user-avatar + p{
-    min-height: 90px;
-}
-
-.author-row a{
-    margin-right: 10px;
-}
-
-.spot-item_twi .author-row{
-    float: left;
-}
-
-.author-row{
-    margin-top: 12px;
-}
-
-    .spot-item_twi .author-row{
-        float: none;
-    }
-
-/*
-.post-box{
-    border: 1px solid red;
-}
-
-
-.item-area.type-soc{
-    padding-left:0px !important;
-    padding-right:0px !important;
-    padding-bottom:0px !important;
+    
+.STT-inner {
+    padding: 8px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgb(0, 98, 255);
+    border-radius: 7px 7px 7px 7px;
 
 }
-
-
- 
-.item-area-hat + .post-box{
-    margin-top: 67px;
-
+    
+.STT-arrow {
+    border-bottom-style: solid;
+    border-bottom-width: 0px;
+    border-left-color: transparent;
+    border-left-style: solid;
+    border-left-width: 6.5px;
+    border-right-color: transparent;
+    border-right-style: solid;
+    border-right-width: 6.5px;
+    border-top-color: rgb(0, 98, 255);
+    border-top-style: solid;
+    border-top-width: 6.5px;
+    bottom: 0px;
+    color: rgb(51, 51, 51);
+    font-size: 11px;
+    height: 1px;
+    left: 110px;
+    top:38px;
+    line-height: 15.4px;
+    margin-left: -5px;
+    position: absolute;
+    width: 0px;
 }
- */
 
