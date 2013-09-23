@@ -387,35 +387,30 @@ class SocInfo extends CFormModel
             
             if ($socNet == 'vk')
             {
-                $url = 'https://api.vk.com/method/users.get.json?uids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
+                $url = 'https://api.vk.com/method/users.get.json?user_ids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
     //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
                 $curl_result = $this->makeCurlRequest($url);
                 $socUser = $curl_result['response'][0];
 
                 if (!isset($socUser['error']))
                 {
-                    //$this->userDetail['last_status'] = print_r($socUser, true);
                     if (!empty($socUser['photo_medium']))
                         $this->userDetail['photo'] = $socUser['photo_medium'];
                     elseif (!empty($socUser['photo']))
                         $this->userDetail['photo'] = $socUser['photo'];
-                    /* if (!empty($socUser['country'])){
-                      //$countries = (array)$this->makeSignedRequest('https://api.vk.com/method/places.getCountries.json');
-                      /*$token
-
-                      $countries = $this->makeCurlRequest('https://api.vk.com/method/places.getCountries.json');
-                      $this->userDetail['location'] = print_r($countries, true);
-                      /*
-                      foreach($countries['response'] as $country){
-                      if($country->cid == $socUser['country'])
-                      $socUser['location'] = $country->title;
-                      }
-                      }
-                     */
+                    
+                    if (!empty($socUser['first_name'])) 
+                    {
+                        $this->userDetail['soc_username'] = $socUser['first_name'];
+                        if (!empty($socUser['last_name']))
+                            $this->userDetail['soc_username'] .= ' ' . $socUser['last_name'];
+                    }
+                    
                     //Последний пост
                     if (isset($socUser['uid']))
                     {
-                        $userFeed = $this->makeCurlRequest('https://api.vk.com/method/wall.get?owner_id=' . $socUser['uid']);
+
+                        $userFeed = $this->makeCurlRequest('https://api.vk.com/method/wall.get?owner_id=' . $socUser['uid'] . '&filter=owner');
 
                         unset($lastPost);
                         $i = 0;
@@ -491,6 +486,15 @@ class SocInfo extends CFormModel
                                             unset($this->userDetail['last_status']);
                                             if (!empty($lastPost['attachment']['link']['description']))
                                                 $this->userDetail['link_descr'] = $lastPost['attachment']['link']['description'];
+                                        }
+                                        break;
+                                    case 'video':
+                                        if (isset($lastPost['attachment']['video']) && !empty($lastPost['attachment']['video']['image']))
+                                        {
+                                            $this->userDetail['last_img'] = $lastPost['attachment']['video']['image'];
+                                            if (!empty($lastPost['text']))
+                                                $this->userDetail['last_img_msg'] = $lastPost['text'];
+                                            unset($this->userDetail['last_status']);
                                         }
                                         break;
                                 }
@@ -720,7 +724,18 @@ class SocInfo extends CFormModel
                                 if (isset($lastCheckin['venue']['location']) && isset($lastCheckin['venue']['location']['address']))
                                     $this->userDetail['venue_address'] = $lastCheckin['venue']['location']['address'];
                                 if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
+                                {
+                                    $dateDiff = time() - $lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset'];
+                                    if ($dateDiff > 86400)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+                                    elseif ($dateDiff > 3600)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+                                    elseif ($dateDiff > 60)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+                                    else
+                                        $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
                                     $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
+                                }
                                 if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height']))
                                 {
                                     $this->userDetail['checkin_photo'] = $lastCheckin['photos']['items'][0]['prefix'] . $lastCheckin['photos']['items'][0]['width'] . 'x' . $lastCheckin['photos']['items'][0]['height'] . $lastCheckin['photos']['items'][0]['suffix'];

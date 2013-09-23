@@ -15,11 +15,24 @@
 					<?php if (!isset($socContent['avatar_before_mess_body']) || !$socContent['avatar_before_mess_body']): ?>
 					<div class="mess-body">
 					<?php endif; ?>
-					<?php /* Username *////////////////////////////////////////////////////////////////////////////////// ?>
+					<?php /* Username  and sub-line *////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['soc_username'])): ?>
 						<div class="author-row">
 							<a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username']; ?></a>
-							<span class="sub-line"><?php echo isset($socContent['sub-line']) ? $socContent['sub-line'] : ' '; ?></span></div>
+							<?php if (isset($socContent['sub-time'])): ?>
+							<b class="time"><?php echo $socContent['sub-time']; ?></b>
+							<?php endif; ?>
+							<span class="sub-line">
+							<?php if (isset($socContent['sub-line'])): ?>
+							<?php echo $socContent['sub-line']; ?>
+							<?php elseif(isset($socContent['venue_name'])): ?>
+							<span class="icon">&#xe018;</span><?php echo Yii::t('eauth', 'at ') . $socContent['venue_name'] ?>
+								<?php if (isset($socContent['venue_address'])): ?>
+								, <?php echo $socContent['venue_address'] ?>
+								<?php endif; ?>
+							<?php endif; ?>
+							</span>
+						</div>
 					<?php elseif (isset($socContent['ytube_video_link'])): ?>
 						<div class="author-row">
 							<h3><a class="color" href="<?php echo $socContent['soc_url']; ?>"><?php echo strip_tags($socContent['ytube_video_link']); ?></a></h3>
@@ -93,13 +106,8 @@
 					<?php endif; ?>
 					<?php /* Checkin *////////////////////////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['venue_name'])): ?>
-							<p><?php echo Yii::t('eauth', 'в ') . $socContent['venue_name'] ?><?php if (isset($socContent['venue_address'])): ?>, <?php echo $socContent['venue_address'] ?><?php endif; ?>
-							</p>
 							<?php if (isset($socContent['checkin_shout'])): ?>
 								<p><?php echo $socContent['checkin_shout'] ?></p>
-							<?php endif; ?>
-							<?php if (isset($socContent['checkin_date'])): ?>
-								<p><?php echo $socContent['checkin_date'] ?></p>
 							<?php endif; ?>
 							<?php if (isset($socContent['checkin_photo'])): ?>
 								<img src="<?php echo $socContent['checkin_photo']; ?>">
