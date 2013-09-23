@@ -721,7 +721,18 @@ class SocInfo extends CFormModel
                                 if (isset($lastCheckin['venue']['location']) && isset($lastCheckin['venue']['location']['address']))
                                     $this->userDetail['venue_address'] = $lastCheckin['venue']['location']['address'];
                                 if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
+                                {
+                                    $dateDiff = time() - $lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset'];
+                                    if ($dateDiff > 86400)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+                                    elseif ($dateDiff > 3600)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+                                    elseif ($dateDiff > 60)
+                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+                                    else
+                                        $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
                                     $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
+                                }
                                 if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height']))
                                 {
                                     $this->userDetail['checkin_photo'] = $lastCheckin['photos']['items'][0]['prefix'] . $lastCheckin['photos']['items'][0]['width'] . 'x' . $lastCheckin['photos']['items'][0]['height'] . $lastCheckin['photos']['items'][0]['suffix'];
