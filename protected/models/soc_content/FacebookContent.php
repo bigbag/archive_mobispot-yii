@@ -363,10 +363,25 @@ class FacebookContent extends SocContentBase
                                 elseif (!empty($lastPost['story']))
                                     $userDetail['last_status'] = $lastPost['story'];
                             }
+                            
+                            if (!empty($lastPost['created_time']))
+                            {
+                                $dateDiff = time() - strtotime($lastPost['created_time']);
+                                $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ';
+                                if ($dateDiff > 86400)
+                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+                                elseif ($dateDiff > 3600)
+                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+                                elseif ($dateDiff > 60)
+                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+                                else
+                                    $userDetail['footer-line'] .= $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                            }
+                            
                         }
                         else
                         {
-                            $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+FROM+stream+WHERE+source_id='
+                            $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+,created_time+FROM+stream+WHERE+source_id='
                             .$socUser['id']
                             .'+and+actor_id='
                             .$socUser['id']
@@ -390,6 +405,22 @@ class FacebookContent extends SocContentBase
                                     }
                                     elseif(!empty($lastPost['message']))
                                         $userDetail['last_status'] = $lastPost['message'];
+                                  
+                                    unset($dateDiff);
+                                    
+                                    if (!empty($lastPost['created_time']))
+                                    {
+                                        $dateDiff = time() - $lastPost['created_time'];
+                                        $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ';
+                                        if ($dateDiff > 86400)
+                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+                                        elseif ($dateDiff > 3600)
+                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+                                        elseif ($dateDiff > 60)
+                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+                                        else
+                                            $userDetail['footer-line'] .= $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                    }
                                 }
                             }
                         }
