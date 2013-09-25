@@ -111,7 +111,20 @@ class GoogleContent extends SocContentBase
             if ($lastPost != 'no')
             {
                 if (isset($lastPost['object']['content']))
-                    $userDetail['last_status'] = $lastPost['object']['content'];
+                    $userDetail['last_status'] = strip_tags($lastPost['object']['content'], '<p><br>');
+                $userDetail['sub-line'] = '';
+                if (isset($lastPost['access']) && !empty($lastPost['access']['description']) && ($lastPost['access']['description'] == 'Public'))
+                {
+                    $userDetail['sub-line'] = Yii::t('eauth', 'Available to everyone');
+                }
+                if (!empty($lastPost['published']))
+                {
+                    if (empty($userDetail['sub-line']))
+                        $userDetail['sub-line'] = date('F j, Y', strtotime($lastPost['published']));
+                    else
+                        $userDetail['sub-line'] .= ' - ' . date('F j, Y', strtotime($lastPost['published']));
+                }
+
                 //Картинка
                 if (isset($lastPost['object']['attachments']))
                 {
@@ -130,9 +143,9 @@ class GoogleContent extends SocContentBase
                     {
                         $userDetail['last_img'] = $imgSrc;
                         if (isset($lastPost['object']['attachments'][$i]['displayName']) && (strlen($lastPost['object']['attachments'][$i]['displayName']) > 0))
-                            $userDetail['last_img_msg'] = $lastPost['object']['attachments'][$i]['displayName'];
+                            $userDetail['last_img_msg'] = strip_tags($lastPost['object']['attachments'][$i]['displayName'], '<p><br>');
                         elseif (isset($lastPost['object']['attachments'][$i]['content']) && (strlen($lastPost['object']['attachments'][$i]['content']) > 0))
-                            $userDetail['last_img_msg'] = $lastPost['object']['attachments'][$i]['content'];
+                            $userDetail['last_img_msg'] = strip_tags($lastPost['object']['attachments'][$i]['content'], '<p><br>');
                         elseif (isset($userDetail['last_status']))
                         {
                             $userDetail['last_img_msg'] = $userDetail['last_status'];
