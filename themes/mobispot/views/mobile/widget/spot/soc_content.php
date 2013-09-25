@@ -242,6 +242,12 @@
 						<?php if (isset($socContent['html'])): ?>
 							<?php echo $socContent['html']; ?>
 						<?php endif; ?>
+					<?php /* footer-line *///////////////////////////////////////////////////////////////////////////   ?>
+						<?php if (!empty($socContent['footer-line'])): ?>
+							<footer>
+								<span><?php echo $socContent['footer-line']; ?></span>
+							</footer>
+						<?php endif; ?>
 					<?php /* Follow button */////////////////////////////////////////////////////////////////////////   ?>
 								<?php if (isset($socContent['soc_url']) and !isset($socContent['tweet_author']) and empty($socContent['dinamyc'])): ?>
 								<a href="<?php echo $socContent['soc_url']; ?>" class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
