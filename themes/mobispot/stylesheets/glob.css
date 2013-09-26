@@ -4,7 +4,9 @@ html{
 body{
 	font-size: 87%;
 }
-
+.lt-ie9 body{
+	min-width: 1024px;
+}
 
 @font-face {
 	font-family: Mobispot;
@@ -87,10 +89,13 @@ html[xmlns] .clearfix {
 .table-reset tbody tr:nth-child(2n){
 	background: none;
 }
-.round{
+.round,
+.round > img{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
+	position: relative;
 }
 .slow{
 	-webkit-transition: color linear .2s;

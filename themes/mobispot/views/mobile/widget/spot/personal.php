@@ -1,6 +1,17 @@
 <?php $folderUploads = substr(Yii::getPathOfAlias('webroot.uploads.spot.'), (strpos(Yii::getPathOfAlias('webroot.uploads.spot.'), Yii::getPathOfAlias('webroot')) + strlen(Yii::getPathOfAlias('webroot')))) . '/'; ?>
+<?php $urlVal = new CUrlValidator; ?>
 <?php foreach ($content['keys'] as $key => $type): ?>
-    <?php if ($type == 'text'): ?>
+    <?php if ($type == 'text' && $urlVal->validateValue($content['data'][$key])): ?>
+        <div class="spot-item">
+            <div class="item-area type-itembox">
+                <div class="item-head">
+                    <a href="<?php echo $content['data'][$key]; ?>" class="type-link">
+                        <span class="link"><?php echo $content['data'][$key]; ?></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <?php elseif ($type == 'text'): ?>
         <div class="spot-item">
             <p class="item-area item-type__text"><?php echo $this->hrefActivate($content['data'][$key]); ?></p>
         </div>

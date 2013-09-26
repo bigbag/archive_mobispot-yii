@@ -38,23 +38,30 @@ class Phone extends CActiveRecord
     
     public static function getJsonPhones()
     {
-        $phones=self::model()->with('os')->findAll();
+        $phones=self::model()->findAll();
         $brands = array();
         $answer = array();
         
         foreach($phones as $phone)
         {
             if (!isset($brands[$phone->brand]))
+            {
                 $brands[$phone->brand] = array();
+                $brands[$phone->brand]['models'] = array();
+                $brands[$phone->brand]['trouble_models'] = array();
+            }
             
-            $brands[$phone->brand][] = array('id' => $phone->slug,  'name' => $phone->name, 'year' => $phone->year, 'page' => $phone->page, 'turnNfc' => $phone->os->turn_nfc, 'OS' =>$phone->os->name);
+            if ($phone->has_trouble)
+                $brands[$phone->brand]['trouble_models'][] = array('id' => $phone->slug,  'name' => $phone->name, 'page' => $phone->page);
+            else
+                $brands[$phone->brand]['models'][] = array('id' => $phone->slug,  'name' => $phone->name, 'page' => $phone->page);
         }
         
-        foreach ($brands as $brand=>$models)
+        foreach ($brands as $brand=>$brandPhones)
         {
-            $answer[] = array('brand' => $brand, 'models' => $models);
+            $answer[] = array('brand' => $brand, 'models' => $brandPhones['models'], 'trouble_models' => $brandPhones['trouble_models']);
         }
-        
+
         return str_replace('"', "'", json_encode($answer));
     }
 
