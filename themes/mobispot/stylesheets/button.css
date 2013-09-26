@@ -289,8 +289,6 @@
 
 }
 .dropdown .spot-button{
-	background-color: #0061FF;
-	color: #FFFFFF;
 	-webkit-transition: opacity 600ms ease-out;
 	-moz-transition: opacity 600ms ease-out;
 	-o-transition: opacity 600ms ease-out;
@@ -309,6 +307,7 @@
 .dropdown .options li{
 	display: block;
 	margin-right: 0;
+	background: #E9EDF2;
 }
 .dropdown .options a{
 	color: #000;

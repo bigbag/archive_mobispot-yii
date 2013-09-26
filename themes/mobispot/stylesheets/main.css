@@ -729,6 +729,7 @@ a.active .m-tooltip{
 .spot-item{
 	position: relative;
 	font-size: 14px;
+	min-height: 92px;
 }
 
 .spot-item textarea{
@@ -1208,7 +1209,7 @@ img[height='115']{
 	color: #fff;
 }
 .header-top .dropdown:hover .spot-button{
-	background: #fff;
+	background: #E9EDF2;
 	color: #0062ff;
 }
 .header-top .dropdown:hover .options{
@@ -2328,7 +2329,7 @@ h3 + .small-txt{
 	margin: 30px 0 0;
 }
 .footer-page h3{
-	font-size: 16px;
+	font-size: 30px;
 }
 .footer-page p{
 	font-size: 14px;

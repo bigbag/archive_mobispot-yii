@@ -37,7 +37,7 @@ footer-page h3{
 	font-size: 14px;
 	margin-bottom: 0;
 	height: 0;
-	margin-top: -22px;
+	margin-top: -21px;
 }
 .footer-page .soc-link label{
 	display: inline;
@@ -66,6 +66,6 @@ footer-page h3{
 .footer-page .lang-dropdown{
 	display: inline-block;
 	position: absolute;
-	top: 41px;
+	top: 60px;
 	right: 2em;
 }
