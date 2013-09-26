@@ -1,5 +1,6 @@
 @media screen and (max-width: 1044px){
-	.error-message{
+	.error-message,
+	.error-message img{
 		width: 500px;
 	}
 	.error-text-block{
@@ -28,7 +29,8 @@
 	.spots-description h3{
 		color: #0063ff;
 	}
-	.error-message{
+	.error-message,
+	.error-message img{
 		width: 400px;
 	}
 	.error-text-block{
@@ -210,7 +212,8 @@
 	.bubbles-slider .orbit-bullets{
 		margin-left: -165px !important;
 	}
-	.error-message{
+	.error-message,
+	.error-message img{
 		width: 300px;
 	}
 	.error-text-block{

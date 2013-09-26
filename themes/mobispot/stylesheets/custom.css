@@ -66,8 +66,24 @@ textarea {
 	-o-transition: background 600ms ease-out;
 	transition: background 600ms ease-out;
 	font-size: 14px;
+	behavior: url(file:///E:/PIE.htc);
+	outline:0;
 }
-
+.lt-ie9 input[type="text"],
+.lt-ie9 input[type="password"],
+.lt-ie9 input[type="date"],
+.lt-ie9 input[type="datetime"],
+.lt-ie9 input[type="email"],
+.lt-ie9 input[type="number"],
+.lt-ie9 input[type="search"],
+.lt-ie9 input[type="tel"],
+.lt-ie9 input[type="time"],
+.lt-ie9 input[type="url"]{
+	line-height: 22px;
+}
+.lt-ie9 .choose input{
+	line-height: 35px;
+}
 form.custom div.custom.dropdown a.current{
 	color: #000;
 }
@@ -82,6 +98,7 @@ form.custom div.custom.dropdown ul{
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	-o-border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	overflow: hidden;
 	width: 100% !important;
 }
@@ -95,6 +112,7 @@ form.custom div.custom.dropdown a.selector{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 form.custom div.custom.dropdown ul li.selected{
 	display: none;
@@ -150,6 +168,7 @@ ul.orbit-bullets li{
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 }
 /* Tables ---------------------- */
 ul.orbit-bullets li.active{
@@ -162,6 +181,7 @@ table {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
     margin: 0 0 18px;
     border: 1px solid #dddddd;
 }
@@ -414,12 +434,12 @@ table tbody tr td {
 	}
 	.top-bar ul>li.has-button a.button { margin: 0 }
 }
-.nav-bar > li > a:first-child{
+.nav-bar > li > .spot-button:first-child{
 	font-size: 18px;
 	padding: 4px 11px 2px;
 	position: relative;
 }
-.nav-bar > li > a{
+.nav-bar > li > a.spot-button{
 	color: #000;
 }
 .nav-bar > li {
@@ -493,6 +513,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	margin: 0 60px;
 	overflow: hidden;
 	background: url(../images/icons/i-small.png) 0 0 no-repeat;
@@ -547,6 +568,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	font-family: Mobispot-icon;
 }
 .joyride-close-tip,
@@ -575,6 +597,8 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
+	behavior:  url(file:///E:/PIE.htc);
+
 
 }
 .tooltip.tip-top{
@@ -601,9 +625,9 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	margin-left: -7px;
 	margin-bottom: -4px;
 }
-input.error{
-	background: #f9d3d2 !important;
-	color: #ed578d;
+input.error,
+.header-page .slide-box input.error{
+	background: #f9d3d2;
 }
 input + i{
 	content: '';
@@ -613,6 +637,7 @@ input + i{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	position: relative;
 	float: right;
 	top: -29px;
@@ -641,7 +666,10 @@ input.error:-moz-placeholder { color: #ed578d !important; }
 form.custom span.custom{
 	border: 3px solid #0062FF;
 	margin-right: 3px;
-	top: 0;
+	top: -1px;
+}
+.lt-ie9 form.custom span.custom{
+	top: -3px;
 }
 form.custom span.custom.radio.checked{
 	background:#0062FF;
@@ -649,9 +677,17 @@ form.custom span.custom.radio.checked{
 form.custom span.custom.radio.checked:before{
 	display: none;
 }
+form.custom span.custom.radio{
+	behavior:  url(file:///E:/PIE.htc);
+	position: relative;
+}
+.lt-ie9 form.custom div.custom.dropdown a.selector:after{
+	margin-top: 2px;
+}
 
 div.switch.radius {
 	border-radius: 4px 4px 4px 4px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 div.switch {
 	background: none repeat scroll 0 0 white;
@@ -718,6 +754,7 @@ div.switch input:first-of-type:checked ~ span {
 }
 div.switch.radius > span {
 	border-radius: 3px 3px 3px 3px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 div.switch > span {
 	background: linear-gradient(to bottom, white 0%, #F2F2F2 100%) repeat scroll 0 0 transparent;
@@ -800,6 +837,14 @@ form.custom div.custom.dropdown a.current{
 .tooltip.tip-left, .tooltip.tip-right{
 	margin-top: -17px;
 }
+.lt-ie9 .tooltip.tip-left,
+.lt-ie9 .tooltip.tip-right{
+	margin-top: 16px;
+}
+.lt-ie9 .tooltip.tip-right > .nub,
+.lt-ie9 .tooltip.tip-left > .nub{
+	margin-top: 20px;
+}
 .tooltip.tip-right{
 	margin-left: 10px;
 }
@@ -837,6 +882,7 @@ img{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior:  url(file:///E:/PIE.htc);
 	padding: 10px 25px 22px;
 	margin-top: 7px;
 	width: 264px;
@@ -856,6 +902,7 @@ img{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	cursor: pointer;
 	height: 28px;
 	width: 28px;
@@ -931,7 +978,7 @@ img{
 	position: absolute;
 	top: 15px;
 	left: 25px;
-	background: url("data:image/gif;base64,R0lGODlhIgAoAJEDAL+/v////wAAAP///yH/C1hNUCBEYXRhWE1QтАжqndDqdNKU8ohUZTbb3XqjYSmQi40mz1cJOPF2k+FzORoRj+TFlr224uc3M0hYaHjYUAAAOw==") no-repeat 0 0;
+	background: url("data:image/gif;base64,R0lGODlhIgAoAJEDAL+/v////wAAAP///yH/C1hNUCBEYXRhWE1Q…qndDqdNKU8ohUZTbb3XqjYSmQi40mz1cJOPF2k+FzORoRj+TFlr224uc3M0hYaHjYUAAAOw==") no-repeat 0 0;
 	background-size: 100%;
 }
 .orbit.with-bullets{

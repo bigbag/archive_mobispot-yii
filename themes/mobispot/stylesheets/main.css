@@ -103,6 +103,8 @@
 	-moz-transition: background-color 600ms ease-out;
 	-o-transition: background-color 600ms ease-out;
 	transition: background-color 600ms ease-out;
+	behavior:  url(file:///E:/PIE.htc);
+	outline:0;
 }
 .header-page .form-control .right{
 	float: right !important;
@@ -179,17 +181,15 @@ input:-moz-input-placeholder { color: rgba(0, 0, 0, 0.75) }
 	-moz-transition: background-color 600ms ease-out;
 	-o-transition: background-color 600ms ease-out;
 	transition: background-color 600ms ease-out;
+	behavior:  url(file:///E:/PIE.htc);
+	outline: 0;
 
 }
 .header-page .slide-box input,
 .header-page .slide-box .spot-button,
 .header-page .slide-box .soc-link a{
 	background-color: #fff;
-}
-.soc-link a:hover,
-.spot-button:hover{
-	background-color: #0061FF !important;
-	color: #fff;
+	position: relative;
 }
 .bg-gray .slide-box-close,
 .slide-box .slide-box-close{
@@ -223,6 +223,7 @@ table.store-items{
 	-moz-border-radius:0;
 	border-radius: 0;
 	border-spacing: 0;
+	behavior:  url(file:///E:/PIE.htc);
 }
 table.store-items td{
 	background: #E9EDF2;
@@ -242,6 +243,9 @@ table.store-items td .orbit{
 	max-width: 242px !important;
 	min-width: 80px;
 	margin: 0 auto;
+}
+.lt-ie9 table.store-items td img{
+	width: auto;
 }
 
 table.store-items td ul.orbit-bullets{
@@ -278,6 +282,7 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	background: #000;
 	color: #fff;
 	font-size: 31px;
@@ -298,29 +303,51 @@ table.store-items td ul.orbit-bullets{
 }
 .store-items__close{
 	cursor: pointer;
+	-webkit-transition: color 600ms ease-out;
+	-moz-transition: color 600ms ease-out;
+	-o-transition: color 600ms ease-out;
+	transition: color 600ms ease-out;
 }
 .store-items__bag tr .store-items__close:after{
 	 content: '';
 	 display: block;
 	 height: 100%;
-	 width: 100%;
+	 width: 29px;
+	margin-left: -15px;
 	 position: absolute;
 	 top:0;
-	 left: 0;
-	 background: #000 url(../images/icons/i-small.png) no-repeat -110px 25px;
-	 -webkit-border-radius: 50%;
-	 -moz-border-radius: 50%;
-	 border-radius: 50%;
-	 cursor: pointer;
+	 left: 50%;
+	 background: url(../images/icons/i-small.png) no-repeat -135px 25px;
+	cursor: pointer;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
 	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	-webkit-transition: opacity 600ms ease-out;
 	-moz-transition: opacity 600ms ease-out;
 	-o-transition: opacity 600ms ease-out;
 	transition: opacity 600ms ease-out;
+	z-index: 99;
  }
 .store-items__bag tr:hover .store-items__close:after{
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
 	opacity: 1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
+.store-items__bag tr:hover .store-items__close{
+	color: #000 ;
+}
+.lt-ie9 .store-items__bag tr .store-items__close:after{
+	display: none;
+}
+.lt-ie9 .store-items__bag tr:hover .store-items__close{
+	line-height: 999px;
+}
+.lt-ie9 .store-items__bag tr:hover .store-items__close:after{
+	display: block;
+}
+
 .store-items td{
 	-webkit-transition: all linear .2s;
 	-moz-transition: all linear .2s;
@@ -361,9 +388,14 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	float: left;
 	line-height: 35px;
 	padding: 0;
+	position: relative;
+}
+.choose input{
+	line-height: 22px;
 }
 .choose li{
 	margin-right:5px;
@@ -407,10 +439,12 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	-webkit-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
 	-moz-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
 	-o-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
 	transition: all cubic-bezier(.36,.1,.43,1.01) .1s;
+	position: relative;
 }
 
 .choose-color li:hover i,
@@ -559,6 +593,7 @@ p + .details{
 }
 .spot-hat h3{
 	margin-right: 180px;
+	color: #0063ff;
 }
 .m-tooltip{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
@@ -607,7 +642,6 @@ a.active .m-tooltip{
 }
 .spot-content_row{
 	clear: both;
-	margin-top: 14px;
 	overflow: hidden;
 	position: static;
 	min-height: 30px;
@@ -657,6 +691,7 @@ a.active .m-tooltip{
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
+	behavior:  url(file:///E:/PIE.htc);
 	padding:0 50px;
 	margin-top: 3px;
 	cursor: pointer;
@@ -716,7 +751,8 @@ a.active .m-tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	padding: 38px 50px;
+	behavior:  url(file:///E:/PIE.htc);
+	padding: 11px 50px;
 }
 .item-area.text-photo,
 .item-area.text-center{
@@ -732,6 +768,7 @@ a.active .m-tooltip{
 .item-area input{
 	background: #E9EDF2;
 	color: #0061ff;
+	position: relative;
 }
 .item-area .spot-button {
 	background: #E9EDF2;
@@ -747,14 +784,15 @@ a.active .m-tooltip{
 }
 .item-area_w form.custom div.custom.dropdown a.current{
 	background: #E9EDF2;
+	position: relative;
 }
 .item-area__right{
-	padding-top: 13px;
 	margin: 0;
 }
 .item-area__right label{
-	color: #000;
+	color: #a7a7a7;
 	font-size: 12px;
+	display: inline-block;
 }
 .item-area_table h3{
 	position: relative;
@@ -774,6 +812,7 @@ a.active .m-tooltip{
 .item-area_table .m-spot-table td div{
 	background: #E9EDF2;
 	padding: 10px 15px;
+	position: relative;
 }
 .item-area_table .m-spot-table th:first-child div,
 .item-area_table .m-spot-table td:first-child div{
@@ -786,26 +825,9 @@ a.active .m-tooltip{
 	-webkit-border-radius:  0 5px 5px 0;
 	-moz-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
+
 }
-.button-disable:focus, .button-disable:hover, .button-disable{
-	background: #E9EDF2 !important;
-	color: #fff;
-}
-.m-page-hat .button-disable:focus,
-.m-page-hat .button-disable:hover,
-.m-page-hat .button-disable,
-.bg-gray .button-disable:focus,
-.bg-gray .button-disable:hover,
-.bg-gray .button-disable{
-	background: #fff !important;
-	color: #E9EDF2;
-}
-.bg-gray .item-area_w .button-disable:focus,
-.bg-gray .item-area_w .button-disable:hover,
-.bg-gray .item-area_w .button-disable{
-	background: #E9EDF2 !important;
-	color: #fff;
-}
+
 
 .spot-cover{
 	display: none;
@@ -824,6 +846,7 @@ a.active .m-tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 .item-area:hover .spot-cover{
 	display: block;
@@ -996,10 +1019,8 @@ a.active .m-tooltip{
 	margin-top: 0;
 }
 .form-list li .slide-content{
-	padding: 16px 18px 60px;
-}
-.form-list li:last-child .slide-content{
-	padding-bottom: 10px;
+	padding: 16px 0 10px 31px;
+	background: none;
 }
 img[height='115']{
 	height: 115px;
@@ -1065,6 +1086,7 @@ img[height='115']{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior:  url(file:///E:/PIE.htc);
 	padding: 5px 34px;
 	color: #fff;
 	background: #0061FF;
@@ -1075,6 +1097,7 @@ img[height='115']{
 .users-list li{
 	border: 0 none;
 	border-radius: 3px 3px 3px 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	box-shadow: none;
 	color: #000;
 	margin: 0 10px 5px 0;
@@ -1144,6 +1167,7 @@ img[height='115']{
 }
 .lang-dropdown .spot-button{
 	color: #000;
+	background: none;
 	font-size: 14px;
 	font-family: Arial, sans-serif;
 	position: absolute;
@@ -1161,17 +1185,14 @@ img[height='115']{
 	border-top: 4px solid #000;
 }
 .lang-dropdown:hover .spot-button{
-	background: #fff !important;
+	background: #fff;
 	color: #0061ff;
 }
 .lang-dropdown:hover .spot-button:after,
 .dropdown:hover .spot-button:after{
 	border-top: 4px solid #0061ff;
 }
-.lang-dropdown .dropdown .options{
-	background: #fff;
-	overflow: hidden;
-}
+
 .lang-dropdown .dropdown .options a{
 	color: #000;
 }
@@ -1185,6 +1206,13 @@ img[height='115']{
 .lang-dropdown .spot-button.active{
 	background: #0061FF;
 	color: #fff;
+}
+.header-top .dropdown:hover .spot-button{
+	background: #fff;
+	color: #0062ff;
+}
+.header-top .dropdown:hover .options{
+	background: #fff;
 }
 .lang-dropdown .options{
 	bottom: 37px;
@@ -1225,18 +1253,23 @@ img[height='115']{
 	-moz-transition: all linear .2s;
 	-o-transition: all linear .2s;
 	transition: all linear .2s;
-	min-height: 96px;
 }
 .spot-hat:hover{
 	background: #E0E6ED;
 }
 .error-message{
-	background: url("../images/icons/i-error.2x.png") no-repeat;
 	width: 590px;
 	background-size: 100%;
 	height: 434px;
 	margin: -30px 0 0;
 	float: right;
+	position: relative;
+}
+.error-message img{
+	width: 590px;
+	position: absolute;
+	right: 0;
+
 }
 .error-text-block{
 	height: 294px;
@@ -1244,15 +1277,7 @@ img[height='115']{
 	vertical-align: middle;
 	color: #fff;
 	white-space: nowrap;
-}
-.error-text-block h1{
-	color: #fff;
-	font-size: 70px;
-	margin: 7px;
-	line-height: 68px;
-	text-align: center;
-	width: 294px;
-	float: left;
+	position: relative;
 }
 .error-text-block p{
 	font-size: 18px;
@@ -1358,6 +1383,7 @@ img[height='115']{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 #chooseID{
 	display: none;
@@ -1397,6 +1423,8 @@ img[height='115']{
 	position: absolute;
 	top: 50%;
 	margin-top: -20px;
+	left: 50%;
+	margin-left: -20px;
 }
 .m-content-block{
 	position: relative;
@@ -1404,8 +1432,10 @@ img[height='115']{
 .m-phone-list li{
 	overflow: hidden;
 }
+.m-phone-list_container{
+list-style: disc outside none;
+}
 .m-phone-list h3{
-	border-bottom: 2px solid #0062FF;
 	padding-bottom: 3px;
 	margin-top: 40px;
 }
@@ -1419,27 +1449,30 @@ img[height='115']{
 }
 .m-phone-list_item{
 	display: block;
-	width: 220px;
-	float: left;
-	height: 91px;
-	margin: 20px 0 20px 30px;
+	padding: 10px 20px;
 }
 .m-phone-list_item h5{
 	margin: 2px 0 0;
 	font-size: 15px;
-}
-.m-phone-list_item hgroup{
-	height: 53px;
+	line-height: 15px;
 }
 .m-phone-list_item hgroup span{
 	font-size: 12px;
+	float: left;
+	margin-right: 8px;
 }
 .m-phone-list_item a{
 	display: block;
-	color: #0062FF;
+	color: #B0B3B5;
 	text-decoration: underline;
-	line-height: 15px;
-	font-size: 12px;
+	font-size: 11px;
+	float: left;
+}
+.m-phone-list_container li{
+	position: relative;
+	white-space: nowrap;
+	width: 220px;
+	float: left;
 }
 .p-error-txt h2{
 	margin-top: 0;
@@ -1467,10 +1500,6 @@ img[height='115']{
 }
 .content-payment + footer{
 	font-size: 14px;
-}
-.spot-list .row,
-.content-payment.row .popup-row{
-	margin:0 0 20px;
 }
 .spot-list .row:first-child{
 	margin-top: 0;
@@ -1511,36 +1540,46 @@ img[height='115']{
 }
 .m-card-cur{
 	color: #9D9D9D;
-	padding-left: 30px;
+	padding-left: 82px;
 	position: relative;
-	margin: 20px 0 35px;
+	margin: 0 0 15px;
 }
 .m-card-cur:before{
 	content: '';
 	display: block;
 	position: absolute;
-	height: 12px;
-	width: 12px;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-	background: #ff2400;
+	height: 38px;
+	width: 63px;
+	background: url(../images/mps.png);
+	background-position: -6px -15px;
 	left: 3px;
 	top: 50%;
-	margin-top: -6px;
+	margin-top: -19px;
 }
-span.settings-button{
+.m-card-cur.m-card_visa:before{
+	background-position: -6px -7px;
+}
+.m-card-cur.m-card_mc:before{
+	background-position: -81px -7px;
+}
+span.payment-rules{
 	color: #0061ff;
 	border-bottom: 1px dotted #0061ff;
 	font-size: 14px;
+	line-height: 14px;
+	position: absolute;
+	right: 0;
+	bottom: 5px;
+	cursor: help;
 }
 .m-auto-payment.active .m-agreement{
 	display: none;
 }
-.m-auto-payment.active .m-card-cur:before{
-	background-color: #30d874;
-}
 .m-auto-payment.active .m-card-cur{
+	color: #000;
+}
+.m-auto-payment.sub-txt{
+	font-size: 13px;
 	color: #000;
 }
 .m-content-form{
@@ -1573,6 +1612,7 @@ span.settings-button{
 	-webkit-border-radius: 5px;
 	-moz-border-radius:  5px;
 	border-radius:  5px;
+	behavior:  url(file:///E:/PIE.htc);
 	font-size: 16px;
 	margin-bottom: 0;
 }
@@ -1625,11 +1665,12 @@ span.settings-button{
 .m-sub-slide-h:hover,
 .m-sub-slide-h:active{
 	border-bottom: 1px dashed #0062FF;
-	color: #0062FF;
+	color: #0062FF !important;
 	position: relative;
 	display: inline-block;
 	height: 18px;
 	margin-bottom: 10px;
+	padding-bottom: 19px;
 }
 .m-sub-slide-h:after{
 	border-left: 4px solid transparent;
@@ -1669,13 +1710,20 @@ span.settings-button{
 
 .m-sub-slide-menu .label-cover{
 	position: absolute;
-	top: 5px;
-	left: 25px;
+	top: 9px;
+	left: 20px;
 	width: auto;
 	color: #0061ff;
+	z-index: 99;
 }
 .m-sub-slide-menu .label-cover + input{
-	padding-left: 47px;
+	padding-left: 37px;
+}
+.lt-ie9 .once-only .two input{
+	padding-left: 37px !important;
+}
+.lt-ie9  .m-sub-slide-menu .label-cover{
+	top: 7px;
 }
 .spot-main-input{
 	margin-bottom: 12px;
@@ -1683,7 +1731,10 @@ span.settings-button{
 	-webkit-border-radius: 3px;
 	-moz-border-radius:3px;
 	border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	position: static;
+	position: relative;
+	margin-top: 12px;
 }
 .spot-sub-slide{
 	background: #f0f3f6;
@@ -1692,8 +1743,10 @@ span.settings-button{
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	position: relative;
 	overflow: hidden !important;
+	zoom:1;
 }
 .spot-sub-slide:after{
 	content: '';
@@ -1712,9 +1765,11 @@ span.settings-button{
 .spot-sub-slide a{
 	margin-right: 18px;
 	margin-bottom: 19px;
-	height: 32px;
+	height: 36px;
+	width: 36px;
 	display: block;
 	float: left;
+	position: relative;
 }
 .spot-sub-slide a:last-child{
 	margin-right: 0;
@@ -1724,6 +1779,11 @@ span.settings-button{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	height: 36px;
+	width: 36px;
+	behavior:  url(file:///E:/PIE.htc);
+	position: relative;
+	zoom: 1;
 }
 .spot-sub-slide:after{
 	right: 0;
@@ -1746,7 +1806,7 @@ span.settings-button{
 }
 .spot-hat .icon{
 	display: inline-block;
-	line-height: 33px;
+	line-height: 31px;
 	margin-right: 10px;
 	color:  #fff;
 	-webkit-transition: color 600ms ease-out;
@@ -1755,7 +1815,8 @@ span.settings-button{
 	transition: color 600ms ease-out;
 
 }
-.spot-hat .icon:hover{
+.spot-hat .icon:hover,
+.spot-hat .icon.open{
 	color: #0063ff;
 }
 .invisible-icon{
@@ -1830,6 +1891,7 @@ span.settings-button{
 .spot-soc-icon,
 .item-area-hat img{
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	float: left;
 	margin-top: 5px;
 	margin-right: 14px;
@@ -1850,9 +1912,6 @@ span.settings-button{
 }
 .form-item-30{
 	margin-top: 30px;
-}
-.m-auto-payment label{
-	line-height: 34px;
 }
 .type-soc{
 	background: #f0f3f6;
@@ -1901,10 +1960,13 @@ textarea:hover + .label-cover *{
 	padding: 5px 0 20px;
 	z-index: 10;
 	text-align: center;
+	background: rgb(0, 97, 255);
 	background: rgba(0, 97, 255, 0.9);
 	line-height: 20px;
 	font-weight: 100;
 	color: #fff;
+	overflow: hidden;
+	zoom:1;
 }
 .bag-link *{
 	cursor: pointer;
@@ -2012,6 +2074,7 @@ textarea:hover + .label-cover *{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior:  url(file:///E:/PIE.htc);
 	padding: 8px 20px 8px 3px;
 }
 .spot-item_button:hover{
@@ -2169,8 +2232,10 @@ img.soc-icon{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	width: 36px;
 	height: 36px;
+	position: relative;
 }
 .type-itembox{
 	padding: 0;
@@ -2212,6 +2277,9 @@ img.soc-icon{
 }
 .item-body footer{
 	margin-top: 17px;
+	font-size: 12px;
+	color: #B0B0B0;
+	font-weight: 400;
 }
 .author-row .authot-name{
 	font-size: 16px;
@@ -2273,6 +2341,10 @@ h3 + .small-txt{
 	text-shadow: none;
 	line-height: 21px;
 }
+.footer-page .dropdown .spot-button{
+	line-height: 27px;
+	font-size: 14px;
+}
 .footer-page .i-soc{
 	margin-top: -3px;
 }
@@ -2302,6 +2374,7 @@ h3 + .small-txt{
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
+	behavior:  url(file:///E:/PIE.htc);
 
 }
 .type-mess  .item-user-avatar img{
@@ -2313,6 +2386,7 @@ h3 + .small-txt{
 .type-mess img, .type-mess iframe, .type-mess object{
 	display: block;
 	margin: 17px auto;
+	max-width: 100%;
 }
 .sub-line .icon{
 	margin-right: 3px;
@@ -2325,4 +2399,78 @@ h3 + .small-txt{
 }
 .file-icon{
 	margin-left: 6px;
+}
+.m-block-truble{
+	clear: both;
+}
+.m-h-truble{
+	color: #FF0050;
+	margin-bottom: 0;
+}
+.m-phone-list_container .m-block-truble{
+	width: auto;
+}
+.m-phone-list_container .m-block-truble:before{
+	display: none;
+}
+.m-phone-trubl{
+	margin-left: 0;
+}
+.m-phone-list_container .m-block-truble li:before{
+	background: #FF0050;
+}
+.settings-block .m-set-content{
+	padding: 10px 50px;
+	background: #E9EDF2;
+}
+.settings-block.slide-content{
+	background: #E0E6ED;
+	padding:0 0;
+	margin: 0 -50px;
+	width: auto;
+}
+
+.settings-block h4{
+	margin-bottom: 0;
+}
+.m-set-content .row .row:last-child{
+	margin-bottom: 0;
+}
+.settings-block .content-wallet{
+	padding-top: 30px;
+	padding-bottom: 27px;
+}
+.m-set-content .row{
+	margin: 0 0 20px;
+}
+.m-set-content .popup-row{
+	margin: 0;
+}
+.m-card-info{
+	font-size: 20px;
+	color: #0061FF;
+	font-family: Mobispot, Helvetica, Arial, sans-serif;
+}
+.m-card-block{
+	margin-top: 35px;
+}
+.m-auto-payment .sub-txt{
+	color: #FF0050;
+	font-size: 13px;
+}
+.radio-link_on-item-area i.large{
+	position: absolute;
+	left: -28px;
+	top: 11px;
+}
+.radio-link_on-item-area h3{
+	color: rgba(0, 0, 0, 0.1);
+	-webkit-transition: color 400ms ease-out;
+	-moz-transition: color 400ms ease-out;
+	-o-transition: color 400ms ease-out;
+	transition: color 400ms ease-out;
+}
+
+.radio-link_on-item-area.open  h3{
+	color: #000;
 }
