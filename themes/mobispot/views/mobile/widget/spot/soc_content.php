@@ -16,9 +16,14 @@
 					<div class="mess-body">
 					<?php endif; ?>
 					<?php /* Username  and sub-line *////////////////////////////////////////////////////////////// ?>
-					<?php if (isset($socContent['soc_username'])): ?>
+					<?php if (!empty($socContent['soc_username']) || !empty($socContent['color-header']) || !empty($socContent['sub-time'])): ?>
 						<div class="author-row">
+							<?php if (isset($socContent['soc_username'])): ?>
 							<a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username']; ?></a>
+							<?php endif; ?>
+							<?php if (isset($socContent['color-header'])): ?>
+							<h3 class="color"><?php echo $socContent['color-header']; ?></h3>
+							<?php endif; ?>
 							<?php if (isset($socContent['sub-time'])): ?>
 							<b class="time"><?php echo $socContent['sub-time']; ?></b>
 							<?php endif; ?>
@@ -52,6 +57,9 @@
 							</div>
 							<p><?php echo $socContent['tweet_text']; ?></p>
 							<footer>
+								<?php if (isset($socContent['footer-line'])): ?>
+									<?php echo $socContent['footer-line']; ?>
+								<?php endif; ?>
 								<?php if (isset($socContent['tweet_datetime'])): ?>
 									<div class="left timestamp"><?php echo $socContent['tweet_datetime']; ?></div>
 								<?php endif; ?>

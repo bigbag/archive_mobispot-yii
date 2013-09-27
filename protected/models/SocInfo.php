@@ -926,7 +926,8 @@ class SocInfo extends CFormModel
                     $this->userDetail['age'] = $socUser['age'];
                 if (!empty($socUser['gender']))
                     $this->userDetail['gender'] = $socUser['gender'];
-            }elseif ($socNet == 'deviantart')
+            }
+            elseif ($socNet == 'deviantart')
             {
                 $options = array();
                 $ch = $this->initRequest('http://' . $socUsername . '.deviantart.com', $options);
@@ -949,20 +950,32 @@ class SocInfo extends CFormModel
 
                         if (!empty($last_dev['title']))
                         {
-                            $this->userDetail['last_status'] = $last_dev['title'];
-                            if (!empty($last_dev['thumbnail_url']))
+                            $this->userDetail['color-header'] = $last_dev['title'];
+                            if (!empty($last_dev['author_name']) && !empty($last_dev['author_url']))
+                            $this->userDetail['sub-line'] = Yii::t('eauth', "by") . ' <a href="' . $last_dev['author_url'] . '">' . $last_dev['author_name'] . '</a>';
+                            $this->userDetail['footer-line'] = '';
+                            if (!empty($last_dev['category']))
+                                $this->userDetail['footer-line'] .= '<div>' . str_replace('>', '/', $last_dev['category']) . '</div>';
+                            if (!empty($xml->channel->copyright))
+                                $this->userDetail['footer-line'] .= '<p>' . str_replace('Copyright ', '©', (string)$xml->channel->copyright) . '</p>';
+                            if (!empty($last_dev['url']) || !empty($last_dev['thumbnail_url']))
                             {
-                                $this->userDetail['last_img'] = $last_dev['thumbnail_url'];
-                                $this->userDetail['last_img_msg'] = $last_dev['title'];
+                                if (!empty($last_dev['url']))
+                                    $this->userDetail['last_img'] = $last_dev['url'];
+                                else
+                                    $this->userDetail['last_img'] = $last_dev['thumbnail_url'];
+                                //$this->userDetail['last_img_msg'] = $last_dev['title'];
                                 unset($this->userDetail['last_status']);
+                                /*
                                 if (!empty($xml->channel->item[$i]->description))
                                 {
-                                    $this->userDetail['last_img_story'] = (string) $xml->channel->item[$i]->description;
+                                    $this->userDetail['last_img_story'] = strip_tags((string)$xml->channel->item[$i]->description, '<p><br>');
                                     if (strpos($this->userDetail['last_img_story'], '<br') !== false)
                                         $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<br'));
                                     if (strpos($this->userDetail['last_img_story'], '<div') !== false)
                                         $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<div'));
                                 }
+                                */
                             }
                         }
                     }

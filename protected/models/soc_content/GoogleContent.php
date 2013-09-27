@@ -115,7 +115,7 @@ class GoogleContent extends SocContentBase
                 $userDetail['sub-line'] = '';
                 if (isset($lastPost['access']) && !empty($lastPost['access']['description']) && ($lastPost['access']['description'] == 'Public'))
                 {
-                    $userDetail['sub-line'] = Yii::t('eauth', 'Available to everyone');
+                    $userDetail['sub-line'] = Yii::t('eauth', 'Shared publicly');
                 }
                 if (!empty($lastPost['published']))
                 {
