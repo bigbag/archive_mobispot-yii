@@ -1195,8 +1195,30 @@ class SocInfo extends CFormModel
                     if ($techSoc && isset($socUser['id']))
                     {
                         $media = $this->makeRequest('https://api.instagram.com/v1/users/' . $socUser['id'] . '/media/recent?count=1&access_token=' . $techSoc->user_token);
+  
                         if (isset($media['data']) && isset($media['data'][0]))
                         {
+                            if (!empty($media['data'][0]['user']['profile_picture']))
+                                $this->userDetail['photo'] = $media['data'][0]['user']['profile_picture'];
+                            if (!empty($media['data'][0]['user']['full_name']))
+                                $this->userDetail['soc_username'] = $media['data'][0]['user']['full_name'];
+                            elseif (!empty($media['data'][0]['user']['username']))
+                                $this->userDetail['soc_username'] = $media['data'][0]['user']['username'];
+                            if (isset($media['data'][0]['location']) && !empty($media['data'][0]['location']['name']))
+                                $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $media['data'][0]['location']['name'];
+                            if (!empty($media['data'][0]['created_time']))
+                            {
+                                $dateDiff = time() - (int)$media['data'][0]['created_time'];
+                                if ($dateDiff > 86400)
+                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+                                elseif ($dateDiff > 3600)
+                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+                                elseif ($dateDiff > 60)
+                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+                                else
+                                    $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                            }
+
                             if (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['standard_resolution']) && !empty($media['data'][0]['images']['standard_resolution']['url']))
                                 $this->userDetail['last_img'] = $media['data'][0]['images']['standard_resolution']['url'];
                             elseif (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['thumbnail']) && !empty($media['data'][0]['images']['thumbnail']['url']))
@@ -1228,6 +1250,7 @@ class SocInfo extends CFormModel
                 }
                 else
                     $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+
             }
             else
             {
@@ -1243,7 +1266,7 @@ class SocInfo extends CFormModel
             
             Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
         }
-        
+   
         return $this->userDetail;
     }
 
