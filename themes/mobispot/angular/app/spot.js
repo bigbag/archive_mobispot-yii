@@ -168,6 +168,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   // Аккордеон в списке личных спотов
   $scope.accordion = function(e, init) {
     var spot;
+    $scope.SocNetTooltip(false);
     if(init == 1) {
       spot = e;
     }
@@ -466,9 +467,10 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         if (NeedTooltip)
         {
             angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.socPatterns[currentNet].title + ' to share more');
-            var netPos = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').position();
-            $('#net-tooltip').css('left', netPos.left - ($('#net-tooltip').width()/2) + 66);
-            $('#net-tooltip').css('top', netPos.top + 112);
+            var socImg = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']');
+            var netPos = socImg.offset();
+            $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
+            $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
             $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
             $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6)); 
             angular.element('#net-tooltip').show();
