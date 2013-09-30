@@ -433,6 +433,8 @@ class SocInfo extends CFormModel
                         {
                             if (!empty($lastPost['text']))
                                 $this->userDetail['last_status'] = $lastPost['text'];
+                            if (!empty($lastPost['date']))
+                                $this->userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff(time() - $lastPost['date']);
                             if (isset($lastPost['attachment']) && isset($lastPost['attachment']['type']))
                             {
                                 switch ($lastPost['attachment']['type'])
@@ -1024,13 +1026,46 @@ class SocInfo extends CFormModel
                 if (isset($projects['projects']) && !empty($projects['projects'][0]))
                 {
                     $project = $projects['projects'][0];
-                    $imgProject = '';
-                    if (isset($project['covers']) && !empty($project['covers'][202]))
-                        $this->userDetail['last_img'] = $project['covers'][202];
+                    if (!empty($project['covers']))
+                    {
+                        $maxSize = 0;
+                        foreach($project['covers'] as $size=>$img)
+                        {
+                            if ($size > $maxSize)
+                            {
+                                $this->userDetail['last_img'] = $img;
+                                $maxSize = $size;
+                            }
+                        }
+                    }
                     if (!empty($project['url']))
                         $this->userDetail['last_img_href'] = $project['url'];
                     if (!empty($project['name']))
                         $this->userDetail['last_img_msg'] = $project['name'];
+                    if (!empty($project['published_on']))
+                        $this->userDetail['sub-time'] = date('F d, Y', $project['published_on']);
+                    if (isset($project['owners']) && isset($project['owners'][0]))
+                    {
+                        $place = '';
+                        if (isset($project['owners'][0]['city']))
+                            $place .= $project['owners'][0]['city'];
+                        if (isset($project['owners'][0]['state']))
+                        {
+                            if ($place)
+                                $place .= ', ' . $project['owners'][0]['state'];
+                            else 
+                                $place .= $project['owners'][0]['state'];
+                        }
+                        if (isset($project['owners'][0]['country']))
+                        {
+                            if ($place)
+                                $place .= ', ' . $project['owners'][0]['country'];
+                            else 
+                                $place .= $project['owners'][0]['country'];
+                        }
+                        if ($place)
+                            $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $place;
+                    }
                 }
             }elseif ($socNet == 'Flickr')
             {
