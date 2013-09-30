@@ -436,6 +436,8 @@ class SocInfo extends CFormModel
                         {
                             if (!empty($lastPost['text']))
                                 $this->userDetail['last_status'] = $lastPost['text'];
+                            if (!empty($lastPost['date']))
+                                $this->userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff(time() - $lastPost['date']);
                             if (isset($lastPost['attachment']) && isset($lastPost['attachment']['type']))
                             {
                                 switch ($lastPost['attachment']['type'])
@@ -726,14 +728,7 @@ class SocInfo extends CFormModel
                                 if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
                                 {
                                     $dateDiff = time() - $lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset'];
-                                    if ($dateDiff > 86400)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
-                                    elseif ($dateDiff > 3600)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
-                                    elseif ($dateDiff > 60)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
-                                    else
-                                        $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                    $this->userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
                                     $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
                                 }
                                 if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height']))
@@ -1034,13 +1029,46 @@ class SocInfo extends CFormModel
                 if (isset($projects['projects']) && !empty($projects['projects'][0]))
                 {
                     $project = $projects['projects'][0];
-                    $imgProject = '';
-                    if (isset($project['covers']) && !empty($project['covers'][202]))
-                        $this->userDetail['last_img'] = $project['covers'][202];
+                    if (!empty($project['covers']))
+                    {
+                        $maxSize = 0;
+                        foreach($project['covers'] as $size=>$img)
+                        {
+                            if ($size > $maxSize)
+                            {
+                                $this->userDetail['last_img'] = $img;
+                                $maxSize = $size;
+                            }
+                        }
+                    }
                     if (!empty($project['url']))
                         $this->userDetail['last_img_href'] = $project['url'];
                     if (!empty($project['name']))
                         $this->userDetail['last_img_msg'] = $project['name'];
+                    if (!empty($project['published_on']))
+                        $this->userDetail['sub-time'] = date('F d, Y', $project['published_on']);
+                    if (isset($project['owners']) && isset($project['owners'][0]))
+                    {
+                        $place = '';
+                        if (isset($project['owners'][0]['city']))
+                            $place .= $project['owners'][0]['city'];
+                        if (isset($project['owners'][0]['state']))
+                        {
+                            if ($place)
+                                $place .= ', ' . $project['owners'][0]['state'];
+                            else 
+                                $place .= $project['owners'][0]['state'];
+                        }
+                        if (isset($project['owners'][0]['country']))
+                        {
+                            if ($place)
+                                $place .= ', ' . $project['owners'][0]['country'];
+                            else 
+                                $place .= $project['owners'][0]['country'];
+                        }
+                        if ($place)
+                            $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $place;
+                    }
                 }
             }elseif ($socNet == 'Flickr')
             {
@@ -1198,8 +1226,23 @@ class SocInfo extends CFormModel
                     if ($techSoc && isset($socUser['id']))
                     {
                         $media = $this->makeRequest('https://api.instagram.com/v1/users/' . $socUser['id'] . '/media/recent?count=1&access_token=' . $techSoc->user_token);
+  
                         if (isset($media['data']) && isset($media['data'][0]))
                         {
+                            if (!empty($media['data'][0]['user']['profile_picture']))
+                                $this->userDetail['photo'] = $media['data'][0]['user']['profile_picture'];
+                            if (!empty($media['data'][0]['user']['full_name']))
+                                $this->userDetail['soc_username'] = $media['data'][0]['user']['full_name'];
+                            elseif (!empty($media['data'][0]['user']['username']))
+                                $this->userDetail['soc_username'] = $media['data'][0]['user']['username'];
+                            if (isset($media['data'][0]['location']) && !empty($media['data'][0]['location']['name']))
+                                $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $media['data'][0]['location']['name'];
+                            if (!empty($media['data'][0]['created_time']))
+                            {
+                                $dateDiff = time() - (int)$media['data'][0]['created_time'];
+                                $this->userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
+                            }
+
                             if (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['standard_resolution']) && !empty($media['data'][0]['images']['standard_resolution']['url']))
                                 $this->userDetail['last_img'] = $media['data'][0]['images']['standard_resolution']['url'];
                             elseif (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['thumbnail']) && !empty($media['data'][0]['images']['thumbnail']['url']))
@@ -1231,6 +1274,7 @@ class SocInfo extends CFormModel
                 }
                 else
                     $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+
             }
             else
             {
@@ -1246,7 +1290,7 @@ class SocInfo extends CFormModel
             
             Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
         }
-        
+   
         return $this->userDetail;
     }
 

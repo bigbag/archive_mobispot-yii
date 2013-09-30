@@ -94,10 +94,6 @@
                 */?>
 
             </div>
-                <div id="net-tooltip" class="SocnetTooltip" >
-                    <div class="STT-arrow"></div>
-                    <div class="STT-inner"></div>
-                </div>
         </div>
         <div id="error-upload" class="spot-item">
             <div class="item-area text-center type-error">

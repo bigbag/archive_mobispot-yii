@@ -7,6 +7,10 @@
 
     <?php include('block/head.php'); ?>
     <body ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
+        <div id="net-tooltip" class="SocnetTooltip" >
+            <div class="STT-arrow"></div>
+            <div class="STT-inner"></div>
+        </div>
         <div
             class="content-wrapper"
             ng-controller="SpotCtrl"

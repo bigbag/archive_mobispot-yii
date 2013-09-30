@@ -168,6 +168,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
   // Аккордеон в списке личных спотов
   $scope.accordion = function(e, init) {
     var spot;
+    $scope.SocNetTooltip(false);
     if(init == 1) {
       spot = e;
     }
@@ -253,22 +254,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                     var spotEdit = angular.element('#block-' + data.key);
                     spotEdit.before($compile(data.content)($scope));
                     spotEdit.remove();
-                    if (typeof (data.lastKey) != 'undefined' && data.lastKey){
-                        angular.element('.video-vimeo').css('width', '100%');
-                        //angular.element('.video-vimeo').css('height', (parseInt(angular.element('.video-vimeo').css('width'), 10) / 1.3 + 'px'));
-                        angular.element('.yt_player').css('width', '100%');
-                        //angular.element('.yt_player').css('height', (parseInt(angular.element('.yt_player').css('width'), 10) / 1.3 + 'px'));
-                        var elems = angular.element('.yt_player'); 
-                        for (var i = 0; i < elems.length; i++) { 
-                            var player = angular.element(elems[i]); 
-                            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-                        }
-                        var elems = angular.element('.video-vimeo'); 
-                        for (var i = 0; i < elems.length; i++) { 
-                            var player = angular.element(elems[i]); 
-                            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-                        }
-                    }
+                    $scope.setVideoSize(data.key);
                 }
                 else
                 {
@@ -466,9 +452,10 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         if (NeedTooltip)
         {
             angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.socPatterns[currentNet].title + ' to share more');
-            var netPos = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').position();
-            $('#net-tooltip').css('left', netPos.left - ($('#net-tooltip').width()/2) + 66);
-            $('#net-tooltip').css('top', netPos.top + 112);
+            var socImg = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']');
+            var netPos = socImg.offset();
+            $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
+            $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
             $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
             $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6)); 
             angular.element('#net-tooltip').show();
@@ -557,6 +544,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                 angular.element('#extraMediaForm').removeClass('open');
                             }
                             
+                            $scope.setVideoSize(data.key);
                             var scroll_height = $('#block-' + data.key).offset().top - 100;
                             $('html, body').animate({
                                 scrollTop: scroll_height
@@ -666,6 +654,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                 var currentNet = $scope.getPatternInd(data.socnet);
                 if (currentNet > -1)
                     $scope.socPatterns[currentNet].BindByPaste = true;
+                $scope.setVideoSize(spot.key);
             }
             else
             {
@@ -691,7 +680,6 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     $scope.loginTimer = function()
     {
         if (!popup.closed) {
-        //$scope.bindNet = {name:data.socnet, discodes:spot.discodes, newField: true};
             var data = {token: $scope.user.token, bindNet:$scope.bindNet};
             $http.post('/spot/bindedContent', data).success(function(data) {
                 if (typeof (data.loggedIn) != 'undefined' && typeof (data.linkCorrect) != 'undefined')
@@ -724,6 +712,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                     angular.element('#extraMediaForm').removeClass('open');
                                 }
                                 
+                                $scope.setVideoSize(data.key);
                                 var scroll_height = $('#block-' + data.key).offset().top - 100;
                                 $('html, body').animate({
                                     scrollTop: scroll_height
@@ -734,6 +723,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
                                 var spotEdit = $scope.bindNet.spotEdit;
                                 spotEdit.before($compile(data.content)($scope));
                                 spotEdit.remove();
+                                $scope.setVideoSize(data.key);
                             }
 
                             popup.close();
@@ -797,6 +787,23 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             }).error(function(error){
                 console.log(error);
             });
+        }
+    }
+    
+    //установка размер проигрывателя YouTube или Vimeo
+    $scope.setVideoSize = function(blockKey)
+    {
+        if (angular.element('#block-' + blockKey + ' .video-vimeo').length == 1)
+        {
+            var player = angular.element('#block-' + blockKey + ' .video-vimeo'); 
+            player.css('width', '100%');
+            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
+        }
+        else if (angular.element('#block-' + blockKey + ' .yt_player').length == 1)
+        {
+            var player = angular.element('#block-' + blockKey + ' .yt_player');
+            player.css('width', '100%');
+            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
         }
     }
     
