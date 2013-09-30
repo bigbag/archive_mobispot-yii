@@ -723,14 +723,7 @@ class SocInfo extends CFormModel
                                 if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
                                 {
                                     $dateDiff = time() - $lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset'];
-                                    if ($dateDiff > 86400)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
-                                    elseif ($dateDiff > 3600)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
-                                    elseif ($dateDiff > 60)
-                                        $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
-                                    else
-                                        $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                    $this->userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
                                     $this->userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
                                 }
                                 if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height']))
@@ -1209,14 +1202,7 @@ class SocInfo extends CFormModel
                             if (!empty($media['data'][0]['created_time']))
                             {
                                 $dateDiff = time() - (int)$media['data'][0]['created_time'];
-                                if ($dateDiff > 86400)
-                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
-                                elseif ($dateDiff > 3600)
-                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
-                                elseif ($dateDiff > 60)
-                                    $this->userDetail['sub-time'] = ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
-                                else
-                                    $this->userDetail['sub-time'] = $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                $this->userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
                             }
 
                             if (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['standard_resolution']) && !empty($media['data'][0]['images']['standard_resolution']['url']))

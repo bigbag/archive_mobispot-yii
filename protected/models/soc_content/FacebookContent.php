@@ -370,15 +370,7 @@ class FacebookContent extends SocContentBase
                             if (!empty($lastPost['created_time']))
                             {
                                 $dateDiff = time() - strtotime($lastPost['created_time']);
-                                $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ';
-                                if ($dateDiff > 86400)
-                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
-                                elseif ($dateDiff > 3600)
-                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
-                                elseif ($dateDiff > 60)
-                                    $userDetail['footer-line'] .= ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
-                                else
-                                    $userDetail['footer-line'] .= $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
                             }
                             
                         }
