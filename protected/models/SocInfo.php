@@ -382,130 +382,7 @@ class SocInfo extends CFormModel
             $socUsername = $this->parceSocUrl($socNet, $socUsername);
 
             
-            if ($socNet == 'vk')
-            {
-                $url = 'https://api.vk.com/method/users.get.json?user_ids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
-    //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
-                $curl_result = $this->makeCurlRequest($url);
-                $socUser = $curl_result['response'][0];
-
-                if (!isset($socUser['error']))
-                {
-                    if (!empty($socUser['photo_medium']))
-                        $this->userDetail['photo'] = $socUser['photo_medium'];
-                    elseif (!empty($socUser['photo']))
-                        $this->userDetail['photo'] = $socUser['photo'];
-                    
-                    if (!empty($socUser['first_name'])) 
-                    {
-                        $this->userDetail['soc_username'] = $socUser['first_name'];
-                        if (!empty($socUser['last_name']))
-                            $this->userDetail['soc_username'] .= ' ' . $socUser['last_name'];
-                    }
-                    
-                    //Последний пост
-                    if (isset($socUser['uid']))
-                    {
-
-                        $userFeed = $this->makeCurlRequest('https://api.vk.com/method/wall.get?owner_id=' . $socUser['uid'] . '&filter=owner');
-
-                        unset($lastPost);
-                        $i = 0;
-                        $prevPageUrl = '';
-
-                        while (!isset($lastPost))
-                        {
-                            if (isset($userFeed['response']) && isset($userFeed['response'][$i]) && isset($userFeed['response'][$i]['from_id']) && ($userFeed['response'][$i]['from_id'] == $socUser['uid']))
-                            {
-                                $lastPost = $userFeed['response'][$i];
-                            }
-                            elseif (!isset($userFeed['response']) || ($i >= count($userFeed['response'])) || (!isset($userFeed['response'][$i])))
-                            {
-                                $lastPost = 'no';
-                            }
-                            else
-                            {
-                                $i++;
-                            }
-                        }
-
-                        if ($lastPost != 'no')
-                        {
-                            if (!empty($lastPost['text']))
-                                $this->userDetail['last_status'] = $lastPost['text'];
-                            if (!empty($lastPost['date']))
-                                $this->userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff(time() - $lastPost['date']);
-                            if (isset($lastPost['attachment']) && isset($lastPost['attachment']['type']))
-                            {
-                                switch ($lastPost['attachment']['type'])
-                                {
-                                    case 'photo':
-                                        if (isset($lastPost['attachment']['photo']) && !empty($lastPost['attachment']['photo']['src']))
-                                        {
-                                            $this->userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
-                                            if (!empty($lastPost['text']))
-                                                $this->userDetail['last_img_msg'] = $lastPost['text'];
-                                            unset($this->userDetail['last_status']);
-                                        }
-                                        break;
-                                    case 'posted_photo':
-                                        if (isset($lastPost['attachment']['photo']) && !empty($lastPost['attachment']['photo']['src']))
-                                        {
-                                            $this->userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
-                                            if (!empty($lastPost['text']))
-                                                $this->userDetail['last_img_msg'] = $lastPost['text'];
-                                            unset($this->userDetail['last_status']);
-                                        }
-                                        elseif (isset($lastPost['attachment']['posted_photo']) && !empty($lastPost['attachment']['posted_photo']['src']))
-                                        {
-                                            $this->userDetail['last_img'] = $lastPost['attachment']['posted_photo']['src'];
-                                            if (!empty($lastPost['text']))
-                                                $this->userDetail['last_img_msg'] = $lastPost['text'];
-                                            unset($this->userDetail['last_status']);
-                                        }
-                                        break;
-                                    case 'link':
-                                        if (isset($lastPost['attachment']['link']) && isset($lastPost['attachment']['link']['image_src']) && isset($lastPost['attachment']['link']['url']))
-                                        {
-                                            $this->userDetail['last_img'] = $lastPost['attachment']['link']['image_src'];
-                                            $this->userDetail['last_img_href'] = $lastPost['attachment']['link']['url'];
-                                            if (!empty($lastPost['attachment']['link']['title']))
-                                                $this->userDetail['last_img_msg'] = $lastPost['attachment']['link']['title'];
-                                            if (!empty($lastPost['attachment']['link']['description']))
-                                                $this->userDetail['last_img_story'] = $lastPost['attachment']['link']['description'];
-                                        }
-                                        elseif (isset($lastPost['attachment']['link']) && !empty($lastPost['attachment']['link']['url']))
-                                        {
-                                            $this->userDetail['link_href'] = $lastPost['attachment']['link']['url'];
-                                            $this->userDetail['link_text'] = '';
-                                            if (!empty($lastPost['attachment']['link']['title']))
-                                                $this->userDetail['link_text'] .= $lastPost['attachment']['link']['title'] . '<br/>';
-                                            if (!empty($lastPost['text']))
-                                                $this->userDetail['link_text'] .= $lastPost['text'];
-                                            unset($this->userDetail['last_status']);
-                                            if (!empty($lastPost['attachment']['link']['description']))
-                                                $this->userDetail['link_descr'] = $lastPost['attachment']['link']['description'];
-                                        }
-                                        break;
-                                    case 'video':
-                                        if (isset($lastPost['attachment']['video']) && !empty($lastPost['attachment']['video']['image']))
-                                        {
-                                            $this->userDetail['last_img'] = $lastPost['attachment']['video']['image'];
-                                            if (!empty($lastPost['text']))
-                                                $this->userDetail['last_img_msg'] = $lastPost['text'];
-                                            unset($this->userDetail['last_status']);
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }else
-                {
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-                }
-            }
-            elseif ($socNet == 'linkedin')
+            if ($socNet == 'linkedin')
             {
                 $getProfile = false;
                 if (!empty($discodesId) && is_numeric($discodesId))
@@ -1294,26 +1171,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'vk')
-        {
-            if ((strpos($username, 'vk.com/') > 0) || (strpos($username, 'vk.com/') !== false))
-            {
-                $username = substr($username, (strpos($username, 'vk.com/') + 7));
-                if (strpos($username, '?') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '?'));
-                }
-                if (strpos($username, '/') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '/'));
-                }
-                if (strpos($username, '&') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '&'));
-                }
-            }
-        }
-        elseif ($socNet == 'foursquare')
+        if ($socNet == 'foursquare')
         {
             if (strpos($username, 'foursquare.com/user/') !== false)
             {
