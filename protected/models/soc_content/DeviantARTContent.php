@@ -56,7 +56,7 @@ class DeviantARTContent extends SocContentBase
                         $userDetail['footer-line'] .= '<div>' . str_replace('>', '/', $last_dev['category']) . '</div>';
                     if (!empty($xml->channel->copyright))
                         $userDetail['footer-line'] .= '<p>' . str_replace('Copyright ', '©', (string)$xml->channel->copyright) . '</p>';
-                    if (!empty($last_dev['url']) || !empty($last_dev['thumbnail_url']))
+                    if (!empty($last_dev['url']) && !empty($last_dev['thumbnail_url']))
                     {
                         if (!empty($last_dev['url']))
                             $userDetail['last_img'] = $last_dev['url'];
@@ -75,6 +75,8 @@ class DeviantARTContent extends SocContentBase
                         }
                         */
                     }
+                    if (!empty($last_dev['html']))
+                        $userDetail['html'] = $last_dev['html'];
                 }
             }
         }
