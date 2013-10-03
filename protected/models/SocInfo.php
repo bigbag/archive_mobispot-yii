@@ -796,62 +796,6 @@ class SocInfo extends CFormModel
                 if (!empty($socUser['gender']))
                     $this->userDetail['gender'] = $socUser['gender'];
             }
-            elseif ($socNet == 'deviantart')
-            {
-                $options = array();
-                $ch = $this->initRequest('http://' . $socUsername . '.deviantart.com', $options);
-                $result = curl_exec($ch);
-                $headers = curl_getinfo($ch);
-                if ($headers['http_code'] == 200)
-                {
-
-                    //$this->userDetail['soc_username'] = $socUsername;
-                    $this->userDetail['soc_url'] = 'http://' . $socUsername . '.deviantart.com';
-
-                    $userLent = $this->makeRequest('http://backend.deviantart.com/rss.xml?q=by%3A' . $socUsername . '+sort%3Atime+meta%3Aall', $options, false);
-                    $xml = new SimpleXMLElement($userLent);
-                    $i = 0; //оставлено под счетчик, если требуется вытащить более одной записи
-
-                    if (isset($xml) && isset($xml->channel) && isset($xml->channel->item) && isset($xml->channel->item[$i]) && isset($xml->channel->item[$i]->link))
-                    {
-                        $dev_link = (string) $xml->channel->item[$i]->link;
-                        $last_dev = $this->makeRequest('http://backend.deviantart.com/oembed?url=' . $dev_link);
-
-                        if (!empty($last_dev['title']))
-                        {
-                            $this->userDetail['color-header'] = $last_dev['title'];
-                            if (!empty($last_dev['author_name']) && !empty($last_dev['author_url']))
-                            $this->userDetail['sub-line'] = Yii::t('eauth', "by") . ' <a href="' . $last_dev['author_url'] . '">' . $last_dev['author_name'] . '</a>';
-                            $this->userDetail['footer-line'] = '';
-                            if (!empty($last_dev['category']))
-                                $this->userDetail['footer-line'] .= '<div>' . str_replace('>', '/', $last_dev['category']) . '</div>';
-                            if (!empty($xml->channel->copyright))
-                                $this->userDetail['footer-line'] .= '<p>' . str_replace('Copyright ', '©', (string)$xml->channel->copyright) . '</p>';
-                            if (!empty($last_dev['url']) || !empty($last_dev['thumbnail_url']))
-                            {
-                                if (!empty($last_dev['url']))
-                                    $this->userDetail['last_img'] = $last_dev['url'];
-                                else
-                                    $this->userDetail['last_img'] = $last_dev['thumbnail_url'];
-                                //$this->userDetail['last_img_msg'] = $last_dev['title'];
-                                unset($this->userDetail['last_status']);
-                                /*
-                                if (!empty($xml->channel->item[$i]->description))
-                                {
-                                    $this->userDetail['last_img_story'] = strip_tags((string)$xml->channel->item[$i]->description, '<p><br>');
-                                    if (strpos($this->userDetail['last_img_story'], '<br') !== false)
-                                        $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<br'));
-                                    if (strpos($this->userDetail['last_img_story'], '<div') !== false)
-                                        $this->userDetail['last_img_story'] = substr($this->userDetail['last_img_story'], 0, strpos($this->userDetail['last_img_story'], '<div'));
-                                }
-                                */
-                            }
-                        }
-                    }
-                }
-                else
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;            
-            }
             elseif ($socNet == 'Flickr')
             {
                 //if not id
@@ -1131,15 +1075,6 @@ class SocInfo extends CFormModel
                 $username = substr($username, 0, strpos($username, '/'));
             if (strpos($username, '&') > 0)
                 $username = substr($username, 0, strpos($username, '&'));
-        }
-        elseif ($socNet == 'deviantart')
-        {
-            if ((strpos($username, 'http://') > 0) || (strpos($username, 'http://') !== false))
-                $username = substr($username, (strpos($username, 'http://') + 7));
-            if ((strpos($username, 'deviantart.com') > 0) || (strpos($username, 'deviantart.com') !== false))
-                $username = substr($username, 0, (strpos($username, 'deviantart.com') - 1));
-            if (strpos($username, 'http://') !== false)
-                $username = 'strpos:' . strpos($username, 'http://');
         }
         elseif ($socNet == 'Flickr')
         {
