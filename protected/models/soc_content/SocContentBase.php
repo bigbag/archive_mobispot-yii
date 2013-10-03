@@ -30,6 +30,8 @@ class SocContentBase
         curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
 
         if (isset($options['referer']))
             curl_setopt($ch, CURLOPT_REFERER, $options['referer']);
@@ -63,7 +65,6 @@ class SocContentBase
         }
 
         curl_setopt($ch, CURLOPT_URL, $url);
-////////
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
         return $ch;
     }
@@ -72,22 +73,37 @@ class SocContentBase
     {
         $ch = self::initRequest($url, $options);
 
-        $result = curl_exec($ch);
+        try 
+        {
+            $result = curl_exec($ch);
+        } 
+        catch (Exception $e) 
+        {
+            Yii::log(
+                'Curl exception: ' . $e->getMessage() . PHP_EOL .
+                'URL: ' . $url . PHP_EOL .
+                'Options: ' . var_export($options, true)
+                ,CLogger::LEVEL_ERROR, 'SocContentBase'
+            );
+        }
+        
         $headers = curl_getinfo($ch);
 
-        if (curl_errno($ch) > 0)
-            throw new CException(curl_error($ch), curl_errno($ch));
+        //if (curl_errno($ch) > 0)
+        //    throw new CException(curl_error($ch), curl_errno($ch));
 
-        if ($headers['http_code'] != 200)
+        if (isset($headers['http_code']) && $headers['http_code'] != 200)
         {
             Yii::log(
                     'Invalid response http code: ' . $headers['http_code'] . '.' . PHP_EOL .
                     'URL: ' . $url . PHP_EOL .
                     'Options: ' . var_export($options, true) . PHP_EOL .
-                    'Result: ' . $result, CLogger::LEVEL_ERROR, 'application.extensions.eauth'
+                    'Result: ' . $result, CLogger::LEVEL_ERROR, 'SocContentBase'
             );
             $result = 'error:' . $headers['http_code'];
         }
+        elseif(!isset($headers['http_code']))
+            $result = 'error:';
         elseif ($parseJson)
             $result = CJSON::decode($result, true);
         curl_close($ch);
