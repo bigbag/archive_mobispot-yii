@@ -850,101 +850,9 @@ class SocInfo extends CFormModel
                     }
                 }
                 else
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            }elseif ($socNet == 'Behance')
-            {
-
-                $socUser = $this->makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
-                if (!empty($socUser['user']))
-                {
-                    $socUser = $socUser['user'];
-                    if (!empty($socUser['display_name']))
-                        $this->userDetail['soc_username'] = $socUser['display_name'];
-                    else
-                        $this->userDetail['soc_username'] = $socUser['username'];
-                    if (!empty($socUser['images']) && !empty($socUser['images']['50']))
-                        $this->userDetail['photo'] = $socUser['images']['50'];
-                    $this->userDetail['soc_url'] = $socUser['url'];
-                    /*
-                      if(!empty($socUser['sections']['Where, When and What']))
-                      $this->userDetail['about'] = $socUser['sections']['Where, When and What'];
-                      if(!empty($socUser['company']))
-                      $this->userDetail['work'] = $socUser['company'];
-                      if(!empty($socUser['country']))
-                      $this->userDetail['location'] = $socUser['country'];
-                      else
-                      $this->userDetail['location'] = '';
-                      if(!empty($socUser['state'])){
-                      if($this->userDetail['location'] == '')
-                      $this->userDetail['location'] = $socUser['state'];
-                      else
-                      $this->userDetail['location'] .= ', '.$socUser['state'];
-                      }
-                      if(!empty($socUser['city'])){
-                      if($this->userDetail['location'] == '')
-                      $this->userDetail['location'] = $socUser['city'];
-                      else
-                      $this->userDetail['location'] .= ', '.$socUser['city'];
-                      }
-                      if($this->userDetail['location'] == '')
-                      unset($this->userDetail['location']);
-                      if(!empty($socUser['fields'][0])){
-                      $this->userDetail['focus'] = '';
-                      foreach($socUser['fields'] as $focus){
-                      if($this->userDetail['focus'] !== '')
-                      $this->userDetail['focus'] .= ', ';
-                      $this->userDetail['focus'] .= $focus;
-                      }
-                      }
-                      }
-                     */
-                }
-                $projects = $this->makeRequest('http://www.behance.net/v2/users/' . $socUsername . '/projects?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
-                if (isset($projects['projects']) && !empty($projects['projects'][0]))
-                {
-                    $project = $projects['projects'][0];
-                    if (!empty($project['covers']))
-                    {
-                        $maxSize = 0;
-                        foreach($project['covers'] as $size=>$img)
-                        {
-                            if ($size > $maxSize)
-                            {
-                                $this->userDetail['last_img'] = $img;
-                                $maxSize = $size;
-                            }
-                        }
-                    }
-                    if (!empty($project['url']))
-                        $this->userDetail['last_img_href'] = $project['url'];
-                    if (!empty($project['name']))
-                        $this->userDetail['last_img_msg'] = $project['name'];
-                    if (!empty($project['published_on']))
-                        $this->userDetail['sub-time'] = date('F d, Y', $project['published_on']);
-                    if (isset($project['owners']) && isset($project['owners'][0]))
-                    {
-                        $place = '';
-                        if (isset($project['owners'][0]['city']))
-                            $place .= $project['owners'][0]['city'];
-                        if (isset($project['owners'][0]['state']))
-                        {
-                            if ($place)
-                                $place .= ', ' . $project['owners'][0]['state'];
-                            else 
-                                $place .= $project['owners'][0]['state'];
-                        }
-                        if (isset($project['owners'][0]['country']))
-                        {
-                            if ($place)
-                                $place .= ', ' . $project['owners'][0]['country'];
-                            else 
-                                $place .= $project['owners'][0]['country'];
-                        }
-                        if ($place)
-                            $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $place;
-                    }
-                }
-            }elseif ($socNet == 'Flickr')
+                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;            
+            }
+            elseif ($socNet == 'Flickr')
             {
                 //if not id
                 if (strpos($socUsername, '@') === false)
@@ -1223,7 +1131,8 @@ class SocInfo extends CFormModel
                 $username = substr($username, 0, strpos($username, '/'));
             if (strpos($username, '&') > 0)
                 $username = substr($username, 0, strpos($username, '&'));
-        }elseif ($socNet == 'deviantart')
+        }
+        elseif ($socNet == 'deviantart')
         {
             if ((strpos($username, 'http://') > 0) || (strpos($username, 'http://') !== false))
                 $username = substr($username, (strpos($username, 'http://') + 7));
@@ -1231,12 +1140,8 @@ class SocInfo extends CFormModel
                 $username = substr($username, 0, (strpos($username, 'deviantart.com') - 1));
             if (strpos($username, 'http://') !== false)
                 $username = 'strpos:' . strpos($username, 'http://');
-        }elseif ($socNet == 'Behance')
-        {
-            if ((strpos($username, 'behance.net/') > 0) || (strpos($username, 'behance.net/') !== false))
-                $username = substr($username, (strpos($username, 'behance.net/') + 12));
-            $username = $this->rmGetParam($username);
-        }elseif ($socNet == 'Flickr')
+        }
+        elseif ($socNet == 'Flickr')
         {
             if ((strpos($username, 'flickr.com/people/') > 0) || (strpos($username, 'flickr.com/people/') !== false))
                 $username = substr($username, (strpos($username, 'flickr.com/people/') + 18));
