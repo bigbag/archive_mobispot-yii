@@ -82,7 +82,14 @@ class VkContent extends SocContentBase
                             case 'photo':
                                 if (isset($lastPost['attachment']['photo']) && !empty($lastPost['attachment']['photo']['src']))
                                 {
-                                    $userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
+                                    if (!empty($lastPost['attachment']['photo']['src_xxbig']))
+                                        $userDetail['last_img'] = $lastPost['attachment']['photo']['src_xxbig'];
+                                    elseif (!empty($lastPost['attachment']['photo']['src_xbig']))
+                                        $userDetail['last_img'] = $lastPost['attachment']['photo']['src_xbig'];
+                                    elseif (!empty($lastPost['attachment']['photo']['src_big']))
+                                        $userDetail['last_img'] = $lastPost['attachment']['photo']['src_big'];
+                                    else
+                                        $userDetail['last_img'] = $lastPost['attachment']['photo']['src'];
                                     if (!empty($lastPost['text']))
                                         $userDetail['last_img_msg'] = $lastPost['text'];
                                     unset($userDetail['last_status']);
