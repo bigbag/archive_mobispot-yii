@@ -1016,7 +1016,15 @@ class SocInfo extends CFormModel
             
             Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
         }
-   
+
+        $uncheck = array('html', 'list', 'list2');
+        foreach($this->userDetail as $socKey => $socValue)
+        {
+            if (!is_array($socValue) && !in_array($socKey, $uncheck))
+                $this->userDetail[$socKey] =  strip_tags((string)$socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'); 
+//'<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'
+        }
+
         return $this->userDetail;
     }
 
