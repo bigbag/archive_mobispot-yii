@@ -9,7 +9,7 @@ class PinterestContent extends SocContentBase
         $result = 'ok';
 
         $options = array();
-        $ch = self::initRequest('http://pinterest.com/' . $socUsername . '/feed.rss', $options, false);
+        $ch = self::initRequest('http://www.pinterest.com/' . $socUsername . '/feed.rss', $options, false);
         $curl_result = curl_exec($ch);
         $headers = curl_getinfo($ch);
         if ($headers['http_code'] != 200)
@@ -24,7 +24,7 @@ class PinterestContent extends SocContentBase
         $socUser = array();
 
         $options = array();
-        $ch = self::initRequest('http://pinterest.com/' . $socUsername . '/feed.rss', $options, false);
+        $ch = self::initRequest('http://www.pinterest.com/' . $socUsername . '/feed.rss', $options, false);
         $curl_result = curl_exec($ch);
         $headers = curl_getinfo($ch);
         if ($headers['http_code'] == 200)
