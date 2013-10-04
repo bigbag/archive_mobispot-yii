@@ -25,7 +25,8 @@ class TwitterContent extends SocContentBase
             $curl_result = curl_exec($ch);
             curl_close($ch);
             $curl_result = CJSON::decode($curl_result, true);
-            $appToken = $curl_result['access_token'];
+            if (!empty($curl_result['access_token']))
+                $appToken = $curl_result['access_token'];
             //Yii::app()->cache->set('twitterAppToken', $appToken);
         }
 
@@ -84,7 +85,8 @@ class TwitterContent extends SocContentBase
             $curl_result = curl_exec($ch);
             curl_close($ch);
             $curl_result = CJSON::decode($curl_result, true);
-            $appToken = $curl_result['access_token'];
+            if (!empty($curl_result['access_token']))
+                $appToken = $curl_result['access_token'];
             //Yii::app()->cache->set('twitterAppToken', $appToken);
         }
 
