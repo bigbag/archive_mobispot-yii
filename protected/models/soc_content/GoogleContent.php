@@ -7,14 +7,8 @@ class GoogleContent extends SocContentBase
     {
         $socUsername = self::parseUsername($link);
         $result = 'ok';
-        $ch = curl_init('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
 
-        $curl_result = curl_exec($ch);
-        curl_close($ch);
-
-        $socUser = CJSON::decode($curl_result, true);
+        $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
         if (empty($socUser['id']) || !empty($socUser['error']) || !empty($socUser['errors']))
             $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
 
@@ -26,20 +20,9 @@ class GoogleContent extends SocContentBase
         $userDetail = array();
         $socUsername = self::parseUsername($link);
         
-        $url = 'https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key'];
+        $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-        //curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-
-        $curl_result = curl_exec($ch);
-        curl_close($ch);
-
-        $socUser = CJSON::decode($curl_result, true);
-
-        if (!isset($socUser['error']) && isset($socUser['id']))
+        if (!isset($socUser['error']) && !isset($socUser['errors']) && isset($socUser['id']))
         {
             $userDetail['UserExists'] = true;
             if (isset($socUser['displayName']))
@@ -76,17 +59,7 @@ class GoogleContent extends SocContentBase
               $userDetail['soc_url'] = $socUser['url'];
              */
             //Последний пост
-            $url = 'https://www.googleapis.com/plus/v1/people/' . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-
-            $curl_result = curl_exec($ch);
-            curl_close($ch);
-
-            //$userFeed = CJSON::decode($curl_result, true);
-            $userFeed = json_decode($curl_result, true);
+            $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key']);
 
             unset($lastPost);
             $i = 0;
