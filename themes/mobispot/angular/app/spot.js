@@ -331,7 +331,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
     if (!spot.content_new){
       var spotItem = angular.element(e.currentTarget).parents('.spot-item');
       var spotEdit = angular.element('#spot-edit').clone();
-      var spotData = spotItem.find('.item-type__text p');
+      var spotData = spotItem.find('p.item-type__text');
 
       $scope.spot.content_new = spotData.text();
       var spotEditText = spotEdit.find('textarea');
