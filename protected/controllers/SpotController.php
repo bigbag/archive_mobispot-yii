@@ -102,9 +102,9 @@ class SpotController extends MController
 
                 $spotContent = SpotContent::getSpotContent($spot);
 
-                if (!isset($spotContent))
+                if (!$spotContent)
                 {
-                    $spotContent = new SpotContent();
+                    $spotContent = SpotContent::initPersonal($spot);
                 }
 
                 $content = $spotContent->content;
@@ -119,6 +119,7 @@ class SpotController extends MController
                 $answer['error'] = "no";
             }
         }
+        
         echo json_encode($answer);
     }
 
@@ -299,6 +300,9 @@ class SpotController extends MController
             {
 
                 $spotContent = SpotContent::getSpotContent($spot);
+                if (!$spotContent)
+                    $spotContent = SpotContent::initPersonal($spot);
+                
                 if ($spotContent)
                 {
 
@@ -431,6 +435,8 @@ class SpotController extends MController
                         $isSocLogged = true;
                         $netName = $socNet['name'];
                         $spotContent = SpotContent::getSpotContent($spot);
+                        if (!$spotContent)
+                            $spotContent = SpotContent::initPersonal($spot);
                         
                         if ($spotContent)
                         {
@@ -538,6 +544,9 @@ class SpotController extends MController
             if ($spot)
             {
                 $spotContent = SpotContent::getSpotContent($spot);
+                if (!$spotContent)
+                    $spotContent = SpotContent::initPersonal($spot);
+                
                 if ($spotContent)
                 {
                     $socInfo = new SocInfo;
@@ -623,6 +632,9 @@ class SpotController extends MController
 
                     $netName = $socNet['name'];
                     $spotContent = SpotContent::getSpotContent($spot);
+                    if (!$spotContent)
+                        $spotContent = SpotContent::initPersonal($spot);
+
                     
                     if ($spotContent)
                     {
@@ -710,6 +722,9 @@ class SpotController extends MController
             {
 
                 $spotContent = SpotContent::getSpotContent($spot);
+                if (!$spotContent)
+                    $spotContent = SpotContent::initPersonal($spot);
+                    
                 if ($spotContent)
                 {
                     if ($spotContent->content['keys'][$data['key']] == 'socnet')
@@ -752,6 +767,9 @@ class SpotController extends MController
             {
 
                 $spotContent = SpotContent::getSpotContent($spot);
+                if (!$spotContent)
+                    $spotContent = SpotContent::initPersonal($spot);
+                    
                 if ($spotContent)
                 {
 

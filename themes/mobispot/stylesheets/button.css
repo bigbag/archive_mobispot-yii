@@ -770,7 +770,8 @@ display: inline-block;
 }
 .content-payment .b-systems{
 	position: absolute;
-	right: 42px;
-	top: 6px;
+	right: -14px;
+	top: -5px;
+
 }
 

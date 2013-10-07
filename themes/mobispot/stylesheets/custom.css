@@ -439,7 +439,10 @@ table tbody tr td {
 	padding: 4px 11px 2px;
 	position: relative;
 }
-.nav-bar > li > a.spot-button{
+.nav-bar>li>a{
+	color: #000;
+}
+.nav-bar > .dropdown a.spot-button{
 	color: #000;
 }
 .nav-bar > li {

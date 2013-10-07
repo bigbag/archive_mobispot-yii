@@ -252,7 +252,10 @@ table.store-items td ul.orbit-bullets{
 
 }
 .singlebox-margin{
-	margin: 9.4em 0 0;
+	margin: 5.4em 0 0;
+}
+.singlebox-margin .spot-list{
+	margin-top: 0;
 }
 .store-items__description{
 	padding: 29px 50px;
@@ -561,7 +564,7 @@ p + .details{
 	cursor: pointer;
 }
 .spot-list{
-	margin: 9.4em 0 50px;
+	margin: 5.4em 0 50px;
 }
 .spot-list > li{
 	background: #E9EDF2;
@@ -593,7 +596,6 @@ p + .details{
 }
 .spot-hat h3{
 	margin-right: 180px;
-	color: #0063ff;
 }
 .m-tooltip{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);

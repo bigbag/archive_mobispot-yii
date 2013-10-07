@@ -27,7 +27,7 @@
 </div>
 <?php else: ?>
 <div id="block-<?php echo $key;?>" class="spot-item item-area">
-    <p class=" item-type__text"><?php echo CHtml::encode($content)?></p>
+    <p class="item-type__text"><?php echo CHtml::encode($content)?></p>
     <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">
         <div class="spot-activity">
             <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
