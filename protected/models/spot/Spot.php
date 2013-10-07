@@ -221,7 +221,7 @@ class Spot extends CActiveRecord
         if (!$this->lang)
             $this->lang = 'en';
         if (!$this->name)
-            $this->name = 'No Name';
+            $this->name = 'My Spot';
 
         if ($this->isNewRecord)
         {

@@ -95,7 +95,7 @@ class PaymentWallet extends CActiveRecord
             }
             if (!$this->name)
             {
-                $this->name = 'No name';
+                $this->name = 'My Spot';
             }
         }
 
