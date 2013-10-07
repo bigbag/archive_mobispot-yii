@@ -112,8 +112,8 @@ class SpotContent extends CActiveRecord
                     ),
                     array('order'=>'id DESC')
             );
-
-            Yii::app()->cache->set('spot_content_' . $spot->discodes_id, $spot_content, 60);
+            if ($spot_content)
+                Yii::app()->cache->set('spot_content_' . $spot->discodes_id, $spot_content, 60);
         }
         return $spot_content;
     }
@@ -132,6 +132,7 @@ class SpotContent extends CActiveRecord
         $content['private'] = 0;
         $content['vcard'] = 0;
         $content['keys'] = array();
+        $content['data'] = array();
         $spotContent->content = $content;
 
         return $spotContent;
