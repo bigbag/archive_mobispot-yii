@@ -33,8 +33,7 @@ body{
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	padding-bottom: 156px;
-
+	padding-bottom: 50px;
 }
 .content-wrapper:after{
 	content: "";
@@ -65,16 +64,13 @@ input:-moz-placeholder { color:#000!important; }
 }
 
 .clearfix {
-	display: inline-block;
+	display: block;
 }
 .clear{
 	clear: both;
 	float: none;
 }
 
-html[xmlns] .clearfix {
-	display: block;
-}
 
 * html .clearfix {
 	height: 1%;
