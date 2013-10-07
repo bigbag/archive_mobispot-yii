@@ -11,6 +11,8 @@ class SocContentBase
             $str = substr($str, 0, strpos($str, '/'));
         if (strpos($str, '&') > 0)
             $str = substr($str, 0, strpos($str, '&'));
+        if (strpos($str, '#') > 0)
+            $str = substr($str, 0, strpos($str, '#'));
         return $str;
     }
     
