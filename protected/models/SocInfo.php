@@ -523,77 +523,6 @@ class SocInfo extends CFormModel
                 }
 
             }
-            elseif ($socNet == 'vimeo')
-            {
-                $socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/' . $socUsername . '/info.json');
-                if (!is_string($socUser) && isset($socUser['id']))
-                {
-                    if (!empty($socUser['display_name']))
-                        $this->userDetail['soc_username'] = $socUser['display_name'];
-                    if (!empty($socUser['profile_url']))
-                        $this->userDetail['soc_url'] = $socUser['profile_url'];
-                    if (!empty($socUser['profile_url']) && !empty($socUser['display_name']))
-                        $this->userDetail['sub-line'] = ' from <a href="'. $socUser['profile_url'] .'">' 
-                            . $socUser['display_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
-                    
-                    if (!empty($socUser['portrait_medium']))
-                        $this->userDetail['photo'] = $socUser['portrait_medium'];
-                    elseif (!empty($socUser['portrait_small']))
-                        $this->userDetail['photo'] = $socUser['portrait_small'];
-                    $video = $this->makeCurlRequest('http://vimeo.com/api/v2/' . $socUsername . '/videos.json');
-
-                    if (isset($video[0]) && isset($video[0]['id']))
-                    {
-                        $this->userDetail['vimeo_last_video'] = $video[0]['id'];
-                        if (isset($video[0]['video_stats_number_of_plays']))
-                            $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
-                        elseif (isset($video[0]['stats_number_of_plays']))
-                            $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
-                        if (!empty($video[0]['title']))
-                            $this->userDetail['soc_username'] = $video[0]['title'];
-                    }
-                    if (isset($video[0]['width']) && isset($video[0]['height']))
-                    {
-                        $this->userDetail['vimeo_video_width'] = $video[0]['width'];
-                        $this->userDetail['vimeo_video_height'] = $video[0]['height'];
-                    }
-                }
-                else
-                {
-                    $video = $this->makeCurlRequest('http://vimeo.com/api/v2/video/' . $socUsername . '.json');
-     
-                    if (!is_string($video) && isset($video[0]))
-                    {
-                        if (!empty($video[0]['title']))
-                            $this->userDetail['soc_username'] = $video[0]['title'];
-                        elseif (!empty($video[0]['user_name']))
-                            $this->userDetail['soc_username'] = $video[0]['user_name'];
-                        if (!empty($video[0]['url']))
-                            $this->userDetail['soc_url'] = $video[0]['url'];
-                        if (!empty($video[0]['user_url']) && !empty($video[0]['user_name']))
-                            $this->userDetail['sub-line'] = ' from <a href="'. $video[0]['user_url'] .'">' 
-                                . $video[0]['user_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
-                        if (!empty($video[0]['user_portrait_medium']))
-                            $this->userDetail['photo'] = $video[0]['user_portrait_medium'];
-                        elseif (!empty($video[0]['user_portrait_small']))
-                            $this->userDetail['photo'] = $video[0]['user_portrait_small'];
-                        $this->userDetail['vimeo_last_video'] = $socUsername;
-                        if (isset($video[0]['video_stats_number_of_plays']))
-                            $this->userDetail['vimeo_last_video_counter'] = $video[0]['video_stats_number_of_plays'];
-                        elseif (isset($video[0]['stats_number_of_plays']))
-                            $this->userDetail['vimeo_last_video_counter'] = $video[0]['stats_number_of_plays'];
-                        if (isset($video[0]['width']) && isset($video[0]['height']))
-                        {
-                            $this->userDetail['vimeo_video_width'] = $video[0]['width'];
-                            $this->userDetail['vimeo_video_height'] = $video[0]['height'];
-                        }
-                    }
-                    else
-                    {
-                        $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-                    }
-                }
-            }
             elseif ($socNet == 'Last.fm')
             {
                 $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $socUsername . '&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
@@ -658,81 +587,6 @@ class SocInfo extends CFormModel
                     $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
                 //$this->userDetail['about'] = print_r($socUser, true);
             }            
-            elseif ($socNet == 'instagram')
-            {
-                $socUser = $this->makeRequest('https://api.instagram.com/v1/users/search?q=' . $socUsername . '&count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
-                if (!is_string($socUser) && isset($socUser['data']) && isset($socUser['data'][0]))
-                {
-                    $socUser = $socUser['data'][0];
-                    /* if(!empty($socUser['full_name']))
-                      $this->userDetail['soc_username'] = $socUser['full_name'];
-                      elseif(!empty($socUser['username']))
-                      $this->userDetail['soc_username'] = $socUser['username'];
-                     */
-                    if (!empty($socUser['username']))
-                        $this->userDetail['soc_url'] = 'http://instagram.com/' . $socUser['username'];
-                    /*  if(!empty($socUser['profile_picture']))
-                      $this->userDetail['photo'] = $socUser['profile_picture'];
-                     */
-
-                    $techSoc = SocToken::model()->findByAttributes(array(
-                        'type' => 10,
-                        'is_tech' => true
-                    ));
-
-                    if ($techSoc && isset($socUser['id']))
-                    {
-                        $media = $this->makeRequest('https://api.instagram.com/v1/users/' . $socUser['id'] . '/media/recent?count=1&access_token=' . $techSoc->user_token);
-  
-                        if (isset($media['data']) && isset($media['data'][0]))
-                        {
-                            if (!empty($media['data'][0]['user']['profile_picture']))
-                                $this->userDetail['photo'] = $media['data'][0]['user']['profile_picture'];
-                            if (!empty($media['data'][0]['user']['full_name']))
-                                $this->userDetail['soc_username'] = $media['data'][0]['user']['full_name'];
-                            elseif (!empty($media['data'][0]['user']['username']))
-                                $this->userDetail['soc_username'] = $media['data'][0]['user']['username'];
-                            if (isset($media['data'][0]['location']) && !empty($media['data'][0]['location']['name']))
-                                $this->userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $media['data'][0]['location']['name'];
-                            if (!empty($media['data'][0]['created_time']))
-                            {
-                                $dateDiff = time() - (int)$media['data'][0]['created_time'];
-                                $this->userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
-                            }
-
-                            if (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['standard_resolution']) && !empty($media['data'][0]['images']['standard_resolution']['url']))
-                                $this->userDetail['last_img'] = $media['data'][0]['images']['standard_resolution']['url'];
-                            elseif (isset($media['data'][0]['images']) && isset($media['data'][0]['images']['thumbnail']) && !empty($media['data'][0]['images']['thumbnail']['url']))
-                                $this->userDetail['last_img'] = $media['data'][0]['images']['thumbnail']['url'];
-                            if (isset($media['data'][0]['caption']) && !empty($media['data'][0]['caption']['text']))
-                                $this->userDetail['last_img_msg'] = $media['data'][0]['caption']['text'];
-                            if (!empty($media['data'][0]['link']))
-                                $this->userDetail['last_img_href'] = $media['data'][0]['link'];
-                        }
-                    }
-                    /*
-                      $user=User::model()->findByAttributes(array(
-                      'instagram_id'=>$socUser['id']
-                      ));
-                      if($user && strlen($user->instagram_media_id > 0)){
-                      $media = $this->makeRequest('https://api.instagram.com/v1/media/'.$user->instagram_media_id.'?client_id='.Yii::app()->eauth->services['instagram']['client_id']);
-                      if(isset($media['data'])){
-                      if(isset($media['data']['images']) && isset($media['data']['images']['standard_resolution']) && !empty($media['data']['images']['standard_resolution']['url']))
-                      $this->userDetail['last_img'] = $media['data']['images']['standard_resolution']['url'];
-                      elseif(isset($media['data']['images']) && isset($media['data']['images']['thumbnail']) && !empty($media['data']['images']['thumbnail']['url']))
-                      $this->userDetail['last_img'] = $media['data']['images']['thumbnail']['url'];
-                      if(isset($media['data']['caption']) && !empty($media['data']['caption']['text']))
-                      $this->userDetail['last_img_msg'] = $media['data']['caption']['text'];
-                      if(!empty($media['data']['link']))
-                      $this->userDetail['last_img_href'] = $media['data']['link'];
-                      }
-                      }
-                     */
-                }
-                else
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-
-            }
             else
             {
                 $net = $this->getNetByLink($socUsername);
@@ -762,26 +616,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'vimeo')
-        {
-            if ((strpos($username, 'vimeo.com/') > 0) || (strpos($username, 'vimeo.com/') !== false))
-            {
-                $username = substr($username, (strpos($username, 'vimeo.com/') + 10));
-                if (strpos($username, '?') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '?'));
-                }
-                if (strpos($username, '/') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '/'));
-                }
-                if (strpos($username, '&') > 0)
-                {
-                    $username = substr($username, 0, strpos($username, '&'));
-                }
-            }
-        }
-        elseif ($socNet == 'Last.fm')
+        if ($socNet == 'Last.fm')
         {
             if ((strpos($username, 'lastfm.ru/user/') > 0) || (strpos($username, 'lastfm.ru/user/') !== false))
                 $username = substr($username, (strpos($username, 'lastfm.ru/user/') + 15));
@@ -800,12 +635,7 @@ class SocInfo extends CFormModel
                 $username = substr($username, (strpos($username, 'flickr.com/photos/') + 18));
             $username = $this->rmGetParam($username);
         }
-        elseif ($socNet == 'instagram')
-        {
-            if (strpos($username, 'instagram.com/') !== false)
-                $username = substr($username, (strpos($username, 'instagram.com/') + 14));
-            $username = $this->rmGetParam($username);
-        }
+
         return $username;
     }
 
