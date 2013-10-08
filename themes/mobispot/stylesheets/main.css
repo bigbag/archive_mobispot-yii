@@ -731,9 +731,10 @@ a.active .m-tooltip{
 .spot-item{
 	position: relative;
 	font-size: 14px;
-	min-height: 92px;
 }
-
+.item-type__text{
+	margin: 17px 0 !important;
+}
 .spot-item textarea{
 	color: #000;
 	text-align: left;
