@@ -552,6 +552,8 @@ a.active .tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	max-width: 100%;
+	height: auto;
 }
 
 .item-area.text-center{
@@ -788,6 +790,7 @@ a.active .tooltip{
 }
 .type-mess img{
 	max-width: 100%;
+
 }
 .type-mess iframe,
 .type-mess object{
@@ -809,6 +812,19 @@ a.active .tooltip{
 	min-height: 0;
 	width: auto;
 	margin: 4px 0 0;
+}
+.spot-item_twi .mess-body{
+	overflow: hidden;
+	position: relative;
+}
+.spot-item_twi .count-followers{
+	position: absolute;
+	right: 0;
+	top:16px;
+	color: #B0B0B0;
+}
+.spot-item_twi .count-followers:hover{
+	text-decoration: underline;
 }
 .spot-item_twi p{
 	float: left;
@@ -947,6 +963,7 @@ label input[type=checkbox]:checked + i {
 }
 .author-row{
 	padding: 12px 0 10px 64px;
+	min-height: 60px;
 }
 .timestamp{
 	color: #999;
@@ -970,7 +987,6 @@ label input[type=checkbox]:checked + i {
 	font-style: normal;
 	vertical-align: top;
 	margin-right: 3px;
-	margin-top: 2px;
 	display: inline-block;
 }
 .spot-item_twi .actions a:hover span{
@@ -1124,21 +1140,10 @@ h3 + .small-txt{
 	margin-top: -3px;
 }
 .j-list{
-	padding: 0;
-	margin: 12px 0;
-	border-spacing: 0;
-	border: none;
-	border-radius: 0;
-	width: 100%;
+	color: #000;
 }
-.j-list td{
-	color: #343434;
-	padding: 13px 30px;
-	vertical-align: top;
-	border: none;
-}
-.j-list td:first-child{
-	width: 25%;
+.j-list li{
+	margin-bottom: 12px;
 }
 .j-list span{
 	color: #B0B0B0;
@@ -1171,15 +1176,6 @@ h3 + .small-txt{
 .footer-page .i-soc{
 	margin-top: -3px;
 }
-
-table.j-list {
-    background: none repeat scroll 0% 0% rgb(255, 255, 255);
-}
-
-table.j-list tbody tr:nth-child(2n) {
-    background: none repeat scroll 0% 0% rgb(249, 249, 249);
-}
-
 .j-list{
 	padding: 0;
 	margin: 12px 0;
