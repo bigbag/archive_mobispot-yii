@@ -116,6 +116,10 @@ class SpotController extends MController
                     'content_keys' => $content_keys,
 
                         ), true);
+                
+                $answer['pass'] = '';
+                if (!empty($spot->pass))
+                    $answer['pass'] = $spot->pass;
                 $answer['error'] = "no";
             }
         }
@@ -1003,6 +1007,30 @@ class SpotController extends MController
                         $wallet->name = $spot->name;
                         $wallet->save(false);
                     }
+                }
+            }
+        }
+        echo json_encode($answer);
+    }
+    
+    //Задать пароль на спот
+    public function actionSetSpotPass()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = 'yes';
+
+        if (isset($data['pass']) and isset($data['discodes']) and preg_match("~^[0-9]{4}$~", $data['pass']))
+        {
+            $spot = Spot::model()->findByPk($data['discodes']);
+            
+            if ($spot)
+            {
+                $spot->pass = $data['pass'];
+                if ($spot->save(false))
+                {
+                    $answer['error'] = "no";
+                    $answer['saved'] = Yii::t('spot', 'Saved!');
                 }
             }
         }

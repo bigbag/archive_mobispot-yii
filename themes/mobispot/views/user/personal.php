@@ -108,6 +108,30 @@
                     </div>
                 </div>
 
+                <li id="setPass" class="toggle-box spot-action"  ng-click="actionSpot(spot, $event)">
+                    <?php echo Yii::t('spot', 'Set password') ?>
+                </li>
+                <div class="sub-content rename-spot" id="setPassForm">
+                    <div class="sub-content-container">
+                        <form name="setPassForm">
+                        <input
+                            type="text"
+                            class="b-short-input"
+                            ng-model="spot.pass"
+                            name="newPass"
+                            ui-keypress="{enter: 'setNewPass(spot)'}"
+                            ng-change="savePassButtonText('<?php echo Yii::t('spot', 'Save') ?>');"
+                            placeholder="<?php echo Yii::t('spot', 'New Pass') ?>"
+                            autocomplete="off"
+                            maxlength="4"
+                            required>
+                        <a id="savePassButton" href="javascript:;" ng-click="setNewPass(spot)" class="spot-button">
+                        <?php echo Yii::t('spot', 'Save') ?>
+                        </a>
+                    </form>
+                    </div>
+                </div>
+                
                 <li id="invisibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-show="spot.invisible">
                     <?php echo Yii::t('spot', 'Make spot invisible') ?>
                 </li>

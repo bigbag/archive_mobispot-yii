@@ -218,10 +218,11 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
           else {
             $scope.spot.invisible = false;
           }
+          $scope.spot.pass = data.pass;
         }
       }).error(function(error){
         console.log(error);
-      });;
+      });
     }
     else {
       delete $scope.spot.discodes;
@@ -910,6 +911,26 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
       });
     }
   };
+  
+    $scope.setNewPass = function(spot)
+    {
+        if ($scope.spot.pass){
+            $http.post('/spot/setSpotPass', spot).success(function(data) {
+                if (data.error == 'no' && typeof (data.saved) != 'undefined') {
+                    angular.element('#savePassButton').text(data.saved);
+                }
+                else if (data.error == 'yes') {
+                    angular.element('#setPassForm input[name=newPass]').addClass('error');
+                }
+            });
+        }
+    };
+    
+    $scope.savePassButtonText = function(text)
+    {
+        angular.element('#savePassButton').text(text);
+        angular.element('#setPassForm input[name=newPass]').removeClass('error');
+    }
 
   //действия при положительном ответе
   $scope.confirmYes = function(spot) {

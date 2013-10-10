@@ -17,6 +17,7 @@
  * @property string $generated_date
  * @property string $registered_date
  * @property string $removed_date
+ * @property integer $pass
  */
 class Spot extends CActiveRecord
 {
