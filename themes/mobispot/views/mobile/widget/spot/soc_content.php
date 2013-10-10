@@ -51,8 +51,8 @@
 					<?php if (isset($socContent['tweet_author']) && isset($socContent['tweet_username']) && isset($socContent['tweet_text']) && isset($socContent['soc_url']) && isset($socContent['tweet_id'])): ?>
 							<div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a><a class="user-name <?php if (!empty($socContent['dinamyc'])): ?>sub-line<?php endif; ?>" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a>
 							<?php if (empty($socContent['dinamyc'])): ?>
-							<a href="<?php echo $socContent['soc_url']; ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow</a>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+								<a href="<?php echo $socContent['soc_url']; ?>/followers" class="count-followers">Followers: <span><?php if (isset($socContent['followers_count'])) echo $socContent['followers_count']; ?></span></a>
+								<iframe style="width: 157px; height: 28px;" data-twttr-rendered="true" title="Twitter Follow Button" class="twitter-follow-button twitter-follow-button" src="http://platform.twitter.com/widgets/follow_button.1381275758.html#_=1381386016242&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=<?php echo $socContent['tweet_username']; ?>&amp;show_count=false&amp;show_screen_name=true&amp;size=l" allowtransparency="true" id="twitter-widget-0" frameborder="0" scrolling="no"></iframe>
 							<?php endif; ?>
 							</div>
 							<p><?php echo $socContent['tweet_text']; ?></p>

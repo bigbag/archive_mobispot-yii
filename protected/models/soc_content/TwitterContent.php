@@ -122,6 +122,8 @@ class TwitterContent extends SocContentBase
                 }
                 else
                     $userDetail['soc_url'] = 'https://twitter.com/' . self::parseUsername($link);
+                if (isset($tweet['user']) && isset($tweet['user']['followers_count']))
+                    $userDetail['followers_count'] = $tweet['user']['followers_count'];
                 if (isset($tweet['text']))
                     $userDetail['tweet_text'] = $tweet['text'];
                 if (isset($tweet['user']) && isset($tweet['user']['profile_image_url']))
@@ -161,6 +163,8 @@ class TwitterContent extends SocContentBase
                     $userDetail['tweet_author'] = $userFeed[0]['user']['name'];
                 if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['screen_name']))
                     $userDetail['tweet_username'] = $userFeed[0]['user']['screen_name'];
+                if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['followers_count']))
+                    $userDetail['followers_count'] = $userFeed[0]['user']['followers_count'];
                 if (isset($userFeed[0]['text']))
                     $userDetail['tweet_text'] = $userFeed[0]['text'];
                 if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['profile_image_url']))
