@@ -256,6 +256,10 @@
 								<span><?php echo $socContent['footer-line']; ?></span>
 							</footer>
 						<?php endif; ?>
+					<?php /* likes */////////////////////////////////////////////////////////////////////////////////   ?>
+						<?php if (!empty($socContent['likes-block'])): ?>
+							<div class="likes-block"><?php echo $socContent['likes-block']; ?></div>
+						<?php endif; ?>
 					<?php /* Follow button */////////////////////////////////////////////////////////////////////////   ?>
 								<?php if (isset($socContent['soc_url']) and !isset($socContent['tweet_author']) and empty($socContent['dinamyc'])): ?>
 								<a href="<?php echo $socContent['soc_url']; ?>" class="spot-button soc-link" ><?php echo $socContent['invite']; ?>

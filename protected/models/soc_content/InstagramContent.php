@@ -58,6 +58,7 @@ class InstagramContent extends SocContentBase
 
                 if (isset($media['data']) && isset($media['data'][0]))
                 {
+Yii::app()->session['debug'] = print_r($media['data'][0], true);
                     if (!empty($media['data'][0]['user']['profile_picture']))
                         $userDetail['photo'] = $media['data'][0]['user']['profile_picture'];
                     if (!empty($media['data'][0]['user']['full_name']))
@@ -80,6 +81,22 @@ class InstagramContent extends SocContentBase
                         $userDetail['last_img_msg'] = $media['data'][0]['caption']['text'];
                     if (!empty($media['data'][0]['link']))
                         $userDetail['last_img_href'] = $media['data'][0]['link'];
+                    if (isset($media['data'][0]['likes']) && isset($media['data'][0]['likes']['count']) && isset($media['data'][0]['likes']['data']) && isset($media['data'][0]['likes']['data'][0]) && !empty($media['data'][0]['likes']['data'][0]['username']) && !empty($media['data'][0]['likes']['data'][0]['full_name']))
+                    {
+                        $userDetail['likes-block'] = '<a class="authot-name" href="http://instagram.com/' . $media['data'][0]['likes']['data'][0]['username'] . '">' . $media['data'][0]['likes']['data'][0]['full_name'] . '</a>';
+                        
+                        if (isset($media['data'][0]['likes']['data'][1]) && !empty($media['data'][0]['likes']['data'][1]['username']) && !empty($media['data'][0]['likes']['data'][1]['full_name']))
+                        {
+                            if ($media['data'][0]['likes']['count'] > 2)
+                                $userDetail['likes-block'] .= ', ';
+                            else
+                                $userDetail['likes-block'] .= ' '. Yii::t('eauth', 'and') . ' ';
+                            $userDetail['likes-block'] .= '<a class="authot-name" href="http://instagram.com/' . $media['data'][0]['likes']['data'][1]['username'] . '">' . $media['data'][0]['likes']['data'][1]['full_name'] . '</a>';
+                            if ($media['data'][0]['likes']['count'] > 2)
+                                $userDetail['likes-block'] .= ' '. Yii::t('eauth', 'and') . ' <b>' . ($media['data'][0]['likes']['count'] - 2) . '</b> ' . Yii::t('eauth', 'others');
+                        }
+                        $userDetail['likes-block'] .= ' '.Yii::t('eauth', 'like this') . '.';
+                    }
                 }
             }
             /*
