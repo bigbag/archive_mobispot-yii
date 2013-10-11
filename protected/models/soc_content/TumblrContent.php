@@ -21,7 +21,16 @@ class TumblrContent extends SocContentBase
         $userDetail = array();
         $socUsername = self::parseUsername($link);
         
-        $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/'.$socUsername.'/posts?api_key='.Yii::app()->eauth->services['tumblr']['key'].'&limit=1');
+        $url = 'http://api.tumblr.com/v2/blog/'.$socUsername.'/posts?api_key='.Yii::app()->eauth->services['tumblr']['key'].'&limit=1';
+        
+        if (strpos($link, '/post/') !== false && strlen($link) > (strpos($link, '/post/') + strlen('/post/')))
+        {
+            $postId = substr($link, (strpos($link, '/post/') + strlen('/post/')));
+            $postId = self::rmGetParam($postId);
+            $url .= '&id=' . $postId;
+        }
+        
+        $blogInfo = self::makeRequest($url);
         if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
         {
 
@@ -113,6 +122,16 @@ class TumblrContent extends SocContentBase
                     $userDetail['last_status'] = print_r($lastPost, true);
                 }
                 
+                if (self::contentNeedSave($link))
+                {
+                    if (!empty($userDetail['last_img']))
+                    {
+                        $savedImg = self::saveImage($userDetail['last_img']);
+                        if ($savedImg)
+                            $userDetail['last_img'] = $savedImg;
+                    }
+                    $userDetail['soc_url'] = $link;
+                }
             }
         }
         else
@@ -128,6 +147,16 @@ class TumblrContent extends SocContentBase
         $answer = true;
 
         return $answer;
+    }
+
+
+    public static function contentNeedSave($link)
+    {
+        $result = false;
+        if (strpos($link, '/post/') !== false && strlen($link) > (strpos($link, '/post/') + strlen('/post/')))
+            $result = true;
+
+        return $result;
     }
     
     public static function parseUsername($link)
