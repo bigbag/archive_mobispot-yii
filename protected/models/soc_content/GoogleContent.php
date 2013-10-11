@@ -145,14 +145,20 @@ class GoogleContent extends SocContentBase
                     unset($imgSrc);
                     while (isset($post['object']['attachments'][$i]) && !isset($imgSrc))
                     {
-                        if (isset($post['object']['attachments'][$i]['image']) && isset($post['object']['attachments'][$i]['image']['url']) && (strlen($post['object']['attachments'][$i]['image']['url']) > 0) && ($post['object']['attachments'][$i]['image']['url'] != ' https:'))
+                        if (isset($post['object']['attachments'][$i]['fullImage'])
+                            && !empty($post['object']['attachments'][$i]['fullImage']['url'])  
+                            && ($post['object']['attachments'][$i]['fullImage']['url'] != ' https:'))
+                        {
+                            $imgSrc = $post['object']['attachments'][$i]['fullImage']['url'];
+                        }
+                        elseif (isset($post['object']['attachments'][$i]['image']) && !empty($post['object']['attachments'][$i]['image']['url']) && ($post['object']['attachments'][$i]['image']['url'] != ' https:'))
                         {
                             $imgSrc = $post['object']['attachments'][$i]['image']['url'];
                         }
                         else
                             $i++;
                     }
-                    if (isset($imgSrc))
+                    if (!empty($imgSrc))
                     {
                         $userDetail['last_img'] = $imgSrc;
                         if (isset($post['object']['attachments'][$i]['displayName']) && (strlen($post['object']['attachments'][$i]['displayName']) > 0))
@@ -169,10 +175,15 @@ class GoogleContent extends SocContentBase
                     }
                 }
                 
-                if ((strpos($link, '/posts/') !== false) && strlen($link) > (strpos($link, '/posts/') + strlen('/posts/')))
+                if (self::contentNeedSave($link))
                 {
                     if (!empty($userDetail['last_img']))
-                        $userDetail['last_img'] = self::saveImage($userDetail['last_img']);
+                    {
+                        $savedImg = self::saveImage($userDetail['last_img']);
+                        if ($savedImg)
+                            $userDetail['last_img'] = $savedImg;
+                    }
+                    $userDetail['soc_url'] = $link;
                 }
             }
         }else
