@@ -212,14 +212,21 @@ class FacebookContent extends SocContentBase
                     }
                     else
                     {
-                        if (isset($socPost['story']))
+                        if (!empty($socPost['story']))
                             $userDetail['sub-line'] = $socPost['story'];
-                        elseif (isset($socPost['type']) 
-                            and $socPost['type'] == 'link' 
-                            and isset($socPost['status_type']) 
-                            and $socPost['status_type'] == 'shared_story' 
-                            and !empty($socPost['link']))
+                        if (isset($lastPost['type']) 
+                        and $lastPost['type'] == 'link' 
+                        and isset($lastPost['status_type']) 
+                        and $lastPost['status_type'] == 'shared_story' 
+                        and !empty($lastPost['link']))
+                        {
+                            //разшаренная ссылка
+                            $userDetail['shared_link'] = $lastPost['link'];
+                            $userDetail['link_name'] = $lastPost['name'];
+                            $userDetail['link_caption'] = $lastPost['caption'];
+                            if (empty($socPost['story']))
                                 $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
+                        }
                         if (!empty($socPost['picture']))
                         {
                             $userDetail['last_img'] = $socPost['picture'];
@@ -235,8 +242,6 @@ class FacebookContent extends SocContentBase
                                 $userDetail['last_img_story'] = '';
                             if (!empty($socPost['description']))
                                 $userDetail['last_img_story'] .= '<p>'.$socPost['description'].'</p>';
-                            if (!empty($socPost['caption']))
-                                $userDetail['last_img_story'] .= '<p>'.$socPost['caption'].'</p>';
                             if ($userDetail['last_img_story'] == '')
                                 unset($userDetail['last_img_story']);
                         }
@@ -315,14 +320,9 @@ class FacebookContent extends SocContentBase
 
                         if ($lastPost != 'no')
                         {
-                            if (isset($lastPost['story']))
+                            if (!empty($lastPost['story']))
                                 $userDetail['sub-line'] = $lastPost['story'];
-                            elseif (isset($lastPost['type']) 
-                                and $lastPost['type'] == 'link' 
-                                and isset($lastPost['status_type']) 
-                                and $lastPost['status_type'] == 'shared_story' 
-                                and !empty($lastPost['link']))
-                                    $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
+
                             if (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
                             {
                                 //"место" на карте
@@ -334,6 +334,19 @@ class FacebookContent extends SocContentBase
                             }
                             else
                             {
+                                if (isset($lastPost['type']) 
+                                and $lastPost['type'] == 'link' 
+                                and isset($lastPost['status_type']) 
+                                and $lastPost['status_type'] == 'shared_story' 
+                                and !empty($lastPost['link']))
+                                {
+                                    //разшаренная ссылка
+                                    $userDetail['shared_link'] = $lastPost['link'];
+                                    $userDetail['link_name'] = $lastPost['name'];
+                                    $userDetail['link_caption'] = $lastPost['caption'];
+                                    if (empty($socPost['story']))
+                                        $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
+                                }
                                 if (!empty($lastPost['picture']))
                                 {
                                     $userDetail['last_img'] = $lastPost['picture'];
@@ -352,8 +365,6 @@ class FacebookContent extends SocContentBase
                                     $userDetail['last_img_story'] = '';
                                     if (!empty($lastPost['description']))
                                         $userDetail['last_img_story'] .= '<p>'.$lastPost['description'].'</p>';
-                                    if (!empty($lastPost['caption']))
-                                        $userDetail['last_img_story'] .= '<p>'.$lastPost['caption'].'</p>';
                                     if ($userDetail['last_img_story'] == '')
                                         unset($userDetail['last_img_story']);
                                 }

@@ -124,17 +124,26 @@
 					<?php /* Image *////////////////////////////////////////////////////////////////////////////////// ?>
 					<?php if (isset($socContent['last_img'])): ?>
 							<?php if (isset($socContent['last_img_href'])): ?>
-							<!-- <a href="<?php echo $socContent['last_img_href']; ?>"> -->
+							<?php //<a href="<?php echo $socContent['last_img_href']; ?>
 							<?php endif; ?>
 							<?php if (isset($socContent['last_img_msg'])): ?>
 								<p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
 							<?php endif; ?>
+							<?php if (isset($socContent['shared_link'])): ?>
+								<a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
+							<?php endif; ?>
 							<img src="<?php echo $socContent['last_img']; ?>">
+							<?php if (isset($socContent['link_name'])): ?>
+								<h4><?php echo $socContent['link_name']; ?></h4>
+							<?php endif; ?>
+							<?php if (isset($socContent['link_caption'])): ?>
+								<span class="sub-txt"><?php echo $socContent['link_caption']; ?></span>
+							<?php endif; ?>
 							<?php if (isset($socContent['last_img_story'])): ?>
 								<p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
 							<?php endif; ?>
-							<?php if (isset($socContent['last_img_href'])): ?>
-							<!--  </a> -->
+							<?php if (isset($socContent['shared_link'])): ?>
+								</a>
 							<?php endif; ?>
 					<?php endif; ?>
 					<?php /* Map *//////////////////////////////////////////////////////////////////////////////////  ?>

@@ -1100,6 +1100,9 @@ img.soc-icon{
 	overflow: hidden;
 	height: 57px;
 }
+.item-head img{
+	height: 36px;
+}
 .item-body{
 	background: #F0F3F6;
 	overflow: hidden;
@@ -1183,4 +1186,40 @@ h3 + .small-txt{
 
 .type-mess .item-user-avatar img{
 	max-width: none;
+}
+.thumbnail{
+	display: block;
+	clear: both;
+	overflow: hidden;
+	padding: 14px;
+	margin-bottom: 14px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: #fff;
+	margin-top: 14px;
+}
+.thumbnail img{
+	float: left;
+	margin-top: 0;
+	margin-right: 19px;
+	margin-bottom: 0;
+}
+.thumbnail p{
+	margin: 0;
+	color: #808080;
+	font-size: 12px;
+}
+.thumbnail h4{
+	margin-top: 0;
+	margin-bottom: 0;
+	color: #0063FF;
+}
+.thumbnail  .sub-txt{
+	font-size: 12px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+.thumbnail img{
+	width: 154px;
 }
