@@ -27,23 +27,91 @@ class SpotController extends MController
         {
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
-
-            if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] > time()))
+            
+            if ($spot && !empty($spot->pass))
             {
+                $block = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id));
+                if ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) < time())
+                {
+                    //обнуление счетчика по окончанию бана
+                    $block->blocked_until = null;
+                    $block->fails = 0;
+                    $block->save();
+                }
+            }
+
+            if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] >= time()))
+            {
+                //забанен за перебор url'ов
                 $this->redirect(array('error'));
             }
             elseif (!$spot)
             {
+                //счетчик банов
                 $this->setBanned();
+            }
+            elseif ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) >= time())
+            {
+                //забанен за перебор пароля
+                $this->setAccess();
+                //$this->redirect(array('error'));
+            }
+            elseif (!empty($spot->pass) && !(Yii::app()->request->getPost('pass')))
+            {
+                //отображение клавиатуры пароля
+                $this->render('/widget/spot/pass');
+            }
+            elseif (!empty($spot->pass) 
+                    && (Yii::app()->request->getPost('pass'))
+                    && (!(Yii::app()->request->getPost('token')) || Yii::app()->request->getPost('token') != Yii::app()->request->csrfToken)
+                    )
+            {
+                //пришел пароль, но нет жетона
+                $this->setBadRequest();
+            }
+            elseif (!empty($spot->pass) 
+                    && (Yii::app()->request->getPost('pass'))
+                    && !(Yii::app()->request->getPost('pass') == $spot->pass)
+                    )
+            {
+                //пришел неверный пароль
+                if (!$block)
+                {
+                    $block = new SpotBlock;
+                    $block->token = Yii::app()->request->csrfToken;
+                    $block->discodes_id = $spot->discodes_id;
+                    $block->fails = 0;
+                    $block->save();
+                }
+
+                $block->fails = $block->fails + 1;
+                $block->save();
+                
+                if ($block->fails >= 3)
+                {
+                    //бан
+                    $block->blocked_until = date('Y-m-d H:i:s', (time() + 3*60*60));
+                    $block->save();
+                    $this->redirect(Yii::app()->request->requestUri);
+                    $this->setAccess();
+                }
+                else
+                    $this->render('/widget/spot/pass');
             }
             else
             {
+                //отображение спота
                 if (isset(Yii::app()->session['spot_view_error_count']))
                 {
+                    //сброс счетчика перебора url
                     Yii::app()->session['spot_view_error_count'] = 0;
                     Yii::app()->session['spot_view_ban'] = 0;
                 }
 
+                if ($block)
+                    //сброс счетчика неверных паролей
+                    $block->delete();
+                
                 $spotContent = SpotContent::getSpotContent($spot);
 
                 if (!$spotContent) {

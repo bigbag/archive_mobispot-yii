@@ -1223,3 +1223,57 @@ h3 + .small-txt{
 .thumbnail img{
 	width: 154px;
 }
+.spot-password table{
+	margin: 0 auto;
+	position: relative;
+	border-spacing: 0;
+}
+.spot-password table td a{
+	display: inline-block;
+	height: 75px;
+	width: 75px;
+	background: #fff;
+	line-height: 80px;
+	font-family: Mobispot;
+	color: #0063ff;
+	font-size: 40px;
+	font-weight: 100;
+	border-radius: 50%;
+	border-spacing: 0;
+	text-align: center;
+	margin: 5px;
+}
+.spot-password table td a:hover,
+.spot-password table td a:active{
+	background: #0063ff;
+	color: #fff;
+}
+.spot-password input{
+	margin: 0 auto;
+	background: #E0E6ED;
+	font-size: 40px;
+	color: #0063FF;
+	text-align: center;
+	outline: 0;
+	padding: 0;
+	margin: 0;
+}
+.backspace{
+	display: inline-block;
+	height: 70px;
+	width: 100%;
+	cursor: pointer;
+	font-family: Mobispot-icon;
+	color: #FFF;
+	font-size: 76px;
+	text-align: center;
+	line-height: 70px;
+}
+.backspace:hover{
+	color: #0063ff;
+}
+.spot-password h1{
+	font-size: 20px;
+	position: relative;
+	margin: 0;
+}

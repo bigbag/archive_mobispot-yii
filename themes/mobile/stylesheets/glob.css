@@ -49,7 +49,6 @@ a{
 }
 .content-wrapper{
 	min-height: 100%;
-	margin-bottom: -31px;
 	padding-bottom: 12em;
 	padding: 12px 6px;
 	max-width: 720px;
@@ -139,4 +138,10 @@ input:-moz-placeholder { color:#9E9E9E !important; }
 }
 .color-black{
 	color: #343434;
+}
+.text-right{
+	text-align: right;
+}
+.text-left{
+	text-align: left;
 }
