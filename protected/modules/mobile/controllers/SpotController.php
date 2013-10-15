@@ -39,6 +39,8 @@ class SpotController extends MController
                     $block->save();
                 }
             }
+            else 
+                $block = false;
 
             if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] >= time()))
             {
