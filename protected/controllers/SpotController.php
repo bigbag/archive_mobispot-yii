@@ -1020,13 +1020,16 @@ class SpotController extends MController
         $answer = array();
         $answer['error'] = 'yes';
 
-        if (isset($data['pass']) and isset($data['discodes']) and preg_match("~^[0-9]{4}$~", $data['pass']))
+        if (isset($data['discodes']) and (empty($data['pass']) or preg_match("~^[0-9]{4}$~", $data['pass'])))
         {
             $spot = Spot::model()->findByPk($data['discodes']);
             
             if ($spot)
             {
-                $spot->pass = $data['pass'];
+                if (empty($data['pass']))
+                    $spot->pass = null;
+                else
+                    $spot->pass = $data['pass'];
                 if ($spot->save(false))
                 {
                     $answer['error'] = "no";
