@@ -1032,6 +1032,10 @@ class SpotController extends MController
                     $spot->pass = $data['pass'];
                 if ($spot->save(false))
                 {
+                    $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
+                    for($i = 0; $i < count($whitelist); $i++)
+                        $whitelist[$i]->delete();
+                
                     $answer['error'] = "no";
                     $answer['saved'] = Yii::t('spot', 'Saved!');
                 }

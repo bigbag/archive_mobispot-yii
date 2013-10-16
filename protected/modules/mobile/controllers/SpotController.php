@@ -30,7 +30,8 @@ class SpotController extends MController
             
             if ($spot && !empty($spot->pass))
             {
-                $block = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id));
+                $block = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id, 'whitelist' => null));
+                $whitelist = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id, 'whitelist' => true));
                 if ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) < time())
                 {
                     //обнуление счетчика по окончанию бана
@@ -39,8 +40,11 @@ class SpotController extends MController
                     $block->save();
                 }
             }
-            else 
+            else
+            {
                 $block = false;
+                $whitelist = false;
+            }
 
             if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] >= time()))
             {
@@ -58,7 +62,7 @@ class SpotController extends MController
                 $this->setAccess();
                 //$this->redirect(array('error'));
             }
-            elseif (!empty($spot->pass) && !(Yii::app()->request->getPost('pass')))
+            elseif (!empty($spot->pass) && !(Yii::app()->request->getPost('pass')) && !$whitelist)
             {
                 //отображение клавиатуры пароля
                 $this->render('/widget/spot/pass');
@@ -83,7 +87,6 @@ class SpotController extends MController
                     $block->token = Yii::app()->request->csrfToken;
                     $block->discodes_id = $spot->discodes_id;
                     $block->fails = 0;
-                    $block->save();
                 }
 
                 $block->fails = $block->fails + 1;
@@ -110,10 +113,22 @@ class SpotController extends MController
                     Yii::app()->session['spot_view_ban'] = 0;
                 }
 
-                if ($block)
-                    //сброс счетчика неверных паролей
-                    $block->delete();
-                
+                if (!empty($spot->pass)) 
+                {
+                    //белый список - не запрашивать пароль спота
+                    $newWhitelist = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id));
+                    if (!$newWhitelist)
+                    {
+                        $newWhitelist = new SpotBlock;
+                        $newWhitelist->token = Yii::app()->request->csrfToken;
+                        $newWhitelist->discodes_id = $spot->discodes_id;
+                    }
+                    $newWhitelist->fails = 0;
+                    $newWhitelist->blocked_until = date('Y-m-d H:i:s', (time() + 10*60*60));
+                    $newWhitelist->whitelist = true;
+                    $newWhitelist->save();
+                }
+
                 $spotContent = SpotContent::getSpotContent($spot);
 
                 if (!$spotContent) {

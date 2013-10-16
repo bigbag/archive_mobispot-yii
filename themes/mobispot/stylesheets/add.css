@@ -201,7 +201,3 @@ a.blackout{
 #resetPassButton {
     margin-left: 15px;
 }
-
-#passForm input.error{
-    color: red;
-}
