@@ -114,6 +114,7 @@
                 <div class="sub-content rename-spot" id="setPassForm">
                     <div class="sub-content-container">
                         <form name="setPassForm">
+                        <p><?php echo Yii::t('spot', "Create a 4-digit password to protect your spot's content. Tell this password only to trusted people.") ?></p>
                         <input
                             type="text"
                             class="b-short-input"
@@ -121,12 +122,15 @@
                             name="newPass"
                             ui-keypress="{enter: 'setNewPass(spot)'}"
                             ng-change="savePassButtonText('<?php echo Yii::t('spot', 'Save') ?>');"
-                            placeholder="<?php echo Yii::t('spot', 'New Pass') ?>"
+                            placeholder="<?php echo Yii::t('spot', 'New Password') ?>"
                             autocomplete="off"
                             maxlength="4"
                             required>
                         <a id="savePassButton" href="javascript:;" ng-click="setNewPass(spot)" class="spot-button">
                         <?php echo Yii::t('spot', 'Save') ?>
+                        </a>
+                        <a id="resetPassButton" href="javascript:;" ng-click="resetPass(spot)" class="spot-button">
+                        <?php echo Yii::t('spot', 'Reset Password') ?>
                         </a>
                     </form>
                     </div>

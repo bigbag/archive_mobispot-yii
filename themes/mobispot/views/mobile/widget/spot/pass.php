@@ -1,6 +1,6 @@
 			<div class="spot-content_row">
 				<div class="spot-item spot-password">
-					<h1 class="text-center color">Enter Passcode</h1>
+					<h1 class="text-center color"><?php echo Yii::t('spot', "Enter spot's password") ?></h1>
 				</div>
 				<div class="spot-item text-center spot-password">
 					<form id="passForm" method="post">

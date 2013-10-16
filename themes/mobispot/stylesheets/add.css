@@ -198,3 +198,6 @@ a.blackout{
     width: 0px;
 }
 
+#resetPassButton {
+    margin-left: 15px;
+}

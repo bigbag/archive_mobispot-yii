@@ -219,6 +219,10 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
             $scope.spot.invisible = false;
           }
           $scope.spot.pass = data.pass;
+          if (typeof ($scope.spot.pass) == 'undefined' || $scope.spot.pass.length == 0)
+            angular.element('#resetPassButton').hide();
+          else
+            angular.element('#resetPassButton').show();
         }
       }).error(function(error){
         console.log(error);
@@ -917,12 +921,22 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
         $http.post('/spot/setSpotPass', spot).success(function(data) {
             if (data.error == 'no' && typeof (data.saved) != 'undefined') {
                 angular.element('#savePassButton').text(data.saved);
+                if (typeof ($scope.spot.pass) != 'undefined' && spot.pass.length)
+                    angular.element('#resetPassButton').show();
+                else
+                    angular.element('#resetPassButton').hide();
             }
             else if (data.error == 'yes') {
                 angular.element('#setPassForm input[name=newPass]').addClass('error');
             }
         });
     };
+    
+    $scope.resetPass = function(spot)
+    {
+        spot.pass = '';
+        $scope.setNewPass(spot);
+    }
     
     $scope.savePassButtonText = function(text)
     {
