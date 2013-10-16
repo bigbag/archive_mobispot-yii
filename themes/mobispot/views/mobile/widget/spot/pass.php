@@ -4,7 +4,11 @@
 				</div>
 				<div class="spot-item text-center spot-password">
 					<form id="passForm" method="post">
-						<input maxlength="4" name="pass" type="password" disabled>
+						<input maxlength="4" name="pass" type="password" disabled 
+							<?php if (!empty($wrongPass)): ?>
+								value="<?php echo $wrongPass; ?>" class="error"
+							<?php endif; ?>
+						>
 						<input type="hidden" name="token" value="<?php echo Yii::app()->request->csrfToken ?>">
 					</form>
 				</div>

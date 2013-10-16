@@ -23,6 +23,10 @@ $(document).ready(function(){
 
 $(function() {
     $('a','.spot-password').click(function(){
+        if ($('#passForm input[name=pass]').hasClass('error')){
+            $('#passForm input[name=pass]').val('');
+            $('#passForm input[name=pass]').removeClass('error');
+        }
         var valueButon = $(this).html();
         var valueInput = $('#passForm input[name=pass]').val();
         if (valueInput.length < 4){
@@ -34,9 +38,14 @@ $(function() {
         }
     });
     $('.backspace','.spot-password').click(function(){
-        var valueInput = $('#passForm input[name=pass]').val();
-        $('#passForm input[name=pass]').val(valueInput.substring(0, valueInput.length - 1));
-
-
+        if ($('#passForm input[name=pass]').hasClass('error')){
+            $('#passForm input[name=pass]').val('');
+            $('#passForm input[name=pass]').removeClass('error');
+        }
+        else
+        {
+            var valueInput = $('#passForm input[name=pass]').val();
+            $('#passForm input[name=pass]').val(valueInput.substring(0, valueInput.length - 1));
+        }
     });
 });

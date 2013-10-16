@@ -98,7 +98,7 @@ class SpotController extends MController
                     $this->setAccess();
                 }
                 else
-                    $this->render('/widget/spot/pass');
+                    $this->render('/widget/spot/pass', array('wrongPass'=> Yii::app()->request->getPost('pass')));
             }
             else
             {
