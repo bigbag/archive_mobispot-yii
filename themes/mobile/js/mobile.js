@@ -53,8 +53,10 @@ $(function() {
 window.onload = function() {
     if ($('#passForm input[name=pass]').hasClass('error')){
         setTimeout(function() { 
-            $('#passForm input[name=pass]').val('');
-            $('#passForm input[name=pass]').removeClass('error');
-        }, 4000);
+            if ($('#passForm input[name=pass]').hasClass('error')){
+                $('#passForm input[name=pass]').val('');
+                $('#passForm input[name=pass]').removeClass('error');
+            }
+        }, 3000);
     }
 } 
