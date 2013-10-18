@@ -122,7 +122,7 @@ class SocContentBase
 
         if (isset($images[$fileType]))
         {
-            $file = md5(time() . $url) . '_' . self::urlToName($url);
+            $file = md5(time() . $url) . '_' . str_replace('.' . $images[$fileType], '', self::urlToName($url)) . '.' . $images[$fileType];
 
             $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
             $file_name = $patch . $file;
@@ -156,7 +156,8 @@ class SocContentBase
 
     public static function urlToName($url)
     {
-        return str_replace('/', '_', str_ireplace('https://', '', str_ireplace('https://', '', $url)));
+        $to_delete = array(':', 'http://', 'https://', '%');
+        return self::rmGetParam(str_replace('/', '_', str_ireplace($to_delete, '', $url)));
     }
     
     public static function timeDiff($diff)

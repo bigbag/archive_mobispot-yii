@@ -34,7 +34,7 @@ class FacebookContent extends SocContentBase
                 }
             }
         }
-        
+      $result = 'ok';
         return $result;
     }
     
@@ -105,9 +105,7 @@ class FacebookContent extends SocContentBase
                         elseif (!empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images']))
                         {
                             $userDetail['last_img'] = $photoData['source'];
-                            $savedImg = self::saveImage($userDetail['last_img']);
-                            if ($savedImg)
-                                $userDetail['last_img'] = $savedImg;
+
                             if (!empty($photoData['name']))
                                 $userDetail['last_img_msg'] = $photoData['name'];
                             if (!empty($photoData['link']))
@@ -197,66 +195,18 @@ class FacebookContent extends SocContentBase
                 if (isset($postId) && isset($socUser['id']) && $isAppTokenValid)
                 {
                     $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $appToken);
-                    if(is_string($socPost) && (strpos($socPost, 'error') !== false)){
-                        $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
-                    }elseif (isset($socPost['type']) && ($socPost['type'] == 'status') && isset($socPost['place']) && isset($socPost['place']['location']) && isset($socPost['place']['location']['latitude']) && isset($socPost['place']['location']['longitude']))
+                    if(is_string($socPost) && (strpos($socPost, 'error') !== false))
                     {
-                        //"место" на карте
-                        if (isset($socPost['story']))
-                            $userDetail['sub-line'] = $socPost['story'];
-                        if (isset($socPost['message']))
-                            $userDetail['place_msg'] = $socPost['message'];
-                        $userDetail['place_lat'] = $socPost['place']['location']['latitude'];
-                        $userDetail['place_lng'] = $socPost['place']['location']['longitude'];
-                        $userDetail['place_name'] = $socPost['place']['name'];
+                        $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
                     }
                     else
                     {
-                        if (!empty($socPost['story']))
-                            $userDetail['sub-line'] = $socPost['story'];
-                        if (isset($lastPost['type']) 
-                        and $lastPost['type'] == 'link' 
-                        and isset($lastPost['status_type']) 
-                        and $lastPost['status_type'] == 'shared_story' 
-                        and !empty($lastPost['link']))
-                        {
-                            //разшаренная ссылка
-                            $userDetail['shared_link'] = $lastPost['link'];
-                            $userDetail['link_name'] = $lastPost['name'];
-                            $userDetail['link_caption'] = $lastPost['caption'];
-                            if (empty($socPost['story']))
-                                $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
-                        }
-                        if (!empty($socPost['picture']))
-                        {
-                            $userDetail['last_img'] = $socPost['picture'];
-                            if (!empty($socPost['link']))
-                                $userDetail['last_img_href'] = $socPost['link'];
-                            if (!empty($socPost['message']))
-                                $userDetail['last_img_msg'] = $socPost['message'];
-                            elseif (!empty($socPost['story']))
-                                $userDetail['last_img_msg'] = $socPost['story'];
-                            if (!empty($socPost['name']) && ($socPost['name'] != 'Timeline Photos'))
-                                $userDetail['last_img_story'] = '<p>'.$socPost['name'].'</p>';
-                            else
-                                $userDetail['last_img_story'] = '';
-                            if (!empty($socPost['description']))
-                                $userDetail['last_img_story'] .= '<p>'.$socPost['description'].'</p>';
-                            if ($userDetail['last_img_story'] == '')
-                                unset($userDetail['last_img_story']);
-                        }
-                        elseif(!empty($socPost['link']) && (!empty($socPost['message']) || !empty($socPost['story'])))
-                        {
-                            $userDetail['link_href'] = $socPost['link'];
-                            if (!empty($socPost['message']))
-                                $userDetail['link_text'] = $socPost['message'];
-                            elseif (!empty($socPost['story']))
-                                $userDetail['link_text'] = $socPost['story'];
-                        }
-                        elseif (!empty($socPost['message']))
-                            $userDetail['last_status'] = $socPost['message'];
+                        $postContent = self::getPostContent($socPost);
+                        foreach ($postContent as $postKey => $postValue)
+                            $userDetail[$postKey] = $postValue;
                     }
-                    if(empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']))
+                    
+                    if (empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']) && empty($userDetail['link_text']))
                         $userDetail['error'] =  Yii::t('eauth', "This post doesn't exist:") . $link;
                 }
                 //последний пост из профиля
@@ -320,70 +270,9 @@ class FacebookContent extends SocContentBase
 
                         if ($lastPost != 'no')
                         {
-                            if (!empty($lastPost['story']))
-                                $userDetail['sub-line'] = $lastPost['story'];
-
-                            if (($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude']))
-                            {
-                                //"место" на карте
-                                if (isset($lastPost['message']))
-                                    $userDetail['place_msg'] = $lastPost['message'];
-                                $userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
-                                $userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
-                                $userDetail['place_name'] = $lastPost['place']['name'];
-                            }
-                            else
-                            {
-                                if (isset($lastPost['type']) 
-                                and $lastPost['type'] == 'link' 
-                                and isset($lastPost['status_type']) 
-                                and $lastPost['status_type'] == 'shared_story' 
-                                and !empty($lastPost['link']))
-                                {
-                                    //разшаренная ссылка
-                                    $userDetail['shared_link'] = $lastPost['link'];
-                                    $userDetail['link_name'] = $lastPost['name'];
-                                    $userDetail['link_caption'] = $lastPost['caption'];
-                                    if (empty($socPost['story']))
-                                        $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
-                                }
-                                if (!empty($lastPost['picture']))
-                                {
-                                    $userDetail['last_img'] = $lastPost['picture'];
-                                    if (!empty($lastPost['link']))
-                                    {
-                                        $userDetail['last_img_href'] = $lastPost['link'];
-                                        if (strpos($lastPost['link'], 'facebook.com/photo.php?fbid=') !== false)
-                                        {
-                                            $photoId = substr($lastPost['link'], (strpos($lastPost['link'], 'facebook.com/photo.php?fbid=') + 28));
-                                            $photoId = self::rmGetParam($photoId);
-                                            $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
-                                        }
-                                    }
-                                    if (!empty($lastPost['message']))
-                                        $userDetail['last_img_msg'] = $lastPost['message'];
-                                    $userDetail['last_img_story'] = '';
-                                    if (!empty($lastPost['description']))
-                                        $userDetail['last_img_story'] .= '<p>'.$lastPost['description'].'</p>';
-                                    if ($userDetail['last_img_story'] == '')
-                                        unset($userDetail['last_img_story']);
-                                }
-                                elseif(!empty($lastPost['link']) && (!empty($lastPost['message']) || !empty($lastPost['story'])))
-                                {
-                                    $userDetail['link_href'] = $lastPost['link'];
-                                    if (!empty($lastPost['message']))
-                                        $userDetail['link_text'] = $lastPost['message'];
-                                }
-                                elseif (!empty($lastPost['message']))
-                                    $userDetail['last_status'] = $lastPost['message'];
-                            }
-                            
-                            if (!empty($lastPost['created_time']))
-                            {
-                                $dateDiff = time() - strtotime($lastPost['created_time']);
-                                $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
-                            }
-                            
+                            $postContent = self::getPostContent($lastPost);
+                            foreach ($postContent as $postKey => $postValue)
+                                $userDetail[$postKey] = $postValue;
                         }
                         else
                         {
@@ -426,15 +315,7 @@ class FacebookContent extends SocContentBase
                                     if (!empty($lastPost['created_time']))
                                     {
                                         $dateDiff = time() - $lastPost['created_time'];
-                                        $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ';
-                                        if ($dateDiff > 86400)
-                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/86400)) . ' ' . Yii::t('eauth', 'days ago');
-                                        elseif ($dateDiff > 3600)
-                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
-                                        elseif ($dateDiff > 60)
-                                            $userDetail['footer-line'] .= ((int)floor($dateDiff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
-                                        else
-                                            $userDetail['footer-line'] .= $dateDiff . ' ' . Yii::t('eauth', 'seconds ago');
+                                        $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
                                     }
                                 }
                             }
@@ -463,10 +344,113 @@ class FacebookContent extends SocContentBase
                 $userDetail['sub-line'] = substr($userDetail['sub-line'], 
                                                 (strpos($userDetail['sub-line'], $userDetail['soc_username']) + strlen($userDetail['soc_username']))
                 );
-  
+				
+		if (self::contentNeedSave($link))
+		{
+			if (!empty($userDetail['last_img']))
+			{
+				$savedImg = self::saveImage($userDetail['last_img']);
+				if ($savedImg)
+					$userDetail['last_img'] = $savedImg;
+			}
+			
+			if (!empty($userDetail['footer-line']))
+			{
+				$userDetail['footer-line'] = str_replace(Yii::t('eauth', 'last post'), '', $userDetail['footer-line']);
+			}
+			$userDetail['soc_url'] = $link;
+		}
+
         return $userDetail;
     }
 
+    public static function getPostContent($post)
+    {
+
+        $postContent = array();
+
+        if (!empty($post['story']))
+            $postContent['sub-line'] = $post['story'];
+
+        if (($post['type'] == 'status') && isset($post['place']) && isset($post['place']['location']) && isset($post['place']['location']['latitude']))
+        {
+            //"место" на карте
+            if (isset($post['message']))
+                $postContent['place_msg'] = $post['message'];
+            $postContent['place_lat'] = $post['place']['location']['latitude'];
+            $postContent['place_lng'] = $post['place']['location']['longitude'];
+            $postContent['place_name'] = $post['place']['name'];
+        }
+        else
+        {
+            if (isset($post['type']) 
+            and in_array($post['type'], array("link", "video"))
+            and isset($post['status_type']) 
+            and $post['status_type'] == 'shared_story' 
+            and !empty($post['link']))
+            {
+                //разшаренная ссылка
+                $postContent['shared_link'] = $post['link'];
+                if (!empty($post['name']))
+                    $postContent['link_name'] = $post['name'];
+                if (!empty($post['caption']))
+                    $postContent['link_caption'] = $post['caption'];
+				if (!empty($post['description']))
+					$postContent['link_description'] = $post['description'];
+                if (empty($socPost['story']))
+                    $postContent['sub-line'] = Yii::t('eauth', 'shared a link');
+				
+                if ((strpos($post['link'], 'youtube.com') !== false) && (strpos($post['link'], 'watch?v=') !== false))
+                {
+                    $videoContent = YouTubeContent::getVideoContent($post['link']);
+
+					if (empty($videoContent['error']))
+					{
+						foreach ($videoContent as $vKey => $vValue)
+							$postContent[$vKey] = $vValue;
+					}
+				}
+            }
+            if (!empty($post['picture']))
+            {
+                $postContent['last_img'] = $post['picture'];
+                if (!empty($post['link']))
+                {
+                    $postContent['last_img_href'] = $post['link'];
+                    if (strpos($post['link'], 'facebook.com/photo.php?fbid=') !== false)
+                    {
+                        $photoId = substr($post['link'], (strpos($post['link'], 'facebook.com/photo.php?fbid=') + 28));
+                        $photoId = self::rmGetParam($photoId);
+                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
+                    }
+                }
+                if (!empty($post['message']))
+                    $postContent['last_img_msg'] = $post['message'];
+                $postContent['last_img_story'] = '';
+                if (!empty($post['description']) && empty($postContent['link_description']))
+                    $postContent['last_img_story'] .= '<p>'.$post['description'].'</p>';
+                if ($postContent['last_img_story'] == '')
+                    unset($postContent['last_img_story']);
+            }
+            elseif(!empty($post['link']) && (!empty($post['message']) || !empty($post['story'])))
+            {
+                $postContent['link_href'] = $post['link'];
+                if (!empty($post['message']))
+                    $postContent['link_text'] = $post['message'];
+            }
+            elseif (!empty($post['message']))
+                $postContent['last_status'] = $post['message'];
+        }
+        
+        if (!empty($post['created_time']))
+        {
+            $dateDiff = time() - strtotime($post['created_time']);
+            $postContent['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
+        }
+     
+        return $postContent;
+    }
+    
     public static function parseUsername($link)
     {
         $username = $link;

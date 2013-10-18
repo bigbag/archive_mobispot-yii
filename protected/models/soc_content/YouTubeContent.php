@@ -6,7 +6,6 @@ class YouTubeContent extends SocContentBase
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
-        $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         $result = 'ok';
 
         $username = '';
@@ -30,7 +29,7 @@ class YouTubeContent extends SocContentBase
                 $result = 'ok';
             } catch (Exception $e)
             {
-                $result = Yii::t('eauth', "Такого профиля не существует:") . $socUsername;
+                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
         else
@@ -38,7 +37,7 @@ class YouTubeContent extends SocContentBase
             $videoId = '';
             if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false))
             {
-                $videoId = substr($socUsername, (strpos($socUsername, 'watch?v=') + 8));
+                $videoId = self::rmGetParam(substr($socUsername, (strpos($socUsername, 'watch?v=') + 8)));
 
                 Yii::import('ext.ZendGdata.library.*');
                 require_once('Zend/Gdata/YouTube.php');
@@ -119,33 +118,12 @@ class YouTubeContent extends SocContentBase
         }
         else
         {
-            $videoId = '';
             if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false))
             {
-                $videoId = substr($socUsername, (strpos($socUsername, 'watch?v=') + 8));
-
-                Yii::import('ext.ZendGdata.library.*');
-                require_once('Zend/Gdata/YouTube.php');
-                require_once('Zend/Gdata/AuthSub.php');
-
-                $yt = new Zend_Gdata_YouTube();
-                $yt->setMajorProtocolVersion(2);
-                try
-                {
-                    $videoEntry = $yt->getVideoEntry($videoId);
-                    $userDetail['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
-                    $userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                    $userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
-
-                    $videoThumbnails = $videoEntry->getVideoThumbnails();
-                    if (isset($videoThumbnails[0]))
-                    {
-                        $userDetail['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
-                    }
-                } catch (Exception $e)
-                {
-                    $userDetail['soc_username'] = Yii::t('eauth', "This post doesn't exist:") . $socUsername;
-                }
+                $videoContent = self::getVideoContent($socUsername);
+                
+                foreach ($videoContent as $postKey => $postValue)
+                    $userDetail[$postKey] = $postValue;
             }
         }
         $userDetail['avatar_before_mess_body'] = true;
@@ -153,6 +131,42 @@ class YouTubeContent extends SocContentBase
         return $userDetail;
     }
     
+    public static function getVideoContent($link)
+    {
+        $videoContent = array();
+
+        $videoId = '';
+        if ((strpos($link, 'youtube.com') !== false) && (strpos($link, 'watch?v=') !== false))
+        {
+            $videoId = self::rmGetParam(substr($link, (strpos($link, 'watch?v=') + 8)));
+
+            Yii::import('ext.ZendGdata.library.*');
+            require_once('Zend/Gdata/YouTube.php');
+            require_once('Zend/Gdata/AuthSub.php');
+
+            $yt = new Zend_Gdata_YouTube();
+            $yt->setMajorProtocolVersion(2);
+            try
+            {
+                $videoEntry = $yt->getVideoEntry($videoId);
+                $videoContent['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
+                $videoContent['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+                $videoContent['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+
+                $videoThumbnails = $videoEntry->getVideoThumbnails();
+                if (isset($videoThumbnails[0]))
+                {
+                    $videoContent['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
+                }
+            } catch (Exception $e)
+            {
+                $videoContent['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $videoContent['soc_username'] = $videoContent['error'];
+            }
+        }
+        
+        return $videoContent;
+    }
     
     public static function parseUsername($link)
     {

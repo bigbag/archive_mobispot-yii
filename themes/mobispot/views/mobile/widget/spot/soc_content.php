@@ -122,29 +122,63 @@
 							<?php endif; ?>
 					<?php endif; ?>
 					<?php /* Image *////////////////////////////////////////////////////////////////////////////////// ?>
-					<?php if (isset($socContent['last_img'])): ?>
-							<?php if (isset($socContent['last_img_href'])): ?>
+					<?php if (isset($socContent['last_img']) && empty($socContent['shared_link'])): ?>
+							<?php //if (isset($socContent['last_img_href'])): ?>
 							<?php //<a href="<?php echo $socContent['last_img_href']; ?>
-							<?php endif; ?>
+							<?php //endif; ?>
 							<?php if (isset($socContent['last_img_msg'])): ?>
 								<p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
 							<?php endif; ?>
-							<?php if (isset($socContent['shared_link'])): ?>
-								<a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
-							<?php endif; ?>
 							<img src="<?php echo $socContent['last_img']; ?>">
-							<?php if (isset($socContent['link_name'])): ?>
-								<h4><?php echo $socContent['link_name']; ?></h4>
-							<?php endif; ?>
-							<?php if (isset($socContent['link_caption'])): ?>
-								<span class="sub-txt"><?php echo $socContent['link_caption']; ?></span>
-							<?php endif; ?>
 							<?php if (isset($socContent['last_img_story'])): ?>
 								<p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
 							<?php endif; ?>
-							<?php if (isset($socContent['shared_link'])): ?>
-								</a>
+					<?php endif; ?>
+					<?php /* Shared Link *////////////////////////////////////////////////////////////////////////////////// ?>
+					<?php if (!empty($socContent['shared_link'])): ?>
+						<?php if (isset($socContent['last_img_msg'])): ?>
+							<p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
+						<?php endif; ?>
+						<a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
+						<?php if (!empty($socContent['ytube_video_link']) && !empty($socContent['ytube_video_flash'])):?>
+							<object>
+								<param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>"></param>
+								<param name="allowFullScreen" value="true"></param>
+								<embed class="yt_player" style="max-width:100%" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>"
+										<?php if (isset($socContent['ytube_video_rel'])): ?>
+											rel="<?php echo $socContent['ytube_video_rel']; ?>"
+											width="100%"
+										<?php endif; ?>
+										type="application/x-shockwave-flash"
+										allowfullscreen="true">
+								</embed>
+							</object>
+							<?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
+							<script type="text/javascript">
+								$(document).ready(function() {
+									$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
+								});
+								$(window).resize(function() {
+									$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
+								});
+							</script>
 							<?php endif; ?>
+						<?php elseif (isset($socContent['last_img'])): ?>
+						<img src="<?php echo $socContent['last_img']; ?>">
+						<?php endif; ?>
+						<?php if (isset($socContent['link_name'])): ?>
+							<h4><?php echo $socContent['link_name']; ?></h4>
+						<?php endif; ?>
+						<?php if (isset($socContent['link_caption'])): ?>
+							<span class="sub-txt"><?php echo $socContent['link_caption']; ?></span>
+						<?php endif; ?>
+						<?php if (isset($socContent['link_description'])): ?>
+							<p><?php echo $this->hrefActivate($socContent['link_description']); ?></p>
+						<?php endif; ?>
+						<?php if (isset($socContent['last_img_story'])): ?>
+							<p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
+						<?php endif; ?>
+						</a>
 					<?php endif; ?>
 					<?php /* Map *//////////////////////////////////////////////////////////////////////////////////  ?>
 					<?php if (isset($socContent['place_lat']) && isset($socContent['place_lng'])): ?>
@@ -175,44 +209,41 @@
 							<p><?php echo $socContent['place_name']; ?></p>
 					<?php endif; ?>
 					<?php /* YouTube video *//////////////////////////////////////////////////////////////////////////////////  ?>
-					<?php if (isset($socContent['ytube_video_link']))
-					{
-						?>
-						<?php if (isset($socContent['ytube_video_flash']))
-						{
-							?>
-								<object>
-									<param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>"></param>
-									<param name="allowFullScreen" value="true"></param>
-									<embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>"
-											<?php if (isset($socContent['ytube_video_rel'])): ?>
-												rel="<?php echo $socContent['ytube_video_rel']; ?>"
-											<?php endif; ?>
-										   type="application/x-shockwave-flash"
-										   <?php if (isset($socContent['ytube_video_rel'])): ?>
-											   width="100%" height="480"
-										   <?php else: ?>
-											   width="120" height="90"
-								<?php endif; ?>
-										   allowfullscreen="true"></embed>
-								</object>
-								<?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
-									<script type="text/javascript">
-										$(document).ready(function() {
-											$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
-										});
-										$(window).resize(function() {
-											$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
-										});
-									</script>
-								<?php endif; ?>
-								<?php if (isset($socContent['ytube_video_view_count'])): ?>
-									<footer>
-										<span><?php echo $socContent['ytube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
-									</footer>
-								<?php endif; ?>
-						<?php } ?>
-					<?php } ?>
+					<?php 	if (!empty($socContent['ytube_video_link']) 
+								&& !empty($socContent['ytube_video_flash']) 
+								&& empty($socContent['shared_link'])
+							):?>
+						<object>
+							<param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>"></param>
+							<param name="allowFullScreen" value="true"></param>
+							<embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>"
+									<?php if (isset($socContent['ytube_video_rel'])): ?>
+										rel="<?php echo $socContent['ytube_video_rel']; ?>"
+									<?php endif; ?>
+									type="application/x-shockwave-flash"
+									<?php if (isset($socContent['ytube_video_rel'])): ?>
+									   width="100%" height="480"
+									<?php else: ?>
+									   width="120" height="90"
+									<?php endif; ?>
+								   allowfullscreen="true"></embed>
+						</object>
+						<?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
+							<script type="text/javascript">
+								$(document).ready(function() {
+									$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
+								});
+								$(window).resize(function() {
+									$('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
+								});
+							</script>
+						<?php endif; ?>
+						<?php if (isset($socContent['ytube_video_view_count'])): ?>
+							<footer>
+								<span><?php echo $socContent['ytube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+							</footer>
+						<?php endif; ?>
+					<?php endif; ?>
 					<?php /* list *//////////////////////////////////////////////////////////////////////////////////   ?>
 						<?php if (!empty($socContent['list'])): ?>
 							<?php if (!empty($socContent['list']['title'])): ?>
