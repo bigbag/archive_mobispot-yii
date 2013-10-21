@@ -301,10 +301,15 @@
 							<div class="likes-block"><?php echo $socContent['likes-block']; ?></div>
 						<?php endif; ?>
 					<?php /* Follow button */////////////////////////////////////////////////////////////////////////   ?>
-								<?php if (isset($socContent['soc_url']) and !isset($socContent['tweet_author']) and empty($socContent['dinamyc'])): ?>
-								<a href="<?php echo $socContent['soc_url']; ?>" class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
+								<?php if ((!empty($socContent['soc_url']) || !empty($socContent['follow_url'])) and !isset($socContent['tweet_author']) and empty($socContent['dinamyc'])): ?>
+								<a href="<?php 	if (!empty($socContent['follow_url']))
+													echo $socContent['follow_url'];
+												else
+													echo $socContent['soc_url']; ?>"
+								class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
 									<?php if (isset($socContent['inviteClass']) && (strlen($socContent['inviteClass']) > 0)): ?>
-										<i class="i-soc <?php echo $socContent['inviteClass']; ?> round"><?php if (isset($socContent['inviteValue']) && (strlen($socContent['inviteValue']) > 0)) echo $socContent['inviteValue']; ?></i>
+										<i class="i-soc <?php echo $socContent['inviteClass']; ?> round">
+									<?php if (isset($socContent['inviteValue']) && (strlen($socContent['inviteValue']) > 0)) echo $socContent['inviteValue']; ?></i>
 								<?php endif; ?>
 								</a>
 					<?php endif; ?>

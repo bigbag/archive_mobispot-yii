@@ -69,31 +69,7 @@ class FacebookContent extends SocContentBase
                 {
                     $userToken = $socToken->user_token;
                     
-                    //жетон приложения
-                    $appToken = Yii::app()->cache->get('facebookAppToken');
-                    $isAppTokenValid = false;
-
-                    if ($appToken !== false)
-                    {
-                        $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
-                        $validation = CJSON::decode($validation, true);
-                        if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                            $isAppTokenValid = true;
-                    }
-
-                    if (!$isAppTokenValid)
-                    {
-                        if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
-                        {
-                            $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
-                            $appToken = fgets($textToken);
-                            fclose($textToken);
-                            if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-                                $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
-                            Yii::app()->cache->set('facebookAppToken', $appToken);
-                            $isAppTokenValid = true;
-                        }
-                    }
+                    $appToken = self::getAppToken();
                     
                     $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $userToken . '&access_token=' . $appToken, array(), false);
                     $validation = CJSON::decode($validation, true);
@@ -123,6 +99,9 @@ class FacebookContent extends SocContentBase
                                     $userDetail['soc_url'] = $socUser['link'];
                                 else
                                     $userDetail['soc_url'] = 'https://www.facebook.com/' . $photoData['from']['id'];
+                                $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $photoData['from']['id'] 
+                                                            . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
+                                                            .'&redirect_uri=' . urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
                             }
                         }
                         else
@@ -154,45 +133,20 @@ class FacebookContent extends SocContentBase
                     $userDetail['soc_url'] = $socUser['link'];
                 else
                     $userDetail['soc_url'] = 'https://www.facebook.com/' . $socUsername;
+                
+                $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $socUser['id'] 
+                                            . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
+                                            .'&redirect_uri=' . urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
 /*
                 if (isset($socUser['gender']))
                     $userDetail['gender'] = $socUser['gender'];
                 if (isset($socUser['locale']))
                     $userDetail['locale'] = $socUser['locale'];
 */
-                //жетон приложения
-                //$appToken = Yii::app()->cache->get('facebookAppToken');
-                $appToken = false;
-                $isAppTokenValid = false;
-
-                if ($appToken !== false)
-                {
-                    $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
-                    $validation = CJSON::decode($validation, true);
-                    if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                        $isAppTokenValid = true;
-                }
-
-                if (!$isAppTokenValid)
-                {
-                    if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
-                    {
-                        $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
-                        $appToken = fgets($textToken);
-                        fclose($textToken);
-                        if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-                            $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
-                        /*
-                        if (Yii::app()->cache->get('facebookAppToken') !== false)
-                            Yii::app()->cache->delete('facebookAppToken');
-                        Yii::app()->cache->set('facebookAppToken', $appToken);
-                        */
-                        $isAppTokenValid = true;
-                    }
-                }
+                $appToken = self::getAppToken();
 
                 //привязан пост
-                if (isset($postId) && isset($socUser['id']) && $isAppTokenValid)
+                if (isset($postId) && isset($socUser['id']) && !empty($appToken))
                 {
                     $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $appToken);
                     if(is_string($socPost) && (strpos($socPost, 'error') !== false))
@@ -211,7 +165,7 @@ class FacebookContent extends SocContentBase
                 }
                 //последний пост из профиля
         
-                elseif (!empty($appToken) && $isAppTokenValid)
+                elseif (!empty($appToken))
                 {
                     $userFeed = self::makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $appToken);
 
@@ -344,27 +298,27 @@ class FacebookContent extends SocContentBase
                 $userDetail['sub-line'] = substr($userDetail['sub-line'], 
                                                 (strpos($userDetail['sub-line'], $userDetail['soc_username']) + strlen($userDetail['soc_username']))
                 );
-				
-		if (self::contentNeedSave($link))
-		{
-			if (!empty($userDetail['last_img']))
-			{
-				$savedImg = self::saveImage($userDetail['last_img']);
-				if ($savedImg)
-					$userDetail['last_img'] = $savedImg;
-			}
-			
-			if (!empty($userDetail['footer-line']))
-			{
-				$userDetail['footer-line'] = str_replace(Yii::t('eauth', 'last post'), '', $userDetail['footer-line']);
-			}
-			$userDetail['soc_url'] = $link;
-		}
+                
+        if (self::contentNeedSave($link))
+        {
+            if (!empty($userDetail['last_img']))
+            {
+                $savedImg = self::saveImage($userDetail['last_img']);
+                if ($savedImg)
+                    $userDetail['last_img'] = $savedImg;
+            }
+            
+            if (!empty($userDetail['footer-line']))
+            {
+                $userDetail['footer-line'] = str_replace(Yii::t('eauth', 'last post'), '', $userDetail['footer-line']);
+            }
+            $userDetail['soc_url'] = $link;
+        }
 
         return $userDetail;
     }
 
-    public static function getPostContent($post)
+    public static function getPostContent($post, $appToken = null)
     {
 
         $postContent = array();
@@ -395,29 +349,31 @@ class FacebookContent extends SocContentBase
                     $postContent['link_name'] = $post['name'];
                 if (!empty($post['caption']))
                     $postContent['link_caption'] = $post['caption'];
-				if (!empty($post['description']))
-					$postContent['link_description'] = $post['description'];
+                if (!empty($post['description']))
+                    $postContent['link_description'] = $post['description'];
                 if (empty($socPost['story']))
                     $postContent['sub-line'] = Yii::t('eauth', 'shared a link');
-				
+                
                 if ((strpos($post['link'], 'youtube.com') !== false) && (strpos($post['link'], 'watch?v=') !== false))
                 {
                     $videoContent = YouTubeContent::getVideoContent($post['link']);
 
-					if (empty($videoContent['error']))
-					{
-						foreach ($videoContent as $vKey => $vValue)
-							$postContent[$vKey] = $vValue;
-					}
-				}
+                    if (empty($videoContent['error']))
+                    {
+                        foreach ($videoContent as $vKey => $vValue)
+                            $postContent[$vKey] = $vValue;
+                    }
+                }
             }
             if (!empty($post['picture']))
             {
                 $postContent['last_img'] = $post['picture'];
                 if (!empty($post['link']))
                 {
+                    if (empty($appToken))
+                        $appToken = self::getAppToken();
                     $postContent['last_img_href'] = $post['link'];
-                    if (strpos($post['link'], 'facebook.com/photo.php?fbid=') !== false)
+                    if (strpos($post['link'], 'facebook.com/photo.php?fbid=') !== false and !empty($appToken))
                     {
                         $photoId = substr($post['link'], (strpos($post['link'], 'facebook.com/photo.php?fbid=') + 28));
                         $photoId = self::rmGetParam($photoId);
@@ -447,8 +403,46 @@ class FacebookContent extends SocContentBase
             $dateDiff = time() - strtotime($post['created_time']);
             $postContent['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
         }
-     
+/*        
+        if (isset($post['from']) && !empty($post['from']['id']))
+        {
+            $postContent['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $post['from']['id'] 
+            . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
+            .'&redirect_uri=' . urlencode('http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
+        }
+*/     
         return $postContent;
+    }
+    
+    public static function getAppToken()
+    {
+        //жетон приложения
+        $appToken = Yii::app()->cache->get('facebookAppToken');
+        $isAppTokenValid = false;
+
+        if ($appToken !== false)
+        {
+            $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
+            $validation = CJSON::decode($validation, true);
+            if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
+                $isAppTokenValid = true;
+        }
+
+        if (!$isAppTokenValid)
+        {
+            if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
+            {
+                $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
+                $appToken = fgets($textToken);
+                fclose($textToken);
+                if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
+                    $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
+                Yii::app()->cache->set('facebookAppToken', $appToken);
+                //$isAppTokenValid = true;
+            }
+        }
+        
+        return $appToken;
     }
     
     public static function parseUsername($link)
