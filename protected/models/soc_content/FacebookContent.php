@@ -106,7 +106,7 @@ class FacebookContent extends SocContentBase
                                     if ($spot)
                                         $redirectUrl = '&redirect_uri=' . urlencode('http://m.mobispot.com/' . $spot->url);
                                     $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $photoData['from']['id'] 
-                                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
+                                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['mobile_client_id']
                                                                 . $redirectUrl;
                                 }
                             }
@@ -147,14 +147,9 @@ class FacebookContent extends SocContentBase
                     $redirectUrl = '&redirect_uri=' . urlencode('http://m.mobispot.com/' . $spot->url);
                 if (empty($socUser['category']))
                     $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $socUser['id'] 
-                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
+                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['mobile_client_id']
                                                 . $redirectUrl;
-/*
-                if (isset($socUser['gender']))
-                    $userDetail['gender'] = $socUser['gender'];
-                if (isset($socUser['locale']))
-                    $userDetail['locale'] = $socUser['locale'];
-*/
+
                 $appToken = self::getAppToken();
 
                 //привязан пост
@@ -415,14 +410,7 @@ class FacebookContent extends SocContentBase
             $dateDiff = time() - strtotime($post['created_time']);
             $postContent['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
         }
-/*        
-        if (empty($post['from']['category']))
-        {
-            $postContent['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $post['from']['id'] 
-            . '&app_id=' . Yii::app()->eauth->services['facebook']['client_id']
-            .'&redirect_uri=' . urlencode('http://' . $_SERVER['SERVER_NAME']);
-        }
-*/     
+     
         return $postContent;
     }
     

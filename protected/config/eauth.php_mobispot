@@ -24,6 +24,7 @@ return array(// You can change the providers and their classes.
         'scope' => 'email, user_status, read_stream, user_photos',
         'client_id' => '605375279481505',
         'client_secret' => '4db65a911817eff54a6a94df6f0d7433',
+        'mobile_client_id'=>'205773976269406',
     ),
     'youtube' => array(
         //https://code.google.com/apis/console/
