@@ -602,7 +602,7 @@ class SocInfo extends CFormModel
             Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
         }
 
-        $uncheck = array('html', 'list', 'list2');
+        $uncheck = array('html', 'list', 'list2', 'follow_button');
         foreach($this->userDetail as $socKey => $socValue)
         {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))

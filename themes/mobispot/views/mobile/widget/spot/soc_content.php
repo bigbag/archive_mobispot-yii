@@ -306,7 +306,7 @@
 									and !isset($socContent['tweet_author']) 
 									and empty($socContent['dinamyc']) 
 									and isset($socContent['invite'])
-									and empty($socContent['google_follow_url'])): ?>
+									and empty($socContent['follow_button'])): ?>
 							<a href="<?php 	if (!empty($socContent['follow_url']))
 												echo $socContent['follow_url'];
 											else
@@ -319,10 +319,9 @@
 									</i>
 								<?php endif; ?>
 							</a>
-						<?php elseif(!empty($socContent['google_follow_url'])): ?>
+						<?php elseif(!empty($socContent['follow_button'])): ?>
 							<div class="text-center">
-							<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-							<g:plus height="69" width="170" href="<?php echo $socContent['google_follow_url']; ?>" rel="author"></g:plus>
+							<?php echo $socContent['follow_button']; ?>
 							</div>
 						<?php endif; ?>
 					<?php /* "Move your link" panel *////////////////////////////////////////////////////////////////   ?>

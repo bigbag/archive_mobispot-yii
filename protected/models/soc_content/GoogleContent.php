@@ -33,7 +33,11 @@ class GoogleContent extends SocContentBase
                 $userDetail['first_name'] = $socUser['name']['givenName'];
             if (isset($socUser['name']) && isset($socUser['name']['familyName']))
                 $userDetail['last_name'] = $socUser['name']['familyName'];
-            $userDetail['google_follow_url'] = 'https://plus.google.com/' . $socUser['id']; 
+            $userDetail['follow_button'] = 
+                '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>'
+                .'<g:plus height="69" width="170" href="https://plus.google.com/' . $socUser['id'].'" rel="author"></g:plus>';
+                
+
             /*
               if(isset($socUser['gender']))
               $userDetail['gender'] = $socUser['gender'];
@@ -191,7 +195,7 @@ class GoogleContent extends SocContentBase
         {
             $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-    
+
         return $userDetail;
     }
     
