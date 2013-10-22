@@ -33,6 +33,7 @@ class GoogleContent extends SocContentBase
                 $userDetail['first_name'] = $socUser['name']['givenName'];
             if (isset($socUser['name']) && isset($socUser['name']['familyName']))
                 $userDetail['last_name'] = $socUser['name']['familyName'];
+            $userDetail['google_follow_url'] = 'https://plus.google.com/' . $socUser['id']; 
             /*
               if(isset($socUser['gender']))
               $userDetail['gender'] = $socUser['gender'];

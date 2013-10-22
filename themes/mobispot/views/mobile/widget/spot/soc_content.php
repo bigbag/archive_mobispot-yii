@@ -301,18 +301,30 @@
 							<div class="likes-block"><?php echo $socContent['likes-block']; ?></div>
 						<?php endif; ?>
 					<?php /* Follow button */////////////////////////////////////////////////////////////////////////   ?>
-								<?php if ((!empty($socContent['soc_url']) || !empty($socContent['follow_url'])) and !isset($socContent['tweet_author']) and empty($socContent['dinamyc'])): ?>
-								<a href="<?php 	if (!empty($socContent['follow_url']))
-													echo $socContent['follow_url'];
-												else
-													echo $socContent['soc_url']; ?>"
-								class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
-									<?php if (isset($socContent['inviteClass']) && (strlen($socContent['inviteClass']) > 0)): ?>
-										<i class="i-soc <?php echo $socContent['inviteClass']; ?> round">
-									<?php if (isset($socContent['inviteValue']) && (strlen($socContent['inviteValue']) > 0)) echo $socContent['inviteValue']; ?></i>
+						<?php if ((!empty($socContent['soc_url']) || 
+									!empty($socContent['follow_url'])) 
+									and !isset($socContent['tweet_author']) 
+									and empty($socContent['dinamyc']) 
+									and isset($socContent['invite'])
+									and empty($socContent['google_follow_url'])): ?>
+							<a href="<?php 	if (!empty($socContent['follow_url']))
+												echo $socContent['follow_url'];
+											else
+												echo $socContent['soc_url']; ?>"
+							class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
+								<?php if (isset($socContent['inviteClass']) && (strlen($socContent['inviteClass']) > 0)): ?>
+									<i class="i-soc <?php echo $socContent['inviteClass']; ?> round">
+									<?php if (isset($socContent['inviteValue']) && (strlen($socContent['inviteValue']) > 0)) 
+											echo $socContent['inviteValue']; ?>
+									</i>
 								<?php endif; ?>
-								</a>
-					<?php endif; ?>
+							</a>
+						<?php elseif(!empty($socContent['google_follow_url'])): ?>
+							<div class="text-center">
+							<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+							<g:plus height="69" width="170" href="<?php echo $socContent['google_follow_url']; ?>" rel="author"></g:plus>
+							</div>
+						<?php endif; ?>
 					<?php /* "Move your link" panel *////////////////////////////////////////////////////////////////   ?>
 					<?php if (!empty($socContent['dinamyc'])): ?>
 					<div class="spot-cover slow">
