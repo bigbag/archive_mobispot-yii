@@ -106,7 +106,7 @@ class FacebookContent extends SocContentBase
                                     if ($spot)
                                         $redirectUrl = '&redirect_uri=' . urlencode('http://m.mobispot.com/' . $spot->url);
                                     $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $photoData['from']['id'] 
-                                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['mobile_client_id']
+                                                                . '&app_id=' . Yii::app()->eauth->services['facebook_mobile']['client_id']
                                                                 . $redirectUrl;
                                 }
                             }
@@ -147,7 +147,7 @@ class FacebookContent extends SocContentBase
                     $redirectUrl = '&redirect_uri=' . urlencode('http://m.mobispot.com/' . $spot->url);
                 if (empty($socUser['category']))
                     $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $socUser['id'] 
-                                                . '&app_id=' . Yii::app()->eauth->services['facebook']['mobile_client_id']
+                                                . '&app_id=' . Yii::app()->eauth->services['facebook_mobile']['client_id']
                                                 . $redirectUrl;
 
                 $appToken = self::getAppToken();
