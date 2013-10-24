@@ -44,6 +44,8 @@ class PinterestContent extends SocContentBase
                         if (isset($xml->channel->item[0]->link))
                             $socUser['last_img_href'] = (string)$xml->channel->item[0]->link;
                         $socUser['last_img_story'] = strip_tags($description);
+                        if (strpos($socUser['last_img_story'], $socUser['last_img_msg']) !== false)
+                            unset($socUser['last_img_msg']);
                     }
                     else
                         $socUser['last_status'] = strip_tags($description);
