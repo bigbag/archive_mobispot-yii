@@ -41,6 +41,32 @@ class TumblrContent extends SocContentBase
             $userDetail['photo'] = 'http://api.tumblr.com/v2/blog/'.$socUsername.'/avatar';
             if (!empty($blogInfo['response']['blog']['url']))
                 $userDetail['soc_url'] = $blogInfo['response']['blog']['url'];
+            /*if (self::isLoggegByNet())
+            {
+                Yii::import('ext.eoauth.*');
+                $consumer = new OAuthConsumer(Yii::app()->eauth->services['tumblr']['key'], Yii::app()->eauth->services['tumblr']['secret']);
+                $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
+                $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+                $token = Yii::app()->session['tumblr_token'];
+                $url = 'http://api.tumblr.com/v2/user/following';
+                $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
+                $options = array();
+                $query = null;
+                $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
+                $request->sign_request($signatureMethod, $consumer, $token);
+                
+                $followersRusult = self::makeRequest($request->to_url(), $options, true);
+
+            }*/
+            if (!empty(Yii::app()->session['tumblr_follow_' . $socUsername]))
+            {
+                $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['title'];
+            }
+            else
+            {
+                $userDetail['follow_service'] = 'tumblr';
+                $userDetail['follow_param'] = urlencode($socUsername);
+            }
             
             if (isset($blogInfo['response']['posts']) and isset($blogInfo['response']['posts'][0]) and isset($blogInfo['response']['posts'][0]['type']))
             {
@@ -138,14 +164,16 @@ class TumblrContent extends SocContentBase
         {
             $userDetail['error'] =  Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-        
+ 
         return $userDetail;
     }
     
     public static function isLoggegByNet()
     {
-        $answer = true;
-
+        $answer = false;
+        if (!empty(Yii::app()->session['tumblr_token']))
+            $answer = true;
+    
         return $answer;
     }
 
@@ -169,5 +197,39 @@ class TumblrContent extends SocContentBase
         $username = self::rmGetParam($username);
         
         return $username;
+    }
+    
+    public static function followSocial($blogUrl)
+    {
+        $answer = array();
+        $answer['error'] = 'yes';
+        
+        if (!empty($blogUrl) && !empty(Yii::app()->session['tumblr_token']))
+        {
+            Yii::import('ext.eoauth.*');
+            $consumer = new OAuthConsumer(Yii::app()->eauth->services['tumblr']['key'], Yii::app()->eauth->services['tumblr']['secret']);
+            $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
+            $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+            $token = Yii::app()->session['tumblr_token'];
+            $url = 'http://api.tumblr.com/v2/user/follow';
+            $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
+            $options = array('data'=>'url='.$blogUrl);
+            $query = array('url'=>$blogUrl);
+            $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'POST', $url, $query);
+            $request->sign_request($signatureMethod, $consumer, $token);
+            
+            $followRusult = self::makeRequest($request->to_url(), $options, true);
+            
+            if (isset($followRusult['meta']) && isset($followRusult['meta']['msg']) && $followRusult['meta']['msg'] == 'OK')
+            {
+                $answer['error'] = 'no';
+            
+                $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/' . $blogUrl . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
+                if (isset($blogInfo['response']) && isset($blogInfo['response']['blog']) && !empty($blogInfo['response']['blog']['name']))
+                    $answer['message'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['name'];
+            }
+        }
+
+        return $answer;
     }
 }

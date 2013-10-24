@@ -184,7 +184,8 @@ class SpotController extends MController
                                 {
                                     $socInfo = new SocInfo;
                                     $net = $socInfo->getNetByLink($content['data'][$dataKeys[$i]]['binded_link']);
-                                    $content['data'][$dataKeys[$i]]['invite'] = $net['invite'];
+                                    if (empty($content['data'][$dataKeys[$i]]['invite']))
+                                        $content['data'][$dataKeys[$i]]['invite'] = $net['invite'];
                                     $content['data'][$dataKeys[$i]]['inviteClass'] = $net['inviteClass'];
                                     $content['data'][$dataKeys[$i]]['inviteValue'] = $net['inviteValue'];
                                     $content['data'][$dataKeys[$i]]['netName'] = $net['name'];
@@ -209,6 +210,68 @@ class SpotController extends MController
                     }
                     $baseUrl = "http://" . $baseUrl;
                     $this->redirect($baseUrl);
+                }
+            }
+        }
+        else
+        {
+            $this->setNotFound();
+        }
+    }
+    
+    public function actionFollowSocial()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        
+        if (!empty($data['service']) && !empty($data['param']))
+        {
+            $socInfo = new SocInfo;
+            $answer['LoggedIn'] = false;
+        
+            if ($socInfo->isLoggegOn($data['service'], false))
+            {
+                $answer['LoggedIn'] = true;
+                $followResult = $socInfo->followSocial($data['service'], $data['param']);
+                foreach($followResult as $fKey => $fValue)
+                    $answer[$fKey] = $fValue;
+            }
+        }
+
+        echo json_encode($answer);
+    }
+    
+    public function actionSocLogin()
+    {
+        $service = Yii::app()->request->getQuery('service');
+        $returnUrl = Yii::app()->request->getQuery('return_url');
+
+        if (!empty($service) && !empty($returnUrl))
+        {
+            $authIdentity = Yii::app()->eauth->getIdentity($service);
+            $authIdentity->redirectUrl = $returnUrl;
+            $authIdentity->cancelUrl = $returnUrl;
+
+            if ($authIdentity->authenticate())
+            {
+                $identity = new ServiceUserIdentity($authIdentity);
+
+                if ($identity->authenticate())
+                {
+                    Yii::app()->session[$service] = 'auth';
+                    $followParam = Yii::app()->request->getQuery('follow_param');
+                    if (!empty($followParam))
+                    {
+                        $socInfo = new SocInfo;
+                        $socInfo->followSocial($service, $followParam);
+                    }
+                    Yii::app()->session[$service . '_follow_' . $followParam] = true;
+
+                    $this->redirect('http://' . $returnUrl);
+                }
+                else
+                {
+                    $authIdentity->cancel();
                 }
             }
         }

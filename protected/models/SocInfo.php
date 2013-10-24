@@ -219,7 +219,7 @@ class SocInfo extends CFormModel
         $net['name'] = 'tumblr';
         $net['baseUrl'] = 'tumblr.com';
         $net['title'] = 'tumblr';
-        $net['invite'] = Yii::t('eauth', 'Read more');
+        $net['invite'] = Yii::t('eauth', 'Follow me'); //'Read more');
         $net['inviteClass'] = '';
         $net['inviteValue'] = '';
         $net['note'] = Yii::t('eauth', '');
@@ -243,7 +243,8 @@ class SocInfo extends CFormModel
             $this->socNet = $net['name'];
             $this->socUsername = $this->parceSocUrl($this->socNet, $link);
             $this->getSocInfo($this->socNet, $this->socUsername, $discodesId, $dataKey);
-            $this->userDetail['invite'] = $net['invite'];
+            if (empty($this->userDetail['invite']))
+                $this->userDetail['invite'] = $net['invite'];
             $this->userDetail['inviteClass'] = $net['inviteClass'];
             $this->userDetail['inviteValue'] = $net['inviteValue'];
             $this->userDetail['netName'] = $this->socNet;
@@ -336,12 +337,12 @@ class SocInfo extends CFormModel
         return $answer;
     }
     
-    public function isLoggegOn($netName)
+    public function isLoggegOn($netName, $checkNeed = true)
     {
         $answer = false;
         
         $net = $this->getNetByName($netName);
-        if ($net['needAuth'] == false)
+        if ($checkNeed && $net['needAuth'] == false)
         {
             $answer = true;
         }
@@ -745,6 +746,7 @@ class SocInfo extends CFormModel
         curl_setopt($ch, CURLOPT_URL, $url);
 ////////
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        
         return $ch;
     }
 
@@ -756,6 +758,7 @@ class SocInfo extends CFormModel
             if (is_object($value))
                 $array[$key] = $this->xmlToArray($value);
         }
+        
         return $array;
     }
 
@@ -767,19 +770,36 @@ class SocInfo extends CFormModel
         {
             $out .= '%u' . bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
         }
+        
         return $out;
     }
 
-    public function contentNeedSave($link){
+    public function contentNeedSave($link)
+    {
         $answer = false;
-
         $net = $this->getNetByLink($link);
+
         if (isset($net['contentClass']) && strlen($net['contentClass']))
         {
             $class = $net['contentClass'];
             $answer = $class::contentNeedSave($link);
         }
+        
         return $answer;
     }
 
+    public function followSocial($netName, $param)
+    {
+        $answer = false;
+        $net = $this->getNetByName($netName);
+
+        if (isset($net['contentClass']) && strlen($net['contentClass']) /*&& $this->isLoggegOn($netName, false)*/)
+        {
+            $class = $net['contentClass'];
+            $answer = $class::followSocial($param);
+        }
+        
+        return $answer;
+    }
+    
 }

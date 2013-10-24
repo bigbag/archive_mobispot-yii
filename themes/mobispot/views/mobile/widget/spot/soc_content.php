@@ -307,10 +307,15 @@
 									and empty($socContent['dinamyc']) 
 									and isset($socContent['invite'])
 									and empty($socContent['follow_button'])): ?>
-							<a href="<?php 	if (!empty($socContent['follow_url']))
+							<a href="<?php 	if (!empty($socContent['follow_url']) && empty($socContent['follow_service']))
 												echo $socContent['follow_url'];
-											else
+											elseif (empty($socContent['follow_service']))
 												echo $socContent['soc_url']; ?>"
+							<?php if (!empty($socContent['follow_service']) && !empty($socContent['follow_param'])): ?>
+								ng-click="followSocial(	'<?php echo $socContent['follow_service'] ?>'
+														,'<?php echo $socContent['follow_param'] ?>'
+														,'block-<?php echo $dataKey;?>')"
+							<?php endif; ?>
 							class="spot-button soc-link" ><?php echo $socContent['invite']; ?>
 								<?php if (isset($socContent['inviteClass']) && (strlen($socContent['inviteClass']) > 0)): ?>
 									<i class="i-soc <?php echo $socContent['inviteClass']; ?> round">
@@ -319,7 +324,7 @@
 									</i>
 								<?php endif; ?>
 							</a>
-						<?php elseif(!empty($socContent['follow_button'])): ?>
+						<?php elseif(!empty($socContent['follow_button']) and empty($socContent['dinamyc'])): ?>
 							<div class="text-center">
 							<?php echo $socContent['follow_button']; ?>
 							</div>
