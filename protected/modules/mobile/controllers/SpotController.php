@@ -184,7 +184,11 @@ class SpotController extends MController
                                 {
                                     $socInfo = new SocInfo;
                                     $net = $socInfo->getNetByLink($content['data'][$dataKeys[$i]]['binded_link']);
-                                    if (empty($content['data'][$dataKeys[$i]]['invite']))
+                                    if (!empty($content['data'][$dataKeys[$i]]['check_following']) 
+                                        && !empty(Yii::app()->session[$content['data'][$dataKeys[$i]]['check_following']]) 
+                                        && !empty($content['data'][$dataKeys[$i]]['message_following']))
+                                        $content['data'][$dataKeys[$i]]['invite'] = $content['data'][$dataKeys[$i]]['message_following'];
+                                    else
                                         $content['data'][$dataKeys[$i]]['invite'] = $net['invite'];
                                     $content['data'][$dataKeys[$i]]['inviteClass'] = $net['inviteClass'];
                                     $content['data'][$dataKeys[$i]]['inviteValue'] = $net['inviteValue'];

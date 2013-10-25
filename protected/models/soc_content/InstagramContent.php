@@ -34,6 +34,7 @@ class InstagramContent extends SocContentBase
     {
         $userDetail = array();
         unset($post);
+        $needSave = self::contentNeedSave($link);
         
         if (strpos($link, 'instagram.com') !== false && (strpos($link, '/p/') !== false) && strlen($link) > (strpos($link, '/p/') + strlen('/p/')))
         {
@@ -89,17 +90,21 @@ class InstagramContent extends SocContentBase
                 $userDetail['soc_username'] = $post['user']['full_name'];
             elseif (!empty($post['user']['username']))
                 $userDetail['soc_username'] = $post['user']['username'];
-            if (!empty(Yii::app()->session['instagram_mobile_follow_' . $post['user']['id']]))
+            if (!empty(Yii::app()->session['instagram_mobile_follow_' . $post['user']['id']]) && !$needSave)
             {
                 $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
             }
             else
             {
-                $userDetail['follow_service'] = 'tumblr';
+                $userDetail['follow_service'] = 'instagram_mobile';
                 $userDetail['follow_param'] = $post['user']['id'];
             }
-            $userDetail['follow_service'] = 'instagram_mobile';
-            $userDetail['follow_param'] = $post['user']['id'];
+            
+            if ($needSave)
+            {
+                $userDetail['check_following'] = 'instagram_mobile_follow_' . $post['user']['id'];
+                $userDetail['message_following'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
+            }
             
             if (isset($post['location']) && !empty($post['location']['name']))
                 $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $post['location']['name'];
@@ -134,7 +139,7 @@ class InstagramContent extends SocContentBase
                 $userDetail['likes-block'] .= ' '.Yii::t('eauth', 'like this') . '.';
             }
             
-            if (self::contentNeedSave($link))
+            if ($needSave)
             {
                 if (!empty($userDetail['last_img']))
                 {

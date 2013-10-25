@@ -19,6 +19,7 @@ class TumblrContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $needSave = self::contentNeedSave($link);
         $socUsername = self::parseUsername($link);
         
         $url = 'http://api.tumblr.com/v2/blog/'.$socUsername.'/posts?api_key='.Yii::app()->eauth->services['tumblr']['key'].'&limit=1';
@@ -58,7 +59,7 @@ class TumblrContent extends SocContentBase
                 $followersRusult = self::makeRequest($request->to_url(), $options, true);
 
             }*/
-            if (!empty(Yii::app()->session['tumblr_follow_' . $socUsername]))
+            if (!empty(Yii::app()->session['tumblr_follow_' . $socUsername]) && !$needSave)
             {
                 $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['title'];
             }
@@ -66,6 +67,12 @@ class TumblrContent extends SocContentBase
             {
                 $userDetail['follow_service'] = 'tumblr';
                 $userDetail['follow_param'] = urlencode($socUsername);
+            }
+            
+            if ($needSave)
+            {
+                $userDetail['check_following'] = 'tumblr_follow_' . $socUsername;
+                $userDetail['message_following'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['title'];
             }
             
             if (isset($blogInfo['response']['posts']) and isset($blogInfo['response']['posts'][0]) and isset($blogInfo['response']['posts'][0]['type']))
@@ -148,7 +155,7 @@ class TumblrContent extends SocContentBase
                     $userDetail['last_status'] = print_r($lastPost, true);
                 }
                 
-                if (self::contentNeedSave($link))
+                if ($needSave)
                 {
                     if (!empty($userDetail['last_img']))
                     {
