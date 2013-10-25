@@ -235,6 +235,8 @@ class SpotController extends MController
                 $followResult = $socInfo->followSocial($data['service'], $data['param']);
                 foreach($followResult as $fKey => $fValue)
                     $answer[$fKey] = $fValue;
+                if (isset($answer['error']) && 'no' == $answer['error'])
+                    Yii::app()->session[$data['service'] . '_follow_' . $data['param']] = true;
             }
         }
 
@@ -245,6 +247,8 @@ class SpotController extends MController
     {
         $service = Yii::app()->request->getQuery('service');
         $returnUrl = Yii::app()->request->getQuery('return_url');
+        if (empty($returnUrl) && !empty(Yii::app()->session['returnUrl']))
+            $returnUrl = Yii::app()->session['returnUrl'];
 
         if (!empty($service) && !empty($returnUrl))
         {
@@ -259,14 +263,24 @@ class SpotController extends MController
                 if ($identity->authenticate())
                 {
                     Yii::app()->session[$service] = 'auth';
-                    $followParam = Yii::app()->request->getQuery('follow_param');
+                    if (strpos($returnUrl, '&follow_param=') !== false)
+                    {
+                        $followParam = substr($returnUrl, strpos($returnUrl, '&follow_param=') + strlen('&follow_param='));
+                        if (strpos($followParam, '&') !== false)
+                            $followParam = substr($followParam, 0, strpos($followParam, '&'));
+                        $returnUrl = substr($returnUrl, 0, strpos($returnUrl, '&follow_param='));
+                    }
+                    else
+                        $followParam = Yii::app()->request->getQuery('follow_param');
                     if (!empty($followParam))
                     {
                         $socInfo = new SocInfo;
-                        $socInfo->followSocial($service, $followParam);
+                        $followResult = $socInfo->followSocial($service, $followParam);
+                        if (isset($followResult['error']) && 'no' == $followResult['error'])
+                            Yii::app()->session[$service . '_follow_' . $followParam] = true;
                     }
-                    Yii::app()->session[$service . '_follow_' . $followParam] = true;
-
+                    unset(Yii::app()->session['returnUrl']);
+                    
                     $this->redirect('http://' . $returnUrl);
                 }
                 else

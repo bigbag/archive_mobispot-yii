@@ -60,6 +60,7 @@ class InstagramContent extends SocContentBase
             $socUser = self::makeRequest('https://api.instagram.com/v1/users/search?q=' . $socUsername . '&count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
             if (!is_string($socUser) && isset($socUser['data']) && isset($socUser['data'][0]))
             {
+
                 $socUser = $socUser['data'][0];
                 if (!empty($socUser['username']))
                     $userDetail['soc_url'] = 'http://instagram.com/' . $socUser['username'];
@@ -88,6 +89,18 @@ class InstagramContent extends SocContentBase
                 $userDetail['soc_username'] = $post['user']['full_name'];
             elseif (!empty($post['user']['username']))
                 $userDetail['soc_username'] = $post['user']['username'];
+            if (!empty(Yii::app()->session['instagram_mobile_follow_' . $post['user']['id']]))
+            {
+                $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
+            }
+            else
+            {
+                $userDetail['follow_service'] = 'tumblr';
+                $userDetail['follow_param'] = urlencode($socUsername);
+            }
+            $userDetail['follow_service'] = 'instagram_mobile';
+            $userDetail['follow_param'] = $post['user']['id'];
+            
             if (isset($post['location']) && !empty($post['location']['name']))
                 $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $post['location']['name'];
             if (!empty($post['created_time']))
@@ -148,8 +161,39 @@ class InstagramContent extends SocContentBase
     public static function isLoggegByNet()
     {
         $answer = false;
-        if (!empty(Yii::app()->session['instagram_id']))
+        if (!empty(Yii::app()->session['instagram_token']))
             $answer = true;
+        
+        return $answer;
+    }
+    
+    public static function followSocial($idUser)
+    {
+        $answer = array();
+        $answer['error'] = 'yes';
+        if (!empty($idUser) && !empty(Yii::app()->session['instagram_token']))
+        {
+
+            $followResult = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser 
+                                                . '/relationship?access_token='.Yii::app()->session['instagram_token']
+                                                .'&action=follow'
+                                                ,array('data'=>'access_token='.Yii::app()->session['instagram_token'].'&action=follow'));
+                                                
+            if (isset($followResult['data']) && isset($followResult['data']['outgoing_status']))
+            {
+                $answer['error'] = 'no';
+                $user = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser . '/?access_token='.Yii::app()->session['instagram_token']);
+                if (isset($user['data']))
+                {    
+                    $userName ='';
+                    if (!empty($user['data']['full_name']))
+                        $userName = $user['data']['full_name'];
+                    elseif (!empty($user['data']['username']))
+                        $userName = $user['data']['username'];
+                    $answer['message'] = Yii::t('eauth', 'You\'re following ') . $userName;
+                }
+            }
+        }
         
         return $answer;
     }

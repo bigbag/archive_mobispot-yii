@@ -261,6 +261,7 @@ class SocInfo extends CFormModel
 
     public function getNetByName($name)
     {
+        $name = $this->mergeMobile($name);
         $answer = array();
         foreach ($this->socNetworks as $net)
         {
@@ -802,4 +803,10 @@ class SocInfo extends CFormModel
         return $answer;
     }
     
+    public function mergeMobile($netName)
+    {
+        if (strpos($netName, '_mobile') !== false)
+            $netName = substr($netName, 0, (strpos($netName, '_mobile')));
+        return $netName;
+    }
 }
