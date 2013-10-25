@@ -96,7 +96,7 @@ class InstagramContent extends SocContentBase
             else
             {
                 $userDetail['follow_service'] = 'tumblr';
-                $userDetail['follow_param'] = urlencode($socUsername);
+                $userDetail['follow_param'] = $post['user']['id'];
             }
             $userDetail['follow_service'] = 'instagram_mobile';
             $userDetail['follow_param'] = $post['user']['id'];
