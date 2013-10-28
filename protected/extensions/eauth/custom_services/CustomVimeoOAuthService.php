@@ -14,7 +14,7 @@ class CustomVimeoOAuthService extends EOAuthService {
   protected $secret = '';
   protected $providerOptions = array(
     'request' => 'https://vimeo.com/oauth/request_token',
-    'authorize' => 'https://vimeo.com/oauth/authorize',
+    'authorize' => 'https://vimeo.com/oauth/authorize?permission=write',
     'access' => 'https://vimeo.com/oauth/access_token',
   );
 /*	
@@ -27,6 +27,7 @@ class CustomVimeoOAuthService extends EOAuthService {
   protected function fetchAttributes() {
     Yii::import('ext.vimeo.phpVimeo');
     $token = $this->getAccessToken();
+	Yii::app()->session['vimeo_token'] = $token;
 		//oauth_token=17190f3e0c93c7a7a2f7c23f1ee4e686&oauth_token_secret=0a0a6f4646e22c3ebb347f0a51aa9d20bf9b8786
 		//$info = $this->makeSignedRequest('http://vimeo.com/api/rest/v2?method=vimeo.people.getInfo?user_id=16398847', array(), false);
 		

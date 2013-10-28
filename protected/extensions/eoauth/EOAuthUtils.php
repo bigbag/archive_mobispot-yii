@@ -66,7 +66,11 @@ class EOAuthUtils extends EOAuthComponent
      */
     public static function GetAuthorizationUrl(OAuthToken $token, $endpoint)
     {
-        return $endpoint . "?oauth_token=" . $token->key;
+        $url = $endpoint . "?oauth_token=" . $token->key;
+        if (strpos($endpoint, '?') !== false)
+            $url = $endpoint . "&oauth_token=" . $token->key;
+
+        return $url;
     }
 
     /**

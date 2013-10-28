@@ -101,7 +101,7 @@ class SocInfo extends CFormModel
         $net['name'] = 'vimeo';
         $net['baseUrl'] = 'vimeo.com';
         $net['title'] = 'Vimeo';
-        $net['invite'] = Yii::t('eauth', 'Watch more');
+        $net['invite'] = Yii::t('eauth', 'Follow me'); //Yii::t('eauth', 'Watch more');
         $net['inviteClass'] = '';//'i-soc_vo';
         $net['inviteValue'] = '';//'&#xe003;';
         $net['note'] = Yii::t('eauth', '');
