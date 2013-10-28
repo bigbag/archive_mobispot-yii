@@ -24,9 +24,10 @@
                 <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
                 <li><a href="/help"><?php echo Yii::t('footer', 'Get help') ?></a></li>
                 <!-- <li><a href="http://store.mobispot.com"><?php echo Yii::t('footer', 'Store') ?></a></li>
-                --> <li><a href="/pages/referrals"><?php echo Yii::t('footer', 'Referrals') ?></a></li>
+                --> 
+                <!-- <li><a href="/pages/referrals"><?php echo Yii::t('footer', 'Referrals') ?></a></li>
                 <li><a href="/pages/api"><?php echo Yii::t('footer', 'API') ?></a></li>
-               <!--  <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog') ?></a></li>
+                --><!--  <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog') ?></a></li>
                 --></ul>
             <div class="left soc-link">
                 <a href="http://www.facebook.com/heyMobispot">&#xe000;</a>
