@@ -183,7 +183,7 @@ class MController extends Controller
     public function hrefActivate($text)
     {
         return preg_replace_callback(
-                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::hrefCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?([^\]\s]*)?}xis', 'MController::hrefCallback', $text
         );
     }
 
@@ -197,7 +197,7 @@ class MController extends Controller
     public function urlActivate($text)
     {
         return preg_replace_callback(
-                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?(\.[a-z]*)?}xis', 'MController::urlCallback', $text
+                '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?([^\]\s]*)?}xis', 'MController::urlCallback', $text
         );
     }
 

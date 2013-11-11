@@ -201,3 +201,57 @@ a.blackout{
 #resetPassButton {
     margin-left: 15px;
 }
+.error-message{
+	background: url("../images/icons/i-error.2x.png") no-repeat;
+	width: 590px;
+	background-size: 100%;
+	height: 434px;
+	margin: -30px 0 0;
+	float: right;
+}
+.error-text-block{
+	height: 294px;
+	display: table-cell;
+	vertical-align: middle;
+	color: #fff;
+	white-space: nowrap;
+}
+.error-text-block h1{
+	color: #fff;
+	font-size: 70px;
+	margin: 7px;
+	line-height: 68px;
+	text-align: center;
+	width: 294px;
+	float: left;
+}
+.error-text-block p{
+	font-size: 18px;
+}
+.error-code{
+	color: #A7A7A7;
+	font-size: 88px;
+	display: block;
+	float: left;
+	width: 190px;
+	text-align: center;
+	font-weight: 700;
+	line-height: 82px;
+}
+.p-error-txt{
+	padding-bottom: 3em;
+	font-size: 16px;
+	font-family: arial;
+	font-weight: 100;
+	color: #0A0A0A;
+	line-height: 22px;
+}
+.p-error-txt a{
+	color: #0061FF;
+	text-decoration: underline;
+	font-size: 14px;
+}
+.error-box{
+	overflow: hidden;
+	margin-top: 8.5em;
+}
