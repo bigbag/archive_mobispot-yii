@@ -1388,6 +1388,7 @@ img[height='115']{
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	behavior:  url(file:///E:/PIE.htc);
+
 }
 #chooseID{
 	display: none;
@@ -1575,6 +1576,9 @@ span.payment-rules{
 	right: 0;
 	bottom: 5px;
 	cursor: help;
+}
+span.payment-rules:hover{
+	color: #0063ff !important;
 }
 .m-auto-payment.active .m-agreement{
 	display: none;
@@ -2333,6 +2337,7 @@ h3 + .small-txt{
 }
 .footer-page h3{
 	font-size: 30px;
+	margin-bottom: 25px;
 }
 .footer-page p{
 	font-size: 14px;
@@ -2513,4 +2518,122 @@ h3 + .small-txt{
 }
 .thumbnail img{
 	width: 154px;
+}
+
+.image-block {
+	display: inline-block;
+	position: absolute;
+	right: 2em;
+}
+.footer-page span.payment-rules {
+	color: #000;
+	border-bottom: 0px;
+	cursor: pointer;
+	display: block;
+	position: static;
+}
+.form__reg input + .right-input{
+	width: 47%;
+}
+.form__reg .left-input{
+	float: left;
+	width: 52.4%;
+	margin-right: 0.6%;
+}
+.form__reg .go-button.big{
+	margin: 30px 0 0;
+}
+form .row .row.margen_0{
+	margin: 0 !important;
+}
+.row form.fullpage .row .columns{
+	padding: 0 9px;
+}
+.form-description div{
+	background: #E9EDF2;
+	padding:8px 20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	line-height: 19px;
+	color: #504949;
+	font-size: 13px;
+	position: relative;
+	display: inline-block;
+}
+.form-description:after{
+	display: block;
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 10px solid transparent;
+	border-right: 14px solid  #E9EDF2;
+	border-bottom: 10px solid transparent;
+	top:7px;
+	left: -10px;
+
+}
+.fotter-logo img{
+	height: 37px;
+	margin: 0 10px;
+}
+.fotter-logo{
+	clear: both;
+	background: #FFF;
+	padding: 15px 10px;
+	border-radius: 5px;
+	margin: 0 15px;
+}
+.input-description{
+	position: relative;
+}
+.input-description .form-description{
+	position: absolute;
+	width: 488px;
+	right: -510px;
+	opacity: 0;
+	top:0;
+}
+.input-description:hover .form-description{
+	opacity: 1;
+	-webkit-transition: all 400ms ease-out;
+	-moz-transition: all 400ms ease-out;
+	-o-transition: all 400ms ease-out;
+	transition: all 400ms ease-out;
+}
+.form__reg textarea{
+	padding: 11px 20px;
+}
+.m-products{
+	clear: both;
+	overflow: hidden;
+	text-align: center;
+	margin: 40px 0;
+}
+.m-products img{
+	height: 300px;
+	margin: 30px 15px;
+}
+.products-block{
+	margin: 16px 0 70px !important;
+}
+.description-img {
+	float: left;
+	width: 103px;
+	text-align: center;
+	position: absolute;
+	left: 20px;
+}
+.spots-description .columns {
+	padding-left: 150px !important;
+	margin-top: 25px;
+}
+
+.input-des{
+	font-size: 13px;
+	color: #616161;
+}
+.products-block h5{
+	font-size: 18px;
 }

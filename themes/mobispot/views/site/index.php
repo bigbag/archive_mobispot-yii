@@ -1,7 +1,7 @@
 <?php
 $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
 ?>
-<div class="row">
+<!-- <div class="row">
     <div class="twelve columns textSlider-box">
         <div id="textSlider">
             <div data-caption="#captionOne">
@@ -15,22 +15,54 @@ $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
             </div>
         </div>
     </div>
+</div> -->
+<div class="row products-block">
+    <h5>
+        A new generation of wearable NFC devices is about to arrive.<br>
+        Please meet "spots"!
+    </h5>
+    <div class="m-products row">
+        <div class="four columns">
+            <img src="/themes/mobispot/images/general/brace_black.png">
+        </div>
+        <div class="four columns">
+            <img src="/themes/mobispot/images/general/key_green.png">
+        </div>
+        <div class="four columns">
+            <img src="/themes/mobispot/images/general/card_blue.png">
+        </div>
+    </div>
+
+
+    <div class="columns three">
+        <input placeholder="email" type="email">
+    </div>
+    <div class="columns one">
+        <a class="spot-button">Send</a>
+    </div>
+    <p class="columns four input-des">We will give you a brief letter when they are ready to be shown (we don't spam). </p>
+    <i></i>
 </div>
 <!-- Three-up Content Blocks -->
-
 <div class="row spots-description">
-    <div class="four columns">
-        <img src="/themes/mobispot/images/icons/i-cloud.2x.png"  height="115"/>
+    <div class="twelve columns">
+        <div class="description-img">
+            <img src="/themes/mobispot/images/icons/i-cloud.2x.png" height="115">
+        </div>
         <h3 class="color"><?php echo Yii::t('general', 'Personal spot') ?></h3>
         <p><?php echo Yii::t('general', 'personal block desc') ?></p>
     </div>
-    <div class="four columns">
-        <img src="/themes/mobispot/images/icons/i-spot.2x.png"  height="115"/>
+    <div class="twelve columns">
+        <div class="description-img">
+            <img src="/themes/mobispot/images/icons/i-spot.2x.png" height="115">
+        </div>
         <h3 class="color"><?php echo Yii::t('general', 'Digital wallet') ?></h3>
         <p><?php echo Yii::t('general', 'wallet block desc') ?></p>
     </div>
-    <div class="four columns">
-        <img src="/themes/mobispot/images/icons/i-person.2x.png"  height="115"/>
+    <div class="twelve columns">
+        <div class="description-img">
+            <img src="/themes/mobispot/images/icons/i-person.2x.png" height="115">
+        </div>
         <h3 class="color"><?php echo Yii::t('general', 'Easy ID') ?></h3>
         <p><?php echo Yii::t('general', 'easy id block desc') ?></p>
     </div>

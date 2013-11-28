@@ -29,15 +29,16 @@ footer-page h3{
 	color: #0162ff;
 }
 .footer-page p{
-	margin: 81px 0 10px;
+	margin: 81px 0 27px;
 	clear: both;
 }
 .footer-page .soc-link{
-	line-height: 1.6;
+	line-height: 5.5;
 	font-size: 14px;
 	margin-bottom: 0;
-	height: 0;
+
 	margin-top: -21px;
+
 }
 .footer-page .soc-link label{
 	display: inline;
@@ -66,6 +67,6 @@ footer-page h3{
 .footer-page .lang-dropdown{
 	display: inline-block;
 	position: absolute;
-	top: 60px;
+	top: 70px;
 	right: 2em;
 }

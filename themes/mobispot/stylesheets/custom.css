@@ -469,7 +469,7 @@ ul.inline-list > li, ul.link-list > li{
 	margin-left: 0;
 }
 ul.inline-list, ul.link-list{
-	margin: 0 0 26px;
+	margin: 10px 0 26px;
 }
 .orbit-wrapper{
 	overflow: hidden;

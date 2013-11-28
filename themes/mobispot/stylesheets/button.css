@@ -309,6 +309,9 @@
 	margin-right: 0;
 	background: #E9EDF2;
 }
+.footer-page .dropdown .options li{
+	background: #fff;
+}
 .dropdown .options a{
 	color: #000;
 	display: block;
@@ -431,6 +434,13 @@ footer .button:hover + .active,
 	width: 94px;
 	line-height: 96px;
 	font-size: 23px;
+}
+.go-button.big{
+	height: 180px;
+	width: 180px;
+	line-height: 180px;
+	font-size: 23px;
+	font-weight: 100;
 }
 .checkbox{
 	display: inline-block;
