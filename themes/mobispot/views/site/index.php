@@ -35,12 +35,12 @@ $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
 
 
     <div class="columns three">
-        <input placeholder="email" type="email">
+        <input placeholder="Your email" type="email">
     </div>
     <div class="columns one">
-        <a class="spot-button">Send</a>
+        <a class="spot-button"><?php echo Yii::t('general', 'Send')?></a>
     </div>
-    <p class="columns four input-des">We will give you a brief letter when they are ready to be shown (we don't spam). </p>
+    <p class="columns four input-des"><?php echo Yii::t('general', 'We will give you a brief letter when they are ready to be shipped (we don`t spam).')?> </p>
     <i></i>
 </div>
 <!-- Three-up Content Blocks -->
