@@ -218,7 +218,7 @@
                                     <td>
                                         <a  
                                             class="radio-link"
-                                            ng-click="setDelivery({{delivery.id}})">
+                                            ng-click="setDelivery(delivery.id)">
                                             <i class="large"></i>{{delivery.name}}
                                         </a>
                                     </td>
@@ -247,7 +247,7 @@
                             <li ng-repeat="payment in payments">
                                 <a   
                                     class="radio-link"
-                                    ng-click="setPayment({{payment.id}})">
+                                    ng-click="setPayment(payment.id)">
                                     <i class="large"></i>
                                     {{payment.caption}}
                                 </a>
