@@ -1,4 +1,4 @@
-<div id="signInForm" ng-controller="UserCtrl" class="slide-box">
+<div id="signInForm" ng-controller="UserController" class="slide-box">
     <div  class="row">
         <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('user', 'Sign in'); ?></h3>
@@ -13,8 +13,7 @@
                     type="email"
                     ng-model="user.email"
                     placeholder="<?php echo Yii::t('user', 'Email address'); ?>"
-                    ui-keypress="{enter: 'login(user, signForm.$valid)'}"
-                    autocomplete="off"
+                    ng-keypress="($event.keyCode == 13)?login(user, signForm.$valid):''"
                     maxlength="300"
                     required >
                 <input
@@ -22,8 +21,7 @@
                     type="password"
                     ng-model="user.password"
                     placeholder="<?php echo Yii::t('user', 'Password'); ?>"
-                    ui-keypress="{enter: 'login(user, signForm.$valid)'}"
-                    autocomplete="off"
+                    ng-keypress="($event.keyCode == 13)?login(user, signForm.$valid):''"
                     maxlength="300"
                     required >
                 <a id="recPass" href="javascripts:;" class="form-link toggle-box">

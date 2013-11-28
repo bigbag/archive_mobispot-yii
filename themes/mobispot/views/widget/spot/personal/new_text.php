@@ -8,7 +8,8 @@
                 <span class="link"><?php echo CHtml::encode($content); ?></span>
             </a>
         </div>
-        <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">
+        <div class="spot-cover slow" 
+            ng-dblclick="{editContent(spot, <?php echo $key; ?>, $event)}">
             <div class="spot-activity">
                 <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
                 <?php if (!empty($net['name'])): ?>
@@ -28,7 +29,8 @@
 <?php else: ?>
 <div id="block-<?php echo $key;?>" class="spot-item item-area">
     <p class="item-type__text"><?php echo CHtml::encode($content)?></p>
-    <div class="spot-cover slow" ui-event="{dblclick : 'editContent(spot, <?php echo $key; ?>, $event)'}">
+    <div class="spot-cover slow" 
+        ng-dblclick="editContent(spot, <?php echo $key; ?>, $event)">
         <div class="spot-activity">
             <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
             <?php if (!empty($net['name'])): ?>

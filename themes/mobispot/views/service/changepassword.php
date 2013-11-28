@@ -1,7 +1,7 @@
 <?php
 #$this->pageTitle=Yii::t('user', 'Мобиспот. Восстановление пароля');
 ?>
-<div id="changePassForm" class="row header-page recovery m-content-form" ng-controller="UserCtrl" >
+<div id="changePassForm" class="row header-page recovery m-content-form" ng-controller="UserController" >
     <div class="five columns centered">
         <h3><?php echo Yii::t('user', 'Password recovery') ?></h3>
         <form id="change-pass" name="changeForm" ng-init="user.email='<?php echo $email; ?>'; user.activkey='<?php echo $activkey; ?>'">

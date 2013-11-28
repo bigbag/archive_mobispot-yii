@@ -75,7 +75,7 @@
 <div id="spot-edit" class="spot-item hide spot-main-input">
     <textarea
         rows="2" cols="2"
-        ui-keypress="{enter: 'saveContent(spot, $event)'}"
+        ng-keypress="($event.keyCode == 13)?saveContent(spot, $event):''"
         ng-model="spot.content_new"
         ui-event="{ blur : 'hideSpotEdit()' }">
     </textarea>

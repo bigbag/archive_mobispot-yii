@@ -1,4 +1,4 @@
-<div ng-controller="HelpCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
+<div ng-controller="HelpController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
     <div class="row">
         <div class="six columns">
             <h4 class="color"><?php echo Yii::t('help', 'Have a question? Need a hand?<br /> Anything bugging you?<br /> Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.'); ?></h4>

@@ -30,7 +30,7 @@
                     <?php endif; ?>
                     <?php if (isset(Yii::app()->controller->module) 
                         && (Yii::app()->controller->module->id == 'store')): ?>
-                        <li ng-controller="UserCtrl" 
+                        <li ng-controller="UserController" 
                             ng-init="initTimer(<?php echo $timer; ?>)"
                             ng-show="itemsInCart > 0">
                             <a href="/store/product/cart">

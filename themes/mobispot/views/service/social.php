@@ -1,7 +1,7 @@
 <?php
 #$this->pageTitle=$title;
 ?>
-<div id="socialForm" class="row header-page recovery m-content-form"  ng-controller="UserCtrl" >
+<div id="socialForm" class="row header-page recovery m-content-form"  ng-controller="UserController" >
     <div class="twelve columns">
         <div  class="row">
             <div class="seven columns centered">

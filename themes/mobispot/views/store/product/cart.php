@@ -1,4 +1,4 @@
-<div ng-controller="CartCtrl" ng-init="CartInit()">
+<div ng-controller="CartController" ng-init="CartInit()">
     <table class="twelve store-items store-items__bag">
         <tbody>
             <tr>

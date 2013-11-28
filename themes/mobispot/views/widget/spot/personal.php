@@ -12,7 +12,11 @@
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status; ?>'">
     <div class="spot-content_row">
         <div id="dropbox" class="spot-item spot-main-input">
-            <textarea ng-model="spot.content" ng-init="getSocPatterns()" ng-change="changeContent()" ui-keypress="{enter: 'addContent(spot)'}">
+            <textarea 
+                ng-model="spot.content" 
+                ng-init="getSocPatterns()" 
+                ng-change="changeContent()"
+                ng-keypress="($event.keyCode == 13)?addContent(spot):''" >
 
             </textarea>
             <div class="text-center label-cover">

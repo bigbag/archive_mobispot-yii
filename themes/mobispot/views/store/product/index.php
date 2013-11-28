@@ -1,5 +1,5 @@
 <div class="m-content-block store-content" 
-    ng-controller="ProductCtrl" 
+    ng-controller="ProductController" 
     ng-init="StoreInit()">
     <table class="twelve store-items">
         <tbody>

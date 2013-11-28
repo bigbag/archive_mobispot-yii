@@ -1,30 +1,7 @@
 'use strict';
 
-function $id(id) {
-  return document.getElementById(id);
-}
-
-function SpotCtrl($scope, $http, $compile, $timeout) {
-
-  var resultModal = angular.element('.m-result');
-  var resultContent = resultModal.find('p');
-
-
-  $scope.setModal = function(content, type){
-    if (content != '0'){
-      resultModal.removeClass('m-negative');
-      if (type == 'error') {
-          resultModal.addClass('m-negative');
-      }
-      resultModal.show();
-      resultContent.text(content);
-      if($('html').hasClass('no-opacity')){
-        setTimeout(function(){resultModal.hide}, 5000);
-      } else {
-        resultModal.fadeOut(5000);
-      }
-    } 
-  };
+angular.module('mobispot').controller('SpotController', 
+  function($scope, $http, $compile, $timeout, contentService) {
 
   $scope.maxSize = 25*1024*1024;
   $scope.progress = 0;
@@ -200,8 +177,8 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
 
           $scope.spot.content='';
 
-          var file_drag = $id('dropbox');
-          var file_button = $id('add-file');
+          var file_drag = document.getElementById('dropbox');
+          var file_button = document.getElementById('add-file');
           if (file_drag && file_button) {
             var xhr = new XMLHttpRequest();
             if (xhr.upload) {
@@ -672,7 +649,7 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
           }
         }
         else if(data.linkCorrect != 'ok'){
-            $scope.setModal(data.linkCorrect, 'none');
+            contentService.setModal(data.linkCorrect, 'none');
         }
       }
       else {
@@ -1008,4 +985,4 @@ function SpotCtrl($scope, $http, $compile, $timeout) {
       scrollTop: $(defSelector).offset().top
     }, 200);
   };
-}
+});

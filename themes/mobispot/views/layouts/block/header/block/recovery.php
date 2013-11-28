@@ -1,4 +1,4 @@
-<div id="recPassForm" class="slide-box"  ng-controller="UserCtrl">
+<div id="recPassForm" class="slide-box"  ng-controller="UserController">
     <div class="row">
         <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('user', 'Forgot password?') ?></h3>
@@ -13,7 +13,7 @@
                     type="email"
                     ng-model="recovery.email"
                     placeholder="<?php echo Yii::t('user', 'E-mail') ?>"
-                    ui-keypress="{enter: 'recovery(recovery, recoveryForm.$valid)'}"
+                    ng-keypress="($event.keyCode == 13)?recovery(recovery, recoveryForm.$valid):''"
                     autocomplete="off"
                     maxlength="300"
                     required >

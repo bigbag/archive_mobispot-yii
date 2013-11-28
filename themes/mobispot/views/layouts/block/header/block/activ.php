@@ -1,4 +1,4 @@
-<div id="actSpotForm" ng-controller="UserCtrl" class="slide-box">
+<div id="actSpotForm" ng-controller="UserController" class="slide-box">
     <div class="row">
         <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('activate', 'Start using your spot right now'); ?></h3>

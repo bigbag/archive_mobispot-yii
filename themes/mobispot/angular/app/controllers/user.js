@@ -1,28 +1,7 @@
 'use strict';
 
-function $id(id) {
-  return document.getElementById(id);
-}
-
-function UserCtrl($scope, $http, $compile, $timeout) {
-  var resultModal = angular.element('.m-result');
-  var resultContent = resultModal.find('p');
-
-  $scope.setModal = function(content, type){
-    if (content != '0'){
-      resultModal.removeClass('m-negative');
-      if (type == 'error') {
-          resultModal.addClass('m-negative');
-      }
-      resultModal.show();
-      resultContent.text(content);
-      if($('html').hasClass('no-opacity')){
-        setTimeout(function(){resultModal.hide}, 5000);
-      } else {
-        resultModal.fadeOut(5000);
-      }
-    } 
-  };
+angular.module('mobispot').controller('UserController', 
+  function($scope, $http, $compile, $timeout, contentService) {
 
   $('#birthday').datepicker({
       yearRange: '1900:-0',
@@ -38,7 +17,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
   $scope.setProfile = function(user){
     $http.post('/user/editProfile',user).success(function(data) {
         if (data.error == 'no'){
-          $scope.setModal(data.content, 'none');
+          contentService.setModal(data.content, 'none');
         }
     });
   };
@@ -48,7 +27,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
    if (!valid) return false;
     $http.post('/service/login', user).success(function(data) {
       if (data.error == 'yes') {
-        $scope.setModal(data.content, 'error');
+        contentService.setModal(data.content, 'error');
 
         angular.element('#sign-in input[name=email]').addClass('error');
         angular.element('#sign-in input[name=password]').addClass('error');
@@ -83,7 +62,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
 
       if (data.error == 'no'){
         angular.element('#actSpotForm').slideUp(400, function() {
-          $scope.setModal(data.content, 'none');
+          contentService.setModal(data.content, 'none');
         });
 
         $scope.user.email="";
@@ -99,7 +78,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         else if (data.error == 'code'){
           codeId.addClass('error');
         }
-        $scope.setModal(data.content, 'error');
+        contentService.setModal(data.content, 'error');
       }
     });
   };
@@ -136,7 +115,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
         codeField.addClass('error');
       }
       else if ((data.error == 'email') || (data.error == 'code')){
-        $scope.setModal(data.content, 'error');
+        contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         $scope.user.email="";
@@ -168,7 +147,7 @@ function UserCtrl($scope, $http, $compile, $timeout) {
     $http.post('/service/recovery', user).success(function(data) {
       if (data.error == 'yes') {
         angular.element('#recPassForm input[name=email]').addClass('error');
-        $scope.setModal(data.content, 'error');
+        contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         angular.element('#recPassForm').slideUp(400, function() {
@@ -214,90 +193,4 @@ function UserCtrl($scope, $http, $compile, $timeout) {
       }
     });
   };
-}
-
-function HelpCtrl($scope, $http, $compile) {
-  var resultModal = angular.element('.m-result');
-  var resultContent = resultModal.find('p');
-
-  $scope.$watch('user.email + user.name + user.question', function(user) {
-    if ($scope.user.name && $scope.user.email && $scope.user.question) {
-      angular.element('#help-in .form-control a').removeClass('button-disable');
-    }
-  });
-
-  $scope.send = function(user, valid){
-    if (!valid) return false;
-
-    $http.post('/service/sendQuestion', user).success(function(data) {
-      if(data.error == 'no') {
-        $scope.user.name = '';
-        $scope.user.email = '';
-        $scope.user.question = '';
-        $scope.user.phone = '';
-
-        resultModal.show();
-          resultContent.text(data.content);
-          resultModal.fadeOut(10000, function() {
-        });
-      }
-    });
-  };
-
-}
-
-function PhonesCtrl($scope) {
-/*
-	$scope.parents = [
-		{ brand: 'Samsung',
-			models: [{
-					id: 'samsungativs',
-					name : 'Samsung Ativ S',
-					year : '2012',
-					page : 'http://www.samsung.com/global/ativ/ativ_s.html',
-					turnNfc : 'Options > NFC'
-					},
-				{
-					id: 'samsunggalaxyace2',
-					name : 'Samsung Galaxy Ace 2',
-					year : '2012',
-					page : 'http://www.samsung.com/uk/consumer/mobile-devices/smartphones/android/GT-I8160OKABTU',
-					turnNfc : 'Options > NFC'
-				},
-				{
-					id: 'samsunggalaxymini2',
-					name : 'Samsung Galaxy Mini 2',
-					year : '2012',
-					page : 'http://www.samsung.com/hk_en/consumer/mobile/mobile-phones/smartphone/GT-S6500HADTGY',
-					turnNfc : 'Options > NFC'
-				}]
-		},
-		{ brand: 'NOKIA',
-			models: [
-				{
-					id: 'nokialumia920',
-					name : 'Nokia Lumia 920',
-					year : '2012',
-					page : 'http://www.nokia.com/global/products/phone/lumia920/',
-					turnNfc : 'Options > NFC'
-				},
-				{
-					id: 'nokia808pureview',
-					name : 'Nokia 808 PureView',
-					year : '2012',
-					page : 'http://www.nokia.com/global/products/phone/808pureview/',
-					turnNfc : 'Options > NFC'
-				}]
-		}
-	];
-	var herher = $scope.parents.models;
-	*/
-	
-	$scope.initPhones = function(initValue)
-	{
-		$scope.parents = initValue;
-		var herher = $scope.parents.models;
-	}
-}
-
-
+});
