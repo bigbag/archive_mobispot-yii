@@ -11,3 +11,7 @@
 <script type="text/javascript"> 
     $('textarea').autosize();
 </script>
+
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/a-slider.css'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/main.css'); ?>
+<?php Yii::app()->getClientScript()->registerCssFile(Yii::app()->request->baseUrl . '/themes/mobispot/stylesheets/add.css'); ?>
