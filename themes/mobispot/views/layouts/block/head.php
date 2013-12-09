@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/themes/mobispot/foundation/css/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/add.css">
+    <link rel="stylesheet" href="/themes/mobispot/stylesheets/a-slider.css">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
