@@ -430,7 +430,8 @@ class ServiceController extends MController
                     {
                         $userToken = SocToken::model()->findByAttributes(array(
                             'type' => SocToken::getTypeByService($service),
-                            'soc_id' => $social_id
+                            'soc_id' => $social_id,
+                            'allow_login' => true
                         ));
                         
                         $find = User::model()->findByPk($userToken->user_id);
@@ -549,6 +550,18 @@ class ServiceController extends MController
                 $userToken->soc_id = $service_id;
                 $userToken->allow_login = true;
                 $userToken->save();
+                
+                //удаление старой привязки с другого аккаунта mobispot к той же соцсети
+                $allSocTokens = SocToken::model()->findAllByAttributes(array(
+                    'type' => SocToken::getTypeByService($service_name),
+                    'soc_id' => $service_id,
+                ));
+
+                foreach ($allSocTokens as $sToken)
+                {
+                    if ($sToken->user_id != $user->id)
+                        $sToken->delete();
+                }
                 
                 unset(Yii::app()->request->cookies['service_name']);
                 unset(Yii::app()->request->cookies['service_id']);
