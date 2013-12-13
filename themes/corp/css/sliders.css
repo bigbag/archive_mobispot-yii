@@ -1,0 +1,144 @@
+
+.bubbles-slider{
+	max-width: none;
+}
+.bubbles-slider .orbit-bullets li{
+	color: #fff;
+	display: block;
+	width: 19em;
+	height: 19em;
+	position:relative;
+	z-index: 10;
+	overflow: visible;
+	margin:0 2.5em;
+	background: none;
+}
+.bubbles-slider .orbit-bullets li a{
+	padding: 27% 0 17%;
+	display: block;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	width: 19em;
+	height: 19em;
+	position: relative;
+	z-index: 10;
+	background: #2B46FF;
+}
+.bubbles-slider .orbit-bullets li a:after{
+	display: block;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	-webkit-box-shadow: 0px 51px 0 26px #FFF;
+	-moz-box-shadow: 0px 51px 0 26px #FFF;
+	box-shadow: 0px 51px 0 26px #FFF;
+	content: '';
+}
+.bubbles-slider .orbit-bullets li b{
+	content: "";
+	display: block;
+	height: 100%;
+	width: 100%;
+	-webkit-box-shadow: inset 0 0 0 1.65em #2B46FF;
+	-moz-box-shadow:  inset 0 0 0 1.65em #2B46FF;
+	box-shadow:  inset 0 0 0 1.65em #2B46FF;
+	position: absolute;
+	top:60px;
+	left: 0;
+	z-index: -1;
+	-webkit-border-radius: 0 50% 50%;
+	-moz-border-radius: 0 50% 50%;
+	border-radius: 0 50% 50%;;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: all cubic-bezier(.06,.36,.81,.75)  .15s;
+	-moz-transition: all cubic-bezier(.06,.36,.81,.75) .15s;
+	-o-transition: all cubic-bezier(.06,.36,.81,.75)  .15s;
+	transition: all cubic-bezier(.06,.36,.81,.75)  .15s;
+}
+
+.bubbles-slider .orbit-bullets li.active b{
+	top: 0;
+}
+
+.bubbles-slider ul.orbit-bullets{
+	overflow: hidden;
+	position: relative;
+	width: 1014px;
+	padding-top: 3.9em;
+	bottom: 0;
+	margin-top: -8.1em;
+	position: relative;
+	z-index: 10;
+}
+.bubbles-slider .orbit.with-bullets{
+	margin-bottom: 0;
+}
+.bubbles-slider .bubble{
+	text-align: center;
+	text-indent: 0;
+}
+.bubbles-slider .bubble h4{
+	color: #fff;
+	margin: 0 0 13%;
+	font-size: 1.65em;
+}
+.bubbles-slider .bubble p{
+	padding: 0 17%;
+	font-size: 1em;
+	color: #fff;
+}
+.bubbles-content{
+	display: none;
+}
+#slider{
+	max-height:600px;
+}
+#textSlider{
+	height: 10em !important;
+
+}
+.textSlider-box .timer,
+.bubbles-slider .timer{
+	display: none;
+}
+
+#textSlider h1{
+	text-align: center;
+	font-size: 3.1em;
+}
+.textSlider-box{
+	margin: 5.3em 0;
+}
+.textSlider-box .orbit-wrapper,
+.store-items .orbit-wrapper{
+	overflow: visible;
+}
+
+.textSlider-box .orbit-bullets.hide-for-small,
+.bubbles-slider .orbit-bullets.hide-for-small{
+	display: block !important;
+}
+.bubbles-slider img{
+	width: 100%;
+	display: none;
+}
+.bubbles-slider img:first-child{
+	display: block;
+
+}
+.content-slider{
+	margin: 10px 0 48px;
+}
+
+.textSlider-box .orbit-bullets {
+	top: 143px;
+}
