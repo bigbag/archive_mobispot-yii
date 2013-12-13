@@ -110,6 +110,6 @@
 </div>
 
 <?php include('block/footer.php');?>
-<?php include('block/script/all.php');?>
+<?php include('block/script.php');?>
 </body>
 </html>

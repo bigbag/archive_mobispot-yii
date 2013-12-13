@@ -6,7 +6,7 @@
     </div>
     <div class="large-6 columns small-centered text-center">
       <h3 class="color text-center">
-        <?php echo Yii::t('user', 'Восстановление пароля')?>
+        <?php echo Yii::t('corp_user', 'Восстановление пароля')?>
       </h3>
     </div>
     <div class="large-3 columns">
@@ -23,14 +23,14 @@
         name='email'
         type="email"
         ng-model="recovery.email"
-        placeholder="<?php echo Yii::t('user', 'E-mail')?>"
+        placeholder="<?php echo Yii::t('corp_user', 'E-mail')?>"
         ng-keypress="($event.keyCode == 13)?recovery(recovery, recoveryForm.$valid):''"
         autocomplete="off"
         maxlength="300"
         required >
         <div class="form-control">
           <a class="spot-button  button-disable" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
-            <?php echo Yii::t('user', 'Отправить')?>
+            <?php echo Yii::t('corp_user', 'Отправить')?>
           </a>
         </div>
       </form>

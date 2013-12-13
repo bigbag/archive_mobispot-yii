@@ -2,6 +2,7 @@
 
 class WalletController extends MController
 {
+    public $layout = '//corp/layouts/all';
 
     //Список кошельков
     public function actionIndex()

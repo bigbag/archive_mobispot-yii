@@ -17,29 +17,29 @@
             <ul class="nav-bar">
               <li>
                 <a class="spot-button" href="https://mobispot.com/store/">
-                    <?php echo Yii::t('general', 'Магазин') ?>
+                    <?php echo Yii::t('corp_general', 'Магазин') ?>
                 </a>
               </li>
               <?php if (Yii::app()->user->isGuest): ?>
               <li>
                 <a id="actSpot" class="spot-button toggle-box opacity" href="#actSpotForm">
-                  <?php echo Yii::t('general', 'Зарегистрировать карту')?>
+                  <?php echo Yii::t('corp_general', 'Зарегистрировать карту')?>
                 </a>
               </li>
               <li>
                 <a id="signIn" class="spot-button toggle-box opacity" href="#signInForm">
-                  <?php echo Yii::t('general', 'Войти')?>
+                  <?php echo Yii::t('corp_general', 'Войти')?>
                 </a>
               </li>
               <?php else:?>
               <li>
                 <a class="spot-button opacity" href="/wallet/">
-                  <?php echo Yii::t('general', 'Мои карты')?>
+                  <?php echo Yii::t('corp_general', 'Мои карты')?>
                 </a>
               </li>
               <li>
                 <a class="spot-button opacity" href="/service/logout/">
-                  <?php echo Yii::t('general', 'Выйти')?>
+                  <?php echo Yii::t('corp_general', 'Выйти')?>
                 </a>
               </li>
               <?php endif; ?>

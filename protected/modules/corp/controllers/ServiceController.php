@@ -4,6 +4,8 @@ class ServiceController extends MController
 {
     const MAX_MAIL = 5;
 
+    public $layout = '//corp/layouts/all';
+
     public function setFunctionLimit($cache_key, $func, $timeout=300){
         $token = Yii::app()->request->csrfToken;
         $limit = Yii::app()->cache->get($cache_key.'_limit_'.$token);

@@ -6,7 +6,7 @@
     </div>
     <div class="large-6 columns small-centered text-center">
       <h3 class="color text-center">
-        <?php echo Yii::t('user', 'Регистрация')?>
+        <?php echo Yii::t('corp_user', 'Регистрация')?>
       </h3>
     </div>
     <div class="large-3 columns">
@@ -24,7 +24,7 @@
             name='email'
             type="email"
             ng-model="user.email"
-            placeholder="<?php echo Yii::t('user', 'E-mail')?>"
+            placeholder="<?php echo Yii::t('corp_user', 'E-mail')?>"
             autocomplete="off"
             maxlength="300"
             required >
@@ -32,7 +32,7 @@
             name='password'
             type="password"
             ng-model="user.password"
-            placeholder="<?php echo Yii::t('user', 'Пароль')?>"
+            placeholder="<?php echo Yii::t('corp_user', 'Пароль')?>"
             autocomplete="off"
             maxlength="300"
             required >
@@ -40,7 +40,7 @@
             name='code'
             type="text"
             ng-model="user.activ_code"
-            placeholder="<?php echo Yii::t('user', 'Код активации')?>"
+            placeholder="<?php echo Yii::t('corp_user', 'Код активации')?>"
             autocomplete="off"
             maxlength="10"
             ng-minlength="10";
@@ -48,11 +48,11 @@
             required >
           <div class="toggle-active">
             <a class="checkbox agree" href="javascript:;" ng-click="setTerms(user)"><i></i>
-              <?php echo Yii::t('user', 'Я согласен с условиями использования сервиса')?>
+              <?php echo Yii::t('corp_user', 'Я согласен с условиями использования сервиса')?>
             </a>
           </div>
           <div class="form-control">
-            <a class="spot-button opacity activ button-disable" href="javascript:;" ng-click="registration(user, activForm.$valid)"><?php echo Yii::t('user', 'Зарегистрироваться')?></a>
+            <a class="spot-button opacity activ button-disable" href="javascript:;" ng-click="registration(user, activForm.$valid)"><?php echo Yii::t('corp_user', 'Зарегистрироваться')?></a>
           </div>
         </form>
       </div>

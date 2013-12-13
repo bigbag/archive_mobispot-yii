@@ -3,6 +3,8 @@
 class HelpController extends MController
 {
 
+    public $layout = '//corp/layouts/all';
+
     public function actionIndex()
     {
         $this->render('index', array(

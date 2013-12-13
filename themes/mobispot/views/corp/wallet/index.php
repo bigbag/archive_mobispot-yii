@@ -30,10 +30,10 @@
         <a href="#actSpotForm" id="actSpot" class="add-spot toggle-box button round slideToThis">
           <i class="icon">&#xe015;</i>
           <span class="m-tooltip m-tooltip-open">
-            <?php echo Yii::t('wallet', 'Добавить карту')?>
+            <?php echo Yii::t('corp_wallet', 'Добавить карту')?>
           </span>
           <span class="m-tooltip m-tooltip-close">
-            <?php echo Yii::t('wallet', 'Закрыть')?>
+            <?php echo Yii::t('corp_wallet', 'Закрыть')?>
           </span>
         </a>
       </div>
@@ -49,24 +49,24 @@
           <input type="text"
             ng-model="payment.code"
             name="code"
-            placeholder="<?php echo Yii::t('wallet', 'Код активации')?>"
+            placeholder="<?php echo Yii::t('corp_wallet', 'Код активации')?>"
             autocomplete="off"
             maxlength="10"
             required>
           <input type="text"
             name="name"
             ng-model="payment.name"
-            placeholder="<?php echo Yii::t('wallet', 'Название')?>"
+            placeholder="<?php echo Yii::t('corp_wallet', 'Название')?>"
             autocomplete="off">
           <div class="form-row toggle-active">
             <a class="checkbox agree" href="javascript:;" ng-click="setTerms(payment)">
               <i></i>
-              <?php echo Yii::t('spot', 'Я согласен с условиями использования сервиса')?>
+              <?php echo Yii::t('corp_spot', 'Я согласен с условиями использования сервиса')?>
             </a>
           </div>
           <div class="form-control">
             <a class="spot-button button-disable" href="javascript:;" ng-click="addWallet(payment)">
-              <?php echo Yii::t('spot', 'Добавить')?>
+              <?php echo Yii::t('corp_spot', 'Добавить')?>
             </a>
           </div>
           </form>

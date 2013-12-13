@@ -6,7 +6,7 @@
     </div>
     <div class="large-6 columns small-centered text-center">
       <h3 class="color text-center">
-        <?php echo Yii::t('user', 'Авторизация')?>
+        <?php echo Yii::t('corp_user', 'Авторизация')?>
       </h3>
     </div>
     <div class="large-3 columns">
@@ -23,7 +23,7 @@
           name='email'
           type="email"
           ng-model="user.email"
-          placeholder="<?php echo Yii::t('user', 'E-mail')?>"
+          placeholder="<?php echo Yii::t('corp_user', 'E-mail')?>"
           ng-keypress="($event.keyCode == 13)?login(user, signForm.$valid):''"
           autocomplete="off"
           maxlength="300"
@@ -32,17 +32,17 @@
           name='password'
           type="password"
           ng-model="user.password"
-          placeholder="<?php echo Yii::t('user', 'Пароль')?>"
+          placeholder="<?php echo Yii::t('corp_user', 'Пароль')?>"
           ng-keypress="($event.keyCode == 13)?login(user, signForm.$valid):''"
           autocomplete="off"
           maxlength="300"
           required >
         <a id="recPass" href="javascripts:;" class="form-link toggle-box">
-          <?php echo Yii::t('user', 'Забыли пароль?');?>
+          <?php echo Yii::t('corp_user', 'Забыли пароль?');?>
         </a>
         <div class="form-control">
           <a class="spot-button opacity login button-disable" href="javascript:;" ng-click="login(user, signForm.$valid)">
-            <?php echo Yii::t('user', 'Войти')?>
+            <?php echo Yii::t('corp_user', 'Войти')?>
           </a>
         </div>
       </form>

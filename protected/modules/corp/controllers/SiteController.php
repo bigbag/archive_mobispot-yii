@@ -2,6 +2,7 @@
 
 class SiteController extends MController
 {
+    public $layout = '//corp/layouts/all';
 
     public function actionIndex()
     {
