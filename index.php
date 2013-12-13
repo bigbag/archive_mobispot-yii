@@ -1,5 +1,6 @@
 <?php
-date_default_timezone_set("Europe/Moscow");
+
+date_default_timezone_set("UTC");
 mb_internal_encoding('UTF-8');
 mb_regex_encoding('UTF-8');
 mb_http_input('UTF-8');
