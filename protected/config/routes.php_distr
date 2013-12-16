@@ -17,6 +17,7 @@ return array(
         'http://m.mobispot.test/<controller:\w+>/<id:\d+>' => '/mobile/<controller>/view',
         'http://m.mobispot.test/<controller:\w+>/<action:\w+>/<id:\w+>' => '/mobile/<controller>/<action>',
         'http://m.mobispot.test/<controller:\w+>/<action:\w+>' => '/mobile/<controller>/<action>',
+        'corp/service/lang/<id:\w+>' => 'corp/service/lang',
         'service/lang/<id:\w+>' => 'service/lang',
         'help' => 'pages/help',
         'pages/<id:\w+>' => 'pages/index',
