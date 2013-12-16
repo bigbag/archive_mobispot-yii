@@ -156,7 +156,8 @@ class ServiceController extends MController
         else
         {
             Yii::app()->user->logout();
-            $this->redirect(Yii::app()->homeUrl);
+            $url = explode("/", Yii::app()->getBaseUrl(true));
+            $this->redirect('http://corp.' . $url[2]);
         }
     }
 
