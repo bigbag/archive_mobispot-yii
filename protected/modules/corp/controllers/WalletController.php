@@ -544,7 +544,8 @@ class WalletController extends MController
                     $history->save(false);
                 }
             }
-        Yii::app()->request->redirect('/wallet/');
+        $url = explode("/", Yii::app()->getBaseUrl(true));
+        Yii::app()->request->redirect('http://corp.' . $url[2] . '/wallet/');
     }
     
     public function actionCheckLike()
