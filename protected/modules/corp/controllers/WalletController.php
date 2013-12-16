@@ -469,6 +469,7 @@ class WalletController extends MController
 
                     if ($history->save())
                     {
+                        $url = explode("/", Yii::app()->getBaseUrl(true));
 
                         $payment = Yii::app()->ut;
                         $token = sha1(Yii::app()->request->csrfToken);
@@ -479,8 +480,8 @@ class WalletController extends MController
                         $order['orderId'] = $history->id;
                         $order['amount'] = $data['amount'];
                         $order['signature'] = $payment->getPaySign($order);
-                        $order['return_ok'] = $this->createAbsoluteUrl('/wallet/payUniteller') . '?result=success&token=' . $token;
-                        $order['return_error'] = $this->createAbsoluteUrl('/wallet/payUniteller') . '?result=error&token=' . $token;
+                        $order['return_ok'] = 'http://corp.' . $url[2] . '/wallet/payUniteller?result=success&token=' . $token;
+                        $order['return_error'] = 'http://corp.' . $url[2] . '/wallet/payUniteller?result=error&token=' . $token;
                         
                         $answer['content'] = $this->renderPartial('//corp/wallet/block/_bay_form',
                             array(
