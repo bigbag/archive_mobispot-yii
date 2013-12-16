@@ -57,7 +57,8 @@ class ServiceController extends MController
                 }
             }
         }
-        $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
+        $url = explode("/", Yii::app()->getBaseUrl(true));
+        $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : 'http://corp.' . $url[2]);
     }
 
     //Авторизация
