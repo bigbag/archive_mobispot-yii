@@ -4,31 +4,32 @@ require_once dirname(dirname(__FILE__)).'/EOAuth2Service.php';
 
 class CustomBehanceAuthService extends EOAuth2Service {	
 	
-	protected $name = 'behance';
-	protected $title = 'Behance';
-	protected $type = 'OAuth';
-	protected $scope = 'activity_read|collection_read|wip_read|project_read';
-	protected $jsArguments = array('popup' => array('width' => 900, 'height' => 550));
+  protected $name = 'behance';
+  protected $title = 'Behance';
+  protected $type = 'OAuth';
+  protected $scope = 'activity_read|collection_read|wip_read|project_read';
+  protected $jsArguments = array('popup' => array('width' => 900, 'height' => 550));
 
-	protected $client_id = '';
-	protected $client_secret = '';
-	protected $providerOptions = array(
-		'authorize' => 'https://www.behance.net/v2/oauth/authenticate',
-		'access_token' => 'https://www.behance.net/v2/oauth/token',
-	);
+  protected $client_id = '';
+  protected $client_secret = '';
+  protected $providerOptions = array(
+    'authorize' => 'https://www.behance.net/v2/oauth/authenticate',
+    'access_token' => 'https://www.behance.net/v2/oauth/token',
+);
 	
 	
-	protected function fetchAttributes() {
-		$options = array();
-		$idUser = $this->getState('idUser');
-		
-		$info = $this->makeRequest('http://www.behance.net/v2/users/'.$idUser.'?api_key='.$this->client_id, $options, false);
-		$info = CJson::decode($info, true);
-		$info = $info['user'];
-		
-		$this->attributes['id'] = $info['id'];
-		$this->attributes['name'] = $info['username'];
-		
+  protected function fetchAttributes() {
+    $options = array();
+    $idUser = $this->getState('idUser');
+
+    $info = $this->makeRequest('http://www.behance.net/v2/users/'.$idUser.'?api_key='.$this->client_id, $options, false);
+    $info = CJson::decode($info, true);
+    $info = $info['user'];
+
+    $this->attributes['id'] = $info['id'];
+	if(isset($info['username']))
+      $this->attributes['name'] = $info['username'];
+		/*
 		if(!empty($info['first_name']))
 			$this->attributes['first_name'] = $info['first_name'];
 		if(!empty($info['last_name']))
@@ -71,14 +72,15 @@ class CustomBehanceAuthService extends EOAuth2Service {
 		$projects = $this->makeRequest('http://www.behance.net/v2/users/'.$idUser.'/projects?api_key='.$this->client_id, $options, false);
 		$projects = CJson::decode($projects, true);
 
-		if(!empty($projects['projects'][0])){
+		if(isset($projects['projects']) && !empty($projects['projects'][0])){
 			$projects = $projects['projects'][0];
 			$imgProject = '';
-			if(!empty($projects['covers'][202]))
+			if(isset($projects['covers']) && !empty($projects['covers'][202]))
 				$imgProject = '<br/><img src="'.$projects['covers'][202].'"/>';
 			$this->attributes['last_status'] = '<a href="'.$projects['url'].'" target="_blank">'.$projects['name'].$imgProject.'</a>';
 		}
-	}
+		*/
+  }
 	
 	
 	public function authenticate() {

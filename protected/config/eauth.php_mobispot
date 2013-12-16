@@ -1,0 +1,120 @@
+<?php
+
+return array(// You can change the providers and their classes.
+    'ssl' => array('path' => '/etc/nginx/ssl/mobispot/mobispot.com-combined.crt'),
+    'twitter' => array(
+        // register your app here: https://dev.twitter.com/apps/new
+        'class' => 'CustomTwitterService',
+        'key' => '7qaNhN9pKBEeHgqh6gu28g',
+        'secret' => 'WStyI4MTuGCbyRuTnt8aekU4NqLN3HjUpELVWLUduo',
+        'title' => 'Twitter',
+    ),
+    'google_oauth'=>array(
+        //https://code.google.com/apis/console/
+        'class'=>'CustomGoogleOAuthService',
+        'client_id' => '354141098611.apps.googleusercontent.com',
+        'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
+        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',       
+        'scope' =>'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'title'=>'Google',
+    ),
+    'facebook' => array(
+        // register your app here: https://developers.facebook.com/apps/
+        'class' => 'CustomFacebookOAuthService',
+        'scope' => 'email, user_status, read_stream, user_photos,user_likes',
+        'client_id' => '605375279481505',
+        'client_secret' => '4db65a911817eff54a6a94df6f0d7433',
+    ),
+    'facebook_mobile' => array(
+        // register your app here: https://developers.facebook.com/apps/
+        'class' => 'CustomFacebookOAuthService',
+        'scope' => 'email, user_status, read_stream, user_photos',
+        'client_id' => '205773976269406',
+        'client_secret' => '4db65a911817eff54a6a94df6f0d7433',
+    ),
+    'youtube' => array(
+        //https://code.google.com/apis/console/
+        'class' => 'CustomYouTubeOAuthService',
+        'client_id' => '354141098611.apps.googleusercontent.com',
+        'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
+        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',
+        'title' => 'YouTube',
+    ),
+    'deviantart' => array(
+        //https://www.deviantart.com/settings/myapps
+        'class' => 'CustomDeviantartAuthService',
+        'client_id' => '502',
+        'client_secret' => '8a8c2e0c89fb02c82d6eb0d40b756bd9',
+        'title' => 'DeviantART'
+    ),
+    'behance' => array(
+        //http://www.behance.net/dev/apps  
+        'class' => 'CustomBehanceAuthService',
+        'client_id' => 'RPVsyWeNfqLTWWrNcvZTcajTVSbrFmVy',
+        'client_secret' => 'R31sssl4Vof65tQ_ukss9WTsv5ayD9pI',
+        'title' => 'Behance'
+    ),
+    'vimeo' => array(
+        //https://developer.vimeo.com/apps/
+        'class' => 'CustomVimeoOAuthService',
+        'key' => '933056cd655731ddee6e0a9fba4015b7a90cbf92',
+        'secret' => '4b83fb51dfbd8cddd045d3d4b4037c00f52872f8',
+        'title' => 'Vimeo'
+    ),
+    'vk' => array(
+        //http://vk.com/apps?act=settings
+        'class' => 'CustomVKontakteOAuthService',
+        'scope' => 'status',
+        'client_id' => '3691415',
+        'client_secret' => 'DF4IIcRDA53x3KnjuuPk',
+        'title' => '���������',
+    ),
+    'foursquare' => array(
+        //https://ru.foursquare.com/developers/apps
+        'class' => 'CustomFoursquareOAuthService',
+        'client_id' => 'HON3ALFDSK2RIFF0AMI2SABY3NLDEMENVRQZJP54Z202PM1N',
+        'client_secret' => 'Q1ADZ1J44IMO42ENF5U1WB0OJAKBYLGXAS2JBCYXADYY0EW2',
+        'title' => 'Foursquare'
+    ),
+    'linkedin' => array(
+        // app https://www.linkedin.com/secure/developer
+        'class' => 'CustomLinkedinOAuthService',
+        'key' => 'pgweaq9fm86c',
+        'secret' => 'hlGC8Jy64THUXdqA',
+        'token' => '13273519-31e5-4102-bd8b-a3285006b0e8',
+        'token_secret' => '31e54848-b2d9-44ad-9ffc-39f5ba781d95',
+    ),
+    'instagram' => array(
+        //http://instagram.com/developer/clients/manage/
+        'class' => 'CustomInstagramOAuthService',
+        'client_id' => '9cf6339232ab49039d3215dc3bd13342',
+        'client_secret' => '3dd3f214f6b84b9f9ee05ba701bd013e',
+        'title' => 'Instagram',
+    ),
+    'instagram_mobile' => array(
+        //http://instagram.com/developer/clients/manage/
+        'class' => 'CustomInstagramOAuthService',
+        'scope'=>'relationships',
+        'client_id' => 'cf9f579abaef4eb4b02c0a0ecc360761',
+        'client_secret' => 'b3a57a9dab6d4ea5b7a2b75587eb48d3',
+        'title' => 'Instagram',
+    ),
+    'behance' => array(
+        //http://www.behance.net/dev/apps
+        'class' => 'CustomBehanceAuthService',
+        'client_id' => 'Dbs0CgHSf5o0HLKvbQrX0v6QVvtoTUUr',
+        'client_secret' => 'ui5Z8Xa8VAorkEntojqR8Go8dBkY.Z_h',
+        'title' => 'Behance'
+    ),
+    'crunchbase' =>array(
+    //http://developer.crunchbase.com/apps/myapps
+        'key' => 'cw3gpnarydnrpxwdyac93uaz',
+        'title' => 'CrunchBase'
+    ),
+    'tumblr' => array(
+        //http://www.tumblr.com/oauth/apps
+        'class' => 'CustomTumblrAuthService',
+        'key' => 'bvww58nbJSZSdSTL0XfqpqyIqceZBHi7vGOLnZsssOo3ZKwkKG',
+        'secret' => 'Y5Qjc2qIzwy7wNaAnol9ixsUR3EcEHTQO5LzNhkceewCgSe6Fq',
+    ),
+);

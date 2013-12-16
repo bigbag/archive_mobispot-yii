@@ -2,1030 +2,811 @@
 
 class SocInfo extends CFormModel
 {
-	public $socNet = '';
-	public $socUsername = '';
-	public $accessToken = '';
-	public $userDetail = array();
-	public $socNetworks = array();
-	
-	public function __construct(){
-		$this->socNetworks = SocInfo::getSocNetworks();
-	}
-	
-	public static function getSocNetworks(){
-		$socNetworks = array();
-		$net = array();
-		
-		$net['name'] = 'facebook';
-		$net['baseUrl'] = 'facebook.com';
-		$net['invite'] = Yii::t('eauth', 'Read more on');
-		$net['inviteClass'] = 'i-soc-fac';
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = 'i-fb.2x.png';
-		$socNetworks[] = $net;
-	
-		$net['name'] = 'twitter';
-		$net['baseUrl'] = 'twitter.com';
-		$net['invite'] = Yii::t('eauth', 'Follow me on');
-		$net['inviteClass'] = 'i-soc-twi';
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = 'i-twitter.2x.png';
-		$socNetworks[] = $net;
-/*
-		$net['name'] = 'google';
-		$net['baseUrl'] = 'google.com';
-		$net['invite'] = Yii::t('eauth', '');
-		$net['inviteClass'] = '';	
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = 'google16.png';
-		$socNetworks[] = $net;
-*/
-		$net['name'] = 'ВКонтакте';
-		$net['baseUrl'] = 'vk.com';
-		$net['invite'] = Yii::t('eauth', '');
-		$net['inviteClass'] = '';		
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;		
-/*	
-		$net['name'] = 'Linkedin';
-		$net['baseUrl'] = 'linkedin.com';
-		$net['invite'] = Yii::t('eauth', '');	
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;		
-*/
-		$net['name'] = 'Foursquare';
-		$net['baseUrl'] = 'foursquare.com';
-		$net['invite'] = Yii::t('eauth', '');	
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;		
-		
-		$net['name'] = 'vimeo';
-		$net['baseUrl'] = 'vimeo.com';
-		$net['invite'] = Yii::t('eauth', 'Watch more');		
-		$net['inviteClass'] = 'i-soc-vimeo';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = 'i-vimeo.2x.png';
-		$socNetworks[] = $net;
-		
-		$net['name'] = 'Last.fm';
-		$net['baseUrl'] = 'lastfm.ru';
-		$net['invite'] = Yii::t('eauth', '');	
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;
-		
-		$net['name'] = 'DeviantART';
-		$net['baseUrl'] = 'deviantart.com';
-		$net['invite'] = Yii::t('eauth', '');	
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;		
 
-		$net['name'] = 'Behance';
-		$net['baseUrl'] = 'behance.net';
-		$net['invite'] = Yii::t('eauth', '');
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;		
+    public $socNet = '';
+    public $socUsername = '';
+    public $accessToken = '';
+    public $userDetail = array();
+    public $socNetworks = array();
 
-		$net['name'] = 'Flickr';
-		$net['baseUrl'] = 'flickr.com';
-		$net['invite'] = Yii::t('eauth', '');
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;
-		
-		$net['name'] = 'YouTube';
-		$net['baseUrl'] = 'youtube.com';
-		$net['invite'] = Yii::t('eauth', '');
-		$net['inviteClass'] = '';			
-		$net['note'] = Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;	
-/*		
-		$net['name'] = 'Instagram';
-		$net['baseUrl'] = 'instagram.com';
-		$net['invite'] = Yii::t('eauth', '');	
-		$net['inviteClass'] = '';			
-		$net['note'] =  Yii::t('eauth', '');
-		$net['smallIcon'] = '';
-		$socNetworks[] = $net;			
-*/
-		return $socNetworks;
-	}
+    public function __construct()
+    {
+        $this->socNetworks = SocInfo::getSocNetworks();
+        Yii::import('webroot.protected.models.soc_content.*');
+    }
 
-	public function getNetData($link){
-		$this->socNet = '';
-		$this->socUsername = '';
-		$this->userDetail = array();
-		$isSocNet = $this->detectNetByLink($link);
-		
-		if($isSocNet != 'no'){
-			$net = $this->getNetByName($isSocNet);
-			$this->socNet = $net['name'];
-			$this->socUsername = $this->parceSocUrl($this->socNet, $link);
-			$this->getSocInfo($this->socNet, $this->socUsername);
-			$this->userDetail['invite'] = $net['invite'];
-			$this->userDetail['inviteClass'] = $net['inviteClass'];
-			$this->userDetail['netName'] = $this->socNet;
-		}
-		return $this->userDetail;
-	}
-	
-	public function detectNetByLink($link){
-		$answer = 'no';
-		foreach($this->socNetworks as $net){
-			if (strpos($link, $net['baseUrl']) !== false){
-				$answer = $net['name'];
-				break;
-			}
-		}
-		return $answer;
-	}
-	
-	public function getNetByName($name){
-		$answer = array();
-		foreach($this->socNetworks as $net){
-			if ($name == $net['name']){
-				$answer = $net;
-				break;
-			}
-		}
-		return $answer;
-	}
-	
-	public function getSocInfo($socNet, $socUsername){
-		$this->socNet = $socNet;
-		$this->socUsername = $socUsername;
-		
-		$this->userDetail['service']= $socNet;
-		$this->userDetail['UserExists'] = false;
-		$socUsername = $this->parceSocUrl($socNet, $socUsername);
-		
-		if($socNet == 'google'){
-			$url = 'https://www.googleapis.com/plus/v1/people/'.$socUsername.'?key=AIzaSyA4g3rLLua1lK3YKss_ANG7t1klz_aGvak';  				
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-			 
-			$curl_result = curl_exec($ch);
-			curl_close($ch);
+    public static function getSocNetworks()
+    {
+        $socNetworks = array();
+        $net = array();
 
-			$socUser = CJSON::decode($curl_result, true);
-			if(!isset($socUser['error'])){
-				$this->userDetail['UserExists'] = true;
-				if(isset($socUser['displayName']))
-						$this->userDetail['soc_username'] = $socUser['displayName'];
-				if(isset($socUser['image']['url']))
-						$this->userDetail['photo'] = $socUser['image']['url'];
-				if(isset($socUser['name']['givenName']))
-						$this->userDetail['first_name'] = $socUser['name']['givenName'];
-				if(isset($socUser['name']['familyName']))
-						$this->userDetail['last_name'] = $socUser['name']['familyName'];
-				if(isset($socUser['gender']))
-						$this->userDetail['gender'] = $socUser['gender'];		
-				if(isset($socUser['placesLived'])){
-					foreach($socUser['placesLived'] as $place){
-						if(isset($place['primary']) && ($place['primary']==true))
-							$this->userDetail['location'] = $place['value'];
-					}
-				}
-				if(isset($socUser['organizations'])){
-					foreach($socUser['organizations'] as $org){
-						if(isset($org['primary']) && ($org['primary']==true)){
-							if($org['type'] == 'work')
-								$this->userDetail['work'] = $org['name'];
-							else if($org['type'] == 'school')
-								$this->userDetail['school'] = $org['name'];
-						}
-					}
-				
-				}
-				if(isset($socUser['aboutMe']))
-						$this->userDetail['about'] = $socUser['aboutMe'];	
-				if(isset($socUser['url']))
-						$this->userDetail['soc_url'] = $socUser['url'];
-			}else{
-				$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-			}
-		}elseif($socNet == 'facebook'){
-				$socUser = $this->makeRequest('https://graph.facebook.com/'.$socUsername);
-				
-				if (!isset($socUser['error'])){
-					$this->userDetail['UserExists'] = true;
-					//$this->userDetail['soc_id'] = $socUser['id'];
-					$this->userDetail['photo'] = 'http://graph.facebook.com/'.$socUsername.'/picture';
-					if(isset($socUser['name']))
-						$this->userDetail['soc_username'] = $socUser['name'];
-					if(isset($socUser['first_name']))
-						$this->userDetail['first_name'] = $socUser['first_name'];
-					if(isset($socUser['last_name']))
-						$this->userDetail['last_name'] = $socUser['last_name'];
-					if(isset($socUser['soc_url']))
-						$this->userDetail['soc_url'] = $socUser['link'];
-					if(isset($socUser['gender']))
-						$this->userDetail['gender'] = $socUser['gender'];
-					if(isset($socUser['locale']))
-						$this->userDetail['locale'] = $socUser['locale'];
-					//последний пост
-					$appToken = Yii::app()->cache->get('facebookAppToken');
-					$isAppTokenValid = false;
-					
-					if($appToken !== false){
-						$validation = $this->makeRequest('https://graph.facebook.com/debug_token?input_token='.$appToken.'&access_token='.$appToken, array(), false);
-						$validation = CJSON::decode($validation, true);
-						if(isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-							$isAppTokenValid = true;
-					}
-					
-					if(!$isAppTokenValid){
-						$textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id='.Yii::app()->eauth->services['facebook']['client_id'].'&client_secret='.Yii::app()->eauth->services['facebook']['client_secret'].'&grant_type=client_credentials', 'r');
-						$appToken = fgets($textToken);
-						fclose($textToken);					
-						if((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-							$appToken = substr($appToken, (strpos($appToken, 'access_token=')+13));
-						Yii::app()->cache->set('facebookAppToken', $appToken);
-					}
-					
-					$userFeed = $this->makeRequest('https://graph.facebook.com/'.$socUsername.'/feed?access_token='.$appToken);
-					unset($lastPost);
-					$i=0;
-					$prevPageUrl= '';
-					
-					while(!isset($lastPost)){
-						if(($userFeed['data'][$i]['from']['id'] == $socUser['id']) && !isset($userFeed['data'][$i]['application'])){
-							$lastPost = $userFeed['data'][$i];
-						}
-						
-						//следующая страница
-						if($i >= count($userFeed['data'])){
-							if($userFeed['paging']['previous'] != $prevPageUrl){
-								$prevPageUrl = $userFeed['paging']['previous'];
-								$userFeed = $this->makeRequest($userFeed['paging']['previous'].'&access_token='.$appToken);
-								$i=0;
-							}else{
-								$lastPost = 'no';
-							}
-						} else{
-							$i++;
-						}
-					}
-					
-					if($lastPost != 'no'){
-						if($lastPost['type'] == 'photo'){
-							$this->userDetail['last_img'] =  $lastPost['picture'];
-							if(isset($lastPost['message']))
-								$this->userDetail['last_img_msg'] =  $lastPost['message'];
-							if(isset($lastPost['story']))
-								$this->userDetail['last_img_story'] =  $lastPost['story'];
-						}elseif(($lastPost['type'] == 'status') && isset($lastPost['place']) && isset($lastPost['place']['location']) && isset($lastPost['place']['location']['latitude'])){
-							//"место" на карте
-							if(isset($lastPost['message']))
-								$this->userDetail['place_msg'] = $lastPost['message'];
-							$this->userDetail['place_lat'] = $lastPost['place']['location']['latitude'];
-							$this->userDetail['place_lng'] = $lastPost['place']['location']['longitude'];
-							$this->userDetail['place_name'] = $lastPost['place']['name'];
-						}else{
-							if(isset($lastPost['message']))
-								$this->userDetail['last_status'] = $lastPost['message'];
-							elseif(isset($lastPost['story']))
-								$this->userDetail['last_status'] = $lastPost['story'];		
-						}
-					}
-				}else{
-					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-				}
-				
-			}elseif($socNet == 'twitter'){
-				if (@fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r')){
-					$t_json = fopen('http://api.twitter.com/1/users/show.json?screen_name='.$socUsername, 'r');
-					$curl_result = fgets($t_json);
-					fclose($t_json);
+        $net['name'] = 'google_oauth';
+        $net['baseUrl'] = 'google.com';
+        $net['title'] = 'Google+';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc_g';
+        $net['inviteValue'] = '';//'&#xe009;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'google.png';
+        $net['contentClass'] = 'GoogleContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-					$socUser = CJSON::decode($curl_result, true);
-					$this->userDetail['UserExists'] = true;
-					if(isset($socUser['profile_image_url']))
-						$this->userDetail['photo'] = $socUser['profile_image_url'];
-					if(isset($socUser['name']))
-						$this->userDetail['soc_username'] = $socUser['name'];
-					if(isset($socUser['location']))
-						$this->userDetail['location'] = $socUser['location'];
-					if(isset($socUser['screen_name']))
-						$this->userDetail['soc_url'] = 'https://twitter.com/'.$socUser['screen_name'];
-					if(isset($socUser['url']))
-						$this->userDetail['user_site'] = $socUser['url'];
-					if(isset($socUser['locale']))
-						$this->userDetail['locale'] = $socUser['locale'];
-					if(isset($socUser['description']))
-						$this->userDetail['about'] = $socUser['description'];						
-					if(isset($socUser['status']['text']))
-						$this->userDetail['last_status'] = $socUser['status']['text'];
-	
-				}else{
-					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-				}		
-			}elseif($socNet == 'ВКонтакте'){
-				$url = 'https://api.vk.com/method/users.get.json?uids='.$socUsername.'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-				 
-				$curl_result = curl_exec($ch);
-				//curl_error($ch);
-				curl_close($ch);
+        $net['name'] = 'facebook';
+        $net['baseUrl'] = 'facebook.com';
+        $net['title'] = 'Facebook';
+        $net['invite'] = Yii::t('eauth', 'Make friends');
+        $net['inviteClass'] = '';//'i-soc-fac';
+        $net['inviteValue'] = '';//'&#xe008;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'facebook.png';
+        $net['contentClass'] = 'FacebookContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-				$socUser = CJSON::decode($curl_result, true);
-				$socUser = $socUser['response'][0];
-				if(!isset($socUser['error'])){
-					$this->userDetail['soc_username']= $socUser['first_name'].' '.$socUser['last_name'];
-					if(!empty($socUser['photo']))
-						$this->userDetail['photo'] = $socUser['photo'];
-					$this->userDetail['soc_url'] = 'http://vk.com/id'.$socUsername;
-					if(!empty($socUser['sex']))
-						$this->userDetail['gender'] = $socUser['sex'] == 1 ? 'Ж' : 'М';	
-					if (!empty($socUser['university_name']))	
-						$this->userDetail['school'] = $socUser['university_name'];
-					if (!empty($socUser['timezone']))
-						$this->userDetail['timezone'] = timezone_name_from_abbr('', $socUser['timezone']*3600, date('I'));
-					/*if (!empty($socUser['country'])){
-						//$countries = (array)$this->makeSignedRequest('https://api.vk.com/method/places.getCountries.json');
-						/*$token
-						
-						$countries = $this->makeCurlRequest('https://api.vk.com/method/places.getCountries.json');
-						$this->userDetail['location'] = print_r($countries, true);
-						/*
-						foreach($countries['response'] as $country){
-							if($country->cid == $socUser['country'])
-								$socUser['location'] = $country->title;
-						}
-						
-						
-					}
-					*/
-				}else{
-					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-				}
-			}elseif($socNet == 'Linkedin'){
-				Yii::import('ext.eoauth.*');
-				
-				$consumer = new OAuthConsumer('pgweaq9fm86c', 'hlGC8Jy64THUXdqA');
-				$scope = 'r_basicprofile';
-/*				
-				$protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
-									? 'https://' : 'http://';
-				$callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];					
+        $net['name'] = 'twitter';
+        $net['baseUrl'] = 'twitter.com';
+        $net['title'] = 'Twitter';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc_twi';
+        $net['inviteValue'] = '';//'&#xe007';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'twitter.png';
+        $net['contentClass'] = 'TwitterContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-				$token = EOAuthUtils::GetRequestToken($consumer, $scope, 'https://api.linkedin.com/uas/oauth/requestToken', 'My Web Application', $callbackUrl);
-*/
-				$token = Yii::app()->user->token;
+        $net['name'] = 'vk';
+        $net['baseUrl'] = 'vk.com';
+        $net['title'] = 'VKontakte';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc_vk';
+        $net['inviteValue'] = '';//'&#xe002;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'vk.png';
+        $net['contentClass'] = 'VkContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-				$methodApi = 'id=';
-				if (strpos($socUsername, 'http://www.linkedin.com/pub/') === true){
-					$methodApi= 'url=';
-					$socUsername = $this->js_urlencode($socUsername);
-				}
-				
-				$url = 'http://api.linkedin.com/v1/people/'.$methodApi.$socUsername.':(id,first-name,last-name,public-profile-url,headline,picture-url,location,current-status)';
+        $net['name'] = 'linkedin';
+        $net['baseUrl'] = 'linkedin.com';
+        $net['title'] = 'LinkedIn';
+        $net['invite'] = Yii::t('eauth', 'Connect me');
+        $net['inviteClass'] = '';//'i-soc_in';
+        $net['inviteValue'] = '';//'&#xe005;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'linkedin.png';
+        $net['contentClass'] = 'LinkedInContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-				$signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
+        $net['name'] = 'foursquare';
+        $net['baseUrl'] = 'foursquare.com';
+        $net['title'] = 'Foursquare';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc-fo';
+        $net['inviteValue'] = '';//'&#xe00a;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'foursquare.png';
+        $net['contentClass'] = 'FoursquareContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-				$options = array();
-				$query = null;
-				
-				$request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
-				$request->sign_request($signatureMethod, $consumer, $token);
-				$answer = $this->makeRequest($request->to_url(), $options, false);
-				
-				if($answer != 'error:404'){
-				
-					$socUser = $this->xmlToArray(simplexml_load_string($answer));
-					
-					$this->userDetail['soc_username'] = $socUser['first-name'].' '.$socUser['last-name'];
-					
-					if (!empty($socUser['headline']))
-						$this->userDetail['about'] = $socUser['headline'];
-					if (!empty($socUser['picture-url']))
-						$this->userDetail['photo'] = $socUser['picture-url'];
-					if (!empty($socUser['location']['name']))
-						$this->userDetail['location'] = $socUser['location']['name'];
-					if (!empty($socUser['current-status']))
-						$this->userDetail['last_status'] = $socUser['current-status'];
-				}else{
-					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-				}
-			}elseif($socNet == 'Foursquare'){
-				if(!is_numeric($socUsername)){
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'https://ru.foursquare.com/'.$socUsername);
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-					$profile = curl_exec($ch);
-					//$headers = curl_getinfo($ch);
-					curl_close($ch);
-					$match = array();
-					preg_match('~user: {"id":"[0-9]+","firstName":~', $profile, $match);
-					if(isset($match[0]) && (strpos($match[0], 'user: {"id":"') !== false)){
-						$socUsername = str_replace('user: {"id":"', '', $match[0]);
-						$socUsername = str_replace('","firstName":', '', $socUsername);
-					}
-				}	
-				/* search user by twitter nikname - user's authorization needed*/
-				/*
-					$token = Yii::app()->user->token;
-					$user = (array)$this->makeRequest('https://api.foursquare.com/v2/users/search?twitter='.$socUsername.'&oauth_token='.$token.'&v=20130211', array(), true);
-					$socUser = $user['response']['results']['0'];
-					$socUsername = $socUser['id'];
-				*/
+        $net['name'] = 'vimeo';
+        $net['baseUrl'] = 'vimeo.com';
+        $net['title'] = 'Vimeo';
+        $net['invite'] = Yii::t('eauth', 'Follow me'); //Yii::t('eauth', 'Watch more');
+        $net['inviteClass'] = '';//'i-soc_vo';
+        $net['inviteValue'] = '';//'&#xe003;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'vimeo.png';
+        $net['contentClass'] = 'VimeoContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
+        /*
+          $net['name'] = 'Last.fm';
+          $net['baseUrl'] = 'lastfm.ru';
+          $net['title'] = 'LastFM';
+          $net['invite'] = Yii::t('eauth', '');
+          $net['inviteClass'] = '';
+          $net['inviteValue'] = '';
+          $net['note'] = Yii::t('eauth', '');
+          $net['smallIcon'] = '';
+          $net['contentClass'] = '';
+          $net['needAuth'] = true;
+          $net['profileHint'] = '';
+          $socNetworks[] = $net;
+         */
+        $net['name'] = 'deviantart';
+        $net['baseUrl'] = 'deviantart.com';
+        $net['title'] = 'DeviantART';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc-da';
+        $net['inviteValue'] = '';//'&#xe00b;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'deviantart.png';
+        $net['contentClass'] = 'DeviantARTContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
 
-					$socUser = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
-					$socUser = $socUser['response']['user'];
+        $net['name'] = 'Behance';
+        $net['baseUrl'] = 'behance.net';
+        $net['title'] = 'Behance';
+        $net['invite'] = Yii::t('eauth', 'See more');
+        $net['inviteClass'] = '';//'i-soc-be';
+        $net['inviteValue'] = '';//'&#xe00c;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'behance.png';
+        $net['contentClass'] = 'BehanceContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Behance profile here');
+        $socNetworks[] = $net;
 
-					if(!empty($socUser['firstName'])){
-						if(!empty($socUser['lastName']))
-							$this->userDetail['soc_username'] = $socUser['firstName'].' '.$socUser['lastName'];
-						else
-							$this->userDetail['soc_username'] = $socUser['firstName'];
-					}else
-						$this->userDetail['soc_username'] = $socUser['id'];
-					$this->userDetail['url'] = 'https://ru.foursquare.com/user/'.$socUser['id'];
-					if (!empty($socUser['photo']['prefix']))
-						$this->userDetail['photo'] = $socUser['photo']['prefix'].'100x100'.$socUser['photo']['suffix'];
-					if (!empty($socUser['gender']))
-						$this->userDetail['gender'] = $socUser['gender'];
-					if (!empty($socUser['homeCity']))
-						$this->userDetail['location'] = $socUser['homeCity'];
-					if (!empty($socUser['bio']))
-						$this->userDetail['about'] = $socUser['bio'];
-					$tips = $this->makeCurlRequest('https://api.foursquare.com/v2/lists/'.$socUsername.'/tips?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
-					if (!empty($tips['response']['list']['listItems']['items']['0']))
-						$this->userDetail['last_tip'] = '"<a href="'.$tips['response']['list']['listItems']['items']['0']['venue']['canonicalUrl'].'">'.$tips['response']['list']['listItems']['items']['0']['venue']['name'].'</a> :'.$tips['response']['list']['listItems']['items']['0']['tip']['text'].'"';
-					$badges = $this->makeCurlRequest('https://api.foursquare.com/v2/users/'.$socUsername.'/badges?client_id=ZIZ1JENX1BIOBZHZKKID0DCDUWGG0ZSBRIEINTGBIMLIOOGP&client_secret=EGTNO2EO0YKT0KLZ5X4DCZMTZLJ4ZHMSIESANZPEBGJZ2CXG&v=20130211');
-					$last_badge = array();
-					foreach($badges['response']['badges'] as $badge){
-						if(isset($badge['unlocks'][0]) && !isset($last_badge['id'])){
-							$last_badge['id'] = $badge['id'];
-							$last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
-							$last_badge['name'] = $badge['name'];
-							$last_badge['date'] = $badge['unlocks'][0]['checkins'][0]['createdAt'];
-							$last_badge['timeZoneOffset'] = $badge['unlocks'][0]['checkins'][0]['timeZoneOffset'];
-							$last_badge['description'] = $badge['description'];
-							$last_badge['badgeText'] = $badge['badgeText'];
-							foreach($badge['unlocks'] as $unlock){
-								foreach($unlock['checkins'] as $checkin){
-									if($checkin['createdAt'] > $last_badge['date'])
-										$last_badge['date'] = $checkin['createdAt'];
-								}
-							}
-						}else{
-							foreach($badge['unlocks'] as $unlock){
-								foreach($unlock['checkins'] as $checkin){
-									if($checkin['createdAt'] > $last_badge['date']){
-										$last_badge['id'] = $badge['id'];
-										$last_badge['image'] = $badge['image']['prefix'].$badge['image']['sizes']['1'].$badge['image']['name'];
-										$last_badge['name'] = $badge['name'];
-										$last_badge['date'] = $checkin['createdAt'];
-										$last_badge['timeZoneOffset'] = $checkin['timeZoneOffset'];
-										$last_badge['description'] = $badge['description'];
-										$last_badge['badgeText'] = $badge['badgeText'];
-									}
-								}
-							}
-							
-						}
-					}
-					
-					if(isset($last_badge['id']))
-						$this->userDetail['last_badge'] = '<div class="badge" style="text-align:center;float:left;"><a href="https://ru.foursquare.com/user/'.$socUsername.'/badge/'.$last_badge['id'].'"><img src="'.$last_badge['image'].'" style="width:115px; height:115px;"></a>
+        /*
+          $net['name'] = 'Flickr';
+          $net['baseUrl'] = 'flickr.com';
+          $net['title'] = 'Flickr';
+          $net['invite'] = Yii::t('eauth', '');
+          $net['inviteClass'] = '';
+          $net['inviteValue'] = '';
+          $net['note'] = Yii::t('eauth', '');
+          $net['smallIcon'] = '';
+          $net['contentClass'] = '';
+          $net['needAuth'] = true;
+          $net['profileHint'] = '';
+          $socNetworks[] = $net;
+         */
+        $net['name'] = 'YouTube';
+        $net['baseUrl'] = 'youtube.com';
+        $net['title'] = 'YouTube';
+        $net['invite'] = Yii::t('eauth', 'Watch more');
+        $net['inviteClass'] = '';//'i-soc_yt';
+        $net['inviteValue'] = '';//'&#xe000;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'youtube.png';
+        $net['contentClass'] = 'YouTubeContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your YouTube profile here');
+        $socNetworks[] = $net;
+
+        $net['name'] = 'instagram';
+        $net['baseUrl'] = 'instagram.com';
+        $net['title'] = 'Instagram';
+        $net['invite'] = Yii::t('eauth', 'Follow me');
+        $net['inviteClass'] = '';//'i-soc_ing';
+        $net['inviteValue'] = '';//'&#xe006;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'instagram.png';
+        $net['contentClass'] = 'InstagramContent';
+        $net['needAuth'] = true;
+        $net['profileHint'] = '';
+        $socNetworks[] = $net;
+
+        $net['name'] = 'pinterest';
+        $net['baseUrl'] = 'pinterest.com';
+        $net['title'] = 'Pinterest';
+        $net['invite'] = Yii::t('eauth', 'See more pins');
+        $net['inviteClass'] = '';//'i-soc-pin';
+        $net['inviteValue'] = '';//'&#xe017;';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'pinterest.png';
+        $net['contentClass'] = 'PinterestContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Pinterest profile here');
+        $socNetworks[] = $net;
+        
+        $net['name'] = 'crunchbase';
+        $net['baseUrl'] = 'crunchbase.com';
+        $net['title'] = 'CrunchBase';
+        $net['invite'] = Yii::t('eauth', 'Watch more');
+        $net['inviteClass'] = '';
+        $net['inviteValue'] = '';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'crunchbase.png';
+        $net['contentClass'] = 'CrunchBaseContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Crunchbase profile here');
+        $socNetworks[] = $net;
+        
+        $net['name'] = 'tumblr';
+        $net['baseUrl'] = 'tumblr.com';
+        $net['title'] = 'tumblr';
+        $net['invite'] = Yii::t('eauth', 'Follow me'); //'Read more');
+        $net['inviteClass'] = '';
+        $net['inviteValue'] = '';
+        $net['note'] = Yii::t('eauth', '');
+        $net['smallIcon'] = 'tumblr.png';
+        $net['contentClass'] = 'TumblrContent';
+        $net['needAuth'] = false;
+        $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your tumblr profile here');
+        $socNetworks[] = $net;
+        return $socNetworks;
+    }
+
+    public function getNetData($link, $discodesId = null, $dataKey = null, $dinamyc = false)
+    {
+        $this->socNet = '';
+        $this->socUsername = '';
+        $this->userDetail = array();
+        $net = $this->getNetByLink($link);
+
+        if (!empty($net['name']))
+        {
+            $this->socNet = $net['name'];
+            $this->socUsername = $this->parceSocUrl($this->socNet, $link);
+            $this->getSocInfo($this->socNet, $this->socUsername, $discodesId, $dataKey);
+            if (empty($this->userDetail['invite']))
+                $this->userDetail['invite'] = $net['invite'];
+            $this->userDetail['inviteClass'] = $net['inviteClass'];
+            $this->userDetail['inviteValue'] = $net['inviteValue'];
+            $this->userDetail['netName'] = $this->socNet;
+        }
+        
+        if ($dinamyc)
+            $this->userDetail['dinamyc'] = true;
+        
+        if (empty($this->userDetail['soc_url']))
+            $this->userDetail['soc_url'] = $link;
+        
+        return $this->userDetail;
+    }
+
+    public function getNetByName($name)
+    {
+        $name = $this->mergeMobile($name);
+        $answer = array();
+        foreach ($this->socNetworks as $net)
+        {
+            if ($name == $net['name'])
+            {
+                $answer = $net;
+                break;
+            }
+        }
+        return $answer;
+    }
+
+    public function getNetByLink($link)
+    {
+        $answer = array();
+        foreach ($this->socNetworks as $net)
+        {
+            if (strpos($link, $net['baseUrl']) !== false)
+            {
+                $answer = $net;
+                break;
+            }
+        }
+        
+        if (empty($answer['name']) and (strpos($link, '.') !== false))
+        {
+            $tumblrLink = TumblrContent::parseUsername($link);
+            if (!empty(Yii::app()->eauth->services['tumblr']))
+            {
+               $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
+            if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
+                $answer = $this->getNetByName('tumblr'); 
+            }
+        }
+        
+        return $answer;
+    }
+
+    public function isLinkCorrect($link, $discodesId = null, $dataKey = null)
+    {
+        $answer = 'ok';
+
+        $net = $this->getNetByLink($link);
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::isLinkCorrect($link, $discodesId, $dataKey);
+        }
+
+        return $answer;
+    }
+    
+    public function getSocPatterns()
+    {
+        $answer = array();
+        
+        foreach ($this->socNetworks as $net)
+        {
+
+            if (!empty($net['baseUrl']))
+            {
+                $pattern = array();
+                $pattern['name'] = $net['name'];
+                $pattern['baseUrl'] = $net['baseUrl'];
+                $pattern['title'] = $net['title'];
+                if (isset(Yii::app()->session[$net['name'] . '_BindByPaste']))
+                    $pattern['BindByPaste'] = true;
+                else
+                    $pattern['BindByPaste'] = false;
+                $answer[] = $pattern;
+            }
+        }
+        
+        return $answer;
+    }
+    
+    public function isLoggegOn($netName, $checkNeed = true)
+    {
+        $answer = false;
+        
+        $net = $this->getNetByName($netName);
+        if ($checkNeed && $net['needAuth'] == false)
+        {
+            $answer = true;
+        }
+        elseif (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::isLoggegByNet();
+        }
+        elseif(!empty(Yii::app()->session[$net['name'] . '_id']))
+            $answer = true;
+        
+        return $answer;
+    }
+
+    public function getSmallIcon($link)
+    {
+        $answer = '';
+        
+        $net = $this->getNetByLink($link);
+        if (!empty($net['smallIcon']))
+            $answer = $net['smallIcon'];
+        
+        return $answer;
+    }
+    
+    public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null)
+    {
+        $this->socNet = $socNet;
+        $this->socUsername = $socUsername;
+        
+        $cachedData = Yii::app()->cache->get('socData_' . md5($socUsername));
+
+        if ($cachedData !== false)
+        {
+            $this->userDetail = $cachedData;
+        }
+        else
+        {
+            $this->userDetail['service'] = $socNet;
+            $this->userDetail['UserExists'] = false;
+            $socUsername = $this->parceSocUrl($socNet, $socUsername);
+
             
-            <p><a href="https://ru.foursquare.com/user/'.$socUsername.'/badge/'.$last_badge['id'].'">'.$last_badge['name'].'</a> </p>
-            <p>'.date('F j, Y', ($last_badge['date'] + $last_badge['timeZoneOffset'])).'&nbsp;</p>
-			<p>'.$last_badge['description'].'</p>
-          </div>';
+            if ($socNet == 'linkedin')
+            {
+                $getProfile = false;
+                if (!empty($discodesId) && is_numeric($discodesId))
+                {
+                    $spot = Spot::model()->findByPk($discodesId);
+                    if ($spot)
+                    {
+                        $socToken = SocToken::model()->findByAttributes(array('user_id' => $spot->user_id, 'type' => 9));
+                        if ($socToken)
+                        {
+                            Yii::import('ext.eoauth.*');
+                            $consumer = new OAuthConsumer(Yii::app()->eauth->services['linkedin']['key'], Yii::app()->eauth->services['linkedin']['secret']);
+                            $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
+                            $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
+                            parse_str($socToken->user_token, $values);
+    //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
+                            //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
+                            $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
+                            $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url,educations,positions)';
+                            $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
+                            $options = array();
+                            $query = null;
+                            $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
+                            $request->sign_request($signatureMethod, $consumer, $token);
+                            $answer = $this->makeRequest($request->to_url(), $options, false);
+
+                            if (strpos($answer, 'error:') === false)
+                            {
+                                $getProfile = true;
+                                $socUser = $this->xmlToArray(simplexml_load_string($answer));
+
+                                $this->userDetail['soc_username'] = $socUser['first-name'] . ' ' . $socUser['last-name'];
+                                if (!empty($socUser['picture-url']))
+                                    $this->userDetail['photo'] = (string)$socUser['picture-url'];
+                                if (!empty($socUser['headline']))
+                                    $this->userDetail['sub-line'] = (string)$socUser['headline'];
+                                if (!empty($socUser['public-profile-url']))
+                                    $this->userDetail['soc_url'] = (string)$socUser['public-profile-url'];
+                                $this->userDetail['list'] = array();
+                                $this->userDetail['list']['values'] = array();
+
+                                $currentPosition = '';
+                                $positionString = '';
+                                $educationString = '';
+                                if (isset($socUser['positions']) && isset($socUser['positions']['@attributes']) && !empty($socUser['positions']['@attributes']['total']) && isset($socUser['positions']['position']))
+                                {
+                                    if ($socUser['positions']['@attributes']['total'] > 1)
+                                    {
+                                        for ($i=0; $i < $socUser['positions']['@attributes']['total']; $i++)
+                                        {
+                                            if (isset($socUser['positions']['position'][$i]))
+                                            {
+                                                $position = $this->xmlToArray($socUser['positions']['position'][$i]);
+                                                if (isset($position['company']) && !empty($position['company']['name']) && isset($position['is-current']))
+                                                {
+                                                    if ($position['is-current'] == 'true')
+                                                    {
+                                                        $currentPosition = $position['company']['name'];
+                                                    }
+                                                    elseif (!$positionString)
+                                                        $positionString = (string)$position['company']['name'];
+                                                    else
+                                                        $positionString .= ', ' . (string)$position['company']['name'];
+                                                
+                                                }
+                                            }
+                                        }
+                                    }
+                                    elseif (isset($socUser['positions']['position']['company']) && !empty($socUser['positions']['position']['company']['name']) && isset($socUser['positions']['position']['is-current']))
+                                    {
+                                        if ($socUser['positions']['position']['is-current'] == 'true')
+                                            $currentPosition = $socUser['positions']['position']['company']['name'];
+                                        else
+                                            $positionString = $socUser['positions']['position']['company']['name'];
+                                    }
+                                }
+                                
+                                if (isset($socUser['educations']) && isset($socUser['educations']['@attributes']) && !empty($socUser['educations']['@attributes']['total']) && isset($socUser['educations']['education']))
+                                {
+                                    
+                                    if ($socUser['educations']['@attributes']['total'] > 1)
+                                    {
+                                        for ($i=0; $i < $socUser['educations']['@attributes']['total']; $i++)
+                                        {
+                                            if (isset($socUser['educations']['education'][$i]))
+                                            {
+                                                $education = $this->xmlToArray($socUser['educations']['education'][$i]);
+
+                                                if (!empty($education['school-name']))
+                                                {
+                                                    if (!$educationString)
+                                                        $educationString = (string)$education['school-name'];
+                                                    else
+                                                        $educationString .= ', ' . (string)$education['school-name'];
+                                                }
+                                            }
+                                        }
+                                    }
+                                    elseif (!empty($socUser['educations']['education']['school-name']))
+                                    {
+                                        $educationString = $socUser['educations']['education']['school-name'];
+                                    }
+                                }
+                                
+                                if ($currentPosition)
+                                {
+                                    $userPosition = array();
+                                    $userPosition['title'] = Yii::t('eauth', "Текущая");
+                                    $userPosition['comment'] = $currentPosition;
+                                    $this->userDetail['list']['values'][] = $userPosition;
+                                }
+                                
+                                if ($positionString)
+                                {
+                                    $userPosition = array();
+                                    $userPosition['title'] = Yii::t('eauth', "Предыдущие");
+                                    $userPosition['comment'] = $positionString;
+                                    $this->userDetail['list']['values'][] = $userPosition;
+                                }
+                                    
+                                if ($educationString)
+                                {
+                                    $userEducation = array();
+                                    $userEducation['title'] = Yii::t('eauth', "Образование");
+                                    $userEducation['comment'] = $educationString;
+                                    $this->userDetail['list']['values'][] = $userEducation;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!$getProfile)
+                {
+                    $this->userDetail['last_status'] = $socUsername;
+                }
+
+            }
+            elseif ($socNet == 'Last.fm')
+            {
+                $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $socUsername . '&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
+                $socUser = $socUser['user'];
+                if (!empty($socUser['realname']))
+                    $this->userDetail['soc_username'] = $socUser['realname'];
+                else
+                    $this->userDetail['soc_username'] = $socUser['name'];
+                if (!empty($socUser['image'][1]))
+                    $this->userDetail['photo'] = $socUser['image'][1]['#text'];
+                if (!empty($socUser['url']))
+                    $this->userDetail['soc_url'] = $socUser['url'];
+                if (!empty($socUser['country']))
+                    $this->userDetail['location'] = $socUser['country'];
+                if (!empty($socUser['age']))
+                    $this->userDetail['age'] = $socUser['age'];
+                if (!empty($socUser['gender']))
+                    $this->userDetail['gender'] = $socUser['gender'];
+            }
+            elseif ($socNet == 'Flickr')
+            {
+                //if not id
+                if (strpos($socUsername, '@') === false)
+                {
+                    $socUsername = str_replace(' ', '+', $socUsername);
+                    $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=dc1985d59dc4b427afefe54c912fae0a&username=' . $socUsername . '&format=json&nojsoncallback=1');
+                    //replace username by id
+                    if ($socUser['stat'] == 'ok')
+                        $socUsername = $socUser['user']['id'];
+                }
+
+                $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
+                if ($socUser['stat'] == 'ok')
+                {
+                    $socUser = $socUser['person'];
+                    if (!empty($socUser['realname']['_content']))
+                        $this->userDetail['soc_username'] = $socUser['realname']['_content'];
+                    else
+                        $this->userDetail['soc_username'] = $socUser['username']['_content'];
+                    if (!empty($socUser['iconserver']))
+                    {
+                        if ($socUser['iconserver'] > 0)
+                            $this->userDetail['photo'] = 'http://farm' . $socUser['iconfarm'] . '.staticflickr.com/' . $socUser['iconserver'] . '/buddyicons/' . $socUser['nsid'] . '.jpg';
+                        else
+                            $this->userDetail['photo'] = 'http://www.flickr.com/images/buddyicon.gif';
+                    }
+                    if (!empty($socUser['location']['_content']))
+                        $this->userDetail['location'] = $socUser['location']['_content'];
+                    if (!empty($socUser['profileurl']['_content']))
+                        $this->userDetail['soc_url'] = $socUser['profileurl']['_content'];
+                    if (!empty($socUser['timezone']['label']))
+                        $this->userDetail['timezone'] = $socUser['timezone']['label'] . ' ' . $socUser['timezone']['offset'];
+
+                    $photo = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
+                    if (($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id']))
+                    {
+                        $photo = $photo['photos']['photo'][0];
+                        $this->userDetail['last_photo'] = '<img src="http://farm' . $photo['farm'] . '.staticflickr.com/' . $photo['server'] . '/' . $photo['id'] . '_' . $photo['secret'] . '_z.jpg"/><br/>' . $photo['title'];
+                    }
+                }
+                else
+                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                //$this->userDetail['about'] = print_r($socUser, true);
+            }            
+            else
+            {
+                $net = $this->getNetByLink($socUsername);
+                if (isset($net['contentClass']) && strlen($net['contentClass']))
+                {
+                    $class = $net['contentClass'];
+                    $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
+                }
+                else
+                    $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
+            }
+            
+            Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
+        }
+
+        $uncheck = array('html', 'list', 'list2', 'follow_button');
+        foreach($this->userDetail as $socKey => $socValue)
+        {
+            if (!is_array($socValue) && !in_array($socKey, $uncheck))
+                $this->userDetail[$socKey] =  strip_tags((string)$socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'); 
+//'<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'
+        }
+
+        return $this->userDetail;
+    }
+
+    public function parceSocUrl($socNet, $url)
+    {
+        $username = $url;
+        if ($socNet == 'Last.fm')
+        {
+            if ((strpos($username, 'lastfm.ru/user/') > 0) || (strpos($username, 'lastfm.ru/user/') !== false))
+                $username = substr($username, (strpos($username, 'lastfm.ru/user/') + 15));
+            if (strpos($username, '?') > 0)
+                $username = substr($username, 0, strpos($username, '?'));
+            if (strpos($username, '/') > 0)
+                $username = substr($username, 0, strpos($username, '/'));
+            if (strpos($username, '&') > 0)
+                $username = substr($username, 0, strpos($username, '&'));
+        }
+        elseif ($socNet == 'Flickr')
+        {
+            if ((strpos($username, 'flickr.com/people/') > 0) || (strpos($username, 'flickr.com/people/') !== false))
+                $username = substr($username, (strpos($username, 'flickr.com/people/') + 18));
+            if ((strpos($username, 'flickr.com/photos/') > 0) || (strpos($username, 'flickr.com/photos/') !== false))
+                $username = substr($username, (strpos($username, 'flickr.com/photos/') + 18));
+            $username = $this->rmGetParam($username);
+        }
+
+        return $username;
+    }
+
+    public function rmGetParam($str)
+    {
+        if (strpos($str, '?') > 0)
+            $str = substr($str, 0, strpos($str, '?'));
+        if ((strpos($str, '/') > 0) && ((strpos($str, 'http://')) === false ))
+            $str = substr($str, 0, strpos($str, '/'));
+        if (strpos($str, '&') > 0)
+            $str = substr($str, 0, strpos($str, '&'));
+        return $str;
+    }
+
+    public function makeCurlRequest($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
 
 
-			}elseif($socNet == 'vimeo'){
-				$socUser = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/info.json');
-				if(!is_string($socUser)){
-					$this->userDetail['soc_username'] = $socUser['display_name'];
-					$this->userDetail['soc_url'] = $socUser['profile_url'];
-					if (isset($socUser['portrait_small']) and !empty($socUser['portrait_small']))
-						$this->userDetail['photo'] = $socUser['portrait_small'];
-					if (isset($socUser['location']) and !empty($socUser['location']))
-						$this->userDetail['location'] = $socUser['location'];
-					if (isset($socUser['bio']) and !empty($socUser['bio']))
-						$this->userDetail['about'] = $socUser['bio'];
-						
-					$video = $this->makeCurlRequest('http://vimeo.com/api/v2/'.$socUsername.'/videos.json');
-					if(isset($video[0]['id']))
-						$this->userDetail['vimeo_last_video'] = $video[0]['id'];
-				}else
-					$this->userDetail['soc_username'] = Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;
-			// Last.fm
-			}elseif($socNet == 'Last.fm'){
-				$socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='.$socUsername.'&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
-				$socUser = $socUser['user'];
-				if(!empty($socUser['realname']))
-					$this->userDetail['soc_username'] = $socUser['realname'];
-				else
-					$this->userDetail['soc_username'] = $socUser['name'];
-				if(!empty($socUser['image'][1]))
-					$this->userDetail['photo'] = $socUser['image'][1]['#text'];
-				if(!empty($socUser['url']))
-					$this->userDetail['soc_url'] = $socUser['url'];
-				if(!empty($socUser['country']))
-					$this->userDetail['location'] = $socUser['country'];
-				if(!empty($socUser['age']))
-					$this->userDetail['age'] = $socUser['age'];
-				if(!empty($socUser['gender']))
-					$this->userDetail['gender'] = $socUser['gender'];						
-			}elseif($socNet == 'DeviantART'){
-				$options=array();
-				$ch = $this->initRequest('http://'.$socUsername.'.deviantart.com', $options);
-				$result = curl_exec($ch);
-				$headers = curl_getinfo($ch);
-				if($headers['http_code'] == 200){
-					
-					$this->userDetail['soc_username'] = $socUsername;
-					$this->userDetail['soc_url'] = 'http://'.$socUsername.'.deviantart.com';
-					
-					$userLent = $this->makeRequest('http://backend.deviantart.com/rss.xml?q=by%3A'.$socUsername.'+sort%3Atime+meta%3Aall', $options, false);
-					$xml = new SimpleXMLElement($userLent);
-					if(isset($xml->channel->item[0]->link))
-						$this->userDetail['last_status'] = '';
-					$i=0;
-				
-					while(($i<5) && isset($xml->channel->item[$i]->link)){
-						$dev_link = (string)$xml->channel->item[$i]->link;
-						$last_dev = $this->makeRequest('http://backend.deviantart.com/oembed?url='.$dev_link);
-						
-						if(!empty($last_dev['title'])){
-							if($i > 0)
-								$this->userDetail['last_status'] .= '<hr/>';
-							if(!empty($last_dev['thumbnail_url']))
-								$this->userDetail['last_status'] .= '<br/><a href="'.$dev_link.'" target="_blank">'.$last_dev['title'].'<br/><img src="'.$last_dev['thumbnail_url'].'" />'.'</a>';
-							else
-								$this->userDetail['last_status'] .= '<br/><a href="'.$dev_link.'" target="_blank">'.$last_dev['title'].'</a>';
-						}
-						$i++;
-					}
-				}else
-					$this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;						
-			}elseif($socNet == 'Behance'){
-				$socUser = $this->makeRequest('http://www.behance.net/v2/users/'.$socUsername.'?api_key=PRn69HKifRiUjKnfOpPGcL24v7y8z21f');
-				$socUser = $socUser['user'];
-				if(!empty($socUser['display_name']))
-					$this->userDetail['soc_username'] = $socUser['display_name'];
-				else
-					$this->userDetail['soc_username'] = $socUser['username'];				
-				if(!empty($socUser['images']['50']))
-					$this->userDetail['photo'] = $socUser['images']['50'];
-				$this->userDetail['soc_url'] = $socUser['url'];
-				if(!empty($socUser['sections']['Where, When and What']))
-					$this->userDetail['about'] = $socUser['sections']['Where, When and What'];
-				if(!empty($socUser['company']))
-					$this->userDetail['work'] = $socUser['company'];
-				if(!empty($socUser['country']))
-					$this->userDetail['location'] = $socUser['country'];
-				else
-					$this->userDetail['location'] = '';
-				if(!empty($socUser['state'])){
-					if($this->userDetail['location'] == '')
-						$this->userDetail['location'] = $socUser['state'];
-					else
-						$this->userDetail['location'] .= ', '.$socUser['state'];
-				}
-				if(!empty($socUser['city'])){
-					if($this->userDetail['location'] == '')
-						$this->userDetail['location'] = $socUser['city'];
-					else
-						$this->userDetail['location'] .= ', '.$socUser['city'];
-				}
-				if($this->userDetail['location'] == '')
-					unset($this->userDetail['location']);
-				if(!empty($socUser['fields'][0])){
-					$this->userDetail['focus'] = '';
-					foreach($socUser['fields'] as $focus){
-						if($this->userDetail['focus'] !== '')
-							$this->userDetail['focus'] .= ', ';
-						$this->userDetail['focus'] .= $focus;
-					}
-				}
+        $curl_result = curl_exec($ch);
+        $headers = curl_getinfo($ch);
+        //curl_error($ch);
+        curl_close($ch);
 
-				$projects = $this->makeRequest('http://www.behance.net/v2/users/'.$socUsername.'/projects?api_key=PRn69HKifRiUjKnfOpPGcL24v7y8z21f');
-				if(isset($projects['projects'][0])){
-					$projects = $projects['projects'][0];
-					$imgProject = '';
-					if(isset($projects['covers'][202]))
-						$imgProject = '<br/><img src="'.$projects['covers'][202].'"/>';
-					$this->userDetail['last_status'] = '<a href="'.$projects['url'].'" target="_blank">'.$projects['name'].$imgProject.'</a>';
-				}
-				
-			}elseif($socNet == 'Flickr'){
-				//if not id
-				if(strpos($socUsername, '@') === false){
-					$socUsername = str_replace(' ', '+', $socUsername);
-					$socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=dc1985d59dc4b427afefe54c912fae0a&username='.$socUsername.'&format=json&nojsoncallback=1');
-					//replace username by id
-					if($socUser['stat'] == 'ok')
-						$socUsername = $socUser['user']['id'];
-				}
-			
-				$socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id='.urlencode($socUsername).'&format=json&nojsoncallback=1');
-				if($socUser['stat'] == 'ok'){
-						$socUser = $socUser['person'];
-					if(!empty($socUser['realname']['_content']))
-						$this->userDetail['soc_username'] = $socUser['realname']['_content'];
-					else
-						$this->userDetail['soc_username'] = $socUser['username']['_content'];
-					if(!empty($socUser['iconserver'])){
-						if($socUser['iconserver'] > 0)
-							$this->userDetail['photo'] = 'http://farm'.$socUser['iconfarm'].'.staticflickr.com/'.$socUser['iconserver'].'/buddyicons/'.$socUser['nsid'].'.jpg';
-						else
-							$this->userDetail['photo'] = 'http://www.flickr.com/images/buddyicon.gif';
-					}
-					if(!empty($socUser['location']['_content']))
-						$this->userDetail['location'] = $socUser['location']['_content'];
-					if(!empty($socUser['profileurl']['_content']))
-						$this->userDetail['soc_url'] = $socUser['profileurl']['_content'];	
-					if(!empty($socUser['timezone']['label']))
-						$this->userDetail['timezone'] = $socUser['timezone']['label'].' '.$socUser['timezone']['offset'];
-						
-					$photo = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id='.urlencode($socUsername).'&format=json&nojsoncallback=1');
-					if(($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id'])){
-						$photo = $photo['photos']['photo'][0];
-						$this->userDetail['last_photo'] = '<img src="http://farm'.$photo['farm'].'.staticflickr.com/'.$photo['server'].'/'.$photo['id'].'_'.$photo['secret'].'_z.jpg"/><br/>'.$photo['title'];
-					}
-				}else
-					$this->userDetail['soc_username'] =  Yii::t('eauth', "Пользователя с таким именем не существует:").$socUsername;	
-				//$this->userDetail['about'] = print_r($socUser, true);
-			}elseif($socNet == 'YouTube'){
-/*				//$userXML = $this->makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
-				$socUser = $this->xmlToArray(simplexml_load_string($userXML));
-*/
-				Yii::import('ext.ZendGdata.library.*');
-				require_once('Zend/Gdata/YouTube.php');
-				require_once('Zend/Gdata/AuthSub.php');
+        if ($headers['http_code'] != 200)
+            $result = 'error:' . $headers['http_code'];
+        else
+            $curl_result = CJSON::decode($curl_result, true);
 
-	
-				$yt = new Zend_Gdata_YouTube();
-				$yt->setMajorProtocolVersion(2);
-				$userProfileEntry = $yt->getUserProfile($socUsername);
-				
-				$this->userDetail['soc_username'] = $userProfileEntry->title->text;
-				$this->userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
-				$this->userDetail['age'] = $userProfileEntry->getAge();
-				$this->userDetail['gender'] = $userProfileEntry->getGender();
-				$this->userDetail['location'] = $userProfileEntry->getLocation();
-				$this->userDetail['school'] = $userProfileEntry->getSchool();
-				$this->userDetail['work'] = $userProfileEntry->getCompany();
-				$this->userDetail['about'] = $userProfileEntry->getOccupation();
+        return $curl_result;
+    }
 
-				$videoFeed = $yt->getuserUploads($socUsername);
-				$videoEntry = $videoFeed[0];
-				$this->userDetail['utube_video_link'] = '<a href="'.$videoEntry->getVideoWatchPageUrl().'" target="_blank">'.$videoEntry->getVideoTitle().'</a>';
-				$this->userDetail['utube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-				
-			}elseif($socNet == 'Instagram'){
-				if(!isset(Yii::app()->user->token) || (Yii::app()->user->service != 'instagram'))
-					$this->userDetail['soc_username'] = 'Сначала авторизуйтесь черз Ваш профиль в Instagram';
-				else{
-				/*
-					//Parce html				
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, 'http://instagram.com/'.$socUsername);
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-					$profile = curl_exec($ch);
-					$headers = curl_getinfo($ch);
-					curl_close($ch);
-					$profile = substr($profile, (strpos($profile, ('"username":'.$socUsername))));	
-					$match = array();
-					preg_match('~"id":"[0-9]+"~', $profile, $match);
-					if(isset($match[0])){
-						$socUsername = str_replace('"id":"', '', $match[0]);
-						$socUsername = str_replace('"', '', $socUsername);
-					}
-				*/
-					$socUser = $this->makeRequest('https://api.instagram.com/v1/users/search?q='.$socUsername.'&count=1&access_token='.Yii::app()->user->token);
-					if(!is_string($socUser)){
-						$socUser = $socUser['data'][0];
-						if(!empty($socUser['full_name']))
-							$this->userDetail['soc_username'] = $socUser['full_name'];
-						else
-							$this->userDetail['soc_username'] = $socUser['username'];
-						$this->userDetail['soc_url'] = 'http://instagram.com/'.$socUser['username'];
-						$this->userDetail['photo'] = $socUser['profile_picture'];
-						if(!empty($socUser['bio']))
-							$this->userDetail['about'] = $socUser['bio'];				
-						if(!empty($socUser['website']))
-							$this->userDetail['url'] = $socUser['website'];						
-						$userId = $socUser['id'];
-						$media = $this->makeRequest('https://api.instagram.com/v1/users/'.$userId.'/media/recent?access_token='.Yii::app()->user->token);
-						if(!empty($media['data'][0])){
-							$media = $media['data'][0];
-							$this->userDetail['last_status'] = '<a href="'.$media['link'].'" target="_blank">'.$media['caption']['text'].'<br/><img src="'.$media['images']['standard_resolution']['url'].'"/></a>';
-						}
-					}else
-						$this->userDetail['soc_username'] = 'Пользователя с таким именем не существует:'.$socUsername;
-				}
-				
-			}else{
-			
-				$this->userDetail['soc_username'] =  Yii::t('Социальная сеть не поддерживается: ').$socNet;
-			}
-		return $this->userDetail;
-	}
-	
-	public function parceSocUrl($socNet, $url){
-		$username = $url;
-		if($socNet == 'facebook'){
-			if((strpos($username, 'facebook.com/') > 0) ||(strpos($username, 'facebook.com/') !== false)){
-				$username = substr($username, (strpos($username, 'facebook.com/')+13) );
-				if(strpos($username, '?') > 0){
-					$username = substr($username, 0, strpos($username, '?'));
-				}
-				if(strpos($username, '/') > 0){
-					$username = substr($username, 0, strpos($username, '/'));
-				}
-				if(strpos($username, '&') > 0){
-					$username = substr($username, 0, strpos($username, '&'));
-				}
-			}
-		}elseif($socNet == 'twitter'){
-			if((strpos($username, 'twitter.com/') > 0) ||(strpos($username, 'twitter.com/') !== false)){
-				$username = substr($username, (strpos($username, 'twitter.com/')+12) );
-				if(strpos($username, '?') > 0){
-					$username = substr($username, 0, strpos($username, '?'));
-				}
-				if(strpos($username, '/') > 0){
-					$username = substr($username, 0, strpos($username, '/'));
-				}
-				if(strpos($username, '&') > 0){
-					$username = substr($username, 0, strpos($username, '&'));
-				}
-			}			
-		}elseif($socNet == 'google'){
-			if((strpos($username, 'google.com') > 0) ||(strpos($username, 'google.com') !== false)){
-				if ((strpos($username, 'google.com/u/0/') > 0) ||(strpos($username, 'google.com/u/0/') !== false)){
-					$username = substr($username, (strpos($username, 'google.com/u/0/')+15));
-				}
-				if ((strpos($username, 'google.com/') > 0) ||(strpos($username, 'google.com/') !== false)){
-					$username = substr($username, (strpos($username, 'google.com/')+11));
-				}
-				if(strpos($username, '?') > 0){
-					$username = substr($username, 0, strpos($username, '?'));
-				}
-				if(strpos($username, '/') > 0){
-					$username = substr($username, 0, strpos($username, '/'));
-				}
-				if(strpos($username, '&') > 0){
-					$username = substr($username, 0, strpos($username, '&'));
-				}
-			}			
-		}elseif($socNet == 'ВКонтакте'){
-			if((strpos($username, 'vk.com/') > 0) ||(strpos($username, 'vk.com/') !== false)){
-				$username = substr($username, (strpos($username, 'vk.com/')+7) );
-				if(strpos($username, '?') > 0){
-					$username = substr($username, 0, strpos($username, '?'));
-				}
-				if(strpos($username, '/') > 0){
-					$username = substr($username, 0, strpos($username, '/'));
-				}
-				if(strpos($username, '&') > 0){
-					$username = substr($username, 0, strpos($username, '&'));
-				}
-			}
-		}elseif($socNet == 'Foursquare'){
-			if((strpos($username, 'ru.foursquare.com/user/') > 0) ||(strpos($username, 'ru.foursquare.com/user/') !== false)){
-				$username = substr($username, (strpos($username, 'ru.foursquare.com/user/')+23) );
-			}
-			if((strpos($username, 'foursquare.com') > 0) ||(strpos($username, 'foursquare.com') !== false)){
-				$username = substr($username, (strpos($username, 'foursquare.com')+15));
-			}
-			if(strpos($username, '?') > 0){
-				$username = substr($username, 0, strpos($username, '?'));
-			}
-			if(strpos($username, '/') > 0){
-				$username = substr($username, 0, strpos($username, '/'));
-			}
-			if(strpos($username, '&') > 0){
-				$username = substr($username, 0, strpos($username, '&'));
-			}
-		}elseif($socNet == 'vimeo'){
-			if((strpos($username, 'vimeo.com/') > 0) ||(strpos($username, 'vimeo.com/') !== false)){
-				$username = substr($username, (strpos($username, 'vimeo.com/')+10) );
-				if(strpos($username, '?') > 0){
-					$username = substr($username, 0, strpos($username, '?'));
-				}
-				if(strpos($username, '/') > 0){
-					$username = substr($username, 0, strpos($username, '/'));
-				}
-				if(strpos($username, '&') > 0){
-					$username = substr($username, 0, strpos($username, '&'));
-				}
-			}
-		}elseif($socNet == 'Last.fm'){
-			if((strpos($username, 'lastfm.ru/user/') > 0) ||(strpos($username, 'lastfm.ru/user/') !== false))
-				$username = substr($username, (strpos($username, 'lastfm.ru/user/')+15) );
-			if(strpos($username, '?') > 0)
-				$username = substr($username, 0, strpos($username, '?'));
-			if(strpos($username, '/') > 0)
-				$username = substr($username, 0, strpos($username, '/'));
-			if(strpos($username, '&') > 0)
-				$username = substr($username, 0, strpos($username, '&'));
-		}elseif($socNet == 'DeviantART'){
-			if((strpos($username, 'http://') > 0) ||(strpos($username, 'http://') !== false))
-				$username = substr($username, (strpos($username, 'http://')+7) );
-			if((strpos($username, 'deviantart.com') > 0) ||(strpos($username, 'deviantart.com') !== false))
-				$username = substr($username, 0, (strpos($username, 'deviantart.com')-1) );			
-			if(strpos($username, 'http://') !== false)
-				$username = 'strpos:'.strpos($username, 'http://');
-		}elseif($socNet == 'Behance'){
-			if((strpos($username, 'behance.net/') > 0) ||(strpos($username, 'behance.net/') !== false))
-				$username = substr($username, (strpos($username, 'behance.net/')+ 12));
-			$username = $this->rmGetParam($username);
-		}elseif($socNet == 'Flickr'){
-			if((strpos($username, 'flickr.com/people/') > 0) ||(strpos($username, 'flickr.com/people/') !== false))
-				$username = substr($username, (strpos($username, 'flickr.com/people/') + 18));		
-			if((strpos($username, 'flickr.com/photos/') > 0) ||(strpos($username, 'flickr.com/photos/') !== false))
-				$username = substr($username, (strpos($username, 'flickr.com/photos/') + 18));			
-			$username = $this->rmGetParam($username);
-		}elseif($socNet == 'YouTube'){	
-			if((strpos($username, 'youtube.com/channel/') > 0) ||(strpos($username, 'youtube.com/channel/') !== false))
-				$username = substr($username, (strpos($username, 'youtube.com/channel/') + 20));	
-			if((strpos($username, 'youtube.com/user/') > 0) ||(strpos($username, 'youtube.com/user/') !== false))
-				$username = substr($username, (strpos($username, 'youtube.com/user/') + 17));	
-			$username = $this->rmGetParam($username);		
-		}elseif($socNet == 'Instagram'){
-			if(strpos($username, 'instagram.com/') !== false)
-				$username = substr($username, (strpos($username, 'instagram.com/') + 14));
-			$username = $this->rmGetParam($username);	
-		}
-		return $username;
-	}
+    protected function makeRequest($url, $options = array(), $parseJson = true)
+    {
+        $ch = $this->initRequest($url, $options);
 
-	public function rmGetParam($str){
-		if(strpos($str, '?') > 0)
-			$str = substr($str, 0, strpos($str, '?'));
-		if((strpos($str, '/') > 0) && ((strpos($str, 'http://')) === false ))
-			$str = substr($str, 0, strpos($str, '/'));
-		if(strpos($str, '&') > 0)
-			$str = substr($str, 0, strpos($str, '&'));
-		return $str;
-	}
-	
-	public function makeCurlRequest($url){
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/../config/ca-bundle.crt');
-		 
-		 
-		$curl_result = curl_exec($ch);
-		$headers = curl_getinfo($ch);
-		//curl_error($ch);
-		curl_close($ch);
-		
-		if($headers['http_code'] != 200)
-			$result = 'error:'.$headers['http_code'];
-		else
-			$curl_result = CJSON::decode($curl_result, true);
-		
-		return $curl_result;
-	}
+        $result = curl_exec($ch);
+        $headers = curl_getinfo($ch);
 
+        if (curl_errno($ch) > 0)
+            throw new CException(curl_error($ch), curl_errno($ch));
 
-	protected function makeRequest($url, $options = array(), $parseJson = true) {
-		$ch = $this->initRequest($url, $options);
+        if ($headers['http_code'] != 200)
+        {
+            Yii::log(
+                    'Invalid response http code: ' . $headers['http_code'] . '.' . PHP_EOL .
+                    'URL: ' . $url . PHP_EOL .
+                    'Options: ' . var_export($options, true) . PHP_EOL .
+                    'Result: ' . $result, CLogger::LEVEL_ERROR, 'application.extensions.eauth'
+            );
+            $result = 'error:' . $headers['http_code'];
+        }
+        elseif ($parseJson)
+            $result = CJSON::decode($result, true);
+        curl_close($ch);
 
-		$result = curl_exec($ch);
-		$headers = curl_getinfo($ch);
+        return $result;
+    }
 
-		if (curl_errno($ch) > 0)
-			throw new CException(curl_error($ch), curl_errno($ch));
+    protected function initRequest($url, $options = array())
+    {
+        $ch = curl_init();
+        //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // error with open_basedir or safe mode
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
+        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 
-		if ($headers['http_code'] != 200) {
-			Yii::log(
-				'Invalid response http code: '.$headers['http_code'].'.'.PHP_EOL.
-				'URL: '.$url.PHP_EOL.
-				'Options: '.var_export($options, true).PHP_EOL.
-				'Result: '.$result,
-				CLogger::LEVEL_ERROR, 'application.extensions.eauth'
-			);
-			if($headers['http_code'] == 404)
-				$result = 'error:'.$headers['http_code'];
-			else
-				throw new CException(Yii::t('eauth', 'Invalid response http code: {code}.', array('{code}' => $headers['http_code'])), $headers['http_code']);
-		}elseif ($parseJson)
-			$result = CJSON::decode($result, true);
+        if (isset($options['referer']))
+            curl_setopt($ch, CURLOPT_REFERER, $options['referer']);
 
-		curl_close($ch);
+        if (isset($options['headers']))
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $options['headers']);
 
-		
+        if (isset($options['query']))
+        {
+            $url_parts = parse_url($url);
+            if (isset($url_parts['query']))
+            {
+                $query = $url_parts['query'];
+                if (strlen($query) > 0)
+                    $query .= '&';
+                $query .= http_build_query($options['query']);
+                $url = str_replace($url_parts['query'], $query, $url);
+            }
+            else
+            {
+                $url_parts['query'] = $options['query'];
+                $new_query = http_build_query($url_parts['query']);
+                $url .= '?' . $new_query;
+            }
+        }
 
-		return $result;
-	}	
-	
-	protected function initRequest($url, $options = array()) {
-		$ch = curl_init();
-		//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // error with open_basedir or safe mode
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+        if (isset($options['data']))
+        {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $options['data']);
+        }
 
-		if (isset($options['referer']))
-			curl_setopt($ch, CURLOPT_REFERER, $options['referer']);
+        curl_setopt($ch, CURLOPT_URL, $url);
+////////
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        
+        return $ch;
+    }
 
-		if (isset($options['headers']))
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $options['headers']);
+    protected function xmlToArray($element)
+    {
+        $array = (array) $element;
+        foreach ($array as $key => $value)
+        {
+            if (is_object($value))
+                $array[$key] = $this->xmlToArray($value);
+        }
+        
+        return $array;
+    }
 
-		if (isset($options['query'])) {
-			$url_parts = parse_url($url);
-			if (isset($url_parts['query'])) {
-				$query = $url_parts['query'];
-				if (strlen($query) > 0)
-					$query .= '&';
-				$query .= http_build_query($options['query']);
-				$url = str_replace($url_parts['query'], $query, $url);
-			}
-			else {
-				$url_parts['query'] = $options['query'];
-				$new_query = http_build_query($url_parts['query']);
-				$url .= '?'.$new_query;
-			}
-		}
+    public function js_urlencode($str)
+    {
+        $str = mb_convert_encoding($str, 'UTF-16', 'UTF-8');
+        $out = '';
+        for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++)
+        {
+            $out .= '%u' . bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
+        }
+        
+        return $out;
+    }
 
-		if (isset($options['data'])) {
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $options['data']);
-		}
+    public function contentNeedSave($link)
+    {
+        $answer = false;
+        $net = $this->getNetByLink($link);
 
-		curl_setopt($ch, CURLOPT_URL, $url);
-////////		
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-		return $ch;
-	}
-	
-	protected function xmlToArray($element) {
-		$array = (array)$element;
-		foreach ($array as $key => $value) {
-			if (is_object($value))
-				$array[$key] = $this->xmlToArray($value);
-		}
-		return $array;
-	}	
-	
-	public function js_urlencode($str){
-		$str = mb_convert_encoding($str, 'UTF-16', 'UTF-8');
-		$out = '';
-		for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++){
-			$out .= '%u'.bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
-		}
-		return $out;
-	} 
-	
-	public function isProfileExists($socNet, $socUsername){
-		$answer = false;
-	$answer = true;//заглушка
-	
-	
-		return $answer;
-	}
-	
-	public function getSmallIcon($link){
-		$answer = '';
-		foreach($this->socNetworks as $net){
-			if (strpos($link, $net['baseUrl']) !== false){
-				$answer = $net['smallIcon'];
-				break;
-			}
-		}
-		return $answer;
-	
-	}
-	
-	public static function isSocLink($link){
-		$answer = false;
-		$socNetworks = SocInfo::getSocNetworks();
-		foreach($socNetworks as $net){
-			if (strpos($link, $net['baseUrl']) !== false){
-				$answer = true;
-				break;
-			}
-		}
-		return $answer;	
-	}
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::contentNeedSave($link);
+        }
+        
+        return $answer;
+    }
+
+    public function followSocial($netName, $param)
+    {
+        $answer = false;
+        $net = $this->getNetByName($netName);
+
+        if (isset($net['contentClass']) && strlen($net['contentClass']) /*&& $this->isLoggegOn($netName, false)*/)
+        {
+            $class = $net['contentClass'];
+            $answer = $class::followSocial($param);
+        }
+        
+        return $answer;
+    }
+    
+    public function mergeMobile($netName)
+    {
+        if (strpos($netName, '_mobile') !== false)
+            $netName = substr($netName, 0, (strpos($netName, '_mobile')));
+        return $netName;
+    }
 }

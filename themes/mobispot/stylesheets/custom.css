@@ -45,7 +45,7 @@ input[type="time"],
 input[type="url"],
 form.custom div.custom.dropdown a.current,
 textarea {
-	background-color: #f1f3f4;
+	background-color: #E9EDF2;
  	border: 0;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -61,8 +61,29 @@ textarea {
     padding: 6px 6px 6px 20px;
     outline: none;
 	height: 35px;
+	-webkit-transition: background 600ms ease-out;
+	-moz-transition: background 600ms ease-out;
+	-o-transition: background 600ms ease-out;
+	transition: background 600ms ease-out;
+	font-size: 14px;
+	behavior: url(file:///E:/PIE.htc);
+	outline:0;
 }
-
+.lt-ie9 input[type="text"],
+.lt-ie9 input[type="password"],
+.lt-ie9 input[type="date"],
+.lt-ie9 input[type="datetime"],
+.lt-ie9 input[type="email"],
+.lt-ie9 input[type="number"],
+.lt-ie9 input[type="search"],
+.lt-ie9 input[type="tel"],
+.lt-ie9 input[type="time"],
+.lt-ie9 input[type="url"]{
+	line-height: 22px;
+}
+.lt-ie9 .choose input{
+	line-height: 35px;
+}
 form.custom div.custom.dropdown a.current{
 	color: #000;
 }
@@ -72,20 +93,26 @@ form.custom div.custom.dropdown.open a.current{
 form.custom div.custom.dropdown ul{
 	top: 40px;
 	border: 0;
-	background: #f1f3f4;
+	background: #E9EDF2;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	-o-border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 	overflow: hidden;
+	width: 100% !important;
 }
 form.custom div.custom.dropdown ul li{
 	padding: 7px 20px;
 }
 form.custom div.custom.dropdown a.selector{
-	height: 38px;
+	height: 35px;
 	border: 0;
 	width: 40px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
 }
 form.custom div.custom.dropdown ul li.selected{
 	display: none;
@@ -101,15 +128,35 @@ form.custom div.custom.dropdown ul li:hover:after{
 .bg-gray form.custom div.custom.dropdown ul{
 	background: #fff;
 }
+.bg-gray .item-area form.custom div.custom.dropdown ul{
+	background: #E9EDF2;
+}
 
 .row {
-    max-width: 1100px;
+    max-width: 1030px;
 }
-.column,
-.columns {
-	padding: 0 2em;
+.column{
+	padding: 0 15px;
 }
-
+.row .row .column:first-child{
+	padding-left: 0;
+}
+/*.column:last-child{
+	padding-right: 0;
+}
+*/
+.row .row .columns{
+	padding: 0 3px;
+}
+.row .row .columns:first-child  {
+	margin-left: -3px;
+}
+.row .row .columns:last-child  {
+	margin-right: -3px;
+}
+.row .row{
+	margin: 0;
+}
 .orbit .orbit-slide {
 	width:100%;
 }
@@ -121,6 +168,7 @@ ul.orbit-bullets li{
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 }
 /* Tables ---------------------- */
 ul.orbit-bullets li.active{
@@ -133,6 +181,7 @@ table {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
+	behavior:  url(file:///E:/PIE.htc);
     margin: 0 0 18px;
     border: 1px solid #dddddd;
 }
@@ -385,12 +434,15 @@ table tbody tr td {
 	}
 	.top-bar ul>li.has-button a.button { margin: 0 }
 }
-.nav-bar > li > a:first-child{
+.nav-bar > li > .spot-button:first-child{
 	font-size: 18px;
 	padding: 4px 11px 2px;
 	position: relative;
 }
-.nav-bar > li > a{
+.nav-bar>li>a{
+	color: #000;
+}
+.nav-bar > .dropdown a.spot-button{
 	color: #000;
 }
 .nav-bar > li {
@@ -417,7 +469,7 @@ ul.inline-list > li, ul.link-list > li{
 	margin-left: 0;
 }
 ul.inline-list, ul.link-list{
-	margin: 0 0 17px;
+	margin: 10px 0 26px;
 }
 .orbit-wrapper{
 	overflow: hidden;
@@ -464,6 +516,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	margin: 0 60px;
 	overflow: hidden;
 	background: url(../images/icons/i-small.png) 0 0 no-repeat;
@@ -518,6 +571,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	font-family: Mobispot-icon;
 }
 .joyride-close-tip,
@@ -537,11 +591,24 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	color: #fff !important;
 }
 .tooltip{
-	background: rgba(235, 235, 235, 0.88);
-	color: #000;
+	background: #0062ff;
+	color: #fff;
 	font-size: 14px;
-	padding: 26px;
-	margin-top: -11px;
+	padding: 8px 10px;
+	font-weight: 100;
+	font-family: Arial, sans-serif;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	behavior:  url(file:///E:/PIE.htc);
+
+
+}
+.tooltip.tip-top{
+	margin-top: -30px;
+	margin-left: -32px;
+	width: 100px !important;
+	text-align: center;
 }
 .tooltip b{
 	color: #0062FF;
@@ -556,17 +623,14 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	margin-top: 0;
 }
 .tooltip.tip-top > .nub{
-	width: 0;
-	height: 0;
-	border: 0;
-	left: 20px;
-	border-top: 10px solid rgba(235, 235, 235, 0.88);
-	border-left: 10px solid transparent;
-
+	border-color: #0062FF transparent transparent transparent;
+	left: 50%;
+	margin-left: -7px;
+	margin-bottom: -4px;
 }
-input.error{
-	background: #f9d3d2 !important;
-	color: #ed578d;
+input.error,
+.header-page .slide-box input.error{
+	background: #f9d3d2;
 }
 input + i{
 	content: '';
@@ -576,6 +640,7 @@ input + i{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
 	position: relative;
 	float: right;
 	top: -29px;
@@ -600,3 +665,331 @@ input.error::-webkit-input-placeholder {color: #ed578d !important;}
 input.error::-moz-placeholder {color: #ed578d !important;}
 input.error:-ms-input-placeholder { color: #ed578d !important; }
 input.error:-moz-placeholder { color: #ed578d !important; }
+
+form.custom span.custom{
+	border: 3px solid #0062FF;
+	margin-right: 3px;
+	top: -1px;
+}
+.lt-ie9 form.custom span.custom{
+	top: -3px;
+}
+form.custom span.custom.radio.checked{
+	background:#0062FF;
+}
+form.custom span.custom.radio.checked:before{
+	display: none;
+}
+form.custom span.custom.radio{
+	behavior:  url(file:///E:/PIE.htc);
+	position: relative;
+}
+.lt-ie9 form.custom div.custom.dropdown a.selector:after{
+	margin-top: 2px;
+}
+
+div.switch.radius {
+	border-radius: 4px 4px 4px 4px;
+	behavior:  url(file:///E:/PIE.htc);
+}
+div.switch {
+	background: none repeat scroll 0 0 white;
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	height: 36px;
+	margin-bottom: 1.25em;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	width: 70px;
+	cursor: pointer;
+}
+div.switch *{
+	cursor: pointer;
+}
+.small-4 {
+	position: relative;
+	width: 33.3333%;
+}
+div.switch input:checked {
+	display: none !important;
+}
+div.switch input {
+	display: block !important;
+	left: 0;
+}
+div.switch input {
+	-moz-appearance: none;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 3;
+}
+div.switch input:first-of-type:checked + label, div.switch input:first-of-type:checked + span + label {
+	left: 0;
+}
+div.switch input:first-of-type + label, div.switch input:first-of-type + span + label {
+	left: -50%;
+}
+div.switch label {
+	font-size: 0.875em;
+	line-height: 2.9em;
+	padding: 0 10px;
+}
+div.switch label {
+	float: left;
+	font-weight: bold;
+	height: 100%;
+	left: 0;
+	margin: 0;
+	position: relative;
+	text-align: left;
+	transition: all 0.1s ease-out 0s;
+	width: 50%;
+	z-index: 2;
+}
+div.switch input:first-of-type:checked ~ span {
+	left: 100%;
+	margin-left: -2.1875em;
+}
+div.switch.radius > span {
+	border-radius: 3px 3px 3px 3px;
+	behavior:  url(file:///E:/PIE.htc);
+}
+div.switch > span {
+	background: linear-gradient(to bottom, white 0%, #F2F2F2 100%) repeat scroll 0 0 transparent;
+	border-color: #B3B3B3;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 980px #E1F5D1, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
+}
+div.switch > span {
+	height: 2.56em;
+	width: 2.28em;
+}
+div.switch > span {
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	left: -1px;
+	padding: 0;
+	position: absolute;
+	top: -1px;
+	transition: all 0.1s ease-out 0s;
+	z-index: 1;
+}
+.switch span.custom.radio{
+	display: none;
+}
+div.switch input:last-of-type:checked + label, div.switch input:last-of-type:checked + span + label {
+	left: auto;
+	right: 0;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:not(:checked) + label {
+	opacity: 0;
+}
+form.custom div.custom.dropdown{
+	margin-top: 0;
+	width: 100% !important;
+	height: auto;
+	border: none;
+	margin-bottom: 0;
+	background: none;
+	cursor: pointer;
+}
+.bg-gray form.custom div.custom.dropdown a{
+	cursor: pointer;
+}
+form.custom div.custom.dropdown a.current{
+	padding-top: 4px;
+}
+.row:last-child form.custom div.custom.dropdown ul{
+	bottom: 40px;
+	top: auto;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.tooltip{
+	z-index: 90;
+}
+.tooltip.tip-right > .nub{
+	border-color: transparent #0062FF transparent transparent;
+	margin-left: -4px;
+	margin-top: -7px;
+}
+.tooltip.tip-left > .nub{
+	border-color: transparent transparent transparent #0062FF;
+	margin-right: -4px;
+	margin-top: -7px;
+}
+.tooltip > .nub{
+	border: solid 7px;
+}
+.tooltip.tip-left, .tooltip.tip-right{
+	margin-top: -17px;
+}
+.lt-ie9 .tooltip.tip-left,
+.lt-ie9 .tooltip.tip-right{
+	margin-top: 16px;
+}
+.lt-ie9 .tooltip.tip-right > .nub,
+.lt-ie9 .tooltip.tip-left > .nub{
+	margin-top: 20px;
+}
+.tooltip.tip-right{
+	margin-left: 10px;
+}
+.tooltip.tip-left{
+	margin-left: -33px;
+}
+h1, h2, h3, h4, h5, h6{
+	margin-bottom: 14px;
+	margin-top: 14px;
+}
+input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="month"]:focus, input[type="week"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="time"]:focus, input[type="url"]:focus, textarea:focus{
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	background: #F7F9FA;
+}
+form.custom div.custom.dropdown.open a.current{
+	background: #E0E6ED !important;
+}
+.header-page .slide-box input:focus{
+	background: #F7F9FA;
+}
+img{
+	vertical-align: baseline;
+}
+.orbit-bullets li {
+	border: none;
+}
+.column, .columns{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.ui-widget-content{
+	background: #E9EDF2;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior:  url(file:///E:/PIE.htc);
+	padding: 10px 25px 22px;
+	margin-top: 7px;
+	width: 264px;
+}
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+	display: block;
+	position: absolute;
+	left: 50%;
+	margin-left: -8px;
+	top: 50%;
+	margin-top: -8px;
+}
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+	position: absolute;
+	top: 10px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
+	cursor: pointer;
+	height: 28px;
+	width: 28px;
+	background: #fff url("../img/icons.28x2.png") no-repeat;
+	background-size: 100%;
+}
+.ui-datepicker .ui-datepicker-prev {
+	left: 25px;
+	background-position: 0 7px;
+}
+.ui-datepicker .ui-datepicker-next {
+	right: 25px;
+	background-position: 3px -17px;
+}
+.ui-datepicker .ui-datepicker-prev:hover{
+	background-position: -1px -41px;
+}
+.ui-datepicker .ui-datepicker-next:hover{
+	background-position: 2px -65px;
+}
+.ui-datepicker .ui-datepicker-prev:hover,
+.ui-datepicker .ui-datepicker-next:hover{
+	background-color: #0061FF;
+}
+.ui-icon {
+	display: block;
+	text-indent: -99999px;
+	overflow: hidden;
+	background-repeat: no-repeat;
+}
+.ui-datepicker .ui-datepicker-title {
+	margin: 0 2.3em;
+	line-height: 33px;
+	text-align: center;
+	margin-bottom: 13px;
+	font-size: 14px;
+	font-family: Mobispot, Arial, sans-serif;
+}
+.ui-datepicker table{
+	border: 0;
+	margin-bottom: 0;
+	border-spacing:0;
+	border-collapse:collapse;
+}
+.ui-datepicker table tr th,.ui-datepicker table tr td{
+	background: #E9EDF2;
+	padding: 2px;
+}
+.ui-datepicker table tr th span,.ui-datepicker table tr td a{
+	background: #fff;
+	height: 25px;
+	width: 27px;
+	display: block;
+	text-align: center;
+	line-height: 25px;
+}
+.ui-datepicker table tr td a:hover,
+.ui-state-active, .ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active{
+	color: #fff;
+	background: #0061FF;
+}
+.f-datepicker input {
+	margin-right: 0 !important;
+	padding-left: 51px !important;
+	cursor: pointer;
+}
+.f-datepicker:before {
+	content: '';
+	height: 20px;
+	width: 17px;
+	display: block;
+	position: absolute;
+	top: 15px;
+	left: 25px;
+	background: url("data:image/gif;base64,R0lGODlhIgAoAJEDAL+/v////wAAAP///yH/C1hNUCBEYXRhWE1Q…qndDqdNKU8ohUZTbb3XqjYSmQi40mz1cJOPF2k+FzORoRj+TFlr224uc3M0hYaHjYUAAAOw==") no-repeat 0 0;
+	background-size: 100%;
+}
+.orbit.with-bullets{
+	margin-bottom: 80px;
+}
+ul.orbit-bullets{
+	bottom: -42px;
+}
+.custom select{
+	display: none;
+}

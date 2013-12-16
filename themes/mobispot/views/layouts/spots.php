@@ -5,18 +5,22 @@
 <!--[if IE 8]> <html class="no-js lt-ie9" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 
-<?php include('block/head.php');?>
-<body ng-init="user.token='<?php echo Yii::app()->request->csrfToken?>'">
-<div
-  class="content-wrapper"
-  ng-controller="SpotCtrl"
-  ng-init="spot.user=<?php echo Yii::app()->user->id;?>; spot.token='<?php echo Yii::app()->request->csrfToken?>'">
-<?php include('block/header/spots.php');?>
-<?php echo $content; ?>
+    <?php include('block/head.php'); ?>
+    <body ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
+        <div id="net-tooltip" class="SocnetTooltip" >
+            <div class="STT-arrow"></div>
+            <div class="STT-inner"></div>
+        </div>
+        <div
+            class="content-wrapper"
+            ng-controller="SpotController"
+            ng-init="spot.user=<?php echo Yii::app()->user->id; ?>; spot.token='<?php echo Yii::app()->request->csrfToken ?>'">
+                <?php include('block/header/spots.php'); ?>
+                <?php echo $content; ?>
 
-</div>
+        </div>
 
-<?php include('block/footer/all.php');?>
-<?php include('block/script/spots.php');?>
-</body>
+        <?php include('block/footer/all.php'); ?>
+        <?php include('block/script/spots.php'); ?>
+    </body>
 </html>

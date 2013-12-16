@@ -9,10 +9,12 @@
 protected/config/params.php
 protected/config/db.php
 protected/config/dbStore.php
+protected/config/dbTerm.php
 protected/config/rc.php
 protected/config/eauth.php
 protected/config/routes.php
 protected/config/mongo.php
+protected/config/ut.php
 protected/runtime/*
 uploads/
 *.ykomodoproject
@@ -30,3 +32,7 @@ protected/messages
 mobispot.sublime*
 .phptidy-cache
 robot.txt
+/index.php
+/console.php
+/index.php
+/console.php

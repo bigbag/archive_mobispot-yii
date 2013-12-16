@@ -11,6 +11,7 @@
  */
 
 require_once dirname(dirname(__FILE__)).'/EOAuthService.php';
+require_once dirname(__FILE__).'/CustomEOAuthUserIdentity.php';
 
 /**
  * LinkedIn provider class.
@@ -18,42 +19,113 @@ require_once dirname(dirname(__FILE__)).'/EOAuthService.php';
  */
 class CustomLinkedinOAuthService extends EOAuthService {	
 	
-	protected $name = 'linkedin';
-	protected $title = 'LinkedIn';
-	protected $type = 'OAuth';
-	protected $jsArguments = array('popup' => array('width' => 900, 'height' => 550));
+  protected $name = 'linkedin';
+  protected $title = 'LinkedIn';
+  protected $type = 'OAuth';
+  protected $jsArguments = array('popup' => array('width' => 900, 'height' => 550));
 			
-	protected $key = '';
-	protected $secret = '';
-	protected $providerOptions = array(
-		'request' => 'https://api.linkedin.com/uas/oauth/requestToken',
-		'authorize' => 'https://www.linkedin.com/uas/oauth/authenticate',
-		'access' => 'https://api.linkedin.com/uas/oauth/accessToken',
-	);
+  protected $key = '';
+  protected $secret = '';
+  protected $providerOptions = array(
+    'request' => 'https://api.linkedin.com/uas/oauth/requestToken',
+    'authorize' => 'https://www.linkedin.com/uas/oauth/authenticate',
+    'access' => 'https://api.linkedin.com/uas/oauth/accessToken',
+  );
+  protected $auth;	
 	
-	protected function fetchAttributes() {
+  protected function fetchAttributes() {
 
-		$info = $this->makeSignedRequest('http://api.linkedin.com/v1/people/~:(id,first-name,last-name,public-profile-url,headline,picture-url,location,current-status)', array(), false); // json format not working :(
+    $info = $this->makeSignedRequest('http://api.linkedin.com/v1/people/~:(id,first-name,last-name,public-profile-url,headline,picture-url,location,current-status)', array(), false); // json format not working :(
 
-
-		$info = $this->parseInfo($info);
+	$info = $this->parseInfo($info);
 		
-		$this->attributes['id'] = $info['id'];
-		$this->attributes['name'] = $info['first-name'].' '.$info['last-name'];
-		$this->attributes['url'] = $info['public-profile-url'];
+	$this->attributes['id'] = $info['id'];
+	$this->attributes['name'] = $info['first-name'].' '.$info['last-name'];
+	if(!empty($info['public-profile-url']))
+	  $this->attributes['url'] = $info['public-profile-url'];
+    $socToken=SocToken::model()->findByAttributes(array(
+	  'user_id'=>Yii::app()->user->id,
+	  'type'=>9,
+	));	
+	if($socToken)
+	  $socToken->soc_id = $info['id'];
+	$socToken->save();
 		
-		if (!empty($info['headline']))
-			$this->attributes['about'] = $info['headline'];
-		if (!empty($info['picture-url']))
-			$this->attributes['photo'] = $info['picture-url'];
-		if (!empty($info['location']['name']))
-			$this->attributes['location'] = $info['location']['name'];
-		if (!empty($info['current-status']))
-			$this->attributes['last_status'] = $info['current-status'];
+	/*	
+	if (!empty($info['headline']))
+	  $this->attributes['about'] = $info['headline'];
+	if (!empty($info['picture-url']))
+	  $this->attributes['photo'] = $info['picture-url'];
+	if (!empty($info['location']['name']))
+	  $this->attributes['location'] = $info['location']['name'];
+	if (!empty($info['current-status']))
+	  $this->attributes['last_status'] = $info['current-status'];
+	*/	
+  }
+
+    public function init($component, $options = array())
+    {
+        if (isset($component))
+            $this->setComponent($component);
+
+        foreach ($options as $key => $val){
+			if(($key == 'key') || ($key == 'secret') || ($key == 'class'))
+				$this->$key = $val;
+		}
 			
-		$this->attributes['token'] = $this->getAccessToken();
-	}
-		
+        $this->setRedirectUrl(Yii::app()->user->returnUrl);
+        $server = Yii::app()->request->getHostInfo();
+        $path = Yii::app()->request->getPathInfo();
+        $this->setCancelUrl($server . '/' . $path);	
+	
+        $this->auth = new CustomEOAuthUserIdentity(array(
+            'scope' => $this->scope,
+            'key' => $this->key,
+            'secret' => $this->secret,
+            'provider' => $this->providerOptions,
+        ));
+    }
+
+  
+  protected function getAccessToken()
+  {
+
+    $socToken=SocToken::model()->findByAttributes(array(
+	  'user_id'=>Yii::app()->user->id,
+	  'type'=>9,
+	));	
+	if(!$socToken)
+	    $socToken = new SocToken;
+	$socToken->type = 9;
+	$socToken->user_id = Yii::app()->user->id;
+	$socToken->user_token = $this->auth->getProvider()->token;
+	$socToken->token_expires = time() + $this->auth->token_expires - 20;
+	$socToken->save();
+	
+    return $this->auth->getProvider()->token;
+  }  
+  
+    /**
+     * Authenticate the user.
+     * @return boolean whether user was successfuly authenticated.
+     */
+    public function authenticate()
+    {
+        $this->authenticated = $this->auth->authenticate();
+        return $this->getIsAuthenticated();
+    }		
+
+
+    /**
+     * Returns the OAuth consumer.
+     * @return object the consumer.
+     */
+    protected function getConsumer()
+    {
+        return $this->auth->getProvider()->consumer;
+    }
+
+	
 	/**
 	 *
 	 * @param string $xml

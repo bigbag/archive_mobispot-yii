@@ -1,8 +1,11 @@
-html,body{
+html{
 	height: 100%;
 }
 body{
-	font-size: 140%;
+	font-size: 87%;
+}
+.lt-ie9 body{
+	min-width: 1024px;
 }
 
 @font-face {
@@ -22,17 +25,20 @@ body{
 	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
 }
 .color{
-	color: #0063ff;
+	color: #0062ff;
 }
 .content-wrapper{
 	min-height: 100%;
 	margin-bottom: -258px;
-	padding-bottom: 289px;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding-bottom: 50px;
 }
 .content-wrapper:after{
 	content: "";
 	display: block;
-	height: 258px;
+	height: 350px;
 	width: 100%;
 }
 li{
@@ -41,7 +47,6 @@ li{
 .logo a{
 	display: block;
 	max-width: 207px;
-	margin: 0 2px;
 }
 
 ::-webkit-input-placeholder {color:#000 !important;}
@@ -59,12 +64,13 @@ input:-moz-placeholder { color:#000!important; }
 }
 
 .clearfix {
-	display: inline-block;
-}
-
-html[xmlns] .clearfix {
 	display: block;
 }
+.clear{
+	clear: both;
+	float: none;
+}
+
 
 * html .clearfix {
 	height: 1%;
@@ -79,16 +85,27 @@ html[xmlns] .clearfix {
 .table-reset tbody tr:nth-child(2n){
 	background: none;
 }
-.round{
+.round,
+.round > img{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior:  url(file:///E:/PIE.htc);
+	position: relative;
 }
 .slow{
-	-webkit-transition: all linear .2s;
-	-moz-transition: all linear .2s;
-	-o-transition: all linear .2s;
-	transition: all linear .2s;
+	-webkit-transition: color linear .2s;
+	-moz-transition: color linear .2s;
+	-o-transition: color linear .2s;
+	transition: color linear .2s;
+	-webkit-transition: background linear .2s;
+	-moz-transition: background linear .2s;
+	-o-transition: background linear .2s;
+	transition: background linear .2s;
+	-webkit-transition: opacity linear .2s;
+	-moz-transition: opacity linear .2s;
+	-o-transition: opacity linear .2s;
+	transition: opacity linear .2s;
 }
 .hide{
 	display: none;
@@ -101,4 +118,7 @@ input::-webkit-inner-spin-button {
 	display: none;
 	-webkit-appearance: none;
 	margin: 0;
+}
+.icon{
+	font-family: mobispot-icon !important;
 }

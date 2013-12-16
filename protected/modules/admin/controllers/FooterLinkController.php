@@ -1,5 +1,6 @@
 <?php
 
-class FooterLinkController extends Controller {
-  
+class FooterLinkController extends Controller
+{
+    
 }
