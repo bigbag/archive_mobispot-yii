@@ -10,6 +10,7 @@ return array(
     'application.models.content.*',
     'application.models.content.form.*',
     'application.models.payment.*',
+    'application.models.store.*',
     'application.components.*',
     'application.helpers.*',
     'ext.eoauth.*',
