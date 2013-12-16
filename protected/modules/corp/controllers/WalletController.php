@@ -63,7 +63,7 @@ class WalletController extends MController
                     array('wallet_id' => $wallet->id)
                 );
 
-                $answer['content'] = $this->renderPartial('//wallet/block/wallet_view', array(
+                $answer['content'] = $this->renderPartial('//corp/wallet/block/wallet_view', array(
                     'wallet' => $wallet,
                     'history' => $history,
                     'pagination' => $historyList['pagination'],
@@ -84,7 +84,7 @@ class WalletController extends MController
     public function actionOffers()
     {
         
-        $this->render('offers', array('actions'=>Loyalty::getAllLoyalties()));
+        $this->render('offers', array('actions'=>WalletLoyalty::getAllLoyalties()));
     }
 
     public function actionGetHistory()
@@ -107,7 +107,7 @@ class WalletController extends MController
                 if (isset($data['term']) && $data['term'])
                     $filterTerm = $data['term'];
                 $historyList = PaymentHistory::getListWithPagination($data['id'], $page, $filterDate, $filterTerm);
-                $answer['content'] = $this->renderPartial('//wallet/block/history', array(
+                $answer['content'] = $this->renderPartial('//corp/wallet/block/history', array(
                     'wallet' => $wallet,
                     'history' => $historyList['history'],
                     'pagination' => $historyList['pagination'],
@@ -140,7 +140,7 @@ class WalletController extends MController
                 if (!empty($data['search']))
                     $search = $data['search'];
                 $actions = WalletLoyalty::getLoyaltiesByWalletId($data['id'], $status, $page, $search);
-                $answer['content'] = $this->renderPartial('//wallet/block/loyalty', array(
+                $answer['content'] = $this->renderPartial('//corp/wallet/block/loyalty', array(
                     'wallet' => $wallet,
                     'actions' => $actions,
                     ), true);
@@ -168,7 +168,7 @@ class WalletController extends MController
             $search = $data['search'];
         $actions = Loyalty::getAllLoyalties($status, $page, $search);
         
-        $answer['content'] = $this->renderPartial('//wallet/block/offers_tbody', array(
+        $answer['content'] = $this->renderPartial('//corp/wallet/block/offers_tbody', array(
             'actions' => $actions,
             ), true);
         $answer['error'] = "no";
@@ -366,7 +366,7 @@ class WalletController extends MController
 
                 }
 
-                $answer['content'] = $this->renderPartial('//wallet/block/wallet', array(
+                $answer['content'] = $this->renderPartial('//corp/wallet/block/wallet', array(
                     'data' => $wallet,
                         ), true);
                 $answer['error'] = "no";
@@ -482,7 +482,7 @@ class WalletController extends MController
                         $order['return_ok'] = $this->createAbsoluteUrl('/wallet/payUniteller') . '?result=success&token=' . $token;
                         $order['return_error'] = $this->createAbsoluteUrl('/wallet/payUniteller') . '?result=error&token=' . $token;
                         
-                        $answer['content'] = $this->renderPartial('//wallet/block/_bay_form',
+                        $answer['content'] = $this->renderPartial('//corp/wallet/block/_bay_form',
                             array(
                                 'order' => $order,
                             ), 

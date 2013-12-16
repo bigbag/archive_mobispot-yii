@@ -11,6 +11,7 @@ return array(
     'application.models.content.form.*',
     'application.models.payment.*',
     'application.models.store.*',
+    'application.models.term.*',
     'application.components.*',
     'application.helpers.*',
     'ext.eoauth.*',

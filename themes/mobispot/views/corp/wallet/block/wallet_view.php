@@ -80,7 +80,8 @@
                     <span class="b-account b-negative b-positive">
                         <?php echo $wallet->balance;?> <?php echo Yii::t('corp_wallet', 'руб.');?>
                     </span>
-                    <a id="block-button" class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"" 
+                    <a id="block-button" 
+                        class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"
                         href="javascript:;" 
                         ng-click="block(<?php echo $wallet->id;?>)">
                       <?php if($wallet->status==PaymentWallet::STATUS_ACTIVE):?>
@@ -230,7 +231,7 @@
             </tr>
           </thead>
           <tbody >
-            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/wallet/block/history.php'); ?>
+            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/corp/wallet/block/history.php'); ?>
           </tbody>
           </table>
 
