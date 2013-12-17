@@ -132,4 +132,26 @@ class WalletLoyalty extends CActiveRecord
         
         return $answer;
     }
+
+    function getByUserId($user_id)
+    {
+        $result = array();
+
+        $wallets = PaymentWallet::model()->findAllByAttributes(
+                array('user_id'=>$user_id)
+        );
+        foreach ($wallets as $wallet)
+        {
+            $walletLoyaltis = WalletLoyalty::model()->findAllByAttributes(
+                array('wallet_id'=>$wallet->id)
+            );
+            foreach ($walletLoyaltis as $row) {
+                if (!empty($userActions[$row->loyalty_id]))
+                    $result[$row->loyalty_id] += $row->summ;
+                else
+                    $result[$row->loyalty_id] = $row->summ;
+            } 
+        }
+        return $result;
+    }
 }

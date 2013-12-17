@@ -12,7 +12,11 @@
                                 <td class="t-descript"><div>
                                     <?php echo $row->desc; ?>
                                 </div></td>
-                                <td><div><?php echo date('d.m.y', strtotime($row->start_date)).' - '.date('d.m.y', strtotime($row->stop_date));?></div></td>
+                                <td>
+                                    <div>
+                                        <?php echo date('d.m.y', strtotime($row->start_date)).' - '.date('d.m.y', strtotime($row->stop_date));?>
+                                    </div>
+                                </td>
                                 <td class="t-bonus">
                                     <?php if (!empty($actions['userActions'][$row->id])): ?>
                                     <div><?php echo $actions['userActions'][$row->id]?><i class="icon">&#xe019;</i> </div> 
@@ -27,7 +31,11 @@
                                 <div>
                                     <ul class="pagination">
                                         <?php for ($i=1; $i <= $actions['pagination']['pages']; $i++):?>
-                                            <li <?php echo ($actions['pagination']['current'] == $i)?'class="current"':''; ?>><a  ng-click="getAllActions(<?php echo $actions['status']; ?>, <?php echo $i; ?><?php echo (empty($actions['search']))?'':', '.$actions['search'];?>)"><?php echo $i; ?></a></li>
+                                            <li <?php echo ($actions['pagination']['current'] == $i)?'class="current"':''; ?>>
+                                                <a  ng-click="getAllActions(<?php echo $actions['status']; ?>, <?php echo $i; ?><?php echo (empty($actions['search']))?'':', '.$actions['search'];?>)">
+                                                    <?php echo $i; ?>
+                                                </a>
+                                            </li>
                                         <?php endfor;?>
                                     </ul>
                                 </div>

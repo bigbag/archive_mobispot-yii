@@ -180,24 +180,17 @@ class Loyalty extends CActiveRecord
     
         $answer['loyalties'] = self::model()->findAll($criteria);
         
-        if (!Yii::app()->user->isGuest)
+        if (Yii::app()->user->id)
         {
-            $walletLoyalty = WalletLoyalty::model()->findAllBySql('SELECT * FROM `PAYMENT`.`WALLET_LOYALTY` AS `T` WHERE EXISTS(SELECT W.ID FROM `PAYMENT`.`WALLET` AS W WHERE `T`.WALLET_ID = W.ID AND W.USER_ID = ' . Yii::app()->user->id . ')');
-            
-
-            foreach ($walletLoyalty as $userAction)
-            {
-                if (!empty($userActions[$userAction->loyalty_id]))
-                    $userActions[$userAction->loyalty_id] += $userAction->summ;
-                else
-                    $userActions[$userAction->loyalty_id] = $userAction->summ;
-            }
+            $userActions = WalletLoyalty::getByUserId(Yii::app()->user->id);
         }
         
         $answer['userActions'] = $userActions;
         $answer['search'] = $search;
         $answer['status'] = $status;
-        $answer['pagination'] = array('pages'=>ceil($countLoyalties / $count), 'current'=>$page);
+        $answer['pagination'] = array(
+            'pages'=>ceil($countLoyalties / $count), 
+            'current'=>$page);
         $answer['total'] = $countLoyalties;
         
         return $answer;
