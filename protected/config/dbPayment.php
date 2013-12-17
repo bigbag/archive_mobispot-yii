@@ -2,7 +2,7 @@
 
 return array(
     'class' => 'CDbConnection',
-    'connectionString' => 'mysql:host=localhost;dbname=payment_test',
+    'connectionString' => 'mysql:host=localhost;dbname=payment',
     'username' => 'root',
     'password' => 'gjevebwtyf',
     'emulatePrepare' => true,

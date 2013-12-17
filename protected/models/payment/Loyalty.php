@@ -19,6 +19,7 @@ class Loyalty extends CActiveRecord
 {
     const RULE_FIXED = 0;
     const RULE_RATE = 1;
+
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
@@ -69,6 +70,8 @@ class Loyalty extends CActiveRecord
             array('terms_id, rules, interval, amount, threshold, creation_date, start_date, stop_date', 'required'),
             array('rules, interval', 'numerical', 'integerOnly' => true),
             array('amount', 'filter', 'filter' => 'trim'),
+            array('desc', 'filter', 'filter' => 'trim'),
+            array('id, terms_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc', 'safe', 'on' => 'search'),
         );
     }
 
