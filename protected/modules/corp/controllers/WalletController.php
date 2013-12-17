@@ -84,7 +84,7 @@ class WalletController extends MController
     public function actionOffers()
     {
         
-        $this->render('offers', array('actions'=>WalletLoyalty::getAllLoyalties()));
+        $this->render('offers', array('actions'=>Loyalty::getAllLoyalties()));
     }
 
     public function actionGetHistory()
@@ -550,9 +550,79 @@ class WalletController extends MController
     
     public function actionCheckLike()
     {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = "yes";
+        $answer['isSocLogged'] = false;
+            
+        if (!Yii::app()->user->id)
+        {
+            $this->setAccess();
+        }
+        
+        if (!empty($data['id']) && !Yii::app()->user->isGuest)
+        {
+            $service = 'facebook'; //Пока только facebook
+            $answer['service'] = $service;
+            
+            $socInfo = new SocInfo;
+            
+            if ($socInfo->isLoggegOn($service))
+            {
+                $answer['isSocLogged'] = true;
+                $answer['liked'] = 'no';
+                $answer['message'] = Yii::t('wallet', 'Не найдена ссылка на акцию');
+                
+                $action = Loyalty::model()->findByPk($data['id']);
+                
+                if ($action and strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') !== false)
+                {
+                    $answer['message'] = Yii::t('wallet', 'Не найдена страница по ссылке');
+                    $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') + strlen('<a ng-click="checkLike('.$action->id.')">')));
+                    if (strpos($link, '</a>') > 0)
+                        $link = substr($link, 0, strpos($link, '</a>'));
+                        
+                    $appToken = FacebookContent::getAppToken();
+                    
+                    if (strpos($link, 'facebook.com/') !== false)
+                    {
+                        $page = SocContentBase::makeRequest('https://graph.facebook.com/' . FacebookContent::parseUsername($link).'?access_token='.$appToken);
+
+                        if (!empty($page['id']))
+                        {
+                        
+                            $socToken=SocToken::model()->findByAttributes(array(
+                                'user_id'=>Yii::app()->user->id,
+                                'type'=>1,
+                            ));
+                            
+                            $page_id = $page['id'];
+                            $like = SocContentBase::makeRequest('https://graph.facebook.com/me/likes/'.$page_id.'?&access_token='.$socToken->user_token);
+                            
+                            if (!empty($like['data']) && !empty($like['data'][0]) && !empty($like['data'][0]['id']))
+                            {
+                                $answer['liked'] = 'yes';
+                                $answer['message'] = Yii::t('wallet', 'Вы лайкнули страницу: ').$page['link'];
+                            }
+                            else
+                                $answer['message'] = Yii::t('wallet', 'Вы не лайкали эту страницу: ').$page['link'];
+                        }
+                    }
+                }
+            }
+            
+            $answer['error'] = "no";
+        }
+        
+        echo json_encode($answer);
+    }
+
+    //Прототип проверки like
+    public function actionCheckLikePrototype()
+    {
         if (Yii::app()->user->isGuest) 
             $this->setAccess();
-        $message = '';
+        $message = '<hr/>';
         
         $page_id = Yii::app()->request->getParam('page_id', 0);
         $url = Yii::app()->request->getParam('url', 0);
@@ -599,22 +669,57 @@ class WalletController extends MController
         }
         */
         
-        if (!empty($page_id))
-        {
-            $like = SocContentBase::makeRequest('https://graph.facebook.com/me/likes/'.$page_id.'?&access_token='.$socToken->user_token);
-            if (empty($page))
-                $page = SocContentBase::makeRequest('https://graph.facebook.com/'.$page_id.'?&access_token='.$socToken->user_token);
+        if (empty($page))
+            $page = SocContentBase::makeRequest('https://graph.facebook.com/'.$page_id.'?&access_token='.$socToken->user_token);
 
-            if (!empty($like['data']))
+        if (!empty($page_id) && !empty($page) && !empty($page['id']) && !empty($page['link']))
+        {
+            $page['link'] = str_replace("http://", 'https://', $page['link']); 
+            $like = SocContentBase::makeRequest('https://graph.facebook.com/me/likes/'.$page_id.'?&access_token='.$socToken->user_token);
+ 
+
+
+            if (!empty($like['data']) && !empty($like['data'][0]) && !empty($like['data'][0]['id']))
             {
-                $message .= 'Вы лайкнули страницу: '.(empty($page['link'])?$page_id:$page['link']).'<br/>';
+                $message .= 'Вы лайкнули страницу: '.$page['link'].'<hr/>';
             }
             else
-                $message .= 'Вы не лайкали эту страницу: '.(empty($page['link'])?$page_id:$page['link']).'<br/>';
+                $message .= 'Вы не лайкали эту страницу: '.$page['link'].'<hr/>';
+                
+                
+            //Шариннг страницы
+            //$userFeed = self::makeRequest('https://graph.facebook.com/me/feed?access_token=' . $socToken->user_token);
+            $shared = false;
+            $query_url = 'https://graph.facebook.com/fql?q=SELECT+attachment+,created_time+,type+,description+FROM+stream+WHERE+source_id='
+                                .$socToken->soc_id
+                                .'+and+actor_id='
+                                .$socToken->soc_id
+                                .'+and+type=80'
+                                .'+and+attachment.href=\''.$page['link'].'\'&access_token='
+                                .$socToken->user_token;
+
+            if (@fopen($query_url, 'r'))
+            {
+                $fql_query_result = file_get_contents($query_url);
+                $userFeed = json_decode($fql_query_result, true);
+                if (isset($userFeed['data']) && is_array($userFeed['data']) && count($userFeed['data']))
+                {
+                    foreach ($userFeed['data'] as $post)
+                    {
+                        if (isset($post['description']) && strpos($post['description'], 'shared a page') !== false)
+                            $shared = true;
+                    }
+                }
+            }
+            
+            if ($shared)
+                $message .= 'Вы разшарили страницу: '.$page['link'].'<hr/>';
+            else 
+                $message .= 'Вы не разшарили страницу: '.$page['link'].'<hr/>';
         }
         else
             $message .= 'Страница Facebook не найдена';
-                
+
         $this->render('checkLike', array('message'=>$message));
     }
 }

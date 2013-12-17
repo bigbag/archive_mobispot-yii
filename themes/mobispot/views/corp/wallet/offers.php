@@ -22,7 +22,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/wallet/block/offers_tbody.php'); ?>
+                    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/corp/wallet/block/offers_tbody.php'); ?>
                     </tbody>
                 </table>
             </div>

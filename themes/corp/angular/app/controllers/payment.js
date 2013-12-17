@@ -395,5 +395,95 @@ angular.module('mobispot').controller('PaymentController',
     {
         angular.element('#j-settingsForm input[name=phone]').removeClass('error');
     }
+    
+    var popup;
+    var socTimer;
+    var resultModal = angular.element('.m-result');
+    
+    //проверка like для акции
+    $scope.checkLike = function(id_action)
+    {
+        var data = {token: $scope.user.token, id:id_action};
+        $http.post('/wallet/checkLike', data).success(function(data) {
+            if ('no' == data.error)
+            {
+                if (!data.isSocLogged)
+                {
+                    var options = $.extend({
+                      id: '',
+                      popup: {
+                        width: 450,
+                        height: 380
+                      }
+                    }, options);
+
+                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+
+                    url += url.indexOf('?') >= 0 ? '&' : '?';
+                    if (url.indexOf('redirect_uri=') === -1)
+                      url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+                    url += 'js';
+
+                    var centerWidth = (window.screen.width - options.popup.width) / 2,
+                      centerHeight = (window.screen.height - options.popup.height) / 2;
+
+                    popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                    popup.focus();
+                    
+                    $scope.checkingAction = {id:id_action};
+                    socTimer = $timeout($scope.loginTimer, 1000);
+                }
+                else
+                {
+                    if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                    {
+                        var resultModal = angular.element('.m-result');
+                        var resultContent = resultModal.find('p');
+                        resultContent.text(data.message);
+                        resultModal.removeClass('m-negative');
+                        if ('no' == data.liked) {
+                            resultModal.addClass('m-negative');
+                        }
+                        resultModal.stop();
+                        resultModal.show();
+                        resultModal.fadeOut(10000);
+                    }
+                }
+            }
+        });
+    }
  
+    $scope.loginTimer = function()
+    {
+        if (!popup.closed) {
+            var data = {token: $scope.user.token, id:$scope.checkingAction.id};
+            $http.post('/wallet/checkLike', data).success(function(data) {
+                if ('undefined' != typeof (data.isSocLogged))
+                {
+                    if (data.isSocLogged)
+                    {
+                        popup.close();
+                        $scope.bindNet = {};
+                        
+                        if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                        {
+                            var resultContent = resultModal.find('p');
+                            resultContent.text(data.message);
+                            resultModal.removeClass('m-negative');
+                            if ('no' == data.liked) {
+                                resultModal.addClass('m-negative');
+                            }
+                            resultModal.stop();
+                            resultModal.show();
+                            resultModal.fadeOut(10000);
+                        }
+                    }
+                    else
+                    {
+                        socTimer = $timeout($scope.loginTimer, 1000);
+                    }
+                }
+            });
+        }
+    }; 
 });

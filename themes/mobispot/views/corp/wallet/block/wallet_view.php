@@ -270,7 +270,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/wallet/block/loyalty.php'); ?>
+                            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/corp/wallet/block/loyalty.php'); ?>
                         </tbody>
                     </table>
                 </div>
