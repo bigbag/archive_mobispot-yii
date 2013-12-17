@@ -19,7 +19,7 @@
 class Term extends CActiveRecord
 {
   const STATUS_VALID = 1;
-  const STATUS_BANNED = -1;
+  const STATUS_BANNED = 0;
 
   const TYPE_POS = 0;
   const TYPE_VENDING = 1;
