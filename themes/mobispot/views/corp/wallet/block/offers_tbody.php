@@ -7,7 +7,7 @@
                                 </div></td>
                                 <td class="t-condition"><div>
                                     <h2><?php echo $row->amount; ?><i class="icon rub">&#xe019;</i></h2>
-                                    <p><?php echo $row->getRulesDesc(); ?></p>
+                                    <p><?php echo $row->loyalty->getRulesDesc(); ?></p>
                                 </div></td>
                                 <td class="t-descript"><div>
                                     <?php echo $row->desc; ?>

@@ -47,7 +47,7 @@ class WalletController extends MController
                 $historyList = PaymentHistory::getListWithPagination($data['wallet_id']);
                 $history = $historyList['history'];
                 $logs = PaymentLog::getListByWalletId($data['wallet_id']);
-                $actions = WalletLoyalty::getLoyaltiesByWalletId($data['wallet_id']);
+                $actions = WalletLoyalty::getByWalletId($data['wallet_id']);
                 $smsInfo = SmsInfo::getSmsInfoForWallet($data['wallet_id']);
 
                 $cards = array();
@@ -139,7 +139,7 @@ class WalletController extends MController
                 $search = '';
                 if (!empty($data['search']))
                     $search = $data['search'];
-                $actions = WalletLoyalty::getLoyaltiesByWalletId($data['id'], $status, $page, $search);
+                $actions = WalletLoyalty::getByWalletId($data['id'], $status, $page, $search);
                 $answer['content'] = $this->renderPartial('//corp/wallet/block/loyalty', array(
                     'wallet' => $wallet,
                     'actions' => $actions,

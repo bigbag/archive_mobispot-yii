@@ -14,22 +14,6 @@ class WalletLoyalty extends CActiveRecord
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
-    
-    public function getRulesDesc()
-    {
-        $desc = '';
-        
-        switch ($this->loyalty->rules)
-        {
-            case Loyalty::RULE_FIXED:
-                if (1 == $this->loyalty->interval)
-                    $desc .= Yii::t('payment', 'На все покупки');
-                else
-                    $desc .= Yii::t('payment', 'За каждую').' <b>'.$this->loyalty->interval.'</b> '.Yii::t('payment', 'покупку');
-        }
-    
-        return $desc;
-    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -84,7 +68,7 @@ class WalletLoyalty extends CActiveRecord
         );
     }
     
-    public static function getLoyaltiesByWalletId($id, $status=self::STATUS_ACTUAL, $page = 1, $search='', $count=5)
+    public static function getByWalletId($id, $status=self::STATUS_ACTUAL, $page = 1, $search='', $count=5)
     {
         $answer = array();
         
