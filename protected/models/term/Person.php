@@ -19,11 +19,11 @@
  */
 class Person extends CActiveRecord
 {
-    const STATUS_VALID = 1
-    const STATUS_BANNED = 0
+    const STATUS_VALID = 1;
+    const STATUS_BANNED = 0;
 
-    const TYPE_TIMEOUT = 0
-    const TYPE_WALLET = 1
+    const TYPE_TIMEOUT = 0;
+    const TYPE_WALLET = 1;
 
     /**
      * @return string the associated database table name

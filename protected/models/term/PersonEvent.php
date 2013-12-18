@@ -13,10 +13,10 @@
  */
 class PersonEvent extends CActiveRecord
 {
-    const STATUS_ACTIVE = 1
-    const STATUS_BANNED = 0
+    const STATUS_ACTIVE = 1;
+    const STATUS_BANNED = 0;
 
-    const LIKE_TIMEOUT = 100000
+    const LIKE_TIMEOUT = 100000;
 
     /**
      * @return string the associated database table name
