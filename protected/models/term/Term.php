@@ -1,157 +1,150 @@
 <?php
 
 /**
-* This is the model class for table "term".
-*
-* The followings are the available columns in table 'term':
-* @property integer $id
-* @property string $term_id
-* @property string $firm_id
-* @property string $name
-* @property integer $status
-* @property integer $type
-* @property string $seans_date
-* @property string $upload_time
-* @property string $upload_period
-* @property string $download_time
-* @property string $download_period
-*/
+ * This is the model class for table "term".
+ *
+ * The followings are the available columns in table 'term':
+ * @property integer $id
+ * @property integer $type
+ * @property string $name
+ * @property string $tz
+ * @property integer $status
+ * @property string $report_date
+ * @property string $config_date
+ * @property string $blacklist_date
+ * @property string $upload_start
+ * @property string $upload_stop
+ * @property integer $upload_period
+ * @property string $download_start
+ * @property string $download_stop
+ * @property integer $download_period
+ * @property integer $blacklist
+ * @property integer $settings_id
+ * @property string $version
+ */
 class Term extends CActiveRecord
 {
-  const STATUS_VALID = 1;
-  const STATUS_BANNED = 0;
+    const STATUS_VALID = 1
+    const STATUS_BANNED = 0
 
-  const TYPE_POS = 0;
-  const TYPE_VENDING = 1;
+    const BLACKLIST_ON = 1
+    const BLACKLIST_OFF = 0
 
-  public $parent_firm;
-  public $child_firm;
+    const TYPE_POS = 0
+    const TYPE_VENDING = 1
 
-  public function getStatusList()
-  {
-    return array(
-      self::STATUS_VALID => Yii::t('user', 'Активен'),
-      self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
-    );
-  }
+    /**
+    * @return string the associated database table name
+    */
+    public function tableName()
+    {
+        return 'term';
+    }
 
-  public function getStatus()
-  {
-    $data = $this->getStatusList();
-    return $data[$this->status];
-  }
+    /**
+    * @return array validation rules for model attributes.
+    */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('id, name', 'required'),
+            array('id, type, status, upload_period, download_period, blacklist, settings_id', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>300),
+            array('tz', 'length', 'max'=>150),
+            array('upload_start, upload_stop, download_start, download_stop', 'length', 'max'=>256),
+            array('version', 'length', 'max'=>128),
+            array('report_date, config_date, blacklist_date', 'safe'),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, type, name, tz, status, report_date, config_date, blacklist_date, upload_start, upload_stop, upload_period, download_start, download_stop, download_period, blacklist, settings_id, version', 'safe', 'on'=>'search'),
+        );
+    }
 
-  public function getTypeList()
-  {
-    return array(
-      self::TYPE_POS => Yii::t('user', 'Платежный'),
-      self::TYPE_VENDING => Yii::t('user', 'Вендинговый'),
-    );
-  }
+    /**
+    * @return array customized attribute labels (name=>label)
+    */
+    public function attributeLabels()
+    {
+        return array(
+        'id' => 'ID',
+        'type' => 'Type',
+        'name' => 'Name',
+        'tz' => 'Tz',
+        'status' => 'Status',
+        'report_date' => 'Report Date',
+        'config_date' => 'Config Date',
+        'blacklist_date' => 'Blacklist Date',
+        'upload_start' => 'Upload Start',
+        'upload_stop' => 'Upload Stop',
+        'upload_period' => 'Upload Period',
+        'download_start' => 'Download Start',
+        'download_stop' => 'Download Stop',
+        'download_period' => 'Download Period',
+        'blacklist' => 'Blacklist',
+        'settings_id' => 'Settings',
+        'version' => 'Version',
+        );
+    }
 
-  public function getType()
-  {
-    $data = $this->getTypeList();
-    return $data[$this->type];
-  }
+    /**
+    * Retrieves a list of models based on the current search/filter conditions.
+    *
+    * Typical usecase:
+    * - Initialize the model fields with values from filter form.
+    * - Execute this method to get CActiveDataProvider instance which will filter
+    * models according to data in model fields.
+    * - Pass data provider to CGridView, CListView or any similar widget.
+    *
+    * @return CActiveDataProvider the data provider that can return the models
+    * based on the search/filter conditions.
+    */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-  /**
-  * Returns the static model of the specified AR class.
-  * @param string $className active record class name.
-  * @return Term the static model class
-  */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+        $criteria=new CDbCriteria;
 
-  /**
-   * @return CDbConnection database connection
-   */
-  public function getDbConnection()
-  {
-      return Yii::app()->dbTerm;
-  }
+        $criteria->compare('id',$this->id);
+        $criteria->compare('type',$this->type);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('tz',$this->tz,true);
+        $criteria->compare('status',$this->status);
+        $criteria->compare('report_date',$this->report_date,true);
+        $criteria->compare('config_date',$this->config_date,true);
+        $criteria->compare('blacklist_date',$this->blacklist_date,true);
+        $criteria->compare('upload_start',$this->upload_start,true);
+        $criteria->compare('upload_stop',$this->upload_stop,true);
+        $criteria->compare('upload_period',$this->upload_period);
+        $criteria->compare('download_start',$this->download_start,true);
+        $criteria->compare('download_stop',$this->download_stop,true);
+        $criteria->compare('download_period',$this->download_period);
+        $criteria->compare('blacklist',$this->blacklist);
+        $criteria->compare('settings_id',$this->settings_id);
+        $criteria->compare('version',$this->version,true);
 
-  /**
-  * @return string the associated database table name
-  */
-  public function tableName()
-  {
-    return 'term.term';
-  }
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 
-  /**
-  * @return array validation rules for model attributes.
-  */
-  public function rules()
-  {
-    // NOTE: you should only define rules for those attributes that
-    // will receive user inputs.
-    return array(
-      array('term_id, firm_id, name, status, type', 'required'),
-      array('status, firm_id, type', 'numerical', 'integerOnly'=>true),
-      array('term_id', 'length', 'max'=>50),
-      array('upload_time, upload_period, download_time, download_period', 'date', 'format'=>'HH:mm:ss'),
-      array('term_id', 'unique'),
-      array('name', 'length', 'max'=>300),
-      // The following rule is used by search().
-      // Please remove those attributes that should not be searched.
-      array('id, term_id, firm_id, name, status, seans_date, upload_time, upload_period, download_time, download_period', 'safe', 'on'=>'search'),
-    );
-  }
+    /**
+    * @return CDbConnection the database connection used for this class
+    */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbTerm;
+    }
 
-  /**
-  * @return array customized attribute labels (name=>label)
-  */
-  public function attributeLabels()
-  {
-    return array(
-      'id' => 'ID',
-      'term_id' => 'ID',
-      'name' => 'Имя',
-      'status' => 'Статус',
-      'seans_date' => 'Дата сеанса',
-      'upload_time' => 'Время отправки отчёта',
-      'upload_period' => 'Период между отправками',
-      'download_time' => 'Время загрузки конфигурации',
-      'download_period' => 'Период между загрузками',
-      'firm_id' => 'Владелец',
-      'child_firm' => 'Арендатор',
-      'type' => 'Тип',
-    );
-  }
-
-  /**
-  * Retrieves a list of models based on the current search/filter conditions.
-  * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-  */
-  public function search()
-  {
-    // Warning: Please modify the following code to remove attributes that
-    // should not be searched.
-
-    $criteria=new CDbCriteria;
-
-    $criteria->compare('id',$this->id);
-    $criteria->compare('t.term_id',$this->term_id,true);
-    $criteria->compare('name',$this->name,true);
-    $criteria->compare('status',$this->status);
-    $criteria->compare('type',$this->type);
-    $criteria->compare('seans_date',$this->seans_date,true);
-    $criteria->compare('upload_time',$this->upload_time,true);
-    $criteria->compare('download_time',$this->download_time,true);
-    $criteria->compare('upload_period',$this->upload_period,true);
-    $criteria->compare('download_period',$this->download_period,true);
-
-    return new CActiveDataProvider($this, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-          'pageSize' => 30,
-        ),
-        'sort' => array(
-        'defaultOrder' => 't.term_id ASC',),
-
-    ));
-  }
+    /**
+    * Returns the static model of the specified AR class.
+    * Please note that you should have this exact method in all your CActiveRecord descendants!
+    * @param string $className active record class name.
+    * @return Term the static model class
+    */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 }

@@ -439,9 +439,9 @@ else alert('error = yes');
                 {
                     if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
                     {
-                        if ('no' == data.liked) {
+                        if ('no' == data.liked)
                             contentService.setModal(data.message, 'error'); 
-                        }else
+                        else
                             contentService.setModal(data.message, 'none'); 
                     }
                 }
@@ -463,9 +463,9 @@ else alert('error = yes');
                         
                         if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
                         {
-                            if ('no' == data.liked) {
+                            if ('no' == data.liked) 
                                 contentService.setModal(data.message, 'error'); 
-                            }else
+                            else
                                 contentService.setModal(data.message, 'none'); 
                         }
                     }
@@ -477,4 +477,4 @@ else alert('error = yes');
             });
         }
     }; 
-});
+});socTimer
