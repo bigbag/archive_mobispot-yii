@@ -439,15 +439,10 @@ else alert('error = yes');
                 {
                     if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
                     {
-                        var resultModal = angular.element('.m-result');
-                        var resultContent = resultModal.find('p');
-                        resultContent.text(data.message);
-                        resultModal.removeClass('m-negative');
                         if ('no' == data.liked) {
-                            resultModal.addClass('m-negative');
-                        }
-                        resultModal.show();
-                        resultModal.fadeOut(10000);
+                            contentService.setModal(data.message, 'error'); 
+                        }else
+                            contentService.setModal(data.message, 'none'); 
                     }
                 }
             }
@@ -468,14 +463,10 @@ else alert('error = yes');
                         
                         if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
                         {
-                            var resultContent = resultModal.find('p');
-                            resultContent.text(data.message);
-                            resultModal.removeClass('m-negative');
                             if ('no' == data.liked) {
-                                resultModal.addClass('m-negative');
-                            }
-                            resultModal.show();
-                            resultModal.fadeOut(10000);
+                                contentService.setModal(data.message, 'error'); 
+                            }else
+                                contentService.setModal(data.message, 'none'); 
                         }
                     }
                     else
