@@ -16,6 +16,8 @@ class PersonEvent extends CActiveRecord
     const STATUS_ACTIVE = 1
     const STATUS_BANNED = 0
 
+    const LIKE_TIMEOUT = 100000
+
     /**
      * @return string the associated database table name
      */
@@ -40,12 +42,12 @@ class PersonEvent extends CActiveRecord
         );
     }
 
-    public function beforeValidate()
+    public function beforeSave()
     {
         if (!$this->timeout) $this->timeout = 300;
         if (!$this->status) $this->status = self::STATUS_ACTIVE;
 
-        return parent::beforeValidate();
+        return parent::beforeSave();
     }
 
     /**
@@ -75,6 +77,49 @@ class PersonEvent extends CActiveRecord
             'firm_id' => 'Firm',
             'timeout' => 'Timeout',
         );
+    }
+
+    public function addByUserLoyaltyId($user_id, $loyalty_id)
+    {
+        $result = False;
+        $loyalty = Loyalty::model()->findByPk($loyalty_id);
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('user_id'=>$user_id)
+        );
+
+        if ($loyalty and $wallet ) 
+        {
+            $person = Person::model()->findByAttributes(
+                array(
+                    'firm_id'=>$loyalty->firm_id,
+                    'payment_id'=>$wallet->payment_id,
+                )
+            );
+
+            if (!$person)
+            {
+                $person = new Person();
+                $person->name = 'Участник промо-кампании';
+                $person->firm_id = $loyalty->firm_id;
+                $person->hard_id = $wallet->hard_id;
+                $person->payment_id = $wallet->payment_id;
+                $person->save();
+            }
+
+            foreach ($loyalty->terms_id as $term_id) {
+                $personEvent = new PersonEvent():
+                $personEvent->person_id = $person->id;
+                $personEvent->term_id = $term_id;
+                $personEvent->event_id = $loyalty->event_id;
+                $personEvent->firm_id = $loyalty->firm_id;
+                $personEvent->timeout = self::LIKE_TIMEOUT;
+
+                if ($personEvent->save()) $result = True;
+            }
+        }
+
+        return $result
+
     }
 
     /**

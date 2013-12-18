@@ -54,7 +54,7 @@ class Person extends CActiveRecord
         );
     }
 
-    public function beforeValidate()
+    public function beforeSave()
     {
         if (!$this->creation_date) $this->creation_date = date('Y-m-d H:i:s');
         if (!$this->status) $this->status = self::STATUS_VALID;
@@ -62,7 +62,7 @@ class Person extends CActiveRecord
         if (!$this->type) $this->type = self::TYPE_TIMEOUT;
         if (!$this->name) $this->name = 'Anonim';
 
-        return parent::beforeValidate();
+        return parent::beforeSave();
     }
 
     /**

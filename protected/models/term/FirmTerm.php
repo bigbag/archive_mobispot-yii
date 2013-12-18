@@ -36,12 +36,12 @@ class FirmTerm extends CActiveRecord
         );
     }
 
-    public function beforeValidate()
+    public function beforeSave()
     {
         if !($this->creation_date) $this->creation_date = date('Y-m-d H:i:s');
         if !($this->child_firm_id) $this->child_firm_id = $this->firm_id ;
 
-        return parent::beforeValidate();
+        return parent::beforeSave();
     }
 
     /**
