@@ -321,7 +321,9 @@ angular.module('mobispot').controller('PaymentController',
             if(data.error == 'no') {
                 angular.element('#all-actions-table tbody').html($compile(data.content)($scope));
             }
-        });
+else alert('error = yes');
+        })
+.error(function(error){alert(error)});
     }
     
     //sms информирование
@@ -417,7 +419,7 @@ angular.module('mobispot').controller('PaymentController',
                       }
                     }, options);
 
-                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/service/SocLogin?service=' + data.service;
 
                     url += url.indexOf('?') >= 0 ? '&' : '?';
                     if (url.indexOf('redirect_uri=') === -1)
@@ -444,7 +446,6 @@ angular.module('mobispot').controller('PaymentController',
                         if ('no' == data.liked) {
                             resultModal.addClass('m-negative');
                         }
-                        resultModal.stop();
                         resultModal.show();
                         resultModal.fadeOut(10000);
                     }
@@ -473,7 +474,6 @@ angular.module('mobispot').controller('PaymentController',
                             if ('no' == data.liked) {
                                 resultModal.addClass('m-negative');
                             }
-                            resultModal.stop();
                             resultModal.show();
                             resultModal.fadeOut(10000);
                         }
