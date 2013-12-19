@@ -10,6 +10,7 @@
  * @property integer $event_id
  * @property integer $firm_id
  * @property integer $timeout
+ * @property integer $status
  */
 class PersonEvent extends CActiveRecord
 {
@@ -34,18 +35,18 @@ class PersonEvent extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('person_id, term_id, event_id, firm_id', 'required'),
+            array('person_id, term_id, event_id, firm_id, status', 'required'),
             array('person_id, term_id, event_id, firm_id, timeout', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, person_id, term_id, event_id, firm_id, timeout', 'safe', 'on'=>'search'),
+            array('id, person_id, term_id, event_id, firm_id, status, timeout', 'safe', 'on'=>'search'),
         );
     }
 
     public function beforeSave()
     {
         if (!$this->timeout) $this->timeout = 300;
-        //if (!$this->status) $this->status = self::STATUS_ACTIVE;
+        if (!$this->status) $this->status = self::STATUS_ACTIVE;
 
         return parent::beforeSave();
     }
@@ -128,7 +129,14 @@ class PersonEvent extends CActiveRecord
                     if ($personEvent->save()) $result = True;
                 }
                 else
+                {
+                    if ($personEvent->timeout != self::LIKE_TIMEOUT)
+                    {
+                        $personEvent->status = self::STATUS_BANNED;
+                        $personEvent->save();
+                    }
                     $result = True;
+                }
             }
         }
 
@@ -160,6 +168,7 @@ class PersonEvent extends CActiveRecord
         $criteria->compare('event_id',$this->event_id);
         $criteria->compare('firm_id',$this->firm_id);
         $criteria->compare('timeout',$this->timeout);
+        $criteria->compare('status',$this->status);        
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
