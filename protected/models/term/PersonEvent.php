@@ -45,7 +45,7 @@ class PersonEvent extends CActiveRecord
     public function beforeSave()
     {
         if (!$this->timeout) $this->timeout = 300;
-        if (!$this->status) $this->status = self::STATUS_ACTIVE;
+        //if (!$this->status) $this->status = self::STATUS_ACTIVE;
 
         return parent::beforeSave();
     }
@@ -107,18 +107,32 @@ class PersonEvent extends CActiveRecord
             }
 
             foreach ($loyalty->terms_id as $term_id) {
-                $personEvent = new PersonEvent():
-                $personEvent->person_id = $person->id;
-                $personEvent->term_id = $term_id;
-                $personEvent->event_id = $loyalty->event_id;
-                $personEvent->firm_id = $loyalty->firm_id;
-                $personEvent->timeout = self::LIKE_TIMEOUT;
+                $personEvent = PersonEvent::model()->findByAttributes(
+                    array(
+                        'person_id'=>$person->id,
+                        'term_id'=>$term_id,
+                        'event_id'=>$loyalty->event_id,
+                        'firm_id'=>$loyalty->firm_id,
+                    )
+                );
+                
+                if (!$personEvent)
+                {
+                    $personEvent = new PersonEvent();
+                    $personEvent->person_id = $person->id;
+                    $personEvent->term_id = $term_id;
+                    $personEvent->event_id = $loyalty->event_id;
+                    $personEvent->firm_id = $loyalty->firm_id;
+                    $personEvent->timeout = self::LIKE_TIMEOUT;
 
-                if ($personEvent->save()) $result = True;
+                    if ($personEvent->save()) $result = True;
+                }
+                else
+                    $result = True;
             }
         }
 
-        return $result
+        return $result;
 
     }
 

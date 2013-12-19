@@ -601,6 +601,8 @@ class WalletController extends MController
                             
                             if (!empty($like['data']) && !empty($like['data'][0]) && !empty($like['data'][0]['id']))
                             {
+                                $likeEvent = new PersonEvent;
+                                $likeEvent->addByUserLoyaltyId(Yii::app()->user->id, $action->id);
                                 $answer['liked'] = 'yes';
                                 $answer['message'] = Yii::t('wallet', 'Вы лайкнули страницу: ').$page['link'];
                             }
