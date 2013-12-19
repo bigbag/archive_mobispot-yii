@@ -5,7 +5,9 @@
  *
  * The followings are the available columns in table 'loyalty':
  * @property integer $id
- * @property string $terms_id 
+ * @property string $terms_id
+ * @property string $event_id 
+ * @property string $firm_id
  * @property integer $rules
  * @property integer $interval
  * @property string $amount
@@ -67,11 +69,11 @@ class Loyalty extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('terms_id, rules, interval, amount, threshold, creation_date, start_date, stop_date', 'required'),
+            array('terms_id, event_id, firm_id, rules, interval, amount, threshold, creation_date, start_date, stop_date', 'required'),
             array('rules, interval', 'numerical', 'integerOnly' => true),
             array('amount', 'filter', 'filter' => 'trim'),
             array('desc', 'filter', 'filter' => 'trim'),
-            array('id, terms_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc', 'safe', 'on' => 'search'),
+            array('id, terms_id, event_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc', 'safe', 'on' => 'search'),
         );
     }
 
@@ -93,6 +95,19 @@ class Loyalty extends CActiveRecord
 
         return parent::afterFind();
     }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+            'firm' => array(self::BELONGS_TO, 'Firm', 'firm_id'),
+        );
+    }
     
     /**
      * @return array customized attribute labels (name=>label)
@@ -102,6 +117,8 @@ class Loyalty extends CActiveRecord
         return array(
             'id' => 'ID',
             'terms_id' => 'Terminals',
+            'firm_id' => 'Firm',
+            'event_id' => 'Events',
             'rules' => 'Rule',
             'interval' => 'Interval',
             'amount' => 'Amount',

@@ -24,14 +24,14 @@
  */
 class Term extends CActiveRecord
 {
-    const STATUS_VALID = 1
-    const STATUS_BANNED = 0
+    const STATUS_VALID = 1;
+    const STATUS_BANNED = 0;
 
-    const BLACKLIST_ON = 1
-    const BLACKLIST_OFF = 0
+    const BLACKLIST_ON = 1;
+    const BLACKLIST_OFF = 0;
 
-    const TYPE_POS = 0
-    const TYPE_VENDING = 1
+    const TYPE_POS = 0;
+    const TYPE_VENDING = 1;
 
     /**
     * @return string the associated database table name
