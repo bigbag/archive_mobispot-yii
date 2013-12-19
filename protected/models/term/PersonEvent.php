@@ -43,12 +43,12 @@ class PersonEvent extends CActiveRecord
         );
     }
 
-    public function beforeSave()
+    public function beforeValidate()
     {
         if (!$this->timeout) $this->timeout = 300;
         if (!$this->status) $this->status = self::STATUS_ACTIVE;
 
-        return parent::beforeSave();
+        return parent::beforeValidate();
     }
 
     /**
