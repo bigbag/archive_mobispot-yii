@@ -15,7 +15,7 @@
  * @property string $phone
  * @property string $country 
  */
-class Customer extends CActiveRecord
+class StoreCustomer extends CActiveRecord
 {
 
     public static function model($className = __CLASS__)

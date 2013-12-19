@@ -31,7 +31,7 @@ class ProductController extends MController
         $data = $this->validateRequest();
         $answer = array();
 
-        $cart = new Cart;
+        $cart = new StoreCart;
         $answer['products'] = $cart->getPriceList();
         $settings = array();
         $settings['addToCart'] = Yii::t('store', 'Add to cart');
@@ -45,7 +45,7 @@ class ProductController extends MController
     public function getItemsInCart()
     {
         $count = 0;
-        $cart = new Cart; //для проверки в конструкторе Cart - если юзер залогинился
+        $cart = new StoreCart; //для проверки в конструкторе Cart - если юзер залогинился
         if (isset(Yii::app()->session['itemsInCart']) && (Yii::app()->session['itemsInCart'] > 0))
         {
             $count = Yii::app()->session['itemsInCart'];
@@ -60,7 +60,7 @@ class ProductController extends MController
         $data = $this->validateRequest();
         $answer = array();
         
-        $cart = new Cart;
+        $cart = new StoreCart;
         $answer = array();
         $answer['products'] = $cart->getStoreCart();
         $answer['discount'] = $cart->getDiscount();
@@ -72,7 +72,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         
-        $cart = new Cart;
+        $cart = new StoreCart;
         $data['customer'] = $cart->getCustomer();
         $data['delivery'] = $cart->getDelivery();
         $data['payment'] = $cart->getPayment();
@@ -85,7 +85,7 @@ class ProductController extends MController
         $data = $this->validateRequest();
         $answer = array();
 
-        $cart = new Cart;
+        $cart = new StoreCart;
         $answer['error'] = $cart->addToCart($data);
         $answer['count'] = $this->getItemsInCart();
 
@@ -99,7 +99,7 @@ class ProductController extends MController
         $answer = array();
         $answer['error'] = '-1';
 
-        $cart = new Cart;
+        $cart = new StoreCart;
         if ($cart->deleteFromCart($data))
         {
             $answer['error'] = 'no';
@@ -116,7 +116,7 @@ class ProductController extends MController
         
         if (isset($data['oldProduct']) && isset($data['newProduct']))
         {
-            $cart = new Cart;
+            $cart = new StoreCart;
             if ($cart->saveProduct($data['oldProduct'], $data['newProduct']))
             {
                 $answer['error'] = 'no';
@@ -134,7 +134,7 @@ class ProductController extends MController
         
         if(!empty($data['promoCode']))
         {
-            $cart = new Cart;
+            $cart = new StoreCart;
             $discount = $cart->confirmPromo($data['promoCode']);
             $answer['error'] = $discount['error'];
             $answer['discount'] = $discount;
@@ -151,7 +151,7 @@ class ProductController extends MController
 
         if (isset($data['customer']))
         {
-            $cart = new Cart;
+            $cart = new StoreCart;
             $answer['error'] = $cart->validateCustomer($data['customer']);
         }
 
@@ -163,7 +163,7 @@ class ProductController extends MController
         $data = $this->validateRequest();
         $answer = array();
 
-        $cart = new Cart;
+        $cart = new StoreCart;
         if (!isset($data['delivery']))
             $answer['error'] = Yii::t('store', 'Укажите способ доставки');
         elseif (!isset($data['payment']))
@@ -243,7 +243,7 @@ class ProductController extends MController
                         //Восстановление заказа в корзину
                         $cartList = array();
                         $itemsInCart = 0;
-                        $list = OrderList::model()->findAllByAttributes(array(
+                        $list = StoreOrderList::model()->findAllByAttributes(array(
                             'id_order' => $order->id
                         ));
                         if ($list)
@@ -270,7 +270,7 @@ class ProductController extends MController
                     //Восстановление одноразового промо-кода
                     if (!empty($order->promo_id))
                     {
-                        $promoCode = PromoCode::model()->findByPk($order->promo_id);
+                        $promoCode = StorePromoCode::model()->findByPk($order->promo_id);
                         if ($promoCode && !$promoCode->is_multifold && $promoCode->used)
                         {
                             $promoCode->used = false;
@@ -281,7 +281,7 @@ class ProductController extends MController
                 }
                 else
                 {
-                    $mailOrder = Cart::getMessageByOrder($order->id);
+                    $mailOrder = StoreCart::getMessageByOrder($order->id);
 
                     $order->status = 2;
                     MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());

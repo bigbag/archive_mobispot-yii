@@ -27,16 +27,19 @@ CREATE TABLE IF NOT EXISTS `customer`(
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 DROP TABLE IF EXISTS `store_order`;
-CREATE TABLE IF NOT EXISTS `store_order`(
-    id serial not null,
-    id_customer bigint unsigned not null,
-    delivery bigint unsigned null,
-    delivery_data text null,
-    payment bigint unsigned null,
-    payment_data text null,
-    status integer not null,
-    promo_id bigint unsigned null,
-    foreign key (id_customer) references customer (id)
+CREATE TABLE `store_order` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id_customer` bigint(20) unsigned NOT NULL,
+  `delivery` bigint(20) unsigned DEFAULT NULL,
+  `delivery_data` text,
+  `payment` varchar(1024) DEFAULT NULL,
+  `payment_data` text,
+  `status` int(11) NOT NULL,
+  `promo_id` bigint(20) unsigned DEFAULT NULL,
+  `buy_date` datetime NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_customer` (`id_customer`),
+  CONSTRAINT `store_order_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `customer` (`id`)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 DROP TABLE IF EXISTS `order_list`;

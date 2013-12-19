@@ -11,8 +11,9 @@
  * @property string $description
  * @property string $color
  * @property string $size
+ * @property string surface
  */
-class Product extends CActiveRecord
+class StoreProduct extends CActiveRecord
 {
 
     public static function model($className = __CLASS__)
@@ -46,5 +47,17 @@ class Product extends CActiveRecord
         $this->surface = unserialize($this->surface);
         $this->size = unserialize($this->size);
         return parent::afterFind();
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('name, size', 'required'),
+        );
     }
 }
