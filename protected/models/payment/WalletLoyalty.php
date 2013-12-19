@@ -65,6 +65,7 @@ class WalletLoyalty extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'loyalty'=>array(self::BELONGS_TO, 'Loyalty', 'loyalty_id'),
+            'wallet'=>array(self::BELONGS_TO, 'PaymentWallet', 'wallet_id'),
         );
     }
     
