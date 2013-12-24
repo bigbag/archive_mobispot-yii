@@ -68,8 +68,10 @@ angular.module('mobispot').controller('PaymentController',
   };
 
   //Включение автоплатежей
-  $scope.enable_recurrent = function(recurrent, valid) {
+  $scope.enableRecurrent = function(recurrent, valid) {
+    console.log(recurrent);
     if (!valid || !($scope.recurrent.terms == 1)) return false;
+
     recurrent.token = $scope.user.token
     $http.post('/wallet/recurrent', recurrent).success(function(data) {
       if (data.error == 'no') {
@@ -85,6 +87,7 @@ angular.module('mobispot').controller('PaymentController',
         var systemImg = angular.element('#disableReccurent .m-card-cur');
         systemImg.removeClass();
         systemImg.addClass('m-card-cur');
+
         if (typeof (data.system_class) != 'undefined' && data.system_class.length > 0)
             systemImg.addClass(data.system_class);
         else
@@ -96,7 +99,7 @@ angular.module('mobispot').controller('PaymentController',
   };
 
   //Выключение автоплатежей
-  $scope.disable_recurrent = function(wallet_id) {
+  $scope.disableRecurrent = function(wallet_id) {
     var data = {wallet_id:wallet_id, token: $scope.user.token};
     $http.post('/wallet/recurrent', data).success(function(data) {
       if (data.error == 'no') {
@@ -233,15 +236,6 @@ angular.module('mobispot').controller('PaymentController',
       }
     });
   };
-  
-  $scope.newAutoPayment = function(history_id)
-  {
-      $scope.recurrent.amount = 100;
-      $scope.recurrent.terms = 0;
-      angular.element('#buttonApayOn').addClass('button-disable');
-      angular.element('a.checkbox.agree').removeClass('active');
-      if (typeof (history_id) != 'undefined') $scope.recurrent.history_id = history_id;
-  }
   
   $scope.getHistory = function(wallet_id, page, newFilter)
   {
@@ -454,4 +448,4 @@ angular.module('mobispot').controller('PaymentController',
           });
       }
   }; 
-});socTimer
+});

@@ -39,7 +39,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/corp/wallet/block/offers_tbody.php'); ?>
+                        <?php echo $this->renderPartial('//corp/wallet/block/offers_tbody', 
+                            array('actions' => $actions)); 
+                        ?>
                     </tbody>
                 </table>
             </div>
