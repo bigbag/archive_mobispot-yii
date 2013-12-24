@@ -1,6 +1,6 @@
 <div id="signInForm" ng-controller="UserController" class="slide-box">
   <div class="row">
-    <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
+    <a  class="slide-box-close">&#xe00b;</a>
     <div class="large-3 columns">
       &nbsp;
     </div>
@@ -41,7 +41,7 @@
           <?php echo Yii::t('corp_user', 'Забыли пароль?');?>
         </a>
         <div class="form-control">
-          <a class="spot-button opacity login button-disable" href="javascript:;" ng-click="login(user, signForm.$valid)">
+          <a class="spot-button opacity login button-disable"  ng-click="login(user, signForm.$valid)">
             <?php echo Yii::t('corp_user', 'Войти')?>
           </a>
         </div>

@@ -4,7 +4,7 @@
 	<ul class="spot-hat-button">
 		<li>
 			<div>
-				<a data-tooltip title="<?php echo Yii::t('corp_wallet', 'Settings'); ?>" id="j-settings" class="tip-top icon-spot-button right text-center toggle-box icon" href="javascript:;">&#xe00f;</a>
+				<a data-tooltip title="<?php echo Yii::t('corp_wallet', 'Settings'); ?>" id="j-settings" class="tip-top icon-spot-button right text-center toggle-box icon" >&#xe00f;</a>
 			</div>
 		</li>
 	</ul>

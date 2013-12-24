@@ -5,9 +5,9 @@
                 <h3><?php echo Yii::t('corp_wallet', 'Настройки'); ?></h3>
                 <div class="settings-item sms-set">
                     <div class="toggle-active">
-                        <a href="javascript:;" 
+                        <a  
                             id="WalletSmsInfo" 
-                            class="checkbox checkbox-h agree<?php echo ($smsInfo['active'])?' active':'';?>" 
+                            class="checkbox checkbox-h agree<?php echo ($smsInfo['status'])?' status':'';?>" 
                             ng-click="ToggleSmsInfo(<?php echo $wallet->id;?>)">
                             <i class="large"></i>
                             <h3> <?php echo Yii::t('corp_wallet', 'SMS информирование'); ?></h3>
@@ -18,7 +18,9 @@
                             </p>
                             <div class="condition01">
                             <form class="custom">
-                                <label><?php echo Yii::t('corp_wallet', '10 цифр, например, 9013214567');?></label>
+                                <label>
+                                    <?php echo Yii::t('corp_wallet', '10 цифр, например, 9013214567');?>
+                                </label>
                                 <div class="content-row large-12 left g-clearfix">
                                     <select class="medium" 
                                         ng-model="sms.prefix" 
@@ -50,18 +52,22 @@
                             </form>
                             </div>
                             <div class="toggle-active">
-                                <a href="javascript:;" id="UserSmsInfo" class="checkbox checkbox-h agree<?php echo ($smsInfo['sms_all_wallets'])?' active':'';?>" ng-click="SmsAllWallets(<?php echo $wallet->id;?>)">
+                                <a  
+                                    id="UserSmsInfo" 
+                                    class="checkbox checkbox-h agree<?php echo ($smsInfo['sms_all_wallets'])?' active':'';?>" 
+                                    ng-click="SmsAllWallets(<?php echo $wallet->id;?>)">
                                     <i class="large"></i>
                                     <span> 
                                         <?php echo Yii::t('corp_wallet', 'Включить и для всех остальных кошельков'); ?>
                                     </span>
                                 </a>
                             </div>
-                            <div ng-show="sms.savedPhone" class="condition02" <?php echo empty($smsInfo['phone'])?'':' ng-init="sms.savedPhone =\''.$smsInfo['phone'].'\'"';?>>
+                            <div ng-show="sms.savedPhone" 
+                                class="condition02" <?php echo empty($smsInfo['phone'])?'':' ng-init="sms.savedPhone =\''.$smsInfo['phone'].'\'"';?>>
                                 <h3><?php echo Yii::t('corp_wallet', 'Смс оповещение включено для номера:'); ?></h3>
                                     <p>{{sms.savedPhone}}</p>
                                     <a class="spot-button <?php echo empty($smsInfo['phone'])?'dispaly-none':'';?>" 
-                                        ng-click="savePhone(<?php echo $wallet->id;?>, '')">
+                                        ng-click="cancelSms(<?php echo $wallet->id;?>, '')">
                                         <?php echo Yii::t('corp_wallet', 'Отменить'); ?>
                                     </a>
                             </div>
@@ -82,7 +88,7 @@
                     </span>
                     <a id="block-button" 
                         class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"
-                        href="javascript:;" 
+                         
                         ng-click="block(<?php echo $wallet->id;?>)">
                       <?php if($wallet->status==PaymentWallet::STATUS_ACTIVE):?>
                       <?php echo Yii::t('corp_wallet', 'Заблокировать');?>
@@ -111,7 +117,7 @@
                             <input id="payment" type="text" ng-pattern="/[0-9]+/" ng-model="payment.amount" placeholder="<?php echo Yii::t('corp_wallet', 'сумма,');?>" maxlength="50" required="" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern b-pay-input"><span class="right b-currency" ng-init="payment.amount=100;payment.status=<?php echo ($wallet->status);?>"><?php echo Yii::t('corp_wallet', 'руб.');?></span>
                         </div>
                         <div class="large-3 left columns">
-                            <a id="add-button" class="spot-button button-disable text-center" href="javascript:;" ng-click="addSumm(payment, $event)"><?php echo Yii::t('corp_wallet', 'Пополнить');?></a><br>
+                            <a id="add-button" class="spot-button button-disable text-center"  ng-click="addSumm(payment, $event)"><?php echo Yii::t('corp_wallet', 'Пополнить');?></a><br>
                         </div>
                         <span id="j-wallet" class="settings-button payment-rules right">
                             <?php echo Yii::t('corp_wallet', 'Условия использования и гарантии безопасности');?>
@@ -163,14 +169,14 @@
                         </div>
 
                         <p class="sub-txt sub-txt-last toggle-active">
-                            <a class="checkbox agree" href="javascript:;" ng-click="setRecurrentTerms(recurrent)">
+                            <a class="checkbox agree"  ng-click="setRecurrentTerms(recurrent)">
                                 <i class="large"></i>
                                 <?php echo Yii::t('corp_wallet', '*Включая автоплатежи вы соглашаетесь,
                                 что баланс кампусной карты "Мобиспот" будет автоматически пополняться при остатке менее') 
                                     . ' '. $limit_autopayment . ' '. Yii::t('corp_wallet', 'руб.');?>
                             </a>
                         </p>
-                        <a class="terms settings-button" href="javascript:;" id="j-settings"><?php echo Yii::t('corp_wallet', 'Условия использования функции "Автопополнение"');?></a>
+                        <a class="terms settings-button"  id="j-settings"><?php echo Yii::t('corp_wallet', 'Условия использования функции "Автопополнение"');?></a>
                     </form>
                     
                     <form id="disableReccurent" class="item-area__left custom" style="display: <?php echo ($auto)?'block':'none'?>;">
@@ -194,8 +200,8 @@
                     </form>
                     
                     <div class="large-3 apay-button columns">
-                        <a id="buttonApayOn" class="spot-button text-center on-apay button-disable" href="javascript:;" ng-click="enable_recurrent(recurrent, recurrentForm.$valid)"><?php echo Yii::t('corp_wallet', 'Включить');?></a>
-                        <a id="buttonApayOff" class="spot-button text-center off-apay" href="javascript:;" ng-click="disable_recurrent(payment.wallet)"><?php echo Yii::t('corp_wallet', 'Отключить');?></a>
+                        <a id="buttonApayOn" class="spot-button text-center on-apay button-disable"  ng-click="enable_recurrent(recurrent, recurrentForm.$valid)"><?php echo Yii::t('corp_wallet', 'Включить');?></a>
+                        <a id="buttonApayOff" class="spot-button text-center off-apay"  ng-click="disable_recurrent(payment.wallet)"><?php echo Yii::t('corp_wallet', 'Отключить');?></a>
                     </div>
                 </div>
             </div>
@@ -227,7 +233,7 @@
                         <input type="text" name="date" placeholder="<?php echo Yii::t('corp_wallet', 'Введите дату');?>" id="filter-date" />
                     </div>
                 </th>
-                <th colspan="2"><div><a style="" class="spot-button text-center" href="javascript:;" ng-click="getHistory(<?php echo $wallet->id.', 1, 1';?>)"><?php echo Yii::t('corp_wallet', 'Искать');?></a></div></th>
+                <th colspan="2"><div><a style="" class="spot-button text-center"  ng-click="getHistory(<?php echo $wallet->id.', 1, 1';?>)"><?php echo Yii::t('corp_wallet', 'Искать');?></a></div></th>
             </tr>
           </thead>
           <tbody >
@@ -253,10 +259,27 @@
                     </a>
                 </h3>
                 <div class="table-fltr add-active">
-                    <a id="actions-actual" class="spot-button active" ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1, <?php echo WalletLoyalty::STATUS_ACTUAL;?>, '')"><?php echo Yii::t('corp_wallet', 'Актуальные');?></a>
-                    <a id="actions-not-actual" class="spot-button" ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1, <?php echo WalletLoyalty::STATUS_NOT_ACTUAL;?>, '')"><?php echo Yii::t('corp_wallet', 'Прошедшие');?></a>
-                    <input class="no-active" type="text" ng-model="actions.search" ng-init="actions.search=''" placeholder="<?php echo Yii::t('corp_wallet', 'Поиск');?>">
-                    <a id="button-search" class="spot-button text-center no-active" href="javascript:;" ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1)"><?php echo Yii::t('corp_wallet', 'Искать');?></a>
+                    <a id="actions-actual" 
+                        class="spot-button active" 
+                        ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1, <?php echo WalletLoyalty::STATUS_ACTUAL;?>, '')">
+                        <?php echo Yii::t('corp_wallet', 'Актуальные');?>
+                    </a>
+                    <a id="actions-not-actual" 
+                        class="spot-button" 
+                        ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1, <?php echo WalletLoyalty::STATUS_NOT_ACTUAL;?>, '')">
+                        <?php echo Yii::t('corp_wallet', 'Прошедшие');?>
+                    </a>
+                    <input class="no-active" 
+                        type="text" 
+                        ng-model="actions.search" 
+                        ng-init="actions.search=''" 
+                        placeholder="<?php echo Yii::t('corp_wallet', 'Поиск');?>">
+                    <a id="button-search" 
+                        class="spot-button text-center no-active" 
+                         
+                        ng-click="getSpecialActions(<?php echo $wallet->id;?>, 1)">
+                        <?php echo Yii::t('corp_wallet', 'Искать');?>
+                    </a>
                 </div>
                 <div class="m-table-wrapper">
                     <table id="actions-table" class="m-spot-table" ng-grid="gridOptions">

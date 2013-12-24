@@ -59,13 +59,13 @@
             placeholder="<?php echo Yii::t('corp_wallet', 'Название')?>"
             autocomplete="off">
           <div class="form-row toggle-active">
-            <a class="checkbox agree" href="javascript:;" ng-click="setTerms(payment)">
+            <a class="checkbox agree"  ng-click="setTerms(payment)">
               <i></i>
               <?php echo Yii::t('corp_spot', 'Я согласен с условиями использования сервиса')?>
             </a>
           </div>
           <div class="form-control">
-            <a class="spot-button button-disable" href="javascript:;" ng-click="addWallet(payment)">
+            <a class="spot-button button-disable"  ng-click="addWallet(payment)">
               <?php echo Yii::t('corp_spot', 'Добавить')?>
             </a>
           </div>

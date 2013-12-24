@@ -30,7 +30,7 @@ $this->pageTitle=Yii::t('corp_user', 'Мобиспот. Восстановлен
             required >
 
           <div class="form-control">
-            <a class="spot-button button-disable" href="javascript:;"  ng-click="change(user, changeForm.$valid)">
+            <a class="spot-button button-disable"   ng-click="change(user, changeForm.$valid)">
               <?php echo Yii::t('corp_user', 'Отправить')?>
             </a>
           </div>
