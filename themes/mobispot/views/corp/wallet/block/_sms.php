@@ -10,15 +10,16 @@
             <?php echo Yii::t('corp_wallet', ' СМС с предупреждением о скорой блокировке кошелька высылается, когда баланс опускается до 50 руб.') ;?>
         </p>
         <div class="condition01">
-        <form class="custom">
+        <form class="custom" name="smsForm" 
+            ng-init="sms.wallet_id=<?php echo $wallet->id;?>;sms.all_wallets=0">
             <label>
                 <?php echo Yii::t('corp_wallet', '10 цифр, например, 9013214567');?>
             </label>
             <div class="content-row large-12 left g-clearfix">
                 <select class="medium" 
-                    ng-model="sms.prefix" 
-                    required 
-                    ng-init="sms.prefix='+7'">
+                    ng-model="sms.prefix"  
+                    ng-init="sms.prefix='+7'"
+                    required>
                     <option value="+7">
                         <?php echo Yii::t('corp_wallet', '+7 Россия'); ?>
                     </option>
@@ -30,31 +31,27 @@
                     ng-model="sms.phone" 
                     placeholder="<?php echo Yii::t('corp_wallet', 'Номер телефона'); ?>" 
                     ng-init="sms.phone=''" 
+                    ng-pattern="/[0-9]+/" 
                     maxlength="10"
                     minlength="10"
                     ng-minlength="10"
                     ng-maxlength="10"
-                    required
-                    ng-change="removePhoneError()">
-                <a id="smsForm" 
-                    ng-click="savePhone(<?php echo $wallet->id;?>)" 
+                    ng-change="removePhoneError()"
+                    required>
+
+                <a ng-click="savePhone(sms, smsForm.$valid)" 
                     class="spot-button popup-button">
                     <?php echo Yii::t('corp_wallet', 'Сохранить'); ?>
                 </a>
             </div>
         </form>
         </div>
-        <div class="toggle-active">
-            <a  
-                id="UserSmsInfo" 
-                class="checkbox checkbox-h agree<?php echo ($smsInfo['sms_all_wallets'])?' active':'';?>" 
-                ng-click="SmsAllWallets(<?php echo $wallet->id;?>)">
+        <p class="sub-txt sub-txt-last toggle-active">
+            <a class="checkbox agree"  ng-click="setSmsAllWallets(sms)">
                 <i class="large"></i>
-                <span> 
-                    <?php echo Yii::t('corp_wallet', 'Включить и для всех остальных кошельков'); ?>
-                </span>
+                <?php echo Yii::t('corp_wallet', 'Включить и для всех остальных кошельков'); ?>
             </a>
-        </div>
+        </p>
         <div ng-show="sms.savedPhone" 
             class="condition02" <?php echo empty($smsInfo['phone'])?'':' ng-init="sms.savedPhone =\''.$smsInfo['phone'].'\'"';?>>
             <h3><?php echo Yii::t('corp_wallet', 'Смс оповещение включено для номера:'); ?></h3>

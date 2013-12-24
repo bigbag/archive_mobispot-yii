@@ -182,51 +182,51 @@ class WalletController extends MController
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = "yes";
-        if (preg_match("~^[+][0-9]$~", $data['phone']))
-            $data['phone'] = '';
 
-        if (isset($data['id']) && isset($data['phone']) && (preg_match("~^[+][0-9]{11}$~", $data['phone']) || '' == $data['phone']))
+
+        if (isset($data['phone']) and isset($data['wallet_id']))
         {
-            if (empty($data['all_wallets']))
-            {
-                //для текущего кошелька
-                $wallet = PaymentWallet::model()->with('smsInfo')->findByPk($data['id']);
-                if ($wallet and Yii::app()->user->id == $wallet->user_id)
-                {
-                    $smsInfo = $wallet->smsInfo;
-                    if (!$smsInfo)
-                        $smsInfo = new SmsInfo;
-                    $smsInfo->wallet_id = $wallet->id;
-                    $smsInfo->user_id = $wallet->user_id;
-                    $smsInfo->phone = $data['phone'];
-                    if ($data['phone'])
-                        $smsInfo->status = SmsInfo::STATUS_ON;
-                    else
-                        $smsInfo->status = SmsInfo::STATUS_OFF;
+            $all_wallets = (isset($data['all_wallets'])?$data['all_wallets']:0;
+            // if (empty($data['all_wallets']))
+            // {
+            //     //для текущего кошелька
+            //     $wallet = PaymentWallet::model()->with('smsInfo')->findByPk($data['id']);
+            //     if ($wallet and Yii::app()->user->id == $wallet->user_id)
+            //     {
+            //         $smsInfo = $wallet->smsInfo;
+            //         if (!$smsInfo)
+            //             $smsInfo = new SmsInfo;
+            //         $smsInfo->wallet_id = $wallet->id;
+            //         $smsInfo->user_id = $wallet->user_id;
+            //         $smsInfo->phone = $data['phone'];
+            //         if ($data['phone'])
+            //             $smsInfo->status = SmsInfo::STATUS_ON;
+            //         else
+            //             $smsInfo->status = SmsInfo::STATUS_OFF;
 
-                    if ($smsInfo->save())
-                        $answer['error'] = 'no';
-                }
-            }
-            else
-            {
-                //для всех кошельков
-                $smsInfos = SmsInfo::model()->findAllByAttributes(
-                    array(
-                        'user_id' => Yii::app()->user->id
-                    )
-                );
-                foreach($smsInfos as $sub)
-                {
-                    if ($data['phone'])
-                        $sub->status = SmsInfo::STATUS_ON;
-                    else
-                        $sub->status = SmsInfo::STATUS_OFF;
-                    $sub->phone = $data['phone'];
-                    $sub->save();
-                }
-                $answer['error'] = 'no';
-            }
+            //         if ($smsInfo->save())
+            //             $answer['error'] = 'no';
+            //     }
+            // }
+            // else
+            // {
+            //     //для всех кошельков
+            //     $smsInfos = SmsInfo::model()->findAllByAttributes(
+            //         array(
+            //             'user_id' => Yii::app()->user->id
+            //         )
+            //     );
+            //     foreach($smsInfos as $sub)
+            //     {
+            //         if ($data['phone'])
+            //             $sub->status = SmsInfo::STATUS_ON;
+            //         else
+            //             $sub->status = SmsInfo::STATUS_OFF;
+            //         $sub->phone = $data['phone'];
+            //         $sub->save();
+            //     }
+            //     $answer['error'] = 'no';
+            // }
         }
         
         echo json_encode($answer);

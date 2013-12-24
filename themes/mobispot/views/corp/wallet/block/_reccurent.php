@@ -40,7 +40,9 @@
                                 ng-pattern="/[0-9]+/" 
                                 ng-model="recurrent.amount" 
                                 placeholder="<?php echo Yii::t('corp_wallet', 'сумма,');?>"  
-                                maxlength="50" required class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern b-pay-input">
+                                maxlength="50" 
+                                required 
+                                class="b-pay-input">
                                 <span class="right b-currency">
                                     <?php echo Yii::t('corp_wallet', 'руб.');?>
                                 </span>
@@ -52,11 +54,11 @@
                     <a class="checkbox agree"  ng-click="setRecurrentTerms(recurrent)">
                         <i class="large"></i>
                         <?php echo Yii::t('corp_wallet', '*Включая автоплатежи вы соглашаетесь,
-                        что баланс кампусной карты "Мобиспот" будет автоматически пополняться при остатке менее') 
-                            . ' '. $limit_autopayment . ' '. Yii::t('corp_wallet', 'руб.');?>
+                        что баланс кампусной карты "Мобиспот" будет автоматически пополняться при остатке менее') ;?>
+                        <?php echo $limit_autopayment;?> <?php echo Yii::t('corp_wallet', 'руб.');?>
                     </a>
                 </p>
-                <a class="terms settings-button"  id="j-settings">
+                <a class="terms settings-button" id="j-settings">
                     <?php echo Yii::t('corp_wallet', 'Условия использования функции "Автопополнение"');?>
                 </a>
             </form>

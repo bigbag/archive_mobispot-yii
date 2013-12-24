@@ -24,7 +24,7 @@
                     <a id="block-button" 
                         class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"
                          
-                        ng-click="block(<?php echo $wallet->id;?>)">
+                        ng-click="blockWallet(<?php echo $wallet->id;?>)">
                       <?php if($wallet->status==PaymentWallet::STATUS_ACTIVE):?>
                       <?php echo Yii::t('corp_wallet', 'Заблокировать');?>
                       <?php else:?>
@@ -63,19 +63,19 @@
             </div>
         </div>
 
-<?php if ($history):?>
-    <?php if ($cards): ?>
+        <?php if ($history and $cards): ?>
         <?php echo $this->renderPartial('//corp/wallet/block/_reccurent', array(
             'cards' => $cards,
             'limit_autopayment' => $limit_autopayment,
             'cards' => $cards,
             'auto' => $auto)
         ); ?>
-    <?php endif;?>
         <div class="cover"></div>
+        <?php endif;?>
       </div>
     </div>
   </div>
+<?php if ($history):?>
   <div class="row">
     <div class="large-12 columns">
       <div id="block-history" class="item-area item-area_w  item-area_table">

@@ -69,7 +69,6 @@ angular.module('mobispot').controller('PaymentController',
 
   //Включение автоплатежей
   $scope.enableRecurrent = function(recurrent, valid) {
-    console.log(recurrent);
     if (!valid || !($scope.recurrent.terms == 1)) return false;
 
     recurrent.token = $scope.user.token
@@ -183,7 +182,7 @@ angular.module('mobispot').controller('PaymentController',
     else $scope.card = 1;
   };
 
-  $scope.block = function(id){
+  $scope.blockWallet = function(id){
     var payment = $scope.payment;
     payment.id=id;
     $http.post('/wallet/blockWallet', payment).success(function(data) {
@@ -237,8 +236,7 @@ angular.module('mobispot').controller('PaymentController',
     });
   };
   
-  $scope.getHistory = function(wallet_id, page, newFilter)
-  {
+  $scope.getHistory = function(wallet_id, page, newFilter){
       var newFilter = newFilter || 0;
 
       if (newFilter){
@@ -263,8 +261,7 @@ angular.module('mobispot').controller('PaymentController',
   }
   
   //акции
-  $scope.getSpecialActions = function(wallet_id, page, status, search)
-  {
+  $scope.getSpecialActions = function(wallet_id, page, status, search){
       if ('undefined' == typeof (search)) search = $scope.actions.search || '';
       else $scope.actions.search = search;
       
@@ -284,8 +281,7 @@ angular.module('mobispot').controller('PaymentController',
       });
   }
 
-  $scope.getAllActions = function(status, page, search)
-  {
+  $scope.getAllActions = function(status, page, search){
       if ('undefined' == typeof (search)) var search = $scope.allActions.search || '';
       else $scope.allActions.search = search;
 
@@ -298,71 +294,65 @@ angular.module('mobispot').controller('PaymentController',
   }
   
   //sms информирование
-  $scope.ToggleSmsInfo = function(wallet_id)
-  {
-      if (!angular.element('#WalletSmsInfo').hasClass('active') && 'undefined' != typeof ($scope.sms) && 'undefined' != typeof ($scope.sms.savedPhone) && $scope.sms.savedPhone.length)
-          $scope.savePhone(wallet_id, $scope.sms.savedPhone);
-      else if (angular.element('#WalletSmsInfo').hasClass('active'))
-          $scope.cancelSms(wallet_id);
-  }
+  // $scope.ToggleSmsInfo = function(wallet_id){
+  //     if (!angular.element('#WalletSmsInfo').hasClass('active') && 'undefined' != typeof ($scope.sms) && 'undefined' != typeof ($scope.sms.savedPhone) && $scope.sms.savedPhone.length)
+  //         $scope.savePhone(wallet_id, $scope.sms.savedPhone);
+  //     else if (angular.element('#WalletSmsInfo').hasClass('active'))
+  //         $scope.cancelSms(wallet_id);
+  // }
   
-  //сохранение телефона sms информирования
-  $scope.savePhone = function(wallet_id, phone)
-  {
-      var phone = phone || ($scope.sms.prefix + $scope.sms.phone);
-      var data = {token: $scope.user.token, id:wallet_id, phone:phone};
+  // Атрибут включения смс информирования на всех кошельках
+  $scope.setSmsAllWallets = function(sms){
+    if (sms.all_wallets == 1) sms.all_wallets = 0;
+    else sms.all_wallets = 1;
+  };
 
-      if (angular.element('#UserSmsInfo').hasClass('active')) {
-        data.all_wallets = true;
-      } 
-      $http.post('/wallet/savePhone', data).success(function(data) {
-        var settings_phone = angular.element('#j-settingsForm input[name=phone]');
-        var settings_condition = angular.element('#j-settingsForm div.condition02 a');
-          if(data.error == 'no') {
-              settings_phone.removeClass('error');
-              if (phone.length > 2){
-                  $scope.sms.savedPhone = phone;
-                  settings_condition.removeClass('dispaly-none');
-              }
-              else{
-                  $scope.sms.savedPhone = '';
-                  settings_condition.addClass('dispaly-none');
-                  //settings_phone.addClass('error');
-              }
-              $scope.sms.phone = '';
-          }
-          else{
-              settings_phone.addClass('error');
-          }
+  //Сохранение телефона sms информирования
+  $scope.savePhone = function(sms, valid){
+    if (!valid) return false;
+      sms.phone = $scope.sms.prefix + $scope.sms.phone;
+      sms.token = $scope.user.token;
+
+      var settings_phone = angular.element('#j-settingsForm input[name=phone]');
+      var settings_condition = angular.element('#j-settingsForm div.condition02 a');
+
+      $http.post('/wallet/savePhone', sms).success(function(data) {
+        if(data.error == 'no') {
+          $scope.sms.savedPhone = sms.phone;
+          $scope.sms.phone = '';
+        }
+        else{
+            settings_phone.addClass('error');
+        }
       });
   }
   
   //отмена sms информирования для кошелька
-  $scope.cancelSms = function(wallet_id)
-  {
-      var data = {token: $scope.user.token, id:wallet_id};
-      $http.post('/wallet/cancelSms', data).success(function(data) {
-      });
-  }
+  // $scope.cancelSms = function(wallet_id)
+  // {
+  //     var data = {token: $scope.user.token, id:wallet_id};
+  //     $http.post('/wallet/cancelSms', data).success(function(data) {
+  //     });
+  // }
   
-  //sms для всех кошельков
-  $scope.SmsAllWallets = function(wallet_id)
-  {
-      var settings_phone = angular.element('#j-settingsForm input[name=phone]');
-      if ($scope.sms.savedPhone.length)
-      {
-          var data = {token: $scope.user.token, id:wallet_id, phone:$scope.sms.savedPhone};
-          if (!angular.element('#UserSmsInfo').hasClass('active'))
-              data.enable = true;
-          else
-              data.enable = false;
+  // //sms для всех кошельков
+  // $scope.SmsAllWallets = function(wallet_id)
+  // {
+  //     var settings_phone = angular.element('#j-settingsForm input[name=phone]');
+  //     if ($scope.sms.savedPhone.length)
+  //     {
+  //         var data = {token: $scope.user.token, id:wallet_id, phone:$scope.sms.savedPhone};
+  //         if (!angular.element('#UserSmsInfo').hasClass('active'))
+  //             data.enable = true;
+  //         else
+  //             data.enable = false;
 
-          $http.post('/wallet/SmsAllWallets', data).success(function(data) {
-              if ('yes' == data.error)
-                settings_phone.addClass('error');
-          });
-      }
-  }
+  //         $http.post('/wallet/SmsAllWallets', data).success(function(data) {
+  //             if ('yes' == data.error)
+  //               settings_phone.addClass('error');
+  //         });
+  //     }
+  // }
 
   $scope.removePhoneError = function()
   {
