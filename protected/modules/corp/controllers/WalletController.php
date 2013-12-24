@@ -9,7 +9,7 @@ class WalletController extends MController
     {
         if (Yii::app()->user->isGuest) $this->setAccess();
 
-        $user = User::getById(Yii::app()->user->id);
+        $user = User::model()->findByPk(Yii::app()->user->id);
 
         if ($user)
         {
@@ -48,7 +48,7 @@ class WalletController extends MController
                 $history = $historyList['history'];
                 $logs = PaymentLog::getListByWalletId($data['wallet_id']);
                 $actions = WalletLoyalty::getByWalletId($data['wallet_id']);
-                $smsInfo = SmsInfo::getSmsInfoForWallet($data['wallet_id']);
+                $smsInfo = SmsInfo::getByWalletId($data['wallet_id']);
 
                 $cards = array();
                 if ($logs)
@@ -176,7 +176,7 @@ class WalletController extends MController
         echo json_encode($answer);
     }
     
-    //сохранение телефонного номера и подключение sms, если не подключены
+    //Сохранение телефонного номера и подключение sms, если не подключены
     public function actionSavePhone()
     {
         $data = $this->validateRequest();
@@ -200,9 +200,9 @@ class WalletController extends MController
                     $smsInfo->user_id = $wallet->user_id;
                     $smsInfo->phone = $data['phone'];
                     if ($data['phone'])
-                        $smsInfo->active = true;
+                        $smsInfo->status = SmsInfo::STATUS_ON;
                     else
-                        $smsInfo->active = false;
+                        $smsInfo->status = SmsInfo::STATUS_OFF;
 
                     if ($smsInfo->save())
                         $answer['error'] = 'no';
@@ -211,13 +211,17 @@ class WalletController extends MController
             else
             {
                 //для всех кошельков
-                $smsInfos = SmsInfo::model()->findAllByAttributes(array('user_id' => Yii::app()->user->id));
+                $smsInfos = SmsInfo::model()->findAllByAttributes(
+                    array(
+                        'user_id' => Yii::app()->user->id
+                    )
+                );
                 foreach($smsInfos as $sub)
                 {
                     if ($data['phone'])
-                        $sub->active = true;
+                        $sub->status = SmsInfo::STATUS_ON;
                     else
-                        $sub->active = false;
+                        $sub->status = SmsInfo::STATUS_OFF;
                     $sub->phone = $data['phone'];
                     $sub->save();
                 }
@@ -227,33 +231,7 @@ class WalletController extends MController
         
         echo json_encode($answer);
     }
-  
-    //отмена sms-информирования
-    public function actionCancelSms()
-    {
-        $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = "yes";
 
-        if (isset($data['id']))
-        {
-            $wallet = PaymentWallet::model()->findByPk($data['id']);
-            if ($wallet and Yii::app()->user->id == $wallet->user_id)
-            {
-                $smsInfo = $wallet->smsInfo;
-                if ($smsInfo)
-                {
-                    $smsInfo->active = false;
-                    $smsInfo->save();
-                }
-
-                $answer['error'] = 'no';
-            }
-        }
-        
-        echo json_encode($answer);
-    }
-    
     //включение/отключение sms для всех кошельков пользователя
     public function actionSmsAllWallets()
     {
@@ -275,7 +253,7 @@ class WalletController extends MController
                     $smsInfo->wallet_id = $wallet->id;
                     $smsInfo->user_id = $wallet->user_id;
                     $smsInfo->phone = $data['phone'];
-                    $smsInfo->active = true;
+                    $smsInfo->status = SmsInfo::STATUS_ON;
                     $smsInfo->save();
                 }
             }
@@ -287,7 +265,7 @@ class WalletController extends MController
                 {
                     if ($sub->wallet_id != $data['id'])
                     {
-                        $sub->active = false;
+                        $sub->status = SmsInfo::STATUS_OFF;
                         $sub->save();
                     }
                 }

@@ -161,8 +161,12 @@ class Loyalty extends CActiveRecord
         }
         elseif (self::STATUS_MY == $status and !Yii::app()->user->isGuest)
         {
+            $sql = ' EXISTS(SELECT wl.id FROM '.WalletLoyalty::tableName().' 
+                AS wl WHERE wl.loyalty_id = t.id ';
+            $sql .=' AND EXISTS(SELECT w.id FROM '.PaymentWallet::tableName().' 
+                AS w WHERE wl.wallet_id = w.id AND w.user_id = ' . Yii::app()->user->id . '))';
         
-            $criteria->condition .= ' EXISTS(SELECT WL.ID FROM `PAYMENT`.`WALLET_LOYALTY` AS WL WHERE WL.LOYALTY_ID = T.ID AND EXISTS(SELECT W.ID FROM `PAYMENT`.`WALLET` AS W WHERE WL.WALLET_ID = W.ID AND W.USER_ID = ' . Yii::app()->user->id . '))';
+            $criteria->condition .= $sql;
             $prefix = ' AND ';
         }
         
