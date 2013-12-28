@@ -94,7 +94,7 @@
                         <footer class="columns twelve">
                             <a 
                                 class="spot-button" 
-                                href="javascript:;"
+                                
                                 ng-click="addToCart(product.jsID)">{{product.addText}}</a>
                         </footer>
                     </div>

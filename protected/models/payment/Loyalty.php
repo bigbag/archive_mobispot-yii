@@ -161,8 +161,12 @@ class Loyalty extends CActiveRecord
         }
         elseif (self::STATUS_MY == $status and !Yii::app()->user->isGuest)
         {
+            $sql = ' EXISTS(SELECT wl.id FROM '.WalletLoyalty::tableName().' 
+                AS wl WHERE wl.loyalty_id = t.id ';
+            $sql .=' AND EXISTS(SELECT w.id FROM '.PaymentWallet::tableName().' 
+                AS w WHERE wl.wallet_id = w.id AND w.user_id = ' . Yii::app()->user->id . '))';
         
-            $criteria->condition .= ' EXISTS(SELECT WL.ID FROM `PAYMENT`.`WALLET_LOYALTY` AS WL WHERE WL.LOYALTY_ID = T.ID AND EXISTS(SELECT W.ID FROM `PAYMENT`.`WALLET` AS W WHERE WL.WALLET_ID = W.ID AND W.USER_ID = ' . Yii::app()->user->id . '))';
+            $criteria->condition .= $sql;
             $prefix = ' AND ';
         }
         
@@ -172,11 +176,10 @@ class Loyalty extends CActiveRecord
             {
                 $criteria->condition .= $prefix.'(amount =\''.($search*100).'\' OR `desc` LIKE \'%'.$search.'%\')';
             }
-            elseif (preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{2}$~", $search) || preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $search))
+            elseif (CDateTimeParser::parse($search,'dd.MM.yyyy') or CDateTimeParser::parse($search,'dd.MM.yy'))
             {
-                $searchDate = date("Y-m-d H:i:s", mktime(0, 0, 0, substr($search, 3, 2), substr($search, 0, 2), '20'.substr($search, 6)));
-                if (preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $search))
-                    $searchDate = date("Y-m-d H:i:s", mktime(0, 0, 0, substr($search, 3, 2), substr($search, 0, 2), substr($search, 6)));
+                $searchDate = date("Y-m-d H:i:s", strtotime($search));
+                
                 $criteria->condition .= $prefix.'((TO_DAYS(stop_date) >= TO_DAYS(\''
                     .$searchDate
                     .'\') AND TO_DAYS(start_date) <= TO_DAYS(\''

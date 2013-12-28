@@ -5,7 +5,7 @@
             <?php $allLang = Lang::getLangArray(); ?>
             <!-- <ul class="lang-dropdown">
                 <li class="dropdown">
-                    <a class="spot-button" href="javascript:;"><?php echo $allLang[Yii::app()->language]; ?></a>
+                    <a class="spot-button" ><?php echo $allLang[Yii::app()->language]; ?></a>
                     <div class="options">
                         <ul>
                             <?php foreach ($allLang as $key => $value): ?>

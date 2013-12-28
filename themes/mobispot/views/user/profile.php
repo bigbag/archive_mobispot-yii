@@ -21,17 +21,17 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
         <div class="sex-options"> 
             <ul class="add-active">
                 <li <?php echo ($profile->sex==0)?'class="active"':''?>>
-                    <a href="javascript:;" ng-click="user.sex=0" class="radio-link">
+                    <a  ng-click="user.sex=0" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Not specified'); ?>
                     </a>
                 </li>
                 <li <?php echo ($profile->sex==1)?'class="active"':''?>>
-                    <a href="javascript:;" ng-click="user.sex=1" class="radio-link">
+                    <a  ng-click="user.sex=1" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Male'); ?>
                     </a>
                 </li>
                 <li <?php echo ($profile->sex==2)?'user.sex=2"':''?>>
-                    <a href="javascript:;" ng-click="setSex(2)" class="radio-link">
+                    <a  ng-click="setSex(2)" class="radio-link">
                         <i class="large"></i><?php echo Yii::t('user', 'Female'); ?>
                     </a>
                 </li>
@@ -79,7 +79,7 @@ $this->pageTitle = Yii::t('profile', 'Personal data');
     <p class="sub-txt" ng-init="recovery.email='<?php echo $user->email?>'">
         <?php echo Yii::t('user', 'You can change your password following the instructions in a special email from us. Please click the button below to proceed.'); ?>
     </p>
-    <a class="spot-button toggle-box" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
+    <a class="spot-button toggle-box"  ng-click="recovery(recovery, recoveryForm.$valid)">
         <?php echo Yii::t('user', 'Send to email'); ?>
     </a>
     </form>

@@ -4,7 +4,7 @@
             title="<?php echo Yii::t('spots', 'Settings'); ?>" 
             id="j-settings" 
             class="tip-top icon-spot-button right text-center settings-button icon" 
-            href="javascript:;">
+            >
             &#xe00f;
         </a>
     </li>
@@ -127,7 +127,7 @@
             
                 <?php foreach ($content_keys as $key => $type): ?>
                     <?php $value = $content['data'][$key]; ?>
-                        <?php echo $this->renderPartial('/widget/spot/personal/new_' . $type,
+                        <?php echo $this->renderPartial('/spot/personal/new_' . $type,
                             array(
                                 'key' => $key,
                                 'content' => $value,

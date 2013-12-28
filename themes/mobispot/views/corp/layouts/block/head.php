@@ -33,7 +33,7 @@
     <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
   <!--<![endif]-->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 
   <title><?php echo $this->pageTitle;?></title>
 

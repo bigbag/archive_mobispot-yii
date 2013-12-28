@@ -59,13 +59,13 @@
                        placeholder="<?php echo Yii::t('spot', 'Spot name') ?>"
                        autocomplete="off">
                 <div class="form-row toggle-active">
-                    <a class="checkbox agree" href="javascript:;" ng-click="setTerms(spot)">
+                    <a class="checkbox agree"  ng-click="setTerms(spot)">
                         <i></i>
                         <?php echo Yii::t('spot', 'I agree to Mobispot Pages Terms') ?>
                     </a>
                 </div>
                 <div class="form-control">
-                    <a class="spot-button button-disable" href="javascript:;" ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Load a new spot') ?></a>
+                    <a class="spot-button button-disable"  ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Load a new spot') ?></a>
                 </div>
             </form>
         </div>
@@ -101,7 +101,7 @@
                             autocomplete="off"
                             maxlength="50"
                             required>
-                        <a href="javascript:;" ng-click="setNewName(spot)" class="spot-button">
+                        <a  ng-click="setNewName(spot)" class="spot-button">
                         <?php echo Yii::t('spot', 'Save') ?>
                         </a>
                     </form>
@@ -126,10 +126,10 @@
                             autocomplete="off"
                             maxlength="4"
                             required>
-                        <a id="savePassButton" href="javascript:;" ng-click="setNewPass(spot)" class="spot-button">
+                        <a id="savePassButton"  ng-click="setNewPass(spot)" class="spot-button">
                         <?php echo Yii::t('spot', 'Save') ?>
                         </a>
-                        <a id="resetPassButton" href="javascript:;" ng-click="resetPass(spot)" class="spot-button">
+                        <a id="resetPassButton"  ng-click="resetPass(spot)" class="spot-button">
                         <?php echo Yii::t('spot', 'Reset Password') ?>
                         </a>
                     </form>
@@ -146,10 +146,10 @@
                             <?php echo Yii::t('spot', 'Hide the content of your spot from other people. When they tap it with phone they will see page 404') ?>
                         </p>
                     </div>
-                    <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+                    <a class="button round"  ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
-                    <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+                    <a class="button round active"  ng-click="confirmNo(spot)">
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
@@ -164,10 +164,10 @@
                             <?php echo Yii::t('spot', "Bring back your spot's content to your friends") ?>
                         </p>
                     </div>
-                    <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+                    <a class="button round"  ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
-                    <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+                    <a class="button round active"  ng-click="confirmNo(spot)">
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
@@ -182,10 +182,10 @@
                             <?php echo Yii::t('spot', 'Erase all the content of your spot with one click. You will not be able to cancel this action.') ?>
                         </p>
                     </div>
-                    <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+                    <a class="button round"  ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
-                    <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+                    <a class="button round active"  ng-click="confirmNo(spot)">
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>
@@ -200,10 +200,10 @@
                             <?php echo Yii::t('spot', 'Make your spot disappear forever from your personal account. You will not be able to cancel this action or to re-store your spot.') ?>
                         </p>
                     </div>
-                    <a class="button round" href="javascript:;" ng-click="confirmYes(spot)">
+                    <a class="button round"  ng-click="confirmYes(spot)">
                         <?php echo Yii::t('spot', 'Yes') ?>
                     </a>
-                    <a class="button round active" href="javascript:;" ng-click="confirmNo(spot)">
+                    <a class="button round active"  ng-click="confirmNo(spot)">
                         <?php echo Yii::t('spot', 'No') ?>
                     </a>
                 </div>

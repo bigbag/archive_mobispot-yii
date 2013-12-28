@@ -211,7 +211,7 @@ class PaymentHistory extends CActiveRecord
         $criteria = new CDbCriteria;
         $criteria->compare('wallet_id', $id);
         $criteria->order = 'id desc';
-        if ($filterDate && preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $filterDate))
+        if ($filterDate and CDateTimeParser::parse($filterDate,'dd.MM.yyyy'))
         {
             $criteria->compare('day(`creation_date`)', substr($filterDate, 0, 2));
             $criteria->compare('month(`creation_date`)', substr($filterDate, 3, 2));

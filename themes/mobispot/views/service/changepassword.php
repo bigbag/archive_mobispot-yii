@@ -23,7 +23,7 @@
                 required >
 
             <div class="form-control">
-                <a class="spot-button button-disable" href="javascript:;"  ng-click="change(user, changeForm.$valid)">
+                <a class="spot-button button-disable"   ng-click="change(user, changeForm.$valid)">
                     <?php echo Yii::t('user', 'Send') ?>
                 </a>
             </div>

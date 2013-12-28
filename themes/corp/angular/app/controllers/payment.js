@@ -6,10 +6,6 @@ angular.module('mobispot').controller('PaymentController',
   $scope.card = 1;
   $scope.history = [];
 
-  $('#wallet').on('change', function() {
-    $scope.payment.wallet = this.value ;
-  });
-
   $scope.$watch('payment.amount + payment.status', function(payment) {
     if ($scope.payment) {
       if ($scope.payment.amount && ($scope.payment.amount > 99) && $scope.payment.status !=-1){
@@ -30,7 +26,7 @@ angular.module('mobispot').controller('PaymentController',
   //Пополнение кошелька
   $scope.addSumm = function(payment, e){
     var delta = 1000 - $scope.payment.balance;
-    if (payment.amount && payment.wallet && $scope.payment.amount>99 && (delta - $scope.payment.amount >= 0)){
+    if (payment.amount && payment.wallet_id && $scope.payment.amount>99 && (delta - $scope.payment.amount >= 0)){
       var paymentForm = angular.element(e.currentTarget).parent().parent().parent().parent();
       $http.post('/wallet/addSumm', payment).success(function(data){
         if(data.error == 'no') {
@@ -68,8 +64,9 @@ angular.module('mobispot').controller('PaymentController',
   };
 
   //Включение автоплатежей
-  $scope.enable_recurrent = function(recurrent, valid) {
+  $scope.enableRecurrent = function(recurrent, valid) {
     if (!valid || !($scope.recurrent.terms == 1)) return false;
+
     recurrent.token = $scope.user.token
     $http.post('/wallet/recurrent', recurrent).success(function(data) {
       if (data.error == 'no') {
@@ -85,6 +82,7 @@ angular.module('mobispot').controller('PaymentController',
         var systemImg = angular.element('#disableReccurent .m-card-cur');
         systemImg.removeClass();
         systemImg.addClass('m-card-cur');
+
         if (typeof (data.system_class) != 'undefined' && data.system_class.length > 0)
             systemImg.addClass(data.system_class);
         else
@@ -96,7 +94,7 @@ angular.module('mobispot').controller('PaymentController',
   };
 
   //Выключение автоплатежей
-  $scope.disable_recurrent = function(wallet_id) {
+  $scope.disableRecurrent = function(wallet_id) {
     var data = {wallet_id:wallet_id, token: $scope.user.token};
     $http.post('/wallet/recurrent', data).success(function(data) {
       if (data.error == 'no') {
@@ -180,7 +178,7 @@ angular.module('mobispot').controller('PaymentController',
     else $scope.card = 1;
   };
 
-  $scope.block = function(id){
+  $scope.blockWallet = function(id){
     var payment = $scope.payment;
     payment.id=id;
     $http.post('/wallet/blockWallet', payment).success(function(data) {
@@ -234,247 +232,217 @@ angular.module('mobispot').controller('PaymentController',
     });
   };
   
-    $scope.newAutoPayment = function(history_id)
-    {
-        $scope.recurrent.amount = 100;
-        $scope.recurrent.terms = 0;
-        angular.element('#buttonApayOn').addClass('button-disable');
-        angular.element('a.checkbox.agree').removeClass('active');
-        if (typeof (history_id) != 'undefined')
-            $scope.recurrent.history_id = history_id;
-    }
-    
-    $scope.getHistory = function(wallet_id, page, newFilter)
-    {
-        var newFilter = newFilter || 0;
+  $scope.getHistory = function(wallet_id, page, newFilter){
+      var newFilter = newFilter || 0;
 
-        if (newFilter){
-            $scope.history.term = angular.element('#block-history input[name=term]').val();
-            $scope.history.date = angular.element('#block-history input[name=date]').val();
-        }
-        var data = {token: $scope.user.token, id:wallet_id, page:page};
-        if (typeof ($scope.history.term) != 'undefined')
-            data.term = $scope.history.term;
-        if (typeof ($scope.history.date) != 'undefined')
-            data.date = $scope.history.date;
-        angular.element('#block-history .m-table-wrapper').addClass('loading');
-        $http.post('/wallet/getHistory', data).success(function(data) {
-            if(data.error == 'no') {
-                angular.element('#table-history tbody').html($compile(data.content)($scope));
-                angular.element('#block-history .m-table-wrapper').removeClass('loading');
-            }
-        }).error(function(error){
-            angular.element('#block-history .m-table-wrapper').removeClass('loading');
-            console.log(error);
-        });
-    }
-    
-    //акции
-    $scope.getSpecialActions = function(wallet_id, page, status, search)
-    {
-        if ('undefined' == typeof (search))
-        {
-            search = $scope.actions.search || '';
-        }
-        else
-            $scope.actions.search = search;
-        
-        if ('undefined' == typeof (status))
-        {
-            if (angular.element('a#actions-actual').hasClass('active'))
-                var status = 1;
-            else
-                var status = 0;
-        }
+      if (newFilter){
+          $scope.history.term = angular.element('#block-history input[name=term]').val();
+          $scope.history.date = angular.element('#block-history input[name=date]').val();
+      }
 
-        var data = {token: $scope.user.token, id:wallet_id, page:page, status:status, search:search};
-        $http.post('/wallet/getActions', data).success(function(data) {
-            if(data.error == 'no') {
-                angular.element('#actions-table tbody').html($compile(data.content)($scope));
-            }
-        });
-    }
+      var data = {token: $scope.user.token, id:wallet_id, page:page};
+      if (typeof ($scope.history.term) != 'undefined') data.term = $scope.history.term;
+      if (typeof ($scope.history.date) != 'undefined') data.date = $scope.history.date;
 
-    $scope.getAllActions = function(status, page, search)
-    {
-        if ('undefined' == typeof (search))
-        {
-            var search = $scope.allActions.search || '';
+      angular.element('#block-history .m-table-wrapper').addClass('loading');
+      $http.post('/wallet/getHistory', data).success(function(data) {
+          if(data.error == 'no') {
+              angular.element('#table-history tbody').html($compile(data.content)($scope));
+              angular.element('#block-history .m-table-wrapper').removeClass('loading');
+          }
+      }).error(function(error){
+          angular.element('#block-history .m-table-wrapper').removeClass('loading');
+          console.log(error);
+      });
+  }
+  
+  //акции
+  $scope.getSpecialActions = function(wallet_id, page, status, search){
+      if ('undefined' == typeof (search)) search = $scope.actions.search || '';
+      else $scope.actions.search = search;
+      
+      if ('undefined' == typeof (status))
+      {
+          if (angular.element('a#actions-actual').hasClass('active'))
+              var status = 1;
+          else
+              var status = 0;
+      }
+
+      var data = {token: $scope.user.token, id:wallet_id, page:page, status:status, search:search};
+      $http.post('/wallet/getActions', data).success(function(data) {
+          if(data.error == 'no') {
+              angular.element('#actions-table tbody').html($compile(data.content)($scope));
+          }
+      });
+  }
+
+  $scope.getAllActions = function(status, page, search){
+      if ('undefined' == typeof (search)) var search = $scope.allActions.search || '';
+      else $scope.allActions.search = search;
+
+      var data = {token: $scope.user.token, page:page, status:status, search:search};
+      $http.post('/wallet/getAllActions', data).success(function(data) {
+        if(data.error == 'no') {
+            angular.element('#all-actions-table tbody').html($compile(data.content)($scope));
         }
-        else
-            $scope.allActions.search = search;
-        
-        if ('undefined' == typeof (status) || 'current' == status)
-        {
-            if (angular.element('a#actions-actual').hasClass('active'))
-                var status = 1;
-            else if (angular.element('a#actions-old').hasClass('active'))
-                var status = 0;
-            else if (angular.element('a#actions-my').hasClass('active'))
-                var status = 100;
-            else //if (angular.element('a#actions-all').hasClass('active'))
-                var status = 2;
+      })
+  }
+  
+  //sms информирование
+  // $scope.ToggleSmsInfo = function(wallet_id){
+  //     if (!angular.element('#WalletSmsInfo').hasClass('active') && 'undefined' != typeof ($scope.sms) && 'undefined' != typeof ($scope.sms.savedPhone) && $scope.sms.savedPhone.length)
+  //         $scope.savePhone(wallet_id, $scope.sms.savedPhone);
+  //     else if (angular.element('#WalletSmsInfo').hasClass('active'))
+  //         $scope.cancelSms(wallet_id);
+  // }
+  
+  // Атрибут включения смс информирования на всех кошельках
+  $scope.setSmsAllWallets = function(sms){
+    if (sms.all_wallets == 1) sms.all_wallets = 0;
+    else sms.all_wallets = 1;
+  };
+
+  //Сохранение телефона sms информирования
+  $scope.savePhone = function(sms, valid){
+    if (!valid) return false;
+      sms.phone = $scope.sms.prefix + $scope.sms.phone;
+
+      var settings_phone = angular.element('#j-settingsForm input[name=phone]');
+      var settings_condition = angular.element('#j-settingsForm div.condition02 a');
+
+      $http.post('/wallet/savePhone', sms).success(function(data) {
+        if(data.error == 'no') {
+          $scope.sms.savedPhone = sms.phone;
+          $scope.sms.phone = '';
+          contentService.setModal(data.content, 'none');
         }
-
-        var data = {token: $scope.user.token, page:page, status:status, search:search};
-        $http.post('/wallet/getAllActions', data).success(function(data) {
-            if(data.error == 'no') {
-                angular.element('#all-actions-table tbody').html($compile(data.content)($scope));
-            }
-else alert('error = yes');
-        })
-.error(function(error){alert(error)});
-    }
-    
-    //sms информирование
-    $scope.ToggleSmsInfo = function(wallet_id)
-    {
-        if (!angular.element('#WalletSmsInfo').hasClass('active') && 'undefined' != typeof ($scope.sms) && 'undefined' != typeof ($scope.sms.savedPhone) && $scope.sms.savedPhone.length)
-            $scope.savePhone(wallet_id, $scope.sms.savedPhone);
-        else if (angular.element('#WalletSmsInfo').hasClass('active'))
-            $scope.cancelSms(wallet_id);
-    }
-    
-    //сохранение телефона sms информирования
-    $scope.savePhone = function(wallet_id, phone)
-    {
-        var phone = phone || ($scope.sms.prefix + $scope.sms.phone);
-        var data = {token: $scope.user.token, id:wallet_id, phone:phone};
-
-        if (angular.element('#UserSmsInfo').hasClass('active')) {
-          data.all_wallets = true;
-        } 
-        $http.post('/wallet/savePhone', data).success(function(data) {
-          var settings_phone = angular.element('#j-settingsForm input[name=phone]');
-          var settings_condition = angular.element('#j-settingsForm div.condition02 a');
-            if(data.error == 'no') {
-                settings_phone.removeClass('error');
-                if (phone.length > 2){
-                    $scope.sms.savedPhone = phone;
-                    settings_condition.removeClass('dispaly-none');
-                }
-                else{
-                    $scope.sms.savedPhone = '';
-                    settings_condition.addClass('dispaly-none');
-                    //settings_phone.addClass('error');
-                }
-                $scope.sms.phone = '';
-            }
-            else{
-                settings_phone.addClass('error');
-            }
-        });
-    }
-    
-    //отмена sms информирования для кошелька
-    $scope.cancelSms = function(wallet_id)
-    {
-        var data = {token: $scope.user.token, id:wallet_id};
-        $http.post('/wallet/cancelSms', data).success(function(data) {
-        });
-    }
-    
-    //sms для всех кошельков
-    $scope.SmsAllWallets = function(wallet_id)
-    {
-        var settings_phone = angular.element('#j-settingsForm input[name=phone]');
-        if ($scope.sms.savedPhone.length)
-        {
-            var data = {token: $scope.user.token, id:wallet_id, phone:$scope.sms.savedPhone};
-            if (!angular.element('#UserSmsInfo').hasClass('active'))
-                data.enable = true;
-            else
-                data.enable = false;
-
-            $http.post('/wallet/SmsAllWallets', data).success(function(data) {
-                if ('yes' == data.error)
-                  settings_phone.addClass('error');
-            });
+        else{
+            settings_phone.addClass('error');
         }
-    }
- 
-    $scope.removePhoneError = function()
-    {
-        angular.element('#j-settingsForm input[name=phone]').removeClass('error');
-    }
-    
-    var popup;
-    var socTimer;
-    var resultModal = angular.element('.m-result');
-    
-    //проверка like для акции
-    $scope.checkLike = function(id_action)
-    {
-        var data = {token: $scope.user.token, id:id_action};
-        $http.post('/wallet/checkLike', data).success(function(data) {
-            if ('no' == data.error)
-            {
-                if (!data.isSocLogged)
-                {
-                    var options = $.extend({
-                      id: '',
-                      popup: {
-                        width: 450,
-                        height: 380
+      });
+  }
+
+  //Отключение sms информирования
+  $scope.cancelSms = function(sms){
+      sms.phone = $scope.sms.savedPhone;
+      $http.post('/wallet/removePhone', sms).success(function(data) {
+        if(data.error == 'no') {
+          $scope.sms.savedPhone = false;
+          contentService.setModal(data.content, 'none');
+        }
+      });
+  }
+  
+  //отмена sms информирования для кошелька
+  // $scope.cancelSms = function(wallet_id)
+  // {
+  //     var data = {token: $scope.user.token, id:wallet_id};
+  //     $http.post('/wallet/cancelSms', data).success(function(data) {
+  //     });
+  // }
+  
+  // //sms для всех кошельков
+  // $scope.SmsAllWallets = function(wallet_id)
+  // {
+  //     var settings_phone = angular.element('#j-settingsForm input[name=phone]');
+  //     if ($scope.sms.savedPhone.length)
+  //     {
+  //         var data = {token: $scope.user.token, id:wallet_id, phone:$scope.sms.savedPhone};
+  //         if (!angular.element('#UserSmsInfo').hasClass('active'))
+  //             data.enable = true;
+  //         else
+  //             data.enable = false;
+
+  //         $http.post('/wallet/SmsAllWallets', data).success(function(data) {
+  //             if ('yes' == data.error)
+  //               settings_phone.addClass('error');
+  //         });
+  //     }
+  // }
+
+  $scope.removePhoneError = function()
+  {
+      angular.element('#j-settingsForm input[name=phone]').removeClass('error');
+  }
+  
+  var popup;
+  var socTimer;
+  var resultModal = angular.element('.m-result');
+  
+  //проверка like для акции
+  $scope.checkLike = function(id_action)
+  {
+      var data = {token: $scope.user.token, id:id_action};
+      $http.post('/wallet/checkLike', data).success(function(data) {
+          if ('no' == data.error)
+          {
+              if (!data.isSocLogged)
+              {
+                  var options = $.extend({
+                    id: '',
+                    popup: {
+                      width: 450,
+                      height: 380
+                    }
+                  }, options);
+
+                  var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/service/SocLogin?service=' + data.service;
+
+                  url += url.indexOf('?') >= 0 ? '&' : '?';
+                  if (url.indexOf('redirect_uri=') === -1)
+                    url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+                  url += 'js';
+
+                  var centerWidth = (window.screen.width - options.popup.width) / 2,
+                    centerHeight = (window.screen.height - options.popup.height) / 2;
+
+                  popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                  popup.focus();
+                  
+                  $scope.checkingAction = {id:id_action};
+                  socTimer = $timeout($scope.loginTimer, 1000);
+              }
+              else
+              {
+                  if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                  {
+                      if ('no' == data.liked)
+                          contentService.setModal(data.message, 'error'); 
+                      else
+                          contentService.setModal(data.message, 'none'); 
+                  }
+              }
+          }
+      });
+  }
+
+  $scope.loginTimer = function()
+  {
+      if (!popup.closed) {
+          var data = {token: $scope.user.token, id:$scope.checkingAction.id};
+          $http.post('/wallet/checkLike', data).success(function(data) {
+              if ('undefined' != typeof (data.isSocLogged))
+              {
+                  if (data.isSocLogged)
+                  {
+                      popup.close();
+                      $scope.bindNet = {};
+                      
+                      if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                      {
+                          if ('no' == data.liked) 
+                              contentService.setModal(data.message, 'error'); 
+                          else
+                              contentService.setModal(data.message, 'none'); 
                       }
-                    }, options);
-
-                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/service/SocLogin?service=' + data.service;
-
-                    url += url.indexOf('?') >= 0 ? '&' : '?';
-                    if (url.indexOf('redirect_uri=') === -1)
-                      url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-                    url += 'js';
-
-                    var centerWidth = (window.screen.width - options.popup.width) / 2,
-                      centerHeight = (window.screen.height - options.popup.height) / 2;
-
-                    popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-                    popup.focus();
-                    
-                    $scope.checkingAction = {id:id_action};
-                    socTimer = $timeout($scope.loginTimer, 1000);
-                }
-                else
-                {
-                    if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
-                    {
-                        if ('no' == data.liked)
-                            contentService.setModal(data.message, 'error'); 
-                        else
-                            contentService.setModal(data.message, 'none'); 
-                    }
-                }
-            }
-        });
-    }
- 
-    $scope.loginTimer = function()
-    {
-        if (!popup.closed) {
-            var data = {token: $scope.user.token, id:$scope.checkingAction.id};
-            $http.post('/wallet/checkLike', data).success(function(data) {
-                if ('undefined' != typeof (data.isSocLogged))
-                {
-                    if (data.isSocLogged)
-                    {
-                        popup.close();
-                        $scope.bindNet = {};
-                        
-                        if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
-                        {
-                            if ('no' == data.liked) 
-                                contentService.setModal(data.message, 'error'); 
-                            else
-                                contentService.setModal(data.message, 'none'); 
-                        }
-                    }
-                    else
-                    {
-                        socTimer = $timeout($scope.loginTimer, 1000);
-                    }
-                }
-            });
-        }
-    }; 
-});socTimer
+                  }
+                  else
+                  {
+                      socTimer = $timeout($scope.loginTimer, 1000);
+                  }
+              }
+          });
+      }
+  }; 
+});

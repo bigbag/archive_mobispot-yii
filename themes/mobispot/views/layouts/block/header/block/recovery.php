@@ -3,7 +3,7 @@
         <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('user', 'Forgot password?') ?></h3>
         </div>
-        <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
+        <a  class="slide-box-close">&#xe00b;</a>
     </div>
     <div class="row">
         <div class="five columns centered">
@@ -18,7 +18,7 @@
                     maxlength="300"
                     required >
                 <div class="form-control">
-                    <a class="spot-button {{ recoveryForm.$valid || 'button-disable'}}" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
+                    <a class="spot-button {{ recoveryForm.$valid || 'button-disable'}}"  ng-click="recovery(recovery, recoveryForm.$valid)">
                         <?php echo Yii::t('user', 'Send') ?>
                     </a>
                 </div>

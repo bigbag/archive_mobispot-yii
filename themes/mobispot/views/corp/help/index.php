@@ -39,7 +39,7 @@ Yii::t('corp_general', 'Помощь');
               required >
             </textarea>
             <div class="form-control">
-              <a class="spot-button button-disable" href="javascript:;" ng-click="send(user, helpForm.$valid)">
+              <a class="spot-button button-disable"  ng-click="send(user, helpForm.$valid)">
                 <?php echo Yii::t('corp_help', 'Отправить');?>
               </a>
             </div>

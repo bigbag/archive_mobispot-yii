@@ -6,7 +6,7 @@
         <h3 class="color text-center"><?php echo Yii::t('corp_corp', 'Я хочу:');?></h3>
         <ul class="form-list">
           <li id="self" class="toggle-box onlyOpen">
-          <a href="javascript:;" class="radio-link choice" ng-click="setAction('connection', $event)">
+          <a  class="radio-link choice" ng-click="setAction('connection', $event)">
             <i class="large"></i>
             <?php echo Yii::t('corp_corp', 'Установить Корпоративные сервисы для собственных нужд');?>
           </a>
@@ -58,7 +58,7 @@
             </div>
           </li>
           <li id="rent" class="toggle-box onlyOpen">
-            <a href="javascript:;" class="radio-link choice" ng-click="setAction('rent', $event)">
+            <a  class="radio-link choice" ng-click="setAction('rent', $event)">
               <i class="large"></i>
               <?php echo Yii::t('corp_corp', 'Установить Корпоративные сервисы для оказания услуг сторонним компаниям');?>
             </a>
@@ -103,7 +103,7 @@
             </div>
           </li>
           <li id="connection" class="toggle-box onlyOpen">
-            <a href="javascript:;" class="radio-link choice"  ng-click="setAction('connection', $event)">
+            <a  class="radio-link choice"  ng-click="setAction('connection', $event)">
               <i class="large"></i>
               <?php echo Yii::t('corp_corp', 'Подключиться к уже установленному оборудованию');?>
             </a>
@@ -170,7 +170,7 @@
         <div class="large-12 columns text-center toggle-active">
           <br />
           <br />
-          <a href="javascript:;" class="go-button button round" ng-click="corpRegister()">
+          <a  class="go-button button round" ng-click="corpRegister()">
             <?php echo Yii::t('corp_corp', 'Отправить');?>
           </a>
         </div>

@@ -65,6 +65,7 @@ class WalletLoyalty extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'loyalty'=>array(self::BELONGS_TO, 'Loyalty', 'loyalty_id'),
+            'wallet'=>array(self::BELONGS_TO, 'PaymentWallet', 'wallet_id'),
         );
     }
     
@@ -81,11 +82,9 @@ class WalletLoyalty extends CActiveRecord
             {
                 $criteria->condition .= ' AND (loyalty.amount =\''.($search*100).'\' OR loyalty.desc LIKE \'%'.$search.'%\')';
             }
-            elseif (preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{2}$~", $search) || preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $search))
+            elseif (CDateTimeParser::parse($search,'dd.MM.yy') or CDateTimeParser::parse($search,'dd.MM.yyyy'))
             {
-                $searchDate = date("Y-m-d H:i:s", mktime(0, 0, 0, substr($search, 3, 2), substr($search, 0, 2), '20'.substr($search, 6)));
-                if (preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $search))
-                    $searchDate = date("Y-m-d H:i:s", mktime(0, 0, 0, substr($search, 3, 2), substr($search, 0, 2), substr($search, 6)));
+                $searchDate = date("Y-m-d H:i:s", strtotime($search));
                 $criteria->condition .= ' AND ((TO_DAYS(loyalty.stop_date) >= TO_DAYS(\''
                     .$searchDate
                     .'\') AND TO_DAYS(loyalty.start_date) <= TO_DAYS(\''
