@@ -1,6 +1,8 @@
-<div class="toggle-active">
+<?php $phone = (!empty($sms_info['phone']))?$sms_info['phone']:'';?>
+
+<div class="toggle-active" ng-init="sms.token=user.token;sms.savedPhone='<?php echo $phone;?>'">
     <a  id="WalletSmsInfo" 
-        class="checkbox checkbox-h agree<?php echo ($smsInfo['status'])?' status':'';?>" 
+        class="checkbox checkbox-h agree" 
         ng-click="ToggleSmsInfo(<?php echo $wallet->id;?>)">
         <i class="large"></i>
         <h3> <?php echo Yii::t('corp_wallet', 'SMS информирование'); ?></h3>
@@ -11,7 +13,7 @@
         </p>
         <div class="condition01">
         <form class="custom" name="smsForm" 
-            ng-init="sms.wallet_id=<?php echo $wallet->id;?>;sms.all_wallets=0">
+            ng-init="sms.wallet_id=<?php echo $wallet->id;?>;sms.all_wallets=<?php echo $sms_info['all_wallets'];?>">
             <label>
                 <?php echo Yii::t('corp_wallet', '10 цифр, например, 9013214567');?>
             </label>
@@ -47,19 +49,23 @@
         </form>
         </div>
         <p class="sub-txt sub-txt-last toggle-active">
-            <a class="checkbox agree"  ng-click="setSmsAllWallets(sms)">
+            <a class="checkbox agree <?php echo ($sms_info['all_wallets'])?'active':''?>"  ng-click="setSmsAllWallets(sms)">
                 <i class="large"></i>
-                <?php echo Yii::t('corp_wallet', 'Включить и для всех остальных кошельков'); ?>
+                <span ng-show="sms.savedPhone"> 
+                    <?php echo Yii::t('corp_wallet', 'Один номер для всех кошельков'); ?>
+                </span>
+                <span ng-hide="sms.savedPhone"> 
+                    <?php echo Yii::t('corp_wallet', 'Установить один номер и для всех остальных кошельков'); ?>
+                </span>
             </a>
         </p>
-        <div ng-show="sms.savedPhone" 
-            class="condition02" <?php echo empty($smsInfo['phone'])?'':' ng-init="sms.savedPhone =\''.$smsInfo['phone'].'\'"';?>>
+        <div ng-show="sms.savedPhone" class="condition02">
             <h3><?php echo Yii::t('corp_wallet', 'Смс оповещение включено для номера:'); ?></h3>
-                <p>{{sms.savedPhone}}</p>
-                <a class="spot-button <?php echo empty($smsInfo['phone'])?'dispaly-none':'';?>" 
-                    ng-click="cancelSms(<?php echo $wallet->id;?>, '')">
-                    <?php echo Yii::t('corp_wallet', 'Отменить'); ?>
-                </a>
+            <p>{{sms.savedPhone}}</p>
+            <a class="spot-button <?php echo empty($sms_info['phone'])?'dispaly-none':'';?>" 
+                ng-click="cancelSms(sms)">
+                <?php echo Yii::t('corp_wallet', 'Отключить'); ?>
+            </a>
         </div>
     </div>
 </div>

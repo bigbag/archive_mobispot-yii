@@ -6,7 +6,7 @@
                 <div class="settings-item sms-set">
                     <?php echo $this->renderPartial('//corp/wallet/block/_sms', array(
                         'wallet' => $wallet,
-                        'smsInfo' => $smsInfo)
+                        'sms_info' => $sms_info)
                     ); ?>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <form name="paymentForm" class="custom item-area__right clearfix ng-pristine ng-invalid ng-invalid-required clearfix" action="<?php echo Yii::app()->ut->getPayUrl();?>">
                 <div id="payment-block">
                     <div class="row">
-                        <div class="large-12 columns" ng-init="payment.wallet='<?php echo $wallet->id;?>';payment.balance=<?php echo $wallet->balance;?>">
+                        <div class="large-12 columns" ng-init="payment.wallet_id='<?php echo $wallet->id;?>';payment.balance=<?php echo $wallet->balance;?>">
                             <label for="payment">
                                 <?php if($wallet->balance<801):?>
                                     <?php echo Yii::t('corp_wallet', 'Введите сумму от 100 до');?> <?php echo (1000-$wallet->balance);?> <?php echo Yii::t('corp_wallet', 'руб.');?>
@@ -65,8 +65,6 @@
 
         <?php if ($history and $cards): ?>
         <?php echo $this->renderPartial('//corp/wallet/block/_reccurent', array(
-            'cards' => $cards,
-            'limit_autopayment' => $limit_autopayment,
             'cards' => $cards,
             'auto' => $auto)
         ); ?>

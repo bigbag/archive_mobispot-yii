@@ -6,7 +6,7 @@
             <h3><?php echo Yii::t('corp_wallet', 'Автоплатежи');?></h3>
             <span class="sub-h">
                 <?php echo Yii::t('corp_wallet', 'Система автопополнение баланса при остатке менее') ;?> 
-                <?php echo $limit_autopayment ;?> 
+                <?php echo PaymentAuto::LIMIT ;?> 
                 <?php echo Yii::t('corp_wallet', 'руб.');?>
             </span>
         </div>
@@ -55,7 +55,7 @@
                         <i class="large"></i>
                         <?php echo Yii::t('corp_wallet', '*Включая автоплатежи вы соглашаетесь,
                         что баланс кампусной карты "Мобиспот" будет автоматически пополняться при остатке менее') ;?>
-                        <?php echo $limit_autopayment;?> <?php echo Yii::t('corp_wallet', 'руб.');?>
+                        <?php echo PaymentAuto::LIMIT;?> <?php echo Yii::t('corp_wallet', 'руб.');?>
                     </a>
                 </p>
                 <a class="terms settings-button" id="j-settings">

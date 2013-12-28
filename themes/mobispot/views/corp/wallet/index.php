@@ -12,16 +12,30 @@
     <div class="row">
       <div id="wallets" class="large-12 columns">
           <div class="large-12 column">
-            <?php $this->widget('MListView', array(
-                'dataProvider'=>$dataProvider,
-                'itemView'=>'block/wallet',
-                'itemsTagName'=>'ul',
-                'itemsCssClass'=>'spot-list',
-                'enableSorting'=>false,
-                'template'=>'{items} {pager}',
-                'cssFile'=>false,
-                'id'=>'walletlistview',
-              )); ?>
+            <div id="walletlistview" class="list-view">
+              <ul class="spot-list">
+              <?php foreach($wallets as $wallet): ?>
+                <li id="<?php echo $wallet->id;?>" 
+                  class="spot-content_li bg-gray <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'':'invisible-spot'?>">
+                  <div class="spot-hat" 
+                    ng-click="accordion($event, payment)">
+                    <h3><?php echo $wallet->name?></h3>
+                  <ul class="spot-hat-button">
+                    <li>
+                      <div>
+                        <a data-tooltip title="<?php echo Yii::t('corp_wallet', 'Settings'); ?>" 
+                          id="j-settings" 
+                          class="tip-top icon-spot-button right text-center toggle-box icon" >
+                          &#xe00f;
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+              <?php endforeach ;?>
+              </ul>
+            </div>
           </div>
       </div>
     </div>

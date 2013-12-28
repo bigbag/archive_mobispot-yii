@@ -6,10 +6,6 @@ angular.module('mobispot').controller('PaymentController',
   $scope.card = 1;
   $scope.history = [];
 
-  $('#wallet').on('change', function() {
-    $scope.payment.wallet = this.value ;
-  });
-
   $scope.$watch('payment.amount + payment.status', function(payment) {
     if ($scope.payment) {
       if ($scope.payment.amount && ($scope.payment.amount > 99) && $scope.payment.status !=-1){
@@ -30,7 +26,7 @@ angular.module('mobispot').controller('PaymentController',
   //Пополнение кошелька
   $scope.addSumm = function(payment, e){
     var delta = 1000 - $scope.payment.balance;
-    if (payment.amount && payment.wallet && $scope.payment.amount>99 && (delta - $scope.payment.amount >= 0)){
+    if (payment.amount && payment.wallet_id && $scope.payment.amount>99 && (delta - $scope.payment.amount >= 0)){
       var paymentForm = angular.element(e.currentTarget).parent().parent().parent().parent();
       $http.post('/wallet/addSumm', payment).success(function(data){
         if(data.error == 'no') {
@@ -311,7 +307,6 @@ angular.module('mobispot').controller('PaymentController',
   $scope.savePhone = function(sms, valid){
     if (!valid) return false;
       sms.phone = $scope.sms.prefix + $scope.sms.phone;
-      sms.token = $scope.user.token;
 
       var settings_phone = angular.element('#j-settingsForm input[name=phone]');
       var settings_condition = angular.element('#j-settingsForm div.condition02 a');
@@ -320,9 +315,21 @@ angular.module('mobispot').controller('PaymentController',
         if(data.error == 'no') {
           $scope.sms.savedPhone = sms.phone;
           $scope.sms.phone = '';
+          contentService.setModal(data.content, 'none');
         }
         else{
             settings_phone.addClass('error');
+        }
+      });
+  }
+
+  //Отключение sms информирования
+  $scope.cancelSms = function(sms){
+      sms.phone = $scope.sms.savedPhone;
+      $http.post('/wallet/removePhone', sms).success(function(data) {
+        if(data.error == 'no') {
+          $scope.sms.savedPhone = false;
+          contentService.setModal(data.content, 'none');
         }
       });
   }

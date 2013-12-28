@@ -9,11 +9,13 @@
             </a>
         </div>
         <div class="spot-cover slow" 
-            ng-dblclick="{editContent(spot, <?php echo $key; ?>, $event)}">
+            ng-dblclick="editContent(spot, <?php echo $key; ?>, $event)">
             <div class="spot-activity">
                 <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
                 <?php if (!empty($net['name'])): ?>
-                    <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key; ?>, $event)">&#xe005;</a>
+                    <p class="item-type__text">
+                        <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key; ?>, $event)">&#xe005;</a>
+                    </p>
                 <?php endif; ?>
                 <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key; ?>, $event)">&#xe009;</a>
                 <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key; ?>, $event)">&#xe00b;</a>

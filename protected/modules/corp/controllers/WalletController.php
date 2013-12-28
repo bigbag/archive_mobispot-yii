@@ -15,16 +15,13 @@ class WalletController extends MController
         {
             if ($user->status == User::STATUS_BANNED) $this->setAccess();
 
-            $dataProvider = new CActiveDataProvider(
-                PaymentWallet::model()->selectUser($user->id), array(
-                'pagination' => array(
-                    'pageSize' => 100,
-                ),
-                'sort' => array('defaultOrder' => 'creation_date asc'),
-            ));
+            $wallets = PaymentWallet::model()->findAllByAttributes(
+                array('user_id'=>$user->id), 
+                array('order'=>'creation_date asc')
+            );
 
             $this->render('index', array(
-                'dataProvider' => $dataProvider,
+                'wallets' => $wallets,
             ));
         }
     }
@@ -44,11 +41,11 @@ class WalletController extends MController
 
             if ($wallet and Yii::app()->user->id == $wallet->user_id)
             {
-                $historyList = PaymentHistory::getListWithPagination($data['wallet_id']);
-                $history = $historyList['history'];
+                $history_list = PaymentHistory::getListWithPagination($data['wallet_id']);
+                $history = $history_list['history'];
                 $logs = PaymentLog::getListByWalletId($data['wallet_id']);
                 $actions = WalletLoyalty::getByWalletId($data['wallet_id']);
-                $smsInfo = SmsInfo::getByWalletId($data['wallet_id']);
+                $sms_info = SmsInfo::getByWalletId($data['wallet_id'], Yii::app()->user->id);
 
                 $cards = array();
                 if ($logs)
@@ -66,13 +63,12 @@ class WalletController extends MController
                 $answer['content'] = $this->renderPartial('//corp/wallet/block/wallet_view', array(
                     'wallet' => $wallet,
                     'history' => $history,
-                    'pagination' => $historyList['pagination'],
+                    'pagination' => $history_list['pagination'],
                     'actions' => $actions,
-                    'filter' => $historyList['filter'],
+                    'filter' => $history_list['filter'],
                     'cards' => $cards,
                     'auto' => $auto,
-                    'limit_autopayment' => PaymentAuto::LIMIT,
-                    'smsInfo' => $smsInfo,
+                    'sms_info' => $sms_info,
                     ), true);
                 $answer['error'] = "no";
             }
@@ -98,20 +94,23 @@ class WalletController extends MController
             if ($wallet and Yii::app()->user->id == $wallet->user_id)
             {
                 $page = 1;
-                if (isset($data['page']) && $data['page'] > 1)
+                if (isset($data['page']) and $data['page'] > 1)
                     $page = $data['page'];
+
                 $filterDate = ''; 
-                if (isset($data['date']) && preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $data['date']))
+                if (isset($data['date']) and CDateTimeParser::parse($data['date'],'dd.MM.yyyy'))
                     $filterDate = $data['date'];
+
                 $filterTerm = '';
                 if (isset($data['term']) && $data['term'])
                     $filterTerm = $data['term'];
-                $historyList = PaymentHistory::getListWithPagination($data['id'], $page, $filterDate, $filterTerm);
+
+                $history_list = PaymentHistory::getListWithPagination($data['id'], $page, $filterDate, $filterTerm);
                 $answer['content'] = $this->renderPartial('//corp/wallet/block/history', array(
                     'wallet' => $wallet,
-                    'history' => $historyList['history'],
-                    'pagination' => $historyList['pagination'],
-                    'filter' => $historyList['filter'],
+                    'history' => $history_list['history'],
+                    'pagination' => $history_list['pagination'],
+                    'filter' => $history_list['filter'],
                     ), true);
                 $answer['error'] = "no";
             }
@@ -131,14 +130,17 @@ class WalletController extends MController
             if ($wallet and Yii::app()->user->id == $wallet->user_id)
             {
                 $page = 1;
-                if (isset($data['page']) && $data['page'] > 1)
+                if (isset($data['page']) and $data['page'] > 1)
                     $page = $data['page'];
+
                 $status = WalletLoyalty::STATUS_ALL;
                 if (isset($data['status']))
                     $status = $data['status'];
+
                 $search = '';
                 if (!empty($data['search']))
                     $search = $data['search'];
+
                 $actions = WalletLoyalty::getByWalletId($data['id'], $status, $page, $search);
                 $answer['content'] = $this->renderPartial('//corp/wallet/block/loyalty', array(
                     'wallet' => $wallet,
@@ -160,14 +162,16 @@ class WalletController extends MController
         $page = 1;
         if (isset($data['page']) && $data['page'] > 1)
             $page = $data['page'];
+
         $status = WalletLoyalty::STATUS_ALL;
         if (isset($data['status']))
             $status = $data['status'];
+
         $search = '';
         if (!empty($data['search']))
             $search = $data['search'];
+
         $actions = Loyalty::getAllLoyalties($status, $page, $search);
-        
         $answer['content'] = $this->renderPartial('//corp/wallet/block/offers_tbody', array(
             'actions' => $actions,
             ), true);
@@ -182,41 +186,87 @@ class WalletController extends MController
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = "yes";
+        $answer['content'] = '';
 
 
         if (isset($data['phone']) and isset($data['wallet_id']))
         {
-            $all_wallets = (isset($data['all_wallets'])?$data['all_wallets']:0;
+            $all_wallets = (isset($data['all_wallets']))?$data['all_wallets']:0;
+            $user_id = Yii::app()->user->id;
+
+            if ($all_wallets == 0) 
+            {
+                $wallet = PaymentWallet::model()->findByPk($data['wallet_id']);
+                if (!$wallet) $this->setBadRequest();
+
+                $sms_info = SmsInfo::model()->findByAttributes(
+                    array('wallet_id'=>$wallet->id)
+                );
+                if (!$sms_info) 
+                {
+                    $sms_info = new SmsInfo;
+                    $sms_info->wallet_id = $wallet->id;
+                    $sms_info->user_id = $user_id;
+                }
+                $sms_info->phone = $data['phone'];
+                $sms_info->status = SmsInfo::STATUS_ON;
+                if ($sms_info->save()) 
+                {
+                    $answer['error'] = "no";
+                    $answer['content'] = 'Sms информирование включено';
+                }
+            }
+            else
+            {
+                SmsInfo::model()->deleteAllByAttributes(
+                    array('user_id'=>$user_id)
+                );
+                $wallets = PaymentWallet::model()->findAllByAttributes(
+                    array('user_id'=>$user_id));
+
+                foreach ($wallets as $wallet) {
+                    $sms_info = new SmsInfo;
+                    $sms_info->wallet_id = $wallet->id;
+                    $sms_info->user_id = $user_id;
+                    $sms_info->phone = $data['phone'];
+                    $sms_info->status = SmsInfo::STATUS_ON;
+                    $sms_info->save();
+                }
+
+                $answer['error'] = "no";
+                $answer['content'] = 'Sms информирование включено';
+            }
+
             // if (empty($data['all_wallets']))
             // {
             //     //для текущего кошелька
-            //     $wallet = PaymentWallet::model()->with('smsInfo')->findByPk($data['id']);
+            //     $wallet = PaymentWallet::model()->with('sms_info')->findByPk($data['id']);
             //     if ($wallet and Yii::app()->user->id == $wallet->user_id)
             //     {
-            //         $smsInfo = $wallet->smsInfo;
-            //         if (!$smsInfo)
-            //             $smsInfo = new SmsInfo;
-            //         $smsInfo->wallet_id = $wallet->id;
-            //         $smsInfo->user_id = $wallet->user_id;
-            //         $smsInfo->phone = $data['phone'];
+            //         $sms_info = $wallet->sms_info;
+            //         if (!$sms_info)
+            //             $sms_info = new SmsInfo;
+            //         $sms_info->wallet_id = $wallet->id;
+            //         $sms_info->user_id = $wallet->user_id;
+            //         $sms_info->phone = $data['phone'];
             //         if ($data['phone'])
-            //             $smsInfo->status = SmsInfo::STATUS_ON;
+            //             $sms_info->status = SmsInfo::STATUS_ON;
             //         else
-            //             $smsInfo->status = SmsInfo::STATUS_OFF;
+            //             $sms_info->status = SmsInfo::STATUS_OFF;
 
-            //         if ($smsInfo->save())
+            //         if ($sms_info->save())
             //             $answer['error'] = 'no';
             //     }
             // }
             // else
             // {
             //     //для всех кошельков
-            //     $smsInfos = SmsInfo::model()->findAllByAttributes(
+            //     $sms_infos = SmsInfo::model()->findAllByAttributes(
             //         array(
             //             'user_id' => Yii::app()->user->id
             //         )
             //     );
-            //     foreach($smsInfos as $sub)
+            //     foreach($sms_infos as $sub)
             //     {
             //         if ($data['phone'])
             //             $sub->status = SmsInfo::STATUS_ON;
@@ -232,6 +282,49 @@ class WalletController extends MController
         echo json_encode($answer);
     }
 
+    //Отключаем sms информирование
+    public function actionRemovePhone()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $result = False;
+        $answer['error'] = "yes";
+        $answer['content'] = '';
+
+        if (isset($data['phone']) and isset($data['wallet_id']))
+        {
+            $user_id = Yii::app()->user->id;
+            $all_wallets = (isset($data['all_wallets']))?$data['all_wallets']:0;
+
+            if ($all_wallets == 0) 
+            {
+                $sms_info = SmsInfo::model()->findByAttributes(
+                    array(
+                        'wallet_id'=>$data['wallet_id'],
+                        'user_id'=>$user_id
+                    )
+                );
+                if (!$sms_info)  $this->setNotFound();
+                if ($sms_info->delete()) $result = True;
+            }
+            else 
+            {
+                SmsInfo::model()->deleteAllByAttributes(
+                    array('user_id'=>$user_id)
+                );
+                $result = True;
+                
+            } 
+            if ($result)
+            {
+                $answer['error'] = "no";
+                $answer['content'] = 'Sms информирование отключено';
+            }
+
+        }
+        echo json_encode($answer);
+    }
+
     //включение/отключение sms для всех кошельков пользователя
     public function actionSmsAllWallets()
     {
@@ -244,24 +337,24 @@ class WalletController extends MController
             if ($data['enable'])
             {
                 //подключить для всех
-                $userWallets = PaymentWallet::model()->with('smsInfo')->findAllByAttributes(array('user_id' => Yii::app()->user->id));
+                $userWallets = PaymentWallet::model()->with('sms_info')->findAllByAttributes(array('user_id' => Yii::app()->user->id));
                 foreach($userWallets as $wallet)
                 {
-                    $smsInfo = $wallet->smsInfo;
-                    if (!$smsInfo)
-                        $smsInfo = new SmsInfo;
-                    $smsInfo->wallet_id = $wallet->id;
-                    $smsInfo->user_id = $wallet->user_id;
-                    $smsInfo->phone = $data['phone'];
-                    $smsInfo->status = SmsInfo::STATUS_ON;
-                    $smsInfo->save();
+                    $sms_info = $wallet->sms_info;
+                    if (!$sms_info)
+                        $sms_info = new SmsInfo;
+                    $sms_info->wallet_id = $wallet->id;
+                    $sms_info->user_id = $wallet->user_id;
+                    $sms_info->phone = $data['phone'];
+                    $sms_info->status = SmsInfo::STATUS_ON;
+                    $sms_info->save();
                 }
             }
             else
             {
                 //отключить
-                $smsInfos = SmsInfo::model()->findAllByAttributes(array('user_id' => Yii::app()->user->id));
-                foreach($smsInfos as $sub)
+                $sms_infos = SmsInfo::model()->findAllByAttributes(array('user_id' => Yii::app()->user->id));
+                foreach($sms_infos as $sub)
                 {
                     if ($sub->wallet_id != $data['id'])
                     {
