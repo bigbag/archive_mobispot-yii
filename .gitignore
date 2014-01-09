@@ -36,3 +36,4 @@ robot.txt
 /console.php
 /index.php
 /console.php
+/protected/config/dbStack.php
