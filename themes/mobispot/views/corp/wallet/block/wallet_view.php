@@ -23,7 +23,6 @@
                     </span>
                     <a id="block-button" 
                         class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"
-                         
                         ng-click="blockWallet(<?php echo $wallet->id;?>)">
                       <?php if($wallet->status==PaymentWallet::STATUS_ACTIVE):?>
                       <?php echo Yii::t('corp_wallet', 'Заблокировать');?>
