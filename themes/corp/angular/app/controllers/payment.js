@@ -162,8 +162,12 @@ angular.module('mobispot').controller('PaymentController',
             spot.addClass('open');
             spot.find('.slide-content').slideToggle('slow');
 
-            angular.element('body').foundation('forms');
-            angular.element('body').foundationCustomForms();
+            if (typeof $.foundation !== 'undefined' && typeof $.foundation.customForms !== 'undefined') {
+              angular.element('body').foundationCustomForms();
+            } else {
+              angular.element('body').foundation('forms');
+            }
+            
             $('#filter-date').datepicker();
             $('#filter-date').datepicker("option", "dateFormat", "dd.mm.yy");
             $('#ui-datepicker-div').slideUp(0);
