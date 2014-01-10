@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <p class="sub-txt sub-txt-last toggle-active">
+                <p class="sub-txt toggle-active">
                     <a class="checkbox agree"  ng-click="setRecurrentTerms(recurrent)">
                         <i class="large"></i>
                         <?php echo Yii::t('corp_wallet', '*Включая автоплатежи вы соглашаетесь,
@@ -64,7 +64,7 @@
             </form>
             
             <form id="disableReccurent" class="item-area__left custom" style="display: <?php echo ($auto)?'block':'none'?>;">
-                <div class="m-card-block">
+                <div class="m-card-block large-7 columns">
                     <h5><?php echo Yii::t('corp_wallet', 'Автоплатеж будет производится с карты:');?></h5>
                     <div class="m-card-cur m-card_<?php echo (!empty($auto))?PaymentLog::getSystemByPan($auto->card_pan):'uniteller'; ?>">
                         <div id="card_pan">
@@ -100,7 +100,7 @@
                 </div>
             </form>
             
-            <div class="large-3 apay-button columns">
+            <div class="large-3 apay-button columns clear">
                 <a id="buttonApayOn" 
                     class="spot-button text-center on-apay button-disable"  
                     ng-click="enableRecurrent(recurrent, recurrentForm.$valid)">
@@ -108,7 +108,7 @@
                 </a>
                 <a id="buttonApayOff" 
                     class="spot-button text-center off-apay"  
-                    ng-click="disableRecurrent(payment.wallet)">
+                    ng-click="disableRecurrent(payment)">
                     <?php echo Yii::t('corp_wallet', 'Отключить');?>
                 </a>
             </div>

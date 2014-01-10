@@ -27,6 +27,8 @@ class PaymentHistory extends CActiveRecord
     const TYPE_PLUS = 1;
     const TYPE_CASHBACK = 2;
 
+    const RECORD_MAX = 20;
+
     public function getPaymentDesc()
     {
         $txt = '';
@@ -204,41 +206,72 @@ class PaymentHistory extends CActiveRecord
         return $history;
     }
     
-    public function getListWithPagination($id, $page = 1, $filterDate = '', $filterTerm = '', $count=20)
+    public function getListByParams($id, $page = 1, $search = false)
     {
-        $answer = array();
+        if (!$search) $key = 'payment_history_' . md5($id.$page);
+        else $key = 'payment_history_' . md5($id.$page.implode($search));
+        
+        $answer = Yii::app()->cache->get($key);
+
+        if (!$answer)
+        {
+            $answer = array();
         
         $criteria = new CDbCriteria;
         $criteria->compare('wallet_id', $id);
+        $criteria->compare('status', self::STATUS_COMPLETE);
         $criteria->order = 'id desc';
-        if ($filterDate and CDateTimeParser::parse($filterDate,'dd.MM.yyyy'))
-        {
-            $criteria->compare('day(`creation_date`)', substr($filterDate, 0, 2));
-            $criteria->compare('month(`creation_date`)', substr($filterDate, 3, 2));
-            $criteria->compare('year(`creation_date`)', substr($filterDate, 6));
-        }
-        if ($filterTerm)
-        {
-            $termCriteria = new CDbCriteria;
-            $termCriteria->addSearchCondition('name', $filterTerm);
-            $terms = Term::model()->findAll($termCriteria);
-            $inTerms = array();
-            foreach ($terms as $term)
-            {
-                $inTerms[] = $term->id;
-            }
+        $count = PaymentHistory::model()->count($criteria);
+        $answer['count'] = $count;
 
-            $criteria->addInCondition('term_id', $inTerms);
-        }
-        $countHistory = self::model()->complete()->count($criteria);
-        $criteria->limit = $count;
-        if ($page > 1)
-            $criteria->offset = ($page - 1) * $count;
+        $pages = new CPagination($count);
+        $pages->setCurrentPage($page);
+        $pages->pageSize = self::RECORD_MAX;
+        $pages->applyLimit($criteria);
 
-        $answer['history'] = self::model()->complete()->findAll($criteria);
-        $answer['pagination'] = array('pages'=>ceil($countHistory / $count), 'current'=>$page);
-        $answer['filter'] = array('date'=>$filterDate, 'term'=>$filterTerm);
-        
+        $historys = PaymentHistory::model()->findAll($criteria);
+
+        $result = array();
+        foreach ($historys as $history) {
+            $result[$history->id]['desc'] = $history->getPaymentDesc();
+            $result[$history->id]['creation_date'] = Yii::app()->dateFormatter->format("dd.MM.yyyy, HH:mm", $history->creation_date);
+            $result[$history->id]['amount'] = $history->amount;
+            $result[$history->id]['type'] = $history->getType();
+        }
+        $answer['result'] = $result;
+
+
+        // if ($filterDate and CDateTimeParser::parse($filterDate,'dd.MM.yyyy'))
+        // {
+        //     $criteria->compare('day(`creation_date`)', substr($filterDate, 0, 2));
+        //     $criteria->compare('month(`creation_date`)', substr($filterDate, 3, 2));
+        //     $criteria->compare('year(`creation_date`)', substr($filterDate, 6));
+        // }
+        // if ($filterTerm)
+        // {
+        //     $termCriteria = new CDbCriteria;
+        //     $termCriteria->addSearchCondition('name', $filterTerm);
+        //     $terms = Term::model()->findAll($termCriteria);
+        //     $inTerms = array();
+        //     foreach ($terms as $term)
+        //     {
+        //         $inTerms[] = $term->id;
+        //     }
+
+        //     $criteria->addInCondition('term_id', $inTerms);
+        // }
+        // $countHistory = self::model()->complete()->count($criteria);
+        // $criteria->limit = $count;
+        // if ($page > 1)
+        //     $criteria->offset = ($page - 1) * $count;
+
+        // $answer['history'] = self::model()->complete()->findAll($criteria);
+        // $answer['pagination'] = array('pages'=>ceil($countHistory / $count), 'current'=>$page);
+        // $answer['filter'] = array('date'=>$filterDate, 'term'=>$filterTerm);
+
+            Yii::app()->cache->set($key, $answer, 360);
+        }
+
         return $answer;
     }
 
