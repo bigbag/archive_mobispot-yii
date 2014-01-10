@@ -79,7 +79,8 @@ class Loyalty extends CActiveRecord
 
     public function beforeSave()
     {
-        $this->terms_id = serialize($this->terms_id);
+        //$this->terms_id = serialize($this->terms_id);
+        $this->terms_id = json_encode($this->terms_id);
         $this->threshold = ($this->threshold) * 100;
         if (self::RULE_FIXED == $this->rules)
             $this->amount = ($this->amount) * 100;
@@ -88,7 +89,8 @@ class Loyalty extends CActiveRecord
     
     protected function afterFind()
     {
-        $this->terms_id = unserialize($this->terms_id);
+        //$this->terms_id = unserialize($this->terms_id);
+        $this->terms_id = CJSON::decode($this->terms_id, true);
         $this->threshold = ($this->threshold) / 100;
         if (self::RULE_FIXED == $this->rules)
             $this->amount = ($this->amount) / 100;

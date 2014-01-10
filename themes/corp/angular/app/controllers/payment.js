@@ -425,9 +425,9 @@ angular.module('mobispot').controller('PaymentController',
               }
               else
               {
-                  if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                  if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
                   {
-                      if ('no' == data.liked)
+                      if ('yes' == data.message_error)
                           contentService.setModal(data.message, 'error'); 
                       else
                           contentService.setModal(data.message, 'none'); 
@@ -449,9 +449,9 @@ angular.module('mobispot').controller('PaymentController',
                       popup.close();
                       $scope.bindNet = {};
                       
-                      if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                      if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
                       {
-                          if ('no' == data.liked) 
+                          if ('yes' == data.message_error) 
                               contentService.setModal(data.message, 'error'); 
                           else
                               contentService.setModal(data.message, 'none'); 

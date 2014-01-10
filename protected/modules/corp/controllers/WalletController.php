@@ -614,25 +614,32 @@ class WalletController extends MController
         Yii::app()->request->redirect('http://corp.' . $url[2] . '/wallet/');
     }
     
+    //добавление жетона соцсети в стек - на проверку лайка 
     public function actionCheckLike()
     {
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = "yes";
         $answer['isSocLogged'] = false;
+        $link = '';
             
         if (!Yii::app()->user->id)
         {
             $this->setAccess();
         }
-        
+
         if (!empty($data['id']))
         {
-            $service = 'facebook'; //Пока только facebook
-            $answer['service'] = $service;
-            
-
             $action = Loyalty::model()->findByPk($data['id']);
+            if ($action and strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') !== false)
+            {
+                $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') + strlen('<a ng-click="checkLike('.$action->id.')">')));
+                if (strpos($link, '</a>') > 0)
+                    $link = substr($link, 0, strpos($link, '</a>'));
+            }
+            
+            $service = 'facebook'; //Пока только facebook. Будет определяться по $link
+            $answer['service'] = $service;
             
             $criteria = new CDbCriteria;
             $criteria->compare('loyalty_id', $action->id);
@@ -650,7 +657,7 @@ class WalletController extends MController
             if ($action->part_limit && $count >= $action->part_limit)
             {
                 $answer['isSocLogged'] = true; //чтобы не запускать авторизацию
-                $answer['liked'] = 'no';
+                $answer['message_error'] = 'yes';
                 $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
             }
             else
@@ -660,51 +667,36 @@ class WalletController extends MController
                 if ($socInfo->isLoggegOn($service))
                 {
                     $answer['isSocLogged'] = true;
-                    $answer['liked'] = 'no';
-                    $answer['message'] = Yii::t('wallet', 'Не найдена ссылка на акцию');
                     
-                    if ($action and strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') !== false)
+                    $socToken=SocToken::model()->findByAttributes(array(
+                        'user_id'=>Yii::app()->user->id,
+                        'type'=>1,
+                    ));
+                    
+                    if ($socToken and $link)
                     {
-                        $answer['message'] = Yii::t('wallet', 'Не найдена страница по ссылке');
-                        $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') + strlen('<a ng-click="checkLike('.$action->id.')">')));
-                        if (strpos($link, '</a>') > 0)
-                            $link = substr($link, 0, strpos($link, '</a>'));
-                            
-                        $appToken = FacebookContent::getAppToken();
-                        
-                        if (strpos($link, 'facebook.com/') !== false)
-                        {
-                            $page = SocContentBase::makeRequest('https://graph.facebook.com/' . FacebookContent::parseUsername($link).'?access_token='.$appToken);
+                        $likesStack = LikesStack::model()->findByAttributes(array(
+                            'token_id' => $socToken->id,
+                            'loyalty_id' => $action->id
+                        ));
 
-                            if (!empty($page['id']))
-                            {
-                            
-                                $socToken=SocToken::model()->findByAttributes(array(
-                                    'user_id'=>Yii::app()->user->id,
-                                    'type'=>1,
-                                ));
-                                
-                                $page_id = $page['id'];
-                                $like = SocContentBase::makeRequest('https://graph.facebook.com/me/likes/'.$page_id.'?&access_token='.$socToken->user_token);
-                                
-                                if (!empty($like['data']) && !empty($like['data'][0]) && !empty($like['data'][0]['id']))
-                                {
-                                    $likeEvent = new PersonEvent;
-                                    $likeEvent->addByUserLoyaltyId(Yii::app()->user->id, $action->id);
-                                    $answer['liked'] = 'yes';
-                                    $answer['message'] = Yii::t('wallet', 'Вы лайкнули страницу: ').$page['link'];
-                                }
-                                else
-                                    $answer['message'] = Yii::t('wallet', 'Вы не лайкали эту страницу: ').$page['link'];
-                            }
+                        if (!$likesStack)
+                        {
+                            $likesStack = new LikesStack;
+                            $likesStack->token_id = $socToken->id;
+                            $likesStack->loyalty_id = $action->id;
+                            $likesStack->save();
                         }
+                        
+                        $answer['message_error'] = 'no';
+                        $answer['message'] = Yii::t('wallet', 'Вы участвуете в акции');
                     }
                 }
             }
             
             $answer['error'] = "no";
         }
-        
+
         echo json_encode($answer);
     }
 
