@@ -82,7 +82,7 @@ span.payment-rules{
   bottom: auto;
 }
 
-.footer-logo img{
+/*.footer-logo img{
   height: 37px;
   margin: 0 10px;
 }
@@ -92,7 +92,7 @@ span.payment-rules{
   padding: 15px 10px;
   border-radius: 5px;
   margin: 0 15px;
-}
+}*/
 
 .button-disable:focus,
 .button-disable:hover,

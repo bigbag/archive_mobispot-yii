@@ -91,6 +91,7 @@
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	margin-left: 5px;
 	text-align: center;
 	line-height: 35px;
@@ -176,6 +177,7 @@ input:-moz-input-placeholder { color: rgba(0, 0, 0, 0.75) }
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	text-align: center;
 	line-height: 40px;
 	font-size: 18px;
@@ -231,6 +233,7 @@ table.store-items{
 	-webkir-border-radius:0;
 	-moz-border-radius:0;
 	border-radius: 0;
+	behavior: url(/css/PIE.htc);
 	border-spacing: 0;
 }
 table.store-items td{
@@ -287,6 +290,7 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	background: #000;
 	color: #fff;
 	font-size: 31px;
@@ -320,6 +324,7 @@ table.store-items td ul.orbit-bullets{
 	 -webkit-border-radius: 50%;
 	 -moz-border-radius: 50%;
 	 border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	 cursor: pointer;
 	opacity: 0;
 	-webkit-transition: opacity 600ms ease-out;
@@ -370,6 +375,7 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	float: left;
 	line-height: 35px;
 	padding: 0;
@@ -416,6 +422,7 @@ table.store-items td ul.orbit-bullets{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	-webkit-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
 	-moz-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
 	-o-transition:  all cubic-bezier(.36,.1,.43,1.01) .1s;
@@ -658,6 +665,7 @@ a.active .m-tooltip{
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
+	behavior: url(/css/PIE.htc);
 	padding:0 50px;
 	margin-top: 3px;
 	cursor: pointer;
@@ -724,6 +732,7 @@ a.active .m-tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	padding: 38px 50px;
 	margin-top: 12px;
 }
@@ -747,9 +756,14 @@ a.active .m-tooltip{
 .item-area input{
 	background: #E9EDF2;
 	color: #0061ff;
+	position: relative;
 }
 .item-area .bg-gray input{
 	background: #fff;
+	position: relative;
+}
+.bg-gray form.custom div.custom.dropdown a.current{
+	position: relative;
 }
 .item-area .spot-button {
 	background: #E9EDF2;
@@ -817,36 +831,11 @@ a.active .m-tooltip{
 	background: #E9EDF2;
 }
 
-.item-area_table .m-spot-table td:first-child,
-.item-area_table .m-spot-table td:first-child:after{
+.item-area_table .m-spot-table td:first-child{
 	-webkit-border-radius: 5px 0 0 5px;
 	-moz-border-radius: 5px 0 0 5px;
 	border-radius: 5px 0 0 5px;
-	overflow: hidden;
 }
-.item-area_table .m-spot-table td:last-child,
-.item-area_table .m-spot-table td:last-child:after{
-	-webkit-border-radius: 0 5px 5px 0;
-	-moz-border-radius: 0 5px 5px 0;
-	border-radius: 0 5px 5px 0;
-	overflow: hidden;
-}
-.item-area_table .m-spot-table th:first-child div,
-.item-area_table .m-spot-table td:first-child div{
-	-webkit-border-radius: 5px 0 0 5px;
-	-moz-border-radius: 5px 0 0 5px;
-	border-radius: 5px 0 0 5px;
-	position: relative;
-
-}
-.item-area_table .m-spot-table th:last-child div,
-.item-area_table .m-spot-table td:last-child div{
-	-webkit-border-radius:  0 5px 5px 0;
-	-moz-border-radius: 0 5px 5px 0;
-	border-radius: 0 5px 5px 0;
-}
-
-
 .spot-cover{
 	display: none;
 	position: absolute;
@@ -864,6 +853,7 @@ a.active .m-tooltip{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 }
 .item-area:hover .spot-cover{
 	display: block;
@@ -1108,6 +1098,7 @@ img[height='115']{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior: url(/css/PIE.htc);
 	padding: 5px 34px;
 	color: #fff;
 	background: #0061FF;
@@ -1117,7 +1108,10 @@ img[height='115']{
 }
 .users-list li{
 	border: 0 none;
-	border-radius: 3px 3px 3px 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	box-shadow: none;
 	color: #000;
 	margin: 0 10px 5px 0;
@@ -1230,7 +1224,6 @@ img[height='115']{
 	color: #fff;
 }
 .lang-dropdown .options{
-	bottom: 37px;
 	margin-top: 37px;
 	display: block;
 	position: relative;
@@ -1555,7 +1548,8 @@ img[height='115']{
 }
 .sub-txt-last{
 	padding: 30px 0 0;
-	clear: both;
+
+	position: relative;
 }
 .m-card-cur{
 	color: #9D9D9D;
@@ -1608,6 +1602,7 @@ span.settings-button{
 	-webkit-border-radius: 5px;
 	-moz-border-radius:  5px;
 	border-radius:  5px;
+	behavior: url(/css/PIE.htc);
 	font-size: 16px;
 	margin-bottom: 0;
 }
@@ -1718,6 +1713,7 @@ span.settings-button{
 	-webkit-border-radius: 3px;
 	-moz-border-radius:3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	position: static;
 }
 .spot-sub-slide{
@@ -1727,6 +1723,7 @@ span.settings-button{
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
+	behavior: url(/css/PIE.htc);
 	position: relative;
 	overflow: hidden !important;
 }
@@ -1759,6 +1756,7 @@ span.settings-button{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 }
 .spot-sub-slide:after{
 	right: 0;
@@ -1863,6 +1861,7 @@ span.settings-button{
 	-webkit-border-radius: 3px 3px 0 0;
 	-moz-border-radius: 3px 3px 0 0;
 	border-radius: 3px 3px 0 0;
+	behavior: url(/css/PIE.htc);
 	background: #fff;
 	padding: 28px 50px;
 }
@@ -1874,7 +1873,10 @@ span.settings-button{
 }
 .spot-soc-icon,
 .item-area-hat img{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	float: left;
 	margin-top: 5px;
 	margin-right: 14px;
@@ -2145,6 +2147,7 @@ p a{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	line-height: 19px;
 	color: #504949;
 	font-size: 13px;
@@ -2172,7 +2175,10 @@ p a{
 	clear: both;
 	background: #FFF;
 	padding: 15px 10px;
-	border-radius: 5px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	behavior: url(/css/PIE.htc);
 	margin: 0 15px;
 	display: block;
 }
@@ -2277,10 +2283,12 @@ p a{
 }
 .m-card-block {
 	margin-top: 35px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior: url(/css/PIE.htc);
 	padding: 0 20px 15px;
 	width: 361px;
-	clear: both;
 }
 .m-card-cur.m-card_visa:before {
 	background-position: -6px -7px;
@@ -2339,6 +2347,7 @@ p a{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	background: #FFF;
 	float: left;
 	margin-right: 10px;
@@ -2364,7 +2373,9 @@ p a{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior: url(/css/PIE.htc);
 	overflow: hidden;
+	position: relative;
 }
 form.item-area__right.custom .custom.dropdown.medium{
 	max-width: 100%;
@@ -2375,12 +2386,6 @@ form.item-area__right.custom .custom.dropdown.medium{
 .m-auto-payment.active .item-area__left{
 	display: block;
 }
-.input-sum{
-	position: absolute;
-	top:0;
-	left: 400px;
-}
-
 .input-sum .b-currency{
 	width: 33px;
 	margin-top: 0;
@@ -2404,6 +2409,11 @@ form.item-area__right.custom .custom.dropdown.medium{
 	line-height: 13px;
 	bottom: -39px;
 	text-decoration: none;
+	z-index: 99;
+}
+.lt-ie9 .terms{
+	bottom: 34px;
+	left: 240px;
 }
 .item-area_w h3 .spot-button{
 	position: absolute;
@@ -2598,6 +2608,7 @@ table.m-spot-table tbody tr{
 }
 .checkbox.active + .active-sub .spot-button.red-button{
 	color: #FF0050 !important;
+	position: relative;
 }
 .checkbox.active + .active-sub .spot-button.red-button:hover{
 	color: #fff !important;
@@ -2641,26 +2652,25 @@ table.m-spot-table tbody tr{
 	float: left;
 	margin-right: 10px;
 }
-.condition02{
+.condition{
 	position: relative;
 	overflow: hidden;
 }
-.condition02 h3{
+.condition__number h3{
 	font-size: 18px;
 	color: #aaa;
 }
-.condition02 p{
+.condition__number p{
 	font-size: 30px;
 	margin-bottom: 0;
 	float: left;
 	margin-right: 15px;
 }
 
-.checkbox.active + .active-sub .condition02 h3{
+.checkbox.active + .active-sub .condition__number h3{
 	color: #222;
 }
-.item-area_table .m-spot-table td.line-pagination,
-.item-area_table .m-spot-table td.line-pagination:after{
+.item-area_table .m-spot-table td.line-pagination{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -2712,6 +2722,7 @@ margin-left: 3px;
 	-webkit-border-radius: 5px !important;
 	-moz-border-radius: 5px  !important;
 	border-radius: 5px !important;
+	behavior: url(/css/PIE.htc);
 	border: 2px solid #30D874;
 }
 
@@ -2731,4 +2742,14 @@ margin-left: 3px;
 	width: 100%;
 	min-width: 100%;
 	margin: 1em 0;
+}
+.sub-link{
+	font-size: 12px;
+	color: #888;
+	text-decoration: underline;
+}
+a.sub-link__disable,a.sub-link__disable:hover {
+	text-decoration: none;
+	cursor: default;
+	color: #888;
 }

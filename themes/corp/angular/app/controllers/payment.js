@@ -6,6 +6,13 @@ angular.module('mobispot').controller('PaymentController',
   $scope.card = 1;
   $scope.history = [];
 
+  //Параметры по умолчанию для пагинации
+  $scope.pagination = {
+    cur: 1,
+    total: 7,
+    display: 20
+  };
+
   $scope.$watch('payment.amount + payment.status', function(payment) {
     if ($scope.payment) {
       if ($scope.payment.amount && ($scope.payment.amount > 99) && $scope.payment.status !=-1){
@@ -94,9 +101,9 @@ angular.module('mobispot').controller('PaymentController',
   };
 
   //Выключение автоплатежей
-  $scope.disableRecurrent = function(wallet_id) {
-    var data = {wallet_id:wallet_id, token: $scope.user.token};
-    $http.post('/wallet/recurrent', data).success(function(data) {
+  $scope.disableRecurrent = function(payment) {
+    payment.token = $scope.user.token
+    $http.post('/wallet/recurrent', payment).success(function(data) {
       if (data.error == 'no') {
         angular.element('#disableReccurent').hide();
         angular.element('#enableReccurent').show();
@@ -155,7 +162,8 @@ angular.module('mobispot').controller('PaymentController',
             spot.addClass('open');
             spot.find('.slide-content').slideToggle('slow');
 
-            angular.element('.slide-content').foundation('forms');
+            angular.element('body').foundation('forms');
+            angular.element('body').foundationCustomForms();
             $('#filter-date').datepicker();
             $('#filter-date').datepicker("option", "dateFormat", "dd.mm.yy");
             $('#ui-datepicker-div').slideUp(0);
@@ -231,30 +239,50 @@ angular.module('mobispot').controller('PaymentController',
       }
     });
   };
+
+  //Запрос истории последних операций
+  $scope.getHistory = function(search) {
+    if(typeof(search.page)==='undefined') search.page = 1;
+    search.token = $scope.user.token;
+    
+    $http.post('/wallet/getHistory', search).success(function(data) {
+      $scope.result = data.result;
+      $scope.search.page_count = data.count;
+      $scope.pagination.total = Math.ceil(data.count/$scope.search.limit) - 1;
+    });
+  };
+
+   //Тригер на запрос истории
+  $scope.$watch('pagination.cur', function() {
+    if (!$scope.search) return false;
+    var search = $scope.search;
+    search.page = $scope.pagination.cur;
+    $scope.getHistory(search);
+  });
   
-  $scope.getHistory = function(wallet_id, page, newFilter){
-      var newFilter = newFilter || 0;
+  // $scope.getHistory = function(wallet_id, page, newFilter){
+  //     var newFilter = newFilter || 0;
 
-      if (newFilter){
-          $scope.history.term = angular.element('#block-history input[name=term]').val();
-          $scope.history.date = angular.element('#block-history input[name=date]').val();
-      }
+  //     if (newFilter){
+  //         $scope.history.term = angular.element('#block-history input[name=term]').val();
+  //         $scope.history.date = angular.element('#block-history input[name=date]').val();
+  //     }
 
-      var data = {token: $scope.user.token, id:wallet_id, page:page};
-      if (typeof ($scope.history.term) != 'undefined') data.term = $scope.history.term;
-      if (typeof ($scope.history.date) != 'undefined') data.date = $scope.history.date;
+  //     var data = {token: $scope.user.token, id:wallet_id, page:page};
+  //     if (typeof ($scope.history.term) != 'undefined') data.term = $scope.history.term;
+  //     if (typeof ($scope.history.date) != 'undefined') data.date = $scope.history.date;
 
-      angular.element('#block-history .m-table-wrapper').addClass('loading');
-      $http.post('/wallet/getHistory', data).success(function(data) {
-          if(data.error == 'no') {
-              angular.element('#table-history tbody').html($compile(data.content)($scope));
-              angular.element('#block-history .m-table-wrapper').removeClass('loading');
-          }
-      }).error(function(error){
-          angular.element('#block-history .m-table-wrapper').removeClass('loading');
-          console.log(error);
-      });
-  }
+  //     angular.element('#block-history .m-table-wrapper').addClass('loading');
+  //     $http.post('/wallet/getHistory', data).success(function(data) {
+  //         if(data.error == 'no') {
+  //             angular.element('#table-history tbody').html($compile(data.content)($scope));
+  //             angular.element('#block-history .m-table-wrapper').removeClass('loading');
+  //         }
+  //     }).error(function(error){
+  //         angular.element('#block-history .m-table-wrapper').removeClass('loading');
+  //         console.log(error);
+  //     });
+  // }
   
   //акции
   $scope.getSpecialActions = function(wallet_id, page, status, search){
@@ -288,14 +316,6 @@ angular.module('mobispot').controller('PaymentController',
         }
       })
   }
-  
-  //sms информирование
-  // $scope.ToggleSmsInfo = function(wallet_id){
-  //     if (!angular.element('#WalletSmsInfo').hasClass('active') && 'undefined' != typeof ($scope.sms) && 'undefined' != typeof ($scope.sms.savedPhone) && $scope.sms.savedPhone.length)
-  //         $scope.savePhone(wallet_id, $scope.sms.savedPhone);
-  //     else if (angular.element('#WalletSmsInfo').hasClass('active'))
-  //         $scope.cancelSms(wallet_id);
-  // }
   
   // Атрибут включения смс информирования на всех кошельках
   $scope.setSmsAllWallets = function(sms){
@@ -405,9 +425,9 @@ angular.module('mobispot').controller('PaymentController',
               }
               else
               {
-                  if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                  if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
                   {
-                      if ('no' == data.liked)
+                      if ('yes' == data.message_error)
                           contentService.setModal(data.message, 'error'); 
                       else
                           contentService.setModal(data.message, 'none'); 
@@ -429,9 +449,9 @@ angular.module('mobispot').controller('PaymentController',
                       popup.close();
                       $scope.bindNet = {};
                       
-                      if ('undefined' != typeof (data.liked) && 'undefined' != typeof (data.message))
+                      if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
                       {
-                          if ('no' == data.liked) 
+                          if ('yes' == data.message_error) 
                               contentService.setModal(data.message, 'error'); 
                           else
                               contentService.setModal(data.message, 'none'); 

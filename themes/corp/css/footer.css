@@ -68,8 +68,23 @@ footer-page h3{
 	display: inline-block;
 	position: absolute;
 	top: 4px;
-	right: 2em;
+	right: 15px;
 }
 .footer-logo a{
 	display: inline-block;
+}
+.footer-logo img{
+	height: 37px;
+	margin: 0 10px;
+}
+.footer-logo{
+	clear: both;
+	background: #FFF;
+	padding: 15px 10px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	behavior: url(/css/PIE.htc);
+	margin: 0 15px;
+	display: block;
 }

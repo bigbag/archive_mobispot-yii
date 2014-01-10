@@ -53,6 +53,7 @@ var hidePopup = function(){
 			$body.removeClass('overflow-h').css('padding-right', '0');
 			$popup.css('padding-left', '0');
 		});
+
 	}
 };
 
