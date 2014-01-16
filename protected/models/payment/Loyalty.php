@@ -16,6 +16,7 @@
  * @property string $creation_date
  * @property string $start_date
  * @property string $stop_date 
+ * @property integer $sharing_type
  */
 class Loyalty extends CActiveRecord
 {
@@ -27,6 +28,13 @@ class Loyalty extends CActiveRecord
     const STATUS_ALL = 2;
     const STATUS_MY = 100;
 
+    const FACEBOOK_LIKE = 1;
+    const FACEBOOK_SHARE = 2;
+    const TWITTER_SHARE = 3;
+    const TWITTER_RETWIT = 4;
+    const TWITTER_FRIEND = 5;
+    const TWITTER_HASHTAG = 6;
+    
     public function getRulesList()
     {
         return array(
@@ -70,10 +78,10 @@ class Loyalty extends CActiveRecord
         // will receive user inputs.
         return array(
             array('terms_id, event_id, firm_id, rules, interval, amount, threshold, creation_date, start_date, stop_date', 'required'),
-            array('rules, interval', 'numerical', 'integerOnly' => true),
+            array('rules, interval, sharing_type', 'numerical', 'integerOnly' => true),
             array('amount', 'filter', 'filter' => 'trim'),
             array('desc', 'filter', 'filter' => 'trim'),
-            array('id, terms_id, event_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc', 'safe', 'on' => 'search'),
+            array('id, terms_id, event_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc,sharing_type', 'safe', 'on' => 'search'),
         );
     }
 
