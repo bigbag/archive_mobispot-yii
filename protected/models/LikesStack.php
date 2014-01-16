@@ -23,12 +23,17 @@ class LikesStack extends CActiveRecord
         return parent::model($className);
     }
 
+    public function getDbConnection()
+    {
+        return Yii::app()->dbStack;
+    }
+    
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'likes_stack';
+        return 'stack.likes_stack';
     }
 
     /**
