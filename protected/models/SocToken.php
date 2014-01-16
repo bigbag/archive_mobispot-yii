@@ -18,6 +18,7 @@ class SocToken extends CActiveRecord
     const TYPE_FOURSQUARE = 8;
     const TYPE_LINKEDIN = 9;
     const TYPE_INSTAGRAM = 10;
+    const TYPE_TUMBLR = 11;
 
     public static function getTypeList()
     {

@@ -8,7 +8,7 @@ class SocInfo extends CFormModel
     public $accessToken = '';
     public $userDetail = array();
     public $socNetworks = array();
-
+    
     public function __construct()
     {
         $this->socNetworks = SocInfo::getSocNetworks();
@@ -30,6 +30,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_GOOGLE;
         $socNetworks[] = $net;
 
         $net['name'] = 'facebook';
@@ -43,6 +45,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'FacebookContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array(Loyalty::FACEBOOK_LIKE, Loyalty::FACEBOOK_SHARE);
+        $net['tokenType'] = SocToken::TYPE_FACEBOOK;
         $socNetworks[] = $net;
 
         $net['name'] = 'twitter';
@@ -56,6 +60,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array(Loyalty::TWITTER_SHARE, Loyalty::TWITTER_RETWIT, Loyalty::TWITTER_FRIEND, Loyalty::TWITTER_HASHTAG);
+        $net['tokenType'] = SocToken::TYPE_TWITTER;
         $socNetworks[] = $net;
 
         $net['name'] = 'vk';
@@ -69,6 +75,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_YOUTUBE;
         $socNetworks[] = $net;
 
         $net['name'] = 'linkedin';
@@ -82,6 +90,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_LINKEDIN;
         $socNetworks[] = $net;
 
         $net['name'] = 'foursquare';
@@ -95,6 +105,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_FOURSQUARE;
         $socNetworks[] = $net;
 
         $net['name'] = 'vimeo';
@@ -108,7 +120,10 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'VimeoContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_VIMEO;
         $socNetworks[] = $net;
+        
         /*
           $net['name'] = 'Last.fm';
           $net['baseUrl'] = 'lastfm.ru';
@@ -121,8 +136,11 @@ class SocInfo extends CFormModel
           $net['contentClass'] = '';
           $net['needAuth'] = true;
           $net['profileHint'] = '';
+          $net['sharingType'] = array();
+          $net['tokenType'] = SocToken::;
           $socNetworks[] = $net;
          */
+         
         $net['name'] = 'deviantart';
         $net['baseUrl'] = 'deviantart.com';
         $net['title'] = 'DeviantART';
@@ -134,6 +152,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'DeviantARTContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_DEVIANTART;
         $socNetworks[] = $net;
 
         $net['name'] = 'Behance';
@@ -147,9 +167,11 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Behance profile here');
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_BEHANCE;
         $socNetworks[] = $net;
 
-        /*
+/*
           $net['name'] = 'Flickr';
           $net['baseUrl'] = 'flickr.com';
           $net['title'] = 'Flickr';
@@ -161,8 +183,10 @@ class SocInfo extends CFormModel
           $net['contentClass'] = '';
           $net['needAuth'] = true;
           $net['profileHint'] = '';
+          $net['tokenType'] = SocToken::;
           $socNetworks[] = $net;
-         */
+*/
+
         $net['name'] = 'YouTube';
         $net['baseUrl'] = 'youtube.com';
         $net['title'] = 'YouTube';
@@ -174,6 +198,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your YouTube profile here');
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_YOUTUBE;
         $socNetworks[] = $net;
 
         $net['name'] = 'instagram';
@@ -187,6 +213,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_INSTAGRAM;
         $socNetworks[] = $net;
 
         $net['name'] = 'pinterest';
@@ -200,6 +228,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Pinterest profile here');
+        $net['sharingType'] = array();
+        $net['tokenType'] = null;
         $socNetworks[] = $net;
         
         $net['name'] = 'crunchbase';
@@ -213,6 +243,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'CrunchBaseContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your Crunchbase profile here');
+        $net['sharingType'] = array();
+        $net['tokenType'] = null;
         $socNetworks[] = $net;
         
         $net['name'] = 'tumblr';
@@ -227,6 +259,8 @@ class SocInfo extends CFormModel
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your tumblr profile here');
         $socNetworks[] = $net;
+        $net['sharingType'] = array();
+        $net['tokenType'] = SocToken::TYPE_TUMBLR;
         return $socNetworks;
     }
 
@@ -807,5 +841,35 @@ class SocInfo extends CFormModel
         if (strpos($netName, '_mobile') !== false)
             $netName = substr($netName, 0, (strpos($netName, '_mobile')));
         return $netName;
+    }
+    
+    public static function getNameBySharingType($sharing_type)
+    {
+        $answer = '';
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
+        {
+            if (in_array($sharing_type, $net['sharingType']))
+            {
+                $answer = $net['name'];
+                break;
+            }
+        }
+        return $answer;
+    }
+    
+    public static function getTokenBySharingType($sharing_type)
+    {
+        $answer = '';
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
+        {
+            if (in_array($sharing_type, $net['sharingType']))
+            {
+                $answer = $net['tokenType'];
+                break;
+            }
+        }
+        return $answer;
     }
 }

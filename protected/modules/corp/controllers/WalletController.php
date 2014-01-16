@@ -643,7 +643,7 @@ class WalletController extends MController
                     $link = substr($link, 0, strpos($link, '</a>'));
             }
             
-            $service = 'facebook'; //Пока только facebook. Будет определяться по $link
+            $service = SocInfo::getNameBySharingType($action->sharing_type);
             $answer['service'] = $service;
             
             $criteria = new CDbCriteria;
@@ -675,7 +675,7 @@ class WalletController extends MController
                     
                     $socToken=SocToken::model()->findByAttributes(array(
                         'user_id'=>Yii::app()->user->id,
-                        'type'=>1,
+                        'type'=>SocInfo::getTokenBySharingType($action->sharing_type),
                     ));
                     
                     if ($socToken and $link)

@@ -204,4 +204,14 @@ class TwitterContent extends SocContentBase
         
         return $answer;
     }
+    
+    public static function parseOAuthToken($tokenString)
+    {
+        $tokenAndSecret = array();
+
+        $tokenAndSecret['token'] = self::parseParam($tokenString, 'oauth_token=');
+        $tokenAndSecret['secret'] = self::parseParam($tokenString, 'oauth_token_secret=');
+        
+        return $tokenAndSecret;
+    }
 }
