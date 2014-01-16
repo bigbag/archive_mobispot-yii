@@ -23,7 +23,6 @@
                     </span>
                     <a id="block-button" 
                         class="spot-button spot-button_block <?php echo ($wallet->status==PaymentWallet::STATUS_ACTIVE)?'red-button':'green-button'?>"
-                         
                         ng-click="blockWallet(<?php echo $wallet->id;?>)">
                       <?php if($wallet->status==PaymentWallet::STATUS_ACTIVE):?>
                       <?php echo Yii::t('corp_wallet', 'Заблокировать');?>
@@ -37,7 +36,7 @@
                 <form name="paymentForm" class="custom item-area__right clearfix ng-pristine ng-invalid ng-invalid-required clearfix" action="<?php echo Yii::app()->ut->getPayUrl();?>">
                 <div id="payment-block">
                     <div class="row">
-                        <div class="large-12 columns" ng-init="payment.wallet_id='<?php echo $wallet->id;?>';payment.balance=<?php echo $wallet->balance;?>">
+                        <div class="large-12 columns" ng-init="payment.wallet_id=<?php echo $wallet->id;?>;payment.balance=<?php echo $wallet->balance;?>">
                             <label for="payment">
                                 <?php if($wallet->balance<801):?>
                                     <?php echo Yii::t('corp_wallet', 'Введите сумму от 100 до');?> <?php echo (1000-$wallet->balance);?> <?php echo Yii::t('corp_wallet', 'руб.');?>
@@ -63,7 +62,7 @@
             </div>
         </div>
 
-        <?php if ($history and $cards): ?>
+        <?php if ($cards): ?>
         <?php echo $this->renderPartial('//corp/wallet/block/_reccurent', array(
             'cards' => $cards,
             'auto' => $auto)
@@ -73,46 +72,60 @@
       </div>
     </div>
   </div>
-<?php if ($history):?>
-  <div class="row">
-    <div class="large-12 columns">
-      <div id="block-history" class="item-area item-area_w  item-area_table">
+  <div class="row" ng-init="search.wallet_id=<?php echo $wallet->id;?>;search.limit=20">
+    <div class="large-12 columns"  ng-init="getHistory(search)">
+      <div id="block-history" class="item-area item-area_w item-area_table">
         <h3><?php echo Yii::t('corp_wallet', 'Последние 20 операций');?></h3>
         <div class="m-table-wrapper">
-          <table id="table-history" class="m-spot-table" ng-grid="gridOptions">
-          <thead>
-            <tr>
-              <th><div><?php echo Yii::t('corp_wallet', '№');?></div></th>
-              <th><div><?php echo Yii::t('corp_wallet', 'Операция');?></div></th>
-              <th><div><?php echo Yii::t('corp_wallet', 'Дата');?></div></th>
-              <th><div><?php echo Yii::t('corp_wallet', 'Тип');?></div></th>
-              <th><div><?php echo Yii::t('corp_wallet', 'Сумма');?></div></th>
-            </tr>
-            <tr>
-                <th><div><input type="text" style="width:5px; visibility: hidden"></div></th>
-                <th><div><input type="text" class="b-pay-input" placeholder=<?php echo Yii::t('corp_wallet', 'Введите&nbsp;название&nbsp;терминала');?> name="term"/></div></th>
-                <th>
-                    <div>
-                        <input type="text" name="date" placeholder="<?php echo Yii::t('corp_wallet', 'Введите дату');?>" id="filter-date" />
-                    </div>
-                </th>
-                <th colspan="2"><div><a style="" class="spot-button text-center"  ng-click="getHistory(<?php echo $wallet->id.', 1, 1';?>)"><?php echo Yii::t('corp_wallet', 'Искать');?></a></div></th>
-            </tr>
-          </thead>
-          <tbody >
-            <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/corp/wallet/block/history.php'); ?>
-          </tbody>
-          </table>
-
-        <div class="cover-loading">
-            <img src="/themes/mobispot/images/mobispot-loading-40.gif">
-        </div>
+            <table id="table-history" class="m-spot-table">
+            <thead>
+                <tr>
+                  <th><div><?php echo Yii::t('corp_wallet', 'Операция');?></div></th>
+                  <th><div><?php echo Yii::t('corp_wallet', 'Дата');?></div></th>
+<!--                   <th><div><?php echo Yii::t('corp_wallet', 'Тип');?></div></th> -->
+                  <th><div><?php echo Yii::t('corp_wallet', 'Сумма');?></div></th>
+                </tr>
+                <tr>
+                    <th>
+                        <div>
+                            <input type="text" name="term" class="b-pay-input" placeholder=<?php echo Yii::t('corp_wallet', 'Название терминала');?>/>
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            <input type="text" name="date" placeholder="<?php echo Yii::t('corp_wallet', 'Датa');?>" id="filter-date" />
+                        </div>
+                    </th>
+                    <th colspan="2">
+                        <div>
+                            <a style="" class="spot-button text-center"  ng-click="getHistory(<?php echo $wallet->id.', 1, 1';?>)"><?php echo Yii::t('corp_wallet', 'Искать');?></a>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr ng-repeat="report in result" >
+                    <td><div>{{report.desc}}</div></td>
+                    <td><div>{{report.creation_date}}</div></td>
+                    <!-- <td><div>{{report.type}}</div></td> -->
+                    <td><div>{{report.amount}}</div></td>
+                </tr>
+                <tr class="m-table-bottom" ng-show="pagination.total > 1">
+                    <td colspan="10">
+                        <ui-pagination 
+                            cur="pagination.cur" 
+                            total="pagination.total" 
+                            display="{{pagination.display}}">
+                        </ui-pagination>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
         </div>
       </div>
     </div>
   </div>
-<?php endif;?>
-  <?php if (isset($actions) && !empty($actions['loyalties'])):?>
+<!--   <?php if (isset($actions) && !empty($actions['loyalties'])):?>
     <div id="wallet-actions" class="item-offers">
         <div class="twelve">
             <div class="item-area clearfix item-area_w  item-area_table">
@@ -165,5 +178,5 @@
             </div>
         </div>
     </div>
-  <?php endif;?>
+  <?php endif;?> -->
 </div>

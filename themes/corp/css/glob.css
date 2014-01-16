@@ -92,6 +92,7 @@ html[xmlns] .clearfix {
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 }
 .slow{
 	-webkit-transition: color linear .2s;

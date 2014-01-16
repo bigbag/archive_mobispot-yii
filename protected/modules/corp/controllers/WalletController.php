@@ -41,8 +41,6 @@ class WalletController extends MController
 
             if ($wallet and Yii::app()->user->id == $wallet->user_id)
             {
-                $history_list = PaymentHistory::getListWithPagination($data['wallet_id']);
-                $history = $history_list['history'];
                 $logs = PaymentLog::getListByWalletId($data['wallet_id']);
                 $actions = WalletLoyalty::getByWalletId($data['wallet_id']);
                 $sms_info = SmsInfo::getByWalletId($data['wallet_id'], Yii::app()->user->id);
@@ -62,10 +60,7 @@ class WalletController extends MController
 
                 $answer['content'] = $this->renderPartial('//corp/wallet/block/wallet_view', array(
                     'wallet' => $wallet,
-                    'history' => $history,
-                    'pagination' => $history_list['pagination'],
                     'actions' => $actions,
-                    'filter' => $history_list['filter'],
                     'cards' => $cards,
                     'auto' => $auto,
                     'sms_info' => $sms_info,
@@ -88,9 +83,9 @@ class WalletController extends MController
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = "yes";
-        if (isset($data['id']))
+        if (isset($data['wallet_id']))
         {
-            $wallet = PaymentWallet::model()->findByPk($data['id']);
+            $wallet = PaymentWallet::model()->findByPk($data['wallet_id']);
             if ($wallet and Yii::app()->user->id == $wallet->user_id)
             {
                 $page = 1;
@@ -105,13 +100,13 @@ class WalletController extends MController
                 if (isset($data['term']) && $data['term'])
                     $filterTerm = $data['term'];
 
-                $history_list = PaymentHistory::getListWithPagination($data['id'], $page, $filterDate, $filterTerm);
-                $answer['content'] = $this->renderPartial('//corp/wallet/block/history', array(
-                    'wallet' => $wallet,
-                    'history' => $history_list['history'],
-                    'pagination' => $history_list['pagination'],
-                    'filter' => $history_list['filter'],
-                    ), true);
+                $answer = PaymentHistory::getListByParams($wallet->id, $page);
+                // $answer['content'] = $this->renderPartial('//corp/wallet/block/history', array(
+                //     'wallet' => $wallet,
+                //     'history' => $history_list['history'],
+                //     'pagination' => $history_list['pagination'],
+                //     'filter' => $history_list['filter'],
+                //     ), true);
                 $answer['error'] = "no";
             }
         }
@@ -522,11 +517,11 @@ class WalletController extends MController
         $answer = array();
         $answer['error'] = "yes";
 
-        if (isset($data['amount']) and ($data['amount'] > 99))
+        if (isset($data['wallet_id']) and isset($data['amount']) and ($data['amount'] > 99))
         {
             $amount = (int) $data['amount'];
 
-            $wallet = PaymentWallet::model()->findByPk($data['wallet']);
+            $wallet = PaymentWallet::model()->findByPk($data['wallet_id']);
             if ($wallet)
             {
                 $delta = 1000 - $wallet->balance;
@@ -535,7 +530,7 @@ class WalletController extends MController
 
                     $history = new PaymentHistory;
                     $history->user_id = Yii::app()->user->id;
-                    $history->wallet_id = $data['wallet'];
+                    $history->wallet_id = $wallet->id;
                     $history->amount = $data['amount'];
 
                     if ($history->save())
@@ -547,7 +542,7 @@ class WalletController extends MController
 
                         $order = array();
                         $order['shopId'] = $payment->shopId;
-                        $order['customerId'] = $data['wallet'];
+                        $order['customerId'] = $wallet->id;
                         $order['orderId'] = $history->id;
                         $order['amount'] = $data['amount'];
                         $order['signature'] = $payment->getPaySign($order);
