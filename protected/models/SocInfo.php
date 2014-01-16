@@ -12,7 +12,6 @@ class SocInfo extends CFormModel
     public function __construct()
     {
         $this->socNetworks = SocInfo::getSocNetworks();
-        Yii::import('webroot.protected.models.soc_content.*');
     }
 
     public static function getSocNetworks()
