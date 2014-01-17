@@ -60,7 +60,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array(Loyalty::TWITTER_SHARE, Loyalty::TWITTER_RETWIT, Loyalty::TWITTER_FRIEND, Loyalty::TWITTER_HASHTAG);
+        $net['sharingType'] = array(Loyalty::TWITTER_SHARE, Loyalty::TWITTER_RETWIT, Loyalty::TWITTER_READING, Loyalty::TWITTER_HASHTAG);
         $net['tokenType'] = SocToken::TYPE_TWITTER;
         $socNetworks[] = $net;
 

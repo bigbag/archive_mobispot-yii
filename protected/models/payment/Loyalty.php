@@ -32,7 +32,7 @@ class Loyalty extends CActiveRecord
     const FACEBOOK_SHARE = 2;
     const TWITTER_SHARE = 3;
     const TWITTER_RETWIT = 4;
-    const TWITTER_FRIEND = 5;
+    const TWITTER_READING = 5;
     const TWITTER_HASHTAG = 6;
     
     public function getRulesList()
