@@ -44,6 +44,7 @@ class CustomTwitterService extends TwitterOAuthService
             $socToken->type = SocToken::TYPE_TWITTER;
             $socToken->user_id = Yii::app()->user->id;
             $socToken->soc_id = $info->id;
+            $socToken->soc_username = $info->screen_name;
             $tokenAndSecret = TwitterContent::ParseOAuthToken($this->getState('twitter_oauth_token'));
             $socToken->user_token = $tokenAndSecret['token'];
             $socToken->token_secret = $tokenAndSecret['secret'];
