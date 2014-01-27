@@ -620,7 +620,6 @@ class SocInfo extends CFormModel
                 }
                 else
                     $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-                //$this->userDetail['about'] = print_r($socUser, true);
             }            
             else
             {
@@ -870,6 +869,31 @@ class SocInfo extends CFormModel
                 break;
             }
         }
+        return $answer;
+    }
+    
+    public static function getNetByTokenType($token_type)
+    {
+        $answer = array();
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
+        {
+            if ($net['tokenType'] == $token_type)
+            {
+                $answer = $net;
+                break;
+            }
+        }
+        return $answer;
+    }
+    
+    public static function checkToken($token_type, $user_token, $token_secret = '')
+    {
+        $answer = null;
+        $net = self::getNetByTokenType($token_type);
+        $class = $net['contentClass'];
+        $answer = $class::checkToken($user_token, $token_secret);
+        
         return $answer;
     }
 }

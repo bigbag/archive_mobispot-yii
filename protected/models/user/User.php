@@ -171,6 +171,7 @@ class User extends CActiveRecord
         return array(
             'profile' => array(self::BELONGS_TO, 'UserProfile', 'id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+            'wallet' => array(self::HAS_MANY, 'PaymentWallet', 'user_id'),
         );
     }
 

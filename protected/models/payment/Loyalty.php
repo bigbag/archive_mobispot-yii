@@ -250,4 +250,45 @@ class Loyalty extends CActiveRecord
             return true;
     }
     
+    public static function followingLoyalty($loyalty_id)
+    {
+        $action = self::model()->findByPk($loyalty_id);
+        $criteria = new CDbCriteria;
+        $criteria->condition .= ' exists(select id from payment.wallet w where user_id = `user`.id) and t.type =' 
+                                . SocInfo::getTokenBySharingType($action->sharing_type)
+                                . ' and t.user_token is not null';
+
+        $tokens = SocToken::model()->with('user')->findAll($criteria);
+        
+        foreach($tokens as $token)
+        {
+            $check = SocInfo::checkToken($token->type, $token->user_token, $token->token_secret);
+
+            if (true === $check)
+            {
+                $likesStack = LikesStack::model()->findByAttributes(array(
+                    'token_id' => $token->id,
+                    'loyalty_id' => $loyalty_id,
+                ));
+
+                if (!$likesStack)
+                {
+                    $likesStack = new LikesStack;
+                    $likesStack->token_id = $token->id;
+                    $likesStack->loyalty_id = $loyalty_id;
+                    $likesStack->save();
+                }
+            }
+            elseif (false === $check)
+            {
+                $token->user_token = null;
+                $token->token_secret = null;
+                $token->allow_login = false;
+                $token->save();
+            }
+        }
+        
+        return true;
+    }
+    
 }

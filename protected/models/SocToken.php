@@ -70,7 +70,18 @@ class SocToken extends CActiveRecord
     {
         return parent::model($className);
     }
-
+    
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'user_wallet' => array(self::BELONGS_TO, 'User', 'user_id', 'with'=>'wallet'),
+        );
+    }
+    
     /**
      * @return string the associated database table name
      */

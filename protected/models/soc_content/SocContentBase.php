@@ -190,4 +190,9 @@ class SocContentBase
         
         return $answer;
     }
+    
+    public static function checkToken($user_token, $token_secret = '')
+    {
+        return null;
+    }
 }
