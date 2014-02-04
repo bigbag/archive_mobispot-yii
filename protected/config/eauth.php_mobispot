@@ -45,6 +45,7 @@ return array(// You can change the providers and their classes.
         'class' => 'CustomDeviantartAuthService',
         'client_id' => '502',
         'client_secret' => '8a8c2e0c89fb02c82d6eb0d40b756bd9',
+        'scope' => 'basic',
         'title' => 'DeviantART'
     ),
     'behance' => array(

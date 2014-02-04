@@ -17,7 +17,6 @@
  * @property string $generated_date
  * @property string $registered_date
  * @property string $removed_date
- * @property integer $pass
  */
 class Spot extends CActiveRecord
 {
@@ -226,7 +225,7 @@ class Spot extends CActiveRecord
 
         if ($this->isNewRecord)
         {
-            $this->generated_date = new CDbExpression('NOW()');
+            $this->generated_date = date('Y-m-d H:i:s');
             if (!$this->url)
                 $this->url = abs(crc32($this->code));
             $this->status = self::STATUS_GENERATED;
@@ -237,12 +236,12 @@ class Spot extends CActiveRecord
 
         if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED))
         {
-            $this->registered_date = new CDbExpression('NOW()');
+            $this->registered_date = date('Y-m-d H:i:s');
         }
 
         if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED_USER or $this->status == self::STATUS_REMOVED_SYS))
         {
-            $this->removed_date = new CDbExpression('NOW()');
+            $this->removed_date = date('Y-m-d H:i:s');
         }
 
         return parent::beforeValidate();

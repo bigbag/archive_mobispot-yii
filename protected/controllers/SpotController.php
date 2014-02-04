@@ -74,7 +74,7 @@ class SpotController extends MController
                 $spotContent->content = $content;
                 $spotContent->save();
 
-                $answer['content'] = $this->renderPartial('//widget/spot/personal/new_' . $type, array(
+                $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, array(
                     'content' => $file,
                     'key' => $key,
                         ), true);
@@ -110,7 +110,7 @@ class SpotController extends MController
                 $content = $spotContent->content;
                 $content_keys = $content['keys'];
 
-                $answer['content'] = $this->renderPartial('//widget/spot/' . $spot->spot_type->key, array(
+                $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key, array(
                     'spot' => $spot,
                     'spotContent' => $spotContent,
                     'content_keys' => $content_keys,
@@ -157,7 +157,7 @@ class SpotController extends MController
                 $content['counter'] = $content['counter'] + 1;
                 $spotContent->content = $content;
                 $spotContent->save();
-                $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
+                $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
                     'content' => $data['content'],
                     'key' => $key,
                         ), true);
@@ -271,7 +271,7 @@ class SpotController extends MController
                     $spotContent->content = $content;
                     if ($spotContent->save())
                     {
-                        $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
+                        $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
                             'content' => $data['content_new'],
                             'key' => $data['key'],
                                 ), true);
@@ -357,7 +357,7 @@ class SpotController extends MController
                                 if ($spotContent->save())
                                 {
                                     if ($needSave)
-                                        $content = $this->renderPartial('//widget/spot/personal/new_content', array(
+                                        $content = $this->renderPartial('//spot/personal/new_content', array(
                                             'content' => $content['data'][$data['key']],
                                             'key' => $data['key'],
                                                 ), true);
@@ -365,7 +365,7 @@ class SpotController extends MController
                                     {
                                         $socContent = $socInfo->getNetData($content['data'][$data['key']], $data['discodes'], $data['key'], true);
                                         
-                                        $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                        $content = $this->renderPartial('//spot/personal/new_socnet', array(
                                             'content' => $content['data'][$data['key']],
                                             'socContent' => $socContent,
                                             'key' => $data['key'],
@@ -460,7 +460,7 @@ class SpotController extends MController
                                     $linkCorrect = 'ok';
                                     Yii::app()->session[$netName . '_BindByPaste'] = true;
                                     
-                                    $content = $this->renderPartial('//widget/spot/personal/new_content', array(
+                                    $content = $this->renderPartial('//spot/personal/new_content', array(
                                             'content' => $content['data'][$key],
                                             'key' => $key,
                                                 ), true);
@@ -489,7 +489,7 @@ class SpotController extends MController
                                     Yii::app()->session[$netName . '_BindByPaste'] = true;
                                     
                                     $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
-                                    $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                    $content = $this->renderPartial('//spot/personal/new_socnet', array(
                                             'content' => $content['data'][$key],
                                             'key' => $key,
                                             'socContent' => $socContent,
@@ -590,7 +590,7 @@ class SpotController extends MController
                             if ($spotContent->save())
                             {
                                 if ($needSave)
-                                    $content = $this->renderPartial('//widget/spot/personal/new_content', array(
+                                    $content = $this->renderPartial('//spot/personal/new_content', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
                                             ), true);
@@ -598,7 +598,7 @@ class SpotController extends MController
                                 {
                                     $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
                                     
-                                    $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                    $content = $this->renderPartial('//spot/personal/new_socnet', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
                                         'socContent' => $socContent,
@@ -659,7 +659,7 @@ class SpotController extends MController
                                 $newKey = $key;
                                 $linkCorrect = 'ok';
                                 Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                $content = $this->renderPartial('//widget/spot/personal/new_content', array(
+                                $content = $this->renderPartial('//spot/personal/new_content', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
                                             ), true);
@@ -689,7 +689,7 @@ class SpotController extends MController
                                 Yii::app()->session[$netName . '_BindByPaste'] = true;
                                 
                                 $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
-                                $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                                $content = $this->renderPartial('//spot/personal/new_socnet', array(
                                         'content' => $content['data'][$key],
                                         'key' => $key,
                                         'socContent' => $socContent,
@@ -736,7 +736,7 @@ class SpotController extends MController
                         $socInfo = new SocInfo;
                         $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
                         
-                        $content = $this->renderPartial('//widget/spot/personal/new_socnet', array(
+                        $content = $this->renderPartial('//spot/personal/new_socnet', array(
                             'content' => $spotContent->content['data'][$data['key']],
                             'key' => $data['key'],
                             'socContent' => $socContent,
@@ -785,7 +785,7 @@ class SpotController extends MController
 
                         if ($spotContent->save())
                         {
-                            $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
+                            $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);
@@ -812,7 +812,7 @@ class SpotController extends MController
                                 if (file_exists($path))
                                     unlink($path);
                             }
-                            $answer['content'] = $this->renderPartial('//widget/spot/personal/new_text', array(
+                            $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
                                 'content' => $content['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);

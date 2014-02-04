@@ -178,4 +178,21 @@ class SocContentBase
 
         return $answer;
     }
+    
+    public static function parseParam($string, $param)
+    {
+        $answer = '';
+        if (strpos($string, $param) !== false)
+        {
+            $answer = substr($string, (strpos($string, $param) + strlen($param)));
+            $answer = self::rmGetParam($answer);
+        }
+        
+        return $answer;
+    }
+    
+    public static function checkToken($user_token, $token_secret = '')
+    {
+        return null;
+    }
 }

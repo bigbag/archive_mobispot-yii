@@ -11,7 +11,7 @@ if ($data->status == Spot::STATUS_INVISIBLE)
     <div class="spot-hat" ng-click="accordion($event, 0)">
         <h3><?php echo mb_substr($data->name, 0, 50, 'utf-8') ?></h3>
         <a 
-            href="javascript:;" 
+             
             data-tooltip 
             title="<?php echo Yii::t('spots', 'Invisible spot'); ?>" 
             class="invisible-icon tip-top icon"

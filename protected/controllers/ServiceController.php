@@ -33,14 +33,15 @@ class ServiceController extends MController
     public function actionLogin()
     {
         $data = $this->validateRequest();
-        $error = "yes";
-        $content = "";
+        $answer = array();
+
+        $answer['error'] = "yes";
+        $answer['content'] = "";
 
         if (isset($data['email']) and isset($data['password']))
         {
 
             $form = new LoginForm;
-
             $form->attributes = $data;
             if ($form->validate())
             {
@@ -48,18 +49,14 @@ class ServiceController extends MController
                 $identity->authenticate();
                 $this->lastVisit();
                 Yii::app()->user->login($identity);
-                $error = "no";
+                $answer['error'] = "no";
             }
             else
             {
-               $content = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
+               $answer['content'] = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
             }
         }
-
-        echo json_encode(array(
-            'error' => $error,
-            'content' => $content,
-        ));
+        echo json_encode($answer);
     }
 
     //Выход
@@ -72,9 +69,7 @@ class ServiceController extends MController
                 Yii::app()->cache->get('user_' . Yii::app()->user->id);
                 Yii::app()->user->logout();
                 unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
-                echo true;
             }
-            echo false;
         }
         else
         {
@@ -88,8 +83,10 @@ class ServiceController extends MController
     {
 
         $data = $this->validateRequest();
-        $error = 'code';
-        $content = Yii::t('user', "You've made a mistake in spot activation code.");  ;
+        $answer = array();
+
+        $answer['error'] = "yes";
+        $answer['content'] = Yii::t('user', "You've made a mistake in spot activation code.");  ;
 
 
         if (isset($data['email']) and isset($data['password']))
@@ -135,8 +132,8 @@ class ServiceController extends MController
                     }
 
                     MMail::activation($model->email, $model->activkey, $this->getLang());
-                    $content = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
-                    $error = "no";
+                    $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
+                    $answer['error'] = "no";
                 }
             }
             else
@@ -144,23 +141,20 @@ class ServiceController extends MController
                 $validate_errors = $model->getErrors();
                 if (isset($validate_errors['activ_code']))
                 {
-                    $content = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
-                    $error = 'code';
+                    $answer['content'] = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
+                    $answer['error'] = 'code';
                 }
                 elseif (isset($validate_errors['email']))
                 {
-                    $content = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
+                    $answer['content'] = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
                 }
                 else
                 {
-                    $content = Yii::t('user', "Password is too short (minimum is 5 characters).");
+                    $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
                 }
             }
         }
-        echo json_encode(array(
-            'error' => $error,
-            'content' => $content
-        ));
+        echo json_encode($answer);
     }
 
     //Активация учетки

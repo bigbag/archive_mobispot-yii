@@ -39,7 +39,9 @@ return array(
         'ut' => include(dirname(__FILE__) . '/ut.php'),
         'db' => require(dirname(__FILE__) . '/db.php'),
         'dbStore' => require(dirname(__FILE__) . '/dbStore.php'),
+        'dbTerm' => require(dirname(__FILE__) . '/dbTerm.php'),
         'dbPayment' => require(dirname(__FILE__) . '/dbPayment.php'),
+        'dbStack' => require(dirname(__FILE__) . '/dbStack.php'),
         'errorHandler' => array(
             'errorAction' => 'site/error',
         ),

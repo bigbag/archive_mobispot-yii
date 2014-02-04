@@ -3,7 +3,7 @@
         <div class="seven columns centered text-center">
             <h3 class="color"><?php echo Yii::t('activate', 'Start using your spot right now'); ?></h3>
         </div>
-        <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
+        <a  class="slide-box-close">&#xe00b;</a>
         <div class="five columns centered">
             <form id="personSpotForm" name="activPersonForm">
                 <input
@@ -33,10 +33,10 @@
                     ng-maxlength="10"
                     required >
                 <div class="toggle-active">
-                    <a class="checkbox agree"  href="javascript:;" ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></a>
+                    <a class="checkbox agree"   ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></a>
                 </div>
                 <div class="form-control">
-                    <a class="spot-button activ {{ activPersonForm.$valid || 'button-disable'}}" href="javascript:;" ng-click="registration(user, activPersonForm.$valid)">
+                    <a class="spot-button activ {{ activPersonForm.$valid || 'button-disable'}}"  ng-click="registration(user, activPersonForm.$valid)">
                         <?php echo Yii::t('user', 'Activate spot'); ?>
                     </a>
                     <span class="right soc-link">

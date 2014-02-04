@@ -1,0 +1,28 @@
+<?php
+
+return array(
+    'showScriptName' => false,
+    'urlFormat' => 'path',
+    'rules' => array(
+        'admin' => 'admin',
+        '<id:phones>' => 'pages/index',
+        '<id:personal>' => 'pages/sections',
+        '<id:business>' => 'pages/sections',
+        '<id:corporate>' => 'pages/sections',
+        'http://mobispot.test/<url:\w{15}>' => '/spot/',
+        'http://mobispot.test/<url:\d{6}>' => '/spot/',
+        'http://m.mobispot.test' => 'mobile',
+        'http://m.mobispot.test/<url:\w{15}>' => '/mobile/spot/',
+        'http://m.mobispot.test/<url:\d{6}>' => '/mobile/spot/',
+        'http://m.mobispot.test/<controller:\w+>/<id:\d+>' => '/mobile/<controller>/view',
+        'http://m.mobispot.test/<controller:\w+>/<action:\w+>/<id:\w+>' => '/mobile/<controller>/<action>',
+        'http://m.mobispot.test/<controller:\w+>/<action:\w+>' => '/mobile/<controller>/<action>',
+        'corp/service/lang/<id:\w+>' => 'corp/service/lang',
+        'service/lang/<id:\w+>' => 'service/lang',
+        'help' => 'pages/help',
+        'pages/<id:\w+>' => 'pages/index',
+        '<controller:\w+>/<id:\d+>' => '<controller>/view',
+        '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+        '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+    ),
+);

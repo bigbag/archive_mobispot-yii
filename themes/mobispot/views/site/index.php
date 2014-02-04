@@ -47,21 +47,21 @@ $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
 <div class="row spots-description">
     <div class="twelve columns">
         <div class="description-img">
-            <img src="/themes/mobispot/images/icons/i-cloud.2x.png" height="115">
+            <img src="/themes/corp/images/icons/i-cloud.2x.png" height="115">
         </div>
         <h3 class="color"><?php echo Yii::t('general', 'Personal spot') ?></h3>
         <p><?php echo Yii::t('general', 'personal block desc') ?></p>
     </div>
     <div class="twelve columns">
         <div class="description-img">
-            <img src="/themes/mobispot/images/icons/i-spot.2x.png" height="115">
+            <img src="/themes/corp/images/icons/i-spot.2x.png" height="115">
         </div>
         <h3 class="color"><?php echo Yii::t('general', 'Digital wallet') ?></h3>
         <p><?php echo Yii::t('general', 'wallet block desc') ?></p>
     </div>
     <div class="twelve columns">
         <div class="description-img">
-            <img src="/themes/mobispot/images/icons/i-person.2x.png" height="115">
+            <img src="/themes/corp/images/icons/i-person.2x.png" height="115">
         </div>
         <h3 class="color"><?php echo Yii::t('general', 'Easy ID') ?></h3>
         <p><?php echo Yii::t('general', 'easy id block desc') ?></p>

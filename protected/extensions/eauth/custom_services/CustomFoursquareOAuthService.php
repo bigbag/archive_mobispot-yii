@@ -18,7 +18,7 @@ class CustomFoursquareOAuthService extends EOAuth2Service {
   protected function fetchAttributes() {
 	//	$info = (array)$this->makeSignedRequest('https://api.foursquare.com/v2/users/self', array(), true);
     $token = $this->getState('auth_token')->access_token;
-    $info = (array)$this->makeRequest('https://api.foursquare.com/v2/users/self?oauth_token='.$token, array(), true);
+    $info = (array)$this->makeRequest('https://api.foursquare.com/v2/users/self?oauth_token='.$token.'&v=20140203', array(), true);
 	
     $info = $info['response']->user;
 
@@ -116,12 +116,12 @@ class CustomFoursquareOAuthService extends EOAuth2Service {
   
   protected function getCodeUrl($redirect_uri){
     $this->setState('foursquare_redirect_uri', urlencode($redirect_uri));
-    $url = parent::getCodeUrl($redirect_uri).'&v=20130607';
+    $url = parent::getCodeUrl($redirect_uri).'&v=20140203';
 	return $url;
   }
   
   protected function getTokenUrl($code)
   {
-    return $this->providerOptions['access_token'] . '?client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&grant_type=authorization_code&redirect_uri='.$this->getState('foursquare_redirect_uri').'&code='.$code.'&v=20130607';
+    return $this->providerOptions['access_token'] . '?client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&grant_type=authorization_code&redirect_uri='.$this->getState('foursquare_redirect_uri').'&code='.$code.'&v=20140203';
   }
 }

@@ -33,7 +33,7 @@
                     required >
                 </textarea>
                 <div class="form-control">
-                    <a class="spot-button button-disable" href="javascript:;" ng-click="send(user, helpForm.$valid)"><?php echo Yii::t('help', 'Send'); ?></a>
+                    <a class="spot-button button-disable"  ng-click="send(user, helpForm.$valid)"><?php echo Yii::t('help', 'Send'); ?></a>
                 </div>
             </form>
         </div>

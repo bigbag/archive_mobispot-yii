@@ -1,0 +1,32 @@
+.button-disable:focus,
+.button-disable:hover,
+.button-disable {
+	color: #BBB;
+	background: #E9EDF2;
+	cursor: default;
+	outline: none;
+}
+
+.m-page-hat .button-disable:focus,
+.m-page-hat .button-disable:hover,
+.m-page-hat .button-disable,
+.bg-gray .button-disable:focus,
+.bg-gray .button-disable:hover,
+.bg-gray .button-disable{
+	background: #fff !important;
+	color: #E9EDF2;
+}
+.bg-gray .item-area_w .button-disable:focus,
+.bg-gray .item-area_w .button-disable:hover,
+.bg-gray .item-area_w .button-disable{
+	background: #E9EDF2 !important;
+	color: #fff;
+}
+.lang-dropdown .dropdown .options{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+
+}
+.lang-dropdown .dropdown:hover .options{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+
+}

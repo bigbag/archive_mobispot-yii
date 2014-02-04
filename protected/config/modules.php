@@ -7,6 +7,9 @@ return array(
     'mobile' => array(
         'defaultController' => 'user',
     ),
+    'corp' => array(
+        'defaultController' => 'site',
+    ),
     'store' => array(
         'defaultController' => 'product',
     ),
