@@ -1,6 +1,6 @@
 <div id="recPassForm" class="slide-box"  ng-controller="UserController">
   <div class="row">
-    <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
+    <a  class="slide-box-close">&#xe00b;</a>
     <div class="large-3 columns">
       &nbsp;
     </div>
@@ -29,7 +29,7 @@
         maxlength="300"
         required >
         <div class="form-control">
-          <a class="spot-button  button-disable" href="javascript:;" ng-click="recovery(recovery, recoveryForm.$valid)">
+          <a class="spot-button  button-disable"  ng-click="recovery(recovery, recoveryForm.$valid)">
             <?php echo Yii::t('corp_user', 'Отправить')?>
           </a>
         </div>

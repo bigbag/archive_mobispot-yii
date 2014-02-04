@@ -15,23 +15,23 @@
 					<div class="spot-item spot-password">
 						<table>
 							<tr>
-								<td class="text-right"><a href="javascript:;">1</a></td>
-								<td class="text-center"><a href="javascript:;">2</a></td>
-								<td class="text-left"><a href="javascript:;">3</a></td>
+								<td class="text-right"><a >1</a></td>
+								<td class="text-center"><a >2</a></td>
+								<td class="text-left"><a >3</a></td>
 							</tr>
 							<tr>
-								<td class="text-right"><a href="javascript:;">4</a></td>
-								<td class="text-center"><a href="javascript:;">5</a></td>
-								<td class="text-left"><a href="javascript:;">6</a></td>
+								<td class="text-right"><a >4</a></td>
+								<td class="text-center"><a >5</a></td>
+								<td class="text-left"><a >6</a></td>
 							</tr>
 							<tr>
-								<td class="text-right"><a href="javascript:;">7</a></td>
-								<td class="text-center"><a href="javascript:;">8</a></td>
-								<td class="text-left"><a href="javascript:;">9</a></td>
+								<td class="text-right"><a >7</a></td>
+								<td class="text-center"><a >8</a></td>
+								<td class="text-left"><a >9</a></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td class="text-center"><a href="javascript:;">0</a></td>
+								<td class="text-center"><a >0</a></td>
 								<td><span class="backspace">&#xe019;</span></td>
 							</tr>
 						</table>

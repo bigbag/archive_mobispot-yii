@@ -1,6 +1,6 @@
 <div id="actSpotForm"  ng-controller="UserController" class="slide-box">
   <div class="row">
-    <a href="javascript:;" class="slide-box-close">&#xe00b;</a>
+    <a  class="slide-box-close">&#xe00b;</a>
     <div class="large-3 columns">
       &nbsp;
     </div>
@@ -47,12 +47,12 @@
             ng-maxlength="10"
             required >
           <div class="toggle-active">
-            <a class="checkbox agree" href="javascript:;" ng-click="setTerms(user)"><i></i>
+            <a class="checkbox agree"  ng-click="setTerms(user)"><i></i>
               <?php echo Yii::t('corp_user', 'Я согласен с условиями использования сервиса')?>
             </a>
           </div>
           <div class="form-control">
-            <a class="spot-button opacity activ button-disable" href="javascript:;" ng-click="registration(user, activForm.$valid)"><?php echo Yii::t('corp_user', 'Зарегистрироваться')?></a>
+            <a class="spot-button opacity activ button-disable"  ng-click="registration(user, activForm.$valid)"><?php echo Yii::t('corp_user', 'Зарегистрироваться')?></a>
           </div>
         </form>
       </div>

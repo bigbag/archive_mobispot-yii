@@ -57,7 +57,8 @@ class ServiceController extends MController
                 }
             }
         }
-        $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
+        $url = explode("/", Yii::app()->getBaseUrl(true));
+        $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : 'http://corp.' . $url[2]);
     }
 
     //Авторизация
@@ -117,25 +118,37 @@ class ServiceController extends MController
     {
         $service = Yii::app()->request->getQuery('service');
 
-        if (isset($service)) {
-            $authIdentity = Yii::app()->eauth->getIdentity($service);
-            $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-            $authIdentity->cancelUrl = $this->createAbsoluteUrl('service/SocLogin');
-            
-            if ($authIdentity->authenticate()) {
-                $identity = new ServiceUserIdentity($authIdentity);
-                
-                // Успешный вход
-                if ($identity->authenticate()) {
-                    // Специальный редирект с закрытием popup окна
-                    $authIdentity->redirect(array('site/user'));
-                }
-                else {
-                    // Закрываем popup окно и перенаправляем на cancelUrl
-                    $authIdentity->cancel();
+        if (isset($service))
+        {
+            if (!Yii::app()->user->id)
+            {
+                $this->setAccess();
+            }
+            else
+            {
+                $authIdentity = Yii::app()->eauth->getIdentity($service);
+                $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+                //$authIdentity->cancelUrl = 
+
+                if ($authIdentity->authenticate())
+                {
+                    $identity = new ServiceUserIdentity($authIdentity);
+
+                    if ($identity->authenticate())
+                    {
+                        Yii::app()->session[$service . '_id'] = $identity->getId();
+                        Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
+                    }
+                    else
+                    {
+                        $authIdentity->cancel();
+                    }
                 }
             }
-                $this->redirect(array('wallet/CheckLike'));
+        }
+        else
+        {
+            $this->setNotFound();
         }
     }
     
@@ -156,7 +169,8 @@ class ServiceController extends MController
         else
         {
             Yii::app()->user->logout();
-            $this->redirect(Yii::app()->homeUrl);
+            $url = explode("/", Yii::app()->getBaseUrl(true));
+            $this->redirect('http://corp.' . $url[2]);
         }
     }
 

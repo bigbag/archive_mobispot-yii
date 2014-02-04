@@ -149,7 +149,7 @@ class PaymentWallet extends CActiveRecord
         );
     }
     
-    public static function getLoyaltiesByWalletId($id, $page = 1, $count=5)
+    public static function getByWalletId($id, $page = 1, $count=5)
     {
         $answer = array();
         

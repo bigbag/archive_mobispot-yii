@@ -22,3 +22,11 @@
 	background: #E9EDF2 !important;
 	color: #fff;
 }
+.lang-dropdown .dropdown .options{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+
+}
+.lang-dropdown .dropdown:hover .options{
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+
+}

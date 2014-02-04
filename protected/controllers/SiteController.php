@@ -3,22 +3,6 @@
 class SiteController extends MController
 {
 
-    /**
-     * Declares class-based actions.
-     */
-    public function actions()
-    {
-        return array(
-            'captcha' => array(
-                'class' => 'application.extensions.kcaptcha.KCaptchaAction',
-                'maxLength' => 6,
-                'minLength' => 5,
-                'foreColor' => array(mt_rand(0, 200), mt_rand(0, 100), mt_rand(0, 100)),
-            #'backColor'=>array(mt_rand(200, 210), mt_rand(210, 220), mt_rand(220, 230))
-            ),
-        );
-    }
-
     public function actionIndex()
     {
         $this->layout = '//layouts/all';

@@ -34,7 +34,7 @@ class User extends CActiveRecord
             self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
             self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
             self::STATUS_VALID => Yii::t('user', 'Активен'),
-            self::STATUS_BANNED => Yii::t('user', 'Заблокирован')
+            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
         );
     }
 
@@ -42,7 +42,7 @@ class User extends CActiveRecord
     {
         return array(
             self::TYPE_USER => Yii::t('user', 'Пользователь'),
-            self::TYPE_ADMIN => Yii::t('user', 'Админ')
+            self::TYPE_ADMIN => Yii::t('user', 'Админ'),
         );
     }
 
@@ -84,79 +84,57 @@ class User extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array(
-                'email, password, activkey, creation_date',
-                'required'
-            ),
-            array(
-                'email',
-                'email'
-            ),
-            array(
-                'email',
-                'unique',
-                'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")
-            ),
-            array(
-                'password',
-                'length',
-                'max' => 128,
-                'min' => 10,
-                'message' => Yii::t('user', "Минимальная длина пароля 5 символов")
-            ),
-            array(
-                'type, status',
-                'numerical',
-                'integerOnly' => true
-            ),
-            array(
-                'email, password, activkey',
-                'length',
-                'max' => 128
-            ),
-            array(
-                'type',
-                'in',
-                'range' => array_keys($this->getTypeList())
-            ),
-            array(
-                'status',
-                'in',
-                'range' => array_keys($this->getStatusList())
-            ),
+            array('email, password, activkey, creation_date', 'required'),
+            array('email', 'email'),
+            array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
+            array('password', 'length', 'max' => 128, 'min' => 10, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
+            array('type, status', 'numerical', 'integerOnly' => true),
+            array('email, password, activkey', 'length', 'max' => 128),
+            array('type', 'in', 'range' => array_keys($this->getTypeList())),
+            array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array(
-                'id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id, google_oauth_id, twitter_id',
-                'safe',
-                'on' => 'search'
-            )
+            array('id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id, google_oauth_id, twitter_id', 'safe', 'on' => 'search'),
         );
+    }
+
+    public function getById($id)
+    {
+        $user = Yii::app()->cache->get('user_'.$id);
+        if (!$user)
+        {
+            $user = self::model()->findByPk($id);
+            Yii::app()->cache->set('user_'.$id, $user, 120);
+        }
+        return $user;
+    }
+
+    public function getActivkey($salt)
+    {
+        return sha1(microtime() . $salt);
     }
 
     public function beforeValidate()
     {
         if ($this->isNewRecord)
         {
-            $this->creation_date = new CDbExpression('NOW()');
+            $this->creation_date = date('Y-m-d H:i:s');
             $this->status = self::STATUS_NOACTIVE;
             $this->type = self::TYPE_USER;
         }
 
         if (!$this->lang)
-        {
             $this->lang = 0;
-        }
 
         return parent::beforeValidate();
     }
 
     public function beforeSave()
     {
-        if ($this->password)
-        {
-            $this->activkey = sha1(microtime() . $this->password);
-        }
+        #if ($this->password)
+        #{
+        #    $this->activkey = sha1(microtime() . $this->password);
+        #}
 
         return parent::beforeSave();
     }
@@ -171,17 +149,15 @@ class User extends CActiveRecord
             $profile->save();
         }
 
+        Yii::app()->cache->delete('log_'.$this->id);
+
         parent::afterSave();
     }
 
     protected function afterDelete()
     {
         UserProfile::model()->deleteByPk($this->id);
-        SocToken::model()->deleteAll('user_id=:user_id', array('user_id' => $this->id));
-        Spot::model()->updateAll(array(
-            'status' => Spot::STATUS_REMOVED_SYS,
-            'removed_date' => new CDbExpression('NOW()')
-                ), 'user_id=' . $this->id);
+        Spot::model()->updateAll(array('status' => Spot::STATUS_REMOVED_SYS, 'removed_date' => date('Y-m-d H:i:s')), 'user_id=' . $this->id);
         parent::afterDelete();
     }
 
@@ -193,16 +169,9 @@ class User extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'profile' => array(
-                self::BELONGS_TO,
-                'UserProfile',
-                'id'
-            ),
-            'lang' => array(
-                self::BELONGS_TO,
-                'Lang',
-                'lang'
-            )
+            'profile' => array(self::BELONGS_TO, 'UserProfile', 'id'),
+            'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+            'wallet' => array(self::HAS_MANY, 'PaymentWallet', 'user_id'),
         );
     }
 
@@ -223,7 +192,7 @@ class User extends CActiveRecord
             'creation_date' => Yii::t('user', "Дата регистрации"),
             'lastvisit' => Yii::t('user', "Дата последнего посещения"),
             'status' => Yii::t('user', "Статус"),
-            'type' => Yii::t('user', "Тип")
+            'type' => Yii::t('user', "Тип"),
         );
     }
 
@@ -231,20 +200,20 @@ class User extends CActiveRecord
     {
         return array(
             'active' => array(
-                'condition' => 'status=' . self::STATUS_ACTIVE
+                'condition' => 'status=' . self::STATUS_ACTIVE,
             ),
             'notactvie' => array(
-                'condition' => 'status=' . self::STATUS_NOACTIVE
+                'condition' => 'status=' . self::STATUS_NOACTIVE,
             ),
             'banned' => array(
-                'condition' => 'status=' . self::STATUS_BANED
+                'condition' => 'status=' . self::STATUS_BANNED,
             ),
             'admin' => array(
-                'condition' => 'status=' . self::TYPE_ADMIN
+                'condition' => 'status=' . self::TYPE_ADMIN,
             ),
             'user' => array(
-                'condition' => 'status=' . self::TYPE_USER
-            )
+                'condition' => 'status=' . self::TYPE_USER,
+            ),
         );
     }
 
@@ -267,32 +236,22 @@ class User extends CActiveRecord
         $criteria->compare('lastvisit', $this->lastvisit, true);
         $criteria->compare('type', $this->type);
         $criteria->compare('status', $this->status);
-/*
         $criteria->compare('vkontakte_id', $this->vkontakte_id);
-        $criteria->compare('facebook_id', $this->facebook_id, true);
-        $criteria->compare('google_oauth_id', $this->google_oauth_id, true);
-        $criteria->compare('twitter_id', $this->twitter_id, true);
-*/
+        $criteria->compare('facebook_id', $this->facebook_id);
+        $criteria->compare('google_oauth_id', $this->google_oauth_id);
+        $criteria->compare('twitter_id', $this->twitter_id);
+
         $criteria->compare('lang', $this->lang);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $criteria
+            'criteria' => $criteria,
         ));
     }
 
     public function socialCheck($service, $soc_id)
     {
-        return SocToken::model()->findAllByAttributes(array(
-            'type' => SocToken::getTypeByService($service),
-            'soc_id' => $soc_id,
-            'allow_login' => true,
-        ));
-/*
         $field = $service . '_id';
-        return User::model()->findAllByAttributes(array(
-                    $field => $soc_id
-        ));
-*/
+        return User::model()->findAllByAttributes(array($field => $soc_id));
     }
 
 }

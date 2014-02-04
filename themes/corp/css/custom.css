@@ -52,6 +52,7 @@ textarea {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
+	behavior: url(/css/PIE.htc);
     color: #0061FF;
 	-webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -66,7 +67,7 @@ textarea {
 	-o-transition: background 600ms ease-out;
 	transition: background 600ms ease-out;
 	font-size: 14px;
-	behavior: url(file:///E:/PIE.htc);
+	behavior: url(/css/PIE.htc);
 	outline:0;
 
 }
@@ -98,6 +99,7 @@ form.custom div.custom.dropdown ul{
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
 	-o-border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 	overflow: hidden;
 	width: 100% !important;
 }
@@ -111,6 +113,7 @@ form.custom div.custom.dropdown a.selector{
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	behavior: url(/css/PIE.htc);
 }
 form.custom div.custom.dropdown ul li.selected{
 	display: none;
@@ -168,6 +171,7 @@ ul.orbit-bullets li{
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 }
 /* Tables ---------------------- */
 ul.orbit-bullets li.active{
@@ -180,6 +184,7 @@ table {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
     border-radius: 3px;
+	behavior: url(/css/PIE.htc);
     margin: 0 0 18px;
     border: 1px solid #dddddd;
 }
@@ -514,6 +519,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	margin: 0 60px;
 	overflow: hidden;
 	background: url(../images/icons/i-small.png) 0 0 no-repeat;
@@ -568,6 +574,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	font-family: Mobispot-icon;
 }
 .joyride-close-tip,
@@ -596,7 +603,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
-
+	behavior: url(/css/PIE.htc);
 }
 .tooltip.tip-top{
 	margin-top: -30px;
@@ -634,6 +641,7 @@ input + i{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	position: relative;
 	float: right;
 	top: -29px;
@@ -858,6 +866,7 @@ img{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	behavior: url(/css/PIE.htc);
 	padding: 10px 25px 22px;
 	margin-top: 7px;
 	width: 264px;
@@ -877,6 +886,7 @@ img{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
 	cursor: pointer;
 	height: 28px;
 	width: 28px;

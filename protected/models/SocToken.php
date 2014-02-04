@@ -18,6 +18,7 @@ class SocToken extends CActiveRecord
     const TYPE_FOURSQUARE = 8;
     const TYPE_LINKEDIN = 9;
     const TYPE_INSTAGRAM = 10;
+    const TYPE_TUMBLR = 11;
 
     public static function getTypeList()
     {
@@ -69,7 +70,18 @@ class SocToken extends CActiveRecord
     {
         return parent::model($className);
     }
-
+    
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        return array(
+            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'user_wallet' => array(self::BELONGS_TO, 'User', 'user_id', 'with'=>'wallet'),
+        );
+    }
+    
     /**
      * @return string the associated database table name
      */

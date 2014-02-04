@@ -23,13 +23,13 @@ $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
     </h5>
     <div class="m-products row">
         <div class="four columns">
-            <img src="/themes/corp/images/general/brace_black.png">
+            <img src="/themes/mobispot/images/general/brace_black.png">
         </div>
         <div class="four columns">
-            <img src="/themes/corp/images/general/key_green.png">
+            <img src="/themes/mobispot/images/general/key_green.png">
         </div>
         <div class="four columns">
-            <img src="/themes/corp/images/general/card_blue.png">
+            <img src="/themes/mobispot/images/general/card_blue.png">
         </div>
     </div>
 
