@@ -105,7 +105,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::FOURSQUARE_CHECKIN, Loyalty::FOURSQUARE_MAYOR, Loyalty::FOURSQUARE_BADGE);
         $net['tokenType'] = SocToken::TYPE_FOURSQUARE;
         $socNetworks[] = $net;
 
