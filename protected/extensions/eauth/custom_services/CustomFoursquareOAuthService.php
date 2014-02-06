@@ -52,7 +52,11 @@ class CustomFoursquareOAuthService extends EOAuth2Service {
     $socToken->user_id = Yii::app()->user->id;
     $socToken->soc_id = $info->id;
     if (!empty($info->firstName))
+    {
         $socToken->soc_username = $info->firstName;
+        if (!empty($info->lastName))
+            $socToken->soc_username .= ' '.$info->lastName;
+    }
     $socToken->user_token = $token;
 
     $socToken->save();
