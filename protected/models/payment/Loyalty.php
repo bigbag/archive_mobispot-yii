@@ -38,6 +38,9 @@ class Loyalty extends CActiveRecord
     const FOURSQUARE_CHECKIN = 7;
     const FOURSQUARE_MAYOR = 8;
     const FOURSQUARE_BADGE = 9;
+
+    const INSTAGRAM_LIKE = 10;
+    const INSTAGRAM_FOLLOWING = 11;
     
     public function getRulesList()
     {

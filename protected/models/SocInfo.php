@@ -213,7 +213,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::INSTAGRAM_LIKE, Loyalty::INSTAGRAM_FOLLOWING);
         $net['tokenType'] = SocToken::TYPE_INSTAGRAM;
         $socNetworks[] = $net;
 
