@@ -26,6 +26,19 @@ class CustomGoogleOAuthService extends GoogleOAuthService
     if (!empty($info['email']))
       $this->attributes['email'] = $info['email'];
       
+    $socToken=SocToken::model()->findByAttributes(array(
+                'user_id'=>Yii::app()->user->id,
+                'type'=>SocToken::TYPE_GOOGLE,
+            ));
+    
+    if($socToken)
+    {
+        $socToken->soc_id = $info['id'];
+        $socToken->soc_username = $info['name'];
+        $socToken->soc_email = $info['email'];
+        $socToken->save();
+    }
+      
 /*      
     if (!empty($info['link']))
       $this->attributes['url'] = $info['link'];
@@ -57,4 +70,27 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 */        
 
   }
+  
+    protected function saveAccessToken($token)
+    {
+        if (!Yii::app()->user->isGuest){
+            $socToken=SocToken::model()->findByAttributes(array(
+                'user_id'=>Yii::app()->user->id,
+                'type'=>SocToken::TYPE_GOOGLE,
+            ));
+            if(!$socToken)
+                $socToken = new SocToken;
+            $socToken->type = SocToken::TYPE_GOOGLE;
+            $socToken->user_id = Yii::app()->user->id;
+            $socToken->user_token = $token->access_token;
+            $socToken->token_expires = time() + $token->expires_in - 60;
+            
+            $socToken->save();
+            
+            parent::saveAccessToken($token);
+            $this->setState('auth_token', $token->access_token);
+            $this->setState('expires', time() + $token->expires_in - 60);
+            $this->access_token = $token->access_token;
+        }
+    }
 }

@@ -42,6 +42,9 @@ class Loyalty extends CActiveRecord
     const INSTAGRAM_LIKE = 10;
     const INSTAGRAM_FOLLOWING = 11;
     
+    const GOOGLE_CIRCLE = 12;
+    const GOOGLE_PLUS_ONE = 13;
+    
     public function getRulesList()
     {
         return array(

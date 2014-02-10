@@ -30,7 +30,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::GOOGLE_CIRCLE, Loyalty::GOOGLE_PLUS_ONE);
         $net['tokenType'] = SocToken::TYPE_GOOGLE;
         $socNetworks[] = $net;
 
