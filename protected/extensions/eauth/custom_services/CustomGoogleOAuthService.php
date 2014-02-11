@@ -26,19 +26,21 @@ class CustomGoogleOAuthService extends GoogleOAuthService
     if (!empty($info['email']))
       $this->attributes['email'] = $info['email'];
       
-    $socToken=SocToken::model()->findByAttributes(array(
-                'user_id'=>Yii::app()->user->id,
-                'type'=>SocToken::TYPE_GOOGLE,
-            ));
-    
-    if($socToken)
+    if (!Yii::app()->user->isGuest)
     {
-        $socToken->soc_id = $info['id'];
-        $socToken->soc_username = $info['name'];
-        $socToken->soc_email = $info['email'];
-        $socToken->save();
+        $socToken=SocToken::model()->findByAttributes(array(
+                    'user_id'=>Yii::app()->user->id,
+                    'type'=>SocToken::TYPE_GOOGLE,
+                ));
+        
+        if($socToken)
+        {
+            $socToken->soc_id = $info['id'];
+            $socToken->soc_username = $info['name'];
+            $socToken->soc_email = $info['email'];
+            $socToken->save();
+        }
     }
-      
 /*      
     if (!empty($info['link']))
       $this->attributes['url'] = $info['link'];
@@ -71,6 +73,28 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
   }
   
+    protected function getCodeUrl($redirect_uri)
+    {
+        $this->setState('redirect_uri', $redirect_uri);
+        $url = parent::getCodeUrl($redirect_uri);
+        if (isset($_GET['js']) and !strpos($url, 'display=popup'))
+            $url .= '&display=popup';
+            
+        $url .= '&access_type=offline';
+        
+        $socToken=SocToken::model()->findByAttributes(array(
+                    'user_id'=>Yii::app()->user->id,
+                    'type'=>SocToken::TYPE_GOOGLE,
+                ));
+        
+        if(!$socToken or !$socToken->refresh_token)
+        {
+            $url .= '&approval_prompt=force';
+        }
+        
+        return $url;
+    }
+ 
     protected function saveAccessToken($token)
     {
         if (!Yii::app()->user->isGuest){
@@ -83,6 +107,8 @@ class CustomGoogleOAuthService extends GoogleOAuthService
             $socToken->type = SocToken::TYPE_GOOGLE;
             $socToken->user_id = Yii::app()->user->id;
             $socToken->user_token = $token->access_token;
+            if (!empty($token->refresh_token))
+                $socToken->refresh_token = $token->refresh_token;
             $socToken->token_expires = time() + $token->expires_in - 60;
             
             $socToken->save();
