@@ -117,7 +117,7 @@ Class MMail
 
         $stack = new MailStack;
         $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
-        $stack->recipients = serialize(array($email));
+        $stack->recipients = serialize($email);
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
                     'name' => $data['name'],
