@@ -17,7 +17,7 @@ $this->pageTitle = 'Error';
         </p>
         <footer>
             <a class="color" href="/help"><?php echo Yii::t('error', 'Get help!') ?></a>
-            <a class="color" href="mailto:help@mobispot.com">help@mobispot.com</a>
+            <a class="color" href="mailto:helpme@mobispot.com">help@mobispot.com</a>
             <a class="color" href="https://twitter.com/heymobispot">@heymobispot</a>
         </footer>
     </div>

@@ -18,7 +18,7 @@ $this->pageTitle=Yii::t('corp_error', 'Мобиспот. Сбой');
         </p>
         <footer>
           <a class="color" href="/help"><?php echo Yii::t('corp_error', 'Помощь')?></a>
-          <a class="color" href="mailto:help@mobispot.com">help@mobispot.com</a>
+          <a class="color" href="mailto:helpme@mobispot.com">help@mobispot.com</a>
           <a class="color" href="#">@heymobispot</a>
         </footer>
       </div>
