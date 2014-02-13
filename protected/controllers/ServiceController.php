@@ -581,7 +581,7 @@ class ServiceController extends MController
 
         if (isset($data['email']) and isset($data['name']) and isset($data['question']))
         {
-            MMail::question(Yii::app()->par->load('generalEmail'), $data, $this->getLang());
+            MMail::question(array(Yii::app()->par->load('generalEmail'), 'alex.kulagin@mobispot.com'), $data, $this->getLang());
             $content = Yii::t('help', 'Question has been submitted');
             $error = "no";
         }

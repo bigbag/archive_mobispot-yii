@@ -30,7 +30,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::GOOGLE_CIRCLE, Loyalty::GOOGLE_PLUS_ONE);
         $net['tokenType'] = SocToken::TYPE_GOOGLE;
         $socNetworks[] = $net;
 
@@ -105,7 +105,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::FOURSQUARE_CHECKIN, Loyalty::FOURSQUARE_MAYOR, Loyalty::FOURSQUARE_BADGE);
         $net['tokenType'] = SocToken::TYPE_FOURSQUARE;
         $socNetworks[] = $net;
 
@@ -213,7 +213,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::INSTAGRAM_LIKE, Loyalty::INSTAGRAM_FOLLOWING);
         $net['tokenType'] = SocToken::TYPE_INSTAGRAM;
         $socNetworks[] = $net;
 
