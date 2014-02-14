@@ -70,6 +70,23 @@ class CustomYouTubeOAuthService extends EOAuth2Service {
         $url = parent::getCodeUrl($redirect_uri);
         if (isset($_GET['js']))
             $url .= '&display=popup';
+            
+        $url .= '&access_type=offline';
+        
+        if (!Yii::app()->user->isGuest){
+            $socToken=SocToken::model()->findByAttributes(array(
+                        'user_id'=>Yii::app()->user->id,
+                        'type'=>SocToken::TYPE_YOUTUBE,
+                    ));
+            
+            if(!$socToken or !$socToken->refresh_token)
+            {
+                $url .= '&approval_prompt=force';
+            }
+        }
+        else
+            $url .= '&approval_prompt=force';
+        
         return $url;
     }
     
