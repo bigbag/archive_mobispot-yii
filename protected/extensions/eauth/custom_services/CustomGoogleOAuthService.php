@@ -82,16 +82,20 @@ class CustomGoogleOAuthService extends GoogleOAuthService
             
         $url .= '&access_type=offline';
         
-        $socToken=SocToken::model()->findByAttributes(array(
-                    'user_id'=>Yii::app()->user->id,
-                    'type'=>SocToken::TYPE_GOOGLE,
-                ));
-        
-        if(!$socToken or !$socToken->refresh_token)
-        {
-            $url .= '&approval_prompt=force';
+        if (!Yii::app()->user->isGuest){
+            $socToken=SocToken::model()->findByAttributes(array(
+                        'user_id'=>Yii::app()->user->id,
+                        'type'=>SocToken::TYPE_GOOGLE,
+                    ));
+            
+            if(!$socToken or !$socToken->refresh_token)
+            {
+                $url .= '&approval_prompt=force';
+            }
         }
-        
+        else
+            $url .= '&approval_prompt=force';
+            
         return $url;
     }
  
