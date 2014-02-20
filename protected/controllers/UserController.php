@@ -133,6 +133,22 @@ class UserController extends MController
         }
     }
 
+    public function actionCoupons()
+    {
+        $this->layout = '//layouts/spots';
+
+        if (!Yii::app()->user->id)
+        {
+            $this->setAccess();
+        }
+        else
+        {
+            $coupons = Loyalty::getCoupons();
+        
+            $this->render('Coupons', array('coupons' => $coupons));
+        }
+
+    }
   
     public function actionBindSocLogin()
     {

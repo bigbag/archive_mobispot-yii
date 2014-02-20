@@ -304,4 +304,14 @@ class Loyalty extends CActiveRecord
         return true;
     }
     
+    public static function getCoupons()
+    {
+        $criteria = new CDbCriteria;
+        //$criteria->select = ' id, terms_id, `desc` ';
+        $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
+        $coupons = self::model()->findAll($criteria);
+        
+        return $coupons;
+    }
+    
 }
