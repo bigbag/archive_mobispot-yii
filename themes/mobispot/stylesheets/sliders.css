@@ -71,10 +71,6 @@
 .bubbles-slider .orbit-bullets li.active b{
 	top: 0;
 }
-.lt-ie9 .bubbles-slider .orbit-bullets li:hover a {
-	background: #408AFF;
-}
-
 .bubbles-slider ul.orbit-bullets{
 	overflow: hidden;
 	position: relative;
