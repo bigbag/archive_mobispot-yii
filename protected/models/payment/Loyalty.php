@@ -17,11 +17,15 @@
  * @property string $start_date
  * @property string $stop_date 
  * @property integer $sharing_type
+ * @property integer $limit
+ * @property integer $timeout
  */
 class Loyalty extends CActiveRecord
 {
     const RULE_FIXED = 0;
     const RULE_RATE = 1;
+    const RULE_DISCOUNT = 2;
+    const RULE_PRESENT = 3;
 
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
@@ -53,6 +57,8 @@ class Loyalty extends CActiveRecord
         return array(
             self::RULE_FIXED => Yii::t('user', 'Фиксированно'),
             self::RULE_RATE => Yii::t('user', 'Процент'),
+            self::RULE_RATE => Yii::t('user', 'Скидка'),
+            self::RULE_RATE => Yii::t('user', 'Подарок'),
         );
     }
 
