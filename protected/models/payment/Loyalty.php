@@ -45,6 +45,9 @@ class Loyalty extends CActiveRecord
     const GOOGLE_CIRCLE = 12;
     const GOOGLE_PLUS_ONE = 13;
     
+    const YOUTUBE_FOLLOWING = 14;
+    const YOUTUBE_VIEWS = 15;
+    
     public function getRulesList()
     {
         return array(

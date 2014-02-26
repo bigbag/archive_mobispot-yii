@@ -198,7 +198,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = false;
         $net['profileHint'] = Yii::t('eauth', 'Please paste the link to your YouTube profile here');
-        $net['sharingType'] = array();
+        $net['sharingType'] = array(Loyalty::YOUTUBE_FOLLOWING, Loyalty::YOUTUBE_VIEWS);
         $net['tokenType'] = SocToken::TYPE_YOUTUBE;
         $socNetworks[] = $net;
 
