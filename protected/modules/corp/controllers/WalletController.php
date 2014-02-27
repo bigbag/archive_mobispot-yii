@@ -664,7 +664,7 @@ class WalletController extends MController
             {
                 $socInfo = new SocInfo;
                 
-                if ($socInfo->isLoggegOn($service))
+                if ($socInfo->isLoggegOn($service, false))
                 {
                     $answer['isSocLogged'] = true;
                     

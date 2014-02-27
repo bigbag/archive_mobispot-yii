@@ -232,7 +232,11 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
                                             'sigalg="rsa-sha1"';
             } else {
                 // AuthSub without secure tokens
-                $headers['authorization'] = 'AuthSub token="' . $this->getAuthSubToken() . '"';
+                $tokenObj = $this->getAuthSubToken();
+                if (!empty($tokenObj->access_token))
+                    $headers['authorization'] = 'AuthSub token="' . $tokenObj->access_token . '"';
+                else
+                    $headers['authorization'] = 'AuthSub token="' . $tokenObj . '"';
             }
         } elseif ($this->getClientLoginToken() != null) {
             $headers['authorization'] = 'GoogleLogin auth=' . $this->getClientLoginToken();

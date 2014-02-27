@@ -35,6 +35,19 @@ class Loyalty extends CActiveRecord
     const TWITTER_READING = 5;
     const TWITTER_HASHTAG = 6;
     
+    const FOURSQUARE_CHECKIN = 7;
+    const FOURSQUARE_MAYOR = 8;
+    const FOURSQUARE_BADGE = 9;
+
+    const INSTAGRAM_LIKE = 10;
+    const INSTAGRAM_FOLLOWING = 11;
+    
+    const GOOGLE_CIRCLE = 12;
+    const GOOGLE_PLUS_ONE = 13;
+    
+    const YOUTUBE_FOLLOWING = 14;
+    const YOUTUBE_VIEWS = 15;
+    
     public function getRulesList()
     {
         return array(
