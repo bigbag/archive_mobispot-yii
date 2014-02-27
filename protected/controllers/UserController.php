@@ -25,7 +25,7 @@ class UserController extends MController
                 $profile->save();
             }
 
-            if (isset($_POST['UserProfile']))
+            if (isset(Yii::app()->request->getParam('UserProfile')))
             {
                 $profile->attributes = $_POST['UserProfile'];
 
@@ -141,43 +141,36 @@ class UserController extends MController
 
         if (!isset($discodes)) $discodes = '';
 
-        if (isset($service))
+        if (!isset($service))
+            $this->setNotFound();
+        
+        if (!Yii::app()->user->id)
+            $this->setAccess();
+
+        $tech = Yii::app()->request->getParam('tech');
+
+        if (($service == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
         {
-            if (!Yii::app()->user->id)
+            Yii::app()->session['instagram_tech'] = $tech;
+        }
+        $authIdentity = Yii::app()->eauth->getIdentity($service);
+        $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+        $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal/' . $discodes);
+
+        if ($authIdentity->authenticate())
+        {
+            $identity = new ServiceUserIdentity($authIdentity);
+
+            if ($identity->authenticate())
             {
-                $this->setAccess();
+                Yii::app()->session[$service] = 'auth';
+                Yii::app()->session[$service . '_id'] = $identity->getId();
+                Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
             }
             else
             {
-                if (($service == 'instagram') && isset($_GET['tech']) && ($_GET['tech'] == Yii::app()->eauth->services['instagram']['client_id']))
-                {
-                    Yii::app()->session['instagram_tech'] = $_GET['tech'];
-                }
-                $authIdentity = Yii::app()->eauth->getIdentity($service);
-                $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-                $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal/' . $discodes);
-
-                if ($authIdentity->authenticate())
-                {
-                    $identity = new ServiceUserIdentity($authIdentity);
-
-                    if ($identity->authenticate())
-                    {
-                        Yii::app()->session[$service] = 'auth';
-                        Yii::app()->session[$service . '_id'] = $identity->getId();
-                        Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
-                    }
-                    else
-                    {
-                        $authIdentity->cancel();
-                    }
-                }
+                $authIdentity->cancel();
             }
         }
-        else
-        {
-            $this->setNotFound();
-        }
     }
-
 }

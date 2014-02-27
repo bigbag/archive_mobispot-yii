@@ -17,6 +17,7 @@
                 name="confirmPassword"
                 type="password"
                 ng-model="user.confirmPassword"
+                ng-keypress="($event.keyCode == 13)?change(user, changeForm.$valid):''"
                 placeholder="<?php echo Yii::t('user', 'Confirm password') ?>"
                 autocomplete="off"
                 maxlength="300"
