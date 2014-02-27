@@ -152,7 +152,7 @@ angular.module('mobispot').controller('UserController',
       else if (data.error == 'no'){
         
         angular.element('#recPassForm').slideUp(400, function() {
-          contentService.setModal(data.content, 'error');
+          contentService.setModal(data.content, 'none');
         });
         
         $scope.user.email="";

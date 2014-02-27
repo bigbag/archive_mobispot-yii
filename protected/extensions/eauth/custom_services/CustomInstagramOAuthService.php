@@ -89,18 +89,34 @@ class CustomInstagramOAuthService extends EOAuth2Service {
   
     if(isset(Yii::app()->session['instagram_tech']) && (Yii::app()->session['instagram_tech'] == Yii::app()->eauth->services['instagram']['client_id'])){
     //технический акк
-      $socToken=SocToken::model()->findByAttributes(array(
-        'type'=>10,
+        $socToken=SocToken::model()->findByAttributes(array(
+        'type'=>SocToken::TYPE_INSTAGRAM,
         'is_tech'=>true
-      ));    
-      if(!$socToken)
+        ));    
+        if(!$socToken)
         $socToken = new SocToken;
-      $socToken->type = 10;
-      $socToken->is_tech = true;        
-      $socToken->soc_id = $token->user->id;
-      $socToken->user_token = $token->access_token;
+        $socToken->type = SocToken::TYPE_INSTAGRAM;
+        $socToken->is_tech = true;        
+        $socToken->soc_id = $token->user->id;
+        $socToken->user_token = $token->access_token;
 
-      $socToken->save();        
+        $socToken->save();        
+    }
+    else
+    {
+        $socToken=SocToken::model()->findByAttributes(array(
+            'user_id'=>Yii::app()->user->id,
+            'type'=>SocToken::TYPE_INSTAGRAM,
+        ));
+        if(!$socToken)
+            $socToken = new SocToken;
+        $socToken->type = SocToken::TYPE_INSTAGRAM;
+        $socToken->user_id = Yii::app()->user->id;
+        $socToken->soc_id = $token->user->id;
+        $socToken->user_token = $token->access_token;
+        
+        $socToken->save();
+    
     }
     //
     $this->setState('auth_token', $token->access_token);

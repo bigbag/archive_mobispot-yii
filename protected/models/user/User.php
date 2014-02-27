@@ -131,10 +131,10 @@ class User extends CActiveRecord
 
     public function beforeSave()
     {
-        #if ($this->password)
-        #{
-        #    $this->activkey = sha1(microtime() . $this->password);
-        #}
+        if ($this->password and !$this->activkey)
+        {
+           $this->activkey = sha1(microtime() . $this->password);
+        }
 
         return parent::beforeSave();
     }
