@@ -10,6 +10,7 @@ protected/config/params.php
 protected/config/db.php
 protected/config/dbStore.php
 protected/config/dbTerm.php
+protected/config/dbPayment.php
 protected/config/rc.php
 protected/config/eauth.php
 protected/config/routes.php

@@ -5,8 +5,8 @@ return array(// You can change the providers and their classes.
     'twitter' => array(
         // register your app here: https://dev.twitter.com/apps/new
         'class' => 'CustomTwitterService',
-        'key' => '7qaNhN9pKBEeHgqh6gu28g',
-        'secret' => 'WStyI4MTuGCbyRuTnt8aekU4NqLN3HjUpELVWLUduo',
+        'key' => 'Y2ARSl9t2MssD2D6BNQSMQ',
+        'secret' => 'TiTRhSf3wUbQYKyXzE3SbrJzma6jM69Uwdnu0oRD4',
         'title' => 'Twitter',
     ),
     'google_oauth'=>array(
@@ -15,7 +15,7 @@ return array(// You can change the providers and their classes.
         'client_id' => '354141098611.apps.googleusercontent.com',
         'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
         'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',       
-        'scope' =>'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'scope' =>'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
         'title'=>'Google',
     ),
     'facebook' => array(
@@ -45,6 +45,7 @@ return array(// You can change the providers and their classes.
         'class' => 'CustomDeviantartAuthService',
         'client_id' => '502',
         'client_secret' => '8a8c2e0c89fb02c82d6eb0d40b756bd9',
+        'scope' => 'basic',
         'title' => 'DeviantART'
     ),
     'behance' => array(

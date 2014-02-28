@@ -16,22 +16,49 @@
  * @property string $creation_date
  * @property string $start_date
  * @property string $stop_date 
+ * @property integer $sharing_type
+ * @property integer $limit
+ * @property integer $timeout
  */
 class Loyalty extends CActiveRecord
 {
     const RULE_FIXED = 0;
     const RULE_RATE = 1;
+    const RULE_DISCOUNT = 2;
+    const RULE_PRESENT = 3;
 
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
     const STATUS_MY = 100;
 
+    const FACEBOOK_LIKE = 1;
+    const FACEBOOK_SHARE = 2;
+    const TWITTER_SHARE = 3;
+    const TWITTER_RETWIT = 4;
+    const TWITTER_READING = 5;
+    const TWITTER_HASHTAG = 6;
+    
+    const FOURSQUARE_CHECKIN = 7;
+    const FOURSQUARE_MAYOR = 8;
+    const FOURSQUARE_BADGE = 9;
+
+    const INSTAGRAM_LIKE = 10;
+    const INSTAGRAM_FOLLOWING = 11;
+    
+    const GOOGLE_CIRCLE = 12;
+    const GOOGLE_PLUS_ONE = 13;
+    
+    const YOUTUBE_FOLLOWING = 14;
+    const YOUTUBE_VIEWS = 15;
+    
     public function getRulesList()
     {
         return array(
             self::RULE_FIXED => Yii::t('user', 'Фиксированно'),
             self::RULE_RATE => Yii::t('user', 'Процент'),
+            self::RULE_RATE => Yii::t('user', 'Скидка'),
+            self::RULE_RATE => Yii::t('user', 'Подарок'),
         );
     }
 
@@ -70,10 +97,10 @@ class Loyalty extends CActiveRecord
         // will receive user inputs.
         return array(
             array('terms_id, event_id, firm_id, rules, interval, amount, threshold, creation_date, start_date, stop_date', 'required'),
-            array('rules, interval', 'numerical', 'integerOnly' => true),
+            array('rules, interval, sharing_type', 'numerical', 'integerOnly' => true),
             array('amount', 'filter', 'filter' => 'trim'),
             array('desc', 'filter', 'filter' => 'trim'),
-            array('id, terms_id, event_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc', 'safe', 'on' => 'search'),
+            array('id, terms_id, event_id, rules, interval, amount, threshold, creation_date, start_date, stop_date, desc,sharing_type', 'safe', 'on' => 'search'),
         );
     }
 
@@ -240,6 +267,93 @@ class Loyalty extends CActiveRecord
             return false;
         else
             return true;
+    }
+    
+    public static function followingLoyalty($loyalty_id)
+    {
+        $action = self::model()->findByPk($loyalty_id);
+        $criteria = new CDbCriteria;
+        $criteria->condition .= ' exists(select id from payment.wallet w where user_id = `user`.id) and t.type =' 
+                                . SocInfo::getTokenBySharingType($action->sharing_type)
+                                . ' and t.user_token is not null';
+
+        $tokens = SocToken::model()->with('user')->findAll($criteria);
+        
+        foreach($tokens as $token)
+        {
+            $check = SocInfo::checkToken($token->type, $token->user_token, $token->token_secret);
+
+            if (true === $check)
+            {
+                $likesStack = LikesStack::model()->findByAttributes(array(
+                    'token_id' => $token->id,
+                    'loyalty_id' => $loyalty_id,
+                ));
+
+                if (!$likesStack)
+                {
+                    $likesStack = new LikesStack;
+                    $likesStack->token_id = $token->id;
+                    $likesStack->loyalty_id = $loyalty_id;
+                    $likesStack->save();
+                }
+            }
+            elseif (false === $check)
+            {
+                $token->user_token = null;
+                $token->token_secret = null;
+                $token->allow_login = false;
+                $token->save();
+            }
+        }
+        
+        return true;
+    }
+    
+    public static function getCoupons($wallet_id = null)
+    {
+        $criteria = new CDbCriteria;
+        $answer = array();
+        $loyaltyList = array();
+
+        $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
+        $coupons = self::model()->findAll($criteria);
+        
+        if (null != $wallet_id){
+            $wallet = PaymentWallet::model()->findByPk($wallet_id);
+            if ($wallet)
+            {
+                $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
+                                'wallet_id' => $wallet->id,
+                            ));
+                            
+                            
+                foreach ($wLoyalties as $wl)
+                {
+                    $loyaltyList[] = $wl->loyalty_id;
+                }
+            }
+        }
+
+        foreach($coupons as $coupon)
+        {
+            $criteria = new CDbCriteria;
+            $part = false;
+            if (in_array($coupon->id, $loyaltyList))
+                $part = true;
+        
+            $answer[] = array(
+                'id' => $coupon->id,
+                'name' => $coupon->name,
+                'coupon_class' => $coupon->coupon_class, 
+                'img' => $coupon->img,
+                'desc' => $coupon->desc,
+                'soc_block' => $coupon->soc_block,
+                'part' => $part,
+            );
+        }
+
+        return $answer;
     }
     
 }

@@ -33,5 +33,31 @@ class CustomTwitterService extends TwitterOAuthService
 */
         
 //$this->attributes['info'] = $info;        
+        if ($this->hasState('twitter_oauth_token') && !Yii::app()->user->isGuest)
+        {
+            $socToken=SocToken::model()->findByAttributes(array(
+                'user_id'=>Yii::app()->user->id,
+                'type'=>SocToken::TYPE_TWITTER,
+            ));
+            if(!$socToken)
+                $socToken = new SocToken;
+            $socToken->type = SocToken::TYPE_TWITTER;
+            $socToken->user_id = Yii::app()->user->id;
+            $socToken->soc_id = $info->id;
+            $socToken->soc_username = $info->screen_name;
+            $tokenAndSecret = TwitterContent::ParseOAuthToken($this->getState('twitter_oauth_token'));
+            $socToken->user_token = $tokenAndSecret['token'];
+            $socToken->token_secret = $tokenAndSecret['secret'];
+            //if ($this->hasState('expires'))
+            //    $socToken->token_expires = $this->getState('expires');
+            $socToken->save();
+        }
+    }
+    
+    protected function getAccessToken()
+    {
+        $token = parent::getAccessToken();
+        $this->setState('twitter_oauth_token', $token);
+        return $token;
     }
 }

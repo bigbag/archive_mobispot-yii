@@ -151,6 +151,14 @@ class Spot extends CActiveRecord
         return Spot::model()->findByAttributes($data);
     }
 
+    public function getActivatedSpot($activ_code)
+    {
+        return Spot::model()->findByAttributes(array(
+            'code' => $activ_code,
+            'status' => Spot::STATUS_ACTIVATED
+        ));
+    }
+
     /**
      * @return array validation rules for model attributes.
      */

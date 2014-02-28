@@ -10,12 +10,14 @@
 
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/foundation/css/foundation.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation3/foundation.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation4/foundation.min.css"/>
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/add.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
 
     <script src="/themes/mobispot/foundation/js/vendor/custom.modernizr.js"></script>
 

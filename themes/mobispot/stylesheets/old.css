@@ -1,0 +1,212 @@
+/*вырезанные не использумые стили*/
+/* stylesheets > custom.css */
+
+.joyride-tip-guide{
+	background: rgba(235, 235, 235, 0.88);
+	margin-top: 20px;
+}
+
+.joyride-tip-guide h1, .joyride-tip-guide h2, .joyride-tip-guide h3, .joyride-tip-guide h4, .joyride-tip-guide h5, .joyride-tip-guide h6{
+	color: #7A7A7A;
+
+}
+.joyride-tip-guide p{
+	color: #5C5C5C;
+	margin: 18px;
+}
+.joyride-tip-guide span.joyride-nub.top{
+	display: none;
+}
+.joyride-close-tip{
+	top: 18px;
+	right: 18px;
+	overflow: hidden;
+}
+.joyride-close-tip{
+	height: 31px;
+	width: 31px;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	behavior:  url(/css/PIE.htc);
+	font-family: Mobispot-icon;
+}
+.joyride-close-tip,
+.popup .joyride-close-tip:focus,
+.popup .joyride-close-tip{
+	position: absolute;
+	right: 18px;
+	top:18px;
+	font-family: Mobispot-icon;
+	line-height: 30px !important;
+	color: #000 !important;
+	font-size: 14px;
+	position: absolute;
+}
+.popup .joyride-close-tip:focus,
+.joyride-close-tip:hover{
+	color: #fff !important;
+}
+
+div.switch.radius {
+	-webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+	behavior:  url(/css/PIE.htc);
+}
+div.switch {
+	background: none repeat scroll 0 0 white;
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	height: 36px;
+	margin-bottom: 1.25em;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	width: 70px;
+	cursor: pointer;
+}
+div.switch *{
+	cursor: pointer;
+}
+
+
+.small-4 {
+	position: relative;
+	width: 33.3333%;
+}
+div.switch input:checked {
+	display: none !important;
+}
+div.switch input {
+	display: block !important;
+	left: 0;
+}
+div.switch input {
+	-moz-appearance: none;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 3;
+}
+div.switch input:first-of-type:checked + label, div.switch input:first-of-type:checked + span + label {
+	left: 0;
+}
+div.switch input:first-of-type + label, div.switch input:first-of-type + span + label {
+	left: -50%;
+}
+div.switch label {
+	font-size: 0.875em;
+	line-height: 2.9em;
+	padding: 0 10px;
+}
+div.switch label {
+	float: left;
+	font-weight: bold;
+	height: 100%;
+	left: 0;
+	margin: 0;
+	position: relative;
+	text-align: left;
+	transition: all 0.1s ease-out 0s;
+	width: 50%;
+	z-index: 2;
+}
+div.switch input:first-of-type:checked ~ span {
+	left: 100%;
+	margin-left: -2.1875em;
+}
+div.switch.radius > span {
+	-webkit-border-radius: 3px 3px 3px 3px;
+	-moz-border-radius: 3px 3px 3px 3px;
+	border-radius: 3px 3px 3px 3px;
+	behavior:  url(/css/PIE.htc);
+}
+div.switch > span {
+	background: linear-gradient(to bottom, white 0%, #F2F2F2 100%) repeat scroll 0 0 transparent;
+	border-color: #B3B3B3;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.07), 1000px 0 0 980px #E1F5D1, -2px 0 10px 0 rgba(0, 0, 0, 0.07), -1000px 0 0 1000px whitesmoke;
+}
+div.switch > span {
+	height: 2.56em;
+	width: 2.28em;
+}
+div.switch > span {
+	border-style: solid;
+	border-width: 1px;
+	display: block;
+	left: -1px;
+	padding: 0;
+	position: absolute;
+	top: -1px;
+	transition: all 0.1s ease-out 0s;
+	z-index: 1;
+}
+.switch span.custom.radio{
+	display: none;
+}
+div.switch input:last-of-type:checked + label, div.switch input:last-of-type:checked + span + label {
+	left: auto;
+	right: 0;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:last-of-type + label, div.switch input:last-of-type + span + label {
+	left: auto;
+	right: -50%;
+	text-align: right;
+}
+div.switch input:not(:checked) + label {
+	opacity: 0;
+}
+form.custom div.custom.dropdown.open a.current{
+	color: #0061FF;
+}
+
+/* stylesheets > custom.css end*/
+
+/* stylesheets > gt-ie8.css*/
+.button-disable:focus,
+.button-disable:hover,
+.button-disable {
+	color: #BBB;
+	background: #E9EDF2;
+	cursor: default;
+	outline: none;
+}
+
+.m-page-hat .button-disable:focus,
+.m-page-hat .button-disable:hover,
+.m-page-hat .button-disable,
+.bg-gray .button-disable:focus,
+.bg-gray .button-disable:hover,
+.bg-gray .button-disable{
+	background: #fff !important;
+	color: #E9EDF2;
+}
+.bg-gray .item-area_w .button-disable:focus,
+.bg-gray .item-area_w .button-disable:hover,
+.bg-gray .item-area_w .button-disable{
+	background: #E9EDF2 !important;
+	color: #fff;
+}
+
+.spot-button.button-disable:focus,
+.spot-button.button-disable:hover,
+.spot-button.button-disable {
+	color: #BBB;
+	background: #E9EDF2 !important;
+	cursor: default;
+	outline: none;
+}
+/* stylesheets > gt-ie8.css end*/
+
+
+
+

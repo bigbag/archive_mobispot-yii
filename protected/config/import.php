@@ -12,6 +12,7 @@ return array(
     'application.models.payment.*',
     'application.models.store.*',
     'application.models.term.*',
+    'application.models.soc_content.*',
     'application.components.*',
     'application.helpers.*',
     'ext.eoauth.*',
