@@ -25,7 +25,7 @@ class UserController extends MController
                 $profile->save();
             }
 
-            if (isset(Yii::app()->request->getParam('UserProfile')))
+            if (Yii::app()->request->getParam('UserProfile'))
             {
                 $profile->attributes = $_POST['UserProfile'];
 

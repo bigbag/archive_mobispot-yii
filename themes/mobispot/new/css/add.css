@@ -79,3 +79,7 @@ header-page .hat-bar, .header-page .show-block {
 
     }
 }
+
+.help .ng-valid + .f-hint {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=1);
+  opacity: 1; }
