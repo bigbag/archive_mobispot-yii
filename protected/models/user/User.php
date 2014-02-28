@@ -114,6 +114,11 @@ class User extends CActiveRecord
         return sha1(microtime() . $salt);
     }
 
+    public function getByEmail($email)
+    {
+        return User::model()->findByAttributes(array('email' => $email));
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord)
@@ -131,10 +136,10 @@ class User extends CActiveRecord
 
     public function beforeSave()
     {
-        #if ($this->password)
-        #{
-        #    $this->activkey = sha1(microtime() . $this->password);
-        #}
+        if ($this->password and !$this->activkey)
+        {
+           $this->activkey = sha1(microtime() . $this->password);
+        }
 
         return parent::beforeSave();
     }

@@ -33,49 +33,47 @@ class ServiceController extends MController
     public function actionLogin()
     {
         $data = $this->validateRequest();
-        $answer = array();
+        $answer = array(
+            'error'=>"yes", 
+            "content" => Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.")
+        );
 
-        $answer['error'] = "yes";
-        $answer['content'] = "";
+        if (!isset($data['email']) or !isset($data['password']))
+            $this->setBadRequest();
 
-        if (isset($data['email']) and isset($data['password']))
+        $form = new LoginForm;
+        $form->attributes = $data;
+        if (!$form->validate())
         {
-
-            $form = new LoginForm;
-            $form->attributes = $data;
-            if ($form->validate())
-            {
-                $identity = new UserIdentity($form->email, $form->password);
-                $identity->authenticate();
-                $this->lastVisit();
-                Yii::app()->user->login($identity);
-                $answer['error'] = "no";
-            }
-            else
-            {
-               $answer['content'] = Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.");
-            }
+            echo json_encode($answer);
+            exit;
         }
+
+        $identity = new UserIdentity($form->email, $form->password);
+        $identity->authenticate();
+        $this->lastVisit();
+        Yii::app()->user->login($identity);
+        $answer['error'] = "no";
+
         echo json_encode($answer);
     }
 
     //Выход
     public function actionLogout()
     {
-        if (Yii::app()->request->isPostRequest)
-        {
-            if (!(Yii::app()->user->isGuest))
-            {
-                Yii::app()->cache->get('user_' . Yii::app()->user->id);
-                Yii::app()->user->logout();
-                unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
-            }
-        }
-        else
+        if (!Yii::app()->request->isPostRequest)
         {
             Yii::app()->user->logout();
             $this->redirect("/");
         }
+
+        if (!(Yii::app()->user->isGuest))
+        {
+            Yii::app()->cache->get('user_' . Yii::app()->user->id);
+            Yii::app()->user->logout();
+            unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
+        }
+        
     }
 
     //Регистрация
@@ -83,214 +81,209 @@ class ServiceController extends MController
     {
 
         $data = $this->validateRequest();
-        $answer = array();
+        $answer = array(
+            'error'=>"yes", 
+            "content" => Yii::t('user', "You've made a mistake in spot activation code.")
+        );
 
-        $answer['error'] = "yes";
-        $answer['content'] = Yii::t('user', "You've made a mistake in spot activation code.");  ;
+        if (!isset($data['email']) or !isset($data['password'])) 
+            $this->setBadRequest();
+            
+        $model = new RegistrationForm;
+        $model->attributes = $data;
 
-
-        if (isset($data['email']) and isset($data['password']))
+        if (isset(Yii::app()->request->cookies['service_name']) and isset(Yii::app()->request->cookies['service_id']))
         {
-            $model = new RegistrationForm;
-            $model->attributes = $data;
+            $service_name = Yii::app()->request->cookies['service_name']->value;
+            $service_name = $service_name . '_id';
+            $model->{$service_name} = Yii::app()->request->cookies['service_id']->value;
+        }
 
-            if (isset(Yii::app()->request->cookies['service_name']) and isset(Yii::app()->request->cookies['service_id']))
+        if (!$model->validate())
+        {
+            $validate_errors = $model->getErrors();
+            if (isset($validate_errors['activ_code']))
             {
-                $service_name = Yii::app()->request->cookies['service_name']->value;
-                $service_name = $service_name . '_id';
-                $model->{$service_name} = Yii::app()->request->cookies['service_id']->value;
+                $answer['content'] = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
+                $answer['error'] = 'code';
             }
-
-            if ($model->validate())
+            elseif (isset($validate_errors['email']))
             {
-                $model->password = Yii::app()->hasher->hashPassword($model->password);
-
-                if ($model->save())
-                {
-                    $spot = Spot::model()->findByAttributes(array(
-                        'code' => $model->activ_code,
-                        'status' => Spot::STATUS_ACTIVATED
-                    ));
-
-                    $spot->user_id = $model->id;
-                    $spot->lang = $this->getLang();
-                    $spot->status = Spot::STATUS_REGISTERED;
-                    $spot->save();
-
-                    $wallet = PaymentWallet::model()->findByAttributes(
-                        array(
-                            'discodes_id' => $spot->discodes_id,
-                            'user_id' => 0,
-                        )
-                    );
-                    if ($wallet)
-                    {
-                        $wallet->status = PaymentWallet::STATUS_ACTIVE;
-                        $wallet->user_id = $spot->user_id;
-                        $wallet->save();
-
-                    }
-
-                    MMail::activation($model->email, $model->activkey, $this->getLang());
-                    $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
-                    $answer['error'] = "no";
-                }
+                $answer['content'] = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
             }
             else
             {
-                $validate_errors = $model->getErrors();
-                if (isset($validate_errors['activ_code']))
-                {
-                    $answer['content'] = Yii::t('user', "You've made a mistake in spot activation code. Please double-check it.");
-                    $answer['error'] = 'code';
-                }
-                elseif (isset($validate_errors['email']))
-                {
-                    $answer['content'] = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
-                }
-                else
-                {
-                    $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
-                }
+                $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
             }
+            echo json_encode($answer);
+            exit;
         }
+
+        $model->password = Yii::app()->hasher->hashPassword($model->password);
+        if (!$model->save())
+        {
+            echo json_encode($answer);
+            exit;
+        } 
+
+        $spot = Spot::getActivatedSpot($model->activ_code);
+        $spot->user_id = $model->id;
+        $spot->lang = $this->getLang();
+        $spot->status = Spot::STATUS_REGISTERED;
+        $spot->save();
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $spot->discodes_id,
+                'user_id' => 0,
+            )
+        );
+        if ($wallet)
+        {
+            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+            $wallet->user_id = $spot->user_id;
+            $wallet->save();
+        }
+
+        MMail::activation($model->email, $model->activkey, $this->getLang());
+        $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
+        $answer['error'] = "no";
         echo json_encode($answer);
     }
 
     //Активация учетки
     public function actionActivation()
     {
+        $title = Yii::t('user', "User activation");
+        $content = Yii::t('user', "Incorrect activation link");
         if (Yii::app()->user->id)
         {
             $this->redirect('/');
         }
 
-        $email = $_GET['email'];
-        $activkey = $_GET['activkey'];
+        $email = Yii::app()->request->getParam('email');
+        $activkey = Yii::app()->request->getParam('activkey');
 
-        if ($email && $activkey)
+        if (!$email or !$activkey)
         {
-            $model = User::model()->findByAttributes(array(
-                'email' => $email
-            ));
-            if (isset($model->activkey) and ($model->activkey == $activkey))
-            {
-                $model->status = User::STATUS_VALID;
-
-                if ($model->save())
-                {
-
-                    $identity = new SUserIdentity($model->email, $model->password);
-                    $identity->authenticate();
-                    $this->lastVisit();
-                    Yii::app()->user->login($identity);
-                    $this->redirect('/user/personal');
-                }
-            }
-            else
-                $this->render('activation', array(
-                    'title' => Yii::t('user', "User activation"),
-                    'content' => Yii::t('user', "Incorrect activation link")
-                ));
-        }
-        else
             $this->render('activation', array(
-                'title' => Yii::t('user', "User activation"),
-                'content' => Yii::t('user', "Incorrect activation link")
+                'title' => $title,
+                'content' => $content
             ));
+            exit;
+        }
+
+        $user = User::getByEmail($email);
+        if (isset($user->activkey) and ($user->activkey == $activkey))
+        {
+            $user->status = User::STATUS_VALID;
+            if ($user->save())
+            {
+                $identity = new SUserIdentity($user->email, $user->password);
+                $identity->authenticate();
+                $this->lastVisit();
+                Yii::app()->user->login($identity);
+                $this->redirect('/user/personal');
+            }
+        }
+
+        $this->render('activation', array(
+            'title' => $title,
+            'content' => $content
+        ));   
     }
 
     //Восстановление пароля
     public function actionRecovery()
     {
-        if (Yii::app()->request->isPostRequest)
+        if (!Yii::app()->request->isPostRequest)
+            $this->getRecoveryPage();
+        
+        $answer = array(
+            'error'=>"yes", 
+            "content" => Yii::t('user', "Error")
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['action']) or !isset($data['email']))
         {
-            $error = "yes";
-            $content = "";
-            $data = $this->getJson();
-
-            if (!isset($data['token']) or $data['token']!=Yii::app()->request->csrfToken)
-                $this->setBadReques();
-
-            if (isset($data['action']) and $data['action'] == "recovery")
-            {
+            echo json_encode($answer);
+            exit;
+        }
+        
+        switch ($data['action']) 
+        {
+            case "recovery";
                 $form = new RecoveryForm;
-                if (isset($data['email']))
+                $form->email = $data['email'];
+                if ($form->validate())
                 {
-                    $form->email = $data['email'];
-                    if ($form->validate())
+                    $user = User::getByEmail($form->email);
+                    if (!$user or $user->status!=User::STATUS_VALID)
+                        $answer['content'] = Yii::t('user', "This email has never been registred on Mobispot. Please make sure you use the correct one.");
+                    else 
                     {
-                        $user = User::model()->findByAttributes(array(
-                            'email' => $form->email,
-                            'status' => User::STATUS_VALID
-                        ));
-                        if ($user)
-                        {
-                            MMail::recovery($user->email, $user->activkey, $this->getLang());
-                            $content = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
-                            $error = "no";
-                        }
-                        else
-                            $content = Yii::t('user', "This email has never been registred on Mobispot. Please make sure you use the correct one.");
-
+                        MMail::recovery($user->email, $user->activkey, $this->getLang());
+                        $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
+                        $answer['error'] = "no";
                     }
                 }
-            }
-            else if (isset($data['action']) and $data['action'] == "change")
-            {
-                if (isset($data['activkey']) and isset($data['email']))
+                echo json_encode($answer);
+                exit;
+                break;
+
+            case "change";
+                if (!isset($data['activkey']) or !isset($data['password']) or !isset($data['confirmPassword']))
                 {
-                    if (isset($data['password']) and isset($data['confirmPassword']))
-                    {
-                        if ($data['password'] == $data['confirmPassword'])
-                        {
-                            $user = User::model()->findByAttributes(array(
-                                'email' => $data['email'],
-                                'activkey' => $data['activkey']
-                            ));
-
-                            if ($user)
-                            {
-                                $user->password = Yii::app()->hasher->hashPassword($data['password']);
-                                $user->activkey = sha1(microtime() . $data['password']);
-                                $user->save(false);
-
-                                $identity = new UserIdentity($data['email'], $data['password']);
-                                $identity->authenticate();
-                                $this->lastVisit();
-                                Yii::app()->user->login($identity);
-
-                                $error = "no";
-                            }
-                        }
-                    }
+                    echo json_encode($answer);
+                    exit;
                 }
-            }
-            echo json_encode(array(
-                'error' => $error,
-                'content' => $content
-            ));
-        }
-        else
-        {
-            $email = ((isset($_GET['email'])) ? $_GET['email'] : '');
-            $activkey = ((isset($_GET['activkey'])) ? $_GET['activkey'] : '');
-
-            if ($email && $activkey)
-            {
-                $find = User::model()->findByAttributes(array(
-                    'email' => $email
-                ));
-                if (isset($find) && $find->activkey == $activkey)
+                if ($data['password'] == $data['confirmPassword'])
                 {
-                    $this->render('changepassword', array(
-                        'email' => $email,
-                        'activkey' => $activkey
+                    $user = User::model()->findByAttributes(array(
+                        'email' => $data['email'],
+                        'activkey' => $data['activkey']
                     ));
+
+                    if ($user)
+                    {
+                        $user->password = Yii::app()->hasher->hashPassword($data['password']);
+                        $user->activkey = sha1(microtime() . $data['password']);
+                        $user->save(false);
+
+                        $identity = new UserIdentity($data['email'], $data['password']);
+                        $identity->authenticate();
+                        $this->lastVisit();
+                        Yii::app()->user->login($identity);
+
+                        $answer['error'] = "no";
+                    }
                 }
-            }
-            $this->redirect('/');
+                echo json_encode($answer);
+                exit;
+                break;
         }
+        echo json_encode($answer);
+    }
+
+    public function getRecoveryPage()
+    {
+        $email = Yii::app()->request->getParam('email');
+        $activkey = Yii::app()->request->getParam('activkey');
+
+        if ($email and $activkey)
+        {
+            $user = User::getByEmail($email);
+            if (isset($user) && $user->activkey == $activkey)
+            {
+                $this->render('changepassword', array(
+                    'email' => $email,
+                    'activkey' => $activkey
+                ));
+                exit;
+            }
+        }
+        $this->redirect('/');
     }
 
     // Регистрация через соц сети
@@ -320,11 +313,7 @@ class ServiceController extends MController
                     $model = new RegistrationSocialForm;
                     $model->attributes = $data;
                     
-                    $spot = Spot::model()->findByAttributes(array(
-                                'code' => $model->activ_code,
-                                'status' => Spot::STATUS_ACTIVATED
-                    ));
-
+                    $spot = Spot::getActivatedSpot($model->activ_code);
                     if ($spot)
                     {
                         if ($model->validate())
@@ -358,11 +347,6 @@ class ServiceController extends MController
                                 $userToken->allow_login = true;
                                 $userToken->save();
                                 
-                                $spot = Spot::model()->findByAttributes(array(
-                                    'code' => $model->activ_code,
-                                    'status' => Spot::STATUS_ACTIVATED
-                                ));
-
                                 $spot->user_id = $model->id;
                                 $spot->status = Spot::STATUS_REGISTERED;
                                 $spot->save();
@@ -564,28 +548,30 @@ class ServiceController extends MController
         $this->redirect('/user/profile');
     }
 
+     //Отсылка вопроса
+    public function actionSendQuestion()
+    {
+        $data = $this->validateRequest();
+        $answer = array('error'=>"yes", "content" => "");
+
+        if (!isset($data['email']) or !isset($data['name']) or !isset($data['question']))
+        {
+            echo json_encode($answer);
+            exit;
+        }
+        
+        MMail::question(Yii::app()->par->load('generalEmail'), $data, $this->getLang());
+        $answer['content'] = Yii::t('help', 'Question has been submitted');
+        $answer['error'] = "no";
+        
+        echo json_encode($answer);
+    }
+
     public function setCookies($name, $value)
     {
         $cookie = new CHttpCookie($name, $value);
         $cookie->expire = time() + 60 * 60;
         Yii::app()->request->cookies[$name] = $cookie;
-    }
-
-     //Отсылка вопроса
-    public function actionSendQuestion()
-    {
-        $data = $this->validateRequest();
-        $error = "yes";
-        $content = '';
-        $data = $this->getJson();
-
-        if (isset($data['email']) and isset($data['name']) and isset($data['question']))
-        {
-            MMail::question(Yii::app()->par->load('generalEmail'), $data, $this->getLang());
-            $content = Yii::t('help', 'Question has been submitted');
-            $error = "no";
-        }
-        echo json_encode(array('error' => $error, 'content' => $content));
     }
 
 

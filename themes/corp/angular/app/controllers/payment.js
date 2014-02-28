@@ -35,7 +35,7 @@ angular.module('mobispot').controller('PaymentController',
     var delta = 1000 - $scope.payment.balance;
     if (payment.amount && payment.wallet_id && $scope.payment.amount>99 && (delta - $scope.payment.amount >= 0)){
       var paymentForm = angular.element(e.currentTarget).parent().parent().parent().parent();
-      $http.post('/wallet/addSumm', payment).success(function(data){
+      $http.post('/corp/wallet/addSumm', payment).success(function(data){
         if(data.error == 'no') {
           var order = data.order;
           paymentForm.append($compile(data.content)($scope));
@@ -75,7 +75,7 @@ angular.module('mobispot').controller('PaymentController',
     if (!valid || !($scope.recurrent.terms == 1)) return false;
 
     recurrent.token = $scope.user.token
-    $http.post('/wallet/recurrent', recurrent).success(function(data) {
+    $http.post('/corp/wallet/recurrent', recurrent).success(function(data) {
       if (data.error == 'no') {
         angular.element('#disableReccurent').show();
         angular.element('#enableReccurent').hide();
@@ -103,7 +103,7 @@ angular.module('mobispot').controller('PaymentController',
   //Выключение автоплатежей
   $scope.disableRecurrent = function(payment) {
     payment.token = $scope.user.token
-    $http.post('/wallet/recurrent', payment).success(function(data) {
+    $http.post('/corp/wallet/recurrent', payment).success(function(data) {
       if (data.error == 'no') {
         angular.element('#disableReccurent').hide();
         angular.element('#enableReccurent').show();
@@ -150,7 +150,7 @@ angular.module('mobispot').controller('PaymentController',
     $scope.payment.wallet_id = id;
     $scope.keys = [];
     if (spotContent.attr('class') == null) {
-      $http.post('/wallet/getView', payment).success(function(data) {
+      $http.post('/corp/wallet/getView', payment).success(function(data) {
           if(data.error == 'no') {
             var oldSpotContent = angular.element('.slide-content');
             angular.element('.spot-content_li').removeClass('open');
@@ -193,7 +193,7 @@ angular.module('mobispot').controller('PaymentController',
   $scope.blockWallet = function(id){
     var payment = $scope.payment;
     payment.id=id;
-    $http.post('/wallet/blockWallet', payment).success(function(data) {
+    $http.post('/corp/wallet/blockWallet', payment).success(function(data) {
       if(data.error == 'no') {
         angular.element('#block-button').text(data.content);
         angular.element('#block-button').toggleClass('red-button green-button');
@@ -229,7 +229,7 @@ angular.module('mobispot').controller('PaymentController',
   $scope.addWallet = function(payment) {
     if (!payment.code | ($scope.payment.terms == 0)) return false;
 
-    $http.post('/wallet/addWallet', payment).success(function(data) {
+    $http.post('/corp/wallet/addWallet', payment).success(function(data) {
       if(data.error == 'no') {
         var spotAdd = angular.element('#actSpotForm')
         angular.element('.spot-list').append($compile(data.content)($scope));
@@ -249,7 +249,7 @@ angular.module('mobispot').controller('PaymentController',
     if(typeof(search.page)==='undefined') search.page = 1;
     search.token = $scope.user.token;
     
-    $http.post('/wallet/getHistory', search).success(function(data) {
+    $http.post('/corp/wallet/getHistory', search).success(function(data) {
       $scope.result = data.result;
       $scope.search.page_count = data.count;
       $scope.pagination.total = Math.ceil(data.count/$scope.search.limit) - 1;
@@ -277,7 +277,7 @@ angular.module('mobispot').controller('PaymentController',
   //     if (typeof ($scope.history.date) != 'undefined') data.date = $scope.history.date;
 
   //     angular.element('#block-history .m-table-wrapper').addClass('loading');
-  //     $http.post('/wallet/getHistory', data).success(function(data) {
+  //     $http.post('/corp/wallet/getHistory', data).success(function(data) {
   //         if(data.error == 'no') {
   //             angular.element('#table-history tbody').html($compile(data.content)($scope));
   //             angular.element('#block-history .m-table-wrapper').removeClass('loading');
@@ -302,7 +302,7 @@ angular.module('mobispot').controller('PaymentController',
       }
 
       var data = {token: $scope.user.token, id:wallet_id, page:page, status:status, search:search};
-      $http.post('/wallet/getActions', data).success(function(data) {
+      $http.post('/corp/wallet/getActions', data).success(function(data) {
           if(data.error == 'no') {
               angular.element('#actions-table tbody').html($compile(data.content)($scope));
           }
@@ -314,7 +314,7 @@ angular.module('mobispot').controller('PaymentController',
       else $scope.allActions.search = search;
 
       var data = {token: $scope.user.token, page:page, status:status, search:search};
-      $http.post('/wallet/getAllActions', data).success(function(data) {
+      $http.post('/corp/wallet/getAllActions', data).success(function(data) {
         if(data.error == 'no') {
             angular.element('#all-actions-table tbody').html($compile(data.content)($scope));
         }
@@ -335,7 +335,7 @@ angular.module('mobispot').controller('PaymentController',
       var settings_phone = angular.element('#j-settingsForm input[name=phone]');
       var settings_condition = angular.element('#j-settingsForm div.condition02 a');
 
-      $http.post('/wallet/savePhone', sms).success(function(data) {
+      $http.post('/corp/wallet/savePhone', sms).success(function(data) {
         if(data.error == 'no') {
           $scope.sms.savedPhone = sms.phone;
           $scope.sms.phone = '';
@@ -350,7 +350,7 @@ angular.module('mobispot').controller('PaymentController',
   //Отключение sms информирования
   $scope.cancelSms = function(sms){
       sms.phone = $scope.sms.savedPhone;
-      $http.post('/wallet/removePhone', sms).success(function(data) {
+      $http.post('/corp/wallet/removePhone', sms).success(function(data) {
         if(data.error == 'no') {
           $scope.sms.savedPhone = false;
           contentService.setModal(data.content, 'none');
@@ -362,7 +362,7 @@ angular.module('mobispot').controller('PaymentController',
   // $scope.cancelSms = function(wallet_id)
   // {
   //     var data = {token: $scope.user.token, id:wallet_id};
-  //     $http.post('/wallet/cancelSms', data).success(function(data) {
+  //     $http.post('/corp/wallet/cancelSms', data).success(function(data) {
   //     });
   // }
   
@@ -378,7 +378,7 @@ angular.module('mobispot').controller('PaymentController',
   //         else
   //             data.enable = false;
 
-  //         $http.post('/wallet/SmsAllWallets', data).success(function(data) {
+  //         $http.post('/corp/wallet/SmsAllWallets', data).success(function(data) {
   //             if ('yes' == data.error)
   //               settings_phone.addClass('error');
   //         });
@@ -398,7 +398,7 @@ angular.module('mobispot').controller('PaymentController',
   $scope.checkLike = function(id_action)
   {
       var data = {token: $scope.user.token, id:id_action};
-      $http.post('/wallet/checkLike', data).success(function(data) {
+      $http.post('/corp/wallet/checkLike', data).success(function(data) {
           if ('no' == data.error)
           {
               if (!data.isSocLogged)
@@ -411,7 +411,7 @@ angular.module('mobispot').controller('PaymentController',
                     }
                   }, options);
 
-                  var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/service/SocLogin?service=' + data.service;
+                  var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/corp/service/SocLogin?service=' + data.service;
 
                   url += url.indexOf('?') >= 0 ? '&' : '?';
                   if (url.indexOf('redirect_uri=') === -1)
@@ -445,7 +445,7 @@ angular.module('mobispot').controller('PaymentController',
   {
       if (!popup.closed) {
           var data = {token: $scope.user.token, id:$scope.checkingAction.id};
-          $http.post('/wallet/checkLike', data).success(function(data) {
+          $http.post('/corp/wallet/checkLike', data).success(function(data) {
               if ('undefined' != typeof (data.isSocLogged))
               {
                   if (data.isSocLogged)
