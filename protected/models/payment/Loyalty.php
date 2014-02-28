@@ -310,14 +310,50 @@ class Loyalty extends CActiveRecord
         return true;
     }
     
-    public static function getCoupons()
+    public static function getCoupons($wallet_id = null)
     {
         $criteria = new CDbCriteria;
-        //$criteria->select = ' id, terms_id, `desc` ';
+        $answer = array();
+        $loyaltyList = array();
+
         $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
         $coupons = self::model()->findAll($criteria);
         
-        return $coupons;
+        if (null != $wallet_id){
+            $wallet = PaymentWallet::model()->findByPk($wallet_id);
+            if ($wallet)
+            {
+                $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
+                                'wallet_id' => $wallet->id,
+                            ));
+                            
+                            
+                foreach ($wLoyalties as $wl)
+                {
+                    $loyaltyList[] = $wl->loyalty_id;
+                }
+            }
+        }
+
+        foreach($coupons as $coupon)
+        {
+            $criteria = new CDbCriteria;
+            $part = false;
+            if (in_array($coupon->id, $loyaltyList))
+                $part = true;
+        
+            $answer[] = array(
+                'id' => $coupon->id,
+                'name' => $coupon->name,
+                'coupon_class' => $coupon->coupon_class, 
+                'img' => $coupon->img,
+                'desc' => $coupon->desc,
+                'soc_block' => $coupon->soc_block,
+                'part' => $part,
+            );
+        }
+
+        return $answer;
     }
     
 }
