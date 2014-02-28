@@ -1,9 +1,7 @@
-@import "custom.css";
+@import "redefine_foundation.css";
+@import "fonts.css";
 @import "glob.css";
-@import "button.css";
+@import "buttons.css";
 @import "main.css";
 @import "sliders.css";
 @import "footer.css";
-@import "media.css";
-
-

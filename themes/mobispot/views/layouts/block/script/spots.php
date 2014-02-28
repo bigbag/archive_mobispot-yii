@@ -6,6 +6,7 @@
 <script src="/themes/mobispot/angular/app/app.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/spot.js"></script>
+<script src="/themes/corp/angular/app/controllers/payment.js"></script>
 <script src="/themes/mobispot/angular/app/services.js"></script>
 <script src="/themes/mobispot/js/ga.js"></script>
 <script type="text/javascript"> 

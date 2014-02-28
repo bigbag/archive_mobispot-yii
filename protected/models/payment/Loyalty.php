@@ -17,11 +17,15 @@
  * @property string $start_date
  * @property string $stop_date 
  * @property integer $sharing_type
+ * @property integer $limit
+ * @property integer $timeout
  */
 class Loyalty extends CActiveRecord
 {
     const RULE_FIXED = 0;
     const RULE_RATE = 1;
+    const RULE_DISCOUNT = 2;
+    const RULE_PRESENT = 3;
 
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
@@ -53,6 +57,8 @@ class Loyalty extends CActiveRecord
         return array(
             self::RULE_FIXED => Yii::t('user', 'Фиксированно'),
             self::RULE_RATE => Yii::t('user', 'Процент'),
+            self::RULE_RATE => Yii::t('user', 'Скидка'),
+            self::RULE_RATE => Yii::t('user', 'Подарок'),
         );
     }
 
@@ -302,6 +308,52 @@ class Loyalty extends CActiveRecord
         }
         
         return true;
+    }
+    
+    public static function getCoupons($wallet_id = null)
+    {
+        $criteria = new CDbCriteria;
+        $answer = array();
+        $loyaltyList = array();
+
+        $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
+        $coupons = self::model()->findAll($criteria);
+        
+        if (null != $wallet_id){
+            $wallet = PaymentWallet::model()->findByPk($wallet_id);
+            if ($wallet)
+            {
+                $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
+                                'wallet_id' => $wallet->id,
+                            ));
+                            
+                            
+                foreach ($wLoyalties as $wl)
+                {
+                    $loyaltyList[] = $wl->loyalty_id;
+                }
+            }
+        }
+
+        foreach($coupons as $coupon)
+        {
+            $criteria = new CDbCriteria;
+            $part = false;
+            if (in_array($coupon->id, $loyaltyList))
+                $part = true;
+        
+            $answer[] = array(
+                'id' => $coupon->id,
+                'name' => $coupon->name,
+                'coupon_class' => $coupon->coupon_class, 
+                'img' => $coupon->img,
+                'desc' => $coupon->desc,
+                'soc_block' => $coupon->soc_block,
+                'part' => $part,
+            );
+        }
+
+        return $answer;
     }
     
 }

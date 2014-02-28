@@ -14,7 +14,7 @@
 .footer-page .link-list li:first-child:before{
 	content: "";
 }
-footer-page h3{
+.footer-page h3{
 	font-size: 1.93em;
 }
 .footer-page .link-list li a{
@@ -36,7 +36,7 @@ footer-page h3{
 	line-height: 5.5;
 	font-size: 14px;
 	margin-bottom: 0;
-
+	height: 0;
 	margin-top: -21px;
 
 }
@@ -48,9 +48,7 @@ footer-page h3{
 	margin-right: 10px;
 	font-size: 14px;
 }
-.footer-page .soc-link li{
-	margin-bottom: 17px;
-}
+
 .footer-page .soc-link a{
 	margin: 0 6px 0 42px;
 	position: relative;
@@ -69,4 +67,26 @@ footer-page h3{
 	position: absolute;
 	top: 70px;
 	right: 2em;
+}
+.footer-page h3{
+	font-size: 30px;
+	margin-bottom: 25px;
+}
+.footer-page p{
+	font-size: 14px;
+}
+.footer-page .i-soc{
+	text-shadow: none;
+}
+.footer-page .spot-button{
+	font-size: 18px;
+	text-shadow: none;
+	line-height: 21px;
+}
+.footer-page .dropdown .spot-button{
+	line-height: 27px;
+	font-size: 14px;
+}
+.footer-page .i-soc{
+	margin-top: -3px;
 }

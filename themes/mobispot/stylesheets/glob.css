@@ -3,26 +3,7 @@ html{
 }
 body{
 	font-size: 87%;
-}
-.lt-ie9 body{
-	min-width: 1024px;
-}
-
-@font-face {
-	font-family: Mobispot;
-	src: url('../fonts/mobispot-webfont.eot');
-	src: url('../fonts/mobispot-webfont.eot?iefix') format('eot'),
-	url('../fonts/mobispot-webfont.woff') format('woff'),
-	url('../fonts/mobispot-webfont.ttf') format('truetype'),
-	url('../fonts/mobispot-webfont.svg#webfontjSpbZQRv') format('svg');
-}
-@font-face {
-	font-family: Mobispot-icon;
-	src: url('../fonts/mobispot-icon.eot');
-	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
-	url('../fonts/mobispot-icon.woff') format('woff'),
-	url('../fonts/mobispot-icon.ttf') format('truetype'),
-	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
+	min-width: 1000px;
 }
 .color{
 	color: #0062ff;
@@ -75,6 +56,7 @@ input:-moz-placeholder { color:#000!important; }
 * html .clearfix {
 	height: 1%;
 }
+
 .table-reset{
 	background: none;
 	border: 0;
@@ -90,7 +72,7 @@ input:-moz-placeholder { color:#000!important; }
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	position: relative;
 }
 .slow{
@@ -121,4 +103,5 @@ input::-webkit-inner-spin-button {
 }
 .icon{
 	font-family: mobispot-icon !important;
+	font-style: normal;
 }
