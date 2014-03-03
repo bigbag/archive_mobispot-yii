@@ -4,14 +4,24 @@ angular.module('mobispot').controller('UserController',
   function($scope, $http, $compile) {
 
   $scope.error = {};
-  $scope.error.login = {};
+
+  //Обнуляем модель user и снимаем ошибки при смене формы
+  $scope.$watch('action', function() {
+    $scope.user.email = '';
+    $scope.user.password = '';
+    $scope.user.terms = 0;
+
+    $scope.error.email = false;
+    $scope.error.password = false;
+  });
 
   //Авторизация
   $scope.login = function(user, valid) {
    if (!valid) return false;
     $http.post('/service/login', user).success(function(data) {
       if (data.error == 'yes') {
-          $scope.error.login.email = true;
+          $scope.error.email = true;
+          $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
         $(location).attr('href','/user/personal');
@@ -21,6 +31,11 @@ angular.module('mobispot').controller('UserController',
       }
     });
   };
+
+  $scope.$watch('user.email + user.password', function(user) {
+    $scope.error.email = false;
+    $scope.error.content = '';
+  });
 
   // Регистрация
   $scope.activation = function(user, valid){
@@ -104,49 +119,30 @@ angular.module('mobispot').controller('UserController',
   };
 
   // Восстановление пароля
-  $scope.recovery = function(recovery, valid){
+  $scope.recovery = function(user, valid){
     if (!valid) return false;
 
-    var user = $scope.user;
-    user.email = recovery.email;
-    user.action = 'recovery';
     $http.post('/service/recovery', user).success(function(data) {
       if (data.error == 'yes') {
-        angular.element('#recPassForm input[name=email]').addClass('error');
-        contentService.setModal(data.content, 'error');
+        $scope.error.email = true;
+        $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        
-        angular.element('#recPassForm').slideUp(400, function() {
-          contentService.setModal(data.content, 'none');
-        });
-        
-        $scope.user.email="";
-        $scope.recovery.email="";
-        angular.element('#recPassForm input[name=email]').removeClass('error');
+        $scope.user.email = "";
       }
     });
   };
 
-  //Меняем статус активности кнопки отправить на странице востановления пароля
-  $scope.$watch('user.password + user.confirmPassword', function(change) {
-    if ($scope.user) {
-      var activButton = angular.element('#change-pass .form-control a');
-      if ($scope.user.password && $scope.user.confirmPassword && ($scope.user.password == $scope.user.confirmPassword)){
-        activButton.removeClass('button-disable');
-      }
-      else {
-        activButton.addClass('button-disable');
-      }
-    }
+  $scope.$watch('user.email + user.password', function(user) {
+    $scope.error.email = false;
+    $scope.error.content = '';
   });
 
   // Смена пароля
   $scope.change = function(user, valid){
     if (!valid) return false;
-    user.action = 'change';
 
-    $http.post('/service/recovery', user).success(function(data) {
+    $http.post('/service/change', user).success(function(data) {
       if (data.error == 'yes') {
         angular.element('#changePassForm input[name=password]').addClass('error');
         angular.element('#changePassForm input[name=confirmPassword]').addClass('error');

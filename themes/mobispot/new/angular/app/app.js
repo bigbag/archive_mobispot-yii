@@ -1,2 +1,2 @@
 'use strict';
-angular.module('mobispot', []);
+angular.module('mobispot', ['ngAnimate']);

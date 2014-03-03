@@ -62,8 +62,8 @@
                             ng-keypress="($event.keyCode == 13)?login(user, loginForm.$valid):''"
                             maxlength="300"
                             required >
-                            <span class="f-hint" ng-show="error.login.email">
-                                <?php echo Yii::t('user', 'Сheck your email spelling'); ?>
+                            <span class="f-hint" ng-show="error.email">
+                                {{error.content}}
                             </span>
                     </div>
                     <div class="wrapper help"> 
@@ -77,25 +77,26 @@
     
                         <span class="f-hint">
                             <a class="show" href="#b_forgot"
+                                ng-show="loginForm.password.$error.required || error.email"
                                 ng-click="action=(action != 'forgot')?'forgot':'none'">
                                 <?php echo Yii::t('user', 'Forgot password?'); ?>
                             </a>
                         </span>
                     </div>  
                     <footer class="form-footer">
-                        <a href="javacript:;"
+                        <a href="#"
                             class="left form-button" 
                             ng-click="login(user, loginForm.$valid)">
                             <?php echo Yii::t('user', 'Sign in'); ?>
                         </a>
                         <div class="soc-login right">
-                            <a href="/service/social?service=facebook">
+                            <a href="/service/social?service=google_oauth">
                                 <img src='/themes/mobispot/new/images/google-i_x2.png'>
                             </a>
                             <a href="/service/social?service=twitter">
                                 <img src='/themes/mobispot/new/images/twi-i_x2.png'>
                             </a>
-                            <a href="/service/social?service=google_oauth">
+                            <a href="/service/social?service=facebook">
                                 <img src='/themes/mobispot/new/images/fb-i_x2.png'>
                             </a>
                         </div>
@@ -116,7 +117,7 @@
                             maxlength="300"
                             required >
                         <span class="f-hint" ng-show="error.activ.email">
-                            <?php echo Yii::t('user', 'Сheck your email spelling'); ?>
+                            <?php echo Yii::t('user', 'Check your email spelling'); ?>
                         </span>
                     </div>
                     <div class="wrapper">
@@ -160,13 +161,13 @@
                             <?php echo Yii::t('user', 'Activate spot'); ?>
                         </a>
                         <div class="soc-login right">
-                            <a href="/service/social?service=facebook">
+                            <a href="/service/social?service=google_oauth">
                                 <img src='/themes/mobispot/new/images/google-i_x2.png'>
                             </a>
                             <a href="/service/social?service=twitter">
                                 <img src='/themes/mobispot/new/images/twi-i_x2.png'>
                             </a>
-                            <a href="/service/social?service=google_oauth">
+                            <a href="/service/social?service=facebook">
                                 <img src='/themes/mobispot/new/images/fb-i_x2.png'>
                             </a>
                         </div>
@@ -176,16 +177,29 @@
         </div>
         <div id="b_forgot" class="show-block">
             <div class="form-block">
-                <form class="colum-form custom">
+                <form class="colum-form custom" name="recoveryForm">
                 <label class="h-label" for="forgotPass">
                     <?php echo Yii::t('user', 'Forgot password?'); ?>
                 </label>
                     <div class="wrapper check">
-                        <input id="forgotPass" type="text" placeholder="Email">
-                        <span class="f-hint hide">Сheck your email spelling</span>
+                        <input
+                            name='email'
+                            type="email"
+                            ng-model="user.email"
+                            placeholder="<?php echo Yii::t('user', 'E-mail') ?>"
+                            ng-keypress="($event.keyCode == 13)?recovery(user, recoveryForm.$valid):''"
+                            autocomplete="off"
+                            maxlength="300"
+                            required >
+                        <span class="f-hint" ng-show="error.email">
+                            {{error.content}}
+                        </span>
                     </div>
                     <footer class="form-footer">
-                        <a class="left form-button show" href="#b_message">Send</a>
+                        <a class="left form-button show"
+                            ng-click="recovery(user, recoveryForm.$valid)">
+                            <?php echo Yii::t('user', 'Send') ?>
+                        </a>
                     </footer>
                 </form>
             </div>
@@ -278,6 +292,7 @@
 <script src="/themes/mobispot/new/js/angular.min.js"></script>
 <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
 
+<script src="/themes/mobispot/new/js/angular-animate.min.js"></script>
 <script src="/themes/mobispot/new/angular/app/app.js"></script>
 <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
 <script src="/themes/mobispot/new/js/script-add.js"></script>

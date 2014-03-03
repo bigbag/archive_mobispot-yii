@@ -35,7 +35,7 @@ class ServiceController extends MController
         $data = $this->validateRequest();
         $answer = array(
             'error'=>"yes", 
-            "content" => Yii::t('user', "Your email and password do not match each other. Please check them or re-store your password.")
+            "content" => Yii::t('user', "Check your email and password")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
@@ -196,77 +196,84 @@ class ServiceController extends MController
     //Восстановление пароля
     public function actionRecovery()
     {
-        if (!Yii::app()->request->isPostRequest)
-            $this->getRecoveryPage();
-        
         $answer = array(
             'error'=>"yes", 
             "content" => Yii::t('user', "Error")
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['action']) or !isset($data['email']))
+        if (!isset($data['email']))
         {
             echo json_encode($answer);
             exit;
         }
         
-        switch ($data['action']) 
+        $form = new RecoveryForm;
+        $form->email = $data['email'];
+        if ($form->validate())
         {
-            case "recovery";
-                $form = new RecoveryForm;
-                $form->email = $data['email'];
-                if ($form->validate())
-                {
-                    $user = User::getByEmail($form->email);
-                    if (!$user or $user->status!=User::STATUS_VALID)
-                        $answer['content'] = Yii::t('user', "This email has never been registred on Mobispot. Please make sure you use the correct one.");
-                    else 
-                    {
-                        MMail::recovery($user->email, $user->activkey, $this->getLang());
-                        $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
-                        $answer['error'] = "no";
-                    }
-                }
-                echo json_encode($answer);
-                exit;
-                break;
-
-            case "change";
-                if (!isset($data['activkey']) or !isset($data['password']) or !isset($data['confirmPassword']))
-                {
-                    echo json_encode($answer);
-                    exit;
-                }
-                if ($data['password'] == $data['confirmPassword'])
-                {
-                    $user = User::model()->findByAttributes(array(
-                        'email' => $data['email'],
-                        'activkey' => $data['activkey']
-                    ));
-
-                    if ($user)
-                    {
-                        $user->password = Yii::app()->hasher->hashPassword($data['password']);
-                        $user->activkey = sha1(microtime() . $data['password']);
-                        $user->save(false);
-
-                        $identity = new UserIdentity($data['email'], $data['password']);
-                        $identity->authenticate();
-                        $this->lastVisit();
-                        Yii::app()->user->login($identity);
-
-                        $answer['error'] = "no";
-                    }
-                }
-                echo json_encode($answer);
-                exit;
-                break;
+            $user = User::getByEmail($form->email);
+            if (!$user or $user->status!=User::STATUS_VALID)
+                $answer['content'] = Yii::t('user', "Check your email and password");
+            else 
+            {
+                MMail::recovery($user->email, $user->activkey, $this->getLang());
+                $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
+                $answer['error'] = "no";
+            }
         }
         echo json_encode($answer);
     }
 
-    public function getRecoveryPage()
+    //Страница смены пароля
+    public function actionChange()
+    {
+        if (!Yii::app()->request->isPostRequest)
+            $this->getChangePage();
+
+        $answer = array(
+            'error'=>"yes", 
+            "content" => Yii::t('user', "Error")
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['activkey']) or !isset($data['email']))
+        {
+            echo json_encode($answer);
+            exit;
+        }
+
+        if (!isset($data['password']) or !isset($data['confirmPassword']))
+        {
+            echo json_encode($answer);
+            exit;
+        }
+
+        if ($data['password'] == $data['confirmPassword'])
+        {
+            $user = User::model()->findByAttributes(array(
+                'email' => $data['email'],
+                'activkey' => $data['activkey']
+            ));
+
+            if ($user)
+            {
+                $user->password = Yii::app()->hasher->hashPassword($data['password']);
+                $user->activkey = sha1(microtime() . $data['password']);
+                $user->save(false);
+
+                $identity = new UserIdentity($data['email'], $data['password']);
+                $identity->authenticate();
+                $this->lastVisit();
+                Yii::app()->user->login($identity);
+
+                $answer['error'] = "no";
+            }
+        }
+        echo json_encode($answer);
+    }
+
+    public function getChangePage()
     {
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
