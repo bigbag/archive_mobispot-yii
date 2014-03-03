@@ -11,8 +11,9 @@ body {
    min-width: 950px; 
 }
 
-#slides, .rn-carousel-container, .rn-carousel-slides {
-	height:100%;}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 
 #slides ul{
     font-size: 0;

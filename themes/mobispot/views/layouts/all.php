@@ -6,16 +6,23 @@
     <meta charset="utf-8" />
     <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
 
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
+
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
+    <link rel="stylesheet" href="/themes/mobispot/new/css/reset.css">
+    <link rel="stylesheet" href="/themes/mobispot/new/css/foundation.css" />
     <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
     <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" />
     
 </head>
-<body ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
+<body ng-controller="UserController" 
+    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';action='none'">
 
     <div class="header-page">
         <div class="hat-bar content">
@@ -26,10 +33,12 @@
             </h1>
             <ul class="right">
                 <?php if (Yii::app()->user->isGuest): ?>
-                <li><a class="show" href="#b_signIn">
+                <li><a class="show" href="#b_signIn" 
+                        ng-click="action=(action != 'sign')?'sign':'none'">
                     <?php echo Yii::t('menu', 'Sign in') ?>
                 </a></li>
-                <li><a class="show" href="#b_regSpot">
+                <li><a class="show" href="#b_regSpot" 
+                        ng-click="action=(action != 'activation')?'activation':'none'">
                     <?php echo Yii::t('menu', 'Activate spot') ?>
                 </a></li>
                 <?php else: ?>
@@ -67,7 +76,8 @@
                             required >
     
                         <span class="f-hint">
-                            <a class="show" href="#b_forgot">
+                            <a class="show" href="#b_forgot"
+                                ng-click="action=(action != 'forgot')?'forgot':'none'">
                                 <?php echo Yii::t('user', 'Forgot password?'); ?>
                             </a>
                         </span>
@@ -186,7 +196,7 @@
                 </p>
         </div>
     </div>
-    <div >
+    <div ng-click="action='none'">
         <ul id="slides" class="slides-container">
             <li style="background-image:url(/themes/mobispot/new/images/m11.jpg); ">
                 <div class="container">

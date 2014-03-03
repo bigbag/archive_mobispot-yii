@@ -20,14 +20,6 @@ $(function() {
     });
 });
 
-startSlide = function(){
-   $('.slidesjs-start').click();
-}
-
-stopSlide = function(){
-   $('.slidesjs-stop').click();
-}
-
 prevSlide = function(){
    $('.slidesjs-previous').click();
 }
