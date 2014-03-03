@@ -13,76 +13,78 @@ require_once dirname(dirname(__FILE__)) . '/EOAuth2Service.php';
 
 /**
  * GitHub provider class.
+ *
  * @package application.extensions.eauth.services
  */
-class GitHubOAuthService extends EOAuth2Service
-{
+class GitHubOAuthService extends EOAuth2Service {
 
-    protected $name = 'github';
-    protected $title = 'GitHub';
-    protected $type = 'OAuth';
-    protected $jsArguments = array('popup' => array('width' => 900, 'height' => 450));
+	protected $name = 'github';
+	protected $title = 'GitHub';
+	protected $type = 'OAuth';
+	protected $jsArguments = array('popup' => array('width' => 900, 'height' => 450));
 
-    protected $client_id = '';
-    protected $client_secret = '';
-    protected $scope = '';
-    protected $providerOptions = array(
-        'authorize' => 'https://github.com/login/oauth/authorize',
-        'access_token' => 'https://github.com/login/oauth/access_token',
-    );
+	protected $client_id = '';
+	protected $client_secret = '';
+	protected $scope = '';
+	protected $providerOptions = array(
+		'authorize' => 'https://github.com/login/oauth/authorize',
+		'access_token' => 'https://github.com/login/oauth/access_token',
+	);
 
-    protected function fetchAttributes()
-    {
-        $info = (object)$this->makeSignedRequest('https://api.github.com/user');
+	protected $errorAccessDeniedCode = 'user_denied';
 
-        $this->attributes['id'] = $info->id;
-        $this->attributes['name'] = $info->login;
-        $this->attributes['url'] = $info->html_url;
-    }
+	protected function fetchAttributes() {
+		$info = (object)$this->makeSignedRequest('https://api.github.com/user');
 
-    protected function getTokenUrl($code)
-    {
-        return $this->providerOptions['access_token'];
-    }
+		$this->attributes['id'] = $info->id;
+		$this->attributes['name'] = $info->login;
+		$this->attributes['url'] = $info->html_url;
+	}
 
-    protected function getAccessToken($code)
-    {
-        $params = array(
-            'client_id' => $this->client_id,
-            'client_secret' => $this->client_secret,
-            'code' => $code,
-        );
+	protected function getTokenUrl($code) {
+		return $this->providerOptions['access_token'];
+	}
 
-        $response = $this->makeRequest($this->getTokenUrl($code), array('data' => $params), false);
-        parse_str($response, $result);
-        return $result['access_token'];
-    }
+	protected function getAccessToken($code) {
+		$params = array(
+			'client_id' => $this->client_id,
+			'client_secret' => $this->client_secret,
+			'code' => $code,
+		);
 
-    /**
-     * Authenticate the user.
-     * @return boolean whether user was successfuly authenticated.
-     */
-    public function authenticate()
-    {
-        if (isset($_GET['error']) && $_GET['error'] == 'user_denied')
-            $this->cancel();
+		$response = $this->makeRequest($this->getTokenUrl($code), array('data' => $params), false);
+		parse_str($response, $result);
+		return $result['access_token'];
+	}
 
-        return parent::authenticate();
-    }
+	/**
+	 * Returns the error info from json.
+	 *
+	 * @param stdClass $json the json response.
+	 * @return array the error array with 2 keys: code and message. Should be null if no errors.
+	 */
+	protected function fetchJsonError($json) {
+		if (isset($json->error)) {
+			return array(
+				'code' => $json->error->code,
+				'message' => $json->error->message,
+			);
+		}
+		else {
+			return null;
+		}
+	}
 
-    /**
-     * Returns the error info from json.
-     * @param stdClass $json the json response.
-     * @return array the error array with 2 keys: code and message. Should be null if no errors.
-     */
-    protected function fetchJsonError($json)
-    {
-        if (isset($json->error)) {
-            return array(
-                'code' => $json->error->code,
-                'message' => $json->error->message,
-            );
-        } else
-            return null;
-    }
+	/**
+	 * Add User-Agent header
+	 *
+	 * @param string $url
+	 * @param array $options
+	 * @return cURL
+	 */
+	protected function initRequest($url, $options = array()) {
+		$ch = parent::initRequest($url, $options);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'yii-eauth extension');
+		return $ch;
+	}
 }
