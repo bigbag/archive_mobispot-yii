@@ -54,7 +54,7 @@
                             maxlength="300"
                             required >
                             <span class="f-hint" ng-show="error.login.email">
-                                <?php echo Yii::t('user', 'Сheck your email spelling'); ?>
+                                <?php echo Yii::t('user', 'Check your email spelling'); ?>
                             </span>
                     </div>
                     <div class="wrapper help"> 
