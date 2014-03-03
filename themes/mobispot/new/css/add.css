@@ -11,8 +11,9 @@ body {
    min-width: 950px; 
 }
 
-#slides, .rn-carousel-container, .rn-carousel-slides {
-	height:100%;}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 
 #slides ul{
     font-size: 0;
@@ -34,7 +35,7 @@ body {
 }
 
 .show-block {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=1);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
 header-page .hat-bar, .header-page .show-block {
@@ -81,5 +82,23 @@ header-page .hat-bar, .header-page .show-block {
 }
 
 .help .ng-valid + .f-hint {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=1);
-  opacity: 1; }
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1; }
+
+
+.animate-show {
+    -webkit-transition: opacity 600ms ease-out;
+    -moz-transition: opacity 600ms ease-out;
+    -o-transition: opacity 600ms ease-out;
+    transition: opacity 600ms ease-out;
+}
+ 
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+    display:block!important;
+}
+ 
+.animate-show.ng-hide {
+    line-height:0;
+    opacity:0;
+}

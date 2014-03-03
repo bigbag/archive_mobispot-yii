@@ -1,0 +1,11 @@
+/* line 1, ../sass/redefine_foundation.scss */
+.row {
+  max-width: 100%; }
+
+/* line 4, ../sass/redefine_foundation.scss */
+ul {
+  margin-left: 0; }
+
+/* line 7, ../sass/redefine_foundation.scss */
+form {
+  margin-bottom: 0; }

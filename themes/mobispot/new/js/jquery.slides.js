@@ -8,6 +8,8 @@
 Fork Pavel Liashkov 2014
 */
 
+var startSlide,stopSlide;
+
 (function() {
   (function($, window, document) {
     var Plugin, defaults, pluginName;
@@ -59,6 +61,14 @@ Fork Pavel Liashkov 2014
         this._name = pluginName;
         this.init();
       }
+
+      stopSlide = function(){
+        this.stop(true);
+      };
+
+      startSlide = function(){ 
+        this.play(true);
+      };
 
       return Plugin;
 
@@ -198,7 +208,6 @@ Fork Pavel Liashkov 2014
       $(window).bind("resize", function() {
         _this.stop(true);
         _this.update();
-	      // setTimeout(function() { _this.play(true) }, this.data.playInterval);
         return 
       });
       this._setActive();
