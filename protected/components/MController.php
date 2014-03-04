@@ -24,6 +24,8 @@ class MController extends Controller
      */
     public $menu = array();
 
+    public $main_background = false;
+
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}

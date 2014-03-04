@@ -21,9 +21,7 @@ if ($data->status == Spot::STATUS_INVISIBLE)
                 </a>
             </li>
         </ul>
-        <a 
-             
-            data-tooltip 
+        <a data-tooltip 
             title="<?php echo Yii::t('spots', 'Invisible spot'); ?>" 
             class="invisible-icon tip-top icon"
             style="display: <?php echo $invisible_ico; ?>">

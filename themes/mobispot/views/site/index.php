@@ -1,69 +1,60 @@
 <?php
 $this->sliderImage = array('slider.jpg', 'slider.jpg', 'slider_corp.jpg');
 ?>
-<!-- <div class="row">
-    <div class="twelve columns textSlider-box">
-        <div id="textSlider">
-            <div data-caption="#captionOne">
-                <h1><?php echo Yii::t('slider', 'text slider 1') ?></h1>
-            </div>
-            <div data-caption="#captionTwo">
-                <h1><?php echo Yii::t('slider', 'text slider 2') ?></h1>
-            </div>
-            <div data-caption="#captionThree">
-                <h1><?php echo Yii::t('slider', 'text slider 3') ?></h1>
-            </div>
-        </div>
-    </div>
-</div> -->
-<div class="row products-block">
-    <h5>
-        A new generation of wearable NFC devices is about to arrive.<br>
-        Please meet "spots"!
-    </h5>
-    <div class="m-products row">
-        <div class="four columns">
-            <img src="/themes/mobispot/images/general/brace_black.png">
-        </div>
-        <div class="four columns">
-            <img src="/themes/mobispot/images/general/key_green.png">
-        </div>
-        <div class="four columns">
-            <img src="/themes/mobispot/images/general/card_blue.png">
-        </div>
-    </div>
+<div ng-click="action='none'">
+    <ul id="slides" class="slides-container">
+        <li style="background-image:url(/themes/mobispot/new/images/m11.jpg); ">
+            <div class="container">
+                <h1>Connect<br> digital & real </h1>
+                <p>
 
+                    Share your links & proﬁles easily.<br>
+                    Be rewarded in real life for your<br>
+                    Likes & Tweets on the web
+                </p>
+            </div>
+        </li>
+        <li style="background-image:url(/themes/mobispot/new/images/m21.jpg);">
+            <div class="container blue">
+                <h1>
+                    Pay with<br>
+                    a single tap
+                </h1>
+                <p>
+                    Get rid of coins. Make purchase<br>
+                    with real money or corporate one
+                </p>
+            </div>
+        </li>
+        <li style="background-image:url(/themes/mobispot/new/images/m31.jpg);">
+            <div class="container">
+                <h1>
+                    Make it an<br>
+                    easy ride
+                </h1>
+                <p>
+                    Store tickets inside your spot. <br>
+                    You will not lose or forget<br>
+                    them anymore
+                </p>
+            </div>
+        </li>
+        <li style="background-image:url(/themes/mobispot/new/images/m41.jpg);">
+            <div class="container blue">
+                <h1>
+                    Sign in faster
+                </h1>
+                <p>
+                    Be recognized with a tap.<br>
+                    Get rewards, discounts and <br>
+                    personal services even faster
 
-    <div class="columns three">
-        <input placeholder="Your email" type="email">
-    </div>
-    <div class="columns one">
-        <a class="spot-button"><?php echo Yii::t('general', 'Send')?></a>
-    </div>
-    <p class="columns four input-des"><?php echo Yii::t('general', 'We will give you a brief letter when they are ready to be shipped (we don`t spam).')?> </p>
-    <i></i>
+                </p>
+            </div>
+        </li>
+    </ul>
 </div>
-<!-- Three-up Content Blocks -->
-<div class="row spots-description">
-    <div class="twelve columns">
-        <div class="description-img">
-            <img src="/themes/corp/images/icons/i-cloud.2x.png" height="115">
-        </div>
-        <h3 class="color"><?php echo Yii::t('general', 'Personal spot') ?></h3>
-        <p><?php echo Yii::t('general', 'personal block desc') ?></p>
-    </div>
-    <div class="twelve columns">
-        <div class="description-img">
-            <img src="/themes/corp/images/icons/i-spot.2x.png" height="115">
-        </div>
-        <h3 class="color"><?php echo Yii::t('general', 'Digital wallet') ?></h3>
-        <p><?php echo Yii::t('general', 'wallet block desc') ?></p>
-    </div>
-    <div class="twelve columns">
-        <div class="description-img">
-            <img src="/themes/corp/images/icons/i-person.2x.png" height="115">
-        </div>
-        <h3 class="color"><?php echo Yii::t('general', 'Easy ID') ?></h3>
-        <p><?php echo Yii::t('general', 'easy id block desc') ?></p>
-    </div>
+<div class="slides-navigation">
+    <a class="next" onclick="$('.slidesjs-next').click();">&#xe603;</a>
+    <a class="prev" onclick="$('.slidesjs-previous').click();">&#xe602;</a>
 </div>
