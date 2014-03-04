@@ -30,9 +30,9 @@
     <?php if ($this->main_background):?>
         <div class="main" style="background-image: url(/themes/mobispot/new/images/<?php echo $this->main_background;?>)">
     <?php endif;?>
-
-    <?php echo $content; ?>
-
+    <div ng-click="action='none'">
+        <?php echo $content; ?>
+    </div>
     <?php if ($this->main_background):?>
         </div>
     <?php endif;?>
@@ -53,8 +53,8 @@
             </li> -->
         </ul>
         <ul class="soc-link right">
-            <li><a class="icon" href="javascript:;">&#xe001;</a></li>
-            <li><a class="icon" href="javascript:;">&#xe000;</a></li>
+            <li><a class="icon" href="https://twitter.com/heymobispot">&#xe001;</a></li>
+            <li><a class="icon" href="http://www.facebook.com/heyMobispot">&#xe000;</a></li>
 
         </ul>
     </footer>
