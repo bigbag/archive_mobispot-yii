@@ -16,6 +16,7 @@ protected/config/eauth.php
 protected/config/routes.php
 protected/config/mongo.php
 protected/config/ut.php
+protected/config/dbPayment.php
 protected/runtime/*
 uploads/
 *.ykomodoproject

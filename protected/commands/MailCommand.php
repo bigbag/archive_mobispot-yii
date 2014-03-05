@@ -53,8 +53,8 @@ class MailCommand extends CConsoleCommand {
       }
         
       $test = $this->SendMail(
-        unserialize($mail_stack->from), 
-        unserialize($mail_stack->to), 
+        unserialize($mail_stack->senders), 
+        unserialize($mail_stack->recipients), 
         $mail_stack->subject, 
         $mail_stack->body, 
         $attach
