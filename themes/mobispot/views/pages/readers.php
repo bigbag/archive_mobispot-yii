@@ -1,8 +1,8 @@
-<?php $this->pageTitle = Yii::t('phone', 'Device compatibility'); ?>
+<?php $this->pageTitle = Yii::t('phone', 'Readers'); ?>
 <?php $this->main_background = 'main_bg_2.jpg'?>
 
 <div class="content-wrapper">
-    <div class="content-block" ng-controller="PhonesController">
+    <div class="content-block" ng-controller="PhonesController" ng-init="initPhones(<?php echo $phones ?>);initDevices(<?php echo $devices ?>)">
         <div class="row">
             <div class="large-12 columns form-block">
                 <div>
@@ -35,7 +35,7 @@
                                 <li ng-repeat="phones in phonesList" class="company">
                                     <h5>{{phones.brand}}</h5>
                                     <ul ng-model="phones.models">
-                                        <li ng-repeat="phone in phones.models"><a title="Official page {{phones.brand}} {{phone.name}}" href="{{phone.page}}">{{phone.name}}</a></li>
+                                        <li class="phone-name" ng-repeat="phone in phones.models">{{phone.name}}</li>
                                     </ul>
 
                                     <div class="bad-phones" ng-class="{show: phones.badModels}" ng-model="phones.badModels">
@@ -55,7 +55,7 @@
                                 <li ng-repeat="device in devicesList" class="company">
                                     <h5>{{device.brand}}</h5>
                                     <ul ng-model="device.models">
-                                        <li ng-repeat="phone in device.models"><a title="Official page {{device.brand}} {{phone.name}}" href="{{device.page}}">{{phone.name}}</a></li>
+                                        <li ng-repeat="phone in device.models" class="phone-name">{{phone.name}}</li>
                                     </ul>
                                 </li>
                                 </ul>
@@ -64,6 +64,7 @@
                 </div>
             </div>
         </div>
+            <?php echo Yii::t('phone', 'Please note: Some devices specifications change regularly and depend on the sales region. For the most accurate information check with your retailer or mobile operator that NFC is enabled on your device.') ?>
     </div>
 </div>
 <div class="fc"></div>

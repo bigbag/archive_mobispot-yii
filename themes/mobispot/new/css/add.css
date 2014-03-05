@@ -102,3 +102,7 @@ header-page .hat-bar, .header-page .show-block {
     line-height:0;
     opacity:0;
 }
+
+li.phone-name {
+    color:#0062FF;
+}
