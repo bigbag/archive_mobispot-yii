@@ -35,7 +35,7 @@
                                 <li ng-repeat="phones in phonesList" class="company">
                                     <h5>{{phones.brand}}</h5>
                                     <ul ng-model="phones.models">
-                                        <li class="phone-name" ng-repeat="phone in phones.models">{{phone.name}}</li>
+                                        <li class="phone-name" ng-repeat="phone in phones.models">      {{phone.name}}</li>
                                     </ul>
 
                                     <div class="bad-phones" ng-class="{show: phones.badModels}" ng-model="phones.badModels">
@@ -43,9 +43,8 @@
                                             <?php echo Yii::t('phone', 'Special app needed. These devices must have Special app to read the spots:') ?>
                                         </p>
                                         <ul>
-                                            <li ng-repeat="phone in phones.badModels">
-                                                <a title="Official page {{phones.brand}} {{phone.name}}" href="{{phone.page}}">{{phone.name}}</a>   
-                                            </li>
+                                            <li class="phone-name" ng-repeat="phone in phones.badModels">
+                                                {{phone.name}}</li>
                                         </ul>
                                 </li>
                                 </ul>
