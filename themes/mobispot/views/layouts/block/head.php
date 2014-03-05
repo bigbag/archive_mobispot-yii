@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/foundation/css/foundation.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation3/foundation.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/stylesheets/foundation4/foundation.min.css"/>
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/style.css">
     <link rel="stylesheet" href="/themes/mobispot/stylesheets/add.css">
 

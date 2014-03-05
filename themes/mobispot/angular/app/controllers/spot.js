@@ -200,6 +200,18 @@ angular.module('mobispot').controller('SpotController',
             angular.element('#resetPassButton').hide();
           else
             angular.element('#resetPassButton').show();
+          
+          //загрузка страницы с акциями спота
+            angular.element('#coupons-block').remove();
+          var details = {discodes:$scope.spot.discodes, token:$scope.user.token};          
+          $http.post('/spot/coupons', details).success(function(data) {
+            if (data.error == 'no'){
+                angular.element('#spot-block').after($compile(data.content)($scope));
+                if (angular.element('#icon-coupons').hasClass('active'))
+                    angular.element('#coupons-block').slideDown();
+            }
+          });
+            
         }
       }).error(function(error){
         console.log(error);
@@ -211,7 +223,6 @@ angular.module('mobispot').controller('SpotController',
       spotContent.slideUp('slow',
         function () {
           spot.removeClass('open');
-          spotContent.prev().remove();
           spotContent.remove();
         });
     }
@@ -449,6 +460,7 @@ angular.module('mobispot').controller('SpotController',
     // Привязка соцсетей
     var popup;
     var socTimer;
+    var likeTimer;
     var holderTimer;
     //через плашку
     $scope.bindByPanel = function(buttonName)
@@ -657,6 +669,112 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
+
+  //подключение акции, требующей жетона соцсети
+  $scope.checkLike = function(e, id_action)
+  {
+      var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+      $http.post('/user/checkLike', data).success(function(data) {
+      
+          if ('no' == data.error)
+          {
+              if (!data.isSocLogged)
+              {
+                  var options = $.extend({
+                    id: '',
+                    popup: {
+                      width: 450,
+                      height: 380
+                    }
+                  }, options);
+
+                  var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+
+                  url += url.indexOf('?') >= 0 ? '&' : '?';
+                  if (url.indexOf('redirect_uri=') === -1)
+                    url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
+                  url += 'js';
+
+                  var centerWidth = (window.screen.width - options.popup.width) / 2,
+                    centerHeight = (window.screen.height - options.popup.height) / 2;
+
+                  popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                  popup.focus();
+                  
+                  $scope.checkingAction = {id:id_action};
+                  $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                  likeTimer = $timeout($scope.likesTimer, 1000);
+              }
+              else
+              {
+                  if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
+                  {
+                      if ('yes' == data.message_error)
+                          contentService.setModal(data.message, 'error'); 
+                      else
+                          contentService.setModal(data.message, 'none'); 
+                  }
+                  
+                  if ('undefined' != typeof (data.content))
+                  {
+                    var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    act.before($compile(data.content)($scope));
+                    act.remove();
+                  }
+              }
+          }
+      });
+  }
+
+    $scope.likesTimer = function()
+    {
+      if (!popup.closed) {
+          var data = {token: $scope.user.token, id:$scope.checkingAction.id, discodes:$scope.spot.discodes};
+          $http.post('/user/checkLike', data).success(function(data) {
+              if ('undefined' != typeof (data.isSocLogged))
+              {
+                  if (data.isSocLogged)
+                  {
+                      popup.close();
+                      $scope.bindNet = {};
+                      
+                      if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
+                      {
+                          if ('yes' == data.message_error) 
+                              contentService.setModal(data.message, 'error'); 
+                          else
+                              contentService.setModal(data.message, 'none'); 
+                      }
+                      if ('undefined' != typeof (data.content) && 'undefined' != typeof ($scope.actionDiv))
+                      {
+                        $scope.actionDiv.before($compile(data.content)($scope));
+                        $scope.actionDiv.remove();
+                      }
+                  }
+                  else
+                  {
+                      likeTimer = $timeout($scope.likesTimer, 1000);
+                  }
+              }
+          });
+      }
+    }; 
+
+    $scope.disableAction = function(e, id_action)
+    {
+
+        var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+        $http.post('/user/disableLoyalty', data).success(function(data) {
+            if ('no' == data.error)
+            {
+                var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                act.before($compile(data.content)($scope));
+                act.remove();
+            }
+        });
+
+    }
+  
   
     //привязка соцсети и закрытие попапа, если пользователь залогинился через соцсеть
     $scope.loginTimer = function()
@@ -974,6 +1092,21 @@ angular.module('mobispot').controller('SpotController',
     return true;
   };
 
+    $scope.showCoupons = function() {
+        angular.element('#spot-block').slideUp();
+        angular.element('#coupons-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-coupons').addClass('active');
+    }
+  
+    $scope.showSpotContent = function() {
+        angular.element('#coupons-block').slideUp();
+        angular.element('#spot-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-spot').addClass('active');    
+    
+    }
+  
   //Открыть спот по коду
   $scope.defOpen = function(discodes){
     if (discodes == 0)  return false;

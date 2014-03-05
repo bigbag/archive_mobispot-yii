@@ -126,6 +126,38 @@ class SpotController extends MController
         
         echo json_encode($answer);
     }
+    
+    public function actionCoupons()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['content'] = '';
+        $answer['error'] = 'yes';
+        
+        if (isset($data['discodes']) and !Yii::app()->user->isGuest)
+        {
+            $wallet = PaymentWallet::model()->findByAttributes(
+                array(
+                    'discodes_id' => $data['discodes'],
+                    'user_id' => Yii::app()->user->id,
+                    'status' => PaymentWallet::STATUS_ACTIVE,
+                )
+            );
+            
+            if ($wallet)
+            {
+                $coupons = Loyalty::getCoupons($wallet->id);
+                $answer['content'] = $this->renderPartial('//spot/coupons', array('coupons' => $coupons), true);
+            }
+            else
+                $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+                
+            $answer['error'] = 'no';
+        }
+        
+        echo json_encode($answer);
+    }
+    
 
     // Добавление блока в спот
     public function actionSpotAddContent()

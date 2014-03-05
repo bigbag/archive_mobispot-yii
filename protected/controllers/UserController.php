@@ -24,10 +24,10 @@ class UserController extends MController
                 $profile->sex = UserProfile::SEX_UNKNOWN;
                 $profile->save();
             }
-
-            if (isset($_POST['UserProfile']))
+            
+            if (Yii::app()->request->getParam('UserProfile'))
             {
-                $profile->attributes = $_POST['UserProfile'];
+                $profile->attributes = Yii::app()->request->getParam('UserProfile');
 
                 if ($profile->validate())
                 {
@@ -141,43 +141,208 @@ class UserController extends MController
 
         if (!isset($discodes)) $discodes = '';
 
-        if (isset($service))
+        if (!isset($service))
+            $this->setNotFound();
+        
+        if (!Yii::app()->user->id)
+            $this->setAccess();
+
+        $tech = Yii::app()->request->getParam('tech');
+
+        if (($service == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
         {
-            if (!Yii::app()->user->id)
+            Yii::app()->session['instagram_tech'] = $tech;
+        }
+        $authIdentity = Yii::app()->eauth->getIdentity($service);
+        $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+        $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal/' . $discodes);
+
+        if ($authIdentity->authenticate())
+        {
+            $identity = new ServiceUserIdentity($authIdentity);
+
+            if ($identity->authenticate())
             {
-                $this->setAccess();
+                Yii::app()->session[$service] = 'auth';
+                Yii::app()->session[$service . '_id'] = $identity->getId();
+                Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
             }
             else
             {
-                if (($service == 'instagram') && isset($_GET['tech']) && ($_GET['tech'] == Yii::app()->eauth->services['instagram']['client_id']))
-                {
-                    Yii::app()->session['instagram_tech'] = $_GET['tech'];
-                }
-                $authIdentity = Yii::app()->eauth->getIdentity($service);
-                $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
-                $authIdentity->cancelUrl = $this->createAbsoluteUrl('user/personal/' . $discodes);
+                $authIdentity->cancel();
+            }
+        }
+    }
+    
+    //подключение акции, требующей жетона соцсети
+    public function actionCheckLike()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = "yes";
+        $answer['isSocLogged'] = false;
+        $link = '';
+            
+        if (!Yii::app()->user->id)
+        {
+            $this->setAccess();
+        }
 
-                if ($authIdentity->authenticate())
+        if (!empty($data['id']) && !empty($data['discodes']))
+        {
+            $action = Loyalty::model()->findByPk($data['id']);
+            if ($action and strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') !== false)
+            {
+                $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike('.$action->id.')">') + strlen('<a ng-click="checkLike('.$action->id.')">')));
+                if (strpos($link, '</a>') > 0)
+                    $link = substr($link, 0, strpos($link, '</a>'));
+            }
+            
+            $service = SocInfo::getNameBySharingType($action->sharing_type);
+            $answer['service'] = $service;
+            
+            $criteria = new CDbCriteria;
+            $criteria->compare('loyalty_id', $action->id);
+            $criteria->compare('wallet.user_id', Yii::app()->user->id);
+            
+            $userActions = WalletLoyalty::model()->with('wallet')->findAll($criteria);
+            $count = 0;
+            
+            foreach($userActions as $userAction)
+            {
+                if (!empty($userAction->part_count))
+                    $count += $userAction->part_count;
+            }
+            
+            if ($action->part_limit && $count >= $action->part_limit)
+            {
+                $answer['isSocLogged'] = true; //чтобы не запускать авторизацию
+                $answer['message_error'] = 'yes';
+                $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
+            }
+            else
+            {
+                $socInfo = new SocInfo;
+                
+                if ($socInfo->isLoggegOn($service, false))
                 {
-                    $identity = new ServiceUserIdentity($authIdentity);
+                    $answer['isSocLogged'] = true;
+                    
+                    $socToken=SocToken::model()->findByAttributes(array(
+                        'user_id'=>Yii::app()->user->id,
+                        'type'=>SocInfo::getTokenBySharingType($action->sharing_type),
+                    ));
+                    
+                    $wallet = PaymentWallet::model()->findByAttributes(
+                        array(
+                            'discodes_id' => $data['discodes'],
+                            'user_id' => Yii::app()->user->id,
+                            'status' => PaymentWallet::STATUS_ACTIVE,
+                        )
+                    );
+                    
+                    if ($socToken and $link and $wallet)
+                    {
+                        $likesStack = LikesStack::model()->findByAttributes(array(
+                            'token_id' => $socToken->id,
+                            'loyalty_id' => $action->id,
+                        ));
 
-                    if ($identity->authenticate())
-                    {
-                        Yii::app()->session[$service] = 'auth';
-                        Yii::app()->session[$service . '_id'] = $identity->getId();
-                        Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
-                    }
-                    else
-                    {
-                        $authIdentity->cancel();
+                        if (!$likesStack)
+                        {
+                            $likesStack = new LikesStack;
+                            $likesStack->token_id = $socToken->id;
+                            $likesStack->loyalty_id = $action->id;
+                            $likesStack->save();
+                        }
+                        
+                        $wl = WalletLoyalty::model()->findByAttributes(array(
+                            'wallet_id' => $wallet->id,
+                            'loyalty_id' => $action->id,
+                        ));
+                        
+                        if (!$wl)
+                        {
+                            $wl = new WalletLoyalty;
+                            $wl->wallet_id = $wallet->id;
+                            $wl->loyalty_id = $action->id;
+                            $wl->bonus_count = $action->bonus_count;
+                            $wl->save();
+                        }
+                        
+                        $coupon = array(
+                            'id' => $action->id,
+                            'name' => $action->name,
+                            'coupon_class' => $action->coupon_class,
+                            'img' => $action->img,
+                            'desc' => $action->desc,
+                            'soc_block' => $action->soc_block,
+                            'part' => true,
+                        );
+                        
+                        $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
+                        
+                        $answer['message_error'] = 'no';
+                        $answer['message'] = Yii::t('wallet', 'Вы участвуете в акции');
                     }
                 }
             }
+            
+            $answer['error'] = "no";
         }
-        else
-        {
-            $this->setNotFound();
-        }
-    }
 
+        echo json_encode($answer);
+    }
+    
+    public function actionDisableLoyalty()
+    {
+        $data = $this->validateRequest();
+        $answer = array();
+        $answer['error'] = "yes";
+        
+        if (!Yii::app()->user->id)
+        {
+            $this->setAccess();
+        }
+        
+        if (!empty($data['id']) && !empty($data['discodes']))
+        {
+            $action = Loyalty::model()->findByPk($data['id']);
+            $wallet = PaymentWallet::model()->findByAttributes(
+                array(
+                    'discodes_id' => $data['discodes'],
+                    'user_id' => Yii::app()->user->id,
+                    'status' => PaymentWallet::STATUS_ACTIVE,
+                )
+            );
+            if ($action and $wallet)
+            {
+                $wl = WalletLoyalty::model()->findByAttributes(array(
+                    'wallet_id' => $wallet->id,
+                    'loyalty_id' => $action->id,
+                ));
+                
+                if ($wl)
+                {
+                    $wl->delete();
+ 
+                    $coupon = array(
+                        'id' => $action->id,
+                        'name' => $action->name,
+                        'coupon_class' => $action->coupon_class,
+                        'img' => $action->img,
+                        'desc' => $action->desc,
+                        'soc_block' => $action->soc_block,
+                        'part' => false,
+                    );
+                    
+                    $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
+                    
+                    $answer['error'] = "no";
+                }
+            }
+        }
+        
+        echo json_encode($answer);
+    }
 }
