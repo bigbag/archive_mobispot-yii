@@ -5,8 +5,8 @@
  *
  * The followings are the available columns in table 'mail_stack':
  * @property integer $id
- * @property string $from
- * @property string $to
+ * @property string $senders
+ * @property string $recipients
  * @property string $subject
  * @property string $body
  * @property string $attach
@@ -17,10 +17,10 @@
 class MailStack extends CActiveRecord
 {
 
-    /**
+/**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
-     * @return MailStack the static model class
+     * @return PaymentUser the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -28,12 +28,21 @@ class MailStack extends CActiveRecord
     }
 
     /**
+     * @return CDbConnection database connection
+     */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbStack;
+    }
+
+    /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'mail_stack';
+        return 'stack.mail';
     }
+
 
     /**
      * @return array validation rules for model attributes.
@@ -43,11 +52,11 @@ class MailStack extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('from, to, subject, body, creation_date', 'required'),
+            array('senders, recipients, subject, body, creation_date', 'required'),
             array('lock', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, from, to, subject, body, attach, creation_date, lock', 'safe', 'on' => 'search'),
+            array('id, senders, recipients, subject, body, attach, creation_date, lock', 'safe', 'on' => 'search'),
         );
     }
 
@@ -76,8 +85,8 @@ class MailStack extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'from' => 'От кого',
-            'to' => 'Кому',
+            'senders' => 'От кого',
+            'recipients' => 'Кому',
             'subject' => 'Тема',
             'body' => 'Сообщение',
             'attach' => 'Вложения',
@@ -98,8 +107,8 @@ class MailStack extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('from', $this->from, true);
-        $criteria->compare('to', $this->to, true);
+        $criteria->compare('senders', $this->senders, true);
+        $criteria->compare('recipients', $this->recipients, true);
         $criteria->compare('subject', $this->subject, true);
         $criteria->compare('body', $this->body, true);
         $criteria->compare('attach', $this->attach, true);
