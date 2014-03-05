@@ -33,7 +33,7 @@ Class MMail
     public function recovery($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('recovery', $lang);
-        $activation_url = Yii::app()->par->load('siteUrl') . '/service/recovery/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->par->load('siteUrl') . '/service/hange/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
         $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));

@@ -25,11 +25,10 @@ class SiteController extends MController
         if (!empty($_FILES))
         {
             $maxSize = Yii::app()->par->load('ImageSize');
-            $action = $_POST['action'];
+            $action = Yii::app()->request->getParam('action');
+
             $tempFile = $_FILES['Filedata']['tmp_name'];
-            $user_id = 0;
-            if ($_POST['user_id'])
-                $user_id = $_POST['user_id'];
+            $user_id = Yii::app()->request->getParam('user_id', 0);
 
             $fileParts = pathinfo($_FILES['Filedata']['name']);
 

@@ -114,6 +114,11 @@ class User extends CActiveRecord
         return sha1(microtime() . $salt);
     }
 
+    public function getByEmail($email)
+    {
+        return User::model()->findByAttributes(array('email' => $email));
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord)

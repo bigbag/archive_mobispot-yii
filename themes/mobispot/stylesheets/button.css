@@ -44,7 +44,7 @@
 	padding: 4px 11px 2px;
 	margin-bottom: 14px;
 	cursor: pointer;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 }
 .row__head-slider .spot-button{
 	background-color: #fff;
@@ -82,7 +82,7 @@
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	background-color: #E9EDF2;
 	color: #000;
 	font-size: 48px;
@@ -165,7 +165,7 @@
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	-webkit-transition: -webkit-transform 600ms ease-out;
 	-moz-transition: -moz-transform 600ms ease-out;
 	-o-transition: -o-transform 600ms ease-out;
@@ -192,7 +192,7 @@
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	background: #fff;
 	border: 3px solid #0062ff;
 	margin-right: 7px;
@@ -227,7 +227,7 @@
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	background: #fff url("../images/icons/i-small.png") no-repeat -100%;
 	margin-right: 7px;
 	position: relative;
@@ -277,7 +277,7 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	overflow: hidden;
 	margin:-3px 0 14px;
 	opacity: 0;
@@ -468,9 +468,6 @@ footer .button:hover + .active,
 	-o-transition-delay: 100ms;
 	transition-delay: 100ms;
 }
-.lt-ie9 .spot-list .spot-hat-button{
-	display: none;
-}
 .spot-list .spot-hat-button:after{
 	content: '';
 	display: block;
@@ -567,14 +564,14 @@ footer .button:hover + .active,
 	-webkit-border-radius: 3px 3px 0 0;
 	-moz-border-radius: 3px 3px 0 0;
 	border-radius: 3px 3px 0 0;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	background-position:-76px -112px;
 }
 .b-input-number .number-down{
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
-	behavior:  url(file:///E:/PIE.htc);
+	behavior:  url(/css/PIE.htc);
 	background-position: -119px -112px;
 }
 .b-input-number .number-up:hover{
@@ -663,7 +660,7 @@ footer .button:hover + .active,
 }
 a.icon-spot-button{
 	color: #fff;
-	font-size: 33px;
+	font-size: 40px;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
@@ -784,4 +781,15 @@ display: inline-block;
 	top: -5px;
 
 }
-
+.spot-button_w{
+	background: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-family: Mobispot, Arial;
+	padding: 8px;
+	display: inline-block;
+}
+.spot-button_w:hover{
+	color: #0061ff;
+}
