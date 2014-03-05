@@ -104,12 +104,12 @@ class ServiceController extends MController
             $validate_errors = $model->getErrors();
             if (isset($validate_errors['activ_code']))
             {
-                $answer['content'] = Yii::t('user', "You`ve made a mistake in spot activation code.");
+                $answer['content'] = Yii::t('user', "Wrong activation code");
                 $answer['error'] = 'code';
             }
             elseif (isset($validate_errors['email']))
             {
-                $answer['content'] = Yii::t('user', "User with your email has been already registred. Please use your password to sign in.");
+                $answer['content'] = Yii::t('user', "This email has been already used");
                 $answer['error'] = 'email';
             }
             else
@@ -127,12 +127,7 @@ class ServiceController extends MController
             exit;
         }
 
-        $spot = Spot::model()->findByAttributes(
-            array(
-                'code'=>$data['activ_code'], 
-                'status' => Spot::STATUS_ACTIVATED
-                )
-            );
+        $spot = Spot::getActivatedSpot($data['activ_code']);
         $spot->user_id = $model->id;
         $spot->lang = $this->getLang();
         $spot->status = Spot::STATUS_REGISTERED;
