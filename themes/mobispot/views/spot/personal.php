@@ -1,10 +1,10 @@
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status; ?>'">
-    <div class="spot-tabs">
+<!--     <div class="spot-tabs">
         <a id="icon-spot" ng-click="showSpotContent()" class="active">Spot list<i class="icon">&#xe600;</i></a>
         <a href="/corp/wallet/">Wallet<i class="icon">&#xe006;</i></a>
         <a id="icon-coupons" ng-click="showCoupons()">Coupons<i class="icon">&#xe601;</i></a>
     </div>
-    
+     -->
     <div class="tabs-block">
         <div id="spot-block" class="spot-content_row tabs-item">
             <div id="dropbox" class="spot-item spot-main-input">

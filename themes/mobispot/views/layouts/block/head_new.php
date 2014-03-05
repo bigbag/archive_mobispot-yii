@@ -87,17 +87,19 @@
                         type="email"
                         ng-model="user.email"
                         placeholder="<?php echo Yii::t('user', 'E-mail') ?>"
+                        ng-keypress="($event.keyCode == 13)?activation(user, activForm.$valid):''"
                         autocomplete="off"
                         maxlength="300"
                         required >
-                    <span class="f-hint" ng-show="error.activ.email">
-                        <?php echo Yii::t('user', 'Check your email spelling'); ?>
+                    <span class="f-hint" ng-show="error.email">
+                        {{error.content}}
                     </span>
                 </div>
                 <div class="wrapper">
                     <input name='password'
                         type="password"
                         ng-model="user.password"
+                        ng-keypress="($event.keyCode == 13)?activation(user, activForm.$valid):''"
                         placeholder="<?php echo Yii::t('user', 'Password') ?>"
                         autocomplete="off"
                         maxlength="300"
@@ -108,14 +110,15 @@
                         name='code'
                         type="text"
                         ng-model="user.activ_code"
+                        ng-keypress="($event.keyCode == 13)?activation(user, activForm.$valid):''"
                         placeholder="<?php echo Yii::t('user', 'Spot activation code') ?>"
                         autocomplete="off"
                         maxlength="10"
                         ng-minlength="10";
                         ng-maxlength="10"
                         required >
-                    <span class="f-hint" ng-show="error.activ.code">
-                        <?php echo Yii::t('user', 'You`ve made a mistake in spot activation code'); ?>
+                    <span class="f-hint" ng-show="error.code">
+                        {{error.content}}
                     </span>
                 </div>
                 <div class="checkbox">  
@@ -130,7 +133,7 @@
                 </div>
                 <footer class="form-footer">
                     <a class="left form-button" 
-                        ng-click="activation(user, activPersonForm.$valid)"
+                        ng-click="activation(user, activForm.$valid)"
                         href="javascript:;">
                         <?php echo Yii::t('user', 'Activate spot'); ?>
                     </a>
