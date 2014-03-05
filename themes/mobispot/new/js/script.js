@@ -7,7 +7,7 @@ var closeShowBlock = function(){
 			try {
 				startSlide();
 			}catch(e) {
-				return;
+				return false;
 			}
 
 };
@@ -26,7 +26,12 @@ $(function()	{
 				}
 			});
 
-			$(document).on('click', closeShowBlock);
+			$(document).on('click', function(e){
+				if (e && ((e.button == 3 || e.button == 2) || (e.which ==3 || e.which == 2))){
+					return;
+				}
+				closeShowBlock();
+			});
 			$(document).on('click','.header-page', function(event){
 				event.stopPropagation();
 				closeLang();
@@ -44,7 +49,7 @@ $(function()	{
 						});
 					}	else	{
 						$(blockID).fadeIn(aSpeed).addClass('active');
-						
+
 						try {
 							stopSlide();
 						} catch(e) {

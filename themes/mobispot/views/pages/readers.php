@@ -1,4 +1,4 @@
-<?php $this->pageTitle = Yii::t('phone', 'Device compatibility'); ?>
+<?php $this->pageTitle = Yii::t('phone', 'Readers'); ?>
 <?php $this->main_background = 'main_bg_2.jpg'?>
 
 <div class="content-wrapper">
