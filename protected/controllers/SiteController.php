@@ -11,6 +11,7 @@ class SiteController extends MController
 
     public function actionError()
     {
+        $this->layout = '//layouts/error';
         if ($error = Yii::app()->errorHandler->error)
         {
             if (Yii::app()->request->isPostRequest)
