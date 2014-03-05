@@ -64,6 +64,7 @@
                 </div>
             </div>
         </div>
+            <?php echo Yii::t('phone', 'Please note: Some devices specifications change regularly and depend on the sales region. For the most accurate information check with your retailer or mobile operator that NFC is enabled on your device.') ?>
     </div>
 </div>
 <div class="fc"></div>
