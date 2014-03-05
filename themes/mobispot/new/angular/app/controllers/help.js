@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobispot').controller('HelpController', 
-  function($scope, $http, $compile, $timeout, contentService) {
+  function($scope, $http, $compile, $timeout) {
 
   $scope.send = function(user, valid){
     if (!valid) return false;
@@ -12,8 +12,6 @@ angular.module('mobispot').controller('HelpController',
         $scope.user.email = '';
         $scope.user.question = '';
         $scope.user.phone = '';
-
-        contentService.setModal(data.content, 'none');
       }
     });
   };

@@ -39,7 +39,7 @@
 
     <footer class="footer-page content">
         <ul class="left">
-            <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
+            <li><a href="/readers"><?php echo Yii::t('footer', 'Readers') ?></a></li>
             <li><a href="/help"><?php echo Yii::t('footer', 'Get Help') ?></a></li>
             <!-- <li><a href="javascript:;">Email us</a></li> -->
             <!-- <li class="lang">
@@ -65,6 +65,7 @@
     <script src="/themes/mobispot/new/js/angular-animate.min.js"></script>
     <script src="/themes/mobispot/new/angular/app/app.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
+    <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
     <script src="/themes/mobispot/new/js/script-add.js"></script>
     <script src="/themes/mobispot/new/js/script.js"></script>

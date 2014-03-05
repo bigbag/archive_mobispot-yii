@@ -3,10 +3,10 @@
 class PagesController extends MController
 {
 
-    public function actionPhones()
+    public function actionReaders()
     {
         $this->layout = '//layouts/all';
-        $this->render('phones', array());
+        $this->render('readers', array('phones' => Phone::getJsonPhones(), 'devices' => Phone::getJsonDevices()));
     }
 
     public function actionHelp()
