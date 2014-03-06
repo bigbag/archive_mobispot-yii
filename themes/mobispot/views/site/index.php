@@ -1,4 +1,4 @@
-<span ng-init="resolution=<?php echo $resolution?>"></span>
+<span ng-init="resolution=<?php echo $resolution?>;getResolution()"></span>
 <ul id="slides" class="slides-container">
     <li style="background-image:url(/themes/mobispot/new/images/slider/{{resolution}}/01.jpg); ">
         <div class="container">

@@ -21,18 +21,11 @@
     <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" /> 
 
     <script src="/themes/mobispot/new/js/jquery.min.js"></script>
-    <script src="/themes/mobispot/new/js/angular.min.js"></script>
     <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
 
-    <script src="/themes/mobispot/new/js/angular-animate.min.js"></script>
-    <script src="/themes/mobispot/new/angular/app/app.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
-    <script src="/themes/mobispot/new/js/script-add.js"></script>
-    <script src="/themes/mobispot/new/js/script.js"></script>
+    <script src="/themes/mobispot/new/js/angular.min.js"></script>
+    <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
 
-    <script>document.cookie='resolution='+Math.max(screen.width,screen.height)+'; path=/';</script>
 </head>
 <body ng-controller="UserController" 
     ng-cloak class="ng-cloak"
@@ -72,6 +65,12 @@
         </ul>
     </footer>
     
+    <script src="/themes/mobispot/new/angular/app/app.js"></script>
+    <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
+    <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
+    <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
+    <script src="/themes/mobispot/new/js/script-add.js"></script>
+    <script src="/themes/mobispot/new/js/script.js"></script>
     <script src="/themes/mobispot/new/js/foundation.min.js"></script>
     <script>
         $(document).foundation();
