@@ -13,7 +13,6 @@ angular.module('mobispot').controller('UserController',
       var res = [1920, 1400, 1280];
       for(var i=0; i<res.length; i++) {
         if (clientRes >= res[i]){
-          console.log(res[i]);
           resolution = res[i];
           break;
         }

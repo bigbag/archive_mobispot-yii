@@ -7,6 +7,7 @@
 class MController extends Controller
 {
 
+    const MIN_RESOLUTION = 1280;
     public $pageDescription;
     public $pageKeywords;
     public $sliderImage;
@@ -178,15 +179,11 @@ class MController extends Controller
     public function getResolution()
     {
         $resolution = $this->defaultResolution;
-        $res = array(1280, 1400, 1920);
         if (isset(Yii::app()->request->cookies['resolution'])) 
         {
-            $clientRes = Yii::app()->request->cookies['resolution']->value;
-            foreach ($res as $row) {
-                if ($clientRes < $row) 
-                    continue;
-                $resolution = $row;
-            }
+            $resolution = Yii::app()->request->cookies['resolution']->value;
+            if ($resolution < self::MIN_RESOLUTION) $resolution = self::MIN_RESOLUTION;
+
         }
         return $resolution;
     }
