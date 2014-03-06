@@ -13,6 +13,9 @@ class MController extends Controller
     public $sliderText;
     public $pageClass;
 
+    public $mainBackground = false;
+    public $defaultResolution = 1400;
+
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
      * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
@@ -24,7 +27,6 @@ class MController extends Controller
      */
     public $menu = array();
 
-    public $main_background = false;
 
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
@@ -120,32 +122,6 @@ class MController extends Controller
         return $data;
     }
 
- public function init()
-    {
-        $all_lang = Lang::getLangArray();
-        $select_lang = 'en';
-
-        // if (isset(Yii::app()->request->cookies['lang']))
-        // {
-        //     $select_lang = Yii::app()->request->cookies['lang']->value;
-        // }
-        // elseif (Yii::app()->user->id)
-        // {
-        //     $user = User::getById(Yii::app()->user->id);
-        //     $select_lang = $user->lang;
-        // }
-        // else 
-        // {
-        //     $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
-        //     $select_lang = substr($lang_request,0,1);
-        // }
-
-        // if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
-
-        Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
-        Yii::app()->language = $select_lang;
-    }
-
     public function getLang()
     {
         return (Yii::app()->request->cookies['lang']) ? Yii::app()->request->cookies['lang']->value : 'en';
@@ -197,6 +173,48 @@ class MController extends Controller
         return preg_replace_callback(
                 '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?([^\]\s]*)?}xis', 'MController::urlCallback', $text
         );
+    }
+
+    public function getResolution()
+    {
+        $resolution = $this->defaultResolution;
+        $res = array(1280, 1400, 1920);
+        if (isset(Yii::app()->request->cookies['resolution'])) 
+        {
+            $clientRes = Yii::app()->request->cookies['resolution']->value;
+            foreach ($res as $row) {
+                if ($clientRes < $row) 
+                    continue;
+                $resolution = $row;
+            }
+        }
+        return $resolution;
+    }
+
+    public function init()
+    {
+        $all_lang = Lang::getLangArray();
+        $select_lang = 'en';
+
+        // if (isset(Yii::app()->request->cookies['lang']))
+        // {
+        //     $select_lang = Yii::app()->request->cookies['lang']->value;
+        // }
+        // elseif (Yii::app()->user->id)
+        // {
+        //     $user = User::getById(Yii::app()->user->id);
+        //     $select_lang = $user->lang;
+        // }
+        // else 
+        // {
+        //     $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
+        //     $select_lang = substr($lang_request,0,1);
+        // }
+
+        // if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
+
+        Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
+        Yii::app()->language = $select_lang;
     }
 
 }

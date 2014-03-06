@@ -2,11 +2,12 @@
 
 class SiteController extends MController
 {
-
     public function actionIndex()
     {
         $this->layout = '//layouts/all';
-        $this->render('index');
+
+        $resolution = $this->getResolution();
+        $this->render('index', array('resolution'=>$resolution));
     }
 
     public function actionError()
