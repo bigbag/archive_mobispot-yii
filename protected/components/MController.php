@@ -14,7 +14,7 @@ class MController extends Controller
     public $pageClass;
 
     public $mainBackground = false;
-    public $defaultResolution = 1400;
+    public $defaultResolution = 0;
 
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
