@@ -7,7 +7,7 @@ class SiteController extends MController
         $this->layout = '//layouts/all';
 
         $resolution = $this->getResolution();
-        $this->render('index', array('resolution'=>$resolution));
+        $this->render('index', array('resolution'=>$resolution ));
     }
 
     public function actionError()

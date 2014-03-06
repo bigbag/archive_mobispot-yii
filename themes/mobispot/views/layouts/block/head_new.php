@@ -36,7 +36,7 @@
                         ng-keypress="($event.keyCode == 13)?login(user, loginForm.$valid):''"
                         maxlength="300"
                         required >
-                        <span class="f-hint animate-show" ng-show="error.email">
+                        <span class="f-hint" ng-show="error.email">
                             {{error.content}}
                         </span>
                 </div>
@@ -50,7 +50,7 @@
                         required >
 
                     <span class="f-hint">
-                        <a class="show animate-show" href="#b_forgot"
+                        <a class="show" href="#b_forgot"
                             ng-show="loginForm.password.$error.required || error.email"
                             ng-click="action=(action != 'forgot')?'forgot':'none'">
                             <?php echo Yii::t('user', 'Forgot password?'); ?>
@@ -91,7 +91,7 @@
                         autocomplete="off"
                         maxlength="300"
                         required >
-                    <span class="f-hint animate-show" ng-show="error.email">
+                    <span class="f-hint" ng-show="error.email">
                         {{error.content}}
                     </span>
                 </div>
@@ -117,7 +117,7 @@
                         ng-minlength="10";
                         ng-maxlength="10"
                         required >
-                    <span class="f-hint animate-show" ng-show="error.code">
+                    <span class="f-hint" ng-show="error.code">
                         {{error.content}}
                     </span>
                 </div>
