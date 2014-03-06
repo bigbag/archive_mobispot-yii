@@ -34,7 +34,7 @@
     <?php include('block/head_new.php'); ?>
 
     <?php if ($this->mainBackground):?>
-        <div class="main" style="background-image: url(/themes/mobispot/new/images/<?php echo $this->main_background;?>)">
+        <div class="main" style="background-image: url(/themes/mobispot/new/images/<?php echo $this->mainBackground;?>)">
     <?php endif;?>
     <div ng-click="action='none'">
         <?php echo $content; ?>
