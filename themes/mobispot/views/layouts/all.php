@@ -18,8 +18,14 @@
     <link rel="stylesheet" href="/themes/mobispot/new/css/reset.css">
     <link rel="stylesheet" href="/themes/mobispot/new/css/foundation.css" />
     <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" />
-    
+    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" /> 
+
+    <script src="/themes/mobispot/new/js/jquery.min.js"></script>
+    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
+
+    <script src="/themes/mobispot/new/js/angular.min.js"></script>
+    <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
+
 </head>
 <body ng-controller="UserController" 
     ng-cloak class="ng-cloak"
@@ -27,13 +33,13 @@
 
     <?php include('block/head_new.php'); ?>
 
-    <?php if ($this->main_background):?>
+    <?php if ($this->mainBackground):?>
         <div class="main" style="background-image: url(/themes/mobispot/new/images/<?php echo $this->main_background;?>)">
     <?php endif;?>
     <div ng-click="action='none'">
         <?php echo $content; ?>
     </div>
-    <?php if ($this->main_background):?>
+    <?php if ($this->mainBackground):?>
         </div>
     <?php endif;?>
 
@@ -58,11 +64,7 @@
 
         </ul>
     </footer>
-    <script src="/themes/mobispot/new/js/jquery.min.js"></script>
-    <script src="/themes/mobispot/new/js/angular.min.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
-
-    <script src="/themes/mobispot/new/js/angular-animate.min.js"></script>
+    
     <script src="/themes/mobispot/new/angular/app/app.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>

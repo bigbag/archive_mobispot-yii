@@ -1,9 +1,27 @@
 'use strict';
 
 angular.module('mobispot').controller('UserController', 
-  function($scope, $http, $compile) {
+  function($scope, $http, $compile, $cookies) {
 
   $scope.error = {};
+
+  //Автоопределение разрещения
+  $scope.getResolution = function() {
+    var resolution = $cookies.resolution;
+    if (!resolution) {
+      var clientRes = Math.max(screen.width,screen.height);
+      var res = [1920, 1400, 1280];
+      for(var i=0; i<res.length; i++) {
+        if (clientRes >= res[i]){
+          console.log(res[i]);
+          resolution = res[i];
+          break;
+        }
+      }
+      $cookies.resolution = ''+resolution;
+      $scope.resolution = resolution;
+    }
+  };
 
   //Обнуляем модель user и снимаем ошибки при смене формы
   $scope.$watch('action', function() {

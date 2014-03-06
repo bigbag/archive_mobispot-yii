@@ -1,2 +1,2 @@
 'use strict';
-angular.module('mobispot', ['ngAnimate']);
+angular.module('mobispot', ['ngCookies']);

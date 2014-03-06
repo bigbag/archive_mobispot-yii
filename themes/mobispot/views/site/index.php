@@ -1,5 +1,6 @@
+<span ng-init="resolution=<?php echo $resolution?>;getResolution()"></span>
 <ul id="slides" class="slides-container">
-    <li style="background-image:url(/themes/mobispot/new/images/m11.jpg); ">
+    <li style="background-image:url(/themes/mobispot/new/images/slider/{{resolution}}/01.jpg); ">
         <div class="container">
             <h1>
                 <?php echo Yii::t('general', 'Make a lasting<br> connection') ?>
@@ -9,7 +10,7 @@
             </p>
         </div>
     </li>
-    <li style="background-image:url(/themes/mobispot/new/images/m21.jpg);">
+    <li style="background-image:url(/themes/mobispot/new/images/slider/{{resolution}}/02.jpg);">
         <div class="container blue">
             <h1>
                 <?php echo Yii::t('general', 'Pay with a tap,<br> not with cash') ?>
@@ -19,7 +20,7 @@
             </p>
         </div>
     </li>
-    <li style="background-image:url(/themes/mobispot/new/images/m31.jpg);">
+    <li style="background-image:url(/themes/mobispot/new/images/slider/{{resolution}}/03.jpg);">
         <div class="container">
             <h1>
                 <?php echo Yii::t('general', 'All your tickets<br> in one place') ?>
@@ -29,7 +30,7 @@
             </p>
         </div>
     </li>
-    <li style="background-image:url(/themes/mobispot/new/images/m41.jpg);">
+    <li style="background-image:url(/themes/mobispot/new/images/slider/{{resolution}}/04.jpg);">
         <div class="container blue">
             <h1>
                 <?php echo Yii::t('general', 'One tap is<br> all it takes') ?>

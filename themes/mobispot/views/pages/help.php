@@ -1,5 +1,5 @@
 <?php $this->pageTitle = Yii::t('phone', 'Help'); ?>
-<?php $this->main_background = 'main_bg_1.jpg'?>
+<?php $this->mainBackground = 'main_bg_1.jpg'?>
 
 <div class="content-wrapper">
     <div class="content-block" ng-controller="HelpController" >
@@ -35,7 +35,7 @@
                             <input
                                 name='email'
                                 type="email"
-                                ng-model="user.email"
+                                ng-model="user.help_email"
                                 placeholder="<?php echo Yii::t('help', 'Email'); ?>"
                                 maxlength="300"
                                 ng-minlength="3"

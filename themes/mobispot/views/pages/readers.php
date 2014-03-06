@@ -1,5 +1,5 @@
 <?php $this->pageTitle = Yii::t('phone', 'Readers'); ?>
-<?php $this->main_background = 'main_bg_2.jpg'?>
+<?php $this->mainBackground = 'main_bg_2.jpg'?>
 
 <div class="content-wrapper">
     <div class="content-block" ng-controller="PhonesController" ng-init="initPhones(<?php echo $phones ?>);initDevices(<?php echo $devices ?>)">
