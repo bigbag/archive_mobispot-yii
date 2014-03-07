@@ -3,6 +3,8 @@
 *.settings
 *.ai
 .project
+sitemap.xml
+sitemap.xml.gz
 /yii/*
 /test/*
 /assets/
