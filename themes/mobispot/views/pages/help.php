@@ -62,7 +62,7 @@
                     </div>
                     <div class="small-8 large-8 column">
                         <ul class="contact-info">
-                            <li>Email – helpme@mobispot.com</li>
+                            <li>Email – <a class="color" href="mailto:helpme@mobispot.com">helpme@mobispot.com</a></li>
                             <li>Skype – mobispot</li>
                             <li><?php echo Yii::t('help', 'Keep up at Twitter') ?> <a class="icon" href="https://twitter.com/heymobispot">&#xe001;</a></li>
                             <li><?php echo Yii::t('help', 'Hook up at Facebook') ?> <a class="icon" href="http://www.facebook.com/heyMobispot">&#xe000;</a></li>
