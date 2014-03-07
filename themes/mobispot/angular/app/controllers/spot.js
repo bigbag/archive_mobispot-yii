@@ -322,11 +322,23 @@ angular.module('mobispot').controller('SpotController',
   $scope.editContent = function(spot, key, e) {
     spot.key = key;
     if (!spot.content_new){
+        
       var spotItem = angular.element(e.currentTarget).parents('.spot-item');
       var spotEdit = angular.element('#spot-edit').clone();
-      var spotData = spotItem.find('p.item-type__text');
-
-      $scope.spot.content_new = spotData.text();
+      
+      if (spotItem.find('a.type-link').size() > 0)
+      {
+          //ссылка
+          var spotLink = spotItem.find('a.type-link');
+          $scope.spot.content_new = spotLink.find('span.link').text();
+      }
+      else
+      {
+          //текст
+          var spotData = spotItem.find('p.item-type__text');
+          $scope.spot.content_new = spotData.text();
+      }
+      
       var spotEditText = spotEdit.find('textarea');
       spotEditText.text('1');
 

@@ -1,6 +1,6 @@
 <?php $urlVal = new CUrlValidator; ?>
 <?php $socInfo = new SocInfo; ?>
-<?php if ($urlVal->validateValue( CHtml::encode($content))): ?>
+<?php if ($urlVal->validateValue(CHtml::encode($content)) or $urlVal->validateValue('http://'.CHtml::encode($content))): ?>
 <div id="block-<?php echo $key;?>" class="spot-item">
     <div class="item-area type-itembox">
         <div class="item-head">
@@ -13,9 +13,7 @@
             <div class="spot-activity">
                 <?php $net = $socInfo->getNetByLink(CHtml::encode($content)); ?>
                 <?php if (!empty($net['name'])): ?>
-                    <p class="item-type__text">
                         <a class="button bind-spot round" ng-click="bindSocial(spot, <?php echo $key; ?>, $event)">&#xe005;</a>
-                    </p>
                 <?php endif; ?>
                 <a class="button edit-spot round" ng-click="editContent(spot, <?php echo $key; ?>, $event)">&#xe009;</a>
                 <a class="button remove-spot round" ng-click="removeContent(spot, <?php echo $key; ?>, $event)">&#xe00b;</a>
