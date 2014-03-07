@@ -58,8 +58,6 @@ angular.module('mobispot').controller('UserController',
 
   // Регистрация
   $scope.activation = function(user, valid){
-    console.log(valid);
-    console.log(user.terms);
     if (!valid) return false;
     if (user.terms == 0) return false;
     $http.post('/service/registration', user).success(function(data) {
@@ -138,6 +136,7 @@ angular.module('mobispot').controller('UserController',
 
   // Восстановление пароля
   $scope.recovery = function(user, valid){
+    console.log(valid);
     if (!valid) return false;
 
     $http.post('/service/recovery', user).success(function(data) {

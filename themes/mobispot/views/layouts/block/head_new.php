@@ -167,13 +167,14 @@
                 <div class="wrapper check">
                     <input
                         name='email'
-                        type="email"
+                        type="text"
                         ng-model="user.email"
                         placeholder="<?php echo Yii::t('user', 'E-mail') ?>"
                         ng-keypress="($event.keyCode == 13)?recovery(user, recoveryForm.$valid):''"
                         autocomplete="off"
                         maxlength="300"
                         ng-class="{error: error.email}"
+                        ng-pattern="/@+/"
                         required >
                     <span class="f-hint" ng-show="error.email">
                         {{error.content}}
