@@ -6,11 +6,11 @@
     <meta charset="utf-8" />
     <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
 
-    <meta  property="og:title" content="Mobispot"/>
+    <meta  property="og:site_name" content="Mobispot"/>
+    <meta  property="og:title" content="Mobispot - Wearable NFC devices"/>
     <meta  property="og:type" content="website"/>
     <meta  property="og:url" content="http://mobispot.com"/>
     <meta  property="og:image" content="http://mobispot.com/themes/mobispot/new/images/og.jpg"/>
-    <meta  property="og:site_name" content="Mobispot - Wearable NFC devices"/>
     <meta  property="og:description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership. "/>
 
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
