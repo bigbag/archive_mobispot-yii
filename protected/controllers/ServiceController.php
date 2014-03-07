@@ -199,7 +199,7 @@ class ServiceController extends MController
     {
         $answer = array(
             'error'=>"yes", 
-            "content" => Yii::t('user', "Error")
+            "content" => Yii::t('user', "Check your email and password")
         );
         $data = $this->validateRequest();
 
@@ -214,9 +214,7 @@ class ServiceController extends MController
         if ($form->validate())
         {
             $user = User::getByEmail($form->email);
-            if (!$user or $user->status!=User::STATUS_VALID)
-                $answer['content'] = Yii::t('user', "Check your email and password");
-            else 
+            if ($user and $user->status==User::STATUS_VALID)
             {
                 MMail::recovery($user->email, $user->activkey, $this->getLang());
                 $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
