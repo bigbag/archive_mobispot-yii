@@ -1,3 +1,4 @@
+
 <div class="header-page">
     <div class="hat-bar content">
         <h1 class="logo">
@@ -25,6 +26,7 @@
             <?php endif; ?>
         </ul>
     </div>
+    <?php if (Yii::app()->user->isGuest):?>
     <div id="b_signIn" class="show-block">
         <div class="form-block">
             <form name="loginForm" class="colum-form custom">
@@ -181,9 +183,10 @@
             </form>
         </div>
     </div>
+    <?php endif;?>
     <div id="b_message" class="show-block b-message">
-            <p>A letter with instructions has been sent <br>
-                to your email address
-            </p>
+        <p>A letter with instructions has been sent <br>
+            to your email address
+        </p>
     </div>
 </div>
