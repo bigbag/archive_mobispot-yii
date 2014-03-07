@@ -37,7 +37,8 @@
                         placeholder="<?php echo Yii::t('user', 'Email address'); ?>"
                         ng-keypress="($event.keyCode == 13)?login(user, loginForm.$valid):''"
                         maxlength="300"
-                        required >
+                        ng-class="{error: error.email}"
+                        required>
                         <span class="f-hint" ng-show="error.email">
                             {{error.content}}
                         </span>
@@ -49,6 +50,7 @@
                         placeholder="<?php echo Yii::t('user', 'Password'); ?>"
                         ng-keypress="($event.keyCode == 13)?login(user, loginForm.$valid):''"
                         maxlength="300"
+                        ng-class="{error: error.email}"
                         required >
 
                     <span class="f-hint">
@@ -92,6 +94,7 @@
                         ng-keypress="($event.keyCode == 13)?activation(user, activForm.$valid):''"
                         autocomplete="off"
                         maxlength="300"
+                        ng-class="{error: error.email}"
                         required >
                     <span class="f-hint" ng-show="error.email">
                         {{error.content}}
@@ -118,6 +121,7 @@
                         maxlength="10"
                         ng-minlength="10";
                         ng-maxlength="10"
+                        ng-class="{error: error.code}"
                         required >
                     <span class="f-hint" ng-show="error.code">
                         {{error.content}}
@@ -169,13 +173,14 @@
                         ng-keypress="($event.keyCode == 13)?recovery(user, recoveryForm.$valid):''"
                         autocomplete="off"
                         maxlength="300"
+                        ng-class="{error: error.email}"
                         required >
                     <span class="f-hint" ng-show="error.email">
                         {{error.content}}
                     </span>
                 </div>
                 <footer class="form-footer">
-                    <a class="left form-button show"
+                    <a class="left form-button"
                         ng-click="recovery(user, recoveryForm.$valid)">
                         <?php echo Yii::t('user', 'Send') ?>
                     </a>
