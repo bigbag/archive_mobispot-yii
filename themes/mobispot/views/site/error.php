@@ -18,7 +18,7 @@
                 </p>
                 <footer>
                     <a class="color" href="/help"><?php echo Yii::t('error', 'Get help!') ?></a>
-                    <a class="color"href="href="mailto:helpme@mobispot.com"">helpme@mobispot.com</a>
+                    <a class="color" href="mailto:helpme@mobispot.com">helpme@mobispot.com</a>
                     <a class="color" href="https://twitter.com/heymobispot">@heymobispot</a>
                 </footer>
                 <div class="error-icon">
