@@ -1,20 +1,19 @@
-
 <div class="header-page">
     <div class="hat-bar content">
         <h1 class="logo">
             <a href="/">
-                <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/new/images/logo_x2.png"> 
+                <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/new/img/logo_x2.png"> 
             </a>
         </h1>
         <ul class="right">
             <?php if (Yii::app()->user->isGuest): ?>
-            <li><a class="show" href="#b_signIn" 
-                    ng-click="action=(action != 'sign')?'sign':'none'">
-                <?php echo Yii::t('menu', 'Sign in') ?>
-            </a></li>
             <li><a class="show" href="#b_regSpot" 
                     ng-click="action=(action != 'activation')?'activation':'none'">
                 <?php echo Yii::t('menu', 'Activate spot') ?>
+            </a></li>
+            <li><a class="show" href="#b_signIn" 
+                    ng-click="action=(action != 'sign')?'sign':'none'">
+                <?php echo Yii::t('menu', 'Sign in') ?>
             </a></li>
             <?php else: ?>
             <li><a class="show" href="/user/personal/">
@@ -69,13 +68,13 @@
                     </a>
                     <div class="soc-login right">
                         <a href="/service/social?service=google_oauth">
-                            <img src='/themes/mobispot/new/images/google-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/google-i_x2.png'>
                         </a>
                         <a href="/service/social?service=twitter">
-                            <img src='/themes/mobispot/new/images/twi-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/twi-i_x2.png'>
                         </a>
                         <a href="/service/social?service=facebook">
-                            <img src='/themes/mobispot/new/images/fb-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/fb-i_x2.png'>
                         </a>
                     </div>
                 </footer>
@@ -145,13 +144,13 @@
                     </a>
                     <div class="soc-login right">
                         <a href="/service/social?service=google_oauth">
-                            <img src='/themes/mobispot/new/images/google-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/google-i_x2.png'>
                         </a>
                         <a href="/service/social?service=twitter">
-                            <img src='/themes/mobispot/new/images/twi-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/twi-i_x2.png'>
                         </a>
                         <a href="/service/social?service=facebook">
-                            <img src='/themes/mobispot/new/images/fb-i_x2.png'>
+                            <img src='/themes/mobispot/new/img/fb-i_x2.png'>
                         </a>
                     </div>
                 </footer>
