@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
     <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
 
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon16.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon32.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon48.png">
 
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
             <div class="hat-bar content">
                 <h1 class="logo">
                     <a href="/">
-                        <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/new/images/logo_x2.png"> 
+                        <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/new/img/logo_x2.png"> 
                     </a>
                 </h1>
             </div>

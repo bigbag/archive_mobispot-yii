@@ -5,6 +5,25 @@ angular.module('mobispot').controller('UserController',
 
   $scope.error = {};
 
+  $('#birthday').datepicker({
+    yearRange: '1900:-0',
+    dateFormat: 'dd.mm.yy',
+    onSelect: function (dateText, inst) {
+      $scope.$apply(function () {
+          $scope.user.birthday = dateText;
+      }); 
+    }
+  });
+
+  //Редактирование профиля пользователя
+  $scope.setProfile = function(user){
+    $http.post('/user/editProfile',user).success(function(data) {
+        if (data.error == 'no'){
+          
+        }
+    });
+  };
+
   //Автоопределение разрещения
   $scope.getResolution = function() {
     var resolution = $cookies.resolution;
@@ -136,7 +155,6 @@ angular.module('mobispot').controller('UserController',
 
   // Восстановление пароля
   $scope.recovery = function(user, valid){
-    console.log(valid);
     if (!valid) return false;
 
     $http.post('/service/recovery', user).success(function(data) {
