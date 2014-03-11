@@ -1,2 +1,6 @@
 @import "redefine_foundation.css";
+@import "fonts.css";
+@import "glob.css";
+@import "buttons.css";
+@import "front-page.css";
 @import "main.css";

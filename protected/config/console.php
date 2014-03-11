@@ -12,5 +12,6 @@ return array(
     ),
     'components' => array(
         'db' => require(dirname(__FILE__) . '/db.php'),
+        'dbStack' => require(dirname(__FILE__) . '/dbStack.php'),
     ),
 );
