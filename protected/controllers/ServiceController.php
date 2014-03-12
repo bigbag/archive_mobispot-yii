@@ -565,8 +565,10 @@ class ServiceController extends MController
             echo json_encode($answer);
             exit;
         }
+
+        $recipients = array('ilya.radaev@gmail.com', 'alex.kulagin@mobispot.com', 'volgin@mobispot.com');
         
-        MMail::question(Yii::app()->par->load('generalEmail'), $data, $this->getLang());
+        MMail::question($recipients, $data, $this->getLang());
         $answer['content'] = Yii::t('help', 'Question has been submitted');
         $answer['error'] = "no";
         

@@ -3,6 +3,8 @@
 angular.module('mobispot').controller('HelpController', 
   function($scope, $http, $compile, $timeout) {
 
+  $scope.error = {};
+
   $scope.send = function(user, valid){
     if (!valid) return false;
     user.email = user.help_email
