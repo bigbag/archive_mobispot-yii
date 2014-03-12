@@ -547,9 +547,6 @@ p + .details{
 	float: left;
 	cursor: pointer;
 }
-.spot-list{
-	margin: 5.4em 0 50px;
-}
 .spot-list > li{
 	background: #E9EDF2;
 	margin-top: 2px;
@@ -1280,19 +1277,7 @@ img[height='115']{
 	font-weight: 700;
 	line-height: 82px;
 }
-.p-error-txt{
-	padding-bottom: 3em;
-	font-size: 16px;
-	font-family: arial;
-	font-weight: 100;
-	color: #0A0A0A;
-	line-height: 22px;
-}
-.p-error-txt a{
-	color: #0061FF;
-	text-decoration: underline;
-	font-size: 14px;
-}
+
 .error-box{
 	overflow: hidden;
 	margin-top: 8.5em;
@@ -1462,27 +1447,6 @@ list-style: disc outside none;
 	white-space: nowrap;
 	width: 220px;
 	float: left;
-}
-.p-error-txt h2{
-	margin-top: 0;
-}
-.p-error-txt footer{
-	 display: block;
-	 width: 100%;
-	 white-space: nowrap;
-	letter-spacing: 43px;
- }
-.p-error-txt a{
-	display: inline-block;
-	text-decoration: none;
-	margin: 0 0 10px 0;
-	letter-spacing: normal;
-}
-.p-error-txt p{
-	margin: 42px 0 50px;
-}
-.p-error-txt a:first-child{
-	margin-left: 0;
 }
 .content-payment{
 	font-size: 14px;
@@ -2729,10 +2693,6 @@ form .row .row.margen_0{
 }
 .item-area .bg-gray .spot-button {
 	background: #FFF;
-}
-.soc-link a:hover, .spot-button:hover {
-	background-color: #0061FF !important;
-	color: #FFF;
 }
 .bg-gray form.custom div.custom.dropdown a.current, .bg-gray form.custom div.custom.dropdown ul, .item-area_w .bg-gray form.custom div.custom.dropdown a.current, .item-area_w .bg-gray form.custom div.custom.dropdown ul {
 	background: #FFF;
