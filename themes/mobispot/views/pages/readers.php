@@ -40,7 +40,7 @@
                                 </li>
                             </ul>
                             <p class="warn">
-                                <?php echo Yii::t('phone', 'Special app needed. These devices must have Special app to read the spots:') ?>
+                                <?php echo Yii::t('phone', 'Special app needed. These devices must have special app to read the spots:') ?>
                             </p>
                             <ul ng-model="phonesList" class="device-list">
                                 <li ng-repeat="phones in phonesList" class="company" ng-hide="!(phones.badModels.length > 0)">
