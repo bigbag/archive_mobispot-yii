@@ -172,12 +172,8 @@ angular.module('mobispot').controller('UserController',
   $scope.change = function(user, valid){
     if (!valid) return false;
 
-    $http.post('/service/change', user).success(function(data) {
-      if (data.error == 'yes') {
-        angular.element('#changePassForm input[name=password]').addClass('error');
-        angular.element('#changePassForm input[name=confirmPassword]').addClass('error');
-      }
-      else if (data.error == 'no'){
+    $http.post(window.location.pathname , user).success(function(data) {
+      if (data.error == 'no'){
         $(location).attr('href','/user/personal');
       }
     });

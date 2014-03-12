@@ -224,7 +224,7 @@ class ServiceController extends MController
         echo json_encode($answer);
     }
 
-    //Страница смены пароля
+    //Смена пароля
     public function actionChange()
     {
         if (!Yii::app()->request->isPostRequest)
@@ -236,39 +236,38 @@ class ServiceController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['activkey']) or !isset($data['email']))
+        $email = Yii::app()->request->getParam('email');
+        $activkey = Yii::app()->request->getParam('activkey');
+        
+
+        if (!$email or !$activkey) $this->setBadRequest();
+
+        if (!isset($data['password']))
         {
             echo json_encode($answer);
             exit;
         }
 
-        if (!isset($data['password']) or !isset($data['confirmPassword']))
+
+        $user = User::model()->findByAttributes(array(
+            'email' => $email,
+            'activkey' => $activkey
+        ));
+
+        if ($user)
         {
-            echo json_encode($answer);
-            exit;
+            $user->password = Yii::app()->hasher->hashPassword($data['password']);
+            $user->activkey = sha1(microtime() . $data['password']);
+            $user->save(false);
+
+            $identity = new UserIdentity($email, $data['password']);
+            $identity->authenticate();
+            $this->lastVisit();
+            Yii::app()->user->login($identity);
+
+            $answer['error'] = "no";
         }
-
-        if ($data['password'] == $data['confirmPassword'])
-        {
-            $user = User::model()->findByAttributes(array(
-                'email' => $data['email'],
-                'activkey' => $data['activkey']
-            ));
-
-            if ($user)
-            {
-                $user->password = Yii::app()->hasher->hashPassword($data['password']);
-                $user->activkey = sha1(microtime() . $data['password']);
-                $user->save(false);
-
-                $identity = new UserIdentity($data['email'], $data['password']);
-                $identity->authenticate();
-                $this->lastVisit();
-                Yii::app()->user->login($identity);
-
-                $answer['error'] = "no";
-            }
-        }
+        
         echo json_encode($answer);
     }
 
@@ -282,7 +281,7 @@ class ServiceController extends MController
             $user = User::getByEmail($email);
             if (isset($user) && $user->activkey == $activkey)
             {
-                $this->render('changepassword', array(
+                $this->render('change', array(
                     'email' => $email,
                     'activkey' => $activkey
                 ));
