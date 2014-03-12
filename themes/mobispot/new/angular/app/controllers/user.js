@@ -134,9 +134,9 @@ angular.module('mobispot').controller('UserController',
         contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
-        $scope.user.email="";
-        $scope.user.activ_code="";
-        $scope.user.terms=0;
+        $scope.user.email = "";
+        $scope.user.activ_code = "";
+        $scope.user.terms = 0;
 
         resultModal.show();
         resultContent.text(data.content);
