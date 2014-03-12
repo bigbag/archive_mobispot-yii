@@ -37,17 +37,22 @@
                                     <ul ng-model="phones.models">
                                         <li class="phone-name" ng-repeat="phone in phones.models">      {{phone.name}}</li>
                                     </ul>
-
+                                </li>
+                            </ul>
+                            <p class="warn">
+                                <?php echo Yii::t('phone', 'Special app needed. These devices must have special app to read the spots:') ?>
+                            </p>
+                            <ul ng-model="phonesList" class="device-list">
+                                <li ng-repeat="phones in phonesList" class="company" ng-hide="!(phones.badModels.length > 0)">
+                                    <h5>{{phones.brand}}</h5>
                                     <div class="bad-phones" ng-class="{show: phones.badModels}" ng-model="phones.badModels">
-                                        <p>
-                                            <?php echo Yii::t('phone', 'Special app needed. These devices must have Special app to read the spots:') ?>
-                                        </p>
                                         <ul>
                                             <li class="phone-name" ng-repeat="phone in phones.badModels">
                                                 {{phone.name}}</li>
                                         </ul>
+                                    </div>
                                 </li>
-                                </ul>
+                            </ul>
                         </div>
                         <div class="small-5 large-5 column">
                             <ul ng-model="devicesList" class="device-list">
@@ -63,7 +68,7 @@
                 </div>
             </div>
         </div>
-            <p><span class="red"><?php echo Yii::t('phone', 'Please note: ') ?></span><?php echo Yii::t('phone', 'Some devices specifications change regularly and depend on the sales region. For the most accurate information check with your retailer or mobile operator that NFC is enabled on your device.') ?></p>
+            <p><span class="warn"><?php echo Yii::t('phone', 'Please note: ') ?></span><?php echo Yii::t('phone', 'Some devices specifications change regularly and depend on the sales region. For the most accurate information check with your retailer or mobile operator that NFC is enabled on your device.') ?></p>
     </div>
 </div>
 <div class="fc"></div>

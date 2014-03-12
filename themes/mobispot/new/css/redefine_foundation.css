@@ -45,29 +45,11 @@ input[type="time"],
 input[type="url"],
 form.custom div.custom.dropdown a.current,
 textarea {
-	background-color: #E9EDF2;
- 	border: 0;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    border-radius: 3px;
-    color: #0061FF;
-	-webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    color: #0061FF;
-	margin: 0 0 5px 0;
-    padding: 6px 6px 6px 20px;
-    outline: none;
-	height: 35px;
-	-webkit-transition: background 600ms ease-out;
-	-moz-transition: background 600ms ease-out;
-	-o-transition: background 600ms ease-out;
-	transition: background 600ms ease-out;
-	font-size: 14px;
-	behavior: url(/css/PIE.htc);
-	outline:0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
 }
 form.custom div.custom.dropdown a.current{
 	color: #000;
@@ -409,9 +391,10 @@ input.short + i{
 form.custom span.custom{
 	border: 3px solid #0062FF;
 	margin-right: 3px;
-	top: -1px;
+	top: 3px;
+	background: none;
 }
-form.custom span.custom.radio.checked{
+form.custom input:checked + span.custom {
 	background:#0062FF;
 }
 form.custom span.custom.radio.checked:before{
@@ -446,7 +429,6 @@ form.custom div.custom.dropdown a.current{
 
 h1, h2, h3, h4, h5, h6{
 	margin-bottom: 14px;
-	margin-top: 14px;
 }
 input[type="text"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="month"]:focus, input[type="week"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="time"]:focus, input[type="url"]:focus, textarea:focus{
 	-webkit-box-shadow: none;
