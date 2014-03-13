@@ -36,7 +36,8 @@ body {
 
 .show-block {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; }
+    opacity: 1; 
+}
     
 .error-page .p-error-txt .error-icon {
       background: url(../img/i-error.2x.png) 0 0 no-repeat;
@@ -89,7 +90,8 @@ body {
 
 .help .ng-valid + .f-hint {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; }
+    opacity: 1; 
+}
 
 li.phone-name {
     color:#0062FF;

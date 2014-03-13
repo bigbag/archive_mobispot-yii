@@ -27,9 +27,6 @@
     <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
     <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" /> 
 
-    <script src="/themes/mobispot/new/js/jquery.min.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
         <link rel="stylesheet" href="css/ie8.css">
@@ -37,6 +34,9 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <script src="/themes/mobispot/new/js/jquery.min.js"></script>
+    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="/themes/mobispot/new/js/angular.min.js"></script>
     <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
 
@@ -80,6 +80,7 @@
     </footer>
     
     <script src="/themes/mobispot/new/angular/app/app.js"></script>
+    <script src="/themes/mobispot/new/angular/app/service.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
