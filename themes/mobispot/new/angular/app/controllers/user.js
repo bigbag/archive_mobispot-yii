@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('mobispot').controller('UserController', 
-  function($scope, $http, $compile, $cookies) {
+  function($scope, $http, $compile, $cookies, contentService) {
 
   $scope.error = {};
+  $scope.result = {};
+  $scope.action = 'none';
 
   $('#birthday').datepicker({
     yearRange: '1900:-0',
@@ -13,6 +15,10 @@ angular.module('mobispot').controller('UserController',
           $scope.user.birthday = dateText;
       }); 
     }
+  });
+
+  $scope.$watch('action', function() {
+    contentService.viewModal($scope.action);
   });
 
   //Редактирование профиля пользователя
@@ -86,7 +92,7 @@ angular.module('mobispot').controller('UserController',
         $scope.user.password = "";
         $scope.user.activ_code = "";
         $scope.user.terms = 0;
-        $(location).attr('href','/');
+        $scope.result.message = data.content;
       }
       else if (data.error == 'email') {
         $scope.error.email = true;
@@ -164,6 +170,8 @@ angular.module('mobispot').controller('UserController',
       }
       else if (data.error == 'no'){
         $scope.user.email = "";
+        $scope.result.message = data.content;
+        contentService.viewModal('message');
       }
     });
   };

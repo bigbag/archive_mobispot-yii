@@ -1,4 +1,4 @@
-<div class="header-page">
+<header class="header-page">
     <div class="hat-bar content">
         <h1 class="logo">
             <a href="/">
@@ -7,26 +7,26 @@
         </h1>
         <ul class="right">
             <?php if (Yii::app()->user->isGuest): ?>
-            <li><a class="show" href="#b_regSpot" 
-                    ng-click="action=(action != 'activation')?'activation':'none'">
+            <li><a ng-click="action=(action != 'activation')?'activation':'none'"
+                    ng-class="{active: (action=='activation')}">
                 <?php echo Yii::t('menu', 'Activate spot') ?>
             </a></li>
-            <li><a class="show" href="#b_signIn" 
-                    ng-click="action=(action != 'sign')?'sign':'none'">
+            <li><a ng-click="action=(action != 'sign')?'sign':'none'"
+                    ng-class="{active: (action=='sign')}">
                 <?php echo Yii::t('menu', 'Sign in') ?>
             </a></li>
             <?php else: ?>
-            <li><a class="show" href="/user/personal/">
+            <li><a href="/user/personal/">
                 <?php echo Yii::t('menu', 'My Spots') ?>
             </a></li>
-            <li><a class="show" href="/service/logout/">
+            <li><a href="/service/logout/">
                 <?php echo Yii::t('menu', 'Logout') ?>
             </a></li>
             <?php endif; ?>
         </ul>
     </div>
     <?php if (Yii::app()->user->isGuest):?>
-    <div id="b_signIn" class="show-block">
+    <div id="sign" class="show-block" ng-class="{active: (action=='sign')}">
         <div class="form-block">
             <form name="loginForm" class="colum-form custom">
                 <div class="wrapper check"> 
@@ -53,8 +53,7 @@
                         required >
 
                     <span class="f-hint">
-                        <a class="show" href="#b_forgot"
-                            ng-show="loginForm.password.$error.required || error.email"
+                        <a ng-show="loginForm.password.$error.required || error.email"
                             ng-click="action=(action != 'forgot')?'forgot':'none'">
                             <?php echo Yii::t('user', 'Forgot password?'); ?>
                         </a>
@@ -81,7 +80,7 @@
             </form>
         </div>
     </div>
-    <div id="b_regSpot" class="show-block">
+    <div id="activation" class="show-block" ng-class="{active: (action=='activation')}">
         <div class="form-block">
             <form class="colum-form custom" name="activForm">
                 <div class="wrapper check">
@@ -157,7 +156,7 @@
             </form>
         </div>
     </div>
-    <div id="b_forgot" class="show-block">
+    <div id="forgot" class="show-block" ng-class="{active: (action=='forgot')}">
         <div class="form-block">
             <form class="colum-form custom" name="recoveryForm">
             <label class="h-label" for="forgotPass">
@@ -189,9 +188,8 @@
         </div>
     </div>
     <?php endif;?>
-    <div id="b_message" class="show-block b-message">
-        <p>A letter with instructions has been sent <br>
-            to your email address
+    <div id="message" class="show-block b-message" ng-class="{active: (action=='message')}">
+        <p>{{result.message}}
         </p>
     </div>
-</div>
+</header>
