@@ -35,10 +35,7 @@
     <![endif]-->
 
     <script src="/themes/mobispot/new/js/jquery.min.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
     <script src="/themes/mobispot/new/js/angular.min.js"></script>
-    <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
 
 </head>
 <body ng-controller="UserController" 
@@ -78,7 +75,11 @@
 
         </ul>
     </footer>
-    
+
+    <script src="/themes/mobispot/new/js/jquery-ui.min.js"></script>
+    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
+
+    <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
     <script src="/themes/mobispot/new/angular/app/app.js"></script>
     <script src="/themes/mobispot/new/angular/app/service.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>

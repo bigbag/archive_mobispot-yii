@@ -53,7 +53,7 @@ class MController extends Controller
 
         Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
 
-        Yii::app()->cache->flush();
+        //Yii::app()->cache->flush();
 
         return true;
     }
