@@ -13,6 +13,7 @@
                         ng-model="user.password"
                         placeholder="<?php echo Yii::t('user', 'Password') ?>"
                         autocomplete="off"
+                        ng-keypress="($event.keyCode == 13)?change(user, changeForm.$valid:''"
                         maxlength="300"
                         required >
                     <div class="form-item-buton">

@@ -12,9 +12,9 @@ class SpotController extends MController
     // Действие по умолчанию - редикт на мобильную версию
     public function actionIndex()
     {
-        if (Yii::app()->request->getQuery('url', 0))
+        if (Yii::app()->request->getQuery('url'))
         {
-            $url = Yii::app()->request->getQuery('url', 0);
+            $url = Yii::app()->request->getQuery('url');
             $this->redirect('http://m.tmp.mobispot.com/' . $url);
         }
     }
@@ -22,138 +22,131 @@ class SpotController extends MController
     // Загрузка файлов в спот
     public function actionUpload()
     {
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
-        $answer['key'] = '';
+        $answer = array(
+            'error'=>'yes',
+            'content'=>'',
+            'key'=>''
+        );
 
         $discodes = (isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
         $file = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 
-        if ($file and $discodes)
+        if (!$file or !$discodes) $this->getJsonAndExit($answer);
+
+        $fileType = strtolower(substr(strrchr($file, '.'), 1));
+        $file = md5(time() . $discodes) . '_' . $file;
+
+        $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+        $file_name = $patch . $file;
+
+        if (!file_put_contents($file_name, file_get_contents('php://input')))
         {
-            $fileType = strtolower(substr(strrchr($file, '.'), 1));
-            $file = md5(time() . $discodes) . '_' . $file;
-
-            $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            $file_name = $patch . $file;
-
-            if (file_put_contents($file_name, file_get_contents('php://input')))
-            {
-                $images = $this->getImageType();
-
-                if (isset($images[$fileType]))
-                {
-                    $type = 'image';
-
-                    $image = new CImageHandler();
-                    $image->load($file_name);
-                    if ($image->thumb(false, 300, true))
-                    {
-                        $image->save($patch . 'tmb_' . $file);
-                    }
-                }
-                else
-                {
-                    $type = 'obj';
-                }
-
-                $spot = Spot::getSpot(array('discodes_id' => $discodes));
-                $spotContent = SpotContent::getSpotContent($spot);
-
-                if (!$spotContent)
-                {
-                    $spotContent = SpotContent::initPersonal($spot);
-                }
-
-                $content = $spotContent->content;
-                $content['keys'][$content['counter']] = $type;
-                $key = $content['counter'];
-                $content['data'][$key] = $file;
-                $content['counter'] = $content['counter'] + 1;
-                $spotContent->content = $content;
-                $spotContent->save();
-
-                $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, array(
-                    'content' => $file,
-                    'key' => $key,
-                        ), true);
-                $answer['key'] = $key;
-                $answer['error'] = "no";
-            }
+            $this->getJsonAndExit($answer);
         }
+
+        $images = $this->getImageType();
+        if (isset($images[$fileType]))
+        {
+            $type = 'image';
+            $image = new CImageHandler();
+            $image->load($file_name);
+            if ($image->thumb(300, false, true)) $image->save($patch . 'tmb_' . $file);
+        }
+        else $type = 'obj';
+
+        $spot = Spot::getSpot(array('discodes_id' => $discodes));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content['keys'][$content['counter']] = $type;
+        $key = $content['counter'];
+        $content['data'][$key] = $file;
+        $content['counter'] = $content['counter'] + 1;
+        $spotContent->content = $content;
+        $spotContent->save();
+
+        $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, 
+            array(
+                'content' => $file,
+                'key' => $key,
+            ), 
+            true
+        );
+        $answer['key'] = $key;
+        $answer['error'] = "no";
+
         echo json_encode($answer);
     }
 
     // Просмотр содержимого спота
     public function actionSpotView()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
 
-        if (isset($data['discodes']))
-        {
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
 
-            $spot = Spot::model()->findByPk($data['discodes']);
-            if ($spot)
-            {
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
 
-                $spotContent = SpotContent::getSpotContent($spot);
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
 
-                if (!$spotContent)
-                {
-                    $spotContent = SpotContent::initPersonal($spot);
-                }
+        $content = $spotContent->content;
+        $content_keys = $content['keys'];
 
-                $content = $spotContent->content;
-                $content_keys = $content['keys'];
-
-                $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key, array(
-                    'spot' => $spot,
-                    'spotContent' => $spotContent,
-                    'content_keys' => $content_keys,
-
-                        ), true);
-                
-                $answer['pass'] = '';
-                if (!empty($spot->pass))
-                    $answer['pass'] = $spot->pass;
-                $answer['error'] = "no";
-            }
-        }
+        $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key, 
+            array(
+                'spot' => $spot,
+                'spotContent' => $spotContent,
+                'content_keys' => $content_keys,
+            ), 
+            true
+        );
+        
+        $answer['pass'] = '';
+        if (!empty($spot->pass)) $answer['pass'] = $spot->pass;
+        $answer['error'] = "no";
         
         echo json_encode($answer);
     }
     
     public function actionCoupons()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['content'] = '';
-        $answer['error'] = 'yes';
         
-        if (isset($data['discodes']) and !Yii::app()->user->isGuest)
+        if (!isset($data['discodes']) or !Yii::app()->user->id) $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
+        
+        if ($wallet)
         {
-            $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $data['discodes'],
-                    'user_id' => Yii::app()->user->id,
-                    'status' => PaymentWallet::STATUS_ACTIVE,
-                )
+            $coupons = Loyalty::getCoupons($wallet->id);
+            $answer['content'] = $this->renderPartial(
+                '//spot/coupons', 
+                array('coupons' => $coupons), 
+                true
             );
-            
-            if ($wallet)
-            {
-                $coupons = Loyalty::getCoupons($wallet->id);
-                $answer['content'] = $this->renderPartial('//spot/coupons', array('coupons' => $coupons), true);
-            }
-            else
-                $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
-                
-            $answer['error'] = 'no';
         }
+        else $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+            
+        $answer['error'] = 'no';
         
         echo json_encode($answer);
     }
@@ -162,120 +155,104 @@ class SpotController extends MController
     // Добавление блока в спот
     public function actionSpotAddContent()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>'',
+            'key'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
-        $answer['key'] = '';
 
-        if (isset($data['content']) and isset($data['user']))
+        if (!isset($data['content']) or !isset($data['user']) or !isset($data['discodes']))
         {
-
-            if (isset($data['discodes']))
-            {
-
-                $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-                $spotContent = SpotContent::getSpotContent($spot);
-
-                if (!$spotContent)
-                {
-                    $spotContent = SpotContent::initPersonal($spot);
-                }
-
-                $content = $spotContent->content;
-                $content['keys'][$content['counter']] = 'text';
-                $key = $content['counter'];
-                $content['data'][$key] = $data['content'];
-                $content['counter'] = $content['counter'] + 1;
-                $spotContent->content = $content;
-                $spotContent->save();
-                $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
-                    'content' => $data['content'],
-                    'key' => $key,
-                        ), true);
-                $answer['key'] = $key;
-                $answer['error'] = "no";
-            }
+            $this->getJsonAndExit($answer);
         }
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        $spotContent = SpotContent::getSpotContent($spot);
+
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content['keys'][$content['counter']] = 'text';
+        $key = $content['counter'];
+        $content['data'][$key] = $data['content'];
+        $content['counter'] = $content['counter'] + 1;
+        $spotContent->content = $content;
+        $spotContent->save();
+
+        $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
+            'content' => $data['content'],
+            'key' => $key,
+                ), true);
+        $answer['key'] = $key;
+        $answer['error'] = "no";
+            
         echo json_encode($answer);
     }
 
     // Изменение атрибутов спота - приватность и возможность скачать визитку
     public function actionSpotAtributeSave()
     {
+        $answer = array('error'=>'yes');
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
 
-        if (isset($data['discodes']))
-        {
+        if (isset($data['discodes'])) $this->getJsonAndExit($answer);
 
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
-            {
-                $spotContent = SpotContent::getSpotContent($spot);
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
 
-                if (!$spotContent)
-                {
-                    $spotContent = SpotContent::initPersonal($spot);
-                }
+        $spotContent = SpotContent::getSpotContent($spot);
 
-                $content = $spotContent->content;
-                $content['private'] = $data['private'];
-                $content['vcard'] = $data['vcard'];
-                $spotContent->content = $content;
-                if ($spotContent->save())
-                {
-                    $answer['error'] = "no";
-                }
-            }
-        }
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content['private'] = $data['private'];
+        $content['vcard'] = $data['vcard'];
+        $spotContent->content = $content;
+
+        if ($spotContent->save()) $answer['error'] = "no";
+        
         echo json_encode($answer);
     }
 
     // Удаление блока из спота
     public function actionSpotRemoveContent()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['keys'] = '';
 
-        if (isset($data['discodes']) and isset($data['key']))
+        if (!isset($data['discodes']) or !isset($data['key'])) $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+
+        $content = $spotContent->content;
+        if ($content['keys'][$data['key']] != 'text')
         {
+            $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            @unlink($patch . $content['data'][$data['key']]);
+            @unlink($patch . 'tmb_' . $content['data'][$data['key']]);
+        }
 
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
+        unset($content['keys'][$data['key']]);
+        unset($content['data'][$data['key']]);
+        $spotContent->content = $content;
+        if ($spotContent->save())
+        {
+            $keys = array();
+            foreach ($content['keys'] as $key => $value)
             {
-                $spotContent = SpotContent::getSpotContent($spot);
-
-                if ($spotContent)
-                {
-                    $content = $spotContent->content;
-
-                    if ($content['keys'][$data['key']] != 'text')
-                    {
-                        $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-                        @unlink($patch . $content['data'][$data['key']]);
-                        @unlink($patch . 'tmb_' . $content['data'][$data['key']]);
-                    }
-
-                    unset($content['keys'][$data['key']]);
-                    unset($content['data'][$data['key']]);
-                    $spotContent->content = $content;
-                    if ($spotContent->save())
-                    {
-                        $keys = array();
-                        foreach ($content['keys'] as $key => $value)
-                        {
-                            $keys[] = $key;
-                        }
-
-                        $answer['keys'] = $keys;
-                        $answer['error'] = "no";
-                    }
-                }
+                $keys[] = $key;
             }
+
+            $answer['keys'] = $keys;
+            $answer['error'] = "no";
         }
         echo json_encode($answer);
     }
@@ -283,35 +260,36 @@ class SpotController extends MController
     // Сохранение содержимого блока
     public function actionSpotSaveContent()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>'',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
 
-        if (isset($data['discodes']) and isset($data['key']))
+        if (!isset($data['discodes']) or !isset($data['key']))
         {
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
-            {
-                $spotContent = SpotContent::getSpotContent($spot);
-
-                if ($spotContent)
-                {
-                    $content = $spotContent->content;
-                    $content['data'][$data['key']] = $data['content_new'];
-
-                    $spotContent->content = $content;
-                    if ($spotContent->save())
-                    {
-                        $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
-                            'content' => $data['content_new'],
-                            'key' => $data['key'],
-                                ), true);
-                        $answer['error'] = "no";
-                    }
-                }
-            }
+            $this->getJsonAndExit($answer);
         }
+        
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+        
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+        
+        $content = $spotContent->content;
+        $content['data'][$data['key']] = $data['content_new'];
+
+        $spotContent->content = $content;
+        if ($spotContent->save())
+        {
+            $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
+                'content' => $data['content_new'],
+                'key' => $data['key'],
+                    ), true);
+            $answer['error'] = "no";
+        }  
+        
         echo json_encode($answer);
     }
 
@@ -869,17 +847,23 @@ class SpotController extends MController
     
     public function actionDetectSocNet()
     {
+        $answer = array(
+            'netName'=>'',
+            'iteration'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
         
-        if (isset($data['link']) && isset($data['iteration']))
+        if (!isset($data['link']) or !isset($data['iteration']))
         {
-            $socInfo = new SocInfo;
-            $net = $socInfo->getNetByLink($data['link']);
-            if (!empty($net['name']))
-                $answer['netName'] = $net['name'];
-            $answer['iteration'] = $data['iteration'];
+          $this->getJsonAndExit($answer);  
         }
+        
+        $net = SocInfo::getNetByLink($data['link']);
+
+        if (!empty($net['name']))
+            $answer['netName'] = $net['name'];
+
+        $answer['iteration'] = $data['iteration'];
         
         echo json_encode($answer);
     }
@@ -887,232 +871,217 @@ class SpotController extends MController
     // Добавление нового спота
     public function actionAddSpot()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>'',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
 
-        if (isset($data['code']))
+        if (!isset($data['code'])) $this->getJsonAndExit($answer); 
+        
+        $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
+        if (!$spot) $this->getJsonAndExit($answer); 
+        
+        $spot->status = Spot::STATUS_REGISTERED;
+        $spot->lang = $this->getLang();
+        $spot->user_id = Yii::app()->user->id;
+
+        if (isset($data['name'])) $spot->name = $data['name'];
+        $spot->spot_type_id = Spot::TYPE_PERSONAL;
+
+        if (!$spot->save()) $this->getJsonAndExit($answer); 
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $spot->discodes_id,
+                'user_id' => 0,
+            )
+        );
+        if ($wallet)
         {
+            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+            $wallet->user_id = $spot->user_id;
+            $wallet->save();
 
-            $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
-            if ($spot)
-            {
-                $spot->status = Spot::STATUS_REGISTERED;
-                $spot->lang = $this->getLang();
-                $spot->user_id = Yii::app()->user->id;
-
-                if (isset($data['name']))
-                {
-                    $spot->name = $data['name'];
-                }
-                $spot->spot_type_id = Spot::TYPE_PERSONAL;
-
-                if ($spot->save())
-                {
-                    $wallet = PaymentWallet::model()->findByAttributes(
-                        array(
-                            'discodes_id' => $spot->discodes_id,
-                            'user_id' => 0,
-                        )
-                    );
-                    if ($wallet)
-                    {
-                        $wallet->status = PaymentWallet::STATUS_ACTIVE;
-                        $wallet->user_id = $spot->user_id;
-                        $wallet->save();
-
-                    }
-
-                    $answer['content'] = $this->renderPartial('//user/block/spots', array(
-                        'data' => $spot,
-                        ), true);
-                    $answer['error'] = "no";
-                }
-            }
         }
+
+        $answer['content'] = $this->renderPartial('//user/block/spots', array(
+                'data' => $spot,
+                ), 
+            true);
+        $answer['error'] = "no";
+        
         echo json_encode($answer);
     }
 
     // Удаление спота
     public function actionRemoveSpot()
     {
+        $answer = array(
+            'error'=>'yes',
+            'content'=>'',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['discodes'] = '';
 
-        if (isset($data['discodes']))
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer); 
+        
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer); 
+    
+        $spot->status = Spot::STATUS_REMOVED_USER;
+        if ($spot->save())
         {
-            $spot = Spot::model()->findByPk($data['discodes']);
-            if ($spot)
-            {
-                $spot->status = Spot::STATUS_REMOVED_USER;
-                if ($spot->save())
-                {
-                    $answer['discodes'] = $spot->discodes_id;
-                    $answer['error'] = "no";
-                }
-            }
+            $answer['discodes'] = $spot->discodes_id;
+            $answer['error'] = "no";
         }
+
         echo json_encode($answer);
     }
 
     // Очистка спота
     public function actionCleanSpot()
     {
+        $answer = array(
+            'error'=>'yes',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
 
-        if (isset($data['discodes']))
-        {
-            $spot = Spot::model()->findByPk($data['discodes']);
-            if ($spot)
-            {
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+            
+        $spotContent = SpotContent::getSpotContent($spot);
+        $spotContent = SpotContent::initPersonal($spot, $spotContent);
 
-                $spotContent = SpotContent::getSpotContent($spot);
-                $spotContent = SpotContent::initPersonal($spot, $spotContent);
+        if ($spotContent->save()) $answer['error'] = "no";
 
-                if ($spotContent->save())
-                {
-                    $answer['error'] = "no";
-                }
-            }
-        }
         echo json_encode($answer);
     }
 
     //Делаем спот невидимым
     public function actionInvisibleSpot()
     {
+        $answer = array(
+            'error'=>'yes',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
 
-        if (isset($data['discodes']))
-        {
-            $spot = Spot::model()->findByPk($data['discodes']);
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+        
+        if ($spot->status == Spot::STATUS_INVISIBLE)
+            $spot->status = Spot::STATUS_REGISTERED;
+        else
+            $spot->status = Spot::STATUS_INVISIBLE;
 
-            if ($spot)
-            {
-                if ($spot->status == Spot::STATUS_INVISIBLE)
-                    $spot->status = Spot::STATUS_REGISTERED;
-                else
-                    $spot->status = Spot::STATUS_INVISIBLE;
-
-                if ($spot->save())
-                {
-                    $answer['error'] = "no";
-                }
-            }
-        }
+                if ($spot->save()) $answer['error'] = "no";
+  
         echo json_encode($answer);
     }
 
     //Переименовываем спот
     public function actionRenameSpot()
     {
+        $answer = array(
+            'error'=>'yes',
+            'name'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['name'] = '';
 
-        if (isset($data['newName']) and isset($data['discodes']))
+        if (!isset($data['newName']) or !isset($data['discodes']))
         {
-            $spot = Spot::model()->findByPk($data['discodes']);
-            if ($spot)
-            {
-                $spot->name = CHtml::encode($data['newName']);
-                if ($spot->save(false))
-                {
-                    $answer['name'] = mb_substr($spot->name, 0, 45, 'utf-8');
-                    $answer['error'] = "no";
-
-                    $wallet = PaymentWallet::model()->findByAttributes(
-                        array(
-                            'discodes_id'=>$data['discodes']
-                            )
-                        );
-                    if ($wallet) 
-                    {
-                        $wallet->name = $spot->name;
-                        $wallet->save(false);
-                    }
-                }
-            }
+            $this->getJsonAndExit($answer);
         }
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+            
+        $spot->name = CHtml::encode($data['newName']);
+        if (!$spot->save(false)) $this->getJsonAndExit($answer);
+        
+        $answer['name'] = mb_substr($spot->name, 0, 45, 'utf-8');
+        $answer['error'] = "no";
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id'=>$data['discodes']
+                )
+            );
+        if ($wallet) 
+        {
+            $wallet->name = $spot->name;
+            $wallet->save(false);
+        }
+        
         echo json_encode($answer);
     }
     
     //Задать пароль на спот
     public function actionSetSpotPass()
     {
+        $answer = array(
+            'error'=>'yes',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
 
-        if (isset($data['discodes']) and (empty($data['pass']) or preg_match("~^[0-9]{4}$~", $data['pass'])))
+        if (!isset($data['discodes']) or !isset($data['pass'])) $this->getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+        
+        if (empty($data['pass']))
+            $spot->pass = null;
+        else
+            $spot->pass = $data['pass'];
+        if ($spot->save(false))
         {
-            $spot = Spot::model()->findByPk($data['discodes']);
-            
-            if ($spot)
-            {
-                if (empty($data['pass']))
-                    $spot->pass = null;
-                else
-                    $spot->pass = $data['pass'];
-                if ($spot->save(false))
-                {
-                    $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
-                    for($i = 0; $i < count($whitelist); $i++)
-                        $whitelist[$i]->delete();
-                
-                    $answer['error'] = "no";
-                    $answer['saved'] = Yii::t('spot', 'Saved!');
-                }
-            }
+            $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
+            for($i = 0; $i < count($whitelist); $i++)
+                $whitelist[$i]->delete();
+        
+            $answer['error'] = "no";
+            $answer['saved'] = Yii::t('spot', 'Saved!');
         }
+            
         echo json_encode($answer);
     }
 
     //Сохраняем
     public function actionSaveOrder()
     {
+        $answer = array(
+            'error'=>'yes',
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
 
-        if (isset($data['discodes']) and isset($data['keys']))
+        if (!isset($data['discodes']) or !isset($data['keys']))
         {
+            $this->getJsonAndExit($answer);
+        }
 
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+                
+
+        $content = $spotContent->content;
+        $newkeys = array();
+        foreach ($data['keys'] as $key)
+        {
+            if (isset($content['keys'][$key]))
             {
-
-                $spotContent = SpotContent::getSpotContent($spot);
-                if ($spotContent)
-                {
-
-                    $content = $spotContent->content;
-                    $newkeys = array();
-                    foreach ($data['keys'] as $key)
-                    {
-                        if (isset($content['keys'][$key]))
-                        {
-                            $newkeys[$key] = $content['keys'][$key];
-                        }
-                    }
-                    $content['keys'] = $newkeys;
-                    $spotContent->content = $content;
-
-                    if ($spotContent->save())
-                    {
-                        $answer['error'] = "no";
-                    }
-                }
+                $newkeys[$key] = $content['keys'][$key];
             }
         }
+        $content['keys'] = $newkeys;
+        $spotContent->content = $content;
+
+        if ($spotContent->save()) $answer['error'] = "no";
+        
         echo json_encode($answer);
     }
 }
