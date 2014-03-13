@@ -116,7 +116,7 @@
                         <form name="setPassForm">
                         <p><?php echo Yii::t('spot', "Create a 4-digit password to protect your spot's content. Tell this password only to trusted people.") ?></p>
                         <input
-                            type="text"
+                            type="number"
                             class="b-short-input"
                             ng-model="spot.pass"
                             name="newPass"
@@ -125,6 +125,8 @@
                             placeholder="<?php echo Yii::t('spot', 'New Password') ?>"
                             autocomplete="off"
                             maxlength="4"
+                            ng-minlength="4"
+                            ng-maxlength="4"
                             required>
                         <a id="savePassButton"  ng-click="setNewPass(spot)" class="spot-button">
                         <?php echo Yii::t('spot', 'Save') ?>

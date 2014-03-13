@@ -134,6 +134,11 @@ class MController extends Controller
         return CJSON::decode($post, true);
     }
 
+    public function getJsonAndExit($result){
+        echo json_encode($result);
+        exit;
+    }
+
     public function getCart()
     {
         if (Yii::app()->session['itemsInCart'] and Yii::app()->session['itemsInCart'] > 0)

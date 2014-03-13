@@ -21,7 +21,7 @@
             </ul> -->
             <ul class="link-list left">
               <!-- <li><a href="/pages/about"><?php echo Yii::t('footer', 'About us') ?></a></li> -->
-                <li><a href="/pages/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
+                <li><a href="/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
                 <li><a href="/help"><?php echo Yii::t('footer', 'Get help') ?></a></li>
                 <!-- <li><a href="http://store.mobispot.com"><?php echo Yii::t('footer', 'Store') ?></a></li>
                 --> 
