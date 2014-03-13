@@ -733,7 +733,10 @@ display: inline-block;
 .form-soc-link{
 	display: block;
 	text-align: center;
-	margin: 27px 0 16px;
+	margin: 27px 0 14px;
+}
+.form-soc-link + p{
+	margin-bottom: 0;
 }
 .form-soc-link.soc-link  a{
 	height: 42px;
