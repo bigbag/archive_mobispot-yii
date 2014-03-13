@@ -25,7 +25,7 @@
                         <div class="small-5 large-5 column">
                             <h5 class="color two-line"><?php echo Yii::t('phone', 'Contactless readers') ?></h5>
                             <p>
-                                <?php echo Yii::t('phone', 'Spots can be read by many popular contactless readers with MIFARE chips support. We have tested and verified compatibility with these devices:') ?>
+                                <?php echo Yii::t('phone', 'We have tested and verified compatibility with the following readers:') ?>
                             </p>
                         </div>
                     </div>
