@@ -8,77 +8,72 @@ class UserController extends MController
     // Вывод профиля
     public function actionProfile()
     {
-        if (!Yii::app()->user->id)
-        {
-            $this->setAccess();
-        }
-        else
-        {
-            $user = User::model()->findByPk(Yii::app()->user->id);
-            $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
+        if (!Yii::app()->user->id) $this->setAccess();
+        
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
-            if (!$profile)
+        if (!$profile)
+        {
+            $profile = new UserProfile;
+            $profile->user_id = $user->id;
+            $profile->sex = UserProfile::SEX_UNKNOWN;
+            $profile->save();
+        }
+        
+        if (Yii::app()->request->getParam('UserProfile'))
+        {
+            $profile->attributes = Yii::app()->request->getParam('UserProfile');
+
+            if ($profile->validate())
             {
-                $profile = new UserProfile;
-                $profile->user_id = $user->id;
-                $profile->sex = UserProfile::SEX_UNKNOWN;
                 $profile->save();
+                $this->refresh();
             }
-            
-            if (Yii::app()->request->getParam('UserProfile'))
-            {
-                $profile->attributes = Yii::app()->request->getParam('UserProfile');
-
-                if ($profile->validate())
-                {
-                    $profile->save();
-                    $this->refresh();
-                }
-            }
-            
-            $socnet = array();
-            
-            if ($user)
-            {
-                $userTokens = SocToken::model()->findAllByAttributes(array(
-                    'user_id' => $user->id,
-                    'allow_login' => true,
-                ));
-            
-                foreach ($userTokens as $net)
-                {
-                    $socnet[$net->getType()] = 1;
-                }
-            }
-
-            $this->render('profile', array(
-                'profile' => $profile,
-                'user' => $user,
-                'socnet' => $socnet,
-            ));
         }
+        
+        $socnet = array();
+        
+        if ($user)
+        {
+            $userTokens = SocToken::model()->findAllByAttributes(array(
+                'user_id' => $user->id,
+                'allow_login' => true,
+            ));
+        
+            foreach ($userTokens as $net)
+            {
+                $socnet[$net->getType()] = 1;
+            }
+        }
+
+        $this->render('profile', array(
+            'profile' => $profile,
+            'user' => $user,
+            'socnet' => $socnet,
+        ));
+        
     }
 
     // Обновление профиля
     public function actionEditProfile()
     {
 
+        $answer = array(
+            'error'=>'yes',
+            'content'=>''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = 'yes';
-        $answer['content'] = '';
 
-        if (isset($data['id']))
+        if (!isset($data['id'])) $this->getJsonAndExit($answer);
+
+        $profile = UserProfile::model()->findByPk((int)$data['id']);
+        $profile->attributes = $data;
+
+        if ($profile->save())
         {
-            $profile = UserProfile::model()->findByPk((int)$data['id']);
-            $profile->attributes = $data;
-
-            if ($profile->save())
-            {
-                $answer['error'] = 'no';
-                $answer['content'] = Yii::t('user', "The information has been saved successfully");
-            }
-
+            $answer['error'] = 'no';
+            $answer['content'] = Yii::t('user', "The information has been saved successfully");
         }
 
         echo json_encode($answer);
@@ -140,12 +135,8 @@ class UserController extends MController
         $discodes = Yii::app()->request->getQuery('discodes');
 
         if (!isset($discodes)) $discodes = '';
-
-        if (!isset($service))
-            $this->setNotFound();
-        
-        if (!Yii::app()->user->id)
-            $this->setAccess();
+        if (!isset($service)) $this->setNotFound();
+        if (!Yii::app()->user->id) $this->setAccess();
 
         $tech = Yii::app()->request->getParam('tech');
 
@@ -167,10 +158,7 @@ class UserController extends MController
                 Yii::app()->session[$service . '_id'] = $identity->getId();
                 Yii::app()->session[$service . '_profile_url'] = $identity->getProfileUrl();
             }
-            else
-            {
-                $authIdentity->cancel();
-            }
+            else $authIdentity->cancel();
         }
     }
     
