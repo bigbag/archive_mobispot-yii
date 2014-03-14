@@ -98,7 +98,7 @@
                     </th>
                     <th colspan="2">
                         <div>
-                            <a style="" class="spot-button text-center"  ng-click="getHistory(<?php echo $wallet->id.', 1, 1';?>)"><?php echo Yii::t('corp_wallet', 'Искать');?></a>
+                            <a style="" class="spot-button text-center"  ng-click="getHistory(search)"><?php echo Yii::t('corp_wallet', 'Искать');?></a>
                         </div>
                     </th>
                 </tr>

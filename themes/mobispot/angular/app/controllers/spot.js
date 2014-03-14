@@ -200,7 +200,18 @@ angular.module('mobispot').controller('SpotController',
             angular.element('#resetPassButton').hide();
           else
             angular.element('#resetPassButton').show();
-          
+
+          //загрузка кошелька
+          angular.element('#wallet-block').remove();
+          var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
+          $http.post('/spot/wallet', details).success(function(data) {
+            if (data.error == 'no'){
+                angular.element('#spot-block').after($compile(data.content)($scope));
+                if (angular.element('#icon-wallet').hasClass('active'))
+                    angular.element('#wallet-block').slideDown();
+            }
+          }).error(function(error){alert(error)});
+            
           //загрузка страницы с акциями спота
             angular.element('#coupons-block').remove();
           var details = {discodes:$scope.spot.discodes, token:$scope.user.token};          
@@ -1104,19 +1115,27 @@ angular.module('mobispot').controller('SpotController',
     return true;
   };
 
-    $scope.showCoupons = function() {
-        angular.element('#spot-block').slideUp();
-        angular.element('#coupons-block').slideDown();
-        angular.element('.spot-tabs a').removeClass('active');
-        angular.element('#icon-coupons').addClass('active');
-    }
-  
     $scope.showSpotContent = function() {
-        angular.element('#coupons-block').slideUp();
+        angular.element('.tabs-item').slideUp();
         angular.element('#spot-block').slideDown();
         angular.element('.spot-tabs a').removeClass('active');
         angular.element('#icon-spot').addClass('active');    
     
+    }
+    
+    $scope.showWallet = function() {
+        angular.element('.tabs-item').slideUp();
+        angular.element('#wallet-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-wallet').addClass('active');    
+    
+    }
+    
+    $scope.showCoupons = function() {
+        angular.element('.tabs-item').slideUp();
+        angular.element('#coupons-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-coupons').addClass('active');
     }
   
   //Открыть спот по коду
