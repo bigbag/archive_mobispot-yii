@@ -501,8 +501,7 @@ var startSlide,stopSlide;
           timing = prefix + "TransitionTimingFunction";
           slidesControl[0].style[transform] = "translate3d(" + direction + "px, 0, 0)";
           slidesControl[0].style[duration] = this.options.effect.slide.speed + "ms";
-          slidesControl.children(":eq(" + currentSlide + ")").fadeOut(this.options.effect.slide.speed);
-
+         
           return slidesControl.on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", function() {
             slidesControl[0].style[transform] = "";
             slidesControl[0].style[duration] = "";
