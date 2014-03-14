@@ -5,8 +5,35 @@ angular.module('mobispot').controller('UserController',
 
   $scope.error = {};
   $scope.result = {};
-  $scope.action = 'none';
+  $scope.modal = 'none';
 
+  var prevSlide = function() {
+   $('.slidesjs-previous').click();
+  }
+
+  var nextSlide = function() {
+    $('.slidesjs-next').click();
+  }
+
+  var stopSlide = function() {
+    $('.slidesjs-stop').click();
+  }
+
+  var startSlide = function() {
+    $('.slidesjs-play').click();
+  }
+
+  //Очистка значений
+  $scope.setEmpty = function() {
+    $scope.user.email = '';
+    $scope.user.password = '';
+    $scope.user.terms = 0;
+
+    $scope.error = {};
+    $scope.result = {};
+  };
+
+  //Инициализация датапикера
   $('#birthday').datepicker({
     yearRange: '1900:-0',
     dateFormat: 'dd.mm.yy',
@@ -17,18 +44,28 @@ angular.module('mobispot').controller('UserController',
     }
   });
 
-  $scope.$watch('action', function() {
-    contentService.viewModal($scope.action);
+  //Сторож модальных окон
+  $scope.$watch('modal', function() {
+    $scope.setEmpty();
+    contentService.viewModal($scope.modal);
   });
 
   //Редактирование профиля пользователя
   $scope.setProfile = function(user){
     $http.post('/user/editProfile',user).success(function(data) {
         if (data.error == 'no'){
-          
+          $scope.result.message = data.content;
+          contentService.viewModal('message');
         }
     });
   };
+
+  $(document).on('keyup', function(e) {
+    if (!angular.isUndefined($scope.modal)  && ($scope.modal == 'none')) {
+      if (e.keyCode === 37) prevSlide();
+      if (e.keyCode === 39) nextSlide();
+    }
+  });
 
   //Автоопределение разрещения
   $scope.getResolution = function() {
@@ -46,16 +83,6 @@ angular.module('mobispot').controller('UserController',
       $scope.resolution = resolution;
     }
   };
-
-  //Обнуляем модель user и снимаем ошибки при смене формы
-  $scope.$watch('action', function() {
-    $scope.user.email = '';
-    $scope.user.password = '';
-    $scope.user.terms = 0;
-
-    $scope.error.email = false;
-    $scope.error.password = false;
-  });
 
   //Авторизация
   $scope.login = function(user, valid) {
@@ -93,6 +120,7 @@ angular.module('mobispot').controller('UserController',
         $scope.user.activ_code = "";
         $scope.user.terms = 0;
         $scope.result.message = data.content;
+        contentService.viewModal('message');
       }
       else if (data.error == 'email') {
         $scope.error.email = true;
