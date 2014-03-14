@@ -7,12 +7,12 @@
         </h1>
         <ul class="right">
             <?php if (Yii::app()->user->isGuest): ?>
-            <li><a ng-click="action=(action != 'activation')?'activation':'none'"
-                    ng-class="{active: (action=='activation')}">
+            <li><a ng-click="modal=(modal != 'activation')?'activation':'none'"
+                    ng-class="{active: (modal=='activation')}">
                 <?php echo Yii::t('menu', 'Activate spot') ?>
             </a></li>
-            <li><a ng-click="action=(action != 'sign')?'sign':'none'"
-                    ng-class="{active: (action=='sign')}">
+            <li><a ng-click="modal=(modal != 'sign')?'sign':'none'"
+                    ng-class="{active: (modal=='sign')}">
                 <?php echo Yii::t('menu', 'Sign in') ?>
             </a></li>
             <?php else: ?>
@@ -26,7 +26,7 @@
         </ul>
     </div>
     <?php if (Yii::app()->user->isGuest):?>
-    <div id="sign" class="show-block" ng-class="{active: (action=='sign')}">
+    <div id="sign" class="show-block" ng-class="{active: (modal=='sign')}">
         <div class="form-block">
             <form name="loginForm" class="colum-form custom">
                 <div class="wrapper check"> 
@@ -54,7 +54,7 @@
 
                     <span class="f-hint">
                         <a ng-show="loginForm.password.$error.required || error.email"
-                            ng-click="action=(action != 'forgot')?'forgot':'none'">
+                            ng-click="modal=(modal != 'forgot')?'forgot':'none'">
                             <?php echo Yii::t('user', 'Forgot password?'); ?>
                         </a>
                     </span>
@@ -80,7 +80,7 @@
             </form>
         </div>
     </div>
-    <div id="activation" class="show-block" ng-class="{active: (action=='activation')}">
+    <div id="activation" class="show-block" ng-class="{active: (modal=='activation')}">
         <div class="form-block">
             <form class="colum-form custom" name="activForm">
                 <div class="wrapper check">
@@ -156,7 +156,7 @@
             </form>
         </div>
     </div>
-    <div id="forgot" class="show-block" ng-class="{active: (action=='forgot')}">
+    <div id="forgot" class="show-block" ng-class="{active: (modal=='forgot')}">
         <div class="form-block">
             <form class="colum-form custom" name="recoveryForm">
             <label class="h-label" for="forgotPass">
@@ -188,7 +188,7 @@
         </div>
     </div>
     <?php endif;?>
-    <div id="message" class="show-block b-message" ng-class="{active: (action=='message')}">
+    <div id="message" class="show-block b-message" ng-class="{active: (modal=='message')}">
         <p>{{result.message}}
         </p>
     </div>

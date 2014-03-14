@@ -3,7 +3,7 @@
 <div class="content-wrapper">
     <div class="content-block form-block">
         <div class="row">
-            <div class="large-4 columns" ng-controller="UserController" >
+            <div class="large-4 columns">
                 <span ng-init="user.id='<?php echo $user->id;?>'; 
                             user.sex=<?php echo $profile->sex;?>"></span>
                 <form id="personInfo" name="setInfoForm" class="custom">
@@ -76,7 +76,7 @@
                     </div>
                 </form>
             </div>
-            <div class="large-8 columns" id="recPassForm" ng-controller="UserController">
+            <div class="large-8 columns" id="recPassForm">
                 <h3 class="single-form-h"><?php echo Yii::t('user', 'Change password'); ?></h3>
                 <form name="recoveryForm">
                     <span 
