@@ -20,19 +20,6 @@ $(function() {
     });
 });
 
-prevSlide = function(){
-   $('.slidesjs-previous').click();
-}
-
-nextSlide = function(){
-   $('.slidesjs-next').click();
-}
-
-$(document).on('keyup', function(e) {
-    if (e.keyCode === 37) prevSlide();
-    if (e.keyCode === 39) nextSlide();
-});
-
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-33307941-1']);
 _gaq.push(['_setDomainName', 'mobispot.com']);
