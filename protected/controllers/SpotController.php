@@ -167,49 +167,48 @@ class SpotController extends MController
         $answer['content'] = '';
         $answer['error'] = 'yes';
         
-        if (isset($data['discodes']) and !Yii::app()->user->isGuest)
-        {
-            $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $data['discodes'],
-                    'user_id' => Yii::app()->user->id,
-                )
-            );
-            
-            if ($wallet and Yii::app()->user->id == $wallet->user_id)
-            {
-                $logs = PaymentLog::getListByWalletId($wallet->id);
-                $actions = WalletLoyalty::getByWalletId($wallet->id);
-                $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
-
-                $cards = array();
-                if ($logs)
-                {
-                   foreach ($logs as $log) 
-                    {
-                        $cards[$log->card_pan] = $log->history_id;
-                    } 
-                }
-
-                $auto = PaymentAuto::model()->findByAttributes(
-                    array('wallet_id' => $wallet->id)
-                );
-
-                $answer['content'] = $this->renderPartial('//spot/wallet', array(
-                    'wallet' => $wallet,
-                    'actions' => $actions,
-                    'cards' => $cards,
-                    'auto' => $auto,
-                    'sms_info' => $sms_info,
-                    ), true);
-   
-            }
-            else
-                $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
-                
-            $answer['error'] = 'no';
-        }
+        if (empty($data['discodes']) or Yii::app()->user->isGuest) $this->getJsonAndExit($answer);
         
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        
+        if ($wallet)
+        {
+            $logs = PaymentLog::getListByWalletId($wallet->id);
+            $actions = WalletLoyalty::getByWalletId($wallet->id);
+            $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
+
+            $cards = array();
+            if ($logs)
+            {
+               foreach ($logs as $log) 
+                {
+                    $cards[$log->card_pan] = $log->history_id;
+                } 
+            }
+
+            $auto = PaymentAuto::model()->findByAttributes(
+                array('wallet_id' => $wallet->id)
+            );
+
+            $answer['content'] = $this->renderPartial('//spot/wallet', array(
+                'wallet' => $wallet,
+                'actions' => $actions,
+                'cards' => $cards,
+                'auto' => $auto,
+                'sms_info' => $sms_info,
+                ), true);
+
+        }
+        else
+            $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
+            
+        $answer['error'] = 'no';
+
         echo json_encode($answer);
     }
     
