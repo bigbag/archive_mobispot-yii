@@ -23,17 +23,17 @@ class SocToken extends CActiveRecord
     public static function getTypeList()
     {
         return array(
-            self::TYPE_GOOGLE => Yii::t('user', 'google_oauth'),
-            self::TYPE_FACEBOOK => Yii::t('user', 'facebook'),
-            self::TYPE_TWITTER => Yii::t('user', 'twitter'),
-            self::TYPE_YOUTUBE => Yii::t('user', 'youtube'),
-            self::TYPE_DEVIANTART => Yii::t('user', 'deviantart'),
-            self::TYPE_BEHANCE => Yii::t('user', 'behance'),
-            self::TYPE_VIMEO => Yii::t('user', 'vimeo'),
-            self::TYPE_VK => Yii::t('user', 'vk'),
-            self::TYPE_FOURSQUARE => Yii::t('user', 'foursquare'),
-            self::TYPE_LINKEDIN => Yii::t('user', 'linkedin'),
-            self::TYPE_INSTAGRAM => Yii::t('user', 'instagram'),
+            self::TYPE_GOOGLE => 'google_oauth',
+            self::TYPE_FACEBOOK => 'facebook',
+            self::TYPE_TWITTER => 'twitter',
+            self::TYPE_YOUTUBE => 'youtube',
+            self::TYPE_DEVIANTART => 'deviantart',
+            self::TYPE_BEHANCE => 'behance',
+            self::TYPE_VIMEO => 'vimeo',
+            self::TYPE_VK => 'vk',
+            self::TYPE_FOURSQUARE => 'foursquare',
+            self::TYPE_LINKEDIN => 'linkedin',
+            self::TYPE_INSTAGRAM => 'instagram',
         );
     }
 
@@ -43,22 +43,23 @@ class SocToken extends CActiveRecord
         return $data[$this->type];
     }
     
-    public static function getTypeByService($service)
+    public function getTypeByService($service)
     {
-        $data = self::getTypeList();
         $ind = -1;
-
-        $size = count($data);
-        for ($i = 0; $i < $size; $i++)
-        {
-            if ($data[$i] == $service)
-            {
-                $ind = $i;
-                break;
-            }
+        foreach (self::getTypeList() as $key => $value) {
+            if ($value == $service) return $key;
         }
-
         return $ind;
+    }
+
+    public function setToken($info, $user_id)
+    {
+        $userToken = new SocToken;
+        $userToken->type = SocToken::getTypeByService($info['service']);
+        $userToken->user_id = $user_id;
+        $userToken->soc_id = $info['id'];
+        $userToken->allow_login = true;
+        $userToken->save();
     }
 
     /**
@@ -89,5 +90,4 @@ class SocToken extends CActiveRecord
     {
         return 'soc_token';
     }
-
 }
