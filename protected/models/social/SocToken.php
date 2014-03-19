@@ -3,6 +3,19 @@
 /**
  * This is the model class for table "soc_token".
  *
+ * The followings are the available columns in table 'user':
+ * @property integer $id
+ * @property integer $type
+ * @property integer $user_id
+ * @property string $soc_id
+ * @property string $soc_email
+ * @property string $user_token
+ * @property string $token_secret
+ * @property integer $token_expires
+ * @property integer $is_tech
+ * @property integer $allow_login
+ * @property string $soc_username
+ * @property string $refresh_token
  */
 class SocToken extends CActiveRecord
 {
@@ -42,25 +55,6 @@ class SocToken extends CActiveRecord
         $data = self::getTypeList();
         return $data[$this->type];
     }
-    
-    public function getTypeByService($service)
-    {
-        $ind = -1;
-        foreach (self::getTypeList() as $key => $value) {
-            if ($value == $service) return $key;
-        }
-        return $ind;
-    }
-
-    public function setToken($info, $user_id)
-    {
-        $userToken = new SocToken;
-        $userToken->type = SocToken::getTypeByService($info['service']);
-        $userToken->user_id = $user_id;
-        $userToken->soc_id = $info['id'];
-        $userToken->allow_login = true;
-        $userToken->save();
-    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -71,7 +65,30 @@ class SocToken extends CActiveRecord
     {
         return parent::model($className);
     }
-    
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'soc_token';
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('type, user_id, user_id', 'required'),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, type, user_id, soc_id, soc_email, user_token, token_secret, token_expires, is_tech, allow_login, soc_username, refresh_token', 'safe', 'on' => 'search'),
+        );
+    }
+
     /**
      * @return array relational rules.
      */
@@ -83,11 +100,27 @@ class SocToken extends CActiveRecord
         );
     }
     
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
+    public function getTypeByService($service)
     {
-        return 'soc_token';
+        $ind = -1;
+        foreach (self::getTypeList() as $key => $value) {
+            if ($value == $service) return $key;
+        }
+        return $ind;
     }
+
+    public function setToken($info)
+    {
+        $userToken = new SocToken;
+        $userToken->type = SocToken::getTypeByService($info['service']);
+        $userToken->user_id = $info['user_id'];
+        $userToken->soc_id = (!empty($info['id']))?$info['id']:Null;
+        $userToken->soc_email = (!empty($info['email']))?$info['email']:Null;
+        $userToken->user_token = (!empty($info['auth_token']))?$info['auth_token']:Null;
+        $userToken->token_secret = (!empty($info['auth_secret']))?$info['auth_secret']:Null;
+        $userToken->token_expires = (!empty($info['expires']))?$info['expires']:Null;
+        $userToken->soc_username = (!empty($info['name']))?$info['name']:Null;
+        $userToken->allow_login = true;
+        $userToken->save();
+    }    
 }

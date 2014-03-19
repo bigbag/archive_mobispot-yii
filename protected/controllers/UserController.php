@@ -38,9 +38,9 @@ class UserController extends MController
         {
             $userTokens = SocToken::model()->findAllByAttributes(array(
                 'user_id' => $user->id,
-                'allow_login' => true,
+                'allow_login' => true
             ));
-        
+            
             foreach ($userTokens as $net)
             {
                 $socnet[$net->getType()] = 1;

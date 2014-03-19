@@ -98,7 +98,6 @@
                 <p>
                     <?php echo Yii::t('user', 'Connect your Mobispot profile with your favourite social network accounts. This will make your sign in easy. If you connect several accounts you will be able to sign in with any of them.'); ?>
                 </p>
-                <?php var_dump($socnet)?>
                 <span class="form-soc-link soc-link gray">
                     <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>

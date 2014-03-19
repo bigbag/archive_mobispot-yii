@@ -126,6 +126,7 @@ class User extends CActiveRecord
             if (!$eauth->authenticate()) return false;
             $atributes = $eauth->getAttributes();
             $atributes['service'] = $serviceName;
+            $atributes['user_id'] = Yii::app()->user->id;
             
             if (!isset($atributes['id'])) return false;
             User::setCacheSocInfo($atributes);
@@ -161,6 +162,7 @@ class User extends CActiveRecord
     {
         $userToken = SocToken::model()->findByAttributes(array(
             'soc_id' => $soc_id,
+            'allow_login' => true
         ));
         if (!$userToken) return false;
 
