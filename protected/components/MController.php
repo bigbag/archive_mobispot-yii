@@ -104,7 +104,7 @@ class MController extends Controller
 
     public function setBadRequest()
     {
-        throw new CHttpException(400, Yii::t('user', 'Bad Reques'));
+        throw new CHttpException(400, Yii::t('user', 'Bad Request'));
     }
 
     public function validateRequest()
@@ -198,22 +198,22 @@ class MController extends Controller
         $all_lang = Lang::getLangArray();
         $select_lang = 'en';
 
-        // if (isset(Yii::app()->request->cookies['lang']))
-        // {
-        //     $select_lang = Yii::app()->request->cookies['lang']->value;
-        // }
-        // elseif (Yii::app()->user->id)
-        // {
-        //     $user = User::getById(Yii::app()->user->id);
-        //     $select_lang = $user->lang;
-        // }
-        // else 
-        // {
-        //     $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
-        //     $select_lang = substr($lang_request,0,1);
-        // }
+        if (isset(Yii::app()->request->cookies['lang']))
+        {
+            $select_lang = Yii::app()->request->cookies['lang']->value;
+        }
+        elseif (Yii::app()->user->id)
+        {
+            $user = User::getById(Yii::app()->user->id);
+            $select_lang = $user->lang;
+        }
+        else 
+        {
+            $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
+            $select_lang = substr($lang_request,0,1);
+        }
 
-        // if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
+        if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
 
         Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
         Yii::app()->language = $select_lang;

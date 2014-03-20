@@ -1,8 +1,8 @@
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status; ?>'">
      <div class="spot-tabs">
-        <a id="icon-spot" ng-click="showSpotContent()" class="active">Spot list<i class="icon">&#xe600;</i></a>
-        <a id="icon-wallet" ng-click="showWallet()" >Wallet<i class="icon">&#xe006;</i></a>
-        <a id="icon-coupons" ng-click="showCoupons()">Coupons<i class="icon">&#xe601;</i></a>
+        <a id="icon-spot" ng-click="showSpotContent()" class="active"><?php echo Yii::t('spots', 'Spot list'); ?><i class="icon">&#xe600;</i></a>
+        <a id="icon-wallet" ng-click="showWallet()" ><?php echo Yii::t('spots', 'Wallet'); ?><i class="icon">&#xe006;</i></a>
+        <a id="icon-coupons" ng-click="showCoupons()"><?php echo Yii::t('spots', 'Coupons'); ?><i class="icon">&#xe601;</i></a>
     </div>
 
     <div class="tabs-block">
