@@ -1,10 +1,10 @@
 <div class="spot-content slide-content" ng-init="spot.status='<?php echo $spot->status; ?>'">
-<!--     <div class="spot-tabs">
-        <a id="icon-spot" ng-click="showSpotContent()" class="active">Spot list<i class="icon">&#xe600;</i></a>
-        <a href="/corp/wallet/">Wallet<i class="icon">&#xe006;</i></a>
-        <a id="icon-coupons" ng-click="showCoupons()">Coupons<i class="icon">&#xe601;</i></a>
+     <div class="spot-tabs">
+        <a id="icon-spot" ng-click="showSpotContent()" class="active"><?php echo Yii::t('spots', 'Spot list'); ?><i class="icon">&#xe600;</i></a>
+        <a id="icon-wallet" ng-click="showWallet()" ><?php echo Yii::t('spots', 'Wallet'); ?><i class="icon">&#xe006;</i></a>
+        <a id="icon-coupons" ng-click="showCoupons()"><?php echo Yii::t('spots', 'Coupons'); ?><i class="icon">&#xe601;</i></a>
     </div>
-     -->
+
     <div class="tabs-block">
         <div id="spot-block" class="spot-content_row tabs-item">
             <div id="dropbox" class="spot-item spot-main-input">
@@ -74,6 +74,24 @@
                     <a data-tooltip title="CrunchBase" net="crunchbase" class="tip-top" ng-click="bindByPanel('crunchbase')" ng-mouseenter="socView('crunchbase')" ng-mouseleave="socView()">
                         <img width="36" src="/themes/mobispot/images/icons/social/crunchbase.png"> 
                     </a>
+                    <?php /*
+                    <a data-tooltip title="LastFM" net="Last.fm" class="tip-top" ng-click="bindByPanel()" ng-mouseenter="socView('Last.fm')" ng-mouseleave="socView()">
+                        <img width="36" src="/themes/mobispot/images/icons/social/lastfm.png"> 
+                    </a>
+                    */?>
+                    <?php /*
+                    <a data-tooltip title="MySpace" net="MySpace" class="tip-top" ng-click="bindByPanel()" ng-mouseenter="socView('MySpace')" ng-mouseleave="socView()">
+                        <img width="36" src="/themes/mobispot/images/icons/social/myspace.png"> 
+                    </a>
+                    */?>
+                    <?php /*
+
+                    */?>
+                    <?php /*
+                    <a data-tooltip title="Flickr" net="Flickr" class="tip-top" ng-click="bindByPanel('')" ng-mouseenter="socView('Flickr')" ng-mouseleave="socView()">
+                        <img width="36" src="/themes/mobispot/images/icons/social/flickr.png"> 
+                    </a>
+                    */?>
 
                 </div>
             </div>
