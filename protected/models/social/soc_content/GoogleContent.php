@@ -19,7 +19,7 @@ class GoogleContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
-        
+
         $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
 
         if (!isset($socUser['error']) && !isset($socUser['errors']) && isset($socUser['id']))
@@ -33,10 +33,9 @@ class GoogleContent extends SocContentBase
                 $userDetail['first_name'] = $socUser['name']['givenName'];
             if (isset($socUser['name']) && isset($socUser['name']['familyName']))
                 $userDetail['last_name'] = $socUser['name']['familyName'];
-            $userDetail['follow_button'] = 
-                '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>'
-                .'<g:plus height="69" width="170" href="https://plus.google.com/' . $socUser['id'].'" rel="author"></g:plus>';
-                
+            $userDetail['follow_button'] = '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>'
+                    . '<g:plus height="69" width="170" href="https://plus.google.com/' . $socUser['id'] . '" rel="author"></g:plus>';
+
 
             /*
               if(isset($socUser['gender']))
@@ -81,9 +80,9 @@ class GoogleContent extends SocContentBase
                     elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken']))
                     {
                         //следующая страница
-                        $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/' 
-                                    . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key'] 
-                                    . '&pageToken=' . $userFeed['nextPageToken']
+                        $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/'
+                                        . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key']
+                                        . '&pageToken=' . $userFeed['nextPageToken']
                         );
                         $i = 0;
                     }
@@ -109,9 +108,9 @@ class GoogleContent extends SocContentBase
                     elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken']))
                     {
                         //следующая страница
-                        $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/' 
-                                    . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key'] 
-                                    . '&pageToken=' . $userFeed['nextPageToken']
+                        $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/'
+                                        . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key']
+                                        . '&pageToken=' . $userFeed['nextPageToken']
                         );
                         $i = 0;
                     }
@@ -125,7 +124,7 @@ class GoogleContent extends SocContentBase
                     }
                 }
             }
-            
+
             if ($post != 'no')
             {
                 if (isset($post['object']['content']))
@@ -150,9 +149,7 @@ class GoogleContent extends SocContentBase
                     unset($imgSrc);
                     while (isset($post['object']['attachments'][$i]) && !isset($imgSrc))
                     {
-                        if (isset($post['object']['attachments'][$i]['fullImage'])
-                            && !empty($post['object']['attachments'][$i]['fullImage']['url'])  
-                            && ($post['object']['attachments'][$i]['fullImage']['url'] != ' https:'))
+                        if (isset($post['object']['attachments'][$i]['fullImage']) && !empty($post['object']['attachments'][$i]['fullImage']['url']) && ($post['object']['attachments'][$i]['fullImage']['url'] != ' https:'))
                         {
                             $imgSrc = $post['object']['attachments'][$i]['fullImage']['url'];
                         }
@@ -179,7 +176,7 @@ class GoogleContent extends SocContentBase
                             $userDetail['last_img_href'] = $post['object']['attachments'][$i]['url'];
                     }
                 }
-                
+
                 if (self::contentNeedSave($link))
                 {
                     if (!empty($userDetail['last_img']))
@@ -198,7 +195,7 @@ class GoogleContent extends SocContentBase
 
         return $userDetail;
     }
-    
+
     public static function parseUsername($link)
     {
         $username = $link;
@@ -216,7 +213,7 @@ class GoogleContent extends SocContentBase
         }
         return $username;
     }
- 
+
     public static function parsePostSlug($link)
     {
         $slug = '';
@@ -225,7 +222,7 @@ class GoogleContent extends SocContentBase
             $slug = substr($link, (strpos($link, '/posts/') + strlen('/posts/')));
             $slug = self::rmGetParam($slug);
         }
-        
+
         return $slug;
     }
 
@@ -243,7 +240,8 @@ class GoogleContent extends SocContentBase
         $answer = false;
         if (!empty(Yii::app()->session['google_oauth_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

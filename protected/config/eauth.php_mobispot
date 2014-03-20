@@ -1,7 +1,6 @@
 <?php
 
 return array(// You can change the providers and their classes.
-    'ssl' => array('path' => '/etc/nginx/ssl/mobispot/mobispot.com-combined.crt'),
     'twitter' => array(
         // register your app here: https://dev.twitter.com/apps/new
         'class' => 'CustomTwitterService',
@@ -9,14 +8,14 @@ return array(// You can change the providers and their classes.
         'secret' => 'TiTRhSf3wUbQYKyXzE3SbrJzma6jM69Uwdnu0oRD4',
         'title' => 'Twitter',
     ),
-    'google_oauth'=>array(
+    'google_oauth' => array(
         //https://code.google.com/apis/console/
-        'class'=>'CustomGoogleOAuthService',
+        'class' => 'CustomGoogleOAuthService',
         'client_id' => '354141098611.apps.googleusercontent.com',
         'client_secret' => 'JOUENWZRO20Pp9a1u_IuJNTa',
-        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',       
-        'scope' =>'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
-        'title'=>'Google',
+        'key' => 'AIzaSyDFh8hYo85IjdRbX5j6BpBxPKpWE5KCv78',
+        'scope' => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+        'title' => 'Google',
     ),
     'facebook' => array(
         // register your app here: https://developers.facebook.com/apps/
@@ -95,7 +94,7 @@ return array(// You can change the providers and their classes.
     'instagram_mobile' => array(
         //http://instagram.com/developer/clients/manage/
         'class' => 'CustomInstagramOAuthService',
-        'scope'=>'relationships',
+        'scope' => 'relationships',
         'client_id' => 'cf9f579abaef4eb4b02c0a0ecc360761',
         'client_secret' => 'b3a57a9dab6d4ea5b7a2b75587eb48d3',
         'title' => 'Instagram',
@@ -107,8 +106,8 @@ return array(// You can change the providers and their classes.
         'client_secret' => 'ui5Z8Xa8VAorkEntojqR8Go8dBkY.Z_h',
         'title' => 'Behance'
     ),
-    'crunchbase' =>array(
-    //http://developer.crunchbase.com/apps/myapps
+    'crunchbase' => array(
+        //http://developer.crunchbase.com/apps/myapps
         'key' => 'cw3gpnarydnrpxwdyac93uaz',
         'title' => 'CrunchBase'
     ),

@@ -6,6 +6,7 @@
  */
 class SpotBlock extends CActiveRecord
 {
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -15,7 +16,7 @@ class SpotBlock extends CActiveRecord
     {
         return parent::model($className);
     }
-    
+
     /**
      * @return string the associated database table name
      */
@@ -23,4 +24,5 @@ class SpotBlock extends CActiveRecord
     {
         return 'spot_block';
     }
+
 }

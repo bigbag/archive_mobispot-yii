@@ -27,14 +27,13 @@ class BehanceContent extends SocContentBase
         return $username;
     }
 
-    
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
-        
+
         $socUser = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
-        
+
         if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)) && !empty($socUser['user']))
         {
             $socUser = $socUser['user'];
@@ -78,7 +77,7 @@ class BehanceContent extends SocContentBase
               }
               }
              */
-        
+
             $projects = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '/projects?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
             if (!(is_string($projects) && (strpos($projects, 'error:') !== false)) && isset($projects['projects']) && !empty($projects['projects'][0]))
             {
@@ -86,7 +85,7 @@ class BehanceContent extends SocContentBase
                 if (!empty($project['covers']))
                 {
                     $maxSize = 0;
-                    foreach($project['covers'] as $size=>$img)
+                    foreach ($project['covers'] as $size => $img)
                     {
                         if ($size > $maxSize)
                         {
@@ -110,14 +109,14 @@ class BehanceContent extends SocContentBase
                     {
                         if ($place)
                             $place .= ', ' . $project['owners'][0]['state'];
-                        else 
+                        else
                             $place .= $project['owners'][0]['state'];
                     }
                     if (!empty($project['owners'][0]['country']))
                     {
                         if ($place)
                             $place .= ', ' . $project['owners'][0]['country'];
-                        else 
+                        else
                             $place .= $project['owners'][0]['country'];
                     }
                     if ($place)
@@ -129,16 +128,17 @@ class BehanceContent extends SocContentBase
         {
             $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-        
+
         return $userDetail;
     }
-    
+
     public static function isLoggegByNet()
     {
         $answer = false;
         if (!empty(Yii::app()->session['Behance_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

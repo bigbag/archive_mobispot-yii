@@ -14,4 +14,5 @@ class PagesController extends MController
         $this->layout = '//layouts/all';
         $this->render('help', array());
     }
+
 }

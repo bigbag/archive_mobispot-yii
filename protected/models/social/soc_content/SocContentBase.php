@@ -15,7 +15,7 @@ class SocContentBase
             $str = substr($str, 0, strpos($str, '#'));
         return $str;
     }
-    
+
     public static function contentNeedSave($link)
     {
         return false;
@@ -29,7 +29,7 @@ class SocContentBase
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -75,20 +75,20 @@ class SocContentBase
     {
         $ch = self::initRequest($url, $options);
 
-        try 
+        try
         {
             $result = curl_exec($ch);
-        } 
-        catch (Exception $e) 
+        }
+        catch (Exception $e)
         {
             Yii::log(
-                'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                'URL: ' . $url . PHP_EOL .
-                'Options: ' . var_export($options, true)
-                ,CLogger::LEVEL_ERROR, 'SocContentBase'
+                    'Curl exception: ' . $e->getMessage() . PHP_EOL .
+                    'URL: ' . $url . PHP_EOL .
+                    'Options: ' . var_export($options, true)
+                    , 'error', 'application'
             );
         }
-        
+
         $headers = curl_getinfo($ch);
 
         //if (curl_errno($ch) > 0)
@@ -104,7 +104,7 @@ class SocContentBase
             );
             $result = 'error:' . $headers['http_code'];
         }
-        elseif(!isset($headers['http_code']))
+        elseif (!isset($headers['http_code']))
             $result = 'error:';
         elseif ($parseJson)
             $result = CJSON::decode($result, true);
@@ -115,7 +115,7 @@ class SocContentBase
 
     public static function saveImage($url)
     {
-        $web_name=false;
+        $web_name = false;
 
         $fileType = strtolower(substr(strrchr($url, '.'), 1));
         $images = array('jpeg' => 'jpeg', 'jpg' => 'jpg', 'png' => 'png', 'gif' => 'gif');
@@ -126,22 +126,21 @@ class SocContentBase
 
             $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
             $file_name = $patch . $file;
-            
-            $i=0;
+
+            $i = 0;
             while (file_exists($file_name))
             {
                 $file = md5((time() + $i) . $url) . '_' . self::urlToName($url);
                 $file_name = $patch . $file;
                 $i++;
             }
-            
+
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-            $rawdata = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_close($ch);
 
             $fp = fopen($file_name, 'x');
@@ -159,26 +158,26 @@ class SocContentBase
         $to_delete = array(':', 'http://', 'https://', '%');
         return self::rmGetParam(str_replace('/', '_', str_ireplace($to_delete, '', $url)));
     }
-    
+
     public static function timeDiff($diff)
     {
         $answer = '';
         if ($diff > 31104000)
-            $answer = ((int)floor($diff/31104000)) . ' ' . Yii::t('eauth', 'years ago');
+            $answer = ((int) floor($diff / 31104000)) . ' ' . Yii::t('eauth', 'years ago');
         elseif ($diff > 2592000)
-            $answer = ((int)floor($diff/2592000)) . ' ' . Yii::t('eauth', 'months ago');
+            $answer = ((int) floor($diff / 2592000)) . ' ' . Yii::t('eauth', 'months ago');
         elseif ($diff > 86400)
-            $answer = ((int)floor($diff/86400)) . ' ' . Yii::t('eauth', 'days ago');
+            $answer = ((int) floor($diff / 86400)) . ' ' . Yii::t('eauth', 'days ago');
         elseif ($diff > 3600)
-            $answer = ((int)floor($diff/3600)) . ' ' . Yii::t('eauth', 'hours ago');
+            $answer = ((int) floor($diff / 3600)) . ' ' . Yii::t('eauth', 'hours ago');
         elseif ($diff > 60)
-            $answer = ((int)floor($diff/60)) . ' ' . Yii::t('eauth', 'minutes ago');
+            $answer = ((int) floor($diff / 60)) . ' ' . Yii::t('eauth', 'minutes ago');
         else
             $answer = $diff . ' ' . Yii::t('eauth', 'seconds ago');
 
         return $answer;
     }
-    
+
     public static function parseParam($string, $param)
     {
         $answer = '';
@@ -187,12 +186,13 @@ class SocContentBase
             $answer = substr($string, (strpos($string, $param) + strlen($param)));
             $answer = self::rmGetParam($answer);
         }
-        
+
         return $answer;
     }
-    
+
     public static function checkToken($user_token, $token_secret = '')
     {
         return null;
     }
+
 }

@@ -17,7 +17,7 @@
 class MailStack extends CActiveRecord
 {
 
-/**
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return PaymentUser the static model class
@@ -42,7 +42,6 @@ class MailStack extends CActiveRecord
     {
         return 'stack.mail';
     }
-
 
     /**
      * @return array validation rules for model attributes.

@@ -33,3 +33,8 @@ _gaq.push(['_trackPageview']);
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ga, s);
 })();
+if (window.location.hash == '#_=_') {
+    window.location.hash = ''; // for older browsers, leaves a # behind
+    history.pushState('', document.title, window.location.pathname); // nice and clean
+    e.preventDefault(); // no page reload
+}

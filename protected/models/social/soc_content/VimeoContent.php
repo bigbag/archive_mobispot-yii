@@ -25,7 +25,7 @@ class VimeoContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
-        
+
         $socUser = self::makeRequest('http://vimeo.com/api/v2/' . $socUsername . '/info.json');
         if (!is_string($socUser) && isset($socUser['id']))
         {
@@ -33,14 +33,14 @@ class VimeoContent extends SocContentBase
             if (!empty($socUser['display_name']))
             {
                 $userDetail['soc_username'] = $socUser['display_name'];
-                $userName =  $socUser['display_name'];
+                $userName = $socUser['display_name'];
             }
             if (!empty($socUser['profile_url']))
                 $userDetail['soc_url'] = $socUser['profile_url'];
             if (!empty($socUser['profile_url']) && !empty($socUser['display_name']))
-                $userDetail['sub-line'] = ' from <a href="'. $socUser['profile_url'] .'">' 
-                    . $socUser['display_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
-            
+                $userDetail['sub-line'] = ' from <a href="' . $socUser['profile_url'] . '">'
+                        . $socUser['display_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
+
             if (!empty($socUser['portrait_medium']))
                 $userDetail['photo'] = $socUser['portrait_medium'];
             elseif (!empty($socUser['portrait_small']))
@@ -80,8 +80,8 @@ class VimeoContent extends SocContentBase
                 if (!empty($video[0]['url']))
                     $userDetail['soc_url'] = $video[0]['url'];
                 if (!empty($video[0]['user_url']) && !empty($video[0]['user_name']))
-                    $userDetail['sub-line'] = ' from <a href="'. $video[0]['user_url'] .'">' 
-                        . $video[0]['user_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
+                    $userDetail['sub-line'] = ' from <a href="' . $video[0]['user_url'] . '">'
+                            . $video[0]['user_name'] . '</a> on <a href="http://vimeo.com">Vimeo</a> </span>';
                 if (!empty($video[0]['user_portrait_medium']))
                     $userDetail['photo'] = $video[0]['user_portrait_medium'];
                 elseif (!empty($video[0]['user_portrait_small']))
@@ -102,22 +102,22 @@ class VimeoContent extends SocContentBase
                 $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
-        
+
         if (!empty($userId) && !empty(Yii::app()->session['vimeo_follow_' . $userId]))
         {
             $userDetail['invite'] = Yii::t('eauth', 'You\'re following ');
             if (!empty($userName))
                 $userDetail['invite'] .= $userName;
         }
-        elseif(!empty($userId))
+        elseif (!empty($userId))
         {
             $userDetail['follow_service'] = 'vimeo';
             $userDetail['follow_param'] = $userId;
         }
-    
+
         return $userDetail;
     }
-    
+
     public static function parseUsername($link)
     {
         $username = $link;
@@ -134,36 +134,36 @@ class VimeoContent extends SocContentBase
         $answer = false;
         if (!empty(Yii::app()->session['vimeo_token']))
             $answer = true;
-        
+
         return $answer;
     }
-    
+
     public static function followSocial($idUser)
     {
         $answer = array();
         $answer['error'] = 'yes';
-        
+
         if (!empty($idUser) && !empty(Yii::app()->session['vimeo_token']))
         {
             /*
-            $followResult = self::makeRequest(    'http://vimeo.com/api/rest/v2?method=vimeo.channels.subscribe&' 
-                                                . Yii::app()->session['vimeo_token']
-                                                . '&channel_id=' . $idUser
-                                                );
-            
-            */
+              $followResult = self::makeRequest(    'http://vimeo.com/api/rest/v2?method=vimeo.channels.subscribe&'
+              . Yii::app()->session['vimeo_token']
+              . '&channel_id=' . $idUser
+              );
+
+             */
             Yii::import('ext.vimeo.phpVimeo');
             $token = Yii::app()->session['vimeo_token'];
             Yii::app()->session['vimeo_token'] = $token;
-        
-            $oauth_token = substr($token, (strpos($token, 'oauth_token=')+12), (strpos($token, '&oauth_token_secret=')-12));
-            $token_secret = substr($token, (strpos($token, '&oauth_token_secret=')+20));
-        
+
+            $oauth_token = substr($token, (strpos($token, 'oauth_token=') + 12), (strpos($token, '&oauth_token_secret=') - 12));
+            $token_secret = substr($token, (strpos($token, '&oauth_token_secret=') + 20));
+
             $phpVimeo = new phpVimeo(Yii::app()->eauth->services['vimeo']['key'], Yii::app()->eauth->services['vimeo']['secret'], $oauth_token, $token_secret);
             $followResult = $phpVimeo->call('vimeo.people.addSubscription', array('user_id' => $idUser, 'types' => 'likes,appears,uploads'));
-    
+
             if ($followResult)
-            {    
+            {
                 $answer['error'] = 'no';
                 $userName = '';
                 $socUser = self::makeRequest('http://vimeo.com/api/v2/' . $idUser . '/info.json');
@@ -174,8 +174,8 @@ class VimeoContent extends SocContentBase
                 $answer['message'] = Yii::t('eauth', 'You\'re following ') . $userName;
             }
         }
-        
+
         return $answer;
     }
-    
+
 }

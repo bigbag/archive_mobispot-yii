@@ -19,9 +19,9 @@
  */
 class Person extends CActiveRecord
 {
+
     const STATUS_VALID = 1;
     const STATUS_BANNED = 0;
-
     const TYPE_TIMEOUT = 0;
     const TYPE_WALLET = 1;
 
@@ -42,25 +42,30 @@ class Person extends CActiveRecord
         // will receive user inputs.
         return array(
             array('name, creation_date', 'required'),
-            array('firm_id, status, wallet_status, type', 'numerical', 'integerOnly'=>true),
-            array('tabel_id', 'length', 'max'=>150),
-            array('card', 'length', 'max'=>8),
-            array('hard_id', 'length', 'max'=>128),
-            array('payment_id', 'length', 'max'=>32),
+            array('firm_id, status, wallet_status, type', 'numerical', 'integerOnly' => true),
+            array('tabel_id', 'length', 'max' => 150),
+            array('card', 'length', 'max' => 8),
+            array('hard_id', 'length', 'max' => 128),
+            array('payment_id', 'length', 'max' => 32),
             array('birthday', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, tabel_id, birthday, firm_id, card, hard_id, payment_id, creation_date, status, wallet_status, type', 'safe', 'on'=>'search'),
+            array('id, name, tabel_id, birthday, firm_id, card, hard_id, payment_id, creation_date, status, wallet_status, type', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if (!$this->creation_date) $this->creation_date = date('Y-m-d H:i:s');
-        if (!$this->status) $this->status = self::STATUS_VALID;
-        if (!$this->wallet_status) $this->wallet_status = self::STATUS_VALID;
-        if (!$this->type) $this->type = self::TYPE_TIMEOUT;
-        if (!$this->name) $this->name = 'Anonim';
+        if (!$this->creation_date)
+            $this->creation_date = date('Y-m-d H:i:s');
+        if (!$this->status)
+            $this->status = self::STATUS_VALID;
+        if (!$this->wallet_status)
+            $this->wallet_status = self::STATUS_VALID;
+        if (!$this->type)
+            $this->type = self::TYPE_TIMEOUT;
+        if (!$this->name)
+            $this->name = 'Anonim';
 
         return parent::beforeValidate();
     }
@@ -102,23 +107,23 @@ class Person extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('tabel_id',$this->tabel_id,true);
-        $criteria->compare('birthday',$this->birthday,true);
-        $criteria->compare('firm_id',$this->firm_id);
-        $criteria->compare('card',$this->card,true);
-        $criteria->compare('hard_id',$this->hard_id,true);
-        $criteria->compare('payment_id',$this->payment_id,true);
-        $criteria->compare('creation_date',$this->creation_date,true);
-        $criteria->compare('status',$this->status);
-        $criteria->compare('wallet_status',$this->wallet_status);
-        $criteria->compare('type',$this->type);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('tabel_id', $this->tabel_id, true);
+        $criteria->compare('birthday', $this->birthday, true);
+        $criteria->compare('firm_id', $this->firm_id);
+        $criteria->compare('card', $this->card, true);
+        $criteria->compare('hard_id', $this->hard_id, true);
+        $criteria->compare('payment_id', $this->payment_id, true);
+        $criteria->compare('creation_date', $this->creation_date, true);
+        $criteria->compare('status', $this->status);
+        $criteria->compare('wallet_status', $this->wallet_status);
+        $criteria->compare('type', $this->type);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -136,8 +141,9 @@ class Person extends CActiveRecord
      * @param string $className active record class name.
      * @return Person the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
 }

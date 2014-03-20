@@ -12,6 +12,7 @@
  */
 class FirmTerm extends CActiveRecord
 {
+
     /**
      * @return string the associated database table name
      */
@@ -29,17 +30,17 @@ class FirmTerm extends CActiveRecord
         // will receive user inputs.
         return array(
             array('term_id, firm_id, creation_date', 'required'),
-            array('term_id, firm_id, child_firm_id', 'numerical', 'integerOnly'=>true),
+            array('term_id, firm_id, child_firm_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, term_id, firm_id, child_firm_id, creation_date', 'safe', 'on'=>'search'),
+            array('id, term_id, firm_id, child_firm_id, creation_date', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if !($this->creation_date) $this->creation_date = date('Y-m-d H:i:s');
-        if !($this->child_firm_id) $this->child_firm_id = $this->firm_id ;
+        if!($this->creation_date) $this->creation_date = date('Y-m-d H:i:s');
+        if!($this->child_firm_id) $this->child_firm_id = $this->firm_id;
 
         return parent::beforeValidate();
     }
@@ -88,16 +89,16 @@ class FirmTerm extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('term_id',$this->term_id);
-        $criteria->compare('firm_id',$this->firm_id);
-        $criteria->compare('child_firm_id',$this->child_firm_id);
-        $criteria->compare('creation_date',$this->creation_date,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('term_id', $this->term_id);
+        $criteria->compare('firm_id', $this->firm_id);
+        $criteria->compare('child_firm_id', $this->child_firm_id);
+        $criteria->compare('creation_date', $this->creation_date, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -115,8 +116,9 @@ class FirmTerm extends CActiveRecord
      * @param string $className active record class name.
      * @return FirmTerm the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
 }
