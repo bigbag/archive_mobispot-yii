@@ -90,7 +90,8 @@ class LinkedInContent extends SocContentBase
         $answer = false;
         if (!empty(Yii::app()->session['linkedin_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

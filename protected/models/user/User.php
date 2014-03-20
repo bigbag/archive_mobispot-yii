@@ -13,10 +13,6 @@
  * @property string $lastvisit
  * @property integer $type
  * @property integer $status
- * @property string $vkontakte_id
- * @property string $facebook_id
- * @property string $google_oauth_id
- * @property string $twitter_id
  */
 class User extends CActiveRecord
 {
@@ -31,10 +27,10 @@ class User extends CActiveRecord
     public function getStatusList()
     {
         return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
-            self::STATUS_VALID => Yii::t('user', 'Активен'),
-            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
+            self::STATUS_NOACTIVE => Yii::t('user', 'Non active'),
+            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
+            self::STATUS_VALID => Yii::t('user', 'Valid'),
+            self::STATUS_BANNED => Yii::t('user', 'Banned'),
         );
     }
 
@@ -86,25 +82,25 @@ class User extends CActiveRecord
         return array(
             array('email, password, activkey, creation_date', 'required'),
             array('email', 'email'),
-            array('email', 'unique', 'message' => Yii::t('user', "На сайте уже зарегистрирован пользователь с таким Email")),
-            array('password', 'length', 'max' => 128, 'min' => 10, 'message' => Yii::t('user', "Минимальная длина пароля 5 символов")),
+            array('email', 'unique', 'message' => Yii::t('user', "The site already a registered member with Email")),
+            array('password', 'length', 'max' => 128, 'min' => 2, 'message' => Yii::t('user', "Minimum password length 2 characters")),
             array('type, status', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
             array('type', 'in', 'range' => array_keys($this->getTypeList())),
             array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, email, password, activkey, creation_date, lastvisit, type, status, facebook_id, google_oauth_id, twitter_id', 'safe', 'on' => 'search'),
+            array('id, email, password, activkey, creation_date, lastvisit, type, status', 'safe', 'on' => 'search'),
         );
     }
 
     public function getById($id)
     {
-        $user = Yii::app()->cache->get('user_'.$id);
+        $user = Yii::app()->cache->get('user_' . $id);
         if (!$user)
         {
             $user = self::model()->findByPk($id);
-            Yii::app()->cache->set('user_'.$id, $user, 120);
+            Yii::app()->cache->set('user_' . $id, $user, 120);
         }
         return $user;
     }
@@ -117,6 +113,67 @@ class User extends CActiveRecord
     public function getByEmail($email)
     {
         return User::model()->findByAttributes(array('email' => $email));
+    }
+
+    public function getSocInfo($serviceName)
+    {
+        try
+        {
+            $user_id = Yii::app()->user->id;
+            $eauth = Yii::app()->eauth->getIdentity($serviceName);
+            $eauth->redirectUrl = Yii::app()->user->returnUrl;
+            $eauth->cancelUrl = $this->createAbsoluteUrl('/');
+
+            if (!$eauth->authenticate())
+                return false;
+            $atributes = $eauth->getAttributes();
+            $atributes['service'] = $serviceName;
+            $atributes['user_id'] = ($user_id) ? $user_id : false;
+
+            if (!isset($atributes['id']))
+                return false;
+            User::setCacheSocInfo($atributes);
+
+            return $atributes;
+        }
+        catch (EAuthException $e)
+        {
+            Yii::log('AuthException' . $e->getMessage(), 'error', 'application');
+            return false;
+        }
+    }
+
+    public function setCacheSocInfo($info)
+    {
+        if (empty($info))
+            return false;
+        Yii::app()->cache->set('user_soc_' . Yii::app()->request->csrfToken, $info, 3600);
+        return true;
+    }
+
+    public function getCacheSocInfo()
+    {
+        $info = Yii::app()->cache->get('user_soc_' . Yii::app()->request->csrfToken);
+        if (!$info)
+            return false;
+        return $info;
+    }
+
+    public function clearCacheSocInfo()
+    {
+        return Yii::app()->cache->delete('user_soc_' . Yii::app()->request->csrfToken);
+    }
+
+    public function socialCheck($service, $soc_id)
+    {
+        $userToken = SocToken::model()->findByAttributes(array(
+            'soc_id' => $soc_id,
+            'allow_login' => true
+        ));
+        if (!$userToken)
+            return false;
+
+        return User::model()->valid()->findByPk($userToken->user_id);
     }
 
     public function beforeValidate()
@@ -137,9 +194,7 @@ class User extends CActiveRecord
     public function beforeSave()
     {
         if ($this->password and !$this->activkey)
-        {
-           $this->activkey = sha1(microtime() . $this->password);
-        }
+            $this->activkey = sha1(microtime() . $this->password);
 
         return parent::beforeSave();
     }
@@ -154,7 +209,7 @@ class User extends CActiveRecord
             $profile->save();
         }
 
-        Yii::app()->cache->delete('log_'.$this->id);
+        Yii::app()->cache->delete('log_' . $this->id);
 
         parent::afterSave();
     }
@@ -162,7 +217,12 @@ class User extends CActiveRecord
     protected function afterDelete()
     {
         UserProfile::model()->deleteByPk($this->id);
-        Spot::model()->updateAll(array('status' => Spot::STATUS_REMOVED_SYS, 'removed_date' => date('Y-m-d H:i:s')), 'user_id=' . $this->id);
+        Spot::model()->updateAll(
+                array(
+            'status' => Spot::STATUS_REMOVED_SYS,
+            'removed_date' => date('Y-m-d H:i:s')
+                ), 'user_id=' . $this->id
+        );
         parent::afterDelete();
     }
 
@@ -207,6 +267,9 @@ class User extends CActiveRecord
             'active' => array(
                 'condition' => 'status=' . self::STATUS_ACTIVE,
             ),
+            'valid' => array(
+                'condition' => 'status=' . self::STATUS_VALID,
+            ),
             'notactvie' => array(
                 'condition' => 'status=' . self::STATUS_NOACTIVE,
             ),
@@ -241,22 +304,11 @@ class User extends CActiveRecord
         $criteria->compare('lastvisit', $this->lastvisit, true);
         $criteria->compare('type', $this->type);
         $criteria->compare('status', $this->status);
-        $criteria->compare('vkontakte_id', $this->vkontakte_id);
-        $criteria->compare('facebook_id', $this->facebook_id);
-        $criteria->compare('google_oauth_id', $this->google_oauth_id);
-        $criteria->compare('twitter_id', $this->twitter_id);
-
         $criteria->compare('lang', $this->lang);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
-    }
-
-    public function socialCheck($service, $soc_id)
-    {
-        $field = $service . '_id';
-        return User::model()->findAllByAttributes(array($field => $soc_id));
     }
 
 }

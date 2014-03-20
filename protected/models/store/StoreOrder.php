@@ -22,7 +22,6 @@ class StoreOrder extends CActiveRecord
     const STATUS_PAYMENT_WAIT = 1;             //передано на оплату (через Uniteller)
     const STATUS_PAID = 2;
 
-
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -37,7 +36,7 @@ class StoreOrder extends CActiveRecord
     {
         return 'store.store_order';
     }
-    
+
     public function beforeSave()
     {
         $this->delivery_data = serialize($this->delivery_data);
@@ -51,7 +50,7 @@ class StoreOrder extends CActiveRecord
         $this->payment_data = unserialize($this->payment_data);
         return parent::afterFind();
     }
-    
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -64,4 +63,5 @@ class StoreOrder extends CActiveRecord
             array('id_customer, delivery, status, promo_id', 'numerical', 'integerOnly' => true),
         );
     }
+
 }

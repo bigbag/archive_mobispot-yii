@@ -1,4 +1,5 @@
 <?php
+
 /**
  * An example of extending the provider class.
  *
@@ -6,7 +7,6 @@
  * @link http://github.com/Nodge/yii-eauth/
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-
 require_once dirname(dirname(__FILE__)) . '/services/VKontakteOAuthService.php';
 
 class CustomVKontakteService extends VKontakteOAuthService
@@ -16,11 +16,11 @@ class CustomVKontakteService extends VKontakteOAuthService
 
     protected function fetchAttributes()
     {
-        $info = (array)$this->makeSignedRequest('https://api.vkontakte.ru/method/getProfiles', array(
-            'query' => array(
-                'uids' => $this->uid,
-                'fields' => 'nickname, sex, bdate, city, country, timezone, photo, photo_medium, photo_big, photo_rec',
-            ),
+        $info = (array) $this->makeSignedRequest('https://api.vkontakte.ru/method/getProfiles', array(
+                    'query' => array(
+                        'uids' => $this->uid,
+                        'fields' => 'nickname, sex, bdate, city, country, timezone, photo, photo_medium, photo_big, photo_rec',
+                    ),
         ));
 
         $info = $info['response'][0];
@@ -47,4 +47,5 @@ class CustomVKontakteService extends VKontakteOAuthService
         $this->attributes['photo_big'] = $info->photo_big;
         $this->attributes['photo_rec'] = $info->photo_rec;
     }
+
 }

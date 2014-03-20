@@ -20,11 +20,11 @@ class VkContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
-        
+
         $url = 'https://api.vk.com/method/users.get.json?user_ids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
 //'&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate(birthdate),city,country,timezone,photo,photo_medium,photo_big,has_mobile,rate,contacts,education,online,counters';
         $curl_result = self::makeRequest($url);
-        
+
         if (!(is_string($curl_result) && (strpos($curl_result, 'error:') !== false)) && isset($curl_result['response']) && !empty($curl_result['response'][0]) && empty($curl_result['response'][0]['error']))
         {
             $socUser = $curl_result['response'][0];
@@ -32,17 +32,17 @@ class VkContent extends SocContentBase
                 $userDetail['photo'] = $socUser['photo_medium'];
             elseif (!empty($socUser['photo']))
                 $userDetail['photo'] = $socUser['photo'];
-            
-            if (!empty($socUser['first_name'])) 
+
+            if (!empty($socUser['first_name']))
             {
                 $userDetail['soc_username'] = $socUser['first_name'];
                 if (!empty($socUser['last_name']))
                     $userDetail['soc_username'] .= ' ' . $socUser['last_name'];
             }
-            
+
             if (!empty($socUser['screen_name']))
                 $userDetail['soc_url'] = 'http://vk.com/' . $socUser['screen_name'];
-            
+
             //Последний пост
             if (isset($socUser['uid']))
             {
@@ -152,10 +152,10 @@ class VkContent extends SocContentBase
         {
             $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-        
+
         return $userDetail;
     }
-    
+
     public static function parseUsername($link)
     {
         $username = $link;
@@ -172,7 +172,8 @@ class VkContent extends SocContentBase
         $answer = false;
         if (!empty(Yii::app()->session['vk_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

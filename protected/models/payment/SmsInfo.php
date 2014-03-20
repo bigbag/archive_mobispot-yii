@@ -35,20 +35,22 @@ class SmsInfo extends CActiveRecord
         // will receive user inputs.
         return array(
             array('wallet_id, user_id, phone, status', 'required'),
-            array('day_count, status', 'numerical', 'integerOnly'=>true),
-            array('wallet_id, user_id', 'length', 'max'=>20),
-            array('phone', 'length', 'max'=>64),
+            array('day_count, status', 'numerical', 'integerOnly' => true),
+            array('wallet_id, user_id', 'length', 'max' => 20),
+            array('phone', 'length', 'max' => 64),
             array('last_sms', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, wallet_id, user_id, last_sms, day_count, phone, status', 'safe', 'on'=>'search'),
+            array('id, wallet_id, user_id, last_sms, day_count, phone, status', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if (!$this->status) $this->status = self::STATUS_OFF;
-        if (!$this->day_count) $this->day_count = 0;
+        if (!$this->status)
+            $this->status = self::STATUS_OFF;
+        if (!$this->day_count)
+            $this->day_count = 0;
 
         return parent::beforeValidate();
     }
@@ -98,18 +100,18 @@ class SmsInfo extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id,true);
-        $criteria->compare('wallet_id',$this->wallet_id,true);
-        $criteria->compare('user_id',$this->user_id,true);
-        $criteria->compare('last_sms',$this->last_sms,true);
-        $criteria->compare('day_count',$this->day_count);
-        $criteria->compare('phone',$this->phone,true);
-        $criteria->compare('status',$this->status);
+        $criteria->compare('id', $this->id, true);
+        $criteria->compare('wallet_id', $this->wallet_id, true);
+        $criteria->compare('user_id', $this->user_id, true);
+        $criteria->compare('last_sms', $this->last_sms, true);
+        $criteria->compare('day_count', $this->day_count);
+        $criteria->compare('phone', $this->phone, true);
+        $criteria->compare('status', $this->status);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -127,7 +129,7 @@ class SmsInfo extends CActiveRecord
      * @param string $className status record class name.
      * @return SmsInfo the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -140,9 +142,10 @@ class SmsInfo extends CActiveRecord
 
 
         $sms_info = SmsInfo::model()->findByAttributes(
-            array('wallet_id' => $wallet_id)
+                array('wallet_id' => $wallet_id)
         );
-        if ($sms_info) $result['phone'] = $sms_info->phone;
+        if ($sms_info)
+            $result['phone'] = $sms_info->phone;
 
         $criteria = new CDbCriteria();
         $criteria->select = 'phone';
@@ -153,9 +156,10 @@ class SmsInfo extends CActiveRecord
             ':user_id' => $user_id,
         );
 
-        if (SmsInfo::model()->count($criteria) == 1) $result['all_wallets'] = 1;
+        if (SmsInfo::model()->count($criteria) == 1)
+            $result['all_wallets'] = 1;
 
         return $result;
-
     }
+
 }

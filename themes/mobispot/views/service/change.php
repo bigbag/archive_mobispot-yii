@@ -6,7 +6,7 @@
         <div class="row">
             <div class="large-12 columns">
                  <form name="changeForm" class="custom">
-                    <h3 class="single-form-h">New password</h3>
+                    <h3 class="single-form-h"><?php echo Yii::t('user', 'New password') ?></h3>
                     <input
                         name="password"
                         type="text"

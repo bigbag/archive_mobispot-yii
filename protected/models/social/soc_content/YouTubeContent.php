@@ -27,7 +27,8 @@ class YouTubeContent extends SocContentBase
             {
                 $userProfileEntry = $yt->getUserProfile($username);
                 $result = 'ok';
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
             {
                 $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
@@ -49,9 +50,10 @@ class YouTubeContent extends SocContentBase
                 {
                     $videoEntry = $yt->getVideoEntry($videoId);
                     $result = 'ok';
-                } catch (Exception $e)
+                }
+                catch (Exception $e)
                 {
-                    $result =  Yii::t('eauth', "This post doesn't exist:") . $videoId;
+                    $result = Yii::t('eauth', "This post doesn't exist:") . $videoId;
                 }
             }
         }
@@ -64,7 +66,7 @@ class YouTubeContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = $link;
-        
+
         //$userXML = $self::makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
         $username = '';
         if ((strpos($socUsername, 'youtube.com/channel/') > 0) || (strpos($socUsername, 'youtube.com/channel/') !== false))
@@ -88,14 +90,14 @@ class YouTubeContent extends SocContentBase
                 //$userDetail['soc_username'] = $userProfileEntry->title->text;
                 $userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
                 /*
-                $userDetail['age'] = $userProfileEntry->getAge();
-                $userDetail['gender'] = $userProfileEntry->getGender();
-                $userDetail['location'] = $userProfileEntry->getLocation();
-                $userDetail['school'] = $userProfileEntry->getSchool();
-                $userDetail['work'] = $userProfileEntry->getCompany();
-                $userDetail['about'] = $userProfileEntry->getOccupation();
-                */
-                
+                  $userDetail['age'] = $userProfileEntry->getAge();
+                  $userDetail['gender'] = $userProfileEntry->getGender();
+                  $userDetail['location'] = $userProfileEntry->getLocation();
+                  $userDetail['school'] = $userProfileEntry->getSchool();
+                  $userDetail['work'] = $userProfileEntry->getCompany();
+                  $userDetail['about'] = $userProfileEntry->getOccupation();
+                 */
+
                 $videoFeed = $yt->getuserUploads($username);
 
                 if (isset($videoFeed[0]))
@@ -111,7 +113,8 @@ class YouTubeContent extends SocContentBase
                         $userDetail['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                     }
                 }
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
             {
                 $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
@@ -121,16 +124,16 @@ class YouTubeContent extends SocContentBase
             if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false))
             {
                 $videoContent = self::getVideoContent($socUsername);
-                
+
                 foreach ($videoContent as $postKey => $postValue)
                     $userDetail[$postKey] = $postValue;
             }
         }
         $userDetail['avatar_before_mess_body'] = true;
-        
+
         return $userDetail;
     }
-    
+
     public static function getVideoContent($link)
     {
         $videoContent = array();
@@ -158,16 +161,17 @@ class YouTubeContent extends SocContentBase
                 {
                     $videoContent['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                 }
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
             {
                 $videoContent['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
                 $videoContent['soc_username'] = $videoContent['error'];
             }
         }
-        
+
         return $videoContent;
     }
-    
+
     public static function parseUsername($link)
     {
         return $link;
@@ -178,7 +182,8 @@ class YouTubeContent extends SocContentBase
         $answer = false;
         if (!empty(Yii::app()->session['YouTube_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

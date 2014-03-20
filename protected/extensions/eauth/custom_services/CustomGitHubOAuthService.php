@@ -1,4 +1,5 @@
 <?php
+
 /**
  * GitHubOAuthService class file.
  *
@@ -8,7 +9,6 @@
  * @link https://github.com/Nodge/yii-eauth/
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-
 require_once dirname(dirname(__FILE__)) . '/services/GitHubOAuthService.php';
 
 class CustomGitHubOAuthService extends GitHubOAuthService
@@ -16,7 +16,7 @@ class CustomGitHubOAuthService extends GitHubOAuthService
 
     protected function fetchAttributes()
     {
-        $info = (object)$this->makeSignedRequest('https://api.github.com/user');
+        $info = (object) $this->makeSignedRequest('https://api.github.com/user');
 
         $this->attributes['id'] = $info->id;
         $this->attributes['name'] = $info->login;
@@ -28,4 +28,5 @@ class CustomGitHubOAuthService extends GitHubOAuthService
         $this->attributes['public_gists'] = $info->public_gists;
         $this->attributes['avatar_url'] = $info->avatar_url;
     }
+
 }

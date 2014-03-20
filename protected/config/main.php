@@ -29,7 +29,7 @@ return array(
         'messages' => array(
             'class' => 'CPhpMessageSource',
             'onMissingTranslation' => array('Translation', 'missing'),
-            'cachingDuration'=>3600,
+            'cachingDuration' => 3600,
         ),
         'user' => array(
             'class' => 'CWebUser',
@@ -50,18 +50,7 @@ return array(
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'translation',
-                    'logFile' => 'translations.log',
-                ),
-                array(
-                    'class' => 'CWebLogRoute',
-                    'levels' => 'trace',
-                    'categories' => 'vardump',
-                    'showInFireBug' => true
-                ),
-                array(
-                    'class' => 'CFileLogRoute',
-                    'categories' => 'application',
+                    'categories' => 'application*',
                     'levels' => 'error, warning, trace, profile, info',
                 ),
                 array(
@@ -79,7 +68,9 @@ return array(
         ),
         'eauth' => array(
             'class' => 'ext.eauth.EAuth',
-            'popup' => true, // Use the popup window instead of redirecting.
+            'popup' => true,
+            'cache' => false,
+            'cacheExpire' => 0,
             'services' => require(dirname(__FILE__) . '/eauth.php'),
         ),
         'par' => array(
@@ -87,10 +78,10 @@ return array(
             'connectionID' => 'db',
         ),
         'cache' => array(
-            'class'=>'CRedisCache',
-            'hostname'=>'localhost',
-            'port'=>6379,
-            'database'=>0,
+            'class' => 'CRedisCache',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
         ),
         'hasher' => array(
             'class' => 'Phpass',
