@@ -8,7 +8,7 @@ class SocInfo extends CFormModel
     public $accessToken = '';
     public $userDetail = array();
     public $socNetworks = array();
-    
+
     public function __construct()
     {
         $this->socNetworks = SocInfo::getSocNetworks();
@@ -23,8 +23,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'google.com';
         $net['title'] = 'Google+';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc_g';
-        $net['inviteValue'] = '';//'&#xe009;';
+        $net['inviteClass'] = ''; //'i-soc_g';
+        $net['inviteValue'] = ''; //'&#xe009;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'google.png';
         $net['contentClass'] = 'GoogleContent';
@@ -38,8 +38,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'facebook.com';
         $net['title'] = 'Facebook';
         $net['invite'] = Yii::t('eauth', 'Make friends');
-        $net['inviteClass'] = '';//'i-soc-fac';
-        $net['inviteValue'] = '';//'&#xe008;';
+        $net['inviteClass'] = ''; //'i-soc-fac';
+        $net['inviteValue'] = ''; //'&#xe008;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'facebook.png';
         $net['contentClass'] = 'FacebookContent';
@@ -53,8 +53,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'twitter.com';
         $net['title'] = 'Twitter';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc_twi';
-        $net['inviteValue'] = '';//'&#xe007';
+        $net['inviteClass'] = ''; //'i-soc_twi';
+        $net['inviteValue'] = ''; //'&#xe007';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'twitter.png';
         $net['contentClass'] = 'TwitterContent';
@@ -68,8 +68,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'vk.com';
         $net['title'] = 'VKontakte';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc_vk';
-        $net['inviteValue'] = '';//'&#xe002;';
+        $net['inviteClass'] = ''; //'i-soc_vk';
+        $net['inviteValue'] = ''; //'&#xe002;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'vk.png';
         $net['contentClass'] = 'VkContent';
@@ -83,8 +83,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'linkedin.com';
         $net['title'] = 'LinkedIn';
         $net['invite'] = Yii::t('eauth', 'Connect me');
-        $net['inviteClass'] = '';//'i-soc_in';
-        $net['inviteValue'] = '';//'&#xe005;';
+        $net['inviteClass'] = ''; //'i-soc_in';
+        $net['inviteValue'] = ''; //'&#xe005;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'linkedin.png';
         $net['contentClass'] = 'LinkedInContent';
@@ -98,8 +98,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'foursquare.com';
         $net['title'] = 'Foursquare';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc-fo';
-        $net['inviteValue'] = '';//'&#xe00a;';
+        $net['inviteClass'] = ''; //'i-soc-fo';
+        $net['inviteValue'] = ''; //'&#xe00a;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'foursquare.png';
         $net['contentClass'] = 'FoursquareContent';
@@ -113,8 +113,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'vimeo.com';
         $net['title'] = 'Vimeo';
         $net['invite'] = Yii::t('eauth', 'Follow me'); //Yii::t('eauth', 'Watch more');
-        $net['inviteClass'] = '';//'i-soc_vo';
-        $net['inviteValue'] = '';//'&#xe003;';
+        $net['inviteClass'] = ''; //'i-soc_vo';
+        $net['inviteValue'] = ''; //'&#xe003;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'vimeo.png';
         $net['contentClass'] = 'VimeoContent';
@@ -123,7 +123,7 @@ class SocInfo extends CFormModel
         $net['sharingType'] = array();
         $net['tokenType'] = SocToken::TYPE_VIMEO;
         $socNetworks[] = $net;
-        
+
         /*
           $net['name'] = 'Last.fm';
           $net['baseUrl'] = 'lastfm.ru';
@@ -140,13 +140,13 @@ class SocInfo extends CFormModel
           $net['tokenType'] = SocToken::;
           $socNetworks[] = $net;
          */
-         
+
         $net['name'] = 'deviantart';
         $net['baseUrl'] = 'deviantart.com';
         $net['title'] = 'DeviantART';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc-da';
-        $net['inviteValue'] = '';//'&#xe00b;';
+        $net['inviteClass'] = ''; //'i-soc-da';
+        $net['inviteValue'] = ''; //'&#xe00b;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'deviantart.png';
         $net['contentClass'] = 'DeviantARTContent';
@@ -160,8 +160,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'behance.net';
         $net['title'] = 'Behance';
         $net['invite'] = Yii::t('eauth', 'See more');
-        $net['inviteClass'] = '';//'i-soc-be';
-        $net['inviteValue'] = '';//'&#xe00c;';
+        $net['inviteClass'] = ''; //'i-soc-be';
+        $net['inviteValue'] = ''; //'&#xe00c;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
@@ -171,7 +171,7 @@ class SocInfo extends CFormModel
         $net['tokenType'] = SocToken::TYPE_BEHANCE;
         $socNetworks[] = $net;
 
-/*
+        /*
           $net['name'] = 'Flickr';
           $net['baseUrl'] = 'flickr.com';
           $net['title'] = 'Flickr';
@@ -185,14 +185,14 @@ class SocInfo extends CFormModel
           $net['profileHint'] = '';
           $net['tokenType'] = SocToken::;
           $socNetworks[] = $net;
-*/
+         */
 
         $net['name'] = 'YouTube';
         $net['baseUrl'] = 'youtube.com';
         $net['title'] = 'YouTube';
         $net['invite'] = Yii::t('eauth', 'Watch more');
-        $net['inviteClass'] = '';//'i-soc_yt';
-        $net['inviteValue'] = '';//'&#xe000;';
+        $net['inviteClass'] = ''; //'i-soc_yt';
+        $net['inviteValue'] = ''; //'&#xe000;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
@@ -206,8 +206,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'instagram.com';
         $net['title'] = 'Instagram';
         $net['invite'] = Yii::t('eauth', 'Follow me');
-        $net['inviteClass'] = '';//'i-soc_ing';
-        $net['inviteValue'] = '';//'&#xe006;';
+        $net['inviteClass'] = ''; //'i-soc_ing';
+        $net['inviteValue'] = ''; //'&#xe006;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'instagram.png';
         $net['contentClass'] = 'InstagramContent';
@@ -221,8 +221,8 @@ class SocInfo extends CFormModel
         $net['baseUrl'] = 'pinterest.com';
         $net['title'] = 'Pinterest';
         $net['invite'] = Yii::t('eauth', 'See more pins');
-        $net['inviteClass'] = '';//'i-soc-pin';
-        $net['inviteValue'] = '';//'&#xe017;';
+        $net['inviteClass'] = ''; //'i-soc-pin';
+        $net['inviteValue'] = ''; //'&#xe017;';
         $net['note'] = Yii::t('eauth', '');
         $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
@@ -231,7 +231,7 @@ class SocInfo extends CFormModel
         $net['sharingType'] = array();
         $net['tokenType'] = null;
         $socNetworks[] = $net;
-        
+
         $net['name'] = 'crunchbase';
         $net['baseUrl'] = 'crunchbase.com';
         $net['title'] = 'CrunchBase';
@@ -246,7 +246,7 @@ class SocInfo extends CFormModel
         $net['sharingType'] = array();
         $net['tokenType'] = null;
         $socNetworks[] = $net;
-        
+
         $net['name'] = 'tumblr';
         $net['baseUrl'] = 'tumblr.com';
         $net['title'] = 'tumblr';
@@ -282,13 +282,13 @@ class SocInfo extends CFormModel
             $this->userDetail['inviteValue'] = $net['inviteValue'];
             $this->userDetail['netName'] = $this->socNet;
         }
-        
+
         if ($dinamyc)
             $this->userDetail['dinamyc'] = true;
-        
+
         if (empty($this->userDetail['soc_url']))
             $this->userDetail['soc_url'] = $link;
-        
+
         return $this->userDetail;
     }
 
@@ -318,18 +318,18 @@ class SocInfo extends CFormModel
                 break;
             }
         }
-        
+
         if (empty($answer['name']) and (strpos($link, '.') !== false))
         {
             $tumblrLink = TumblrContent::parseUsername($link);
             if (!empty(Yii::app()->eauth->services['tumblr']))
             {
-               $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key='.Yii::app()->eauth->services['tumblr']['key']);
-            if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
-                $answer = $this->getNetByName('tumblr'); 
+                $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key=' . Yii::app()->eauth->services['tumblr']['key']);
+                if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
+                    $answer = $this->getNetByName('tumblr');
             }
         }
-        
+
         return $answer;
     }
 
@@ -346,11 +346,11 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
-    
+
     public function getSocPatterns()
     {
         $answer = array();
-        
+
         foreach ($this->socNetworks as $net)
         {
 
@@ -367,14 +367,14 @@ class SocInfo extends CFormModel
                 $answer[] = $pattern;
             }
         }
-        
+
         return $answer;
     }
-    
+
     public function isLoggegOn($netName, $checkNeed = true)
     {
         $answer = false;
-        
+
         $net = $this->getNetByName($netName);
         if ($checkNeed && $net['needAuth'] == false)
         {
@@ -385,28 +385,28 @@ class SocInfo extends CFormModel
             $class = $net['contentClass'];
             $answer = $class::isLoggegByNet();
         }
-        elseif(!empty(Yii::app()->session[$net['name'] . '_id']))
+        elseif (!empty(Yii::app()->session[$net['name'] . '_id']))
             $answer = true;
-        
+
         return $answer;
     }
 
     public function getSmallIcon($link)
     {
         $answer = '';
-        
+
         $net = $this->getNetByLink($link);
         if (!empty($net['smallIcon']))
             $answer = $net['smallIcon'];
-        
+
         return $answer;
     }
-    
+
     public function getSocInfo($socNet, $socUsername, $discodesId = null, $dataKey = null)
     {
         $this->socNet = $socNet;
         $this->socUsername = $socUsername;
-        
+
         $cachedData = Yii::app()->cache->get('socData_' . md5($socUsername));
 
         if ($cachedData !== false)
@@ -419,7 +419,7 @@ class SocInfo extends CFormModel
             $this->userDetail['UserExists'] = false;
             $socUsername = $this->parceSocUrl($socNet, $socUsername);
 
-            
+
             if ($socNet == 'linkedin')
             {
                 $getProfile = false;
@@ -436,7 +436,7 @@ class SocInfo extends CFormModel
                             $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
                             $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
                             parse_str($socToken->user_token, $values);
-    //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
+                            //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
                             //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
                             $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
                             $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url,educations,positions)';
@@ -454,11 +454,11 @@ class SocInfo extends CFormModel
 
                                 $this->userDetail['soc_username'] = $socUser['first-name'] . ' ' . $socUser['last-name'];
                                 if (!empty($socUser['picture-url']))
-                                    $this->userDetail['photo'] = (string)$socUser['picture-url'];
+                                    $this->userDetail['photo'] = (string) $socUser['picture-url'];
                                 if (!empty($socUser['headline']))
-                                    $this->userDetail['sub-line'] = (string)$socUser['headline'];
+                                    $this->userDetail['sub-line'] = (string) $socUser['headline'];
                                 if (!empty($socUser['public-profile-url']))
-                                    $this->userDetail['soc_url'] = (string)$socUser['public-profile-url'];
+                                    $this->userDetail['soc_url'] = (string) $socUser['public-profile-url'];
                                 $this->userDetail['list'] = array();
                                 $this->userDetail['list']['values'] = array();
 
@@ -469,7 +469,7 @@ class SocInfo extends CFormModel
                                 {
                                     if ($socUser['positions']['@attributes']['total'] > 1)
                                     {
-                                        for ($i=0; $i < $socUser['positions']['@attributes']['total']; $i++)
+                                        for ($i = 0; $i < $socUser['positions']['@attributes']['total']; $i++)
                                         {
                                             if (isset($socUser['positions']['position'][$i]))
                                             {
@@ -481,10 +481,9 @@ class SocInfo extends CFormModel
                                                         $currentPosition = $position['company']['name'];
                                                     }
                                                     elseif (!$positionString)
-                                                        $positionString = (string)$position['company']['name'];
+                                                        $positionString = (string) $position['company']['name'];
                                                     else
-                                                        $positionString .= ', ' . (string)$position['company']['name'];
-                                                
+                                                        $positionString .= ', ' . (string) $position['company']['name'];
                                                 }
                                             }
                                         }
@@ -497,13 +496,13 @@ class SocInfo extends CFormModel
                                             $positionString = $socUser['positions']['position']['company']['name'];
                                     }
                                 }
-                                
+
                                 if (isset($socUser['educations']) && isset($socUser['educations']['@attributes']) && !empty($socUser['educations']['@attributes']['total']) && isset($socUser['educations']['education']))
                                 {
-                                    
+
                                     if ($socUser['educations']['@attributes']['total'] > 1)
                                     {
-                                        for ($i=0; $i < $socUser['educations']['@attributes']['total']; $i++)
+                                        for ($i = 0; $i < $socUser['educations']['@attributes']['total']; $i++)
                                         {
                                             if (isset($socUser['educations']['education'][$i]))
                                             {
@@ -512,9 +511,9 @@ class SocInfo extends CFormModel
                                                 if (!empty($education['school-name']))
                                                 {
                                                     if (!$educationString)
-                                                        $educationString = (string)$education['school-name'];
+                                                        $educationString = (string) $education['school-name'];
                                                     else
-                                                        $educationString .= ', ' . (string)$education['school-name'];
+                                                        $educationString .= ', ' . (string) $education['school-name'];
                                                 }
                                             }
                                         }
@@ -524,7 +523,7 @@ class SocInfo extends CFormModel
                                         $educationString = $socUser['educations']['education']['school-name'];
                                     }
                                 }
-                                
+
                                 if ($currentPosition)
                                 {
                                     $userPosition = array();
@@ -532,7 +531,7 @@ class SocInfo extends CFormModel
                                     $userPosition['comment'] = $currentPosition;
                                     $this->userDetail['list']['values'][] = $userPosition;
                                 }
-                                
+
                                 if ($positionString)
                                 {
                                     $userPosition = array();
@@ -540,7 +539,7 @@ class SocInfo extends CFormModel
                                     $userPosition['comment'] = $positionString;
                                     $this->userDetail['list']['values'][] = $userPosition;
                                 }
-                                    
+
                                 if ($educationString)
                                 {
                                     $userEducation = array();
@@ -556,7 +555,6 @@ class SocInfo extends CFormModel
                 {
                     $this->userDetail['last_status'] = $socUsername;
                 }
-
             }
             elseif ($socNet == 'Last.fm')
             {
@@ -620,7 +618,7 @@ class SocInfo extends CFormModel
                 }
                 else
                     $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            }            
+            }
             else
             {
                 $net = $this->getNetByLink($socUsername);
@@ -632,15 +630,15 @@ class SocInfo extends CFormModel
                 else
                     $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
             }
-            
+
             Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
         }
 
         $uncheck = array('html', 'list', 'list2', 'follow_button');
-        foreach($this->userDetail as $socKey => $socValue)
+        foreach ($this->userDetail as $socKey => $socValue)
         {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))
-                $this->userDetail[$socKey] =  strip_tags((string)$socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'); 
+                $this->userDetail[$socKey] = strip_tags((string) $socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>');
 //'<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'
         }
 
@@ -779,7 +777,7 @@ class SocInfo extends CFormModel
         curl_setopt($ch, CURLOPT_URL, $url);
 ////////
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
-        
+
         return $ch;
     }
 
@@ -791,7 +789,7 @@ class SocInfo extends CFormModel
             if (is_object($value))
                 $array[$key] = $this->xmlToArray($value);
         }
-        
+
         return $array;
     }
 
@@ -803,7 +801,7 @@ class SocInfo extends CFormModel
         {
             $out .= '%u' . bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
         }
-        
+
         return $out;
     }
 
@@ -817,7 +815,7 @@ class SocInfo extends CFormModel
             $class = $net['contentClass'];
             $answer = $class::contentNeedSave($link);
         }
-        
+
         return $answer;
     }
 
@@ -826,22 +824,22 @@ class SocInfo extends CFormModel
         $answer = false;
         $net = $this->getNetByName($netName);
 
-        if (isset($net['contentClass']) && strlen($net['contentClass']) /*&& $this->isLoggegOn($netName, false)*/)
+        if (isset($net['contentClass']) && strlen($net['contentClass']) /* && $this->isLoggegOn($netName, false) */)
         {
             $class = $net['contentClass'];
             $answer = $class::followSocial($param);
         }
-        
+
         return $answer;
     }
-    
+
     public function mergeMobile($netName)
     {
         if (strpos($netName, '_mobile') !== false)
             $netName = substr($netName, 0, (strpos($netName, '_mobile')));
         return $netName;
     }
-    
+
     public static function getNameBySharingType($sharing_type)
     {
         $answer = '';
@@ -856,7 +854,7 @@ class SocInfo extends CFormModel
         }
         return $answer;
     }
-    
+
     public static function getTokenBySharingType($sharing_type)
     {
         $answer = '';
@@ -871,7 +869,7 @@ class SocInfo extends CFormModel
         }
         return $answer;
     }
-    
+
     public static function getNetByTokenType($token_type)
     {
         $answer = array();
@@ -886,14 +884,15 @@ class SocInfo extends CFormModel
         }
         return $answer;
     }
-    
+
     public static function checkToken($token_type, $user_token, $token_secret = '')
     {
         $answer = null;
         $net = self::getNetByTokenType($token_type);
         $class = $net['contentClass'];
         $answer = $class::checkToken($user_token, $token_secret);
-        
+
         return $answer;
     }
+
 }

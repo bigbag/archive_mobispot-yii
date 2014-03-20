@@ -16,8 +16,7 @@ class Uniteller
         /* Format=1 - получить данные в виде строки с разделителем ";", можно получать
           данные и в других форматах (см. Технический порядок), например, XML, тогда обработка
           полученного ответа изменится */
-        $sPostFields =
-                "Shop_ID=" . $Shop_ID . "&Login=" . $Login . "&Password=" . $Password . "&Format=1&ShopOrderNumber=" .
+        $sPostFields = "Shop_ID=" . $Shop_ID . "&Login=" . $Login . "&Password=" . $Password . "&Format=1&ShopOrderNumber=" .
                 $Order_ID . "&S_FIELDS=Status;ApprovalCode;BillNumber";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://test.wpay.uniteller.ru/results/");

@@ -21,7 +21,6 @@ class User extends CActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_VALID = 2;
     const STATUS_BANNED = -1;
-
     const TYPE_USER = 0;
     const TYPE_ADMIN = 1;
 
@@ -97,11 +96,11 @@ class User extends CActiveRecord
 
     public function getById($id)
     {
-        $user = Yii::app()->cache->get('user_'.$id);
+        $user = Yii::app()->cache->get('user_' . $id);
         if (!$user)
         {
             $user = self::model()->findByPk($id);
-            Yii::app()->cache->set('user_'.$id, $user, 120);
+            Yii::app()->cache->set('user_' . $id, $user, 120);
         }
         return $user;
     }
@@ -118,43 +117,50 @@ class User extends CActiveRecord
 
     public function getSocInfo($serviceName)
     {
-        try {
+        try
+        {
+            $user_id = Yii::app()->user->id;
             $eauth = Yii::app()->eauth->getIdentity($serviceName);
             $eauth->redirectUrl = Yii::app()->user->returnUrl;
             $eauth->cancelUrl = $this->createAbsoluteUrl('/');
 
-            if (!$eauth->authenticate()) return false;
+            if (!$eauth->authenticate())
+                return false;
             $atributes = $eauth->getAttributes();
             $atributes['service'] = $serviceName;
-            $atributes['user_id'] = Yii::app()->user->id;
-            
-            if (!isset($atributes['id'])) return false;
+            $atributes['user_id'] = ($user_id) ? $user_id : false;
+
+            if (!isset($atributes['id']))
+                return false;
             User::setCacheSocInfo($atributes);
-            
+
             return $atributes;
         }
-        catch (EAuthException $e) {
+        catch (EAuthException $e)
+        {
             Yii::log('AuthException' . $e->getMessage(), 'error', 'application');
             return false;
         }
     }
 
     public function setCacheSocInfo($info)
-    { 
-        if (empty($info)) return false;
+    {
+        if (empty($info))
+            return false;
         Yii::app()->cache->set('user_soc_' . Yii::app()->request->csrfToken, $info, 3600);
         return true;
     }
 
     public function getCacheSocInfo()
-    { 
+    {
         $info = Yii::app()->cache->get('user_soc_' . Yii::app()->request->csrfToken);
-        if (!$info) return false;
+        if (!$info)
+            return false;
         return $info;
     }
 
     public function clearCacheSocInfo()
-    { 
+    {
         return Yii::app()->cache->delete('user_soc_' . Yii::app()->request->csrfToken);
     }
 
@@ -164,7 +170,8 @@ class User extends CActiveRecord
             'soc_id' => $soc_id,
             'allow_login' => true
         ));
-        if (!$userToken) return false;
+        if (!$userToken)
+            return false;
 
         return User::model()->valid()->findByPk($userToken->user_id);
     }
@@ -187,7 +194,7 @@ class User extends CActiveRecord
     public function beforeSave()
     {
         if ($this->password and !$this->activkey)
-           $this->activkey = sha1(microtime() . $this->password);
+            $this->activkey = sha1(microtime() . $this->password);
 
         return parent::beforeSave();
     }
@@ -202,7 +209,7 @@ class User extends CActiveRecord
             $profile->save();
         }
 
-        Yii::app()->cache->delete('log_'.$this->id);
+        Yii::app()->cache->delete('log_' . $this->id);
 
         parent::afterSave();
     }
@@ -211,11 +218,10 @@ class User extends CActiveRecord
     {
         UserProfile::model()->deleteByPk($this->id);
         Spot::model()->updateAll(
-            array(
-                'status' => Spot::STATUS_REMOVED_SYS, 
-                'removed_date' => date('Y-m-d H:i:s')
-            ), 
-            'user_id=' . $this->id
+                array(
+            'status' => Spot::STATUS_REMOVED_SYS,
+            'removed_date' => date('Y-m-d H:i:s')
+                ), 'user_id=' . $this->id
         );
         parent::afterDelete();
     }
@@ -304,4 +310,5 @@ class User extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
 }

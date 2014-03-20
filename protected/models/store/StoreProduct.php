@@ -30,7 +30,7 @@ class StoreProduct extends CActiveRecord
     {
         return 'store.product';
     }
-    
+
     public function beforeSave()
     {
         $this->photo = serialize($this->photo);
@@ -60,4 +60,5 @@ class StoreProduct extends CActiveRecord
             array('name, size', 'required'),
         );
     }
+
 }

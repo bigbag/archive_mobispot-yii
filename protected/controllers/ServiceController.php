@@ -43,7 +43,7 @@ class ServiceController extends MController
     {
         $data = $this->validateRequest();
         $answer = array(
-            'error'=>"yes", 
+            'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
 
@@ -52,7 +52,8 @@ class ServiceController extends MController
 
         $form = new LoginForm;
         $form->attributes = $data;
-        if (!$form->validate()) $this->getJsonAndExit($answer);
+        if (!$form->validate())
+            $this->getJsonAndExit($answer);
 
         $this->autoLogin($form);
         $answer['error'] = "no";
@@ -75,7 +76,6 @@ class ServiceController extends MController
             Yii::app()->user->logout();
             unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
         }
-        
     }
 
     //Регистрация
@@ -84,13 +84,13 @@ class ServiceController extends MController
 
         $data = $this->validateRequest();
         $answer = array(
-            'error'=>"yes", 
+            'error' => "yes",
             "content" => Yii::t('user', "You've made a mistake in spot activation code.")
         );
 
-        if (!isset($data['email']) or !isset($data['password'])) 
+        if (!isset($data['email']) or !isset($data['password']))
             $this->setBadRequest();
-            
+
         $model = new RegistrationForm;
         $model->attributes = $data;
         if (!$model->validate())
@@ -108,15 +108,18 @@ class ServiceController extends MController
             }
             else
                 $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
-            
+
             $this->getJsonAndExit($answer);
         }
 
         $model->password = Yii::app()->hasher->hashPassword($model->password);
-        if (!$model->save()) $this->getJsonAndExit($answer);
+        if (!$model->save())
+            $this->getJsonAndExit($answer);
 
         $socInfo = User::getCacheSocInfo();
-        if ($socInfo) SocToken::setToken($socInfo, $model->id);
+        $socInfop['user_id'] = $model->id;
+        if ($socInfo)
+            SocToken::setToken($socInfo);
 
         $spot = Spot::getActivatedSpot($data['activ_code']);
         $spot->user_id = $model->id;
@@ -125,10 +128,10 @@ class ServiceController extends MController
         $spot->save();
 
         $wallet = PaymentWallet::model()->findByAttributes(
-            array(
-                'discodes_id' => $spot->discodes_id,
-                'user_id' => 0,
-            )
+                array(
+                    'discodes_id' => $spot->discodes_id,
+                    'user_id' => 0,
+                )
         );
         if ($wallet)
         {
@@ -182,26 +185,27 @@ class ServiceController extends MController
         $this->render('activation', array(
             'title' => $title,
             'content' => $content
-        ));   
+        ));
     }
 
     //Восстановление пароля
     public function actionRecovery()
     {
         $answer = array(
-            'error'=>"yes", 
+            'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['email'])) $this->getJsonAndExit($answer);
-        
+        if (!isset($data['email']))
+            $this->getJsonAndExit($answer);
+
         $form = new RecoveryForm;
         $form->email = $data['email'];
         if ($form->validate())
         {
             $user = User::getByEmail($form->email);
-            if ($user and $user->status==User::STATUS_VALID)
+            if ($user and $user->status == User::STATUS_VALID)
             {
                 MMail::recovery($user->email, $user->activkey, $this->getLang());
                 $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
@@ -218,16 +222,18 @@ class ServiceController extends MController
             $this->getChangePasswordPage();
 
         $answer = array(
-            'error'=>"yes", 
+            'error' => "yes",
             "content" => Yii::t('user', "Error")
         );
         $data = $this->validateRequest();
 
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
-        if (!$email or !$activkey) $this->setBadRequest();
+        if (!$email or !$activkey)
+            $this->setBadRequest();
 
-        if (!isset($data['password'])) $this->getJsonAndExit($answer);
+        if (!isset($data['password']))
+            $this->getJsonAndExit($answer);
 
         $user = User::model()->findByAttributes(array(
             'email' => $email,
@@ -246,7 +252,7 @@ class ServiceController extends MController
 
             $answer['error'] = "no";
         }
-        
+
         echo json_encode($answer);
     }
 
@@ -261,8 +267,7 @@ class ServiceController extends MController
             $user = User::getByEmail($email);
             if (isset($user) and $user->activkey == $activkey)
             {
-                $this->render('change', 
-                    array(
+                $this->render('change', array(
                     'email' => $email,
                     'activkey' => $activkey
                 ));
@@ -277,14 +282,17 @@ class ServiceController extends MController
     {
         Yii::log('AuthException', 'error', 'application');
         $serviceName = Yii::app()->request->getQuery('service');
-        if (!isset($serviceName)) $this->redirect('/');
+        if (!isset($serviceName))
+            $this->redirect('/');
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->redirect('/');
+        if (!$atributes)
+            $this->redirect('/');
 
         $user = User::socialCheck($serviceName, $atributes['id']);
-        if (!$user) $this->redirect('/service/socialReg');
-        
+        if (!$user)
+            $this->redirect('/service/socialReg');
+
         $this->autoLogin($user);
         User::clearCacheSocInfo();
         $this->redirect('/user/personal');
@@ -293,24 +301,29 @@ class ServiceController extends MController
     //Страница регистрации через соц сети
     public function actionSocialReg()
     {
-        if (Yii::app()->user->id) $this->redirect('/');
+        if (Yii::app()->user->id)
+            $this->redirect('/');
 
         $info = User::getCacheSocInfo();
-        if (!$info) $this->redirect('/');
+        if (!$info)
+            $this->redirect('/');
 
-        $this->render('soc_reg', array('info'=>$info));
+        $this->render('soc_reg', array('info' => $info));
     }
 
     // Привязка и отвязка соц сетей
     public function actionSocialConnect()
     {
-        if (!isset(Yii::app()->user->id)) $this->redirect('/');
+        if (!isset(Yii::app()->user->id))
+            $this->redirect('/');
 
         $user = User::model()->findByPk(Yii::app()->user->id);
-        if (!$user) $this->redirect('/');
+        if (!$user)
+            $this->redirect('/');
 
         $serviceName = Yii::app()->request->getQuery('service');
-        if (!$serviceName) $this->redirect('/user/profile');
+        if (!$serviceName)
+            $this->redirect('/user/profile');
 
         $userToken = SocToken::model()->findByAttributes(array(
             'type' => SocToken::getTypeByService($serviceName),
@@ -321,39 +334,40 @@ class ServiceController extends MController
         {
             $userToken->allow_login = !$userToken->allow_login;
             $userToken->save();
-            $this->redirect('/user/profile'); 
+            $this->redirect('/user/profile');
         }
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->redirect('/user/profile'); 
+        if (!$atributes)
+            $this->redirect('/user/profile');
 
         $socInfo = User::getCacheSocInfo();
         if ($socInfo)
         {
-            SocToken::setToken($atributes, $user->id);
+            SocToken::setToken($atributes);
             User::clearCacheSocInfo();
 
             $allSocTokens = SocToken::model()->findAllByAttributes(
-                array(
-                    'type' => SocToken::getTypeByService($serviceName),
-                    'soc_id' => $socInfo['id'],
-                )
+                    array(
+                        'type' => SocToken::getTypeByService($serviceName),
+                        'soc_id' => $socInfo['id'],
+                    )
             );
 
             foreach ($allSocTokens as $row)
             {
-                if ($row->user_id != $user->id) $row->delete();
+                if ($row->user_id != $user->id)
+                    $row->delete();
             }
-        } 
-        $this->redirect('/user/profile');    
+        }
+        $this->redirect('/user/profile');
     }
 
-
-     //Отсылка вопроса
+    //Отсылка вопроса
     public function actionSendQuestion()
     {
         $data = $this->validateRequest();
-        $answer = array('error'=>"yes", "content" => "");
+        $answer = array('error' => "yes", "content" => "");
 
         if (!isset($data['email']) or !isset($data['name']) or !isset($data['question']))
         {
@@ -361,11 +375,11 @@ class ServiceController extends MController
         }
 
         $recipients = array('ilya.radaev@gmail.com', 'alex.kulagin@mobispot.com', 'volgin@mobispot.com');
-        
+
         MMail::question($recipients, $data, $this->getLang());
         $answer['content'] = Yii::t('help', 'Question has been submitted');
         $answer['error'] = "no";
-        
+
         echo json_encode($answer);
     }
 
@@ -375,6 +389,5 @@ class ServiceController extends MController
         $cookie->expire = time() + 60 * 60;
         Yii::app()->request->cookies[$name] = $cookie;
     }
-
 
 }

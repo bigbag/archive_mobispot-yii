@@ -10,7 +10,6 @@
  * @property integer $is_multifold
  * @property integer $used
  */
- 
 class StorePromoCode extends CActiveRecord
 {
 
@@ -40,7 +39,7 @@ class StorePromoCode extends CActiveRecord
         $this->products = unserialize($this->products);
         return parent::afterFind();
     }
-    
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -53,4 +52,5 @@ class StorePromoCode extends CActiveRecord
             array('discount, expires', 'numerical', 'integerOnly' => true),
         );
     }
+
 }

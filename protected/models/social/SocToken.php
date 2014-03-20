@@ -96,31 +96,38 @@ class SocToken extends CActiveRecord
     {
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-            'user_wallet' => array(self::BELONGS_TO, 'User', 'user_id', 'with'=>'wallet'),
+            'user_wallet' => array(self::BELONGS_TO, 'User', 'user_id', 'with' => 'wallet'),
         );
     }
-    
+
     public function getTypeByService($service)
     {
         $ind = -1;
-        foreach (self::getTypeList() as $key => $value) {
-            if ($value == $service) return $key;
+        foreach (self::getTypeList() as $key => $value)
+        {
+            if ($value == $service)
+                return $key;
         }
         return $ind;
     }
 
     public function setToken($info)
     {
+        if (!$info['user_id'])
+            return false;
+
         $userToken = new SocToken;
         $userToken->type = SocToken::getTypeByService($info['service']);
         $userToken->user_id = $info['user_id'];
-        $userToken->soc_id = (!empty($info['id']))?$info['id']:Null;
-        $userToken->soc_email = (!empty($info['email']))?$info['email']:Null;
-        $userToken->user_token = (!empty($info['auth_token']))?$info['auth_token']:Null;
-        $userToken->token_secret = (!empty($info['auth_secret']))?$info['auth_secret']:Null;
-        $userToken->token_expires = (!empty($info['expires']))?$info['expires']:Null;
-        $userToken->soc_username = (!empty($info['name']))?$info['name']:Null;
+        $userToken->soc_id = (!empty($info['id'])) ? $info['id'] : Null;
+        $userToken->soc_email = (!empty($info['email'])) ? $info['email'] : Null;
+        $userToken->user_token = (!empty($info['auth_token'])) ? $info['auth_token'] : Null;
+        $userToken->token_secret = (!empty($info['auth_secret'])) ? $info['auth_secret'] : Null;
+        $userToken->token_expires = (!empty($info['expires'])) ? $info['expires'] : Null;
+        $userToken->soc_username = (!empty($info['name'])) ? $info['name'] : Null;
         $userToken->allow_login = true;
-        $userToken->save();
-    }    
+        if ($userToken->save())
+            return true;
+    }
+
 }

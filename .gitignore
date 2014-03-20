@@ -3,6 +3,7 @@
 *.settings
 *.ai
 .project
+/nbproject/*
 .htpasswd
 robots.txt
 sitemap.xml
@@ -33,3 +34,4 @@ mobispot.sublime*
 robot.txt
 /console.php
 /index.php
+/nbproject/private/

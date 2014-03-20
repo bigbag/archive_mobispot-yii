@@ -35,20 +35,20 @@ class InstagramContent extends SocContentBase
         $userDetail = array();
         unset($post);
         $needSave = self::contentNeedSave($link);
-        
+
         if (strpos($link, 'instagram.com') !== false && (strpos($link, '/p/') !== false) && strlen($link) > (strpos($link, '/p/') + strlen('/p/')))
         {
             //привязан пост
             $slug = substr($link, (strpos($link, '/p/') + strlen('/p/')));
             $slug = self::rmGetParam($slug);
-            
+
             $postMeta = self::makeRequest('http://api.instagram.com/oembed?url=' . $link);
             if (!empty($postMeta['media_id']))
             {
-                $postJSON = self::makeRequest('https://api.instagram.com/v1/media/' 
-                    . $postMeta['media_id'] 
-                    . '?client_id='
-                    . Yii::app()->eauth->services['instagram']['client_id']);
+                $postJSON = self::makeRequest('https://api.instagram.com/v1/media/'
+                                . $postMeta['media_id']
+                                . '?client_id='
+                                . Yii::app()->eauth->services['instagram']['client_id']);
                 if (isset($postJSON['data']) && !empty($postJSON['data']['id']))
                     $post = $postJSON['data'];
             }
@@ -81,7 +81,7 @@ class InstagramContent extends SocContentBase
             else
                 $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-        
+
         if (isset($post))
         {
             if (!empty($post['user']['profile_picture']))
@@ -99,18 +99,18 @@ class InstagramContent extends SocContentBase
                 $userDetail['follow_service'] = 'instagram_mobile';
                 $userDetail['follow_param'] = $post['user']['id'];
             }
-            
+
             if ($needSave)
             {
                 $userDetail['check_following'] = 'instagram_mobile_follow_' . $post['user']['id'];
                 $userDetail['message_following'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
             }
-            
+
             if (isset($post['location']) && !empty($post['location']['name']))
                 $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $post['location']['name'];
             if (!empty($post['created_time']))
             {
-                $dateDiff = time() - (int)$post['created_time'];
+                $dateDiff = time() - (int) $post['created_time'];
                 $userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
             }
 
@@ -125,20 +125,20 @@ class InstagramContent extends SocContentBase
             if (isset($post['likes']) && isset($post['likes']['count']) && isset($post['likes']['data']) && isset($post['likes']['data'][0]) && !empty($post['likes']['data'][0]['username']) && !empty($post['likes']['data'][0]['full_name']))
             {
                 $userDetail['likes-block'] = '<a class="authot-name" href="http://instagram.com/' . $post['likes']['data'][0]['username'] . '">' . $post['likes']['data'][0]['full_name'] . '</a>';
-                
+
                 if (isset($post['likes']['data'][1]) && !empty($post['likes']['data'][1]['username']) && !empty($post['likes']['data'][1]['full_name']))
                 {
                     if ($post['likes']['count'] > 2)
                         $userDetail['likes-block'] .= ', ';
                     else
-                        $userDetail['likes-block'] .= ' '. Yii::t('eauth', 'and') . ' ';
+                        $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'and') . ' ';
                     $userDetail['likes-block'] .= '<a class="authot-name" href="http://instagram.com/' . $post['likes']['data'][1]['username'] . '">' . $post['likes']['data'][1]['full_name'] . '</a>';
                     if ($post['likes']['count'] > 2)
-                        $userDetail['likes-block'] .= ' '. Yii::t('eauth', 'and') . ' <b>' . ($post['likes']['count'] - 2) . '</b> ' . Yii::t('eauth', 'others');
+                        $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'and') . ' <b>' . ($post['likes']['count'] - 2) . '</b> ' . Yii::t('eauth', 'others');
                 }
-                $userDetail['likes-block'] .= ' '.Yii::t('eauth', 'like this') . '.';
+                $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'like this') . '.';
             }
-            
+
             if ($needSave)
             {
                 if (!empty($userDetail['last_img']))
@@ -150,10 +150,10 @@ class InstagramContent extends SocContentBase
                 $userDetail['soc_url'] = $link;
             }
         }
-                
+
         return $userDetail;
     }
-   
+
     public static function contentNeedSave($link)
     {
         $result = false;
@@ -162,16 +162,16 @@ class InstagramContent extends SocContentBase
 
         return $result;
     }
-   
+
     public static function isLoggegByNet()
     {
         $answer = false;
         if (!empty(Yii::app()->session['instagram_token']))
             $answer = true;
-        
+
         return $answer;
     }
-    
+
     public static function followSocial($idUser)
     {
         $answer = array();
@@ -179,18 +179,18 @@ class InstagramContent extends SocContentBase
         if (!empty($idUser) && !empty(Yii::app()->session['instagram_token']))
         {
 
-            $followResult = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser 
-                                                . '/relationship?access_token='.Yii::app()->session['instagram_token']
-                                                .'&action=follow'
-                                                ,array('data'=>'access_token='.Yii::app()->session['instagram_token'].'&action=follow'));
-                                                
+            $followResult = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser
+                            . '/relationship?access_token=' . Yii::app()->session['instagram_token']
+                            . '&action=follow'
+                            , array('data' => 'access_token=' . Yii::app()->session['instagram_token'] . '&action=follow'));
+
             if (isset($followResult['data']) && isset($followResult['data']['outgoing_status']))
             {
                 $answer['error'] = 'no';
-                $user = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser . '/?access_token='.Yii::app()->session['instagram_token']);
+                $user = self::makeRequest('https://api.instagram.com/v1/users/' . $idUser . '/?access_token=' . Yii::app()->session['instagram_token']);
                 if (isset($user['data']))
-                {    
-                    $userName ='';
+                {
+                    $userName = '';
                     if (!empty($user['data']['full_name']))
                         $userName = $user['data']['full_name'];
                     elseif (!empty($user['data']['username']))
@@ -199,7 +199,8 @@ class InstagramContent extends SocContentBase
                 }
             }
         }
-        
+
         return $answer;
     }
+
 }

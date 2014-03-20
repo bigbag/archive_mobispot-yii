@@ -66,7 +66,7 @@ class TwitterContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
-        
+
         //$appToken = Yii::app()->cache->get('twitterAppToken');
         $appToken = false;
         if ($appToken === false)
@@ -95,7 +95,7 @@ class TwitterContent extends SocContentBase
             //твитт
             $tweetId = substr($link, (strpos($link, '/status/') + 8));
             $tweetId = self::rmGetParam($tweetId);
-        
+
             $url = 'https://api.twitter.com/1.1/statuses/show.json?id=' . $tweetId;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -107,9 +107,9 @@ class TwitterContent extends SocContentBase
             ));
             $curl_result = curl_exec($ch);
             curl_close($ch);
-            
+
             $tweet = CJSON::decode($curl_result, true);
-        
+
             if (!empty($tweet['id']))
             {
                 $userDetail['tweet_id'] = $tweet['id'];
@@ -132,13 +132,13 @@ class TwitterContent extends SocContentBase
                     $userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($tweet['created_at']));
             }
             else
-                $userDetail['error'] =  Yii::t('eauth', "This post doesn't exist:") . $link;
+                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
         }
         else
         {
             //профиль
             $socUsername = self::parseUsername($link);
-            
+
             $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json?count=1';
             if (is_numeric($socUsername))
                 $url .= '&user_id=' . $socUsername;
@@ -195,44 +195,44 @@ class TwitterContent extends SocContentBase
             $result = true;
         return $result;
     }
-    
+
     public static function isLoggegByNet()
     {
         $answer = false;
         if (!empty(Yii::app()->session['twitter_id']))
             $answer = true;
-        
+
         return $answer;
     }
-    
+
     public static function parseOAuthToken($tokenString)
     {
         $tokenAndSecret = array();
 
         $tokenAndSecret['token'] = self::parseParam($tokenString, 'oauth_token=');
         $tokenAndSecret['secret'] = self::parseParam($tokenString, 'oauth_token_secret=');
-        
+
         return $tokenAndSecret;
     }
-    
+
     public static function checkToken($user_token, $token_secret)
     {
         $is_valid = null;
 
         $url = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-         $oauth = array( 'oauth_consumer_key' => Yii::app()->eauth->services['twitter']['key'], 
-                        'oauth_nonce' => time(), 
-                        'oauth_signature_method' => 'HMAC-SHA1', 
-                        'oauth_token' => $user_token, 
-                        'oauth_timestamp' => time(), 
-                        'oauth_version' => '1.0');
-     
+        $oauth = array('oauth_consumer_key' => Yii::app()->eauth->services['twitter']['key'],
+            'oauth_nonce' => time(),
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_token' => $user_token,
+            'oauth_timestamp' => time(),
+            'oauth_version' => '1.0');
+
         $base_info = self::buildBaseString($url, 'GET', $oauth);
         $composite_key = rawurlencode(Yii::app()->eauth->services['twitter']['secret']) . '&' . rawurlencode($token_secret);
         $oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
         $oauth['oauth_signature'] = $oauth_signature;
- 
+
         $header = array(self::buildAuthorizationHeader($oauth));
         $options = array(
             CURLOPT_HTTPHEADER => $header,
@@ -243,39 +243,43 @@ class TwitterContent extends SocContentBase
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYPEER => false
         );
-         
+
         $feed = curl_init();
         curl_setopt_array($feed, $options);
         $json = curl_exec($feed);
         curl_close($feed);
-         
+
         $twitter_data = json_decode($json, true);
-         
+
         if (!empty($twitter_data['id']))
             $is_valid = true;
-        else if (isset($twitter_data['errors']) && isset($twitter_data['errors'][0]) && isset($twitter_data['errors'][0]['code']) 
-                && 89 == $twitter_data['errors'][0]['code'])
-        $is_valid = false;
+        else if (isset($twitter_data['errors']) && isset($twitter_data['errors'][0]) && isset($twitter_data['errors'][0]['code']) && 89 == $twitter_data['errors'][0]['code'])
+            $is_valid = false;
 
         return $is_valid;
     }
-    
-    public static function buildAuthorizationHeader($oauth) {
+
+    public static function buildAuthorizationHeader($oauth)
+    {
         $r = 'Authorization: OAuth ';
         $values = array();
-        foreach($oauth as $key=>$value){
+        foreach ($oauth as $key => $value)
+        {
             $values[] = "$key=\"" . rawurlencode($value) . "\"";
         }
         $r .= implode(', ', $values);
         return $r;
     }
-    
-    public static function buildBaseString($baseURI, $method, $params) {
+
+    public static function buildBaseString($baseURI, $method, $params)
+    {
         $r = array();
         ksort($params);
-        foreach($params as $key=>$value){
+        foreach ($params as $key => $value)
+        {
             $r[] = "$key=" . rawurlencode($value);
         }
-        return $method."&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
+        return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
     }
+
 }

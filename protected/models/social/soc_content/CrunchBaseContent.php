@@ -6,12 +6,12 @@ class CrunchBaseContent extends SocContentBase
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $result = 'ok';
-        
+
         if (strpos($link, 'crunchbase.com/person/') !== false)
         {
             $person = substr($link, (strpos($link, 'crunchbase.com/person/') + strlen('crunchbase.com/person/')));
             $person = self::rmGetParam($person);
-            
+
             $socUser = self::makeRequest('http://api.crunchbase.com/v/1/person/' . $person . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
         }
         elseif (strpos($link, 'crunchbase.com/company/') !== false)
@@ -32,20 +32,20 @@ class CrunchBaseContent extends SocContentBase
         }
         if (isset($socUser) && is_string($socUser) && (strpos($socUser, 'error:') !== false))
             $result = Yii::t('eauth', "This post doesn't exist:") . $link;
-            
+
         return $result;
     }
 
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
-        
+
         if (strpos($link, 'crunchbase.com/person/') !== false)
         {
             //person
             $person = substr($link, (strpos($link, 'crunchbase.com/person/') + strlen('crunchbase.com/person/')));
             $person = self::rmGetParam($person);
-            
+
             $socUser = self::makeRequest('http://api.crunchbase.com/v/1/person/' . $person . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
 
             if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)))
@@ -62,7 +62,7 @@ class CrunchBaseContent extends SocContentBase
                 elseif (!empty($socUser['last_name']))
                     $userDetail['soc_username'] = $socUser['last_name'];
 
-                if(!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
+                if (!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
                 {
                     if (!empty($socUser['image']['available_sizes'][0][1]) && !empty($socUser['image']['available_sizes'][0][0]) && !empty($socUser['image']['available_sizes'][0][0][0]) && !empty($socUser['image']['available_sizes'][0][0][1]))
                     {
@@ -73,7 +73,7 @@ class CrunchBaseContent extends SocContentBase
 
                 if (!empty($socUser['overview']))
                     $userDetail['last_status'] = strip_tags($socUser['overview']);
-                
+
                 //links
                 if (!empty($socUser['web_presences']) && !empty($socUser['web_presences'][0]) && is_array($socUser['web_presences']))
                 {
@@ -90,7 +90,7 @@ class CrunchBaseContent extends SocContentBase
                             $userDetail['list']['values'][] = $value;
                         }
                     }
-                    if(count($userDetail['list']['values']) == 0)
+                    if (count($userDetail['list']['values']) == 0)
                         unset($userDetail['list']);
                 }
             }
@@ -103,15 +103,15 @@ class CrunchBaseContent extends SocContentBase
             $company = substr($link, (strpos($link, 'crunchbase.com/company/') + strlen('crunchbase.com/company/')));
             $company = self::rmGetParam($company);
             $socUser = self::makeRequest('http://api.crunchbase.com/v/1/company/' . $company . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
-            
+
             if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)))
             {
                 if (!empty($socUser['crunchbase_url']))
                     $userDetail['soc_url'] = $socUser['crunchbase_url'];
                 if (!empty($socUser['name']))
                     $userDetail['soc_username'] = $socUser['name'];
-                    
-                if(!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
+
+                if (!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
                 {
                     if (!empty($socUser['image']['available_sizes'][0][1]) && !empty($socUser['image']['available_sizes'][0][0]) && !empty($socUser['image']['available_sizes'][0][0][0]) && !empty($socUser['image']['available_sizes'][0][0][1]))
                     {
@@ -121,7 +121,7 @@ class CrunchBaseContent extends SocContentBase
                 }
                 if (!empty($socUser['overview']))
                     $userDetail['last_status'] = strip_tags($socUser['overview']);
-                
+
                 if (!empty($socUser['products']) && !empty($socUser['products'][0]) && is_array($socUser['products']))
                 {
                     $userDetail['list'] = array();
@@ -138,10 +138,10 @@ class CrunchBaseContent extends SocContentBase
                             $userDetail['list']['values'][] = $value;
                         }
                     }
-                    if(count($userDetail['list']['values']) == 0)
+                    if (count($userDetail['list']['values']) == 0)
                         unset($userDetail['list']);
                 }
-                
+
                 if (!empty($socUser['relationships']) && !empty($socUser['relationships'][0]) && is_array($socUser['relationships']))
                 {
                     $userDetail['list2'] = array();
@@ -166,12 +166,12 @@ class CrunchBaseContent extends SocContentBase
                                 }
                                 else
                                     $value['title'] = $link['person']['last_name'];
-                                
+
                                 $userDetail['list2']['values'][] = $value;
                             }
                         }
                     }
-                    if(count($userDetail['list2']['values']) == 0)
+                    if (count($userDetail['list2']['values']) == 0)
                         unset($userDetail['list2']);
                 }
             }
@@ -184,7 +184,7 @@ class CrunchBaseContent extends SocContentBase
             $product = substr($link, (strpos($link, 'crunchbase.com/product/') + strlen('crunchbase.com/product/')));
             $product = self::rmGetParam($product);
             $socUser = self::makeRequest('http://api.crunchbase.com/v/1/product/' . $product . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
-            
+
             if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)))
             {
                 if (!empty($socUser['crunchbase_url']))
@@ -193,8 +193,8 @@ class CrunchBaseContent extends SocContentBase
                     $userDetail['soc_username'] = $socUser['name'];
                 if (!empty($socUser['overview']))
                     $userDetail['last_status'] = strip_tags($socUser['overview']);
-                    
-                if(!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
+
+                if (!empty($socUser['image']) && !empty($socUser['image']['available_sizes']))
                 {
                     if (!empty($socUser['image']['available_sizes'][0][1]) && !empty($socUser['image']['available_sizes'][0][0]) && !empty($socUser['image']['available_sizes'][0][0][0]) && !empty($socUser['image']['available_sizes'][0][0][1]))
                     {
@@ -202,7 +202,7 @@ class CrunchBaseContent extends SocContentBase
                         $userDetail['photo'] = 'http://s3.amazonaws.com/crunchbase_prod_assets/' . $socUser['image']['available_sizes'][0][1];
                     }
                 }
-                elseif(!empty($socUser['company']['image']) && !empty($socUser['company']['image']['available_sizes']))
+                elseif (!empty($socUser['company']['image']) && !empty($socUser['company']['image']['available_sizes']))
                 {
                     if (!empty($socUser['company']['image']['available_sizes'][0][1]) && !empty($socUser['company']['image']['available_sizes'][0][0]) && !empty($socUser['company']['image']['available_sizes'][0][0][0]) && !empty($socUser['company']['image']['available_sizes'][0][0][1]))
                     {
@@ -210,7 +210,7 @@ class CrunchBaseContent extends SocContentBase
                         $userDetail['photo'] = 'http://s3.amazonaws.com/crunchbase_prod_assets/' . $socUser['company']['image']['available_sizes'][0][1];
                     }
                 }
-                
+
                 if (!empty($socUser['external_links']) && !empty($socUser['external_links'][0]) && is_array($socUser['external_links']))
                 {
                     $userDetail['list'] = array();
@@ -227,23 +227,24 @@ class CrunchBaseContent extends SocContentBase
                             $userDetail['list']['values'][] = $value;
                         }
                     }
-                    if(count($userDetail['list']['values']) == 0)
+                    if (count($userDetail['list']['values']) == 0)
                         unset($userDetail['list']);
                 }
             }
             else
-                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;    
+                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
         }
         else
             $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
 
         return $userDetail;
     }
-    
+
     public static function isLoggegByNet()
     {
         $answer = true;
 
         return $answer;
     }
+
 }

@@ -9,7 +9,6 @@
  * @property integer $loyalty_id
  *
  */
- 
 class LikesStack extends CActiveRecord
 {
 
@@ -27,7 +26,7 @@ class LikesStack extends CActiveRecord
     {
         return Yii::app()->dbStack;
     }
-    
+
     /**
      * @return string the associated database table name
      */
@@ -48,4 +47,5 @@ class LikesStack extends CActiveRecord
             array('token_id, loyalty_id', 'numerical', 'integerOnly' => true),
         );
     }
+
 }

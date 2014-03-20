@@ -42,13 +42,12 @@ class FoursquareContent extends SocContentBase
         $username = self::rmGetParam($username);
         return $username;
     }
-    
-    
+
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
-        
+
         if (!is_numeric($socUsername))
         {
             $profile = self::makeRequest('https://foursquare.com/' . $socUsername, array(), false);
@@ -227,17 +226,17 @@ class FoursquareContent extends SocContentBase
           if (!empty($tips['response']['list']['listItems']['items']['0']))
           $userDetail['last_tip'] = '"<a href="'.$tips['response']['list']['listItems']['items']['0']['venue']['canonicalUrl'].'">'.$tips['response']['list']['listItems']['items']['0']['venue']['name'].'</a> :'.$tips['response']['list']['listItems']['items']['0']['tip']['text'].'"';
          */
-        
+
         return $userDetail;
     }
-            
-            
+
     public static function isLoggegByNet()
     {
         $answer = false;
         if (!empty(Yii::app()->session['foursquare_id']))
             $answer = true;
-        
+
         return $answer;
     }
+
 }

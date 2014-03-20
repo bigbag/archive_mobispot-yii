@@ -29,7 +29,7 @@ return array(
         'messages' => array(
             'class' => 'CPhpMessageSource',
             'onMissingTranslation' => array('Translation', 'missing'),
-            'cachingDuration'=>3600,
+            'cachingDuration' => 3600,
         ),
         'user' => array(
             'class' => 'CWebUser',
@@ -78,10 +78,10 @@ return array(
             'connectionID' => 'db',
         ),
         'cache' => array(
-            'class'=>'CRedisCache',
-            'hostname'=>'localhost',
-            'port'=>6379,
-            'database'=>0,
+            'class' => 'CRedisCache',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
         ),
         'hasher' => array(
             'class' => 'Phpass',

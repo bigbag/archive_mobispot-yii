@@ -15,13 +15,13 @@
  */
 class PaymentAuto extends CActiveRecord
 {
+
     const STATUS_ON = 1;
     const STATUS_OFF = 0;
-
     const TYPE_CEILING = 0;
     const TYPE_LIMIT = 1;
-
     const LIMIT = 40;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -64,7 +64,6 @@ class PaymentAuto extends CActiveRecord
         );
     }
 
-
     /**
      * @return array relational rules.
      */
@@ -84,7 +83,7 @@ class PaymentAuto extends CActiveRecord
         return parent::beforeSave();
     }
 
-        public function afterFind()
+    public function afterFind()
     {
         $this->amount = ($this->amount) / 100;
 
@@ -93,7 +92,6 @@ class PaymentAuto extends CActiveRecord
 
         return parent::afterFind();
     }
-
 
     public function beforeValidate()
     {
