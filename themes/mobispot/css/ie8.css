@@ -1,0 +1,60 @@
+.lt-ie9 body{
+	min-width: 1000px;
+}
+.row__head-slider .nav-bar{
+	position: absolute;
+	right: -343px;
+}
+.lt-ie9 .tooltip.tip-left,
+.lt-ie9 .tooltip.tip-right{
+	margin-top: 16px;
+}
+.lt-ie9 .tooltip.tip-right > .nub,
+.lt-ie9 .tooltip.tip-left > .nub{
+	margin-top: 20px;
+}
+.lt-ie9 form.custom span.custom{
+	top: -3px;
+}
+.lt-ie9 form.custom div.custom.dropdown a.selector:after{
+	margin-top: 2px;
+}
+.lt-ie9 input[type="text"],
+.lt-ie9 input[type="password"],
+.lt-ie9 input[type="date"],
+.lt-ie9 input[type="datetime"],
+.lt-ie9 input[type="email"],
+.lt-ie9 input[type="number"],
+.lt-ie9 input[type="search"],
+.lt-ie9 input[type="tel"],
+.lt-ie9 input[type="time"],
+.lt-ie9 input[type="url"]{
+	line-height: 22px;
+}
+.lt-ie9 .choose input{
+	line-height: 35px;
+}
+.lt-ie9 .spot-list .spot-hat-button{
+	display: none;
+}
+.lt-ie9 table.store-items td img{
+	width: auto;
+}
+.lt-ie9 .store-items__bag tr .store-items__close:after{
+	display: none;
+}
+.lt-ie9 .store-items__bag tr:hover .store-items__close{
+	line-height: 999px;
+}
+.lt-ie9 .store-items__bag tr:hover .store-items__close:after{
+	display: block;
+}
+.lt-ie9 .once-only .two input{
+	padding-left: 37px !important;
+}
+.lt-ie9  .m-sub-slide-menu .label-cover{
+	top: 7px;
+}
+.lt-ie9 .bubbles-slider .orbit-bullets li:hover a {
+	background: #408AFF;
+}
