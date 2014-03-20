@@ -1,11 +1,11 @@
 <?php
+
 /**
  * CustomOdnoklassnikiService class file.
  *
  * @author Sergey Vardanyan <rakot.ss@gmail.com>
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-
 require_once dirname(dirname(__FILE__)) . '/services/OdnoklassnikiOAuthService.php';
 
 class CustomOdnoklassnikiService extends OdnoklassnikiOAuthService
@@ -39,7 +39,7 @@ class CustomOdnoklassnikiService extends OdnoklassnikiOAuthService
         ));
 
         preg_match('/\d+\/{0,1}$/', $info[0]->url_profile, $matches);
-        $this->attributes['id'] = (int)$matches[0];
+        $this->attributes['id'] = (int) $matches[0];
         $this->attributes['url'] = $info[0]->url_profile;
     }
 
@@ -50,11 +50,13 @@ class CustomOdnoklassnikiService extends OdnoklassnikiOAuthService
             'method' => 'share.addLink',
             'format' => 'JSON',
         );
-        if (isset($data['link'])) {
+        if (isset($data['link']))
+        {
             $post['linkUrl'] = $data['link'];
         }
 
-        if (isset($data['message'])) {
+        if (isset($data['message']))
+        {
             $post['comment'] = $data['message'];
         }
         $this->makeSignedRequest('http://api.odnoklassniki.ru/fb.do', array(

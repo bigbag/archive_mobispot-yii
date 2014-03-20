@@ -200,7 +200,18 @@ angular.module('mobispot').controller('SpotController',
             angular.element('#resetPassButton').hide();
           else
             angular.element('#resetPassButton').show();
-          
+
+          //загрузка кошелька
+          angular.element('#wallet-block').remove();
+          var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
+          $http.post('/spot/wallet', details).success(function(data) {
+            if (data.error == 'no'){
+                angular.element('#spot-block').after($compile(data.content)($scope));
+                if (angular.element('#icon-wallet').hasClass('active'))
+                    angular.element('#wallet-block').slideDown();
+            }
+          }).error(function(error){alert(error)});
+            
           //загрузка страницы с акциями спота
             angular.element('#coupons-block').remove();
           var details = {discodes:$scope.spot.discodes, token:$scope.user.token};          
@@ -353,103 +364,111 @@ angular.module('mobispot').controller('SpotController',
 
     $scope.socialButton = function()
     {
-        if(angular.element('#extraMediaForm').hasClass('open'))
-        {
-            angular.element('#extraMediaForm').slideUp();
-            angular.element('#extraMediaForm').removeClass('open');
-        }
-        else
-        {
-            $scope.freeSocial = true;
-            angular.element('#extraMediaForm a').removeClass('blackout');
-            angular.element('#extraMediaForm a').fadeTo(0, 1);
-            angular.element('#extraMediaForm').slideDown(500);
-            angular.element('#extraMediaForm').addClass('open');
-        }
+      var mediaForm = angular.element('#extraMediaForm');
+      var mediaFormA = angular.element('#extraMediaForm a');
+      if(mediaForm.hasClass('open'))
+      {
+        mediaForm.slideUp();
+        mediaForm.removeClass('open');
+      }
+      else
+      {
+        $scope.freeSocial = true;
+        mediaFormA.removeClass('blackout');
+        mediaFormA.fadeTo(0, 1);
+        mediaForm.slideDown(500);
+        mediaForm.addClass('open');
+      }
     }
 
     $scope.socView = function(Target)
     {
-        $scope.SocNetTooltip(false);
-        if($scope.freeSocial)
-        {
-            if (typeof (Target) != 'undefined' && Target.length > 0)
-            {
-                angular.element('#extraMediaForm a').stop();
-                angular.element('#extraMediaForm a[net!=' + Target + ']').fadeTo(600, 0.2);
-                angular.element('#extraMediaForm a[net=' + Target + ']').fadeTo(0, 1);
-            }
-            else{
-                angular.element('#extraMediaForm a').stop();
-                angular.element('#extraMediaForm a').fadeTo(600, 1);
-            }
+      var mediaFormA = angular.element('#extraMediaForm a');
+
+      $scope.SocNetTooltip(false);
+      if($scope.freeSocial)
+      {
+        if (typeof (Target) != 'undefined' && Target.length > 0)
+        {   
+            var curentNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
+            mediaFormA.stop();
+            curentNet.fadeTo(600, 0.2);
+            curentNet.fadeTo(0, 1);
         }
+        else{
+            mediaFormA.stop();
+            mediaFormA.fadeTo(600, 1);
+        }
+      }
     }
 
     //отслеживает поле редактирования на появление ссылок на соцсети
     $scope.changeContent = function()
     {
-        var needPanel = false;
-        var currentNet = -1;
-        $scope.ContentIteration++;
+      var needPanel = false;
+      var currentNet = -1;
+      $scope.ContentIteration++;
 
-        for (var i = 0; i < $scope.socPatterns.length; i++)
-        {
-            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
-            {
-                needPanel = true;
-                currentNet = i;
-                break;
-            }
-        }
-        
-        if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
-        {
-            var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.ContentIteration};
-            $http.post('/spot/DetectSocNet', data).success(function(data) {
-                if (data.iteration == $scope.ContentIteration)
-                {
-                    var currentNet = -1;
-                    var needPanel = false;
-                    if (typeof (data.netName) != 'undefined')
-                    {
-                        currentNet = $scope.getPatternInd(data.netName);
-                        needPanel = true;
-                    }
-                    $scope.panelControl(needPanel, currentNet);
-                }
-            });
-        }
-        else
-            $scope.panelControl(needPanel, currentNet);
+      for (var i = 0; i < $scope.socPatterns.length; i++)
+      {
+          if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+          {
+              needPanel = true;
+              currentNet = i;
+              break;
+          }
+      }
+      
+      if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
+      {
+          var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.ContentIteration};
+          $http.post('/spot/DetectSocNet', data).success(function(data) {
+              if (data.iteration == $scope.ContentIteration)
+              {
+                  var currentNet = -1;
+                  var needPanel = false;
+                  if (typeof (data.netName) != 'undefined')
+                  {
+                      currentNet = $scope.getPatternInd(data.netName);
+                      needPanel = true;
+                  }
+                  $scope.panelControl(needPanel, currentNet);
+              }
+          });
+      }
+      else
+          $scope.panelControl(needPanel, currentNet);
     }
     
     $scope.panelControl = function(needPanel, currentNet)
     {
-        if (needPanel)
-        {
-            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').addClass('blackout');
-            angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 0.2);
-            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').removeClass('blackout');
-            angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']').fadeTo(0, 1);
-            $scope.freeSocial = false;
-        }
-        
-        if (needPanel && !angular.element('#extraMediaForm').hasClass('open'))
-        {
-            angular.element('#extraMediaForm').slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
-            angular.element('#extraMediaForm').addClass('open');
-        }
-        else if (!needPanel && angular.element('#extraMediaForm').hasClass('open'))
-        {
-            $scope.SocNetTooltip(false);
-            angular.element('#extraMediaForm').slideUp(400, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-            angular.element('#extraMediaForm').removeClass('open');
-        }
-        else if (needPanel)
-        {
-            $scope.SocNetTooltip(true, currentNet);
-        }
+      var mediaForm = angular.element('#extraMediaForm');
+      var mediaFormA = angular.element('#extraMediaForm a');
+      if (needPanel)
+      {
+        var curentNet = angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']');
+        curentNet.addClass('blackout');
+        curentNet.fadeTo(0, 0.2);
+        curentNet.removeClass('blackout');
+        curentNet.fadeTo(0, 1);
+        $scope.freeSocial = false;
+      }
+      
+      if (needPanel && !mediaForm.hasClass('open'))
+      {
+        mediaForm.slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
+        mediaForm.addClass('open');
+      }
+      else if (!needPanel && mediaForm.hasClass('open'))
+      {
+        $scope.SocNetTooltip(false);
+        mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+        mediaForm.removeClass('open');
+      }
+      else if (needPanel)
+      {
+        $scope.SocNetTooltip(true, currentNet);
+      }
     }
     
     $scope.SocNetTooltip = function(NeedTooltip, currentNet)
@@ -1104,19 +1123,27 @@ angular.module('mobispot').controller('SpotController',
     return true;
   };
 
-    $scope.showCoupons = function() {
-        angular.element('#spot-block').slideUp();
-        angular.element('#coupons-block').slideDown();
-        angular.element('.spot-tabs a').removeClass('active');
-        angular.element('#icon-coupons').addClass('active');
-    }
-  
     $scope.showSpotContent = function() {
-        angular.element('#coupons-block').slideUp();
+        angular.element('.tabs-item').slideUp();
         angular.element('#spot-block').slideDown();
         angular.element('.spot-tabs a').removeClass('active');
         angular.element('#icon-spot').addClass('active');    
     
+    }
+    
+    $scope.showWallet = function() {
+        angular.element('.tabs-item').slideUp();
+        angular.element('#wallet-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-wallet').addClass('active');    
+    
+    }
+    
+    $scope.showCoupons = function() {
+        angular.element('.tabs-item').slideUp();
+        angular.element('#coupons-block').slideDown();
+        angular.element('.spot-tabs a').removeClass('active');
+        angular.element('#icon-coupons').addClass('active');
     }
   
   //Открыть спот по коду

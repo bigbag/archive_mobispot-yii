@@ -9,6 +9,7 @@ class Phone extends CActiveRecord
 
     const TYPE_PHONE = 1;
     const TYPE_DEVICE = 2;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -18,7 +19,7 @@ class Phone extends CActiveRecord
     {
         return parent::model($className);
     }
-    
+
     /**
      * @return array relational rules.
      */
@@ -38,16 +39,16 @@ class Phone extends CActiveRecord
     {
         return 'phone';
     }
-    
+
     public static function getJsonPhones()
     {
-        $phones=self::model()->findAllByAttributes(array(
-                    'type' => self::TYPE_PHONE,
-                ));
+        $phones = self::model()->findAllByAttributes(array(
+            'type' => self::TYPE_PHONE,
+        ));
         $brands = array();
         $answer = array();
-        
-        foreach($phones as $phone)
+
+        foreach ($phones as $phone)
         {
             if (!isset($brands[$phone->brand]))
             {
@@ -55,14 +56,14 @@ class Phone extends CActiveRecord
                 $brands[$phone->brand]['models'] = array();
                 $brands[$phone->brand]['badModels'] = array();
             }
-            
+
             if ($phone->has_trouble)
-                $brands[$phone->brand]['badModels'][] = array('id' => $phone->slug,  'name' => $phone->name, 'page' => $phone->page);
+                $brands[$phone->brand]['badModels'][] = array('id' => $phone->slug, 'name' => $phone->name, 'page' => $phone->page);
             else
-                $brands[$phone->brand]['models'][] = array('id' => $phone->slug,  'name' => $phone->name, 'page' => $phone->page);
+                $brands[$phone->brand]['models'][] = array('id' => $phone->slug, 'name' => $phone->name, 'page' => $phone->page);
         }
-        
-        foreach ($brands as $brand=>$brandPhones)
+
+        foreach ($brands as $brand => $brandPhones)
         {
             if (count($brandPhones['badModels']))
                 $answer[] = array('brand' => $brand, 'models' => $brandPhones['models'], 'badModels' => $brandPhones['badModels']);
@@ -72,31 +73,32 @@ class Phone extends CActiveRecord
 
         return str_replace('"', "'", json_encode($answer));
     }
-    
+
     public static function getJsonDevices()
     {
-        $phones=self::model()->findAllByAttributes(array(
-                    'type' => self::TYPE_DEVICE,
-                ));
+        $phones = self::model()->findAllByAttributes(array(
+            'type' => self::TYPE_DEVICE,
+        ));
         $brands = array();
         $answer = array();
-        
-        foreach($phones as $phone)
+
+        foreach ($phones as $phone)
         {
             if (!isset($brands[$phone->brand]))
             {
                 $brands[$phone->brand] = array();
                 $brands[$phone->brand]['models'] = array();
             }
-            
-            $brands[$phone->brand]['models'][] = array('id' => $phone->slug,  'name' => $phone->name, 'page' => $phone->page);
+
+            $brands[$phone->brand]['models'][] = array('id' => $phone->slug, 'name' => $phone->name, 'page' => $phone->page);
         }
-        
-        foreach ($brands as $brand=>$brandPhones)
+
+        foreach ($brands as $brand => $brandPhones)
         {
             $answer[] = array('brand' => $brand, 'models' => $brandPhones['models']);
         }
 
         return str_replace('"', "'", json_encode($answer));
     }
+
 }

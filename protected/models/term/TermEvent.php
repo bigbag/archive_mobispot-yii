@@ -15,6 +15,7 @@
  */
 class TermEvent extends CActiveRecord
 {
+
     /**
      * @return string the associated database table name
      */
@@ -32,11 +33,11 @@ class TermEvent extends CActiveRecord
         // will receive user inputs.
         return array(
             array('term_id, event_id', 'required'),
-            array('term_id, event_id, cost, age, timeout', 'numerical', 'integerOnly'=>true),
-            array('start, stop', 'length', 'max'=>10),
+            array('term_id, event_id, cost, age, timeout', 'numerical', 'integerOnly' => true),
+            array('start, stop', 'length', 'max' => 10),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, term_id, event_id, cost, start, stop, age, timeout', 'safe', 'on'=>'search'),
+            array('id, term_id, event_id, cost, start, stop, age, timeout', 'safe', 'on' => 'search'),
         );
     }
 
@@ -86,19 +87,19 @@ class TermEvent extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('term_id',$this->term_id);
-        $criteria->compare('event_id',$this->event_id);
-        $criteria->compare('cost',$this->cost);
-        $criteria->compare('start',$this->start,true);
-        $criteria->compare('stop',$this->stop,true);
-        $criteria->compare('age',$this->age);
-        $criteria->compare('timeout',$this->timeout);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('term_id', $this->term_id);
+        $criteria->compare('event_id', $this->event_id);
+        $criteria->compare('cost', $this->cost);
+        $criteria->compare('start', $this->start, true);
+        $criteria->compare('stop', $this->stop, true);
+        $criteria->compare('age', $this->age);
+        $criteria->compare('timeout', $this->timeout);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -116,8 +117,9 @@ class TermEvent extends CActiveRecord
      * @param string $className active record class name.
      * @return TermEvent the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
 }

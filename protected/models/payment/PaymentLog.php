@@ -56,7 +56,6 @@ class PaymentLog extends CActiveRecord
         );
     }
 
-
     /**
      * @return array relational rules.
      */
@@ -70,9 +69,9 @@ class PaymentLog extends CActiveRecord
         );
     }
 
-    public function getListByWalletId($id, $count=20) 
+    public function getListByWalletId($id, $count = 20)
     {
-        $logs = Yii::app()->cache->get('logs_wallet_'.$id);
+        $logs = Yii::app()->cache->get('logs_wallet_' . $id);
         if (!$logs)
         {
             $criteria = new CDbCriteria;
@@ -82,14 +81,14 @@ class PaymentLog extends CActiveRecord
             $criteria->limit = $count;
             $logs = self::model()->findAll($criteria);
 
-            Yii::app()->cache->set('logs_wallet_'.$id, $logs, 120);
+            Yii::app()->cache->set('logs_wallet_' . $id, $logs, 120);
         }
         return $logs;
     }
 
     protected function afterSave()
     {
-        Yii::app()->cache->delete('logs_wallet_'.$this->wallet_id);
+        Yii::app()->cache->delete('logs_wallet_' . $this->wallet_id);
         parent::afterSave();
     }
 
@@ -104,7 +103,7 @@ class PaymentLog extends CActiveRecord
             'wallet_id' => Yii::t('payment', 'Кошелёк'),
             'rrn' => Yii::t('payment', 'RRN'),
             'card_pan' => Yii::t('payment', 'ПАН карты'),
-            'creation_date' =>  Yii::t('payment', 'Дата'),
+            'creation_date' => Yii::t('payment', 'Дата'),
         );
     }
 
@@ -118,28 +117,29 @@ class PaymentLog extends CActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        
+
         $criteria->compare('id', $this->id);
         $criteria->compare('history_id', $this->history_id);
         $criteria->compare('wallet_id', $this->wallet_id);
         $criteria->compare('rrn', $this->rrn, true);
         $criteria->compare('card_pan', $this->card_pan, true);
         $criteria->compare('creation_date', $this->creation_date, true);
-        
+
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
     }
-    
+
     public static function getSystemByPan($pan)
     {
         $system = 'uniteller';
         if (preg_match('/^4[0-9\*]{12}([0-9]{3})?$/', $pan))
             $system = 'visa';
-        elseif(preg_match('/^5[1-5][0-9\*]{14}$/', $pan))
+        elseif (preg_match('/^5[1-5][0-9\*]{14}$/', $pan))
             $system = 'mastercard';
-        elseif(preg_match('/^(?:5020|6\\d{3})\\d{12\*}$/', $pan))
+        elseif (preg_match('/^(?:5020|6\\d{3})\\d{12\*}$/', $pan))
             $system = 'maestro';
         return $system;
     }
+
 }

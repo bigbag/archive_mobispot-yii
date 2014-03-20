@@ -41,11 +41,11 @@
 <body ng-controller="UserController" 
     ng-cloak class="ng-cloak"
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-
+    
     <?php include('block/head_new.php'); ?>
-
     <?php if ($this->mainBackground):?>
-        <div class="main wallpaper" style="background-image: url(/themes/mobispot/new/img/<?php echo $this->mainBackground;?>)">
+        <div
+         class="main wallpaper" style="background-image: url(/themes/mobispot/new/img/<?php echo $this->mainBackground;?>)">
     <?php endif;?>
     <div ng-click="modal='none'">
         <?php echo $content; ?>
@@ -59,15 +59,17 @@
             <li><a href="/readers"><?php echo Yii::t('footer', 'Readers') ?></a></li>
             <li><a href="/help"><?php echo Yii::t('footer', 'Get Help') ?></a></li>
             <!-- <li><a href="javascript:;">Email us</a></li> -->
-            <!-- <li class="lang">
+            <li class="lang">
                 <ul class="lang-list">
-                    <li class="current-lang"><img src="/themes/mobispot/new/img/lang-icon_en.png">English</li>
-                    <li><img src="/themes/mobispot/new/img/lang-icon_ru.png">Russian</li>
-                    <li><img src="/themes/mobispot/new/img/lang-icon_it.png">Italian</li>
-                    <li><img src="/themes/mobispot/new/img/lang-icon_ch.png">Chinese</li>
+                    <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/en"><img src="/themes/mobispot/new/img/lang-icon_en.png">English</a></li>
+                    <li class="<?php echo ('ru' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/ru"><img src="/themes/mobispot/new/img/lang-icon_ru.png">Russian</a></li>
+                    <!-- <li><img src="/themes/mobispot/new/img/lang-icon_it.png">Italian</li> -->
+                    <!-- <li><img src="/themes/mobispot/new/img/lang-icon_ch.png">Chinese</li> -->
                 </ul>
-                <span class="current"><img src="/themes/mobispot/new/img/lang-icon_en.png"></span>
-            </li> -->
+                <span class="current">
+                    <img src="/themes/mobispot/new/img/lang-icon_<?php echo Yii::app()->language ?>.png">
+                </span>
+            </li>
         </ul>
         <ul class="soc-link right">
             <li><a class="icon" href="https://twitter.com/heymobispot">&#xe001;</a></li>

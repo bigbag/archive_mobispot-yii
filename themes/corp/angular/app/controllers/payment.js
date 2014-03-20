@@ -197,7 +197,10 @@ angular.module('mobispot').controller('PaymentController',
       if(data.error == 'no') {
         angular.element('#block-button').text(data.content);
         angular.element('#block-button').toggleClass('red-button green-button');
-        angular.element('li#'+id).toggleClass('invisible-spot');
+        if (angular.element('li#'+id).size())
+            angular.element('li#'+id).toggleClass('invisible-spot');
+        if (angular.element('#wallet-block').size())
+            angular.element('#wallet-block').toggleClass('invisible-spot');
         $scope.recurrent.terms = 0;
         angular.element('a.checkbox.agree').removeClass('active');
         angular.element('#buttonApayOn').addClass('button-disable');
@@ -247,7 +250,7 @@ angular.module('mobispot').controller('PaymentController',
   //Запрос истории последних операций
   $scope.getHistory = function(search) {
     if(typeof(search.page)==='undefined') search.page = 1;
-    search.token = $scope.user.token;
+    search.token = $scope.payment.token;
     
     $http.post('/wallet/getHistory', search).success(function(data) {
       $scope.result = data.result;

@@ -20,29 +20,29 @@ class StoreCart extends CFormModel
                 $dbCustomer = StoreCustomer::model()->findByAttributes(array(
                     'email' => $user->email
                 ));
-                
+
                 if (!$dbCustomer)
                 {
                     $dbCustomer = new StoreCustomer;
                     $dbCustomer->email = $user->email;
                     $dbCustomer->save();
                 }
-                
+
                 $order = StoreOrder::model()->findByAttributes(array(
                     'id_customer' => $dbCustomer->id,
                     'status' => 0
                 ));
-                
-                if(!$order)
+
+                if (!$order)
                 {
                     $order = new StoreOrder;
                     $order->id_customer = $dbCustomer->id;
                     $order->status = 0;
                     $order->save();
                 }
-                
+
                 StoreOrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
-        
+
                 foreach ($this->storeCart as $product)
                 {
                     $addProduct = new StoreOrderList;
@@ -72,7 +72,7 @@ class StoreCart extends CFormModel
             $dbCustomer = StoreCustomer::model()->findByAttributes(array(
                 'email' => $user->email
             ));
-        
+
             if ($dbCustomer)
             {
                 $cartList = $this->getCartList($dbCustomer->id);
@@ -117,46 +117,46 @@ class StoreCart extends CFormModel
         }
         return $cartList;
     }
-    
+
     public function getListQuantity($cartList)
     {
         $itemsInCart = 0;
-        
-        if(is_array($cartList) && count($cartList))
+
+        if (is_array($cartList) && count($cartList))
         {
-            foreach($cartList as $item)
+            foreach ($cartList as $item)
                 $itemsInCart += $item['quantity'];
         }
-        
+
         return $itemsInCart;
     }
 
     public function getPriceList()
     {
         $result = Yii::app()->cache->get('products');
-            if (!$result)
+        if (!$result)
+        {
+
+            $products = StoreProduct::model()->findAll('1');
+            $data = array();
+            $item = array();
+
+            foreach ($products as $product)
             {
+                $item['id'] = $product->id;
+                $item['name'] = $product->name;
+                $item['code'] = $product->code;
+                $item['photo'] = $product->photo;
+                $item['description'] = $product->description;
+                $item['color'] = $product->color;
+                $item['surface'] = $product->surface;
+                $item['size'] = $product->size;
 
-                $products = StoreProduct::model()->findAll('1');
-                $data = array();
-                $item = array();
-
-                foreach ($products as $product)
-                {
-                    $item['id'] = $product->id;
-                    $item['name'] = $product->name;
-                    $item['code'] = $product->code;
-                    $item['photo'] = $product->photo;
-                    $item['description'] = $product->description;
-                    $item['color'] = $product->color;
-                    $item['surface'] = $product->surface;
-                    $item['size'] = $product->size;
-
-                    $data[] = $item;
-                }
-                $result = $data;
-                Yii::app()->cache->set('products', $result, 120);
+                $data[] = $item;
             }
+            $result = $data;
+            Yii::app()->cache->set('products', $result, 120);
+        }
         return $result;
     }
 
@@ -168,15 +168,16 @@ class StoreCart extends CFormModel
             $result = false;
             $delivery = StoreDelivery::model()->findAll();
 
-            if ($delivery) 
+            if ($delivery)
             {
                 $result = array();
-                foreach ($delivery as $row) {
+                foreach ($delivery as $row)
+                {
                     $result[$row->id]['id'] = $row->id;
                     $result[$row->id]['name'] = $row->name;
                     $result[$row->id]['period'] = $row->period;
                     $result[$row->id]['price'] = $row->price;
-                } 
+                }
             }
 
             Yii::app()->cache->set('delivery', $result, 120);
@@ -192,14 +193,15 @@ class StoreCart extends CFormModel
             $result = false;
             $payment = StorePayment::model()->findAll();
 
-            if ($payment) 
+            if ($payment)
             {
-               $result = array();
-                foreach ($payment as $row) {
+                $result = array();
+                foreach ($payment as $row)
+                {
                     $result[$row->id]['id'] = $row->id;
                     $result[$row->id]['name'] = $row->name;
                     $result[$row->id]['caption'] = $row->caption;
-                } 
+                }
             }
             Yii::app()->cache->set('payment', $result, 120);
         }
@@ -234,13 +236,13 @@ class StoreCart extends CFormModel
 
         return $discount;
     }
-    
+
     public function getCustomer()
     {
         $customer = array();
         $customer['email'] = '';
 
-        if(isset(Yii::app()->session['storeCustomer']))
+        if (isset(Yii::app()->session['storeCustomer']))
         {
             $customer = Yii::app()->session['storeCustomer'];
         }
@@ -281,7 +283,7 @@ class StoreCart extends CFormModel
                 $customer['country'] = '';
             }
         }
-        
+
         return $customer;
     }
 
@@ -488,10 +490,10 @@ class StoreCart extends CFormModel
         Yii::app()->session['itemsInCart'] = $itemsInCart;
 
         $success = true;
-        
+
         return $success;
     }
-    
+
     public function deleteFromCart($deleted)
     {
         $success = false;
@@ -500,7 +502,7 @@ class StoreCart extends CFormModel
         {
             $newCart = array();
             $itemsInCart = 0;
-            
+
             foreach ($this->storeCart as $product)
             {
                 if (!$this->equalProduct($deleted, $product))
@@ -553,11 +555,11 @@ class StoreCart extends CFormModel
         $discount = array();
         $discount['error'] = Yii::t('store', 'Введен неверный код!');
         $discount['promoCode'] = $userCode;
-    
+
         $promoCode = StorePromoCode::model()->findByAttributes(array(
             'code' => $userCode
         ));
-        
+
         if ($promoCode)
         {
             if ($promoCode->expires < Time())
@@ -572,7 +574,7 @@ class StoreCart extends CFormModel
                 $discount['error'] = 'no';
             }
         }
-    
+
         return $discount;
     }
 
@@ -585,7 +587,7 @@ class StoreCart extends CFormModel
             if ($user)
                 $newCustomer['email'] = $user->email;
         }
-        
+
         if (!empty($newCustomer['email']))
         {
             Yii::app()->session['storeEmail'] = $newCustomer['email'];
@@ -593,7 +595,7 @@ class StoreCart extends CFormModel
                 'email' => $newCustomer['email']
             ));
         }
-        
+
         if (!isset($customer) || !$customer)
         {
             $customer = new $model;
@@ -606,14 +608,14 @@ class StoreCart extends CFormModel
             if ($field != 'email')
                 $customer->$field = $value;
         }
-        
+
         return $customer;
     }
-    
+
     public function saveCustomer($newCustomer)
     {
         $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
-        
+
         $customer = $this->getModelCustomer($newCustomer, 'Customer');
         if ($customer->validate())
         {
@@ -668,13 +670,13 @@ class StoreCart extends CFormModel
     {
         $error = Yii::t('store', 'Все поля обязательны для заполнения');
         Yii::app()->session['storeCustomer'] = $newCustomer;
-        
+
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
         if ($customer->validate())
         {
             $customer->save();
             $error = 'no';
-        } 
+        }
         else
         {
             $modelErrors = $customer->getErrors();
@@ -697,7 +699,7 @@ class StoreCart extends CFormModel
         }
         return $error;
     }
-    
+
     public function buy($newCustomer, $products, $discount, $selectedDelivery, $selectedPayment)
     {
         $mailOrder = array();
@@ -786,7 +788,7 @@ class StoreCart extends CFormModel
                             $item['price'] = $dbSize['price'];
                         }
                     }
-                    
+
                     $list->save();
                     $items[] = $item;
                     $subtotal += $list->price * $list->quantity;
@@ -800,7 +802,7 @@ class StoreCart extends CFormModel
                     $promoCode = StorePromoCode::model()->findByAttributes(array(
                         'code' => $discount['promoCode']
                     ));
-        
+
                     if ($promoCode)
                     {
                         if ($promoCode->expires > Time() && !(!$promoCode->is_multifold && $promoCode->used))
@@ -812,12 +814,12 @@ class StoreCart extends CFormModel
                                 {
                                     if (($promoId['id_product'] == $product['id']) && ($product['selectedSize']['price'] >= $promoId['discount']))
                                     {
-                                        $discountSumm += $promoId['discount']*$product['quantity'];
+                                        $discountSumm += $promoId['discount'] * $product['quantity'];
                                         break;
                                     }
                                 }
                             }
-                            
+
                             if ($discountSumm > 0)
                             {
                                 $order->promo_id = $promoCode->id;
@@ -830,7 +832,7 @@ class StoreCart extends CFormModel
                         }
                     }
                 }
-                
+
                 $mailOrder['id'] = $order->id;
                 $mailOrder['email'] = $customer->email;
                 $mailOrder['target_first_name'] = $customer->target_first_name;
@@ -857,13 +859,14 @@ class StoreCart extends CFormModel
                 $order->buy_date = date('Y-m-d H:i:s');
                 $order->status = 1;
                 $order->save();
-                
+
                 $transaction->commit();
                 $error = 'no';
                 $this->storeCart = array();
                 unset(Yii::app()->session['storeCart']);
                 Yii::app()->session['itemsInCart'] = 0;
-            } catch (Exception $e)
+            }
+            catch (Exception $e)
             {
                 $transaction->rollback();
                 $error = $e;
@@ -897,12 +900,12 @@ class StoreCart extends CFormModel
     public static function getMessageByOrder($orderId)
     {
         $mailOrder = array();
-        
+
         $order = StoreOrder::model()->findByPk($orderId);
         if ($order)
         {
             $customer = StoreCustomer::model()->findByPk($order->id_customer);
-            
+
             $mailOrder['id'] = $order->id;
             $mailOrder['email'] = $customer->email;
             $mailOrder['phone'] = $customer->phone;
@@ -918,16 +921,16 @@ class StoreCart extends CFormModel
             $mailOrder['shipping'] = $deliv->price;
             $pay = StorePayment::model()->findByPk($order->payment);
             $mailOrder['payment'] = $pay->name;
-            
+
             $list = StoreOrderList::model()->findAllByAttributes(array(
                 'id_order' => $order->id
             ));
-            
+
             $items = array();
             $subtotal = 0;
             $tax = 0;
             $discountSumm = 0;
-            
+
             foreach ($list as $product)
             {
                 $item = array();
@@ -944,7 +947,7 @@ class StoreCart extends CFormModel
                 $items[] = $item;
                 $subtotal += $item['price'] * $item['quantity'];
             }
-            
+
             $promoCode = StorePromoCode::Model()->findByPk($order->promo_id);
             if ($promoCode)
             {
@@ -955,13 +958,13 @@ class StoreCart extends CFormModel
                     {
                         if (($promoId['id_product'] == $product->id_product) && ($product->price >= $promoId['discount']))
                         {
-                            $discountSumm += $promoId['discount']*$product->quantity;
+                            $discountSumm += $promoId['discount'] * $product->quantity;
                             break;
                         }
                     }
                 }
             }
-            
+
             $mailOrder['subtotal'] = $subtotal;
             if ($discountSumm > 0)
                 $mailOrder['discount'] = $discountSumm;
@@ -969,7 +972,8 @@ class StoreCart extends CFormModel
             $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
             $mailOrder['items'] = $items;
         }
-            
+
         return $mailOrder;
     }
+
 }

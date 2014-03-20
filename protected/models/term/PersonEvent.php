@@ -14,9 +14,9 @@
  */
 class PersonEvent extends CActiveRecord
 {
+
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = 0;
-
     const LIKE_TIMEOUT = 100000;
 
     /**
@@ -36,17 +36,19 @@ class PersonEvent extends CActiveRecord
         // will receive user inputs.
         return array(
             array('person_id, term_id, event_id, firm_id, status', 'required'),
-            array('person_id, term_id, event_id, firm_id, timeout', 'numerical', 'integerOnly'=>true),
+            array('person_id, term_id, event_id, firm_id, timeout', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, person_id, term_id, event_id, firm_id, status, timeout', 'safe', 'on'=>'search'),
+            array('id, person_id, term_id, event_id, firm_id, status, timeout', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if (!$this->timeout) $this->timeout = 300;
-        if (!$this->status) $this->status = self::STATUS_ACTIVE;
+        if (!$this->timeout)
+            $this->timeout = 300;
+        if (!$this->status)
+            $this->status = self::STATUS_ACTIVE;
 
         return parent::beforeValidate();
     }
@@ -85,16 +87,16 @@ class PersonEvent extends CActiveRecord
         $result = False;
         $loyalty = Loyalty::model()->findByPk($loyalty_id);
         $wallet = PaymentWallet::model()->findByAttributes(
-            array('user_id'=>$user_id)
+                array('user_id' => $user_id)
         );
 
-        if ($loyalty and $wallet ) 
+        if ($loyalty and $wallet)
         {
             $person = Person::model()->findByAttributes(
-                array(
-                    'firm_id'=>$loyalty->firm_id,
-                    'payment_id'=>$wallet->payment_id,
-                )
+                    array(
+                        'firm_id' => $loyalty->firm_id,
+                        'payment_id' => $wallet->payment_id,
+                    )
             );
 
             if (!$person)
@@ -107,16 +109,17 @@ class PersonEvent extends CActiveRecord
                 $person->save();
             }
 
-            foreach ($loyalty->terms_id as $term_id) {
+            foreach ($loyalty->terms_id as $term_id)
+            {
                 $personEvent = PersonEvent::model()->findByAttributes(
-                    array(
-                        'person_id'=>$person->id,
-                        'term_id'=>$term_id,
-                        'event_id'=>$loyalty->event_id,
-                        'firm_id'=>$loyalty->firm_id,
-                    )
+                        array(
+                            'person_id' => $person->id,
+                            'term_id' => $term_id,
+                            'event_id' => $loyalty->event_id,
+                            'firm_id' => $loyalty->firm_id,
+                        )
                 );
-                
+
                 if (!$personEvent)
                 {
                     $personEvent = new PersonEvent();
@@ -126,7 +129,8 @@ class PersonEvent extends CActiveRecord
                     $personEvent->firm_id = $loyalty->firm_id;
                     $personEvent->timeout = self::LIKE_TIMEOUT;
 
-                    if ($personEvent->save()) $result = True;
+                    if ($personEvent->save())
+                        $result = True;
                 }
                 else
                 {
@@ -141,7 +145,6 @@ class PersonEvent extends CActiveRecord
         }
 
         return $result;
-
     }
 
     /**
@@ -160,18 +163,18 @@ class PersonEvent extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('person_id',$this->person_id);
-        $criteria->compare('term_id',$this->term_id);
-        $criteria->compare('event_id',$this->event_id);
-        $criteria->compare('firm_id',$this->firm_id);
-        $criteria->compare('timeout',$this->timeout);
-        $criteria->compare('status',$this->status);        
+        $criteria->compare('id', $this->id);
+        $criteria->compare('person_id', $this->person_id);
+        $criteria->compare('term_id', $this->term_id);
+        $criteria->compare('event_id', $this->event_id);
+        $criteria->compare('firm_id', $this->firm_id);
+        $criteria->compare('timeout', $this->timeout);
+        $criteria->compare('status', $this->status);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -189,8 +192,9 @@ class PersonEvent extends CActiveRecord
      * @param string $className active record class name.
      * @return PersonEvent the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
+
 }

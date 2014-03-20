@@ -38,15 +38,6 @@ class ServiceUserIdentity extends CUserIdentity
         {
             $this->_id = $this->service->getAttribute('id');
             $this->_profileUrl = $this->service->getAttribute('url');
-            /*         $this->_id = $user->id;
-              $this->_email = $user->email;
-              $this->username = $user->email;
-              $this->password = $user->password;
-
-              $this->setState('id', $this->id);
-              $this->setState('service', $this->service->serviceName);
-              $this->setState('email', $this->email);
-             */
             $this->errorCode = self::ERROR_NONE;
         }
         else

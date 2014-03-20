@@ -30,7 +30,7 @@ class StoreOrderList extends CActiveRecord
     {
         return 'store.order_list';
     }
-    
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -43,4 +43,5 @@ class StoreOrderList extends CActiveRecord
             array('id_order, id_product, quantity', 'numerical', 'integerOnly' => true),
         );
     }
+
 }
