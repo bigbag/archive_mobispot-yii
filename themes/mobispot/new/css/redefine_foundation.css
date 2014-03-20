@@ -357,7 +357,7 @@ ul.flyout li a:hover, ul.flyout li a:focus, .nav-bar li ul li a:hover, .nav-bar 
 }
 input.error,
 .header-page .slide-box input.error{
-	background: #f9d3d2;
+	background: #fff;
 }
 input + i{
 	content: '';
