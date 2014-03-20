@@ -19,7 +19,6 @@ class CustomBehanceAuthService extends EOAuth2Service
 
     protected function fetchAttributes()
     {
-        $options = array();
         $idUser = $this->getState('idUser');
 
         $info = $this->makeRequest('http://www.behance.net/v2/users/' . $idUser . '?api_key=' . $this->client_id, $options, false);
@@ -27,59 +26,12 @@ class CustomBehanceAuthService extends EOAuth2Service
         $info = $info['user'];
 
         $this->attributes['id'] = $info['id'];
-        if (isset($info['username']))
-            $this->attributes['name'] = $info['username'];
-        /*
-          if(!empty($info['first_name']))
-          $this->attributes['first_name'] = $info['first_name'];
-          if(!empty($info['last_name']))
-          $this->attributes['last_name'] = $info['last_name'];
-
-          if(!empty($info['images']['50']))
-          $this->attributes['photo'] = $info['images']['50'];
-          $this->attributes['soc_url'] = $info['url'];
-          if(!empty($info['sections']['Where, When and What']))
-          $this->attributes['about'] = $info['sections']['Where, When and What'];
-          if(!empty($info['company']))
-          $this->attributes['work'] = $info['company'];
-          if(!empty($info['country']))
-          $this->attributes['location'] = $info['country'];
-          else
-          $this->attributes['location'] = '';
-          if(!empty($info['state'])){
-          if($this->attributes['location'] == '')
-          $this->attributes['location'] = $info['state'];
-          else
-          $this->attributes['location'] .= ', '.$info['state'];
-          }
-          if(!empty($info['city'])){
-          if($this->attributes['location'] == '')
-          $this->attributes['location'] = $info['city'];
-          else
-          $this->attributes['location'] .= ', '.$info['city'];
-          }
-          if($this->attributes['location'] == '')
-          unset($this->attributes['location']);
-          if(!empty($info['fields'][0])){
-          $this->attributes['focus'] = '';
-          foreach($info['fields'] as $focus){
-          if($this->attributes['focus'] !== '')
-          $this->attributes['focus'] .= ', ';
-          $this->attributes['focus'] .= $focus;
-          }
-          }
-
-          $projects = $this->makeRequest('http://www.behance.net/v2/users/'.$idUser.'/projects?api_key='.$this->client_id, $options, false);
-          $projects = CJson::decode($projects, true);
-
-          if(isset($projects['projects']) && !empty($projects['projects'][0])){
-          $projects = $projects['projects'][0];
-          $imgProject = '';
-          if(isset($projects['covers']) && !empty($projects['covers'][202]))
-          $imgProject = '<br/><img src="'.$projects['covers'][202].'"/>';
-          $this->attributes['last_status'] = '<a href="'.$projects['url'].'" target="_blank">'.$projects['name'].$imgProject.'</a>';
-          }
-         */
+        $this->attributes['name'] = (isset($info['username'])) ? $info['username'] : false;
+        $this->attributes['photo'] = $info['images']['50'];
+        $this->attributes['url'] = (!empty($info->link)) ? $info->link : 'https://www.facebook.com/' . $info->username;
+        $this->attributes['email'] = (!empty($info->email)) ? $info->email : false;
+        $this->attributes['expires'] = $this->getState('expires');
+        $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
     }
 
     public function authenticate()

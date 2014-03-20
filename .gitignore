@@ -11,6 +11,7 @@ sitemap.xml.gz
 /yii/*
 /test/*
 /assets/
+/data/*
 protected/config/params.php
 protected/config/db.php
 protected/config/dbPayment.php

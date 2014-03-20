@@ -23,7 +23,6 @@ class CustomFacebookOAuthService extends FacebookOAuthService
         $this->attributes['email'] = (!empty($info->email)) ? $info->email : false;
         $this->attributes['expires'] = $this->getState('expires');
         $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
-        $this->attributes['auth_secret'] = false;
     }
 
 }

@@ -85,7 +85,7 @@ class SocContentBase
                     'Curl exception: ' . $e->getMessage() . PHP_EOL .
                     'URL: ' . $url . PHP_EOL .
                     'Options: ' . var_export($options, true)
-                    , CLogger::LEVEL_ERROR, 'SocContentBase'
+                    , 'error', 'application'
             );
         }
 
@@ -140,8 +140,7 @@ class SocContentBase
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
-            $rawdata = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_close($ch);
 
             $fp = fopen($file_name, 'x');

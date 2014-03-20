@@ -113,13 +113,18 @@ class SocToken extends CActiveRecord
 
     public function setToken($info)
     {
-        if (!$info['user_id'])
+        if (!isset($info['user_id']) or !isset($info['id']))
             return false;
 
-        $userToken = new SocToken;
+        $userToken = SocToken::model()->findByAttributes(
+            array(
+                'soc_id'=>$info['id'])
+            ); 
+        if (!$userToken) $userToken = new SocToken;
+        
         $userToken->type = SocToken::getTypeByService($info['service']);
         $userToken->user_id = $info['user_id'];
-        $userToken->soc_id = (!empty($info['id'])) ? $info['id'] : Null;
+        $userToken->soc_id = $info['id'];
         $userToken->soc_email = (!empty($info['email'])) ? $info['email'] : Null;
         $userToken->user_token = (!empty($info['auth_token'])) ? $info['auth_token'] : Null;
         $userToken->token_secret = (!empty($info['auth_secret'])) ? $info['auth_secret'] : Null;

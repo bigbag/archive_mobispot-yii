@@ -7,7 +7,6 @@ class TwitterContent extends SocContentBase
     {
         $result = 'ok';
 
-        //$appToken = Yii::app()->cache->get('twitterAppToken');
         $appToken = false;
         if ($appToken === false)
         {
@@ -16,25 +15,24 @@ class TwitterContent extends SocContentBase
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Basic ' . $credentials,
                 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'
             ));
             $curl_result = curl_exec($ch);
+            $curl_error = curl_error($ch);
+            if ($curl_error)
+                Yii::log($curl_error, 'error', 'application');
+
             curl_close($ch);
             $curl_result = CJSON::decode($curl_result, true);
             if (!empty($curl_result['access_token']))
                 $appToken = $curl_result['access_token'];
-            //Yii::app()->cache->set('twitterAppToken', $appToken);
         }
 
-        if ((strpos($link, 'twitter.com/') !== false) && (strpos($link, '/status/') !== false))
-        {
-            //твитт
-        }
-        else
+        if (!(strpos($link, 'twitter.com/') !== false) or !(strpos($link, '/status/') !== false))
         {
             //профиль
             $socUsername = self::parseUsername($link);
@@ -46,14 +44,18 @@ class TwitterContent extends SocContentBase
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer ' . $appToken
             ));
             $curl_result = curl_exec($ch);
-            curl_close($ch);
-            $socUser = CJSON::decode($curl_result, true);
+            $curl_error = curl_error($ch);
+            if ($curl_error)
+                Yii::log($curl_error, 'error', 'application');
 
+            curl_close($ch);
+            
+            $socUser = CJSON::decode($curl_result, true);
             if (!empty($socUser['error']) || empty($socUser['id']))
             {
                 $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
@@ -76,7 +78,7 @@ class TwitterContent extends SocContentBase
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_setopt($ch, CURLOPT_POSTFIELDS, 'grant_type=client_credentials');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Basic ' . $credentials,
@@ -100,7 +102,7 @@ class TwitterContent extends SocContentBase
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer ' . $appToken
@@ -147,7 +149,7 @@ class TwitterContent extends SocContentBase
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->eauth->services['ssl']['path']);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer ' . $appToken
@@ -191,7 +193,7 @@ class TwitterContent extends SocContentBase
     public static function contentNeedSave($link)
     {
         $result = false;
-        if ((strpos($link, 'twitter.com/') !== false) && (strpos($link, '/status/') !== false))
+        if ((strpos($link, 'twitter.com/') !== false) and (strpos($link, '/status/') !== false))
             $result = true;
         return $result;
     }
@@ -239,7 +241,7 @@ class TwitterContent extends SocContentBase
             CURLOPT_HEADER => false,
             CURLOPT_URL => $url,
             CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0',
-            CURLOPT_CAINFO => Yii::app()->eauth->services['ssl']['path'],
+            CURLOPT_CAINFO => Yii::app()->params['ssl'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYPEER => false
         );

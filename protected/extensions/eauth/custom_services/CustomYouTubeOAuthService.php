@@ -42,27 +42,17 @@ class CustomYouTubeOAuthService extends EOAuth2Service
         $this->attributes['school'] = (string) $userProfileEntry->getSchool();
         $this->attributes['work'] = (string) $userProfileEntry->getCompany();
         $this->attributes['about'] = (string) $userProfileEntry->getOccupation();
+        $this->attributes['expires'] = $this->getState('expires');
+        $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
+        $this->attributes['refresh_token'] = ($this->getState('refresh_token')) ? $this->getState('auth_token') : false;
+
+    
         $videoFeed = $yt->getuserUploads('default');
         if (isset($videoFeed[0]))
         {
             $videoEntry = $videoFeed[0];
             $this->attributes['utube_video_link'] = '<a href="' . (string) $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . (string) $videoEntry->getVideoTitle() . '</a>';
             $this->attributes['utube_video_flash'] = (string) $videoEntry->getFlashPlayerUrl();
-        }
-
-        if (!Yii::app()->user->isGuest)
-        {
-            $socToken = SocToken::model()->findByAttributes(array(
-                'user_id' => Yii::app()->user->id,
-                'type' => SocToken::TYPE_YOUTUBE,
-            ));
-
-            if ($socToken)
-            {
-                $socToken->soc_id = (string) $userProfileEntry->getUsername();
-                $socToken->soc_username = (string) $userProfileEntry->title->text;
-                $socToken->save();
-            }
         }
     }
 
@@ -75,20 +65,18 @@ class CustomYouTubeOAuthService extends EOAuth2Service
 
         $url .= '&access_type=offline';
 
-        if (!Yii::app()->user->isGuest)
+        if (Yii::app()->user->isGuest)
         {
-            $socToken = SocToken::model()->findByAttributes(array(
-                'user_id' => Yii::app()->user->id,
-                'type' => SocToken::TYPE_YOUTUBE,
-            ));
-
-            if (!$socToken or !$socToken->refresh_token)
-            {
-                $url .= '&approval_prompt=force';
-            }
-        }
-        else
             $url .= '&approval_prompt=force';
+            return $url;
+        }
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_YOUTUBE,
+        ));
+
+        if (!$socToken or !$socToken->refresh_token) $url .= '&approval_prompt=force';
 
         return $url;
     }
@@ -116,25 +104,7 @@ class CustomYouTubeOAuthService extends EOAuth2Service
      */
     protected function saveAccessToken($token)
     {
-        if (!Yii::app()->user->isGuest)
-        {
-            $socToken = SocToken::model()->findByAttributes(array(
-                'user_id' => Yii::app()->user->id,
-                'type' => SocToken::TYPE_YOUTUBE,
-            ));
-
-            if (!$socToken)
-                $socToken = new SocToken;
-            $socToken->type = SocToken::TYPE_YOUTUBE;
-            $socToken->user_id = Yii::app()->user->id;
-            $socToken->user_token = $token->access_token;
-            if (!empty($token->refresh_token))
-                $socToken->refresh_token = $token->refresh_token;
-            $socToken->token_expires = time() + $token->expires_in - 60;
-
-            $socToken->save();
-        }
-
+        $this->setState('refresh_token', $token->refresh_token);
         $this->setState('auth_token', $token->access_token);
         $this->setState('expires', time() + $token->expires_in - 60);
         $this->access_token = $token->access_token;
@@ -161,15 +131,10 @@ class CustomYouTubeOAuthService extends EOAuth2Service
      */
     protected function fetchJsonError($json)
     {
-        if (isset($json->error))
-        {
-            return array(
-                'code' => $json->error->code,
-                'message' => $json->error->message,
-            );
-        }
-        else
-            return null;
+        if (!isset($json->error)) return null;
+        return array(
+            'code' => $json->error->code,
+            'message' => $json->error->message,
+        ); 
     }
-
 }

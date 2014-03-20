@@ -92,6 +92,17 @@ class PaymentWallet extends CActiveRecord
         return $wallet;
     }
 
+    public function getActivByDiscodesId($discodes_id)
+    {
+        return PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $discodes_id,
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord)

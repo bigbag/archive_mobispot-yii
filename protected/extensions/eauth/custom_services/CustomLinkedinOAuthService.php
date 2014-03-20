@@ -43,25 +43,11 @@ class CustomLinkedinOAuthService extends EOAuthService
         $this->attributes['id'] = $info['id'];
         $this->attributes['name'] = $info['first-name'] . ' ' . $info['last-name'];
         if (!empty($info['public-profile-url']))
-            $this->attributes['url'] = $info['public-profile-url'];
-        $socToken = SocToken::model()->findByAttributes(array(
-            'user_id' => Yii::app()->user->id,
-            'type' => 9,
-        ));
-        if ($socToken)
-            $socToken->soc_id = $info['id'];
-        $socToken->save();
+        $this->attributes['url'] = (!empty($info['public-profile-url')) ? $info['public-profile-url' : false;
+        $this->attributes['photo'] = (!empty($info['picture-url'])) ? $info['picture-url'] : false;
+        $this->attributes['expires'] = $this->getState('expires');
+        $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
 
-        /* 	
-          if (!empty($info['headline']))
-          $this->attributes['about'] = $info['headline'];
-          if (!empty($info['picture-url']))
-          $this->attributes['photo'] = $info['picture-url'];
-          if (!empty($info['location']['name']))
-          $this->attributes['location'] = $info['location']['name'];
-          if (!empty($info['current-status']))
-          $this->attributes['last_status'] = $info['current-status'];
-         */
     }
 
     public function init($component, $options = array())
@@ -90,19 +76,6 @@ class CustomLinkedinOAuthService extends EOAuthService
 
     protected function getAccessToken()
     {
-
-        $socToken = SocToken::model()->findByAttributes(array(
-            'user_id' => Yii::app()->user->id,
-            'type' => 9,
-        ));
-        if (!$socToken)
-            $socToken = new SocToken;
-        $socToken->type = 9;
-        $socToken->user_id = Yii::app()->user->id;
-        $socToken->user_token = $this->auth->getProvider()->token;
-        $socToken->token_expires = time() + $this->auth->token_expires - 20;
-        $socToken->save();
-
         return $this->auth->getProvider()->token;
     }
 
@@ -151,6 +124,14 @@ class CustomLinkedinOAuthService extends EOAuthService
                 $array[$key] = $this->xmlToArray($value);
         }
         return $array;
+    }
+
+    protected function saveAccessToken($token)
+    {
+        $this->setState('auth_token', $token->access_token);
+        $this->access_token = $token->access_token;
+
+        parent::saveAccessToken($token);
     }
 
 }

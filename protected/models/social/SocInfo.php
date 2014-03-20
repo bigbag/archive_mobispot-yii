@@ -124,23 +124,6 @@ class SocInfo extends CFormModel
         $net['tokenType'] = SocToken::TYPE_VIMEO;
         $socNetworks[] = $net;
 
-        /*
-          $net['name'] = 'Last.fm';
-          $net['baseUrl'] = 'lastfm.ru';
-          $net['title'] = 'LastFM';
-          $net['invite'] = Yii::t('eauth', '');
-          $net['inviteClass'] = '';
-          $net['inviteValue'] = '';
-          $net['note'] = Yii::t('eauth', '');
-          $net['smallIcon'] = '';
-          $net['contentClass'] = '';
-          $net['needAuth'] = true;
-          $net['profileHint'] = '';
-          $net['sharingType'] = array();
-          $net['tokenType'] = SocToken::;
-          $socNetworks[] = $net;
-         */
-
         $net['name'] = 'deviantart';
         $net['baseUrl'] = 'deviantart.com';
         $net['title'] = 'DeviantART';
@@ -170,22 +153,6 @@ class SocInfo extends CFormModel
         $net['sharingType'] = array();
         $net['tokenType'] = SocToken::TYPE_BEHANCE;
         $socNetworks[] = $net;
-
-        /*
-          $net['name'] = 'Flickr';
-          $net['baseUrl'] = 'flickr.com';
-          $net['title'] = 'Flickr';
-          $net['invite'] = Yii::t('eauth', '');
-          $net['inviteClass'] = '';
-          $net['inviteValue'] = '';
-          $net['note'] = Yii::t('eauth', '');
-          $net['smallIcon'] = '';
-          $net['contentClass'] = '';
-          $net['needAuth'] = true;
-          $net['profileHint'] = '';
-          $net['tokenType'] = SocToken::;
-          $socNetworks[] = $net;
-         */
 
         $net['name'] = 'YouTube';
         $net['baseUrl'] = 'youtube.com';
@@ -295,8 +262,8 @@ class SocInfo extends CFormModel
     public function getNetByName($name)
     {
         $name = $this->mergeMobile($name);
-        $answer = array();
-        foreach ($this->socNetworks as $net)
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
         {
             if ($name == $net['name'])
             {
@@ -310,7 +277,8 @@ class SocInfo extends CFormModel
     public function getNetByLink($link)
     {
         $answer = array();
-        foreach ($this->socNetworks as $net)
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
         {
             if (strpos($link, $net['baseUrl']) !== false)
             {
@@ -350,8 +318,8 @@ class SocInfo extends CFormModel
     public function getSocPatterns()
     {
         $answer = array();
-
-        foreach ($this->socNetworks as $net)
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net)
         {
 
             if (!empty($net['baseUrl']))
@@ -376,7 +344,7 @@ class SocInfo extends CFormModel
         $answer = false;
 
         $net = $this->getNetByName($netName);
-        if ($checkNeed && $net['needAuth'] == false)
+        if ($checkNeed and $net['needAuth'] == false)
         {
             $answer = true;
         }
@@ -639,7 +607,6 @@ class SocInfo extends CFormModel
         {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))
                 $this->userDetail[$socKey] = strip_tags((string) $socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>');
-//'<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>'
         }
 
         return $this->userDetail;
@@ -775,7 +742,6 @@ class SocInfo extends CFormModel
         }
 
         curl_setopt($ch, CURLOPT_URL, $url);
-////////
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
 
         return $ch;
@@ -810,7 +776,7 @@ class SocInfo extends CFormModel
         $answer = false;
         $net = $this->getNetByLink($link);
 
-        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        if (isset($net['contentClass']) and strlen($net['contentClass']))
         {
             $class = $net['contentClass'];
             $answer = $class::contentNeedSave($link);

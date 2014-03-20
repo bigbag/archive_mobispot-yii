@@ -433,7 +433,7 @@ class FacebookContent extends SocContentBase
     public static function contentNeedSave($link)
     {
         $result = false;
-        if ((strpos($link, 'facebook.com/') !== false) && (strpos($link, '/posts/') !== false))
+        if ((strpos($link, 'facebook.com/') !== false) and (strpos($link, '/posts/') !== false))
             $result = true;
         elseif (strpos($link, 'facebook.com/photo.php?fbid=') !== false)
             $result = true;
@@ -443,61 +443,20 @@ class FacebookContent extends SocContentBase
     public static function isLoggegByNet()
     {
         $answer = false;
-        if (!empty(Yii::app()->session['facebook_id']))
-        {
-            if (isset(Yii::app()->user->id))
-            {
-                $socToken = SocToken::model()->findByAttributes(array(
-                    'user_id' => Yii::app()->user->id,
-                    'type' => 1,
-                ));
+        if (empty(Yii::app()->session['facebook_id']))
+            return $answer;
+        
+        if (!isset(Yii::app()->user->id))
+            return $answer;
+            
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => 1,
+        ));
 
-                if ($socToken && ($socToken->token_expires - Time()) > 60)
-                {
-                    $answer = true;
-                    /*
-                      if (($socToken->token_expires - Time()) < 60)
-                      {
-                      $userToken = $socToken->user_token;
-
-                      //жетон приложения
-                      $appToken = Yii::app()->cache->get('facebookAppToken');
-                      $isAppTokenValid = false;
-
-                      if ($appToken !== false)
-                      {
-                      $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $appToken . '&access_token=' . $appToken, array(), false);
-                      $validation = CJSON::decode($validation, true);
-                      if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                      $isAppTokenValid = true;
-                      }
-
-                      if (!$isAppTokenValid)
-                      {
-                      if (@fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r'))
-                      {
-                      $textToken = fopen('https://graph.facebook.com/oauth/access_token?client_id=' . Yii::app()->eauth->services['facebook']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['facebook']['client_secret'] . '&grant_type=client_credentials', 'r');
-                      $appToken = fgets($textToken);
-                      fclose($textToken);
-                      if ((strpos($appToken, 'access_token=') > 0) || (strpos($appToken, 'access_token=') !== false))
-                      $appToken = substr($appToken, (strpos($appToken, 'access_token=') + 13));
-                      Yii::app()->cache->set('facebookAppToken', $appToken);
-                      $isAppTokenValid = true;
-                      }
-                      }
-
-                      $validation = self::makeRequest('https://graph.facebook.com/debug_token?input_token=' . $userToken . '&access_token=' . $appToken, array(), false);
-                      $validation = CJSON::decode($validation, true);
-                      if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true'))
-                      {
-                      $answer = true;
-                      }
-                      }
-                     */
-                }
-            }
-        }
-
+        if ($socToken and ($socToken->token_expires - Time()) > 60)
+            $answer = true;
+        
         return $answer;
     }
 
