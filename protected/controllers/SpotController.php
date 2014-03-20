@@ -124,7 +124,11 @@ class SpotController extends MController
                 'wallet' => $wallet,
                 'sms_info' => $sms_info,
             ), true);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> hotfix/fix_style_20_03_2014
         $answer['pass'] = '';
         if (!empty($spot->pass))
             $answer['pass'] = $spot->pass;
@@ -145,12 +149,12 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $data['discodes'],
-                    'user_id' => Yii::app()->user->id,
-                    'status' => PaymentWallet::STATUS_ACTIVE,
-                ));
-
+        array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
 
         if ($wallet)
         {
@@ -192,7 +196,10 @@ class SpotController extends MController
             $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
             $this->getJsonAndExit($answer);
         }
+<<<<<<< HEAD
         
+=======
+>>>>>>> hotfix/fix_style_20_03_2014
         $logs = PaymentLog::getListByWalletId($wallet->id);
         $actions = WalletLoyalty::getByWalletId($wallet->id);
         $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
@@ -205,6 +212,7 @@ class SpotController extends MController
                 $cards[$log->card_pan] = $log->history_id;
             } 
         }
+<<<<<<< HEAD
 
         $auto = PaymentAuto::model()->findByAttributes(
             array('wallet_id' => $wallet->id)
@@ -218,6 +226,20 @@ class SpotController extends MController
             'sms_info' => $sms_info,
             ), true);
 
+=======
+
+        $auto = PaymentAuto::model()->findByAttributes(
+            array('wallet_id' => $wallet->id)
+        );
+
+        $answer['content'] = $this->renderPartial('//spot/wallet', array(
+            'wallet' => $wallet,
+            'actions' => $actions,
+            'cards' => $cards,
+            'auto' => $auto,
+            'sms_info' => $sms_info,
+            ), true); 
+>>>>>>> hotfix/fix_style_20_03_2014
         $answer['error'] = 'no';
 
         echo json_encode($answer);

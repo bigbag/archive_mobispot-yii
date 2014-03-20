@@ -76,11 +76,8 @@
 	margin: 30px 60px 39px;
 }
 .form-control{
-	margin-top: 22px;
 	clear: both;
-}
-.form-row + .form-control{
-	margin-top: 27px;
+	padding: 9px 0 0;
 }
 .soc-link a{
 	font-family: Mobispot-icon;
@@ -547,29 +544,9 @@ p + .details{
 	float: left;
 	cursor: pointer;
 }
-.spot-list > li{
-	background: #E9EDF2;
-	margin-top: 2px;
-	-webkit-transition: all linear .2s;
-	-moz-transition: all linear .2s;
-	-o-transition: all linear .2s;
-	transition: all linear .2s;
-	overflow: hidden;
-	position: relative;
-}
-.spot-list > li .spot-hat{
-	cursor: pointer;
-}
-.spot-list li:first-child{
-	margin-left: 0;
-}
-.spot-list li.open{
-	background: #E0E6ED;
-}
+
 .spot-list h3{
-	float: left;
 	font-size: 25px;
-	line-height: 32px;
 }
 .item-body h3{
 	font-size: 18px;
@@ -578,6 +555,7 @@ p + .details{
 }
 .spot-hat h3{
 	margin-right: 70px;
+	margin: 0;
 }
 .m-tooltip{
 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
@@ -609,7 +587,7 @@ a.active .m-tooltip{
 	left:100%;
 }
 .add-spot-box{
-	padding: 30px 0 0;
+	padding: 26px 0 14px;
 }
 .add-spot-box .spot-button{
 	margin-bottom: 0;
@@ -631,11 +609,6 @@ a.active .m-tooltip{
 }
 .spot-content_row:first-child{
 	margin-top: 0;
-}
-.spot-content{
-	padding-bottom: 34px;
-	position: relative;
-	display: none;
 }
 .label-cover{
 	position: absolute;
@@ -716,18 +689,6 @@ a.active .m-tooltip{
 .item-type__text{
 	margin: 17px 0 !important;
 }
-.spot-item textarea{
-	color: #000;
-	text-align: left;
-	padding: 34px;
-	box-sizing: border-box;
-	height: 159px;
-	position: relative;
-	z-index: 20;
-	background: none;
-	margin-bottom: 0;
-}
-
 .item-area{
 	display: block;
 	position: relative;
@@ -1230,18 +1191,6 @@ img[height='115']{
 	margin: 20px 0 70px;
 	font-size: 18px;
 }
-.spot-hat{
-	clear: both;
-	overflow: hidden;
-	padding: 16px 50px;
-	-webkit-transition: all linear .2s;
-	-moz-transition: all linear .2s;
-	-o-transition: all linear .2s;
-	transition: all linear .2s;
-}
-.spot-hat:hover{
-	background: #E0E6ED;
-}
 .error-message{
 	width: 590px;
 	background-size: 100%;
@@ -1467,25 +1416,11 @@ list-style: disc outside none;
 .spot-list .label-cover{
 	margin-bottom: 6px;
 }
-.spot-hat h3{
-	-webkit-transition: all linear .2s;
-	-moz-transition: all linear .2s;
-	-o-transition: all linear .2s;
-	transition: all linear .2s;
-}
-.spot-hat.open,
-.spot-hat:hover{
-	background: #E0E6ED;
-}
-.spot-hat.open h3,
-.spot-hat:hover h3{
-	color: #0062FF !important;
-}
 .slide-content{
 	background: #E0E6ED;
 }
 .sub-txt{
-	font-size: 12px;
+	font-size: 16px;
 	color: #4F4F4F;
 }
 .sub-txt-last{
@@ -1751,21 +1686,6 @@ span.payment-rules:hover{
 	top: 26px;
 	width: 20px;
 }
-.spot-hat .icon{
-	display: inline-block;
-	line-height: 45px;
-	margin-right: 10px;
-	color:  #fff;
-	-webkit-transition: color 600ms ease-out;
-	-moz-transition: color 600ms ease-out;
-	-o-transition: color 600ms ease-out;
-	transition: color 600ms ease-out;
-
-}
-.spot-hat .icon:hover,
-.spot-hat .icon.open{
-	color: #0063ff;
-}
 .invisible-icon{
 	display: none;
 }
@@ -1979,11 +1899,6 @@ textarea:hover + .label-cover *{
 	position: relative;
 	top: -1px;
 }
-.actSpot-wrapper{
-	height: 190px;
-	margin-bottom: -135px;
-}
-
 /* new spot*/
 
 .type-logo{
@@ -2539,18 +2454,16 @@ form .row .row.margen_0{
 	line-height: 52px;
 	display: block;
 	font-size: 28px;
-	margin: 8px auto;
 	behavior:  url(/css/PIE.htc);
 	position: relative;
+	color: #333;
 }
 .spot-tabs a{
 	display: inline-block;
 	text-align: center;
 	font-family: Mobispot;
-	margin: 0 15px 24px;
+	margin: 0 15px 0 0;
 	font-size: 14px;
-	width: 124px;
-	height: 100px;
 	line-height: 30px;
 	position: relative;
 }
@@ -2565,44 +2478,19 @@ form .row .row.margen_0{
 .spot-tabs a.active{
 	color: #0063ff;
 }
-.spot-tabs a:hover .icon,
+.spot-tabs a:hover .icon{
+	color: #0063ff;
+}
 .spot-tabs a.active .icon{
 	background: #0063ff;
 	color: #fff;
 }
 .spot-tabs a.active{
 	font-size: 20px;
-	margin-top: -2px;
-}
-.spot-tabs a .icon{
-	position: absolute;
-	bottom:0;
-	left: 50%;
-	margin-left: -26px;
-}
-.spot-tabs a.active .icon{
-	height: 74px;
-	width: 74px;
-	margin-left: -37px;
-	bottom: 0px;
-	font-size: 40px;
-	line-height: 74px;
-	bottom: -14px;
-}
-.spot-tabs{
-	text-align: center;
-	height: 150px;
-	line-height: 30px;
 }
 .tabs-block{
 	position: relative;
 	overflow: hidden;
-}
-.tabs-block .tabs-item{
-	width: 900px;
-	float: left;
-	margin-right: 50px;
-	position: relative;
 }
 .item-area_w h3 .spot-button{
 	position: absolute;
@@ -2724,12 +2612,6 @@ form .row .row.margen_0{
 	color: #000;
 	font-size: 12px;
 	line-height: normal;
-}
-.checkbox, .checkbox:hover {
-	font-size: 14px;
-	text-decoration: none;
-	color: #FF0050;
-	line-height: 21px !important;
 }
 .terms {
 	position: absolute;
