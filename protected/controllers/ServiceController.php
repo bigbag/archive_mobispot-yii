@@ -117,7 +117,9 @@ class ServiceController extends MController
             $this->getJsonAndExit($answer);
 
         $socInfo = User::getCacheSocInfo();
-        $socInfop['user_id'] = $model->id;
+        $socInfo['user_id'] = $model->id;
+
+        Yii::log($socInfo['user_id'], 'error', 'application');
         if ($socInfo)
             SocToken::setToken($socInfo);
 
@@ -280,7 +282,6 @@ class ServiceController extends MController
     //Логин и регистрация через соц сети
     public function actionSocial()
     {
-        Yii::log('AuthException', 'error', 'application');
         $serviceName = Yii::app()->request->getQuery('service');
         if (!isset($serviceName))
             $this->redirect('/');
