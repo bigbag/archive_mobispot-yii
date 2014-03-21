@@ -132,7 +132,7 @@ class SocToken extends CActiveRecord
         $userToken->soc_username = (!empty($info['name'])) ? $info['name'] : Null;
         $userToken->allow_login = true;
         if ($userToken->save())
-            return true;
+            return $userToken;
     }
 
 }

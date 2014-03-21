@@ -100,7 +100,7 @@ class SocContentBase
                     'Invalid response http code: ' . $headers['http_code'] . '.' . PHP_EOL .
                     'URL: ' . $url . PHP_EOL .
                     'Options: ' . var_export($options, true) . PHP_EOL .
-                    'Result: ' . $result, CLogger::LEVEL_ERROR, 'SocContentBase'
+                    'Result: ' . $result, 'error', 'application'
             );
             $result = 'error:' . $headers['http_code'];
         }
