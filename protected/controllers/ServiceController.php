@@ -81,7 +81,6 @@ class ServiceController extends MController
     //Регистрация
     public function actionRegistration()
     {
-
         $data = $this->validateRequest();
         $answer = array(
             'error' => "yes",
@@ -117,7 +116,8 @@ class ServiceController extends MController
             $this->getJsonAndExit($answer);
 
         $socInfo = User::getCacheSocInfo();
-        $socInfop['user_id'] = $model->id;
+        $socInfo['user_id'] = $model->id;
+
         if ($socInfo)
             SocToken::setToken($socInfo);
 
@@ -152,9 +152,7 @@ class ServiceController extends MController
         $title = Yii::t('user', "User activation");
         $content = Yii::t('user', "Incorrect activation link");
         if (Yii::app()->user->id)
-        {
             $this->redirect('/');
-        }
 
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
@@ -239,19 +237,15 @@ class ServiceController extends MController
             'email' => $email,
             'activkey' => $activkey
         ));
-        if ($user)
-        {
-            $user->password = Yii::app()->hasher->hashPassword($data['password']);
-            $user->activkey = sha1(microtime() . $data['password']);
-            $user->save(false);
+        if (!$user)
+            $this->getJsonAndExit($answer);
+        
+        $user->password = Yii::app()->hasher->hashPassword($data['password']);
+        $user->activkey = sha1(microtime() . $data['password']);
+        $user->save(false);
 
-            $identity = new UserIdentity($email, $data['password']);
-            $identity->authenticate();
-            $this->lastVisit();
-            Yii::app()->user->login($identity);
-
-            $answer['error'] = "no";
-        }
+        $this->autoLogin($user);
+        $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -280,7 +274,6 @@ class ServiceController extends MController
     //Логин и регистрация через соц сети
     public function actionSocial()
     {
-        Yii::log('AuthException', 'error', 'application');
         $serviceName = Yii::app()->request->getQuery('service');
         if (!isset($serviceName))
             $this->redirect('/');
@@ -289,11 +282,14 @@ class ServiceController extends MController
         if (!$atributes)
             $this->redirect('/');
 
-        $user = User::socialCheck($serviceName, $atributes['id']);
-        if (!$user)
+        $result = User::socialCheck($serviceName, $atributes['id']);
+        if ($result['user'] and !$result['token']->allow_login)
+            $this->redirect('/');
+
+        if (!$result['user'])
             $this->redirect('/service/socialReg');
 
-        $this->autoLogin($user);
+        $this->autoLogin($result['user']);
         User::clearCacheSocInfo();
         $this->redirect('/user/personal');
     }
