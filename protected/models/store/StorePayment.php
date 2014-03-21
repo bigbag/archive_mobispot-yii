@@ -1,13 +1,13 @@
 <?php
 
- /**
+/**
  * This is the model class for table "payment".
  *
  * The followings are the available columns in table 'payment':
  * @property integer $id
  * @property string $name
  * @property string $caption
-  */
+ */
 class StorePayment extends CActiveRecord
 {
 
@@ -25,7 +25,7 @@ class StorePayment extends CActiveRecord
     {
         return 'store.payment';
     }
-    
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -37,4 +37,5 @@ class StorePayment extends CActiveRecord
             array('name, caption', 'required'),
         );
     }
+
 }

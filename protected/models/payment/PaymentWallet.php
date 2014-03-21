@@ -76,20 +76,31 @@ class PaymentWallet extends CActiveRecord
         );
     }
 
-    public function getFreeByDiscodesId($discodes_id) 
+    public function getFreeByDiscodesId($discodes_id)
     {
-        $wallet = Yii::app()->cache->get('wallet_discodes_'.$discodes_id);
+        $wallet = Yii::app()->cache->get('wallet_discodes_' . $discodes_id);
         if (!$wallet)
         {
             $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $discodes_id,
-                    'user_id' => 0,
-                )
+                    array(
+                        'discodes_id' => $discodes_id,
+                        'user_id' => 0,
+                    )
             );
-            Yii::app()->cache->set('wallet_discodes_'.$discodes_id, $wallet, 120);
+            Yii::app()->cache->set('wallet_discodes_' . $discodes_id, $wallet, 120);
         }
         return $wallet;
+    }
+
+    public function getActivByDiscodesId($discodes_id)
+    {
+        return PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $discodes_id,
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
     }
 
     public function beforeValidate()
@@ -97,10 +108,14 @@ class PaymentWallet extends CActiveRecord
         if ($this->isNewRecord)
         {
             $this->creation_date = date('Y-m-d H:i:s');
-            if (!$this->status) $this->status = self::STATUS_ACTIVE;
-            if (!$this->balance) $this->balance = 0;
-            if (!$this->discodes_id) $this->balance = 0;
-            if (!$this->name) $this->name = 'My Spot';
+            if (!$this->status)
+                $this->status = self::STATUS_ACTIVE;
+            if (!$this->balance)
+                $this->balance = 0;
+            if (!$this->discodes_id)
+                $this->balance = 0;
+            if (!$this->name)
+                $this->name = 'My Spot';
         }
 
         return parent::beforeValidate();
@@ -114,7 +129,7 @@ class PaymentWallet extends CActiveRecord
 
     protected function afterSave()
     {
-        Yii::app()->cache->delete('wallet_discodes_'.$this->discodes_id);
+        Yii::app()->cache->delete('wallet_discodes_' . $this->discodes_id);
         parent::afterSave();
     }
 
@@ -143,24 +158,23 @@ class PaymentWallet extends CActiveRecord
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'spot' => array(self::BELONGS_TO, 'Spot', 'discodes_id'),
-            'loyalties'=>array(self::MANY_MANY, 'Loyalty', 'wallet_loyalty(wallet_id, loyalty_id)'),
-            'actions'=>array(self::HAS_MANY, 'WalletLoyalty', 'wallet_id'),
-            'smsInfo'=>array(self::HAS_ONE, 'SmsInfo', 'wallet_id'),
+            'loyalties' => array(self::MANY_MANY, 'Loyalty', 'wallet_loyalty(wallet_id, loyalty_id)'),
+            'actions' => array(self::HAS_MANY, 'WalletLoyalty', 'wallet_id'),
+            'smsInfo' => array(self::HAS_ONE, 'SmsInfo', 'wallet_id'),
         );
     }
-    
-    public static function getByWalletId($id, $page = 1, $count=5)
+
+    public static function getByWalletId($id, $page = 1, $count = 5)
     {
         $answer = array();
-        
+
         $criteria = new CDbCriteria;
-        
-        $wallet=self::model()->with('loyalties')->findByPk($id);
-        
-    
+
+        $wallet = self::model()->with('loyalties')->findByPk($id);
+
+
         return $answer;
     }
-    
 
     public function scopes()
     {

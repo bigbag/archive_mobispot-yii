@@ -2,32 +2,37 @@
 
 class SiteController extends MController
 {
+
     public function actionIndex()
     {
         $this->layout = '//layouts/all';
 
         $resolution = $this->getResolution();
-        $this->render('index', array('resolution'=>$resolution ));
+        $this->render('index', array('resolution' => $resolution));
     }
 
     public function actionError()
     {
         $this->layout = '//layouts/error';
-        if (!Yii::app()->errorHandler->error) $this->setBadRequest();
+        if (!Yii::app()->errorHandler->error)
+            $this->setBadRequest();
 
-        $error = Yii::app()->errorHandler->error; 
-        
-        if (Yii::app()->request->isPostRequest) echo $error['message'];
-        else $this->render('error', $error);
+        $error = Yii::app()->errorHandler->error;
+
+        if (Yii::app()->request->isPostRequest)
+            echo $error['message'];
+        else
+            $this->render('error', $error);
     }
 
     public function actionUpload()
     {
         $answer = array(
-            'error'=>"yes", 
+            'error' => "yes",
         );
 
-        if (empty($_FILES)) $this->getJsonAndExit($answer);
+        if (empty($_FILES))
+            $this->getJsonAndExit($answer);
 
         $maxSize = Yii::app()->par->load('ImageSize');
         $action = Yii::app()->request->getParam('action');
@@ -55,14 +60,15 @@ class SiteController extends MController
             $answer['error'] = Yii::t('images', 'The uploaded file is not an image');
             $this->getJsonAndExit($answer);
         }
-    
+
         $image->save($targetPath . 'tmb_' . $fileName . '.jpg');
         $image->reload();
         $image->thumb(260, 300, true);
         $image->save($targetPath . $fileName . '.jpg');
         $answer['file'] = $targetFileName;
         $answer['error'] = 'no';
-        
+
         echo json_encode($answer);
     }
+
 }

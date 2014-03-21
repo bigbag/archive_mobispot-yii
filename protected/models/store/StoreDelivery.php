@@ -3,7 +3,8 @@
 /**
  * This is the model class for table "delivery".
  */
- /**
+
+/**
  * This is the model class for table "delivery".
  *
  * The followings are the available columns in table 'delivery':
@@ -41,5 +42,5 @@ class StoreDelivery extends CActiveRecord
             array('name, price', 'required'),
         );
     }
-    
+
 }

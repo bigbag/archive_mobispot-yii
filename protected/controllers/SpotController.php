@@ -23,15 +23,16 @@ class SpotController extends MController
     public function actionUpload()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>'',
-            'key'=>''
+            'error' => 'yes',
+            'content' => '',
+            'key' => ''
         );
 
         $discodes = (isset($_SERVER['HTTP_X_DISCODES']) ? $_SERVER['HTTP_X_DISCODES'] : false);
         $file = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 
-        if (!$file or !$discodes) $this->getJsonAndExit($answer);
+        if (!$file or !$discodes)
+            $this->getJsonAndExit($answer);
 
         $fileType = strtolower(substr(strrchr($file, '.'), 1));
         $file = md5(time() . $discodes) . '_' . $file;
@@ -50,32 +51,34 @@ class SpotController extends MController
             $type = 'image';
             $image = new CImageHandler();
             $image->load($file_name);
-            if ($image->thumb(300, false, true)) $image->save($patch . 'tmb_' . $file);
+            if ($image->thumb(300, false, true))
+                $image->save($patch . 'tmb_' . $file);
         }
-        else $type = 'obj';
+        else
+            $type = 'obj';
 
         $spot = Spot::getSpot(array('discodes_id' => $discodes));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
 
-        $content = $spotContent->content;
-        $content['keys'][$content['counter']] = $type;
-        $key = $content['counter'];
-        $content['data'][$key] = $file;
-        $content['counter'] = $content['counter'] + 1;
-        $spotContent->content = $content;
+        $answer['content'] = $spotContent->content;
+        $answer['content']['keys'][$answer['content']['counter']] = $type;
+        $answer['key'] = $answer['content']['counter'];
+        $answer['content']['data'][$answer['key']] = $file;
+        $answer['content']['counter'] = $answer['content']['counter'] + 1;
+        $spotContent->content = $answer['content'];
         $spotContent->save();
 
-        $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, 
-            array(
-                'content' => $file,
-                'key' => $key,
-            ), 
-            true
+        $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, array(
+            'content' => $file,
+            'key' => $answer['key'],
+                ), true
         );
-        $answer['key'] = $key;
+        $answer['key'] = $answer['key'];
         $answer['error'] = "no";
 
         echo json_encode($answer);
@@ -85,18 +88,21 @@ class SpotController extends MController
     public function actionSpotView()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>''
+            'error' => 'yes',
+            'content' => ''
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
 
         $content = $spotContent->content;
         $content_keys = $content['keys'];
@@ -118,56 +124,61 @@ class SpotController extends MController
                 'wallet' => $wallet,
                 'sms_info' => $sms_info,
             ), true);
-        
+
         $answer['pass'] = '';
-        if (!empty($spot->pass)) $answer['pass'] = $spot->pass;
+        if (!empty($spot->pass))
+            $answer['pass'] = $spot->pass;
         $answer['error'] = "no";
-        
+
         echo json_encode($answer);
     }
-    
+
     public function actionCoupons()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>''
+            'error' => 'yes',
+            'content' => ''
         );
         $data = $this->validateRequest();
-        
-        if (!isset($data['discodes']) or !Yii::app()->user->id) $this->getJsonAndExit($answer);
+
+        if (!isset($data['discodes']) or !Yii::app()->user->id)
+            $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
-            array(
+        array(
                 'discodes_id' => $data['discodes'],
                 'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
             )
         );
-        
+
         if ($wallet)
         {
             $coupons = Loyalty::getCoupons($wallet->id);
             $answer['content'] = $this->renderPartial(
-                '//spot/coupons', 
-                array('coupons' => $coupons), 
-                true
+                    '//spot/coupons', array('coupons' => $coupons), true
             );
         }
-        else $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
-            
+        else
+            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+
         $answer['error'] = 'no';
-        
+
         echo json_encode($answer);
     }
+
     
     //подгрузка кошелька после открытия спота
     public function actionWallet()
     {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['content'] = '';
-        $answer['error'] = 'yes';
         
-        if (empty($data['discodes']) or Yii::app()->user->isGuest) $this->getJsonAndExit($answer);
+        if (empty($data['discodes']) or Yii::app()->user->isGuest) 
+            $this->getJsonAndExit($answer);
         
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
@@ -176,37 +187,36 @@ class SpotController extends MController
             )
         );
         
-        if ($wallet)
+        if (!$wallet)
         {
-            $logs = PaymentLog::getListByWalletId($wallet->id);
-            $actions = WalletLoyalty::getByWalletId($wallet->id);
-            $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
-
-            $cards = array();
-            if ($logs)
-            {
-               foreach ($logs as $log) 
-                {
-                    $cards[$log->card_pan] = $log->history_id;
-                } 
-            }
-
-            $auto = PaymentAuto::model()->findByAttributes(
-                array('wallet_id' => $wallet->id)
-            );
-
-            $answer['content'] = $this->renderPartial('//spot/wallet', array(
-                'wallet' => $wallet,
-                'actions' => $actions,
-                'cards' => $cards,
-                'auto' => $auto,
-                'sms_info' => $sms_info,
-                ), true);
-
-        }
-        else
             $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
-            
+            $this->getJsonAndExit($answer);
+        }
+
+        $logs = PaymentLog::getListByWalletId($wallet->id);
+        $actions = WalletLoyalty::getByWalletId($wallet->id);
+        $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
+
+        $cards = array();
+        if ($logs)
+        {
+           foreach ($logs as $log) 
+            {
+                $cards[$log->card_pan] = $log->history_id;
+            } 
+        }
+
+        $auto = PaymentAuto::model()->findByAttributes(
+            array('wallet_id' => $wallet->id)
+        );
+
+        $answer['content'] = $this->renderPartial('//spot/wallet', array(
+            'wallet' => $wallet,
+            'actions' => $actions,
+            'cards' => $cards,
+            'auto' => $auto,
+            'sms_info' => $sms_info,
+            ), true); 
         $answer['error'] = 'no';
 
         echo json_encode($answer);
@@ -216,9 +226,9 @@ class SpotController extends MController
     public function actionSpotAddContent()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>'',
-            'key'=>''
+            'error' => 'yes',
+            'content' => '',
+            'key' => ''
         );
         $data = $this->validateRequest();
 
@@ -230,48 +240,53 @@ class SpotController extends MController
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         $spotContent = SpotContent::getSpotContent($spot);
 
-        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
 
-        $content = $spotContent->content;
-        $content['keys'][$content['counter']] = 'text';
-        $key = $content['counter'];
-        $content['data'][$key] = $data['content'];
-        $content['counter'] = $content['counter'] + 1;
-        $spotContent->content = $content;
+        $answer['content'] = $spotContent->content;
+        $answer['content']['keys'][$answer['content']['counter']] = 'text';
+        $answer['key'] = $answer['content']['counter'];
+        $answer['content']['data'][$answer['key']] = $data['content'];
+        $answer['content']['counter'] = $answer['content']['counter'] + 1;
+        $spotContent->content = $answer['content'];
         $spotContent->save();
 
         $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
             'content' => $data['content'],
-            'key' => $key,
+            'key' => $answer['key'],
                 ), true);
-        $answer['key'] = $key;
+        $answer['key'] = $answer['key'];
         $answer['error'] = "no";
-            
+
         echo json_encode($answer);
     }
 
     // Изменение атрибутов спота - приватность и возможность скачать визитку
     public function actionSpotAtributeSave()
     {
-        $answer = array('error'=>'yes');
+        $answer = array('error' => 'yes');
         $data = $this->validateRequest();
 
-        if (isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (isset($data['discodes']))
+            $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
 
-        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
 
-        $content = $spotContent->content;
-        $content['private'] = $data['private'];
-        $content['vcard'] = $data['vcard'];
-        $spotContent->content = $content;
+        $answer['content'] = $spotContent->content;
+        $answer['content']['private'] = $data['private'];
+        $answer['content']['vcard'] = $data['vcard'];
+        $spotContent->content = $answer['content'];
 
-        if ($spotContent->save()) $answer['error'] = "no";
-        
+        if ($spotContent->save())
+            $answer['error'] = "no";
+
         echo json_encode($answer);
     }
 
@@ -279,36 +294,39 @@ class SpotController extends MController
     public function actionSpotRemoveContent()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>''
+            'error' => 'yes',
+            'content' => ''
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']) or !isset($data['key'])) $this->getJsonAndExit($answer);
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
+        if (!$spotContent)
+            $this->getJsonAndExit($answer);
 
-        $content = $spotContent->content;
-        if ($content['keys'][$data['key']] != 'text')
+        $answer['content'] = $spotContent->content;
+        if ($answer['content']['keys'][$data['key']] != 'text')
         {
             $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
-            @unlink($patch . $content['data'][$data['key']]);
-            @unlink($patch . 'tmb_' . $content['data'][$data['key']]);
+            @unlink($patch . $answer['content']['data'][$data['key']]);
+            @unlink($patch . 'tmb_' . $answer['content']['data'][$data['key']]);
         }
 
-        unset($content['keys'][$data['key']]);
-        unset($content['data'][$data['key']]);
-        $spotContent->content = $content;
+        unset($answer['content']['keys'][$data['key']]);
+        unset($answer['content']['data'][$data['key']]);
+        $spotContent->content = $answer['content'];
         if ($spotContent->save())
         {
             $keys = array();
-            foreach ($content['keys'] as $key => $value)
+            foreach ($answer['content']['keys'] as $answer['key'] => $value)
             {
-                $keys[] = $key;
+                $keys[] = $answer['key'];
             }
 
             $answer['keys'] = $keys;
@@ -321,8 +339,8 @@ class SpotController extends MController
     public function actionSpotSaveContent()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>'',
+            'error' => 'yes',
+            'content' => '',
         );
         $data = $this->validateRequest();
 
@@ -330,17 +348,19 @@ class SpotController extends MController
         {
             $this->getJsonAndExit($answer);
         }
-        
-        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
-        
-        $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
-        
-        $content = $spotContent->content;
-        $content['data'][$data['key']] = $data['content_new'];
 
-        $spotContent->content = $content;
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent)
+            $this->getJsonAndExit($answer);
+
+        $answer['content'] = $spotContent->content;
+        $answer['content']['data'][$data['key']] = $data['content_new'];
+
+        $spotContent->content = $answer['content'];
         if ($spotContent->save())
         {
             $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
@@ -348,422 +368,390 @@ class SpotController extends MController
                 'key' => $data['key'],
                     ), true);
             $answer['error'] = "no";
-        }  
-        
+        }
+
         echo json_encode($answer);
     }
 
-    //Привязка соцсетей
-    
-    //через кнопку
+    //Привязка соцсетей через кнопку
     public function actionBindSocial()
     {
         $data = $this->validateRequest();
-        $error = "error";
-        $content = '';
-        $netName = 'no';
-        $isSocLogged = false;
-        $linkCorrect = Yii::t('eauth', "This account doesn't exist:");
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+            'socnet' => 'no',
+            'loggedIn' => false,
+            'linkCorrect' => Yii::t('eauth', "This account doesn't exist:"),
+        );
         $needSave = false;
 
-        if (isset($data['discodes']) and isset($data['key']))
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
+
+        $socInfo = new SocInfo;
+        $socNet = $socInfo->getNetByLink($spotContent->content['data'][$data['key']]);
+
+        if (empty($socNet['name']))
+            $this->getJsonAndExit($answer);
+        
+        $answer['socnet'] = $socNet['name'];
+        $answer['content'] = $spotContent->content;
+
+        $answer['loggedIn'] = $socInfo->isLoggegOn($answer['socnet']);
+        if (!$answer['loggedIn'])
+            $this->getJsonAndExit($answer);
+        
+        $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
+        if ($needSave)
         {
-
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-            if ($spot)
+            $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+            if (empty($userDetail['error']))
             {
-
-                $spotContent = SpotContent::getSpotContent($spot);
-                if (!$spotContent)
-                    $spotContent = SpotContent::initPersonal($spot);
-                
-                if ($spotContent)
-                {
-
-                    $socInfo = new SocInfo;
-                    $socNet = $socInfo->getNetByLink($spotContent->content['data'][$data['key']]);
-
-                    if (!empty($socNet['name']))
-                    {
-                        $netName = $socNet['name'];
-                        $content = $spotContent->content;
-
-                        if ($socInfo->isLoggegOn($netName))
-                        {
-                            $isSocLogged = true;
-                            $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
-
-                            if ($needSave)
-                            {
-                                $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
-                                if (empty($userDetail['error']))
-                                {
-                                    $userDetail['binded_link'] = $spotContent->content['data'][$data['key']];
-                                    $content['keys'][$data['key']] = 'content';
-                                    $content['data'][$data['key']] = $userDetail;
-                                    $spotContent->content = $content;
-
-                                    $linkCorrect = 'ok';
-                                }
-                                elseif($userDetail['error'] == 'User not logged in'){
-                                    $isSocLogged = false;
-                                    Yii::app()->session['bind_discodes'] = $data['discodes'];
-                                    Yii::app()->session['bind_key'] = $data['key'];
-                                }
-                                else
-                                    $linkCorrect = $userDetail['error'];
-                            }
-                            else
-                            {
-                                $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
-                                if ($linkCorrect == 'ok')
-                                {
-                                    $content['keys'][$data['key']] = 'socnet';
-                                    $spotContent->content = $content;
-                                }
-                            }
-                            if ($linkCorrect == 'ok')
-                            {
-                                if ($spotContent->save())
-                                {
-                                    if ($needSave)
-                                        $content = $this->renderPartial('//spot/personal/new_content', array(
-                                            'content' => $content['data'][$data['key']],
-                                            'key' => $data['key'],
-                                                ), true);
-                                    else
-                                    {
-                                        $socContent = $socInfo->getNetData($content['data'][$data['key']], $data['discodes'], $data['key'], true);
-                                        
-                                        $content = $this->renderPartial('//spot/personal/new_socnet', array(
-                                            'content' => $content['data'][$data['key']],
-                                            'socContent' => $socContent,
-                                            'key' => $data['key'],
-                                                ), true);
-                                    }
-                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                }
-                            }
-                        }
-                    }
-                    $error = "no";
-                }
+                $answer['linkCorrect'] = 'ok';
+                $userDetail['binded_link'] = $spotContent->content['data'][$data['key']];
+                $answer['content']['keys'][$data['key']] = 'content';
+                $answer['content']['data'][$data['key']] = $userDetail;
+                $spotContent->content = $answer['content'];
+            }
+            elseif ($userDetail['error'] == 'User not logged in')
+            {
+                $answer['loggedIn'] = false;
+                Yii::app()->session['bind_discodes'] = $data['discodes'];
+                Yii::app()->session['bind_key'] = $data['key'];
+            }
+            else
+                $answer['linkCorrect'] = $userDetail['error'];
+        }
+        else
+        {
+            $answer['linkCorrect'] = $socInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
+            if ($answer['linkCorrect'] == 'ok')
+            {
+                $answer['content']['keys'][$data['key']] = 'socnet';
+                $spotContent->content = $answer['content'];
             }
         }
-        echo json_encode(
-            array(
-                'error' => $error,
-                'content' => $content,
-                'socnet' => $netName,
-                'loggedIn' => $isSocLogged,
-                'linkCorrect' => $linkCorrect
-            )
-        );
+
+        if ($answer['linkCorrect'] == 'ok' and $spotContent->save())
+        {
+            $render_data = array(
+                'content' => $answer['content']['data'][$data['key']],
+                'key' => $data['key'],
+            );
+
+            if (!$needSave)
+                $render_data['socContent'] = $socContent;
+    
+            $answer['content'] = $this->renderPartial(
+                '//spot/personal/new_content', 
+                $render_data, 
+                true
+            );
+            Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+        }     
+        
+        $answer['error'] = "no";
+                
+        echo json_encode($answer);
     }
 
-    
     //Привязка через плашку
     public function actionBindByPanel()
     {
         $data = $this->validateRequest();
-        $error = 'error';
-        $content = '';
-        $netName = 'no';
-        $isSocLogged = false;
-        $linkCorrect = Yii::t('eauth', "This account doesn't exist");
+        $answer = array (
+            'error' => 'yes',
+            'content' => '',
+            'socnet' => 'no',
+            'loggedIn' => false,
+            'linkCorrect' => Yii::t('eauth', "This account doesn't exist"),
+            'profileHint' => '',
+            'key' => false,
+        );
         $needSave = false;
-        $profileHint = '';
-        $key = false;
         
-        if (isset($data['spot']) and !empty($data['spot']['discodes']) and isset($data['netName']))
+        if (!isset($data['spot']) or empty($data['spot']['discodes']) or !isset($data['netName']))
+            $this->getJsonAndExit($answer);
+
+        $discodes_id = $data['spot']['discodes'];
+        $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+        $answer['socnet'] = $data['netName'];
+
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+        
+        $answer['error'] = 'no';
+        $socInfo = new SocInfo;
+        $socNet = $socInfo->getNetByName($answer['socnet']);
+
+        if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link']))
         {
-        
-            $discodes_id = $data['spot']['discodes'];
-            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
-            $netName = $data['netName'];
-            
-            if ($spot)
-            {
-                $error = 'no';
-                $socInfo = new SocInfo;
-                $socNet = $socInfo->getNetByName($netName);
-                
-                if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link']))
-                {
-                    //сеть не требует авторизации, но привязываемой сслки нет
-                    $profileHint = $socNet['profileHint'];
-                }
-                else
-                {
-                    if (!empty($data['link']))
-                    {
-                        $socNet = $socInfo->getNetByLink($data['link']);
-                        $needSave = $socInfo->contentNeedSave($data['link']);
-                    }
-                    else
-                        $socNet = $socInfo->getNetByName($netName);
-                    
-                    if (!empty($socNet['name']) and ($socInfo->isLoggegOn($netName) || (!empty($data['link']) and !$socNet['needAuth'])))
-                    {
-                        //авторизован через соцсеть, либо сеть не требует авторизации и есть привязываемая ссылка
-                        $isSocLogged = true;
-                        $netName = $socNet['name'];
-                        $spotContent = SpotContent::getSpotContent($spot);
-                        if (!$spotContent)
-                            $spotContent = SpotContent::initPersonal($spot);
-                        
-                        if ($spotContent)
-                        {
-                            $content = $spotContent->content;
-                            if ($needSave && !empty($data['link']))
-                            {
-                                $userDetail = $socInfo->getSocInfo($netName, $data['link'], $discodes_id, null);
-                                if (empty($userDetail['error']))
-                                {
-                                    $userDetail['binded_link'] = $data['link'];
-                                    $content['keys'][$content['counter']] = 'content';
-                                    $content['data'][$content['counter']] = $userDetail;
-                                    $key = $content['counter'];
-                                    $content['counter'] = $content['counter'] + 1;
-                                    $spotContent->content = $content;
-                                    $spotContent->save();
-                                    $linkCorrect = 'ok';
-                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                    
-                                    $content = $this->renderPartial('//spot/personal/new_content', array(
-                                            'content' => $content['data'][$key],
-                                            'key' => $key,
-                                                ), true);
-                                }
-                                else
-                                    $linkCorrect = $userDetail['error'];
-                            }
-                            else
-                            {
-                                if (!empty($data['link']))
-                                    $linkCorrect = $socInfo->isLinkCorrect($data['link'], $discodes_id, null);
-                                else 
-                                    $linkCorrect = 'ok';
-                                
-                                if ($linkCorrect == 'ok')
-                                {
-                                    $content['keys'][$content['counter']] = 'socnet';
-                                    if (!empty($data['link']))
-                                        $content['data'][$content['counter']] = $data['link'];
-                                    else
-                                        $content['data'][$content['counter']] = Yii::app()->session[$netName . '_profile_url'];
-                                    $key = $content['counter'];
-                                    $content['counter'] = $content['counter'] + 1;
-                                    $spotContent->content = $content;
-                                    $spotContent->save();
-                                    Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                    
-                                    $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
-                                    $content = $this->renderPartial('//spot/personal/new_socnet', array(
-                                            'content' => $content['data'][$key],
-                                            'key' => $key,
-                                            'socContent' => $socContent,
-                                        ), true);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $linkCorrect == 'ok';
-                    }
-                }
-            }
+            $answer['profileHint'] = $socNet['profileHint'];
+            $this->getJsonAndExit($answer);
         }
         
-        echo json_encode(
-            array(
-                'error' => $error,
-                'content' => $content,
-                'key' => $key,
-                'socnet' => $netName,
-                'loggedIn' => $isSocLogged,
-                'linkCorrect' => $linkCorrect,
-                'profileHint' => $profileHint,
-            )
-        );
+        if (!empty($data['link']))
+        {
+            $socNet = $socInfo->getNetByLink($data['link']);
+            $needSave = $socInfo->contentNeedSave($data['link']);
+        }
+        else
+            $socNet = $socInfo->getNetByName($answer['socnet']);
+
+        if (!empty($socNet['name']) and ($socInfo->isLoggegOn($answer['socnet']) || (!empty($data['link']) and !$socNet['needAuth'])))
+        {
+            //авторизован через соцсеть, либо сеть не требует авторизации и есть привязываемая ссылка
+            $answer['loggedIn'] = true;
+            $answer['socnet'] = $socNet['name'];
+            $spotContent = SpotContent::getSpotContent($spot);
+            if (!$spotContent)
+                $spotContent = SpotContent::initPersonal($spot);
+
+            
+            $answer['content'] = $spotContent->content;
+            if ($needSave && !empty($data['link']))
+            {
+                $userDetail = $socInfo->getSocInfo($answer['socnet'], $data['link'], $discodes_id, null);
+                if (empty($userDetail['error']))
+                {
+                    $userDetail['binded_link'] = $data['link'];
+                    $answer['content']['keys'][$answer['content']['counter']] = 'content';
+                    $answer['content']['data'][$answer['content']['counter']] = $userDetail;
+                    $answer['key'] = $answer['content']['counter'];
+                    $answer['content']['counter'] = $answer['content']['counter'] + 1;
+                    $spotContent->content = $answer['content'];
+                    $spotContent->save();
+                    $answer['linkCorrect'] = 'ok';
+                    Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                    $answer['content'] = $this->renderPartial('//spot/personal/new_content', array(
+                        'content' => $answer['content']['data'][$answer['key']],
+                        'key' => $answer['key'],
+                            ), true);
+                }
+                else
+                    $answer['linkCorrect'] = $userDetail['error'];
+            }
+            else
+            {
+                if (!empty($data['link']))
+                    $answer['linkCorrect'] = $socInfo->isLinkCorrect($data['link'], $discodes_id, null);
+                else
+                    $answer['linkCorrect'] = 'ok';
+
+                if ($answer['linkCorrect'] == 'ok')
+                {
+                    $answer['content']['keys'][$answer['content']['counter']] = 'socnet';
+                    if (!empty($data['link']))
+                        $answer['content']['data'][$answer['content']['counter']] = $data['link'];
+                    else
+                        $answer['content']['data'][$answer['content']['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
+                    $answer['key'] = $answer['content']['counter'];
+                    $answer['content']['counter'] = $answer['content']['counter'] + 1;
+                    $spotContent->content = $answer['content'];
+                    $spotContent->save();
+                    Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                    $socContent = $socInfo->getNetData($answer['content']['data'][$answer['key']], $discodes_id, $answer['key'], true);
+                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
+                        'content' => $answer['content']['data'][$answer['key']],
+                        'key' => $answer['key'],
+                        'socContent' => $socContent,
+                            ), true);
+                }
+            }
+            
+        }
+        else
+            $answer['linkCorrect'] == 'ok';
+        
+        echo json_encode($answer);
     }
 
     public function actionBindedContent()
     {
         $data = $this->validateRequest();
-        //$error = 'error in spot/bindedContent';
-        $content = '';
-        $linkCorrect = Yii::t('eauth', "This account doesn't exist:");
-        $isSocLogged = false;
+
+        $answer['content'] = '';
+        $answer['linkCorrect'] = Yii::t('eauth', "This account doesn't exist:");
+        $answer['loggedIn'] = false;
         $newField = false;
         $newKey = false;
         $needSave = false;
-        
+
         if (!isset($data['bindNet']) || empty($data['bindNet']['name']) || empty($data['bindNet']['discodes']))
         {
             $this->setBadReques();
         }
-        $netName = $data['bindNet']['name'];
+        $answer['socnet'] = $data['bindNet']['name'];
         $discodes_id = $data['bindNet']['discodes'];
 
-        if (!empty(Yii::app()->session[$netName . '_id']))
-            $isSocLogged = true;
-        
-        if (!empty($data['bindNet']['key']) && $isSocLogged)
+        if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
+            $answer['loggedIn'] = true;
+
+        if (!empty($data['bindNet']['key']) && $answer['loggedIn'])
         {
             //привязка через кнопку
-            $key = $data['bindNet']['key'];
+            $answer['key'] = $data['bindNet']['key'];
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
             if ($spot)
             {
                 $spotContent = SpotContent::getSpotContent($spot);
                 if (!$spotContent)
                     $spotContent = SpotContent::initPersonal($spot);
-                
+
                 if ($spotContent)
                 {
                     $socInfo = new SocInfo;
-                    $socNet = $socInfo->getNetByName($netName);
+                    $socNet = $socInfo->getNetByName($answer['socnet']);
 
                     if (!empty($socNet['name']))
                     {
-                        $content = $spotContent->content;
-                        $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$key]);
+                        $answer['content'] = $spotContent->content;
+                        $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$answer['key']]);
 
                         if ($needSave)
                         {
-                            $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$key], $discodes_id, $key);
+                            $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$answer['key']], $discodes_id, $answer['key']);
                             if (empty($userDetail['error']))
                             {
-                                $userDetail['binded_link'] = $spotContent->content['data'][$key];
-                                $content['keys'][$key] = 'content';
-                                $content['data'][$key] = $userDetail;
-                                $spotContent->content = $content;
+                                $userDetail['binded_link'] = $spotContent->content['data'][$answer['key']];
+                                $answer['content']['keys'][$answer['key']] = 'content';
+                                $answer['content']['data'][$answer['key']] = $userDetail;
+                                $spotContent->content = $answer['content'];
 
-                                $linkCorrect = 'ok';
+                                $answer['linkCorrect'] = 'ok';
                             }
                             else
-                                $linkCorrect = $userDetail['error'];
+                                $answer['linkCorrect'] = $userDetail['error'];
                         }
                         else
                         {
-                            $linkCorrect = $socInfo->isLinkCorrect($spotContent->content['data'][$key], $discodes_id, $key);
-                            if ($linkCorrect == 'ok')
+                            $answer['linkCorrect'] = $socInfo->isLinkCorrect($spotContent->content['data'][$answer['key']], $discodes_id, $answer['key']);
+                            if ($answer['linkCorrect'] == 'ok')
                             {
-                                $content['keys'][$key] = 'socnet';
-                                $spotContent->content = $content;
+                                $answer['content']['keys'][$answer['key']] = 'socnet';
+                                $spotContent->content = $answer['content'];
                             }
                         }
-                        if ($linkCorrect == 'ok')
+                        if ($answer['linkCorrect'] == 'ok')
                         {
                             if ($spotContent->save())
                             {
                                 if ($needSave)
-                                    $content = $this->renderPartial('//spot/personal/new_content', array(
-                                        'content' => $content['data'][$key],
-                                        'key' => $key,
+                                    $answer['content'] = $this->renderPartial('//spot/personal/new_content', array(
+                                        'content' => $answer['content']['data'][$answer['key']],
+                                        'key' => $answer['key'],
                                             ), true);
                                 else
                                 {
-                                    $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
-                                    
-                                    $content = $this->renderPartial('//spot/personal/new_socnet', array(
-                                        'content' => $content['data'][$key],
-                                        'key' => $key,
+                                    $socContent = $socInfo->getNetData($answer['content']['data'][$answer['key']], $discodes_id, $answer['key'], true);
+
+                                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
+                                        'content' => $answer['content']['data'][$answer['key']],
+                                        'key' => $answer['key'],
                                         'socContent' => $socContent,
                                             ), true);
                                 }
-                                Yii::app()->session[$netName . '_BindByPaste'] = true;
+                                Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
                             }
                         }
-                        //$error = "no";
+                        //$answer['error'] = "no";
                     }
                 }
             }
         }
-        elseif (!empty($data['bindNet']['newField']) && $isSocLogged)
+        elseif (!empty($data['bindNet']['newField']) && $answer['loggedIn'])
         {
             //привязка через плашку
             $newField = true;
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
-            
+
             if ($spot)
             {
-            
+
                 $socInfo = new SocInfo;
-                $socNet = $socInfo->getNetByName($netName);
+                $socNet = $socInfo->getNetByName($answer['socnet']);
                 if (!empty($data['bindNet']['link']))
                 {
                     $socNet = $socInfo->getNetByLink($data['bindNet']['link']);
                     $needSave = $socInfo->contentNeedSave($data['bindNet']['link']);
                 }
                 else
-                    $socNet = $socInfo->getNetByName($netName);
-             
-                if (!empty($socNet['name']) and (!empty(Yii::app()->session[$netName . '_profile_url'])))
+                    $socNet = $socInfo->getNetByName($answer['socnet']);
+
+                if (!empty($socNet['name']) and (!empty(Yii::app()->session[$answer['socnet'] . '_profile_url'])))
                 {
 
-                    $netName = $socNet['name'];
+                    $answer['socnet'] = $socNet['name'];
                     $spotContent = SpotContent::getSpotContent($spot);
                     if (!$spotContent)
                         $spotContent = SpotContent::initPersonal($spot);
 
-                    
+
                     if ($spotContent)
                     {
-                        $content = $spotContent->content;
-                        
+                        $answer['content'] = $spotContent->content;
+
                         if ($needSave && !empty($data['bindNet']['link']))
                         {
-                            $userDetail = $socInfo->getSocInfo($netName, $data['bindNet']['link'], $discodes_id, null);
+                            $userDetail = $socInfo->getSocInfo($answer['socnet'], $data['bindNet']['link'], $discodes_id, null);
                             if (empty($userDetail['error']))
                             {
                                 $userDetail['binded_link'] = $data['bindNet']['link'];
-                                $content['keys'][$content['counter']] = 'content';
-                                $content['data'][$content['counter']] = $userDetail;
-                                $key = $content['counter'];
-                                $content['counter'] = $content['counter'] + 1;
-                                $spotContent->content = $content;
+                                $answer['content']['keys'][$answer['content']['counter']] = 'content';
+                                $answer['content']['data'][$answer['content']['counter']] = $userDetail;
+                                $answer['key'] = $answer['content']['counter'];
+                                $answer['content']['counter'] = $answer['content']['counter'] + 1;
+                                $spotContent->content = $answer['content'];
                                 $spotContent->save();
-                                $newKey = $key;
-                                $linkCorrect = 'ok';
-                                Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                $content = $this->renderPartial('//spot/personal/new_content', array(
-                                        'content' => $content['data'][$key],
-                                        'key' => $key,
-                                            ), true);
+                                $newKey = $answer['key'];
+                                $answer['linkCorrect'] = 'ok';
+                                Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+                                $answer['content'] = $this->renderPartial('//spot/personal/new_content', array(
+                                    'content' => $answer['content']['data'][$answer['key']],
+                                    'key' => $answer['key'],
+                                        ), true);
                             }
                             else
-                                $linkCorrect = $userDetail['error'];
+                                $answer['linkCorrect'] = $userDetail['error'];
                         }
                         else
                         {
                             if (!empty($data['bindNet']['link']))
-                                $linkCorrect = $socInfo->isLinkCorrect($data['bindNet']['link'], $discodes_id);
-                            else 
-                                $linkCorrect = 'ok';
-                                
-                            if ($linkCorrect == 'ok')
+                                $answer['linkCorrect'] = $socInfo->isLinkCorrect($data['bindNet']['link'], $discodes_id);
+                            else
+                                $answer['linkCorrect'] = 'ok';
+
+                            if ($answer['linkCorrect'] == 'ok')
                             {
-                                $content['keys'][$content['counter']] = 'socnet';
+                                $answer['content']['keys'][$answer['content']['counter']] = 'socnet';
                                 if (!empty($data['bindNet']['link']))
-                                    $content['data'][$content['counter']] = $data['bindNet']['link'];
+                                    $answer['content']['data'][$answer['content']['counter']] = $data['bindNet']['link'];
                                 else
-                                    $content['data'][$content['counter']] = Yii::app()->session[$netName . '_profile_url'];
-                                $key = $content['counter'];
-                                $content['counter'] = $content['counter'] + 1;
-                                $spotContent->content = $content;
+                                    $answer['content']['data'][$answer['content']['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
+                                $answer['key'] = $answer['content']['counter'];
+                                $answer['content']['counter'] = $answer['content']['counter'] + 1;
+                                $spotContent->content = $answer['content'];
                                 $spotContent->save();
-                                $newKey = $key;
-                                Yii::app()->session[$netName . '_BindByPaste'] = true;
-                                
-                                $socContent = $socInfo->getNetData($content['data'][$key], $discodes_id, $key, true);
-                                $content = $this->renderPartial('//spot/personal/new_socnet', array(
-                                        'content' => $content['data'][$key],
-                                        'key' => $key,
-                                        'socContent' => $socContent,
-                                    ), true);
+                                $newKey = $answer['key'];
+                                Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                                $socContent = $socInfo->getNetData($answer['content']['data'][$answer['key']], $discodes_id, $answer['key'], true);
+                                $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
+                                    'content' => $answer['content']['data'][$answer['key']],
+                                    'key' => $answer['key'],
+                                    'socContent' => $socContent,
+                                        ), true);
                             }
                         }
                     }
@@ -772,23 +760,23 @@ class SpotController extends MController
         }
 
         echo json_encode(
-            array(
-                'content' => $content,
-                'linkCorrect' => $linkCorrect,
-                'loggedIn' => $isSocLogged,
-                'newField' => $newField,
-                'socnet' => $netName,
-                'key' => $newKey,
-            )
+                array(
+                    'content' => $answer['content'],
+                    'linkCorrect' => $answer['linkCorrect'],
+                    'loggedIn' => $answer['loggedIn'],
+                    'newField' => $newField,
+                    'socnet' => $answer['socnet'],
+                    'key' => $newKey,
+                )
         );
     }
-    
+
     public function actionSocNetContent()
     {
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = 'error in spot/SocNetContent';
-    
+
         if (isset($data['discodes']) and isset($data['key']))
         {
             $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
@@ -798,21 +786,21 @@ class SpotController extends MController
                 $spotContent = SpotContent::getSpotContent($spot);
                 if (!$spotContent)
                     $spotContent = SpotContent::initPersonal($spot);
-                    
+
                 if ($spotContent)
                 {
                     if ($spotContent->content['keys'][$data['key']] == 'socnet')
                     {
                         $socInfo = new SocInfo;
                         $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
-                        
-                        $content = $this->renderPartial('//spot/personal/new_socnet', array(
+
+                        $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
                             'content' => $spotContent->content['data'][$data['key']],
                             'key' => $data['key'],
                             'socContent' => $socContent,
-                        ), true);
-                        
-                        $answer['content'] = $content;
+                                ), true);
+
+                        $answer['content'] = $answer['content'];
                         $answer['key'] = $data['key'];
                         $answer['error'] = 'no';
                         if (isset($data['lastKey']))
@@ -821,10 +809,10 @@ class SpotController extends MController
                 }
             }
         }
-        
+
         echo json_encode($answer);
     }
-    
+
     //Отвязка соцсети
     public function actionUnBindSocial()
     {
@@ -843,39 +831,39 @@ class SpotController extends MController
                 $spotContent = SpotContent::getSpotContent($spot);
                 if (!$spotContent)
                     $spotContent = SpotContent::initPersonal($spot);
-                    
+
                 if ($spotContent)
                 {
 
-                    $content = $spotContent->content;
-                    if ($content['keys'][$data['key']] == 'socnet')
+                    $answer['content'] = $spotContent->content;
+                    if ($answer['content']['keys'][$data['key']] == 'socnet')
                     {
-                        $content['keys'][$data['key']] = 'text';
-                        $spotContent->content = $content;
+                        $answer['content']['keys'][$data['key']] = 'text';
+                        $spotContent->content = $answer['content'];
 
                         if ($spotContent->save())
                         {
                             $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
-                                'content' => $content['data'][$data['key']],
+                                'content' => $answer['content']['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);
                             $answer['error'] = "no";
                         }
                     }
-                    elseif ($content['keys'][$data['key']] == 'content')
+                    elseif ($answer['content']['keys'][$data['key']] == 'content')
                     {
                         $toDelete = array();
-                        if(!empty($content['data'][$data['key']]['last_img']) && strpos($content['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
-                            $toDelete[] = $content['data'][$data['key']]['last_img'];
-                        if(!empty($content['data'][$data['key']]['photo']) && strpos($content['data'][$data['key']]['photo'], '/uploads/spot/') === 0)
-                            $toDelete[] = $content['data'][$data['key']]['photo'];
-                        $content['keys'][$data['key']] = 'text';
-                        $content['data'][$data['key']] = $content['data'][$data['key']]['binded_link'];
-                        $spotContent->content = $content;
+                        if (!empty($answer['content']['data'][$data['key']]['last_img']) && strpos($answer['content']['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
+                            $toDelete[] = $answer['content']['data'][$data['key']]['last_img'];
+                        if (!empty($answer['content']['data'][$data['key']]['photo']) && strpos($answer['content']['data'][$data['key']]['photo'], '/uploads/spot/') === 0)
+                            $toDelete[] = $answer['content']['data'][$data['key']]['photo'];
+                        $answer['content']['keys'][$data['key']] = 'text';
+                        $answer['content']['data'][$data['key']] = $answer['content']['data'][$data['key']]['binded_link'];
+                        $spotContent->content = $answer['content'];
 
                         if ($spotContent->save())
                         {
-                            foreach($toDelete as $path)
+                            foreach ($toDelete as $path)
                             {
                                 $path = substr($path, (strpos($path, '/uploads/spot/') + 14));
                                 $path = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $path;
@@ -883,7 +871,7 @@ class SpotController extends MController
                                     unlink($path);
                             }
                             $answer['content'] = $this->renderPartial('//spot/personal/new_text', array(
-                                'content' => $content['data'][$data['key']],
+                                'content' => $answer['content']['data'][$data['key']],
                                 'key' => $data['key'],
                                     ), true);
                             $answer['error'] = "no";
@@ -894,37 +882,35 @@ class SpotController extends MController
         }
         echo json_encode($answer);
     }
-    
+
     public function actionSocPatterns()
     {
         $data = $this->validateRequest();
-        
+
         $socInfo = new SocInfo;
         $answer['socPatterns'] = $socInfo->getSocPatterns();
-        
+
         echo json_encode($answer);
     }
-    
+
     public function actionDetectSocNet()
     {
         $answer = array(
-            'netName'=>'',
-            'iteration'=>''
+            'netName' => '',
+            'iteration' => ''
         );
         $data = $this->validateRequest();
-        
+
         if (!isset($data['link']) or !isset($data['iteration']))
-        {
-          $this->getJsonAndExit($answer);  
-        }
-        
+            $this->getJsonAndExit($answer);
+
         $net = SocInfo::getNetByLink($data['link']);
 
         if (!empty($net['name']))
             $answer['netName'] = $net['name'];
 
         $answer['iteration'] = $data['iteration'];
-        
+
         echo json_encode($answer);
     }
 
@@ -932,45 +918,47 @@ class SpotController extends MController
     public function actionAddSpot()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>'',
+            'error' => 'yes',
+            'content' => '',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['code'])) $this->getJsonAndExit($answer); 
-        
+        if (!isset($data['code']))
+            $this->getJsonAndExit($answer);
+
         $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
-        if (!$spot) $this->getJsonAndExit($answer); 
-        
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         $spot->status = Spot::STATUS_REGISTERED;
         $spot->lang = $this->getLang();
         $spot->user_id = Yii::app()->user->id;
 
-        if (isset($data['name'])) $spot->name = $data['name'];
+        if (isset($data['name']))
+            $spot->name = $data['name'];
         $spot->spot_type_id = Spot::TYPE_PERSONAL;
 
-        if (!$spot->save()) $this->getJsonAndExit($answer); 
-        
+        if (!$spot->save())
+            $this->getJsonAndExit($answer);
+
         $wallet = PaymentWallet::model()->findByAttributes(
-            array(
-                'discodes_id' => $spot->discodes_id,
-                'user_id' => 0,
-            )
+                array(
+                    'discodes_id' => $spot->discodes_id,
+                    'user_id' => 0,
+                )
         );
         if ($wallet)
         {
             $wallet->status = PaymentWallet::STATUS_ACTIVE;
             $wallet->user_id = $spot->user_id;
             $wallet->save();
-
         }
 
         $answer['content'] = $this->renderPartial('//user/block/spots', array(
-                'data' => $spot,
-                ), 
-            true);
+            'data' => $spot,
+                ), true);
         $answer['error'] = "no";
-        
+
         echo json_encode($answer);
     }
 
@@ -978,16 +966,18 @@ class SpotController extends MController
     public function actionRemoveSpot()
     {
         $answer = array(
-            'error'=>'yes',
-            'content'=>'',
+            'error' => 'yes',
+            'content' => '',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer); 
-        
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer); 
-    
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         $spot->status = Spot::STATUS_REMOVED_USER;
         if ($spot->save())
         {
@@ -1002,19 +992,22 @@ class SpotController extends MController
     public function actionCleanSpot()
     {
         $answer = array(
-            'error'=>'yes',
+            'error' => 'yes',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
-        
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
-            
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         $spotContent = SpotContent::getSpotContent($spot);
         $spotContent = SpotContent::initPersonal($spot, $spotContent);
 
-        if ($spotContent->save()) $answer['error'] = "no";
+        if ($spotContent->save())
+            $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -1023,22 +1016,25 @@ class SpotController extends MController
     public function actionInvisibleSpot()
     {
         $answer = array(
-            'error'=>'yes',
+            'error' => 'yes',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
-        
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
-        
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         if ($spot->status == Spot::STATUS_INVISIBLE)
             $spot->status = Spot::STATUS_REGISTERED;
         else
             $spot->status = Spot::STATUS_INVISIBLE;
 
-                if ($spot->save()) $answer['error'] = "no";
-  
+        if ($spot->save())
+            $answer['error'] = "no";
+
         echo json_encode($answer);
     }
 
@@ -1046,8 +1042,8 @@ class SpotController extends MController
     public function actionRenameSpot()
     {
         $answer = array(
-            'error'=>'yes',
-            'name'=>''
+            'error' => 'yes',
+            'name' => ''
         );
         $data = $this->validateRequest();
 
@@ -1056,41 +1052,45 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
         }
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
-            
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         $spot->name = CHtml::encode($data['newName']);
-        if (!$spot->save(false)) $this->getJsonAndExit($answer);
-        
+        if (!$spot->save(false))
+            $this->getJsonAndExit($answer);
+
         $answer['name'] = mb_substr($spot->name, 0, 45, 'utf-8');
         $answer['error'] = "no";
 
         $wallet = PaymentWallet::model()->findByAttributes(
-            array(
-                'discodes_id'=>$data['discodes']
+                array(
+                    'discodes_id' => $data['discodes']
                 )
-            );
-        if ($wallet) 
+        );
+        if ($wallet)
         {
             $wallet->name = $spot->name;
             $wallet->save(false);
         }
-        
+
         echo json_encode($answer);
     }
-    
+
     //Задать пароль на спот
     public function actionSetSpotPass()
     {
         $answer = array(
-            'error'=>'yes',
+            'error' => 'yes',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']) or !isset($data['pass'])) $this->getJsonAndExit($answer);
-        
+        if (!isset($data['discodes']) or !isset($data['pass']))
+            $this->getJsonAndExit($answer);
+
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
-        
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
         if (empty($data['pass']))
             $spot->pass = null;
         else
@@ -1098,13 +1098,13 @@ class SpotController extends MController
         if ($spot->save(false))
         {
             $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
-            for($i = 0; $i < count($whitelist); $i++)
+            for ($i = 0; $i < count($whitelist); $i++)
                 $whitelist[$i]->delete();
-        
+
             $answer['error'] = "no";
             $answer['saved'] = Yii::t('spot', 'Saved!');
         }
-            
+
         echo json_encode($answer);
     }
 
@@ -1112,36 +1112,38 @@ class SpotController extends MController
     public function actionSaveOrder()
     {
         $answer = array(
-            'error'=>'yes',
+            'error' => 'yes',
         );
         $data = $this->validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['keys']))
-        {
             $this->getJsonAndExit($answer);
-        }
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
-                
+        if (!$spotContent)
+            $this->getJsonAndExit($answer);
 
-        $content = $spotContent->content;
+
+        $answer['content'] = $spotContent->content;
         $newkeys = array();
-        foreach ($data['keys'] as $key)
+        foreach ($data['keys'] as $answer['key'])
         {
-            if (isset($content['keys'][$key]))
+            if (isset($answer['content']['keys'][$answer['key']]))
             {
-                $newkeys[$key] = $content['keys'][$key];
+                $newkeys[$answer['key']] = $answer['content']['keys'][$answer['key']];
             }
         }
-        $content['keys'] = $newkeys;
-        $spotContent->content = $content;
+        $answer['content']['keys'] = $newkeys;
+        $spotContent->content = $answer['content'];
 
-        if ($spotContent->save()) $answer['error'] = "no";
-        
+        if ($spotContent->save())
+            $answer['error'] = "no";
+
         echo json_encode($answer);
     }
+
 }

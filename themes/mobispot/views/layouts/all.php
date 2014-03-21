@@ -41,11 +41,11 @@
 <body ng-controller="UserController" 
     ng-cloak class="ng-cloak"
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-
+    
     <?php include('block/head_new.php'); ?>
-
     <?php if ($this->mainBackground):?>
-        <div class="main wallpaper" style="background-image: url(/themes/mobispot/new/img/<?php echo $this->mainBackground;?>)">
+        <div
+         class="main wallpaper" style="background-image: url(/themes/mobispot/new/img/<?php echo $this->mainBackground;?>)">
     <?php endif;?>
     <div ng-click="modal='none'">
         <?php echo $content; ?>
