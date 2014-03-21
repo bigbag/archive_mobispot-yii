@@ -167,13 +167,15 @@ class User extends CActiveRecord
     public function socialCheck($service, $soc_id)
     {
         $userToken = SocToken::model()->findByAttributes(array(
-            'soc_id' => $soc_id,
-            'allow_login' => true
+            'soc_id' => $soc_id            
         ));
         if (!$userToken)
             return false;
 
-        return User::model()->valid()->findByPk($userToken->user_id);
+        return array(
+            'user' => User::model()->valid()->findByPk($userToken->user_id),
+            'token' => $userToken,
+        );
     }
 
     public function beforeValidate()

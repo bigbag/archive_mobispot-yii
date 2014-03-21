@@ -34,7 +34,6 @@ class UserController extends MController
         }
 
         $socnet = array();
-
         if ($user)
         {
             $userTokens = SocToken::model()->findAllByAttributes(array(
@@ -58,7 +57,6 @@ class UserController extends MController
     // Обновление профиля
     public function actionEditProfile()
     {
-
         $answer = array(
             'error' => 'yes',
             'content' => ''
@@ -120,11 +118,8 @@ class UserController extends MController
         if (!Yii::app()->user->id)
             $this->setAccess();
 
-
         if (($serviceName == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
-        {
             Yii::app()->session['instagram_tech'] = $tech;
-        }
 
         $atributes = User::getSocInfo($serviceName);
         if (!$atributes) $this->setAccess();

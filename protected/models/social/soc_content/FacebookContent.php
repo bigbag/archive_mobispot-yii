@@ -386,6 +386,8 @@ class FacebookContent extends SocContentBase
         }
 
         return $postContent;
+
+        var_dump($postContent);
     }
 
     public static function getAppToken()
