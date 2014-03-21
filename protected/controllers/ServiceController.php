@@ -81,7 +81,6 @@ class ServiceController extends MController
     //Регистрация
     public function actionRegistration()
     {
-
         $data = $this->validateRequest();
         $answer = array(
             'error' => "yes",
@@ -119,7 +118,6 @@ class ServiceController extends MController
         $socInfo = User::getCacheSocInfo();
         $socInfo['user_id'] = $model->id;
 
-        Yii::log($socInfo['user_id'], 'error', 'application');
         if ($socInfo)
             SocToken::setToken($socInfo);
 
@@ -154,9 +152,7 @@ class ServiceController extends MController
         $title = Yii::t('user', "User activation");
         $content = Yii::t('user', "Incorrect activation link");
         if (Yii::app()->user->id)
-        {
             $this->redirect('/');
-        }
 
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
@@ -241,19 +237,15 @@ class ServiceController extends MController
             'email' => $email,
             'activkey' => $activkey
         ));
-        if ($user)
-        {
-            $user->password = Yii::app()->hasher->hashPassword($data['password']);
-            $user->activkey = sha1(microtime() . $data['password']);
-            $user->save(false);
+        if (!$user)
+            $this->getJsonAndExit($answer);
+        
+        $user->password = Yii::app()->hasher->hashPassword($data['password']);
+        $user->activkey = sha1(microtime() . $data['password']);
+        $user->save(false);
 
-            $identity = new UserIdentity($email, $data['password']);
-            $identity->authenticate();
-            $this->lastVisit();
-            Yii::app()->user->login($identity);
-
-            $answer['error'] = "no";
-        }
+        $this->autoLogin($user);
+        $answer['error'] = "no";
 
         echo json_encode($answer);
     }
