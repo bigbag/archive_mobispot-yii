@@ -62,9 +62,10 @@
             <li class="lang">
                 <ul class="lang-list">
                     <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/en"><img src="/themes/mobispot/new/img/lang-icon_en.png">English</a></li>
-                    <li class="<?php echo ('ru' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/ru"><img src="/themes/mobispot/new/img/lang-icon_ru.png">Russian</a></li>
+                    <li class="<?php echo ('ru' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/ru"><img src="/themes/mobispot/new/img/lang-icon_ru.png">Русский</a></li>
                     <!-- <li><img src="/themes/mobispot/new/img/lang-icon_it.png">Italian</li> -->
-                    <!-- <li><img src="/themes/mobispot/new/img/lang-icon_ch.png">Chinese</li> -->
+                    <li class="<?php echo ('zh_cn' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_cn"><img src="/themes/mobispot/new/img/lang-icon_zh_cn.png">中文简体</a></li>
+                    <li class="<?php echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_tw"><img src="/themes/mobispot/new/img/lang-icon_zh_tw.png">中文繁體</a></li>
                 </ul>
                 <span class="current">
                     <img src="/themes/mobispot/new/img/lang-icon_<?php echo Yii::app()->language ?>.png">
