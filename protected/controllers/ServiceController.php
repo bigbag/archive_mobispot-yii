@@ -289,11 +289,14 @@ class ServiceController extends MController
         if (!$atributes)
             $this->redirect('/');
 
-        $user = User::socialCheck($serviceName, $atributes['id']);
-        if (!$user)
+        $result = User::socialCheck($serviceName, $atributes['id']);
+        if ($result['user'] and !$result['token']->allow_login)
+            $this->redirect('/');
+
+        if (!$result['user'])
             $this->redirect('/service/socialReg');
 
-        $this->autoLogin($user);
+        $this->autoLogin($result['user']);
         User::clearCacheSocInfo();
         $this->redirect('/user/personal');
     }
