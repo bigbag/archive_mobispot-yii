@@ -4,7 +4,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
+    <title>Mobispot - Wearable NFC devices</title>
 
     <meta  property="og:site_name" content="Mobispot"/>
     <meta  property="og:title" content="Mobispot - Wearable NFC devices"/>
@@ -12,6 +12,11 @@
     <meta  property="og:url" content="http://mobispot.com"/>
     <meta  property="og:image" content="http://mobispot.com/themes/mobispot/new/img/og.jpg"/>
     <meta  property="og:description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership. "/>
+
+    <meta itemprop="name" content="Mobispot - Wearable NFC devices">
+    <meta itemprop="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
+    <meta itemprop="image" content="http://mobispot.com/themes/mobispot/new/img/og.jpg">
+    <meta name="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
 
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon16.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon32.png">
@@ -41,6 +46,7 @@
 <body ng-controller="UserController" 
     ng-cloak class="ng-cloak"
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
+    <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
     
     <?php include('block/head_new.php'); ?>
     <?php if ($this->mainBackground):?>
