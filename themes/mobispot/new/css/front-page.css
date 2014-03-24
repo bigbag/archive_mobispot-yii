@@ -247,7 +247,7 @@ a {
     width: 300px; }
   /* line 211, ../sass/front-page.scss */
   .header-page .hat-bar {
-    background: url('../img/rgbapng/ffffffe5-5.png?1395230631');
+    background: url('../img/rgbapng/ffffffe5-5.png?1395396709');
     background: rgba(255, 255, 255, 0.9);
     height: 63px; }
     /* line 214, ../sass/front-page.scss */
@@ -256,7 +256,7 @@ a {
   /* line 218, ../sass/front-page.scss */
   .header-page .show-block {
     padding: 38px;
-    background: url('../img/rgbapng/ffffffe5-5.png?1395230631');
+    background: url('../img/rgbapng/ffffffe5-5.png?1395396709');
     background: rgba(255, 255, 255, 0.9);
     text-align: center; }
     /* line 222, ../sass/front-page.scss */
@@ -552,7 +552,7 @@ a {
 
 /* line 482, ../sass/front-page.scss */
 .content-block {
-  background: url('../img/rgbapng/ffffffe5-5.png?1395230631');
+  background: url('../img/rgbapng/ffffffe5-5.png?1395396709');
   background: rgba(255, 255, 255, 0.9);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -864,3 +864,17 @@ h5 + p {
       width: 44px;
       overflow: hidden;
       line-height: 47px; }
+
+/* line 90, ../sass/spot.scss */
+#spot-block {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1; }
+
+/* line 93, ../sass/spot.scss */
+.spot-content_row {
+  display: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0; }
+  /* line 96, ../sass/spot.scss */
+  .spot-content_row.active {
+    display: block; }
