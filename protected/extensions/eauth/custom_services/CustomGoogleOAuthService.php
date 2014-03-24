@@ -61,7 +61,8 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
     protected function saveAccessToken($token)
     {
-        $this->setState('refresh_token', $token->refresh_token);
+        if (!empty($token->refresh_token))
+            $this->setState('refresh_token', $token->refresh_token);
         $this->setState('auth_token', $token->access_token);
         $this->setState('expires', time() + $token->expires_in - 60);
         $this->access_token = $token->access_token;
