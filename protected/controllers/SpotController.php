@@ -421,11 +421,13 @@ class SpotController extends MController
 
         $answer['loggedIn'] = $socInfo->isLoggegOn($answer['socnet']);
         if (!$answer['loggedIn'])
+        {
+            $answer['error'] = "no";
             $this->getJsonAndExit($answer);
-        
+        }
         $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
         
-       if ($needSave)
+        if ($needSave)
         {
             $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
             if (empty($userDetail['error']))
@@ -457,14 +459,15 @@ class SpotController extends MController
 
         if ($answer['linkCorrect'] == 'ok' and $spotContent->save())
         {
+            $socInfo = new SocInfo;
             $render_data = array(
-                'content' => $content['data'][$data['key']],
                 'key' => $data['key'],
             );
 
-            if (!$needSave)
-                $render_data['socContent'] = $socContent;
-    
+            $render_data['content'] = ($needSave)?
+                ($content['data'][$data['key']])
+                :($socInfo->getNetData($content['data'][$data['key']], $spot->discodes_id, $data['key'], $dinamyc = true));
+
             $answer['content'] = $this->renderPartial(
                 '//spot/personal/new_content', 
                 $render_data, 

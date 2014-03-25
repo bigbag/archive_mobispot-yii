@@ -860,5 +860,19 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
+    
+    public static function setLogged($atributes)
+    {
+        $success = false;
+        if (!empty($atributes['service']) and !empty($atributes['id']))
+        {
+            Yii::app()->session[$atributes['service'] . '_id'] = $atributes['id'];
+            if (!empty($atributes['url']))
+                Yii::app()->session[$atributes['service'] . '_profile_url'] = $atributes['url'];
+            $success = true;
+        }
+        
+        return $success;
+    }
 
 }
