@@ -125,9 +125,7 @@ class UserController extends MController
         if (!$atributes) $this->setAccess();
 
         SocToken::setToken($atributes);
-        Yii::app()->session[$serviceName] = 'auth';
-        Yii::app()->session[$serviceName . '_id'] = $atributes['id'];
-        Yii::app()->session[$serviceName . '_profile_url'] = $atributes['url'];
+        SocInfo::setLogged($atributes);
     }
 
     //подключение акции, требующей жетона соцсети

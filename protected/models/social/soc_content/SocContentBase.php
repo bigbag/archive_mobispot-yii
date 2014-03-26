@@ -141,6 +141,7 @@ class SocContentBase
             curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20120815 Firefox/16.0');
             curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
+            $rawdata = curl_exec($ch);
             curl_close($ch);
 
             $fp = fopen($file_name, 'x');

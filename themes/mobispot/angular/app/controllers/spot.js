@@ -210,7 +210,7 @@ angular.module('mobispot').controller('SpotController',
                 if (angular.element('#icon-wallet').hasClass('active'))
                     angular.element('#wallet-block').slideDown();
             }
-          }).error(function(error){alert(error)});
+          });
             
           //загрузка страницы с акциями спота
             angular.element('#coupons-block').remove();
@@ -390,10 +390,11 @@ angular.module('mobispot').controller('SpotController',
       {
         if (typeof (Target) != 'undefined' && Target.length > 0)
         {   
-            var curentNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
             mediaFormA.stop();
-            curentNet.fadeTo(600, 0.2);
-            curentNet.fadeTo(0, 1);
+            var currentNet = angular.element('#extraMediaForm a[net=' + Target + ']');
+            var otherNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
+            otherNet.fadeTo(600, 0.2);
+            currentNet.fadeTo(0, 1);
         }
         else{
             mediaFormA.stop();
@@ -427,7 +428,7 @@ angular.module('mobispot').controller('SpotController',
               {
                   var currentNet = -1;
                   var needPanel = false;
-                  if (typeof (data.netName) != 'undefined')
+                  if (typeof (data.netName) != 'undefined' && data.netName.length)
                   {
                       currentNet = $scope.getPatternInd(data.netName);
                       needPanel = true;
@@ -446,9 +447,10 @@ angular.module('mobispot').controller('SpotController',
       var mediaFormA = angular.element('#extraMediaForm a');
       if (needPanel)
       {
-        var curentNet = angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']');
-        curentNet.addClass('blackout');
-        curentNet.fadeTo(0, 0.2);
+        var curentNet = angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']');
+        var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']');
+        otherNet.addClass('blackout');
+        otherNet.fadeTo(0, 0.2);
         curentNet.removeClass('blackout');
         curentNet.fadeTo(0, 1);
         $scope.freeSocial = false;
@@ -811,7 +813,13 @@ angular.module('mobispot').controller('SpotController',
     $scope.loginTimer = function()
     {
         if (!popup.closed) {
-            var data = {token: $scope.user.token, bindNet:$scope.bindNet};
+            var netParams = {name:$scope.bindNet.name, discodes:$scope.bindNet.discodes, key:$scope.bindNet.key};
+            if ('undefined' != typeof ($scope.bindNet.newField) && 1 == $scope.bindNet.newField)
+                netParams.newField = 1;
+            if ('undefined' != typeof ($scope.bindNet.link) && $scope.bindNet.link.length)
+                netParams.link = $scope.bindNet.link;
+                
+            var data = {token: $scope.user.token, bindNet:netParams};
             $http.post('/spot/bindedContent', data).success(function(data) {
                 if (typeof (data.loggedIn) != 'undefined' && typeof (data.linkCorrect) != 'undefined')
                 {
