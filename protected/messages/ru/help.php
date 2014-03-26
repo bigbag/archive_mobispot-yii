@@ -32,6 +32,6 @@ return array (
   'Name' => 'Имя',
   'Phone' => 'Телефон',
   'Question' => 'Вопрос',
-  'Question has been submitted' => 'Вопрос отправлен',
+  'Question has been submitted' => 'Ваш вопрос был отправлен. Спасибо!',
   'Send' => 'Отправить',
 );

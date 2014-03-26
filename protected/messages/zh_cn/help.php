@@ -30,6 +30,6 @@ return array (
   'Name' => '姓名',
   'Phone' => '手机',
   'Question' => '问题',
-  'Question has been submitted' => '',
+  'Question has been submitted' => '您的问题已成功传送。谢谢！',
   'Send' => '发送',
 );
