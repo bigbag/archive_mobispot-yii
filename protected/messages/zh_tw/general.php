@@ -20,7 +20,7 @@ return array (
   'All your tickets<br> in one place' => '便利刷"環"，輕鬆購票。',
   'If you want your tickets close to hand,<br> put them on your wrist.' => '想把各種車票都"戴"在你的手腕上嗎？智能手環幫你實現！',
   'Make a lasting<br> connection' => '建立聯系',
-  'Met someone?<br> Share your details instantly with Mobispot.<br> Like something?<br> Share it, and brands can share right back.' => '認識了新朋友？<br>輕鬆刷"環"，與好友們分享自己的全部。<br>按個讚？<br>獲得各種名牌的折扣和優惠。',
+  'Met someone?<br> Share your details instantly with Mobispot.<br> Like something?<br> Share it, and brands can share right back.' => '認識了新朋友？<br>輕鬆刷"環"，與好友們分享自己的全部。<br>按個讚？<br>獲得各大知名品牌的折扣和優惠。',
   'One tap is<br> all it takes' => '輕鬆感應，暢行無阻。',
   'Pay with a tap,<br> not with cash' => '輕鬆感應，刷"環"付款',
   'Save time, carry less. You can keep<br> your loyalty cards, tickets and<br> membership details on your Spot.' => '节省时间的好帮手 - 貴賓卡、公車票、門禁卡、全部刷"環"，無所不能！',
