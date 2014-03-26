@@ -17,10 +17,10 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'Activate spot' => '激活',
-  'Logout' => '退出',
+  'Activate spot' => '啟用',
+  'Logout' => '登出',
   'My Spots' => '我的手環',
   'Shopping bag' => '',
-  'Sign in' => '登陸',
+  'Sign in' => '會員登入',
   'To my spots' => '',
 );

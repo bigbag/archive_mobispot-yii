@@ -24,7 +24,7 @@ return array (
   'Get help' => '幫助',
   'Our blog' => '',
   'Phones' => '',
-  'Readers' => '解讀器',
+  'Readers' => '掃描器',
   'Referrals' => '',
   'Store' => '',
   'Правила пользования' => '',
