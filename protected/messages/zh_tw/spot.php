@@ -41,7 +41,7 @@ return array (
   'Save' => '',
   'Saved!' => '',
   'Set password' => '',
-  'Spot activation code' => '激活碼',
+  'Spot activation code' => '帳戶開通密碼',
   'Spot name' => '',
   'There was an error when attempting to upload this file<br/>Please try again' => '',
   'Yes' => '',
