@@ -34,7 +34,7 @@ class FacebookContent extends SocContentBase
                 }
             }
         }
-        $result = 'ok';
+        
         return $result;
     }
 

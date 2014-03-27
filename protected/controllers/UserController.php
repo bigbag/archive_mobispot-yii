@@ -109,7 +109,7 @@ class UserController extends MController
     {
         $serviceName = Yii::app()->request->getQuery('service');
         $discodes = Yii::app()->request->getQuery('discodes');
-        $tech = Yii::app()->request->getParam('tech');
+        //$tech = Yii::app()->request->getParam('tech');
 
         if (!isset($discodes))
             $discodes = '';
@@ -118,8 +118,8 @@ class UserController extends MController
         if (!Yii::app()->user->id)
             $this->setAccess();
 
-        if (($serviceName == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
-            Yii::app()->session['instagram_tech'] = $tech;
+        //if (($serviceName == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
+        //    Yii::app()->session['instagram_tech'] = $tech;
 
         $atributes = User::getSocInfo($serviceName);
         if (!$atributes) $this->setAccess();

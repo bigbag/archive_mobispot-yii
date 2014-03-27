@@ -59,27 +59,29 @@ class InstagramContent extends SocContentBase
             $socUsername = self::parseUsername($link);
 
             $socUser = self::makeRequest('https://api.instagram.com/v1/users/search?q=' . $socUsername . '&count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
+            
             if (!is_string($socUser) && isset($socUser['data']) && isset($socUser['data'][0]))
             {
 
                 $socUser = $socUser['data'][0];
                 if (!empty($socUser['username']))
                     $userDetail['soc_url'] = 'http://instagram.com/' . $socUser['username'];
-
+/*
                 $techSoc = SocToken::model()->findByAttributes(array(
                     'type' => 10,
                     'is_tech' => true
                 ));
-
-                if ($techSoc && isset($socUser['id']))
+*/
+                if (isset($socUser['id']))
                 {
-                    $media = self::makeRequest('https://api.instagram.com/v1/users/' . $socUser['id'] . '/media/recent?count=1&access_token=' . $techSoc->user_token);
+                    $media = self::makeRequest('https://api.instagram.com/v1/users/' . $socUser['id'] . '/media/recent?count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
                     if (isset($media['data']) && isset($media['data'][0]) && !empty($media['data'][0]['id']))
                         $post = $media['data'][0];
                 }
             }
             else
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            //    $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
 
         if (isset($post))
