@@ -603,6 +603,12 @@ class SocInfo extends CFormModel
         }
 
         $uncheck = array('html', 'list', 'list2', 'follow_button');
+        
+        if (empty($this->userDetail['binded_link']))
+        {
+            $this->userDetail['binded_link'] = $socUsername;
+        }
+        
         foreach ($this->userDetail as $socKey => $socValue)
         {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))
