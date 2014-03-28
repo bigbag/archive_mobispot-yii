@@ -288,36 +288,44 @@ angular.module('mobispot').controller('SpotController',
 
         if (currentNet > -1 && $scope.socPatterns[currentNet].BindByPaste)
         {
-            angular.element('body').css('cursor', 'wait');
-            angular.element('#dropbox textarea').css('cursor', 'wait');
+            $scope.cursorWait();
             $scope.bindByPanel($scope.socPatterns[currentNet].name);
         }
         else
         {
-          $http.post('/spot/spotAddContent', spot).success(function(data) {
-            if(data.error == 'no') {
-              angular.element('#add-content').append($compile(data.content)($scope));
-
-              $scope.keys.push(data.key);
-              $scope.spot.content='';
-              angular.element('textarea').removeClass('put');
-
-              if (angular.element('#extraMediaForm').hasClass('open'))
-              {
-                    angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                    angular.element('#extraMediaForm').removeClass('open');
-              }
-              
-              var scroll_height = $('#block-' + data.key).offset().top;
-              $('html, body').animate({
-                scrollTop: scroll_height
-              }, 600);
-            }
-          });
+          $scope.addValue($scope.spot.content);
         }
     }
   };
 
+    //добавление непривязанного к соцсетям контента
+    $scope.addValue = function(newValue)
+    {
+      $scope.spot.content = newValue;
+      $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
+        if(data.error == 'no') {
+          angular.element('#add-content').append($compile(data.content)($scope));
+
+          $scope.keys.push(data.key);
+          $scope.spot.content='';
+          angular.element('textarea').removeClass('put');
+
+          if (angular.element('#extraMediaForm').hasClass('open'))
+          {
+                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                angular.element('#extraMediaForm').removeClass('open');
+          }
+          
+          var scroll_height = $('#block-' + data.key).offset().top;
+          $('html, body').animate({
+            scrollTop: scroll_height
+          }, 600);
+        }
+      });
+      $scope.resetCursor();
+    }
+  
+  
   // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
     spot.key = key;
@@ -563,8 +571,7 @@ angular.module('mobispot').controller('SpotController',
                             $scope.keys.push(data.key);
                             $scope.spot.content='';
                             angular.element('textarea').removeClass('put');
-                            angular.element('body').css('cursor', 'default');
-                            angular.element('#dropbox textarea').css('cursor', 'text');
+                            $scope.resetCursor();
                             
                             if (angular.element('#extraMediaForm').hasClass('open'))
                             {
@@ -584,11 +591,8 @@ angular.module('mobispot').controller('SpotController',
                         }
                         else
                         {
-                            var resultModal = angular.element('.m-result');
-                            var resultContent = resultModal.find('p');
-                            resultModal.show();
-                            resultContent.text(data.linkCorrect);
-                            resultModal.fadeOut(10000, function() {});
+                            $scope.addValue($scope.spot.content);
+                            contentService.setModal(data.linkCorrect, 'none'); 
                         }
                     }
                 }
@@ -686,11 +690,7 @@ angular.module('mobispot').controller('SpotController',
             }
             else
             {
-                var resultModal = angular.element('.m-result');
-                var resultContent = resultModal.find('p');
-                resultModal.show();
-                resultContent.text(data.linkCorrect);
-                resultModal.fadeOut(10000, function() {});
+                contentService.setModal(data.linkCorrect, 'none'); 
             }
           }
         }
@@ -826,6 +826,7 @@ angular.module('mobispot').controller('SpotController',
                 {
                     if (data.loggedIn)
                     {
+                        popup.close();
                         if(data.linkCorrect == 'ok')
                         {
                             if (data.newField)
@@ -843,8 +844,7 @@ angular.module('mobispot').controller('SpotController',
                                 $scope.spot.content='';
                                 angular.element('textarea').removeClass('put');
                                 
-                                angular.element('body').css('cursor', 'default');
-                                angular.element('#dropbox textarea').css('cursor', 'text');
+                                $scope.resetCursor()
                                
                                 if (angular.element('#extraMediaForm').hasClass('open'))
                                 {
@@ -866,7 +866,6 @@ angular.module('mobispot').controller('SpotController',
                                 $scope.setVideoSize(data.key);
                             }
 
-                            popup.close();
                             $scope.bindNet = {};
                             var currentNet = $scope.getPatternInd(data.socnet);
                             if (currentNet > -1)
@@ -875,11 +874,7 @@ angular.module('mobispot').controller('SpotController',
                         }
                         else
                         {
-                            var resultModal = angular.element('.m-result');
-                            var resultContent = resultModal.find('p');
-                            resultModal.show();
-                            resultContent.text(data.linkCorrect);
-                            resultModal.fadeOut(10000);
+                            contentService.setModal(data.linkCorrect, 'none'); 
                         }
                     }
                     else
@@ -1166,4 +1161,32 @@ angular.module('mobispot').controller('SpotController',
       scrollTop: $(defSelector).offset().top
     }, 200);
   };
+
+    $scope.cursorWait = function()
+    {
+        $scope.cursorBody = angular.element('body').css('cursor');
+        $scope.cursorTextarea = angular.element('#dropbox textarea').css('cursor');
+        angular.element('body').css('cursor', 'wait');
+        angular.element('#dropbox textarea').css('cursor', 'wait');
+    }
+  
+    $scope.resetCursor = function()
+    {
+        if ('undefined' != typeof ($scope.cursorBody) && $scope.cursorBody.length)
+        {
+            angular.element('body').css('cursor', $scope.cursorBody);
+            delete $scope.cursorBody;
+        }
+        else
+            angular.element('body').css('cursor', 'default');
+            
+        if ('undefined' != typeof ($scope.cursorTextarea) && $scope.cursorTextarea.length)
+        {
+            angular.element('#dropbox textarea').css('cursor', $scope.cursorTextarea);
+            delete $scope.cursorTextarea;
+        }
+        else
+            angular.element('#dropbox textarea').css('cursor', 'text');       
+    }
+  
 });
