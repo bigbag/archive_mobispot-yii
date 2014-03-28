@@ -273,6 +273,7 @@ angular.module('mobispot').controller('SpotController',
   
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
+    $scope.SocNetTooltip(false);
     if (spot.content && spot.user) {
         var currentNet = -1;
 
