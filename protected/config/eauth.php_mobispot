@@ -50,8 +50,7 @@ return array(// You can change the providers and their classes.
     'behance' => array(
         //http://www.behance.net/dev/apps  
         'class' => 'CustomBehanceAuthService',
-        'client_id' => 'RPVsyWeNfqLTWWrNcvZTcajTVSbrFmVy',
-        'client_secret' => 'R31sssl4Vof65tQ_ukss9WTsv5ayD9pI',
+        'client_id' => 'Dbs0CgHSf5o0HLKvbQrX0v6QVvtoTUUr',
         'title' => 'Behance'
     ),
     'vimeo' => array(
@@ -98,13 +97,6 @@ return array(// You can change the providers and their classes.
         'client_id' => 'cf9f579abaef4eb4b02c0a0ecc360761',
         'client_secret' => 'b3a57a9dab6d4ea5b7a2b75587eb48d3',
         'title' => 'Instagram',
-    ),
-    'behance' => array(
-        //http://www.behance.net/dev/apps
-        'class' => 'CustomBehanceAuthService',
-        'client_id' => 'Dbs0CgHSf5o0HLKvbQrX0v6QVvtoTUUr',
-        'client_secret' => 'ui5Z8Xa8VAorkEntojqR8Go8dBkY.Z_h',
-        'title' => 'Behance'
     ),
     'crunchbase' => array(
         //http://developer.crunchbase.com/apps/myapps
