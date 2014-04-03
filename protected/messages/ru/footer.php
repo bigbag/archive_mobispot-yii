@@ -19,7 +19,6 @@
 return array (
   'API' => '',
   'About us' => 'О нас',
-  'Footer title' => '',
   'Get Help' => 'Помощь',
   'Get help' => 'Помощь',
   'Our blog' => 'Наш блог',

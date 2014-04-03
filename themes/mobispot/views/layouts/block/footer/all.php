@@ -1,7 +1,7 @@
 <footer class="footer-page">
     <div class="row">
         <div class="large-12 columns">
-            <h3><?php echo Yii::t('footer', 'Footer title') ?></h3>
+            <h3></h3>
             <?php $allLang = Lang::getLangArray(); ?>
             <!-- <ul class="lang-dropdown">
                 <li class="dropdown">
