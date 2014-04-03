@@ -19,7 +19,6 @@
 return array (
   'API' => '',
   'About us' => '',
-  'Footer title' => '',
   'Get Help' => '幫助',
   'Get help' => '幫助',
   'Our blog' => '',
