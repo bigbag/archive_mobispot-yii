@@ -23,7 +23,7 @@ class LinkedInContent extends SocContentBase
                     $oauth_token = SocContentBase::parseParam($socToken->user_token, 'oauth_token=');
                     $token_secret = SocContentBase::parseParam($socToken->user_token, 'oauth_token_secret=');
                     $token = new OAuthToken($oauth_token, $token_secret);
-                    $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,public-profile-url,site-standard-profile-request)';
+                    $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id)';
                     $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
                     $options = array();
                     $query = null;
@@ -33,7 +33,6 @@ class LinkedInContent extends SocContentBase
 
                     if (strpos($answer, 'error:') === false)
                     {
-
                         $socUser = self::xmlToArray(simplexml_load_string($answer));
                         $spotContent = SpotContent::getSpotContent($spot);
                         if ($spotContent)
@@ -41,26 +40,8 @@ class LinkedInContent extends SocContentBase
                             $content = $spotContent->content;
                             $result = Yii::t('eauth', "You are not allowed to use page of another person in your spot");
 
-                            if (!empty($socUser['public-profile-url']) && isset($content['data']) && isset($content['data'][$dataKey]))
-                            {
-                                $profileUrl = urldecode($socUser['public-profile-url']);
-                                if (strpos($profileUrl, 'linkedin.com/') !== false)
-                                    $profileUrl = substr($profileUrl, (strpos($profileUrl, 'linkedin.com/') + 13));
-                                if (strpos($profileUrl, '&') > 0)
-                                    $profileUrl = substr($profileUrl, 0, strpos($profileUrl, '&'));
-                                if (strpos($content['data'][$dataKey], $profileUrl) !== false)
-                                    $result = 'ok';
-                            }
-                            if (!empty($socUser['site-standard-profile-request']) && !empty($socUser['site-standard-profile-request']['url']) && isset($content['data']) && isset($content['data'][$dataKey]))
-                            {
-                                $profileUrl = urldecode($socUser['site-standard-profile-request']['url']);
-                                if (strpos($profileUrl, 'linkedin.com/') !== false)
-                                    $profileUrl = substr($profileUrl, (strpos($profileUrl, 'linkedin.com/') + 13));
-                                if (strpos($profileUrl, '&') > 0)
-                                    $profileUrl = substr($profileUrl, 0, strpos($profileUrl, '&'));
-                                if (strpos($content['data'][$dataKey], $profileUrl) !== false)
-                                    $result = 'ok';
-                            }
+                            if (!empty($socUser['id']) and $socUser['id'] = $socToken->soc_id)
+                                $result = 'ok';
                         }
                     }
                 }
