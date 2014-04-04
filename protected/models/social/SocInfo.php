@@ -380,227 +380,23 @@ class SocInfo extends CFormModel
         if ($cachedData !== false)
         {
             $this->userDetail = $cachedData;
+            return $this->userDetail;
+        }
+
+        $this->userDetail['service'] = $socNet;
+        $this->userDetail['UserExists'] = false;
+        $socUsername = $this->parceSocUrl($socNet, $socUsername);
+
+        $net = $this->getNetByLink($socUsername);
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
         }
         else
-        {
-            $this->userDetail['service'] = $socNet;
-            $this->userDetail['UserExists'] = false;
-            $socUsername = $this->parceSocUrl($socNet, $socUsername);
+            $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
 
-
-            if ($socNet == 'linkedin')
-            {
-                $getProfile = false;
-                if (!empty($discodesId) && is_numeric($discodesId))
-                {
-                    $spot = Spot::model()->findByPk($discodesId);
-                    if ($spot)
-                    {
-                        $socToken = SocToken::model()->findByAttributes(array('user_id' => $spot->user_id, 'type' => 9));
-                        if ($socToken)
-                        {
-                            Yii::import('ext.eoauth.*');
-                            $consumer = new OAuthConsumer(Yii::app()->eauth->services['linkedin']['key'], Yii::app()->eauth->services['linkedin']['secret']);
-                            $protocol = (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https://' : 'http://';
-                            $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
-                            parse_str($socToken->user_token, $values);
-                            //              $url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
-                            //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
-                            $token = new OAuthToken($values['oauth_token'], $values['oauth_token_secret']);
-                            $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url,educations,positions)';
-                            $signatureMethod = new OAuthSignatureMethod_HMAC_SHA1();
-                            $options = array();
-                            $query = null;
-                            $request = OAuthRequest::from_consumer_and_token($consumer, $token, 'GET', $url, $query);
-                            $request->sign_request($signatureMethod, $consumer, $token);
-                            $answer = $this->makeRequest($request->to_url(), $options, false);
-
-                            if (strpos($answer, 'error:') === false)
-                            {
-                                $getProfile = true;
-                                $socUser = $this->xmlToArray(simplexml_load_string($answer));
-
-                                $this->userDetail['soc_username'] = $socUser['first-name'] . ' ' . $socUser['last-name'];
-                                if (!empty($socUser['picture-url']))
-                                    $this->userDetail['photo'] = (string) $socUser['picture-url'];
-                                if (!empty($socUser['headline']))
-                                    $this->userDetail['sub-line'] = (string) $socUser['headline'];
-                                if (!empty($socUser['public-profile-url']))
-                                    $this->userDetail['soc_url'] = (string) $socUser['public-profile-url'];
-                                $this->userDetail['list'] = array();
-                                $this->userDetail['list']['values'] = array();
-
-                                $currentPosition = '';
-                                $positionString = '';
-                                $educationString = '';
-                                if (isset($socUser['positions']) && isset($socUser['positions']['@attributes']) && !empty($socUser['positions']['@attributes']['total']) && isset($socUser['positions']['position']))
-                                {
-                                    if ($socUser['positions']['@attributes']['total'] > 1)
-                                    {
-                                        for ($i = 0; $i < $socUser['positions']['@attributes']['total']; $i++)
-                                        {
-                                            if (isset($socUser['positions']['position'][$i]))
-                                            {
-                                                $position = $this->xmlToArray($socUser['positions']['position'][$i]);
-                                                if (isset($position['company']) && !empty($position['company']['name']) && isset($position['is-current']))
-                                                {
-                                                    if ($position['is-current'] == 'true')
-                                                    {
-                                                        $currentPosition = $position['company']['name'];
-                                                    }
-                                                    elseif (!$positionString)
-                                                        $positionString = (string) $position['company']['name'];
-                                                    else
-                                                        $positionString .= ', ' . (string) $position['company']['name'];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    elseif (isset($socUser['positions']['position']['company']) && !empty($socUser['positions']['position']['company']['name']) && isset($socUser['positions']['position']['is-current']))
-                                    {
-                                        if ($socUser['positions']['position']['is-current'] == 'true')
-                                            $currentPosition = $socUser['positions']['position']['company']['name'];
-                                        else
-                                            $positionString = $socUser['positions']['position']['company']['name'];
-                                    }
-                                }
-
-                                if (isset($socUser['educations']) && isset($socUser['educations']['@attributes']) && !empty($socUser['educations']['@attributes']['total']) && isset($socUser['educations']['education']))
-                                {
-
-                                    if ($socUser['educations']['@attributes']['total'] > 1)
-                                    {
-                                        for ($i = 0; $i < $socUser['educations']['@attributes']['total']; $i++)
-                                        {
-                                            if (isset($socUser['educations']['education'][$i]))
-                                            {
-                                                $education = $this->xmlToArray($socUser['educations']['education'][$i]);
-
-                                                if (!empty($education['school-name']))
-                                                {
-                                                    if (!$educationString)
-                                                        $educationString = (string) $education['school-name'];
-                                                    else
-                                                        $educationString .= ', ' . (string) $education['school-name'];
-                                                }
-                                            }
-                                        }
-                                    }
-                                    elseif (!empty($socUser['educations']['education']['school-name']))
-                                    {
-                                        $educationString = $socUser['educations']['education']['school-name'];
-                                    }
-                                }
-
-                                if ($currentPosition)
-                                {
-                                    $userPosition = array();
-                                    $userPosition['title'] = Yii::t('eauth', "Текущая");
-                                    $userPosition['comment'] = $currentPosition;
-                                    $this->userDetail['list']['values'][] = $userPosition;
-                                }
-
-                                if ($positionString)
-                                {
-                                    $userPosition = array();
-                                    $userPosition['title'] = Yii::t('eauth', "Предыдущие");
-                                    $userPosition['comment'] = $positionString;
-                                    $this->userDetail['list']['values'][] = $userPosition;
-                                }
-
-                                if ($educationString)
-                                {
-                                    $userEducation = array();
-                                    $userEducation['title'] = Yii::t('eauth', "Образование");
-                                    $userEducation['comment'] = $educationString;
-                                    $this->userDetail['list']['values'][] = $userEducation;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (!$getProfile)
-                {
-                    $this->userDetail['last_status'] = $socUsername;
-                }
-            }
-            elseif ($socNet == 'Last.fm')
-            {
-                $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $socUsername . '&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
-                $socUser = $socUser['user'];
-                if (!empty($socUser['realname']))
-                    $this->userDetail['soc_username'] = $socUser['realname'];
-                else
-                    $this->userDetail['soc_username'] = $socUser['name'];
-                if (!empty($socUser['image'][1]))
-                    $this->userDetail['photo'] = $socUser['image'][1]['#text'];
-                if (!empty($socUser['url']))
-                    $this->userDetail['soc_url'] = $socUser['url'];
-                if (!empty($socUser['country']))
-                    $this->userDetail['location'] = $socUser['country'];
-                if (!empty($socUser['age']))
-                    $this->userDetail['age'] = $socUser['age'];
-                if (!empty($socUser['gender']))
-                    $this->userDetail['gender'] = $socUser['gender'];
-            }
-            elseif ($socNet == 'Flickr')
-            {
-                //if not id
-                if (strpos($socUsername, '@') === false)
-                {
-                    $socUsername = str_replace(' ', '+', $socUsername);
-                    $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=dc1985d59dc4b427afefe54c912fae0a&username=' . $socUsername . '&format=json&nojsoncallback=1');
-                    //replace username by id
-                    if ($socUser['stat'] == 'ok')
-                        $socUsername = $socUser['user']['id'];
-                }
-
-                $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
-                if ($socUser['stat'] == 'ok')
-                {
-                    $socUser = $socUser['person'];
-                    if (!empty($socUser['realname']['_content']))
-                        $this->userDetail['soc_username'] = $socUser['realname']['_content'];
-                    else
-                        $this->userDetail['soc_username'] = $socUser['username']['_content'];
-                    if (!empty($socUser['iconserver']))
-                    {
-                        if ($socUser['iconserver'] > 0)
-                            $this->userDetail['photo'] = 'http://farm' . $socUser['iconfarm'] . '.staticflickr.com/' . $socUser['iconserver'] . '/buddyicons/' . $socUser['nsid'] . '.jpg';
-                        else
-                            $this->userDetail['photo'] = 'http://www.flickr.com/images/buddyicon.gif';
-                    }
-                    if (!empty($socUser['location']['_content']))
-                        $this->userDetail['location'] = $socUser['location']['_content'];
-                    if (!empty($socUser['profileurl']['_content']))
-                        $this->userDetail['soc_url'] = $socUser['profileurl']['_content'];
-                    if (!empty($socUser['timezone']['label']))
-                        $this->userDetail['timezone'] = $socUser['timezone']['label'] . ' ' . $socUser['timezone']['offset'];
-
-                    $photo = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
-                    if (($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id']))
-                    {
-                        $photo = $photo['photos']['photo'][0];
-                        $this->userDetail['last_photo'] = '<img src="http://farm' . $photo['farm'] . '.staticflickr.com/' . $photo['server'] . '/' . $photo['id'] . '_' . $photo['secret'] . '_z.jpg"/><br/>' . $photo['title'];
-                    }
-                }
-                else
-                    $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            }
-            else
-            {
-                $net = $this->getNetByLink($socUsername);
-                if (isset($net['contentClass']) && strlen($net['contentClass']))
-                {
-                    $class = $net['contentClass'];
-                    $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
-                }
-                else
-                    $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
-            }
-
-            Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
-        }
+        Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
 
         $uncheck = array('html', 'list', 'list2', 'follow_button');
         
@@ -882,3 +678,71 @@ class SocInfo extends CFormModel
     }
 
 }
+
+
+/*
+контент неиспользуемых соцсетей
+        elseif ($socNet == 'Last.fm')
+        {
+            $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $socUsername . '&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
+            $socUser = $socUser['user'];
+            if (!empty($socUser['realname']))
+                $this->userDetail['soc_username'] = $socUser['realname'];
+            else
+                $this->userDetail['soc_username'] = $socUser['name'];
+            if (!empty($socUser['image'][1]))
+                $this->userDetail['photo'] = $socUser['image'][1]['#text'];
+            if (!empty($socUser['url']))
+                $this->userDetail['soc_url'] = $socUser['url'];
+            if (!empty($socUser['country']))
+                $this->userDetail['location'] = $socUser['country'];
+            if (!empty($socUser['age']))
+                $this->userDetail['age'] = $socUser['age'];
+            if (!empty($socUser['gender']))
+                $this->userDetail['gender'] = $socUser['gender'];
+        }
+        elseif ($socNet == 'Flickr')
+        {
+            //if not id
+            if (strpos($socUsername, '@') === false)
+            {
+                $socUsername = str_replace(' ', '+', $socUsername);
+                $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=dc1985d59dc4b427afefe54c912fae0a&username=' . $socUsername . '&format=json&nojsoncallback=1');
+                //replace username by id
+                if ($socUser['stat'] == 'ok')
+                    $socUsername = $socUser['user']['id'];
+            }
+
+            $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
+            if ($socUser['stat'] == 'ok')
+            {
+                $socUser = $socUser['person'];
+                if (!empty($socUser['realname']['_content']))
+                    $this->userDetail['soc_username'] = $socUser['realname']['_content'];
+                else
+                    $this->userDetail['soc_username'] = $socUser['username']['_content'];
+                if (!empty($socUser['iconserver']))
+                {
+                    if ($socUser['iconserver'] > 0)
+                        $this->userDetail['photo'] = 'http://farm' . $socUser['iconfarm'] . '.staticflickr.com/' . $socUser['iconserver'] . '/buddyicons/' . $socUser['nsid'] . '.jpg';
+                    else
+                        $this->userDetail['photo'] = 'http://www.flickr.com/images/buddyicon.gif';
+                }
+                if (!empty($socUser['location']['_content']))
+                    $this->userDetail['location'] = $socUser['location']['_content'];
+                if (!empty($socUser['profileurl']['_content']))
+                    $this->userDetail['soc_url'] = $socUser['profileurl']['_content'];
+                if (!empty($socUser['timezone']['label']))
+                    $this->userDetail['timezone'] = $socUser['timezone']['label'] . ' ' . $socUser['timezone']['offset'];
+
+                $photo = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
+                if (($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id']))
+                {
+                    $photo = $photo['photos']['photo'][0];
+                    $this->userDetail['last_photo'] = '<img src="http://farm' . $photo['farm'] . '.staticflickr.com/' . $photo['server'] . '/' . $photo['id'] . '_' . $photo['secret'] . '_z.jpg"/><br/>' . $photo['title'];
+                }
+            }
+            else
+                $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+        }
+*/
