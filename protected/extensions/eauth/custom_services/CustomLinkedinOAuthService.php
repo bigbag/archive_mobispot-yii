@@ -43,10 +43,10 @@ class CustomLinkedinOAuthService extends EOAuthService
         $this->attributes['id'] = $info['id'];
         $this->attributes['name'] = $info['first-name'] . ' ' . $info['last-name'];
         if (!empty($info['public-profile-url']))
-        $this->attributes['url'] = (!empty($info['public-profile-url')) ? $info['public-profile-url' : false;
+        $this->attributes['url'] = (!empty($info['public-profile-url'])) ? $info['public-profile-url'] : false;
         $this->attributes['photo'] = (!empty($info['picture-url'])) ? $info['picture-url'] : false;
         $this->attributes['expires'] = $this->getState('expires');
-        $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
+        $this->attributes['auth_token'] = $this->getAccessToken();
 
     }
 
@@ -125,13 +125,4 @@ class CustomLinkedinOAuthService extends EOAuthService
         }
         return $array;
     }
-
-    protected function saveAccessToken($token)
-    {
-        $this->setState('auth_token', $token->access_token);
-        $this->access_token = $token->access_token;
-
-        parent::saveAccessToken($token);
-    }
-
 }
