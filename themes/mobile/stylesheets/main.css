@@ -738,7 +738,7 @@ a.active .tooltip{
 .item-area .spot-button:active{
 	background-color: #0061ff;
 }
-.soc-link span{
+.item-footer .soc-link span{
 	margin-left: -27px;
 	margin-right: 10px;
 }
@@ -1276,4 +1276,23 @@ h3 + .small-txt{
 	font-size: 20px;
 	position: relative;
 	margin: 0;
+}
+.item-download .spot-button{
+	height: 200px;
+	width: 200px;
+	vertical-align: 200;
+	line-height: 125px;
+	border-radius: 50%;
+	position: absolute;
+	top: 60px;
+	right: 16px;
+	color: #B1B1B1;
+}
+.item-download .spot-button:hover{
+	background: #fff;
+	color: #0063FF;
+}
+.item-download table{
+	position: relative;
+	z-index: 10;
 }

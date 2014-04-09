@@ -677,7 +677,48 @@ class SocInfo extends CFormModel
         return $success;
     }
 
+    public static function showFileSize($file)
+    {
+        if(!file_exists($file)) return '';
+       
+        $filesize = filesize($file);
+       
+        if($filesize > 1024)
+        {
+            $filesize = ($filesize/1024);
+
+            if($filesize > 1024)
+            {
+                $filesize = ($filesize/1024);
+               
+                if($filesize > 1024)
+                {
+                    $filesize = ($filesize/1024);
+                    $filesize = round($filesize, 1);
+                    return $filesize.' '.Yii::t('spot', 'GB');       
+                }
+                else
+                {
+                    $filesize = round($filesize, 1);
+                    return $filesize.' '.Yii::t('spot', 'MB');
+                }       
+            }
+            else
+            {
+                $filesize = round($filesize, 1);
+                return $filesize.' '.Yii::t('spot', 'Kb');
+            }  
+        }
+        else
+        {
+            $filesize = round($filesize, 1);
+            return $filesize.' '.Yii::t('spot', 'bytes');
+        }
+    }
+    
 }
+
+
 
 
 /*
