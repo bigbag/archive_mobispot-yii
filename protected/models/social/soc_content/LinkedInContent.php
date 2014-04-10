@@ -5,7 +5,6 @@ class LinkedInContent extends SocContentBase
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
-        $socUsername = $link;
         $result = Yii::t('eauth', "Please log in with your LinkedIn account to perform this action");
 
         if (!empty($discodesId) && is_numeric($discodesId) && !empty($dataKey))
@@ -70,7 +69,7 @@ class LinkedInContent extends SocContentBase
                     $callbackUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
                     $oauth_token = SocContentBase::parseParam($socToken->user_token, 'oauth_token=');
                     $token_secret = SocContentBase::parseParam($socToken->user_token, 'oauth_token_secret=');
-                    //$url = 'http://api.linkedin.com/v1/people/url='.urlencode($socUsername);
+                    //$url = 'http://api.linkedin.com/v1/people/url='.urlencode($link);
                     //$token = new OAuthToken(Yii::app()->eauth->services['linkedin']['token'], Yii::app()->eauth->services['linkedin']['token_secret']);
                     $token = new OAuthToken($oauth_token, $token_secret);
                     $url = 'http://api.linkedin.com/v1/people/id=' . $socToken->soc_id . ':(id,first-name,last-name,public-profile-url,headline,picture-url,educations,positions)';
@@ -187,7 +186,7 @@ class LinkedInContent extends SocContentBase
         }
         if (!$getProfile)
         {
-            $userDetail['last_status'] = $socUsername;
+            $userDetail['last_status'] = $link;
         }       
         
         return $userDetail;
