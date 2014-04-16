@@ -7,6 +7,7 @@ class LoginForm extends CFormModel
     public $terms;
     public $password;
     public $rememberMe;
+    public $activ_code;
 
     /**
      * Declares the validation rules.
@@ -24,6 +25,7 @@ class LoginForm extends CFormModel
             array('rememberMe', 'boolean'),
             // password needs to be authenticated
             array('password', 'authenticate'),
+            array('activ_code, rememberMe, password, terms, email', 'safe'),
         );
     }
 
