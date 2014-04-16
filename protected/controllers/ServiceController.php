@@ -239,7 +239,7 @@ class ServiceController extends MController
         ));
         if (!$user)
             $this->getJsonAndExit($answer);
-        
+
         $user->password = Yii::app()->hasher->hashPassword($data['password']);
         $user->activkey = sha1(microtime() . $data['password']);
         $user->save(false);
