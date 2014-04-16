@@ -91,7 +91,7 @@ class MController extends Controller
         }
         return false;
     }
-    
+
     public function setAccess()
     {
         throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
@@ -116,9 +116,9 @@ class MController extends Controller
 
         $data = $this->getJson();
         if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
-        {
             $this->setBadRequest();
-        }
+
+        unset($data['token']);
 
         return $data;
     }
@@ -142,13 +142,9 @@ class MController extends Controller
     public function getCart()
     {
         if (Yii::app()->session['itemsInCart'] and Yii::app()->session['itemsInCart'] > 0)
-        {
             return Yii::app()->session['itemsInCart'];
-        }
         else
-        {
             return false;
-        }
     }
 
     // Функция обратного вызова для preg_replace_callback().
@@ -184,7 +180,7 @@ class MController extends Controller
     public function getResolution()
     {
         $resolution = $this->defaultResolution;
-        if (isset(Yii::app()->request->cookies['resolution'])) 
+        if (isset(Yii::app()->request->cookies['resolution']))
         {
             $resolution = Yii::app()->request->cookies['resolution']->value;
             if ($resolution < self::MIN_RESOLUTION) $resolution = self::MIN_RESOLUTION;
@@ -207,7 +203,7 @@ class MController extends Controller
             $user = User::getById(Yii::app()->user->id);
             $select_lang = $user->lang;
         }
-        else 
+        else
         {
             $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
             $select_lang = substr($lang_request,0,1);
