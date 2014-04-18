@@ -40,6 +40,7 @@ class CustomInstagramOAuthService extends EOAuth2Service
                 $url .= $suffix;
                 $returnUrl = substr($returnUrl, 0, strpos($returnUrl, '&'));
             }
+            $returnUrl = str_replace('www.', '', $returnUrl);
             Yii::app()->session['returnUrl'] = urldecode(urldecode($returnUrl));
         }
         $this->setState('instagram_redirect_uri', $url);
