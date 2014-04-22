@@ -83,6 +83,8 @@ class UserController extends MController
     {
         $this->layout = '//layouts/spots';
         $user_id = Yii::app()->user->id;
+        $open_discodes = Yii::app()->request->getQuery('discodes');
+        $open_key = Yii::app()->request->getQuery('key');
 
         if (!$user_id)
             $this->setAccess();
@@ -102,6 +104,8 @@ class UserController extends MController
         $this->render('personal', array(
             'dataProvider' => $dataProvider,
             'spot_type_all' => SpotType::getSpotTypeArray(),
+            'open_discodes' => $open_discodes,
+            'open_key'=> $open_key,
         ));
     }
 
@@ -109,23 +113,38 @@ class UserController extends MController
     {
         $serviceName = Yii::app()->request->getQuery('service');
         $discodes = Yii::app()->request->getQuery('discodes');
-        //$tech = Yii::app()->request->getParam('tech');
-
+        $synch = Yii::app()->request->getQuery('synch');
+        
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
             $this->setNotFound();
         if (!Yii::app()->user->id)
             $this->setAccess();
-
-        //if (($serviceName == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
-        //    Yii::app()->session['instagram_tech'] = $tech;
+            
+        if (isset($synch) and $synch == 'true' and !empty($discodes))
+        {
+            Yii::app()->session[$serviceName . '_synch_data'] = array(
+                'discodes'=> $discodes,
+                'key' => $key = Yii::app()->request->getQuery('key'),
+                'newField' => Yii::app()->request->getQuery('newField'),
+                'link' => Yii::app()->request->getQuery('link'),
+            );
+        }
 
         $atributes = User::getSocInfo($serviceName);
         if (!$atributes) $this->setAccess();
 
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
+        
+        if (!empty(Yii::app()->session[$serviceName . '_synch_data']))
+        {
+            $data = Yii::app()->session[$serviceName . '_synch_data'];
+            $data['link'] = urlencode($data['link']);
+            unset(Yii::app()->session[$serviceName . '_synch_data']);
+            $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
+        }
     }
 
     //подключение акции, требующей жетона соцсети

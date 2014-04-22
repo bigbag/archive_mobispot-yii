@@ -142,6 +142,8 @@ angular.module('mobispot').controller('SpotController',
       });
   };
 
+  $scope.scroll_key = -1;
+  
   // Аккордеон в списке личных спотов
   $scope.accordion = function(e, init) {
     var spot;
@@ -200,6 +202,14 @@ angular.module('mobispot').controller('SpotController',
             angular.element('#resetPassButton').hide();
           else
             angular.element('#resetPassButton').show();
+            
+          if ($scope.scroll_key >= 0 && $('#block-' + $scope.scroll_key).length) {
+            var scroll_height = $('#block-' + $scope.scroll_key).offset().top;
+            $('html, body').animate({
+                scrollTop: scroll_height
+            }, 600);
+            $scope.scroll_key = -1;
+          }
 
           //загрузка кошелька
           angular.element('#wallet-block').remove();
@@ -256,9 +266,21 @@ angular.module('mobispot').controller('SpotController',
                 if(data.error == 'no') 
                 {
                     var spotEdit = angular.element('#block-' + data.key);
+                    var oldHeight = spotEdit.height();
+                    var oldScroll = spotEdit.offset().top;
+
                     spotEdit.before($compile(data.content)($scope));
                     spotEdit.remove();
                     $scope.setVideoSize(data.key);
+                    if (oldScroll < $('html, body').scrollTop()) {
+                        var scroll_height = $('html, body').scrollTop() 
+                                            + $('#block-' + data.key).height() 
+                                            - oldHeight;
+
+                        $('html, body').animate({
+                            scrollTop: scroll_height
+                        }, 0);
+                    }
                 }
                 else
                 {
@@ -542,19 +564,24 @@ angular.module('mobispot').controller('SpotController',
 
                         url += url.indexOf('?') >= 0 ? '&' : '?';
                         if (url.indexOf('redirect_uri=') === -1)
-                          url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-                        url += 'js';
+                          url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
 
                         var centerWidth = (window.screen.width - options.popup.width) / 2,
                           centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                        popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-                        popup.focus();
+                        popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
                         
-                        $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
-                        if ($scope.spot.content.length > 0)
-                            $scope.bindNet.link = $scope.spot.content;
-                        socTimer = $timeout($scope.loginTimer, 1000);
+                        if (popup == null || typeof(popup)=='undefined') {
+                            window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
+                        }
+                        else {
+                            popup.focus();
+                        
+                            $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
+                            if ($scope.spot.content.length > 0)
+                                $scope.bindNet.link = $scope.spot.content;
+                            socTimer = $timeout($scope.loginTimer, 1000);
+                        }
                     }
                     else 
                     {
@@ -666,17 +693,22 @@ angular.module('mobispot').controller('SpotController',
 
             url += url.indexOf('?') >= 0 ? '&' : '?';
             if (url.indexOf('redirect_uri=') === -1)
-              url += 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&';
-            url += 'js';
+              url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
 
             var centerWidth = (window.screen.width - options.popup.width) / 2,
               centerHeight = (window.screen.height - options.popup.height) / 2;
 
-            popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-            popup.focus();
+            popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+
+            if (popup == null || typeof(popup)=='undefined') {
+                window.location.href = url + '&discodes=' + spot.discodes + '&key=' + spot.key + '&synch=true';
+            }
+            else {
+                popup.focus();
             
-            $scope.bindNet = {name:data.socnet, discodes:spot.discodes, key:spot.key, spotEdit:angular.element(e.currentTarget).parents('.spot-item')};
-            socTimer = $timeout($scope.loginTimer, 1000);
+                $scope.bindNet = {name:data.socnet, discodes:spot.discodes, key:spot.key, spotEdit:angular.element(e.currentTarget).parents('.spot-item')};
+                socTimer = $timeout($scope.loginTimer, 1000);
+            }
           }
           else {
             if(data.linkCorrect == 'ok')
@@ -733,11 +765,12 @@ angular.module('mobispot').controller('SpotController',
                     centerHeight = (window.screen.height - options.popup.height) / 2;
 
                   popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-                  popup.focus();
                   
+                  popup.focus();
+
                   $scope.checkingAction = {id:id_action};
                   $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
-                  likeTimer = $timeout($scope.likesTimer, 1000);
+                  likeTimer = $timeout($scope.likesTimer, 1000);            
               }
               else
               {
@@ -1157,9 +1190,11 @@ angular.module('mobispot').controller('SpotController',
     var defSelector = '#' + discodes;
     var spot = angular.element(defSelector);
     $scope.accordion(spot, 1);
+    /*
     $('html, body').animate({
       scrollTop: $(defSelector).offset().top
-    }, 200);
+    }, 600);
+    */
   };
 
     $scope.cursorWait = function()

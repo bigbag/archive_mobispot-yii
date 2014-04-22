@@ -11,7 +11,12 @@
 </div>
 
 <div class="row">
-    <div class="twelve columns">
+    <div 
+        class="twelve columns" 
+        <?php if (!empty($open_discodes) and !empty($open_key)):?>
+            ng-init="defOpen(<?php echo $open_discodes ?>);scroll_key=<?php echo $open_key ?>"
+        <?php endif ?>
+        >
         <?php
         $this->widget('MListView', array(
             'dataProvider' => $dataProvider,

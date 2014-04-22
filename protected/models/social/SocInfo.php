@@ -677,6 +677,18 @@ class SocInfo extends CFormModel
         return $success;
     }
 
+    public static function toGetParams($data, $prefix = '?')
+    {
+        $answer = '';
+        foreach($data as $key=>$value)
+            if (!empty($value))
+                $answer .= '&' . $key . '=' .$value;
+            
+        $answer = $prefix . substr($answer, 1);
+
+        return $answer;
+    }
+    
     public static function showFileSize($file)
     {
         if(!file_exists($file)) return '';
