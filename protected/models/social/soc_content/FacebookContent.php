@@ -54,22 +54,20 @@ class FacebookContent extends SocContentBase
             $postId = substr($link, (strpos($link, '/posts/') + 7));
             $postId = self::rmGetParam($postId);
         }
-        
-        $socToken = SocToken::model()->findByAttributes(array(
-            'user_id' => Yii::app()->user->id,
-            'type' => 1,
-        ));
-        $userToken = $socToken->user_token;
-                
+
         if (!empty($photoId))
         {
             //привязана картинка
             if (isset(Yii::app()->user->id))
             {
-
+                $socToken = SocToken::model()->findByAttributes(array(
+                    'user_id' => Yii::app()->user->id,
+                    'type' => 1,
+                ));
 
                 if ($socToken)
                 {
+                    $userToken = $socToken->user_token;
 
                     $appToken = self::getAppToken();
 
@@ -157,6 +155,16 @@ class FacebookContent extends SocContentBase
                 //привязан пост
                 if (isset($postId) && isset($socUser['id']) && !empty($appToken))
                 {
+                    $socToken = SocToken::model()->findByAttributes(array(
+                        'user_id' => Yii::app()->user->id,
+                        'type' => 1,
+                    ));
+                    
+                    if ($socToken)
+                        $userToken = $socToken->user_token;
+                    else
+                        $userToken = false;
+                
                     $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $userToken);
                     if (is_string($socPost) && (strpos($socPost, 'error') !== false))
                     {
