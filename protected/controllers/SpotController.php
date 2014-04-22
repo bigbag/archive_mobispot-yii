@@ -610,7 +610,21 @@ class SpotController extends MController
             'newField' => false,
             'key' => false,
         );
-        $data = $this->validateRequest();
+        $target = '/user/personal';
+        
+        if (Yii::app()->request->isPostRequest)
+            $data = $this->validateRequest();
+        else
+        {
+            $data = array('bindNet' => array(
+                        'name'=>Yii::app()->request->getQuery('service'),
+                        'discodes'=>Yii::app()->request->getQuery('discodes'),
+                        'key'=>Yii::app()->request->getQuery('key'),
+                        'newField'=>Yii::app()->request->getQuery('newField'),
+                        'link'=>Yii::app()->request->getQuery('link'),
+                    ));
+        }
+        
         $needSave = false;
 
         if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
@@ -706,7 +720,7 @@ class SpotController extends MController
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
 
             if (!$spot)
-                $this->getJsonAndExit($answer);
+                $this->getJsonOrRedirect($answer, $target);
 
             $socInfo = new SocInfo;
             $socNet = $socInfo->getNetByName($answer['socnet']);
@@ -719,7 +733,7 @@ class SpotController extends MController
                 $socNet = $socInfo->getNetByName($answer['socnet']);
 
             if (empty($socNet['name']) or empty(Yii::app()->session[$answer['socnet'] . '_profile_url']))
-                $this->getJsonAndExit($answer);
+                $this->getJsonOrRedirect($answer, $target);
 
             $answer['socnet'] = $socNet['name'];
             $spotContent = SpotContent::getSpotContent($spot);
@@ -734,7 +748,7 @@ class SpotController extends MController
                 if (!empty($userDetail['error']))
                 {
                     $answer['linkCorrect'] = $userDetail['error'];
-                    $this->getJsonAndExit($answer);
+                    $this->getJsonOrRedirect($answer, $target);
                 }
                 
                 $userDetail['binded_link'] = $data['bindNet']['link'];
@@ -786,8 +800,10 @@ class SpotController extends MController
                 }
             }
         }
-
-        echo json_encode($answer);
+        if(Yii::app()->request->isPostRequest)
+            echo json_encode($answer);
+        else 
+            $this->redirect('/user/personal?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
     }
 
     public function actionSocNetContent()

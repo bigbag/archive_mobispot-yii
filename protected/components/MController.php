@@ -138,6 +138,13 @@ class MController extends Controller
         echo json_encode($result);
         exit;
     }
+    
+    public function getJsonOrRedirect($result, $target){
+        if (Yii::app()->request->isPostRequest)
+            $this->getJsonAndExit($result);
+        else
+            $this->redirect($target);
+    }
 
     public function getCart()
     {
