@@ -26,11 +26,11 @@
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    
+
     <link rel="stylesheet" href="/themes/mobispot/new/css/foundation3/foundation.min.css">
     <link rel="stylesheet" href="/themes/mobispot/new/css/foundation_actual/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" /> 
+    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
@@ -43,11 +43,11 @@
     <script src="/themes/mobispot/new/js/angular.min.js"></script>
 
 </head>
-<body ng-controller="UserController" 
+<body ng-controller="UserController"
     ng-cloak class="ng-cloak"
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
     <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-    
+
     <?php include('block/head_new.php'); ?>
     <?php if ($this->mainBackground):?>
         <div
