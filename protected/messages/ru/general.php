@@ -24,7 +24,7 @@ return array (
   'One tap is<br> all it takes' => 'Одним<br> прикосновением',
   'Pay with a tap,<br> not with cash' => 'Платите касанием,<br> без наличных',
   'Save time, carry less. You can keep<br> your loyalty cards, tickets and<br> membership details on your Spot.' => 'Избавьтесь от лишнего пластика.<br> Членские карты, скидки и пропуска<br> прямо на Вашем Споте.',
-  'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => 'Теперь мелкие покупки не будут<br> отнимать много времени.<br> Мобиспот поможет совершать платежи<br> в вашем кампусе.',
+  'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => 'Теперь мелкие покупки не будут<br> отнимать много времени.<br> Мобиспот поможет совершать<br> платежи в вашем кампусе.',
   '© Мобиспот. Корпоративные сервисы. Все права защищены' => '',
   'Назад' => '',
   'Оферта' => '',
