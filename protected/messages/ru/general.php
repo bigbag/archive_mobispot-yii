@@ -17,14 +17,14 @@
  * NOTE, this file must be saved in UTF-8 encoding.
  */
 return array (
-  'All your tickets<br> in one place' => 'Транспортные<br> билеты',
-  'If you want your tickets close to hand,<br> put them on your wrist.' => 'Они всегда под рукой.<br>Точнее на вашем запястье.',
+  'All your tickets<br> in one place' => 'Все ваши билеты<br> собраны вместе',
+  'If you want your tickets close to hand,<br> put them on your wrist.' => 'Транспортные билеты всегда под рукой.<br> Прямо на вашем запястье.',
   'Make a lasting<br> connection' => 'Установите контакт',
   'Met someone?<br> Share your details instantly with Mobispot.<br> Like something?<br> Share it, and brands can share right back.' => 'Познакомились с кем-то?<br> Поделитесь информацией о себе одним касанием.<br> "Лайкнули" страницу?<br> Получите бонусы от известных брендов.',
-  'One tap is<br> all it takes' => 'Одним касанием',
+  'One tap is<br> all it takes' => 'Одним<br> прикосновением',
   'Pay with a tap,<br> not with cash' => 'Платите касанием,<br> без наличных',
-  'Save time, carry less. You can keep<br> your loyalty cards, tickets and<br> membership details on your Spot.' => 'Берегите ваше время и нервы.<br> Храните дисконтные карты, билеты<br> и пропуска внутри вашего Спота. ',
-  'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => 'Экономьте время на оплате<br> мелких покупок. Мобиспот поможет<br> совершать платежи в вашем кампусе.',
+  'Save time, carry less. You can keep<br> your loyalty cards, tickets and<br> membership details on your Spot.' => 'Избавьтесь от лишнего пластика.<br> Членские карты, скидки и пропуска<br> прямо на Вашем Споте.',
+  'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => 'Теперь мелкие покупки не будут<br> отнимать много времени.<br> Мобиспот поможет совершать платежи<br> в вашем кампусе.',
   '© Мобиспот. Корпоративные сервисы. Все права защищены' => '',
   'Назад' => '',
   'Оферта' => '',
