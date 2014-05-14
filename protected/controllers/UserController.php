@@ -195,8 +195,10 @@ class UserController extends MController
         }
         
         $socInfo = new SocInfo;
-        if (!$socInfo->isLoggegOn($service, false))
+        if (!$socInfo->isLoggegOn($service, false)){
+            $answer['error'] = "no";
             $this->getJsonAndExit($answer);
+        }
         
         $answer['isSocLogged'] = true;
         $socToken = SocToken::model()->findByAttributes(array(

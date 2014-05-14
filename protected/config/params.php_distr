@@ -1,4 +1,7 @@
 <?php
 
 return array(
+    'ym_pay_url' => 'https://demomoney.yandex.ru/eshop.xml',
+    'ym_scid' => '51673',
+    'ym_shop_id' => '15555',
 );

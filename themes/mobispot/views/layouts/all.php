@@ -84,16 +84,23 @@
 
         </ul>
     </footer>
+    <div class="m-result">
+        <p></p>
+    </div>
 
     <script src="/themes/mobispot/new/js/jquery-ui.min.js"></script>
     <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
-
+    <script src="/themes/mobispot/new/js/jquery.easing.1.3.js"></script>
+    <script src="/themes/mobispot/new/js/jquery.animate-enhanced.min.js"></script>
+    <script src="/themes/mobispot/new/js/jquery.superslides.js"></script>
+    
     <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
     <script src="/themes/mobispot/new/angular/app/app.js"></script>
     <script src="/themes/mobispot/new/angular/app/service.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
     <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
+    <script src="/themes/mobispot/new/angular/app/controllers/demokit.js"></script>
     <script src="/themes/mobispot/new/js/script-add.js"></script>
     <script src="/themes/mobispot/new/js/script.js"></script>
     <script src="/themes/mobispot/new/js/foundation.min.js"></script>
