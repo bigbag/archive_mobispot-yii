@@ -39,7 +39,7 @@ class WalletLoyalty extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.wallet_loyalty';
+        return 'wallet_loyalty';
     }
 
     /**

@@ -28,7 +28,7 @@ class StoreOrderList extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.order_list';
+        return 'order_list';
     }
 
     /**

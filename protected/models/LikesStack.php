@@ -32,7 +32,7 @@ class LikesStack extends CActiveRecord
      */
     public function tableName()
     {
-        return 'stack.likes_stack';
+        return 'likes_stack';
     }
 
     /**

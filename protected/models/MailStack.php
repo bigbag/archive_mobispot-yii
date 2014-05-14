@@ -40,7 +40,7 @@ class MailStack extends CActiveRecord
      */
     public function tableName()
     {
-        return 'stack.mail';
+        return 'mail';
     }
 
     /**
