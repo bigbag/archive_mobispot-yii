@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'store_order':
  * @property integer $id
  * @property integer $id_customer
- * @property string $delivery 
+ * @property string $delivery
  * @property string $delivery_data
  * @property string $payment
  * @property string $payment_data
@@ -34,7 +34,7 @@ class StoreOrder extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.store_order';
+        return 'store_order';
     }
 
     public function beforeSave()

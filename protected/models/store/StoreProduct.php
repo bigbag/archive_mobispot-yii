@@ -28,7 +28,7 @@ class StoreProduct extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.product';
+        return 'product';
     }
 
     public function beforeSave()
