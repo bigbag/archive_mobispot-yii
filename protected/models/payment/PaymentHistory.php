@@ -124,7 +124,7 @@ class PaymentHistory extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.history';
+        return 'history';
     }
 
     /**

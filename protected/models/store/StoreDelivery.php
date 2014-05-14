@@ -28,7 +28,7 @@ class StoreDelivery extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.delivery';
+        return 'delivery';
     }
 
     /**

@@ -53,7 +53,7 @@ class PaymentWallet extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.wallet';
+        return 'wallet';
     }
 
     /**
