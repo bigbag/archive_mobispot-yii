@@ -229,7 +229,7 @@
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	behavior:  url(/css/PIE.htc);
-	background: #fff url("../images/icons/i-small.png") no-repeat -100%;
+	background: #fff url("../img/icons/i-small.png") no-repeat -100%;
 	margin-right: 7px;
 	position: relative;
 	top:4px
@@ -656,26 +656,10 @@ footer .button:hover + .active,
 a.icon-spot-button{
 	color: #fff;
 	font-size: 40px;
-	-webkit-transition: color 600ms ease-out;
-	-moz-transition: color 600ms ease-out;
-	-o-transition: color 600ms ease-out;
-	transition: color 600ms ease-out;
 	line-height: 33px;
 }
 .icon-spot-button:hover{
 	color: #0063ff;
-}
-.cover-fast-link .icon{
-	font-size: 34px;
-	margin: 3px 7px;
-	display: inline-block;
-	-webkit-transition: color 600ms ease-out;
-	-moz-transition: color 600ms ease-out;
-	-o-transition: color 600ms ease-out;
-	transition: color 600ms ease-out;
-	position: relative;
-	z-index: 40;
-	color: #000;
 }
 .cover-fast-link .icon:hover,
 .cover-fast-link .icon.open{
@@ -771,12 +755,14 @@ display: inline-block;
 }
 .b-pay-input{
 	text-align: right;
-	padding-right: 34px !important;
+	padding-right: 45px !important;
 }
 .b-currency{
 	position: relative;
 	margin-top: -33px;
+	margin-right: 11px;
 	width: 31px;
+	color: #fff;
 }
 .content-payment .b-systems{
 	position: absolute;
