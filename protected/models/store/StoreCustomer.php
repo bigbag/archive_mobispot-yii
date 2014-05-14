@@ -13,7 +13,7 @@
  * @property string $address
  * @property string $city
  * @property string $phone
- * @property string $country 
+ * @property string $country
  */
 class StoreCustomer extends CActiveRecord
 {
@@ -30,7 +30,7 @@ class StoreCustomer extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.customer';
+        return 'customer';
     }
 
     /**

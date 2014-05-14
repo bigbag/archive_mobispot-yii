@@ -25,7 +25,7 @@ class StorePromoCode extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.promo_code';
+        return 'promo_code';
     }
 
     public function beforeSave()

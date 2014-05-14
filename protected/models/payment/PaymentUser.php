@@ -55,7 +55,7 @@ class PaymentUser extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.user';
+        return 'user';
     }
 
     /**
