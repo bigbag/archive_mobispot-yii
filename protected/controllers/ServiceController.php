@@ -378,6 +378,57 @@ class ServiceController extends MController
 
         echo json_encode($answer);
     }
+    
+    public function actionBuyDemoKit()
+    {
+        $data = $this->validateRequest();
+        $answer = array('error' => 'yes', 'content' => '', 'message'=>Yii::t('store', 'Произошла ошибка! Проверьте корректность заполнения полей заказа.'));
+        
+        if (empty($data['products']))
+            $this->getJsonAndExit($answer);
+            
+        $order = DemoKitOrder::fromArray($data);
+        
+        if(!$order->save())
+        {
+            $answer['message'] = '';
+            $errors = $order->getErrors();
+            foreach ($errors as $field=>$error)
+                foreach ($error as $message)
+                    $answer['message'] .= $message . ' ';
+            $this->getJsonAndExit($answer);
+        }
+        
+        if (!(DemoKitList::saveFromArray($data['products'], $order->id)))
+        {
+            $order->delete();
+            $answer['message'] = Yii::t('store', 'Некорректные данные в заказанных спотах!');
+            $this->getJsonAndExit($answer);
+        }
+        
+        $answer['error'] = 'no';
+        //$shipping = DemoKitOrder::getShipping($order->shipping);
+        $payment = DemoKitOrder::getPayment($order->payment);
+        
+        if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM)
+        {
+            $answer['content'] = $this->renderPartial('//store/_ym_form', 
+                array(
+                    'order'=>$order,
+                    'action'=>$payment['action'],
+                ), 
+                true
+            );
+        }
+        /*
+        elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL)
+        {
+            MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+        }
+        */
+        
+        echo json_encode($answer);
+    }
 
     public function setCookies($name, $value)
     {
