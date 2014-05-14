@@ -106,3 +106,47 @@ li.phone-name {
 .error {
     color: #fff !important;
 }
+
+#demo-kit-block {
+    background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    padding: 22px;
+}
+
+.kit-items .img-w img {
+    cursor:pointer;
+}
+
+.kit-items .img-w a.plus {
+    position: absolute;
+    bottom: 0px;
+    right: -25px;
+    font-family: mobispot;
+    font-size: 32px;
+    line-height: 19px;
+    color: #8D9095;
+}
+
+.kit-items .img-w a.minus {
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    font-family: mobispot;
+    font-size: 32px;
+    line-height: 19px;
+    color: #8D9095;
+}
+
+.kit-items .img-w span {
+    position: absolute;
+    bottom: 0px;
+    right: -5px;
+    font-family: mobispot;
+    font-size: 22px;
+    line-height: 19px;
+    color: #8D9095;
+}
+
+.m-result {
+    display: none;
+}

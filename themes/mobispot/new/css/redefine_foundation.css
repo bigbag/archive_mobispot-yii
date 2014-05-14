@@ -113,12 +113,7 @@ form.custom div.custom.dropdown ul li:hover:after{
 .row .row .columns{
 	padding: 0 3px;
 }
-.row .row .columns:first-child  {
-	margin-left: -3px;
-}
-.row .row .columns:last-child  {
-	margin-right: -3px;
-}
+
 .row .row{
 	margin: 0;
 }
@@ -563,10 +558,6 @@ img{
 ul.orbit-bullets{
 	bottom: -42px;
 }
-.custom select{
-	display: none;
-}
-
 .row {
 	max-width: 100%; }
 
@@ -575,3 +566,16 @@ ul {
 
 form {
 	margin-bottom: 0; }
+label{
+	line-height: 17px;
+}
+select{
+	border: 0;
+	background-color: #0062FF;
+	outline: 0;
+	cursor: pointer;
+	color: #fff;
+}
+select:hover{
+	background-color: #0062FF;
+}

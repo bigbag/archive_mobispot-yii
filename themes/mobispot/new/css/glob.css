@@ -86,3 +86,6 @@ input::-webkit-inner-spin-button {
 	font-family: mobispot-icon !important;
 	font-style: normal;
 }
+.txt-right{
+	text-align: right;
+}

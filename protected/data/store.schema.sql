@@ -85,6 +85,33 @@ CREATE TABLE IF NOT EXISTS `promo_code`(
     PRIMARY KEY (`id`)
 ) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
+DROP TABLE IF EXISTS `demo_kit_order`;
+CREATE TABLE `demo_kit_order` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `name` varchar(256) NULL,
+  `email` varchar(128) NOT NULL,
+  `phone` varchar(32) NULL,
+  `address` varchar(1024) NULL,
+  `city` varchar(128) NULL,
+  `country` varchar(128) NULL,
+  `zip` varchar(16) NULL,
+  `shipping` int unsigned NOT NULL,
+  `payment` int unsigned NOT NULL,
+  `status` int NOT NULL DEFAULT 0,
+  `creation_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+
+DROP TABLE IF EXISTS `demo_kit_list`;
+CREATE TABLE `demo_kit_list` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `order_id` bigint(20) unsigned NOT NULL,
+  `spot_type` int unsigned NOT NULL,
+  `count` int unsigned NOT NULL DEFAULT 0,
+
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`order_id`) REFERENCES `demo_kit_order` (`id`)
+) DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 
 insert into delivery (name, period, price) values('DHL', '2 business days (no tracking)', 20);
 insert into delivery (name, period, price) values('Air mail', '8-12 business days (no tracking)', 12);

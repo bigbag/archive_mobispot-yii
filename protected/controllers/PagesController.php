@@ -15,4 +15,17 @@ class PagesController extends MController
         $this->render('help', array());
     }
 
+    public function actionDemoKit()
+    {
+        $this->layout = '//layouts/all';
+        $config = DemoKitOrder::getConfig();
+        $this->render(
+            'demo_kit', 
+            array(
+                'products'=>$config['product'], 
+                'shippings'=>$config['shipping'],
+                'payments'=>$config['payment']
+            )
+        );
+    }
 }
