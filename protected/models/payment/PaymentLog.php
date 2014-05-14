@@ -37,7 +37,7 @@ class PaymentLog extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.log';
+        return 'log';
     }
 
     /**

@@ -45,7 +45,7 @@ class PaymentAuto extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.reccurent';
+        return 'reccurent';
     }
 
     /**

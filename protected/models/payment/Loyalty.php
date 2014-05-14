@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'loyalty':
  * @property integer $id
  * @property string $terms_id
- * @property string $event_id 
+ * @property string $event_id
  * @property string $firm_id
  * @property integer $rules
  * @property integer $interval
@@ -15,7 +15,7 @@
  * @property string $desc
  * @property string $creation_date
  * @property string $start_date
- * @property string $stop_date 
+ * @property string $stop_date
  * @property integer $sharing_type
  * @property integer $limit
  * @property integer $timeout
@@ -80,7 +80,7 @@ class Loyalty extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.loyalty';
+        return 'loyalty';
     }
 
     /**
@@ -187,9 +187,9 @@ class Loyalty extends CActiveRecord
         }
         elseif (self::STATUS_MY == $status and !Yii::app()->user->isGuest)
         {
-            $sql = ' EXISTS(SELECT wl.id FROM ' . WalletLoyalty::tableName() . ' 
+            $sql = ' EXISTS(SELECT wl.id FROM ' . WalletLoyalty::tableName() . '
                 AS wl WHERE wl.loyalty_id = t.id ';
-            $sql .=' AND EXISTS(SELECT w.id FROM ' . PaymentWallet::tableName() . ' 
+            $sql .=' AND EXISTS(SELECT w.id FROM ' . PaymentWallet::tableName() . '
                 AS w WHERE wl.wallet_id = w.id AND w.user_id = ' . Yii::app()->user->id . '))';
 
             $criteria->condition .= $sql;

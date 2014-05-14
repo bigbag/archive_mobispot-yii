@@ -23,7 +23,7 @@ class StorePayment extends CActiveRecord
 
     public function tableName()
     {
-        return 'store.payment';
+        return 'payment';
     }
 
     /**
