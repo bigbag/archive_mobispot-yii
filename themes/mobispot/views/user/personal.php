@@ -11,8 +11,8 @@
 </div>
 
 <div class="row">
-    <div 
-        class="twelve columns" 
+    <div
+        class="twelve columns"
         <?php if (!empty($open_discodes) and !empty($open_key)):?>
             ng-init="defOpen(<?php echo $open_discodes ?>);scroll_key=<?php echo $open_key ?>"
         <?php endif ?>
@@ -51,7 +51,7 @@
                 <input type="text"
                        ng-model="spot.code"
                        name="code"
-                       placeholder="<?php echo Yii::t('spot', 'Spot activation code') ?>"
+                       placeholder="<?php echo Yii::t('spot', 'Spot activation code ') ?>"
                        autocomplete="off"
                        maxlength="10"
                        required>
@@ -63,7 +63,7 @@
                 <div class="form-row toggle-active">
                     <a class="checkbox agree"  ng-click="setTerms(spot)">
                         <i></i>
-                        <?php echo Yii::t('spot', 'I agree to Mobispot Pages Terms') ?>
+                        <?php echo Yii::t('spot', 'I agree to Mobispot Pages Terms.') ?>
                     </a>
                 </div>
                 <div class="form-control">
@@ -98,7 +98,7 @@
                             class="b-short-input"
                             ng-model="spot.newName"
                             name="newName"
-                            ng-keypress="($event.keyCode == 13)?setNewName(spot):''" 
+                            ng-keypress="($event.keyCode == 13)?setNewName(spot):''"
                             placeholder="<?php echo Yii::t('spot', 'New Name') ?>"
                             autocomplete="off"
                             maxlength="50"
@@ -122,7 +122,7 @@
                             class="b-short-input"
                             ng-model="spot.pass"
                             name="newPass"
-                            ng-keypress="($event.keyCode == 13)?setNewPass(spot):''" 
+                            ng-keypress="($event.keyCode == 13)?setNewPass(spot):''"
                             ng-change="savePassButtonText('<?php echo Yii::t('spot', 'Save') ?>');"
                             placeholder="<?php echo Yii::t('spot', 'New Password') ?>"
                             autocomplete="off"
@@ -139,7 +139,7 @@
                     </form>
                     </div>
                 </div>
-                
+
                 <li id="invisibleSpot" class="toggle-box spot-action" ng-click="actionSpot(spot, $event)" ng-show="spot.invisible">
                     <?php echo Yii::t('spot', 'Make spot invisible') ?>
                 </li>
