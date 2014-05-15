@@ -192,5 +192,10 @@ class SocContentBase
     {
         return null;
     }
+    
+    public static function checkSharing($sharing_type, $link)
+    {
+        return false;
+    }
 
 }

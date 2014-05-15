@@ -151,9 +151,13 @@ class UserController extends MController
     public function actionCheckLike()
     {
         $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = "yes";
-        $answer['isSocLogged'] = false;
+        $answer = array(
+            'error' => 'yes',
+            'message_error' => 'yes',
+            'message' => '',
+            'checked' => false,
+            'isSocLogged' => false,
+        );
         $link = '';
 
         if (!Yii::app()->user->id)
@@ -163,12 +167,7 @@ class UserController extends MController
             $this->getJsonAndExit($answer);
         
         $action = Loyalty::model()->findByPk($data['id']);
-        if ($action and strpos($action->desc, '<a ng-click="checkLike(' . $action->id . ')">') !== false)
-        {
-            $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike(' . $action->id . ')">') + strlen('<a ng-click="checkLike(' . $action->id . ')">')));
-            if (strpos($link, '</a>') > 0)
-                $link = substr($link, 0, strpos($link, '</a>'));
-        }
+        $link = $action->getLink();
 
         $service = SocInfo::getNameBySharingType($action->sharing_type);
         $answer['service'] = $service;
@@ -177,6 +176,7 @@ class UserController extends MController
         $criteria->compare('loyalty_id', $action->id);
         $criteria->compare('wallet.user_id', Yii::app()->user->id);
 
+        /*
         $userActions = WalletLoyalty::model()->with('wallet')->findAll($criteria);
         $count = 0;
 
@@ -193,10 +193,11 @@ class UserController extends MController
             $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
             $this->getJsonAndExit($answer);
         }
+        */
         
+        $answer['error'] = "no";
         $socInfo = new SocInfo;
         if (!$socInfo->isLoggegOn($service, false)){
-            $answer['error'] = "no";
             $this->getJsonAndExit($answer);
         }
         
@@ -209,32 +210,30 @@ class UserController extends MController
 
         if (!$socToken or !$link or !$wallet)
             $this->getJsonAndExit($answer);
-        
-        $likesStack = LikesStack::model()->findByAttributes(array(
-            'token_id' => $socToken->id,
-            'loyalty_id' => $action->id,
-        ));
-        if (!$likesStack)
+
+        $answer['checked'] = $socInfo->checkSharing($service, $action->sharing_type, $link);
+        if (!$answer['checked'])
         {
-            $likesStack = new LikesStack;
-            $likesStack->token_id = $socToken->id;
-            $likesStack->loyalty_id = $action->id;
-            $likesStack->save();
+            $answer['message'] = $action->getPromoMessage();
+            $this->getJsonAndExit($answer);
         }
 
         $wl = WalletLoyalty::model()->findByAttributes(array(
             'wallet_id' => $wallet->id,
             'loyalty_id' => $action->id,
         ));
+        
         if (!$wl)
         {
             $wl = new WalletLoyalty;
             $wl->wallet_id = $wallet->id;
             $wl->loyalty_id = $action->id;
-            $wl->bonus_count = $action->bonus_count;
-            $wl->save();
+            $wl->bonus_limit = $action->bonus_limit;
+         
         }
-
+        $wl->checked = $answer['checked'];
+        $wl->save();
+        
         $coupon = array(
             'id' => $action->id,
             'name' => $action->name,
@@ -247,8 +246,8 @@ class UserController extends MController
 
         $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
         $answer['message_error'] = 'no';
-        $answer['message'] = Yii::t('wallet', 'Вы участвуете в акции');
-        $answer['error'] = "no";
+        $answer['message'] = Yii::t('spot', 'Вы участвуете в акции');
+
 
         echo json_encode($answer);
     }
@@ -278,7 +277,8 @@ class UserController extends MController
         if (!$wl)
             $this->getJsonAndExit($answer);
         
-        $wl->delete();
+        $wl->checked = false;
+        $wl->save();
 
         $coupon = array(
             'id' => $action->id,
