@@ -3,6 +3,14 @@
 class FacebookContent extends SocContentBase
 {
 
+    const API_PATH = 'https://graph.facebook.com/';
+    const FQL_PATH = 'https://graph.facebook.com/fql?q=';
+
+    const URL_BASE = 'facebook.com/';
+    const URL_PHOTO = '/photo.php?fbid=';
+    const URL_POSTS = '/posts/';
+    const URL_MY_LIKES = 'me/likes/';
+    
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $result = 'ok';
@@ -472,4 +480,119 @@ class FacebookContent extends SocContentBase
         return $answer;
     }
 
+    public static function checkSharing($sharing_type, $link)
+    {
+        $answer = false;
+        
+        switch($sharing_type) {
+            case Loyalty::FACEBOOK_LIKE: 
+                $answer = self::checkLike($link);
+            break;
+            case FACEBOOK_SHARE: 
+                $answer = self::checkLinkSharing($link);
+            break;
+        }
+        
+        return $answer;
+    }
+    
+    public static function checkLike($link)
+    {
+        $liked = false;
+        $object_id = 0;
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_FACEBOOK,
+        ));
+        
+        if (!$socToken)
+            return false;
+
+        if (strpos($link, self::URL_BASE) !== false
+            and
+            (
+                strpos($link, self::URL_PHOTO) !== false
+                or
+                strpos($link, self::URL_POSTS) !== false
+            )
+        )
+        {
+            if (strpos($link, self::URL_POSTS) !== false)
+                // пост
+                $object_id = self::parseParam($link, self::URL_POSTS);
+            else
+                // фото
+                $object_id = self::parseParam($link, self::URL_PHOTO);
+                
+            $query = 'SELECT object_id,user_id FROM like WHERE user_id = me() and object_id = ' . $object_id;
+            
+            $like = self::makeRequest(
+                self::FQL_PATH 
+                . str_replace(' ', '+', $query) 
+                . '&access_token=' . $socToken->user_token
+            );
+            
+            if (isset($like['data']) 
+                and isset($like['data'][0])
+                and isset($like['data'][0]['object_id'])
+                and $like['data'][0]['object_id'] == $object_id
+            )
+                $liked = true;
+        }
+        elseif (strpos($link, self::URL_BASE))
+        {
+            $username = self::parseUsername($link);
+            
+            //сначала получаем $page['id']
+            $page = self::makeRequest(
+                self::API_PATH 
+                . $username
+                . '?access_token=' . $socToken->user_token
+            );
+
+            if (!empty($page['id']))
+            {
+                $like = self::makeRequest(
+                    self::API_PATH
+                    . self::URL_MY_LIKES
+                    . $page['id']
+                    . '?access_token=' . $socToken->user_token
+                );
+
+                if (isset($like['data']) 
+                    and isset($like['data'][0]) 
+                    and !empty($like['data'][0]['id'])
+                )
+                    $liked = true;
+            }
+        }
+        else
+        {
+            // like внешней ссылки
+            $query = 'SELECT attachment ,created_time ,type ,description FROM stream WHERE source_id=me() and strpos(attachment.href,"'. $link. '")>=0 and strpos(attachment.href,"fb_action_types=og.likes") > 0';
+
+            $like = self::makeRequest(
+                self::FQL_PATH
+                . str_replace(' ', '+', $query)
+                . '?access_token=' . $socToken->user_token
+            );
+            
+            if (isset($like['data']) 
+                and isset($like['data'][0])
+                and isset($like['data'][0]['attachment'])
+                and !empty($like['data'][0]['attachment']['href'])
+            )
+            $liked = true;
+        }
+                
+        return $liked;
+    }
+    
+    public static function checkLinkSharing($link)
+    {
+    
+        return false;
+    }
+    
 }

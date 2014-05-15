@@ -728,6 +728,21 @@ class SocInfo extends CFormModel
         }
     }
     
+    public function checkSharing($netName, $sharing_type, $link)
+    {
+        $answer = false;
+
+        $net = $this->getNetByName($netName);
+
+        if (isset($net['contentClass']) && strlen($net['contentClass']))
+        {
+            $class = $net['contentClass'];
+            $answer = $class::checkSharing($sharing_type, $link);
+        }
+
+        return $answer;
+    }
+    
 }
 
 
