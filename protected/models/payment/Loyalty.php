@@ -27,10 +27,12 @@ class Loyalty extends CActiveRecord
     const RULE_RATE = 1;
     const RULE_DISCOUNT = 2;
     const RULE_PRESENT = 3;
+    
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
     const STATUS_MY = 100;
+    
     const FACEBOOK_LIKE = 1;
     const FACEBOOK_SHARE = 2;
     const TWITTER_SHARE = 3;
@@ -55,6 +57,24 @@ class Loyalty extends CActiveRecord
             self::RULE_RATE => Yii::t('user', 'Скидка'),
             self::RULE_RATE => Yii::t('user', 'Подарок'),
         );
+    }
+    
+    public function getPromoMessage()
+    {
+        $answer = Yii::t('spot', 'Выполните условия акции!');
+        $link = $this->getLink();
+    
+        $messages = array(
+            self::FACEBOOK_LIKE => 
+                Yii::t('spot', "Перейдите по ссылке $link и лайкните страницу!"),
+                
+            
+        );
+        
+        if (isset($messages[$this->sharing_type]))
+            $answer = $messages[$this->sharing_type];
+        
+        return $answer;
     }
 
     /**
@@ -323,6 +343,7 @@ class Loyalty extends CActiveRecord
             {
                 $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
                     'wallet_id' => $wallet->id,
+                    'checked' => true,
                 ));
 
 
@@ -352,6 +373,21 @@ class Loyalty extends CActiveRecord
         }
 
         return $answer;
+    }
+    
+    public function getLink()
+    {
+        $link = $this->link;
+        
+        if (!empty($link))
+            return $link;
+        
+        if (strpos($this->desc, '<a ng-click="checkLike(' . $this->id . ')">') !== false)
+            $link = substr($this->desc, (strpos($this->desc, '<a ng-click="checkLike(' . $this->id . ')">') + strlen('<a ng-click="checkLike(' . $this->id . ')">')));
+            if (strpos($link, '</a>') > 0)
+                $link = substr($link, 0, strpos($link, '</a>'));
+                
+        return $link;
     }
 
 }
