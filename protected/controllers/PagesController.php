@@ -22,9 +22,7 @@ class PagesController extends MController
         $this->render(
             'demo_kit', 
             array(
-                'products'=>$config['product'], 
-                'shippings'=>$config['shipping'],
-                'payments'=>$config['payment']
+                'config'=>$config,
             )
         );
     }

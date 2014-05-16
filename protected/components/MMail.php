@@ -148,4 +148,19 @@ Class MMail
             return false;
     }
 
+    public function demokit_order($email, $mailOrder, $lang)
+    {
+        $mail_template = MailTemplate::getTemplate('demokit_order', $lang);
+
+        $stack = new MailStack;
+        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->recipients = serialize(array($email));
+        $stack->subject = $mail_template->subject;
+        $stack->body = MMail::render($lang . '_' . $mail_template->slug, array('order' => $mailOrder), true);
+
+        if ($stack->save())
+            return true;
+        else
+            return false;
+    }
 }

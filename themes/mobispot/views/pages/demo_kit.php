@@ -24,17 +24,23 @@
                         </p>
                         <div class="kit-items">
                             <table class="table">
-                                <?php foreach ($products as $product): ?>
+                                <?php foreach ($config['product'] as $product): ?>
                                 <tr ng-init="registerProduct(<?php echo $product['id']?>, <?php echo $product['price']?>)">
                                     <td>
+                                        <?php /*
                                         <div class="img-w">
                                             <img ng-click="addProduct(<?php echo $product['id']?>)" src="<?php echo $product['img'] ?>">
                                             <span>x{{products.<?php echo $product['id']?>}}</span><a ng-click="addProduct(<?php echo $product['id']?>)" class="plus">+</a><a ng-click="deductProduct(<?php echo $product['id']?>)" class="minus" ng-show="products.<?php echo $product['id']?>">-</a>
                                         </div>
+                                        */?>
+                                        <div class="img-w">
+                                            <img src="<?php echo $product['img'] ?>">
+                                            <span>x<?php echo $config['defalutCountForAll']?>
+                                        </div>
                                     <td>
                                         <?php echo $product['descr'] ?>
                                     </td>
-                                    <?php if ($product['id'] == $products[0]['id']): ?>
+                                    <?php if ($product['id'] == $config['product'][0]['id']): ?>
                                     <td rowspan="3" class="table-info"><a href="javascript:;"><?php echo Yii::t('store', 'API description in.pdf')?></a> <br>
                                         <?php echo Yii::t('store', 'If you need a description how to handle Spots in your application download')?>
                                     </td>
@@ -46,7 +52,7 @@
                 </div>
                 <div>
                 <div class="small-3 large-3 column">
-                    <div class="next-step">
+                    <div class="next-step" ng-init="summ=<?php echo $config['price']?>">
                         <h3><?php echo Yii::t('store', 'Price:')?> {{summ}} <?php echo Yii::t('store', 'USD')?></h3>
                         <p><?php echo Yii::t('store', 'Worldwide')?></p>
                         <a class="form-button button button-round" href="javascript:;" ng-click="dkitForm($event, '2')"><?php echo Yii::t('store', 'Make Order')?> >></a>
@@ -74,6 +80,7 @@
                                         type="email"
                                         ng-model="order.email"
                                         placeholder="<?php echo Yii::t('store', 'Email*')?>"
+                                        ng-init="emailNeedMessage='<?php echo $config['emailNeedMessage'] ?>'"
                                         maxlength="300"
                                         ng-minlength="3"
                                         required >
@@ -119,7 +126,7 @@
                         <div class="small-3 large-3 column">
                                 <div class="next-step">
                                     <h3><?php echo Yii::t('store', 'last step')?></h3>
-                                    <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3')"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
+                                    <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3', 1)"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
                                 </div>
                         </div>
                 </div>
@@ -138,7 +145,7 @@
                         <div class="small-6 large-6 columns">
                             <h3><?php echo Yii::t('store', 'Shipping')?></h3>
                             <div class="shipping-form">
-                                <?php foreach ($shippings as $shipping):?>
+                                <?php foreach ($config['shipping'] as $shipping):?>
                                 <div class="row" ng-init="registerShipping(<?php echo $shipping['id'] ?>, <?php echo $shipping['price'] ?>)">
                                     <div class="radio">  
                                         <input 
@@ -146,7 +153,7 @@
                                             type="radio" 
                                             name="shipping" 
                                             value="<?php echo $shipping['id'] ?>" 
-                                            <?php if ($shipping['id'] == $shippings[0]['id']):?>
+                                            <?php if ($shipping['id'] == $config['shipping'][0]['id']):?>
                                                 checked
                                                 ng-init="setShipping(<?php echo $shipping['id'] ?>)"
                                             <?php endif ?>
@@ -166,7 +173,7 @@
                         <div class="small-6 large-6 columns">
                             <h3><?php echo Yii::t('store', 'Payment')?></h3>
                             <div class="shipping-form">
-                                <?php foreach ($payments as $payment): ?>
+                                <?php foreach ($config['payment'] as $payment): ?>
                                 <div class="row" ng-init="registerPayment(<?php echo $payment['id'] ?>, '<?php echo $payment['action'] ?>')">
                                     <div class="radio">  
                                             <input 
@@ -174,7 +181,7 @@
                                                 type="radio" 
                                                 name="payment" 
                                                 value="<?php echo $payment['id'] ?>"
-                                                <?php if ($payment['id'] == $payments[0]['id']):?>
+                                                <?php if ($payment['id'] == $config['payment'][0]['id']):?>
                                                 checked
                                                 ng-init="setPayment(<?php echo $payment['id'] ?>)"
                                                 <?php endif ?>
@@ -195,7 +202,10 @@
                         <div class="next-step">
                                 <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
                                 <p>{{summ}}$ + {{shippings[order.shipping]}}$ (Shipping)</p>
-                            <a class="form-button button button-round" ng-click="buyDemoKit(order)"><?php echo Yii::t('store', 'FINISH!')?></a>
+                            <a class="form-button button button-round" 
+                                ng-click="buyDemoKit(order)"
+                                ng-init="finishButton='<?php echo Yii::t('store', 'FINISH!')?>';toMainMessage='<?php echo $config['toMainMessage']?>'"
+                            >{{finishButton}}</a>
                         </div>
                     </div>
                 </div>
