@@ -384,9 +384,11 @@ class ServiceController extends MController
         $data = $this->validateRequest();
         $answer = array('error' => 'yes', 'content' => '', 'message'=>Yii::t('store', 'Произошла ошибка! Проверьте корректность заполнения полей заказа.'));
         
+        /*
         if (empty($data['products']))
             $this->getJsonAndExit($answer);
-            
+        */
+        $config = DemoKitOrder::getConfig();    
         $order = DemoKitOrder::fromArray($data);
         
         if(!$order->save())
@@ -399,16 +401,18 @@ class ServiceController extends MController
             $this->getJsonAndExit($answer);
         }
         
+        /*
         if (!(DemoKitList::saveFromArray($data['products'], $order->id)))
         {
             $order->delete();
             $answer['message'] = Yii::t('store', 'Некорректные данные в заказанных спотах!');
             $this->getJsonAndExit($answer);
         }
+        */
         
-        $answer['error'] = 'no';
         //$shipping = DemoKitOrder::getShipping($order->shipping);
         $payment = DemoKitOrder::getPayment($order->payment);
+        $answer['action'] = $payment['action'];
         
         if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM)
         {
@@ -419,13 +423,23 @@ class ServiceController extends MController
                 ), 
                 true
             );
+            $answer['error'] = 'no';
         }
-        /*
         elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL)
         {
-            MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
+            $mailOrder = $order->makeMailOrder();
+            
+            //Yii::app()->session['message'] = $config['mailOrderMessage'];
+            if (
+                MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang())
+                and
+                MMail::demokit_order(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang())
+            )
+            {
+                $answer['message'] = $config['mailOrderMessage'];
+                $answer['error'] = 'no';
+            }
         }
-        */
         
         echo json_encode($answer);
     }
