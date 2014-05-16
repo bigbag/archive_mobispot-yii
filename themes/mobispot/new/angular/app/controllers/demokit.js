@@ -4,10 +4,21 @@ angular.module('mobispot').controller('DemokitController',
   function($scope, $http, $compile, $timeout, contentService) {
 
 
-$scope.dkitForm = function(e, index){
+$scope.dkitForm = function(e, index, checkEmail){
     if ($scope.summ <= 0) {
         return false;
     }
+    
+    if (typeof 'undefined' != checkEmail
+        && 1 == checkEmail
+        && ('undefined' == typeof $scope.order.email
+            || !$scope.order.email.length)
+        )
+    {
+        contentService.setModal($scope.emailNeedMessage, 'error');  
+        return false;
+    }
+    
     index = --index;
 
     var $tabItem = $('.tab-item');
@@ -25,8 +36,9 @@ $scope.dkitForm = function(e, index){
     $scope.prices = {}
     $scope.shippings = {}
     $scope.payments = {}
-    $scope.summ = 0;
+    //$scope.summ = 0;
     $scope.total = 0;
+    $scope.toMain = false;
     
     $scope.registerProduct = function(product_id, price) {
         $scope.products[product_id] = 0;
@@ -69,6 +81,7 @@ $scope.dkitForm = function(e, index){
     }
     
     $scope.calculateSumm = function() {
+        /*
         $scope.summ = 0;
       
         for (var i = 0; i <= $scope.max_product_id; i++) {
@@ -76,23 +89,36 @@ $scope.dkitForm = function(e, index){
                 $scope.summ += $scope.products[i] * $scope.prices[i];
             }
         }
+        */
+        $scope.summ = 120;
+        
         $scope.total = $scope.summ;
         if ($scope.order.shipping && typeof $scope.shippings[$scope.order.shipping] != 'undefined')
             $scope.total += $scope.shippings[$scope.order.shipping];
     }
     
     $scope.buyDemoKit = function(order) {
-        order.products=$scope.products;
-        $http.post('/service/buyDemoKit', order).success(function(data) {
-              if (data.error == 'no'){
-                  angular.element('#demo-kit-block').after($compile(data.content)($scope));
-                  angular.element('#form-ym-pay').submit(); 
-              }
-              else {
-                  contentService.setModal(data.message, 'error');   
-              }
-          });
-    
+        if ($scope.toMain)
+            window.location.href = '/';
+        else {
+            order.products=$scope.products;
+            $http.post('/service/buyDemoKit', order).success(function(data) {
+                  if (data.error == 'no'){
+                    if ('email' == data.action) {
+                        contentService.setModal(data.message, 'none');
+                        $scope.toMain = true;
+                        $scope.finishButton = $scope.toMainMessage;
+                    }
+                    else {
+                      angular.element('#demo-kit-block').after($compile(data.content)($scope));
+                      angular.element('#form-ym-pay').submit(); 
+                    }
+                  }
+                  else {
+                      contentService.setModal(data.message, 'error');   
+                  }
+              });
+        }
     }
 });
 

@@ -14,27 +14,32 @@ class DemoKitOrder extends CActiveRecord
     public static function getConfig()
     {
         return array(
+                'price' => 120,
+                'defalutCountForAll' => 3,
+                'emailNeedMessage'=>Yii::t('store', 'Необходимо заполнить поле Email'),
+                'mailOrderMessage'=>Yii::t('store', 'Ваш заказ принят, для уточнения подробностей перевода с вами свяжется наш менеджер'),
+                'toMainMessage' => Yii::t('store', 'To the main page'),
                 'product' => array(
                     array(
                         'id' => 1,
-                        'name' => Yii::t('store', 'brace'),
+                        'name' => Yii::t('store', 'Brace'),
                         'img' => '/uploads/store/product/brace_blue.png',
                         'descr' => Yii::t('store', 'Unique NFC wristband from Mobispot. Waterproof and sexy.'),
-                        'price' =>120
+                        'price' => 120
                     ),
                     array(
                         'id' => 2,
-                        'name' => Yii::t('store', 'key'),
+                        'name' => Yii::t('store', 'Key'),
                         'img' => '/uploads/store/product/key_green.png',
                         'descr' => Yii::t('store', 'Occupies no space in your pocket but brings all the power of NFC.'),
-                        'price' =>120
+                        'price' => 120
                     ),
                     array(
                         'id' => 3,
-                        'name' => Yii::t('store', 'card'),
+                        'name' => Yii::t('store', 'Card'),
                         'img' => '/uploads/store/product/card_red.png',
                         'descr' => Yii::t('store', 'Choice of conservative ones. If you get bored - draw something on it.'),
-                        'price' =>120
+                        'price' => 120
                     )
                 ),
                 'shipping' => array(
@@ -171,8 +176,15 @@ class DemoKitOrder extends CActiveRecord
         return parent::beforeValidate();
     }
     
+    public function calcSubtotal()
+    {
+        $config = self::getConfig();
+        return $config['price'];
+    }
+    
     public function calcSumm()
     {
+        /*
         if (empty($this->id))
             return false;
         $summ = 0;
@@ -184,6 +196,9 @@ class DemoKitOrder extends CActiveRecord
             $product = self::getProduct($item->spot_type);
             $summ += $product['price'] * $item->count;
         }
+        */
+        $config = self::getConfig();
+        $summ = $config['price'];
         
         if (empty($this->shipping))
             return $summ;
@@ -204,7 +219,6 @@ class DemoKitOrder extends CActiveRecord
             {
                 $rate = $v->Value;
             }
-
         }
         
         return (float)(str_replace(',', '.', $rate));
@@ -245,9 +259,26 @@ class DemoKitOrder extends CActiveRecord
     {
         $mailOrder = array();
         $mailOrder['id'] = $this->id;
+        $mailOrder['name'] = $this->name;
+        $mailOrder['phone'] = $this->phone;
+        $mailOrder['email'] = $this->email;
+        $mailOrder['zip'] = $this->zip;
+        $mailOrder['address'] = $this->address;
+        $mailOrder['city'] = $this->city;
+        $mailOrder['country'] = $this->country;
+        $mailOrder['shipping'] = self::getShipping($this->shipping)['name'];
+        $mailOrder['shipping_price'] = self::getShipping($this->shipping)['price'];
+        $mailOrder['subtotal'] = $this->calcSubtotal();
+        $mailOrder['total'] = $this->calcSumm();
         
+        $items = array();
+        $config = self::getConfig();
+        foreach ($config['product'] as $item)
+            $items[] = array('name' => $item['name'], 'count' => $config['defalutCountForAll']);
+        
+        $mailOrder['items'] = $items; 
     
-    
+        return $mailOrder;
     }
 
 }

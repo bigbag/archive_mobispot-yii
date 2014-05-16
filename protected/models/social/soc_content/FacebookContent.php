@@ -488,7 +488,7 @@ class FacebookContent extends SocContentBase
             case Loyalty::FACEBOOK_LIKE: 
                 $answer = self::checkLike($link);
             break;
-            case FACEBOOK_SHARE: 
+            case Loyalty::FACEBOOK_SHARE: 
                 $answer = self::checkLinkSharing($link);
             break;
         }
@@ -575,7 +575,7 @@ class FacebookContent extends SocContentBase
             $like = self::makeRequest(
                 self::FQL_PATH
                 . str_replace(' ', '+', $query)
-                . '?access_token=' . $socToken->user_token
+                . '&access_token=' . $socToken->user_token
             );
             
             if (isset($like['data']) 
@@ -583,7 +583,7 @@ class FacebookContent extends SocContentBase
                 and isset($like['data'][0]['attachment'])
                 and !empty($like['data'][0]['attachment']['href'])
             )
-            $liked = true;
+                $liked = true;
         }
                 
         return $liked;
@@ -591,8 +591,31 @@ class FacebookContent extends SocContentBase
     
     public static function checkLinkSharing($link)
     {
+        $shared = false;
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_FACEBOOK,
+        ));
+        
+        if (!$socToken)
+            return false;
+        
+        $query = 'SELECT attachment ,created_time ,type ,description FROM stream WHERE source_id=me() and actor_id=me() and type=80 and attachment.href="'.$link.'"';
+
+        $sharing = self::makeRequest(
+                self::FQL_PATH
+                . str_replace(' ', '+', $query)
+                . '&access_token=' . $socToken->user_token
+        );
+
+        if (isset($sharing['data']) 
+            and isset($sharing['data'][0])
+            and isset($sharing['data'][0]['attachment'])
+            and !empty($sharing['data'][0]['attachment']['href'])
+        )
+            $shared = true;
     
-        return false;
+        return $shared;
     }
-    
 }

@@ -283,5 +283,44 @@ class TwitterContent extends SocContentBase
         }
         return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
     }
+    
+    public static function checkSharing($sharing_type, $link)
+    {
+        $answer = false;
+        
+        switch($sharing_type) {
+            /*
+            case Loyalty::TWITTER_SHARE: 
+                $answer = self::checkTwitSharing($link);
+            break;
+            */
+            case Loyalty::TWITTER_RETWIT: 
+                $answer = self::checkRetwit($link);
+            break;
+            case Loyalty::TWITTER_READING: 
+                $answer = self::checkReading($link);
+            break;
+            case Loyalty::TWITTER_HASHTAG: 
+                $answer = self::checkHashtag($link);
+            break;
+        }
+        
+        return $answer;
+    }
 
+    public static function checkRetwit($sharing_type, $link)
+    {
+        //https://dev.twitter.com/docs/api/1.1/get/search/tweets
+        return false;
+    }
+    
+    public static function checkReading($sharing_type, $link)
+    {
+        return false;
+    }
+    
+    public static function checkHashtag($sharing_type, $link)
+    {
+        return false;
+    }   
 }
