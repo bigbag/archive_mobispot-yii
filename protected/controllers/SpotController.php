@@ -93,8 +93,8 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
 
+        $data = $this->validateRequest();
         if (!isset($data['discodes']))
             $this->getJsonAndExit($answer);
 
@@ -109,20 +109,11 @@ class SpotController extends MController
         $content = $spotContent->content;
         $content_keys = $content['keys'];
 
-        $sms_info = false;
-        $wallet = PaymentWallet::model()->findByAttributes(
-        array(
-            'discodes_id' => $data['discodes'],
-            'user_id' => Yii::app()->user->id,
-            )
-        );
         $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key,
             array(
                 'spot' => $spot,
                 'spotContent' => $spotContent,
                 'content_keys' => $content_keys,
-                'wallet' => $wallet,
-                'sms_info' => $sms_info,
             ),
             true
         );

@@ -1,25 +1,3 @@
-$(function() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    $('#slides').slidesjs({
-        width: w,
-        height: h,
-        min_width: 950,
-        min_height: 560,
-        play: {
-            active: true,
-            interval: 10000,
-            auto: true,
-            restartDelay: 2500
-        },
-        effect: {
-            slide: {
-                speed: 1300
-            },
-        },
-    });
-});
-
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-33307941-1']);
 _gaq.push(['_setDomainName', 'mobispot.com']);

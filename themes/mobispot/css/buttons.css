@@ -546,7 +546,7 @@ footer .button:hover + .active,
 	display: inline-block;
 	height: 34px;
 	width: 46px;
-	background: #E9EDF2 url('../images/icons/i-small.png') no-repeat;
+	background: #E9EDF2 url('../img/icons/i-small.png') no-repeat;
 	cursor: pointer;
 }
 .bg-gray .b-input-number span{

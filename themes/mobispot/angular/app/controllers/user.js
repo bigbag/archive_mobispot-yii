@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mobispot').controller('UserController', 
+angular.module('mobispot').controller('UserController',
   function($scope, $http, $compile, $cookies, contentService) {
 
   $scope.error = {};
@@ -40,7 +40,7 @@ angular.module('mobispot').controller('UserController',
     onSelect: function (dateText, inst) {
       $scope.$apply(function () {
           $scope.user.birthday = dateText;
-      }); 
+      });
     }
   });
 
@@ -79,7 +79,7 @@ angular.module('mobispot').controller('UserController',
           break;
         }
       }
-      $cookies.resolution = ''+resolution;
+      $cookies.resolution = '' + resolution;
       $scope.resolution = resolution;
     }
   };
