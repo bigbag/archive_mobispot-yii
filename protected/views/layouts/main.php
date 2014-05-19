@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css"/>
 
-    <title><?php echo Yii::app()->par->load('siteTitle'); ?> - <?php echo CHtml::encode($this->pageTitle); ?></title>
+    <title><?php echo Yii::app()->params['siteTitle']; ?> - <?php echo CHtml::encode($this->pageTitle); ?></title>
   </head>
   <body>
     <?php
@@ -33,8 +33,8 @@
     <div class="container" id="page">
 
       <div id="header">
-        <div id="logo"><?php echo CHtml::encode(Yii::app()->par->load('siteTitle')); ?></div>
-        <div><?php echo Yii::app()->par->load('siteTitle'); ?></div>
+        <div id="logo"><?php echo CHtml::encode(Yii::app()->params['siteTitle']); ?></div>
+        <div><?php echo Yii::app()->params['siteTitle']; ?></div>
       </div>
       <!-- header -->
 
@@ -67,7 +67,7 @@
 
       <div class="clear"></div>
 
-      <div id="footer"><?php echo Yii::app()->par->load('copyright'); ?></div>
+      <div id="footer"><?php echo Yii::app()->params['copyright']; ?></div>
 
     </div>
     <!-- page -->

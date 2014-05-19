@@ -24,7 +24,7 @@
                 <li><a href="/phones"><?php echo Yii::t('footer', 'Phones') ?></a></li>
                 <li><a href="/help"><?php echo Yii::t('footer', 'Get help') ?></a></li>
                 <!-- <li><a href="http://store.mobispot.com"><?php echo Yii::t('footer', 'Store') ?></a></li>
-                --> 
+                -->
                 <!-- <li><a href="/pages/referrals"><?php echo Yii::t('footer', 'Referrals') ?></a></li>
                 <li><a href="/pages/api"><?php echo Yii::t('footer', 'API') ?></a></li>
                 --><!--  <li><a href="/pages/blog"><?php echo Yii::t('footer', 'Our blog') ?></a></li>
@@ -36,7 +36,7 @@
                 <span>Keep up</span>
             </div>
             <p>
-                <?php echo Yii::app()->par->load('copyright');?><br>
+                <?php echo Yii::app()->params['copyright'];?><br>
                 <a href="mailto:sales@mobispot.com">sales@mobispot.com</a><br>
             </p>
         </div>

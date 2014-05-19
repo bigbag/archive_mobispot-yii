@@ -6,17 +6,19 @@
     <meta charset="utf-8" />
     <title>Mobispot - Wearable NFC devices</title>
 
+    <?php if (!$this->blockHeaderCeo): ?>
     <meta  property="og:site_name" content="Mobispot"/>
     <meta  property="og:title" content="Mobispot - Wearable NFC devices"/>
     <meta  property="og:type" content="website"/>
     <meta  property="og:url" content="http://mobispot.com"/>
-    <meta  property="og:image" content="http://mobispot.com/themes/mobispot/new/img/og.jpg"/>
+    <meta  property="og:image" content="http://mobispot.com/themes/mobispot/img/og.jpg"/>
     <meta  property="og:description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership. "/>
 
     <meta itemprop="name" content="Mobispot - Wearable NFC devices">
     <meta itemprop="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
-    <meta itemprop="image" content="http://mobispot.com/themes/mobispot/new/img/og.jpg">
+    <meta itemprop="image" content="http://mobispot.com/themes/mobispot/img/og.jpg">
     <meta name="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
+    <?php endif; ?>
 
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon16.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon32.png">
@@ -27,10 +29,10 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="/themes/mobispot/new/css/foundation3/foundation.min.css">
-    <link rel="stylesheet" href="/themes/mobispot/new/css/foundation_actual/foundation.min.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation3/foundation.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
@@ -39,8 +41,8 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <script src="/themes/mobispot/new/js/jquery.min.js"></script>
-    <script src="/themes/mobispot/new/js/angular.min.js"></script>
+    <script src="/themes/mobispot/js/jquery.min.js"></script>
+    <script src="/themes/mobispot/js/angular.min.js"></script>
 
 </head>
 <body ng-controller="UserController"
@@ -48,10 +50,10 @@
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
     <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
 
-    <?php include('block/head_new.php'); ?>
+    <?php include('block/head.php'); ?>
     <?php if ($this->mainBackground):?>
         <div
-         class="main wallpaper" style="background-image: url(/themes/mobispot/new/img/<?php echo $this->mainBackground;?>)">
+         class="main wallpaper" style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)">
     <?php endif;?>
     <div ng-click="modal='none'">
         <?php echo $content; ?>
@@ -67,14 +69,14 @@
             <!-- <li><a href="javascript:;">Email us</a></li> -->
             <li class="lang">
                 <ul class="lang-list">
-                    <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/en"><img src="/themes/mobispot/new/img/lang-icon_en.png">English</a></li>
-                    <li class="<?php echo ('ru' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/ru"><img src="/themes/mobispot/new/img/lang-icon_ru.png">Русский</a></li>
-                    <!-- <li><img src="/themes/mobispot/new/img/lang-icon_it.png">Italian</li> -->
-                    <li class="<?php echo ('zh_cn' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_cn"><img src="/themes/mobispot/new/img/lang-icon_zh_cn.png">中文简体</a></li>
-                    <li class="<?php echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_tw"><img src="/themes/mobispot/new/img/lang-icon_zh_tw.png">中文繁體</a></li>
+                    <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/en"><img src="/themes/mobispot/img/lang-icon_en.png">English</a></li>
+                    <li class="<?php echo ('ru' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/ru"><img src="/themes/mobispot/img/lang-icon_ru.png">Русский</a></li>
+                    <!-- <li><img src="/themes/mobispot/img/lang-icon_it.png">Italian</li> -->
+                    <li class="<?php echo ('zh_cn' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_cn"><img src="/themes/mobispot/img/lang-icon_zh_cn.png">中文简体</a></li>
+                    <li class="<?php echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>"><a href="service/lang/zh_tw"><img src="/themes/mobispot/img/lang-icon_zh_tw.png">中文繁體</a></li>
                 </ul>
                 <span class="current">
-                    <img src="/themes/mobispot/new/img/lang-icon_<?php echo Yii::app()->language ?>.png">
+                    <img src="/themes/mobispot/img/lang-icon_<?php echo Yii::app()->language ?>.png">
                 </span>
             </li>
         </ul>
@@ -88,22 +90,17 @@
         <p></p>
     </div>
 
-    <script src="/themes/mobispot/new/js/jquery-ui.min.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.slides.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.easing.1.3.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.animate-enhanced.min.js"></script>
-    <script src="/themes/mobispot/new/js/jquery.superslides.js"></script>
-    
-    <script src="/themes/mobispot/new/js/angular-cookies.min.js"></script>
-    <script src="/themes/mobispot/new/angular/app/app.js"></script>
-    <script src="/themes/mobispot/new/angular/app/service.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/user.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/help.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/phone.js"></script>
-    <script src="/themes/mobispot/new/angular/app/controllers/demokit.js"></script>
-    <script src="/themes/mobispot/new/js/script-add.js"></script>
-    <script src="/themes/mobispot/new/js/script.js"></script>
-    <script src="/themes/mobispot/new/js/foundation.min.js"></script>
+    <script src="/themes/mobispot/js/jquery-ui.min.js"></script>
+
+    <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
+    <script src="/themes/mobispot/angular/app/app.js"></script>
+    <script src="/themes/mobispot/angular/app/service.js"></script>
+    <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
+
+    <?php echo $this->blockFooterScript; ?>
+    <script src="/themes/mobispot/js/script-add.js"></script>
+    <script src="/themes/mobispot/js/script.js"></script>
+    <script src="/themes/mobispot/js/foundation.min.js"></script>
     <script>
         $(document).foundation();
     </script>

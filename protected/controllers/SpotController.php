@@ -73,11 +73,11 @@ class SpotController extends MController
         $spotContent->content = $content;
         $spotContent->save();
 
-        $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type, 
+        $answer['content'] = $this->renderPartial('//spot/personal/new_' . $type,
             array(
                 'content' => $file,
                 'key' => $answer['key'],
-            ), 
+            ),
             true
         );
         $answer['key'] = $answer['key'];
@@ -116,17 +116,14 @@ class SpotController extends MController
             'user_id' => Yii::app()->user->id,
             )
         );
-        if ($wallet and Yii::app()->user->id == $wallet->user_id)
-            $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
-
-        $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key, 
+        $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key,
             array(
                 'spot' => $spot,
                 'spotContent' => $spotContent,
                 'content_keys' => $content_keys,
                 'wallet' => $wallet,
                 'sms_info' => $sms_info,
-            ), 
+            ),
             true
         );
 
@@ -172,7 +169,7 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    
+
     //подгрузка кошелька после открытия спота
     public function actionWallet()
     {
@@ -181,17 +178,17 @@ class SpotController extends MController
             'content' => ''
         );
         $data = $this->validateRequest();
-        
-        if (empty($data['discodes']) or Yii::app()->user->isGuest) 
+
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
             $this->getJsonAndExit($answer);
-        
+
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
                 'discodes_id' => $data['discodes'],
                 'user_id' => Yii::app()->user->id,
             )
         );
-        
+
         if (!$wallet)
         {
             $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
@@ -200,36 +197,36 @@ class SpotController extends MController
 
         $logs = PaymentLog::getListByWalletId($wallet->id);
         $actions = WalletLoyalty::getByWalletId($wallet->id);
-        $sms_info = SmsInfo::getByWalletId($wallet->id, Yii::app()->user->id);
+        $sms_info = false;
 
         $cards = array();
         if ($logs)
         {
-           foreach ($logs as $log) 
+           foreach ($logs as $log)
             {
                 $cards[$log->card_pan] = $log->history_id;
-            } 
+            }
         }
 
         $auto = PaymentAuto::model()->findByAttributes(
             array('wallet_id' => $wallet->id)
         );
 
-        $answer['content'] = $this->renderPartial('//spot/wallet', 
+        $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
                 'wallet' => $wallet,
                 'actions' => $actions,
                 'cards' => $cards,
                 'auto' => $auto,
                 'sms_info' => $sms_info,
-            ), 
+            ),
             true
-        ); 
+        );
         $answer['error'] = 'no';
 
         echo json_encode($answer);
     }
-    
+
     // Добавление блока в спот
     public function actionSpotAddContent()
     {
@@ -259,11 +256,11 @@ class SpotController extends MController
         $spotContent->content = $content;
         $spotContent->save();
 
-        $answer['content'] = $this->renderPartial('//spot/personal/new_text', 
+        $answer['content'] = $this->renderPartial('//spot/personal/new_text',
             array(
                 'content' => $data['content'],
                 'key' => $answer['key'],
-            ), 
+            ),
             true
         );
         $answer['error'] = "no";
@@ -373,11 +370,11 @@ class SpotController extends MController
         $spotContent->content = $content;
         if ($spotContent->save())
         {
-            $answer['content'] = $this->renderPartial('//spot/personal/new_text', 
+            $answer['content'] = $this->renderPartial('//spot/personal/new_text',
                 array(
                     'content' => $data['content_new'],
                     'key' => $data['key'],
-                ), 
+                ),
                 true
             );
             $answer['error'] = "no";
@@ -415,7 +412,7 @@ class SpotController extends MController
 
         if (empty($socNet['name']))
             $this->getJsonAndExit($answer);
-        
+
         $answer['socnet'] = $socNet['name'];
         $content = $spotContent->content;
 
@@ -426,7 +423,7 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
         }
         $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
-        
+
         if ($needSave)
         {
             $userDetail = $socInfo->getSocInfo($socNet['name'], $spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
@@ -469,15 +466,15 @@ class SpotController extends MController
                 :($socInfo->getNetData($content['data'][$data['key']], $spot->discodes_id, $data['key'], $dinamyc = true));
 
             $answer['content'] = $this->renderPartial(
-                '//spot/personal/new_content', 
-                $render_data, 
+                '//spot/personal/new_content',
+                $render_data,
                 true
             );
             Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
-        }     
-        
+        }
+
         $answer['error'] = "no";
-                
+
         echo json_encode($answer);
     }
 
@@ -495,7 +492,7 @@ class SpotController extends MController
             'key' => false,
         );
         $needSave = false;
-        
+
         if (!isset($data['spot']) or empty($data['spot']['discodes']) or !isset($data['netName']))
             $this->getJsonAndExit($answer);
 
@@ -505,7 +502,7 @@ class SpotController extends MController
 
         if (!$spot)
             $this->getJsonAndExit($answer);
-        
+
         $answer['error'] = 'no';
         $socInfo = new SocInfo;
         $socNet = $socInfo->getNetByName($answer['socnet']);
@@ -515,7 +512,7 @@ class SpotController extends MController
             $answer['profileHint'] = $socNet['profileHint'];
             $this->getJsonAndExit($answer);
         }
-        
+
         if (!empty($data['link']))
         {
             $socNet = $socInfo->getNetByLink($data['link']);
@@ -533,7 +530,7 @@ class SpotController extends MController
             if (!$spotContent)
                 $spotContent = SpotContent::initPersonal($spot);
 
-            
+
             $content = $spotContent->content;
             if ($needSave && !empty($data['link']))
             {
@@ -569,12 +566,12 @@ class SpotController extends MController
                 if ($answer['linkCorrect'] == 'ok')
                 {
                     $content['keys'][$content['counter']] = 'socnet';
-                    
+
                     if (!empty($data['link']))
                         $content['data'][$content['counter']] = $data['link'];
                     else
                         $content['data'][$content['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
-                    
+
                     $answer['key'] = $content['counter'];
                     $content['counter'] = $content['counter'] + 1;
                     $spotContent->content = $content;
@@ -582,21 +579,21 @@ class SpotController extends MController
                     Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
 
                     $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
-                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', 
+                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet',
                         array(
                             'content' => $content['data'][$answer['key']],
                             'key' => $answer['key'],
                             'socContent' => $socContent,
-                        ), 
+                        ),
                         true
                     );
                 }
             }
-            
+
         }
         else
             $answer['linkCorrect'] == 'ok';
-        
+
         echo json_encode($answer);
     }
 
@@ -611,7 +608,7 @@ class SpotController extends MController
             'key' => false,
         );
         $target = '/user/personal';
-        
+
         if (Yii::app()->request->isPostRequest)
             $data = $this->validateRequest();
         else
@@ -624,12 +621,12 @@ class SpotController extends MController
                         'link'=>Yii::app()->request->getQuery('link'),
                     ));
         }
-        
+
         $needSave = false;
 
         if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
             $this->setBadReques();
-        
+
         $answer['socnet'] = $data['bindNet']['name'];
         $discodes_id = $data['bindNet']['discodes'];
 
@@ -686,22 +683,22 @@ class SpotController extends MController
                             if ($spotContent->save())
                             {
                                 if ($needSave)
-                                    $answer['content'] = $this->renderPartial('//spot/personal/new_content', 
+                                    $answer['content'] = $this->renderPartial('//spot/personal/new_content',
                                         array(
                                             'content' => $content['data'][$answer['key']],
                                             'key' => $answer['key'],
-                                        ), 
+                                        ),
                                         true
                                     );
                                 else
                                 {
                                     $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
-                                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', 
+                                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet',
                                         array(
                                             'content' => $content['data'][$answer['key']],
                                             'key' => $answer['key'],
                                             'socContent' => $socContent,
-                                        ), 
+                                        ),
                                         true
                                     );
                                 }
@@ -750,7 +747,7 @@ class SpotController extends MController
                     $answer['linkCorrect'] = $userDetail['error'];
                     $this->getJsonOrRedirect($answer, $target);
                 }
-                
+
                 $userDetail['binded_link'] = $data['bindNet']['link'];
                 $content['keys'][$content['counter']] = 'content';
                 $content['data'][$content['counter']] = $userDetail;
@@ -761,14 +758,14 @@ class SpotController extends MController
 
                 $answer['linkCorrect'] = 'ok';
                 Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
-                $answer['content'] = $this->renderPartial('//spot/personal/new_content', 
+                $answer['content'] = $this->renderPartial('//spot/personal/new_content',
                     array(
                         'content' => $content['data'][$answer['key']],
                         'key' => $answer['key'],
-                    ), 
+                    ),
                     true
                 );
-                    
+
             }
             else
             {
@@ -788,7 +785,7 @@ class SpotController extends MController
                     $content['counter'] = $content['counter'] + 1;
                     $spotContent->content = $content;
                     $spotContent->save();
-                    
+
                     Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
 
                     $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
@@ -802,7 +799,7 @@ class SpotController extends MController
         }
         if(Yii::app()->request->isPostRequest)
             echo json_encode($answer);
-        else 
+        else
             $this->redirect('/user/personal?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
     }
 
@@ -810,10 +807,10 @@ class SpotController extends MController
     {
         $answer = array('error' => 'yes');
         $data = $this->validateRequest();
-  
+
         if (!isset($data['discodes']) or !isset($data['key']))
             $this->getJsonAndExit($answer);
-        
+
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         if (!$spot)
             $this->getJsonAndExit($answer);
@@ -824,16 +821,16 @@ class SpotController extends MController
 
         if ($spotContent->content['keys'][$data['key']] != 'socnet')
             $this->getJsonAndExit($answer);
-               
+
         $socInfo = new SocInfo;
         $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
 
-        $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', 
+        $answer['content'] = $this->renderPartial('//spot/personal/new_socnet',
             array(
                 'content' => $spotContent->content['data'][$data['key']],
                 'key' => $data['key'],
                 'socContent' => $socContent,
-            ), 
+            ),
             true
         );
 
@@ -842,7 +839,7 @@ class SpotController extends MController
 
         if (isset($data['lastKey']))
             $answer['lastKey'] = $data['lastKey'];
-            
+
         echo json_encode($answer);
     }
 
@@ -857,11 +854,11 @@ class SpotController extends MController
 
         if (!isset($data['discodes']) or !isset($data['key']))
             $this->getJsonAndExit($answer);
-        
+
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         if (!$spot)
             $this->getJsonAndExit($answer);
-        
+
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
             $spotContent = SpotContent::initPersonal($spot);
@@ -874,12 +871,12 @@ class SpotController extends MController
 
             if (!$spotContent->save())
                 $this->getJsonAndExit($answer);
-            
-            $answer['content'] = $this->renderPartial('//spot/personal/new_text', 
+
+            $answer['content'] = $this->renderPartial('//spot/personal/new_text',
                 array(
                     'content' => $content['data'][$data['key']],
                     'key' => $data['key'],
-                ), 
+                ),
                 true
             );
             $answer['error'] = "no";
@@ -889,17 +886,17 @@ class SpotController extends MController
             $toDelete = array();
             if (!empty($content['data'][$data['key']]['last_img']) && strpos($content['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
                 $toDelete[] = $content['data'][$data['key']]['last_img'];
-            
+
             if (!empty($content['data'][$data['key']]['photo']) && strpos($content['data'][$data['key']]['photo'], '/uploads/spot/') === 0)
                 $toDelete[] = $content['data'][$data['key']]['photo'];
-            
+
             $content['keys'][$data['key']] = 'text';
             $content['data'][$data['key']] = $content['data'][$data['key']]['binded_link'];
             $spotContent->content = $content;
 
             if (!$spotContent->save())
                 $this->getJsonAndExit($answer);
-            
+
             foreach ($toDelete as $path)
             {
                 $path = substr($path, (strpos($path, '/uploads/spot/') + 14));
@@ -907,16 +904,16 @@ class SpotController extends MController
                 if (file_exists($path))
                     unlink($path);
             }
-            $answer['content'] = $this->renderPartial('//spot/personal/new_text', 
+            $answer['content'] = $this->renderPartial('//spot/personal/new_text',
                 array(
                     'content' => $content['data'][$data['key']],
                     'key' => $data['key'],
-                ), 
+                ),
                 true
             );
             $answer['error'] = "no";
         }
-                
+
         echo json_encode($answer);
     }
 
@@ -988,8 +985,8 @@ class SpotController extends MController
             $wallet->save();
         }
 
-        $answer['content'] = $this->renderPartial('//user/block/spots', 
-            array('data' => $spot), 
+        $answer['content'] = $this->renderPartial('//user/block/spots',
+            array('data' => $spot),
             true
         );
         $answer['error'] = "no";
