@@ -15,20 +15,40 @@ angular.module('mobispot').controller('SpotController',
   $scope.result = {};
   $scope.modal = 'none';
 
-  //Тригер на снятие ошибки при изменении поля
+  //Загрузка содержимого спота
   $scope.$watch('spot.discodes', function() {
     $scope.viewSpot($scope.spot);
   });
 
   $scope.viewSpot = function (spot) {
     if (spot.discodes == 0) return false;
-    $cookies.default_discodes = spot.discodes;
-    $http.post('/spot/spotView', spot).success(function(data) {
 
+    var spot_block = angular.element('#spot-block');
+    $cookies.default_discodes = spot.discodes;
+
+    $http.post('/spot/spotView', spot).success(function(data) {
+      if(data.error == 'no') {
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+        $scope.animateSpotSwitching();
+      }
     });
   }
 
-  //Загрузка содержимого спота
+  $scope.animateSpotSwitching = function () {
+    var speed = 400;
+    var spot_wrapper = angular.element('.spot-wrapper');
+
+      spot_wrapper.stop().animate({
+        opacity: 0
+      },speed/2,function(){
+        spot_wrapper.addClass('active').animate({
+          opacity: 1
+        },speed)
+      });
+  };
+
+  //Тригер на снятие ошибки при изменении поля
   $scope.$watch('spot.code + spot.name', function(spot) {
     $scope.error.code = false;
     $scope.error.terms = false;

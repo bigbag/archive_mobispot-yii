@@ -6,8 +6,8 @@
             <div class="columns small-3 large-3">
                 <?php include('block/sidebar.php'); ?>
             </div>
-            <div class="columns small-9 large-9">
-            <?php include('block/body.php'); ?>
+            <div id="spot-block" class="columns small-9 large-9">
+
             </div>
         </div>
     </div>

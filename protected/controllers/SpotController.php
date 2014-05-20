@@ -109,7 +109,7 @@ class SpotController extends MController
         $content = $spotContent->content;
         $content_keys = $content['keys'];
 
-        $answer['content'] = $this->renderPartial('//spot/' . $spot->spot_type->key,
+        $answer['content'] = $this->renderPartial('//spot/body',
             array(
                 'spot' => $spot,
                 'spotContent' => $spotContent,

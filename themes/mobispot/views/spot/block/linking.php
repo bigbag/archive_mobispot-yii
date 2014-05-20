@@ -59,7 +59,7 @@
         title="Behance"
         ng-click="bindByPanel('Behance')"
         ng-mouseenter="socView('Behance')"
-        ng-mouseleave="socView()">>
+        ng-mouseleave="socView()">
         <img width="36" src="/themes/mobispot/socialmediaicons/behance.png">
     </a>
     <a class="link"

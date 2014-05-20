@@ -93,7 +93,7 @@ angular.module('mobispot').controller('UserController',
           $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        $(location).attr('href','/user/personal');
+        $(location).attr('href','/user/spots/');
       }
       else {
         $(location).attr('href','/');
