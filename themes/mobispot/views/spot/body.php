@@ -45,13 +45,13 @@
                         <div class="hat-cover"></div>
                     </div>
                     <div class="cover-fast-link">
-                            <label id="add-file"
-                                for="addFile"
+                            <label
+                                for="add-file"
                                 title="<?php echo Yii::t('spot', 'Add file')?>"
                                 class="quick-input icon">
                                 &#xe604;
                             </label>
-                            <input id="addFile" type="file">
+                            <input id="add-file" type="file">
                             <a ng-click="addContent(spot)"
                                 class="right form-button"
                                 ng-class="{visible: spot.content}">

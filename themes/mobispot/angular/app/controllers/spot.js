@@ -3,9 +3,10 @@
 angular.module('mobispot').controller('SpotController',
   function($scope, $http, $cookies, $compile, $timeout, contentService) {
 
+/* Инициализация переменных */
+
   $scope.maxSize = 25*1024*1024;
   $scope.progress = 0;
-  $scope.spot_edit = false;
   $scope.keys = [];
   $scope.action = false;
 
@@ -13,63 +14,16 @@ angular.module('mobispot').controller('SpotController',
   $scope.spot = {};
   $scope.spot.discodes = 0;
   $scope.result = {};
-  $scope.modal = 'none';
+  $scope.scroll_key = -1;
 
-  //Загрузка содержимого спота
-  $scope.$watch('spot.discodes', function() {
-    $scope.viewSpot($scope.spot);
-  });
+  var renameSpot = angular.element('.rename-spot');
+  var confirm = angular.element('.confirm');
+  var toggle_box = angular.element('.toggle-box');
 
-  $scope.viewSpot = function (spot) {
-    if (spot.discodes == 0) return false;
-
-    var spot_block = angular.element('#spot-block');
-    $cookies.default_discodes = spot.discodes;
-
-    $http.post('/spot/spotView', spot).success(function(data) {
-      if(data.error == 'no') {
-        spot_block.empty();
-        spot_block.html($compile(data.content)($scope));
-
-        $scope.keys = [];
-        $scope.keys_for_load = [];
-        $scope.content_iteration = 0;
-
-
-        $scope.animateSpotSwitching();
-      }
-    });
-  }
-
-  $scope.fileUploadInit = function () {
-    var file_drag = document.getElementById('dropbox');
-    var file_button = document.getElementById('add-file');
-    if (file_drag && file_button) {
-      var xhr = new XMLHttpRequest();
-      if (xhr.upload) {
-        file_drag.addEventListener("dragover", fileDragHover, false);
-        file_drag.addEventListener("dragleave", fileDragHover, false);
-        file_drag.addEventListener("drop", fileSelectHandler, false);
-        file_button.addEventListener('change', fileSelectHandler, false);
-      }
-    }
-  }
-
-  $scope.animateSpotSwitching = function () {
-    var speed = 400;
-    var spot_wrapper = angular.element('.spot-wrapper');
-
-      spot_wrapper.stop().animate({
-        opacity: 0
-      },speed/2,function(){
-        spot_wrapper.addClass('active').animate({
-          opacity: 1
-        },speed)
-      });
-  };
+/* CRUD для спота */
 
   //Тригер на снятие ошибки при изменении поля
-  $scope.$watch('spot.code + spot.name', function(spot) {
+  $scope.$watch('spot.code + spot.terms', function(spot) {
     $scope.error.code = false;
     $scope.error.terms = false;
   });
@@ -90,288 +44,46 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  var renameSpot = angular.element('.rename-spot');
-  var confirm = angular.element('.confirm');
-  var toggle_box = angular.element('.toggle-box');
-
-  $(document).on('click','.store-items__close', function(){
-    $(this).parents('tr').remove();
+  //Загрузка тела спота
+  $scope.$watch('spot.discodes', function() {
+    $scope.viewSpot($scope.spot);
   });
 
-   // Сохраняем порядок блоков
-  $scope.saveOrder = function() {
-    var spot = $scope.spot;
-    spot.keys = $scope.keys;
-    $http.post('/spot/saveOrder', spot).success(function(data) {
-      if(data.error == 'no') {
+  $scope.viewSpot = function (spot) {
+    if (spot.discodes == 0) return false;
 
+    var spot_block = angular.element('#spot-block');
+    $cookies.default_discodes = spot.discodes;
+
+    $http.post('/spot/spotView', spot).success(function(data) {
+      if(data.error == 'no') {
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+
+        $scope.keys = [];
+        $scope.keys_for_load = [];
+        $scope.content_iteration = 0;
+
+        $scope.fileUploadInit();
+
+        $scope.animateSpotSwitching();
       }
     });
   }
 
-  // Параметры сортировки
-  $scope.sortableOptions = {
-    update: function(e, ui) {
-      $scope.saveOrder();
-    },
-    'containment':'.spot-content',
-    'tolerance':'pointer',
-    'scrollSensitivity': 10,
-    'opacity':0.8
-  };
+  // Анимация смены спота
+  $scope.animateSpotSwitching = function () {
+    var speed = 400;
+    var spot_wrapper = angular.element('.spot-wrapper');
 
-
-  // Закачка файла html5
-  function fileDragHover(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    if (e.type == "dragover"){
-      angular.element('#dropbox').addClass("hover");
-    }else {
-      angular.element('#dropbox').removeClass("hover");
-    }
-  }
-
-
-  function fileSelectHandler(e) {
-    fileDragHover(e);
-    var files = e.target.files || e.dataTransfer.files;
-
-    for (var i = 0, f; f = files[i]; i++) {
-      $scope.uploadFile(f);
-      // $scope.parseFile(f);
-    }
-  }
-
-  $scope.uploadComplete = function(e) {
-    var result = e.target.responseText;
-    if (result){
-      var data = angular.fromJson(result);
-      if(data.error == 'no') {
-        angular.element('#progress-content').hide();
-        angular.element('#add-content').append($compile(data.content)($scope));
-        $scope.keys.push(data.key);
-
-        var scroll_height = $('#block-' + data.key).offset().top;
-        $('html, body').animate({
-          scrollTop: scroll_height
-        }, 600);
-      }
-    }
-  }
-
-  function uploadProgress(evt) {
-    $scope.$apply(function(){
-      if (evt.lengthComputable) {
-          $scope.progress = Math.round(evt.loaded * 100 / evt.total)
-      } else {
-          $scope.progress = 'unable to compute'
-      }
-    })
-  }
-
-  $scope.uploadFailed = function(e) {
-    angular.element('#error-upload').show().delay(800).slideUp('slow');
-  }
-
-  $scope.uploadFile = function(file) {
-
-    var xhr = new XMLHttpRequest();
-    if (xhr.upload && file.size <= $scope.maxSize) {
-      angular.element('#progress-content').show();
-
-      xhr.upload.onprogress = function(e) {
-        if (e.lengthComputable) {
-          $scope.progress = Math.round(e.loaded * 100 / e.total)
-        } else {
-          $scope.progress = 'unable to compute'
-        }
-      };
-
-      xhr.upload.addEventListener("progress", uploadProgress, false)
-      xhr.addEventListener("error", $scope.uploadFailed, false)
-      xhr.addEventListener("load", $scope.uploadComplete, false)
-      xhr.open("POST", "/spot/upload", true);
-      xhr.setRequestHeader("X-File-Name", file.name);
-      xhr.setRequestHeader("X-Discodes", $scope.spot.discodes);
-      xhr.send(file);
-    }
-  }
-
-
-  // Атрибут разрешить скачивать визитку
-  $scope.getVcard = function(spot){
-    if (spot.vcard == 1) spot.vcard = 0;
-    else spot.vcard = 1;
-    $scope.setAttribute(spot);
-  };
-
-  // Атрибут приватности спота
-  $scope.getPrivate = function(spot) {
-    if (spot.private == 1) spot.private = 0;
-    else spot.private = 1;
-    $scope.setAttribute(spot);
-  };
-
-  // Сохранение атрибутов
-  $scope.setAttribute = function(spot) {
-    $http.post('/spot/spotAtributeSave', $scope.spot).success(function(data)           {
-        if(data.error == 'no') {
-
-        }
+      spot_wrapper.stop().animate({
+        opacity: 0
+      },speed/2,function(){
+        spot_wrapper.addClass('active').animate({
+          opacity: 1
+        },speed)
       });
   };
-
-  $scope.scroll_key = -1;
-
-  // Аккордеон в списке личных спотов
-  $scope.accordion = function(e, init) {
-    var spot;
-    $scope.SocNetTooltip(false);
-    if(init == 1) {
-      spot = e;
-    }
-    else {
-      spot = angular.element(e.currentTarget).parent();
-    }
-    var spotContent = spot.find('.spot-content');
-    var spotHat = spot.find('.spot-hat');
-
-    $scope.spot.discodes = spot.attr('id');
-    $scope.keys = [];
-    $scope.keys_for_load = [];
-    $scope.content_iteration = 0;
-
-    if (spotContent.attr('class') == null) {
-      var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
-      $http.post('/spot/spotView', data).success(function(data) {
-        if(data.error == 'no') {
-          var oldSpotContent = angular.element('.spot-content');
-          angular.element('.spot-content_li').removeClass('open');
-          oldSpotContent.slideUp('slow', function () {
-            oldSpotContent.remove();
-          });
-
-          spotHat.after($compile(data.content)($scope));
-          spot.addClass('open');
-          spot.find('.spot-content').slideToggle('slow');
-          $scope.loadSocContent();
-
-          $scope.spot.content='';
-
-          var file_drag = document.getElementById('dropbox');
-          var file_button = document.getElementById('add-file');
-          if (file_drag && file_button) {
-            var xhr = new XMLHttpRequest();
-            if (xhr.upload) {
-              file_drag.addEventListener("dragover", fileDragHover, false);
-              file_drag.addEventListener("dragleave", fileDragHover, false);
-              file_drag.addEventListener("drop", fileSelectHandler, false);
-              file_button.addEventListener('change', fileSelectHandler, false);
-            }
-          }
-
-          if ($scope.spot.status == 2){
-            $scope.spot.invisible = true;
-          }
-          else {
-            $scope.spot.invisible = false;
-          }
-          $scope.spot.pass = data.pass;
-          if (typeof ($scope.spot.pass) == 'undefined' || $scope.spot.pass.length == 0)
-            angular.element('#resetPassButton').hide();
-          else
-            angular.element('#resetPassButton').show();
-
-          if ($scope.scroll_key >= 0 && $('#block-' + $scope.scroll_key).length) {
-            var scroll_height = $('#block-' + $scope.scroll_key).offset().top;
-            $('html, body').animate({
-                scrollTop: scroll_height
-            }, 600);
-            $scope.scroll_key = -1;
-          }
-
-          //загрузка кошелька
-          angular.element('#wallet-block').remove();
-          var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
-          $http.post('/spot/wallet', details).success(function(data) {
-            if (data.error == 'no'){
-                angular.element('#spot-block').after($compile(data.content)($scope));
-                if (angular.element('#icon-wallet').hasClass('active'))
-                    angular.element('#wallet-block').slideDown();
-            }
-          });
-
-          //загрузка страницы с акциями спота
-            angular.element('#coupons-block').remove();
-          var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
-          $http.post('/spot/coupons', details).success(function(data) {
-            if (data.error == 'no'){
-                angular.element('#spot-block').after($compile(data.content)($scope));
-                if (angular.element('#icon-coupons').hasClass('active'))
-                    angular.element('#coupons-block').slideDown();
-            }
-          });
-
-        }
-      }).error(function(error){
-        console.log(error);
-      });
-    }
-    else {
-      delete $scope.spot.discodes;
-      delete $scope.spot.content_new;
-      spotContent.slideUp('slow',
-        function () {
-          spot.removeClass('open');
-          spotContent.remove();
-        });
-    }
-  }
-
-    $scope.socTask = function(key){
-        $scope.keys_for_load.push(key);
-
-    }
-
-    $scope.loadSocContent = function() {
-        var len = $scope.keys_for_load.length;
-        for (var i = 0; i < len; i++)
-        {
-            var data = {discodes:$scope.spot.discodes, key:$scope.keys_for_load[i], token:$scope.user.token};
-            if (len == (i+1)){
-                data.lastKey = true;
-            }
-            $http.post('/spot/SocNetContent', data).success(function(data) {
-                if(data.error == 'no')
-                {
-                    var spotEdit = angular.element('#block-' + data.key);
-                    var oldHeight = spotEdit.height();
-                    var oldScroll = spotEdit.offset().top;
-
-                    spotEdit.before($compile(data.content)($scope));
-                    spotEdit.remove();
-                    $scope.setVideoSize(data.key);
-                    if (oldScroll < $('html, body').scrollTop()) {
-                        var scroll_height = $('html, body').scrollTop()
-                                            + $('#block-' + data.key).height()
-                                            - oldHeight;
-
-                        $('html, body').animate({
-                            scrollTop: scroll_height
-                        }, 0);
-                    }
-                }
-                else
-                {
-                    console.log(data.error);
-                }
-            }).error(function(error){
-                console.log(error);
-            });
-        }
-        $scope.keys_for_load = [];
-    }
 
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
@@ -393,32 +105,31 @@ angular.module('mobispot').controller('SpotController',
 
   };
 
-    //добавление непривязанного к соцсетям контента
-    $scope.addValue = function(newValue){
-      $scope.spot.content = newValue;
-      $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
-        if(data.error == 'no') {
-          angular.element('#add-content').append($compile(data.content)($scope));
+  // Добавление непривязанного к соцсетям контента
+  $scope.addValue = function(newValue){
+    $scope.spot.content = newValue;
+    $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
+      if(data.error == 'no') {
+        angular.element('#add-content').append($compile(data.content)($scope));
 
-          $scope.keys.push(data.key);
-          $scope.spot.content = '';
-          angular.element('textarea').removeClass('put');
+        $scope.keys.push(data.key);
+        $scope.spot.content = '';
+        angular.element('textarea').removeClass('put');
 
-          if (angular.element('#extraMediaForm').hasClass('open'))
-          {
-                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                angular.element('#extraMediaForm').removeClass('open');
-          }
-
-          var scroll_height = $('#block-' + data.key).offset().top;
-          $('html, body').animate({
-            scrollTop: scroll_height
-          }, 600);
+        if (angular.element('#extraMediaForm').hasClass('open'))
+        {
+              angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+              angular.element('#extraMediaForm').removeClass('open');
         }
-      });
-      $scope.resetCursor();
-    }
 
+        var scroll_height = $('#block-' + data.key).offset().top;
+        $('html, body').animate({
+          scrollTop: scroll_height
+        }, 600);
+      }
+    });
+    $scope.resetCursor();
+  }
 
   // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
@@ -458,273 +169,595 @@ angular.module('mobispot').controller('SpotController',
     }
   };
 
-    $scope.socialButton = function()
-    {
-      var mediaForm = angular.element('#extraMediaForm');
-      var mediaFormA = angular.element('#extraMediaForm a');
-      if(mediaForm.hasClass('open'))
-      {
-        mediaForm.slideUp();
-        mediaForm.removeClass('open');
+  // Сохранение текстового блока в споте
+  $scope.saveContent = function(spot, e) {
+    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+    var spotItem = spotEdit.next();
+
+    $http.post('/spot/spotSaveContent', spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
       }
-      else
-      {
-        $scope.freeSocial = true;
-        mediaFormA.removeClass('blackout');
-        mediaFormA.fadeTo(0, 1);
-        mediaForm.slideDown(500);
-        mediaForm.addClass('open');
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+      delete $scope.spot.content_new;
+    });
+  };
+
+  // Прячем текстовый блок при клике вне, данные сохраняем
+  $scope.hideSpotEdit = function() {
+    if (!$scope.spot.content && !$scope.spot.content_new) return false;
+
+    var spotEdit = angular.element('#spot-edit');
+    var spotItem = spotEdit.next();
+
+    $http.post('/spot/spotSaveContent', $scope.spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
+      }
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+      delete $scope.spot.content_new;
+    });
+  };
+
+  // TODO Сортировка блоков спота и сохранение порядна, не работает
+  // // Сохраняем порядок блоков
+  // $scope.saveOrder = function() {
+  //   var spot = $scope.spot;
+  //   spot.keys = $scope.keys;
+  //   $http.post('/spot/saveOrder', spot).success(function(data) {
+  //     if(data.error == 'no') {
+
+  //     }
+  //   });
+  // }
+
+  // // Параметры сортировки
+  // $scope.sortableOptions = {
+  //   update: function(e, ui) {
+  //     $scope.saveOrder();
+  //   },
+  //   'containment':'.spot-content',
+  //   'tolerance':'pointer',
+  //   'scrollSensitivity': 10,
+  //   'opacity':0.8
+  // };
+
+  // TODO Флаги для отображения визитки и приватности спота, пока убрано
+  // // Атрибут разрешить скачивать визитку
+  // $scope.getVcard = function(spot){
+  //   if (spot.vcard == 1) spot.vcard = 0;
+  //   else spot.vcard = 1;
+  //   $scope.setAttribute(spot);
+  // };
+
+  // // Атрибут приватности спота
+  // $scope.getPrivate = function(spot) {
+  //   if (spot.private == 1) spot.private = 0;
+  //   else spot.private = 1;
+  //   $scope.setAttribute(spot);
+  // };
+
+  // // Сохранение атрибутов
+  // $scope.setAttribute = function(spot) {
+  //   $http.post('/spot/spotAtributeSave', $scope.spot).success(function(data)           {
+  //       if(data.error == 'no') {
+
+  //       }
+  //     });
+  // };
+
+
+  $(document).on('click','.store-items__close', function(){
+    $(this).parents('tr').remove();
+  });
+
+/*Загрузка файлов */
+
+  // Вешаем обработчики для загрузки файлов
+  $scope.fileUploadInit = function () {
+    var file_drag = document.getElementById('dropbox');
+    var file_button = document.getElementById('add-file');
+    if (file_drag && file_button) {
+      var xhr = new XMLHttpRequest();
+      if (xhr.upload) {
+        file_drag.addEventListener("dragover", fileDragHover, false);
+        file_drag.addEventListener("dragleave", fileDragHover, false);
+        file_drag.addEventListener("drop", fileSelectHandler, false);
+        file_button.addEventListener('change', fileSelectHandler, false);
       }
     }
+  }
 
-    $scope.socView = function(Target)
-    {
-      var mediaFormA = angular.element('#extraMediaForm a');
+  // Закачка файла html5
+  function fileDragHover(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.type == "dragover"){
+      angular.element('#dropbox').addClass("hover");
+    }else {
+      angular.element('#dropbox').removeClass("hover");
+    }
+  }
 
-      $scope.SocNetTooltip(false);
-      if($scope.freeSocial)
-      {
-        if (typeof (Target) != 'undefined' && Target.length > 0)
-        {
-            mediaFormA.stop();
-            var currentNet = angular.element('#extraMediaForm a[net=' + Target + ']');
-            var otherNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
-            otherNet.fadeTo(600, 0.2);
-            currentNet.fadeTo(0, 1);
+
+  function fileSelectHandler(e) {
+    fileDragHover(e);
+    var files = e.target.files || e.dataTransfer.files;
+
+    for (var i = 0, f; f = files[i]; i++) {
+      $scope.uploadFile(f);
+      // $scope.parseFile(f);
+    }
+  }
+
+  // Отображаем прогресс бар и пролистываем экран к новому блоку
+  $scope.uploadComplete = function(e) {
+    var result = e.target.responseText;
+    if (result){
+      var data = angular.fromJson(result);
+      if(data.error == 'no') {
+        angular.element('#progress-content').hide();
+        angular.element('#add-content').append($compile(data.content)($scope));
+        $scope.keys.push(data.key);
+
+        var scroll_height = $('#block-' + data.key).offset().top;
+        $('html, body').animate({
+          scrollTop: scroll_height
+        }, 600);
+      }
+    }
+  }
+
+  // Случайным образом генерируем значение для эффекта загрузки
+  function uploadProgress(evt) {
+    $scope.$apply(function(){
+      if (evt.lengthComputable) {
+          $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+      } else {
+          $scope.progress = 'unable to compute'
+      }
+    })
+  }
+
+  // Действие если загрузка не удалась
+  $scope.uploadFailed = function(e) {
+    angular.element('#error-upload').show().delay(800).slideUp('slow');
+  }
+
+  $scope.uploadFile = function(file) {
+
+    var xhr = new XMLHttpRequest();
+    if (xhr.upload && file.size <= $scope.maxSize) {
+      angular.element('#progress-content').show();
+
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          $scope.progress = Math.round(e.loaded * 100 / e.total)
+        } else {
+          $scope.progress = 'unable to compute'
         }
-        else{
-            mediaFormA.stop();
-            mediaFormA.fadeTo(600, 1);
-        }
-      }
+      };
+
+      xhr.upload.addEventListener("progress", uploadProgress, false)
+      xhr.addEventListener("error", $scope.uploadFailed, false)
+      xhr.addEventListener("load", $scope.uploadComplete, false)
+      xhr.open("POST", "/spot/upload", true);
+      xhr.setRequestHeader("X-File-Name", file.name);
+      xhr.setRequestHeader("X-Discodes", $scope.spot.discodes);
+      xhr.send(file);
     }
+  }
 
-    //отслеживает поле редактирования на появление ссылок на соцсети
-    $scope.changeContent = function()
-    {
-      var needPanel = false;
-      var currentNet = -1;
-      $scope.content_iteration++;
 
-      for (var i = 0; i < $scope.soc_patterns.length; i++)
-      {
-          if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
-          {
-              needPanel = true;
-              currentNet = i;
-              break;
-          }
+  // DEL Аккордеон в списке личных спотов
+  // $scope.accordion = function(e, init) {
+  //   var spot;
+  //   $scope.SocNetTooltip(false);
+  //   if(init == 1) {
+  //     spot = e;
+  //   }
+  //   else {
+  //     spot = angular.element(e.currentTarget).parent();
+  //   }
+  //   var spotContent = spot.find('.spot-content');
+  //   var spotHat = spot.find('.spot-hat');
+
+  //   $scope.spot.discodes = spot.attr('id');
+  //   $scope.keys = [];
+  //   $scope.keys_for_load = [];
+  //   $scope.content_iteration = 0;
+
+  //   if (spotContent.attr('class') == null) {
+  //     var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
+  //     $http.post('/spot/spotView', data).success(function(data) {
+  //       if(data.error == 'no') {
+  //         var oldSpotContent = angular.element('.spot-content');
+  //         angular.element('.spot-content_li').removeClass('open');
+  //         oldSpotContent.slideUp('slow', function () {
+  //           oldSpotContent.remove();
+  //         });
+
+  //         spotHat.after($compile(data.content)($scope));
+  //         spot.addClass('open');
+  //         spot.find('.spot-content').slideToggle('slow');
+  //         $scope.loadSocContent();
+
+  //         $scope.spot.content='';
+
+  //         var file_drag = document.getElementById('dropbox');
+  //         var file_button = document.getElementById('addFile');
+  //         if (file_drag && file_button) {
+  //           var xhr = new XMLHttpRequest();
+  //           if (xhr.upload) {
+  //             file_drag.addEventListener("dragover", fileDragHover, false);
+  //             file_drag.addEventListener("dragleave", fileDragHover, false);
+  //             file_drag.addEventListener("drop", fileSelectHandler, false);
+  //             file_button.addEventListener('change', fileSelectHandler, false);
+  //           }
+  //         }
+
+  //         if ($scope.spot.status == 2){
+  //           $scope.spot.invisible = true;
+  //         }
+  //         else {
+  //           $scope.spot.invisible = false;
+  //         }
+  //         $scope.spot.pass = data.pass;
+  //         if (typeof ($scope.spot.pass) == 'undefined' || $scope.spot.pass.length == 0)
+  //           angular.element('#resetPassButton').hide();
+  //         else
+  //           angular.element('#resetPassButton').show();
+
+  //         if ($scope.scroll_key >= 0 && $('#block-' + $scope.scroll_key).length) {
+  //           var scroll_height = $('#block-' + $scope.scroll_key).offset().top;
+  //           $('html, body').animate({
+  //               scrollTop: scroll_height
+  //           }, 600);
+  //           $scope.scroll_key = -1;
+  //         }
+
+  //         //загрузка кошелька
+  //         angular.element('#wallet-block').remove();
+  //         var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
+  //         $http.post('/spot/wallet', details).success(function(data) {
+  //           if (data.error == 'no'){
+  //               angular.element('#spot-block').after($compile(data.content)($scope));
+  //               if (angular.element('#icon-wallet').hasClass('active'))
+  //                   angular.element('#wallet-block').slideDown();
+  //           }
+  //         });
+
+  //         //загрузка страницы с акциями спота
+  //           angular.element('#coupons-block').remove();
+  //         var details = {discodes:$scope.spot.discodes, token:$scope.user.token};
+  //         $http.post('/spot/coupons', details).success(function(data) {
+  //           if (data.error == 'no'){
+  //               angular.element('#spot-block').after($compile(data.content)($scope));
+  //               if (angular.element('#icon-coupons').hasClass('active'))
+  //                   angular.element('#coupons-block').slideDown();
+  //           }
+  //         });
+
+  //       }
+  //     }).error(function(error){
+  //       console.log(error);
+  //     });
+  //   }
+  //   else {
+  //     delete $scope.spot.discodes;
+  //     delete $scope.spot.content_new;
+  //     spotContent.slideUp('slow',
+  //       function () {
+  //         spot.removeClass('open');
+  //         spotContent.remove();
+  //       });
+  //   }
+  // }
+
+/* Соц сети */
+
+  $scope.socTask = function(key){
+      $scope.keys_for_load.push(key);
+
+  }
+
+  $scope.loadSocContent = function() {
+    var len = $scope.keys_for_load.length;
+    for (var i = 0; i < len; i++){
+      var data = {discodes:$scope.spot.discodes, key:$scope.keys_for_load[i], token:$scope.user.token};
+      if (len == (i+1)){
+          data.lastKey = true;
       }
+      $http.post('/spot/SocNetContent', data).success(function(data) {
+        if(data.error == 'no'){
+            var spotEdit = angular.element('#block-' + data.key);
+            var oldHeight = spotEdit.height();
+            var oldScroll = spotEdit.offset().top;
 
-      if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
-      {
-          var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.content_iteration};
-          $http.post('/spot/DetectSocNet', data).success(function(data) {
-              if (data.iteration == $scope.content_iteration)
-              {
-                  var currentNet = -1;
-                  var needPanel = false;
-                  if (typeof (data.netName) != 'undefined' && data.netName.length)
-                  {
-                      currentNet = $scope.getPatternInd(data.netName);
-                      needPanel = true;
-                  }
-                  $scope.panelControl(needPanel, currentNet);
-              }
-          });
-      }
-      else
-          $scope.panelControl(needPanel, currentNet);
-    }
+            spotEdit.before($compile(data.content)($scope));
+            spotEdit.remove();
+            $scope.setVideoSize(data.key);
+            if (oldScroll < $('html, body').scrollTop()) {
+                var scroll_height = $('html, body').scrollTop()
+                                    + $('#block-' + data.key).height()
+                                    - oldHeight;
 
-    $scope.panelControl = function(needPanel, currentNet)
-    {
-      var mediaForm = angular.element('#extraMediaForm');
-      var mediaFormA = angular.element('#extraMediaForm a');
-      if (needPanel)
-      {
-        var curentNet = angular.element('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
-        var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.soc_patterns[currentNet].name + ']');
-        otherNet.addClass('blackout');
-        otherNet.fadeTo(0, 0.2);
-        curentNet.removeClass('blackout');
-        curentNet.fadeTo(0, 1);
-        $scope.freeSocial = false;
-      }
-
-      if (needPanel && !mediaForm.hasClass('open'))
-      {
-        mediaForm.slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
-        mediaForm.addClass('open');
-      }
-      else if (!needPanel && mediaForm.hasClass('open'))
-      {
-        $scope.SocNetTooltip(false);
-        mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-        mediaForm.removeClass('open');
-      }
-      else if (needPanel)
-      {
-        $scope.SocNetTooltip(true, currentNet);
-      }
-    }
-
-    $scope.SocNetTooltip = function(NeedTooltip, currentNet)
-    {
-        if (NeedTooltip)
-        {
-            angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.soc_patterns[currentNet].title + ' to share more');
-            var socImg = $('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
-            var netPos = socImg.offset();
-            $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
-            $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
-            $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
-            $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6));
-            angular.element('#net-tooltip').show();
-        }
-        else
-            angular.element('#net-tooltip').hide();
-    }
-
-    // Привязка соцсетей
-    var popup;
-    var socTimer;
-    var likeTimer;
-    var holderTimer;
-    //через плашку
-    $scope.bindByPanel = function(buttonName)
-    {
-        var netName = buttonName;
-        var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
-        //определение сети по ссылке
-        if ($scope.spot.content.length > 0)
-        {
-            data.link = $scope.spot.content;
-            for (var i = 0; i < $scope.soc_patterns.length; i++)
-            {
-                if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
-                {
-                    netName = $scope.soc_patterns[i].name;
-                    data.netName = $scope.soc_patterns[i].name;
-                    break;
-                }
+                $('html, body').animate({
+                    scrollTop: scroll_height
+                }, 0);
             }
+        }else{
+            console.log(data.error);
+        }
+      }).error(function(error){
+          console.log(error);
+      });
+    }
+    $scope.keys_for_load = [];
+  }
 
+  $scope.socialButton = function(){
+    var mediaForm = angular.element('#extraMediaForm');
+    var mediaFormA = angular.element('#extraMediaForm a');
+    if(mediaForm.hasClass('open'))
+    {
+      mediaForm.slideUp();
+      mediaForm.removeClass('open');
+    }
+    else
+    {
+      $scope.freeSocial = true;
+      mediaFormA.removeClass('blackout');
+      mediaFormA.fadeTo(0, 1);
+      mediaForm.slideDown(500);
+      mediaForm.addClass('open');
+    }
+  }
+
+  $scope.socView = function(Target){
+    var mediaFormA = angular.element('#extraMediaForm a');
+
+    $scope.SocNetTooltip(false);
+    if($scope.freeSocial)
+    {
+      if (typeof (Target) != 'undefined' && Target.length > 0)
+      {
+          mediaFormA.stop();
+          var currentNet = angular.element('#extraMediaForm a[net=' + Target + ']');
+          var otherNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
+          otherNet.fadeTo(600, 0.2);
+          currentNet.fadeTo(0, 1);
+      }
+      else{
+          mediaFormA.stop();
+          mediaFormA.fadeTo(600, 1);
+      }
+    }
+  }
+
+  //отслеживает поле редактирования на появление ссылок на соцсети
+  $scope.changeContent = function(){
+    var needPanel = false;
+    var currentNet = -1;
+    $scope.content_iteration++;
+
+    for (var i = 0; i < $scope.soc_patterns.length; i++)
+    {
+        if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
+        {
+            needPanel = true;
+            currentNet = i;
+            break;
+        }
+    }
+
+    if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
+    {
+        var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.content_iteration};
+        $http.post('/spot/DetectSocNet', data).success(function(data) {
+            if (data.iteration == $scope.content_iteration)
+            {
+                var currentNet = -1;
+                var needPanel = false;
+                if (typeof (data.netName) != 'undefined' && data.netName.length)
+                {
+                    currentNet = $scope.getPatternInd(data.netName);
+                    needPanel = true;
+                }
+                $scope.panelControl(needPanel, currentNet);
+            }
+        });
+    }
+    else
+        $scope.panelControl(needPanel, currentNet);
+  }
+
+  $scope.panelControl = function(needPanel, currentNet){
+    var mediaForm = angular.element('#extraMediaForm');
+    var mediaFormA = angular.element('#extraMediaForm a');
+    if (needPanel){
+      var curentNet = angular.element('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
+      var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.soc_patterns[currentNet].name + ']');
+      otherNet.addClass('blackout');
+      otherNet.fadeTo(0, 0.2);
+      curentNet.removeClass('blackout');
+      curentNet.fadeTo(0, 1);
+      $scope.freeSocial = false;
+    }
+
+    if (needPanel && !mediaForm.hasClass('open')){
+      mediaForm.slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
+      mediaForm.addClass('open');
+    }else if (!needPanel && mediaForm.hasClass('open')){
+      $scope.SocNetTooltip(false);
+      mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+      mediaForm.removeClass('open');
+    }else if (needPanel){
+      $scope.SocNetTooltip(true, currentNet);
+    }
+  }
+
+  $scope.SocNetTooltip = function(NeedTooltip, currentNet){
+      if (NeedTooltip){
+          angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.soc_patterns[currentNet].title + ' to share more');
+          var socImg = $('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
+          var netPos = socImg.offset();
+          $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
+          $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
+          $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
+          $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6));
+          angular.element('#net-tooltip').show();
+      }else
+          angular.element('#net-tooltip').hide();
+  }
+
+  // Привязка соцсетей
+  var popup;
+  var socTimer;
+  var likeTimer;
+  var holderTimer;
+  //через плашку
+  $scope.bindByPanel = function(buttonName) {
+    var netName = buttonName;
+    var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
+    //определение сети по ссылке
+    if ($scope.spot.content.length > 0)
+    {
+        data.link = $scope.spot.content;
+        for (var i = 0; i < $scope.soc_patterns.length; i++)
+        {
+            if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
+            {
+                netName = $scope.soc_patterns[i].name;
+                data.netName = $scope.soc_patterns[i].name;
+                break;
+            }
         }
 
-        $http.post('/spot/BindByPanel', data).success(function(data) {
-            if(data.error == 'no') {
-                if(data.profileHint.length == 0)
-                {
-                    if (!data.loggedIn) {
-                        var options = $.extend({
-                          id: '',
-                          popup: {
-                            width: 450,
-                            height: 380
-                          }
-                        }, options);
+    }
 
-                        var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+    $http.post('/spot/BindByPanel', data).success(function(data) {
+        if(data.error == 'no') {
+            if(data.profileHint.length == 0)
+            {
+                if (!data.loggedIn) {
+                    var options = $.extend({
+                      id: '',
+                      popup: {
+                        width: 450,
+                        height: 380
+                      }
+                    }, options);
 
-                        url += url.indexOf('?') >= 0 ? '&' : '?';
-                        if (url.indexOf('redirect_uri=') === -1)
-                          url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
+                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
 
-                        var centerWidth = (window.screen.width - options.popup.width) / 2,
-                          centerHeight = (window.screen.height - options.popup.height) / 2;
+                    url += url.indexOf('?') >= 0 ? '&' : '?';
+                    if (url.indexOf('redirect_uri=') === -1)
+                      url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
 
-                        popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                    var centerWidth = (window.screen.width - options.popup.width) / 2,
+                      centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                        if (popup == null || typeof(popup)=='undefined') {
-                            window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
-                        }
-                        else {
-                            popup.focus();
+                    popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 
-                            $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
-                            if ($scope.spot.content.length > 0)
-                                $scope.bindNet.link = $scope.spot.content;
-                            socTimer = $timeout($scope.loginTimer, 1000);
-                        }
+                    if (popup == null || typeof(popup)=='undefined') {
+                        window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
                     }
-                    else
-                    {
-                        if(data.linkCorrect == 'ok')
-                        {
-                            if(angular.element('#extraMediaForm').hasClass('open'))
-                            {
-                                angular.element('#extraMediaForm').slideUp();
-                                angular.element('#extraMediaForm').removeClass('open');
-                            }
+                    else {
+                        popup.focus();
 
-                            angular.element('#add-content').append($compile(data.content)($scope));
-
-                            $scope.keys.push(data.key);
-                            $scope.spot.content='';
-                            angular.element('textarea').removeClass('put');
-                            $scope.resetCursor();
-
-                            if (angular.element('#extraMediaForm').hasClass('open'))
-                            {
-                                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                                angular.element('#extraMediaForm').removeClass('open');
-                            }
-
-                            $scope.setVideoSize(data.key);
-                            var scroll_height = $('#block-' + data.key).offset().top - 100;
-                            $('html, body').animate({
-                                scrollTop: scroll_height
-                            }, 600);
-
-                            var currentNet = $scope.getPatternInd(data.socnet);
-                            if (currentNet > -1)
-                                $scope.soc_patterns[currentNet].BindByPaste = true;
-                        }
-                        else
-                        {
-                            $scope.addValue($scope.spot.content);
-                            contentService.setModal(data.linkCorrect, 'none');
-                        }
+                        $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
+                        if ($scope.spot.content.length > 0)
+                            $scope.bindNet.link = $scope.spot.content;
+                        socTimer = $timeout($scope.loginTimer, 1000);
                     }
                 }
                 else
                 {
-                    $timeout.cancel(holderTimer);
-                    holderTimer = $timeout($scope.hintTimer, 10000);
-                    angular.element('#socLinkHolder h4').html(data.profileHint);
-                    angular.element('#mainHolder').addClass('hide');
-                    angular.element('#socLinkHolder').removeClass('hide');
-                    angular.element('#socLinkHolder h4').stop();
-                    angular.element('#socLinkHolder h4').fadeTo(800, 0.5,
-                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 1,
-                            function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
-                                angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
+                    if(data.linkCorrect == 'ok')
+                    {
+                        if(angular.element('#extraMediaForm').hasClass('open'))
+                        {
+                            angular.element('#extraMediaForm').slideUp();
+                            angular.element('#extraMediaForm').removeClass('open');
+                        }
+
+                        angular.element('#add-content').append($compile(data.content)($scope));
+
+                        $scope.keys.push(data.key);
+                        $scope.spot.content='';
+                        angular.element('textarea').removeClass('put');
+                        $scope.resetCursor();
+
+                        if (angular.element('#extraMediaForm').hasClass('open'))
+                        {
+                            angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+                            angular.element('#extraMediaForm').removeClass('open');
+                        }
+
+                        $scope.setVideoSize(data.key);
+                        var scroll_height = $('#block-' + data.key).offset().top - 100;
+                        $('html, body').animate({
+                            scrollTop: scroll_height
+                        }, 600);
+
+                        var currentNet = $scope.getPatternInd(data.socnet);
+                        if (currentNet > -1)
+                            $scope.soc_patterns[currentNet].BindByPaste = true;
+                    }
+                    else
+                    {
+                        $scope.addValue($scope.spot.content);
+                        contentService.setModal(data.linkCorrect, 'none');
+                    }
                 }
             }
             else
             {
-                console.log(data.error);
-            }
-        }).error(function(error){
-            console.log(error);
-        });
-    }
-
-    //возврашает индекс соцсети в скопе по имени
-    $scope.getPatternInd = function(netName)
-    {
-        var currentNet = -1;
-        for (var i = 0; i < $scope.soc_patterns.length; i++)
-        {
-            if ($scope.soc_patterns[i].name == netName)
-            {
-                currentNet = i;
-                break;
+                $timeout.cancel(holderTimer);
+                holderTimer = $timeout($scope.hintTimer, 10000);
+                angular.element('#socLinkHolder h4').html(data.profileHint);
+                angular.element('#mainHolder').addClass('hide');
+                angular.element('#socLinkHolder').removeClass('hide');
+                angular.element('#socLinkHolder h4').stop();
+                angular.element('#socLinkHolder h4').fadeTo(800, 0.5,
+                    function(){angular.element('#socLinkHolder h4').fadeTo(800, 1,
+                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
+                            angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
             }
         }
-        return currentNet;
-    }
+        else
+        {
+            console.log(data.error);
+        }
+    }).error(function(error){
+        console.log(error);
+    });
+  }
+
+  //возврашает индекс соцсети в скопе по имени
+  $scope.getPatternInd = function(netName){
+      var currentNet = -1;
+      for (var i = 0; i < $scope.soc_patterns.length; i++)
+      {
+          if ($scope.soc_patterns[i].name == netName)
+          {
+              currentNet = i;
+              break;
+          }
+      }
+      return currentNet;
+  }
 
     //возврашает исходный плейсхолдер нового поля, вместо сообщения с просьбой вставить ссылку на соцсеть
     $scope.hintTimer = function()
@@ -1038,46 +1071,6 @@ angular.module('mobispot').controller('SpotController',
             player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
         }
     }
-
-  // Сохранение текстового блока в споте
-  $scope.saveContent = function(spot, e) {
-    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
-    var spotItem = spotEdit.next();
-
-    $http.post('/spot/spotSaveContent', spot).success(function(data) {
-      if(data.error == 'no') {
-        spotEdit.before($compile(data.content)($scope));
-        spotEdit.remove();
-        spotItem.remove();
-      }
-      else {
-        spotEdit.remove();
-        spotItem.show();
-      }
-      delete $scope.spot.content_new;
-    });
-  };
-
-  // Прячем текстовый блок при клике вне, данные сохраняем
-  $scope.hideSpotEdit = function() {
-    if (!$scope.spot.content && !$scope.spot.content_new) return false;
-
-    var spotEdit = angular.element('#spot-edit');
-    var spotItem = spotEdit.next();
-
-    $http.post('/spot/spotSaveContent', $scope.spot).success(function(data) {
-      if(data.error == 'no') {
-        spotEdit.before($compile(data.content)($scope));
-        spotEdit.remove();
-        spotItem.remove();
-      }
-      else {
-        spotEdit.remove();
-        spotItem.show();
-      }
-      delete $scope.spot.content_new;
-    });
-  };
 
   $scope.actionSpot = function(spot, e) {
     var curent = angular.element(e.currentTarget);
