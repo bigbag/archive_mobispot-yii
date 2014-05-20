@@ -27,9 +27,15 @@
         </div>
         <div class="tabs-block">
             <section class="spot-block spot-content_row tabs-item active">
-                <div class="spot-item spot-main-input info-pick">
-                    <textarea ng-model="spot.put" required></textarea>
-                    <div class="text-center label-cover" ng-class="{invisible: spot.put}">
+                <div id="dropbox"
+                    class="spot-item spot-main-input info-pick">
+                    <textarea id=""
+                        ng-model="spot.content"
+                        ng-init="getSocPatterns()"
+                        ng-change="changeContent()"
+                        ng-trim="true">
+                    </textarea>
+                    <div class="text-center label-cover" ng-class="{invisible: spot.content}">
                         <h4>
                             <?php echo Yii::t('spot', 'Drag your files here or begin to type info or links') ?>
                         </h4>
@@ -38,10 +44,17 @@
                         </span>
                         <div class="hat-cover"></div>
                     </div>
-                    <div class="cover-fast-link" ng-click="inputFocus()">
-                            <label for="addFile"  title="<?php echo Yii::t('spot', 'Add file')?>" class="quick-input icon">&#xe604;</label>
+                    <div class="cover-fast-link">
+                            <label id="add-file"
+                                for="addFile"
+                                title="<?php echo Yii::t('spot', 'Add file')?>"
+                                class="quick-input icon">
+                                &#xe604;
+                            </label>
                             <input id="addFile" type="file">
-                            <a href="javascript:;" class="right form-button" ng-class="{visible: spot.put}">
+                            <a ng-click="addContent(spot)"
+                                class="right form-button"
+                                ng-class="{visible: spot.content}">
                                 <?php echo Yii::t('spot', 'Post')?>
                             </a>
                     </div>

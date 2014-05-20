@@ -1,5 +1,5 @@
 <div id="block-<?php echo $dataKey;?>" class="spot-item<?php if (isset($socContent['tweet_author'])): ?> spot-item_twi<?php endif; ?>"
-<?php if (!empty($socContent['dinamyc'])): ?> ng-init="socTask(<?php echo $dataKey;?>)"<?php endif; ?>>
+<?php if (!empty($socContent['dinamic'])): ?> ng-init="socTask(<?php echo $dataKey;?>)"<?php endif; ?>>
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
@@ -49,8 +49,8 @@
             <?php endif; ?>
             <?php /* Tweet *////////////////////////////////////////////////////////////////////////////////// ?>
             <?php if (isset($socContent['tweet_author']) && isset($socContent['tweet_username']) && isset($socContent['tweet_text']) && isset($socContent['soc_url']) && isset($socContent['tweet_id'])): ?>
-                    <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a><a class="user-name <?php if (!empty($socContent['dinamyc'])): ?>sub-line<?php endif; ?>" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a>
-                    <?php if (empty($socContent['dinamyc'])): ?>
+                    <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a><a class="user-name <?php if (!empty($socContent['dinamic'])): ?>sub-line<?php endif; ?>" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a>
+                    <?php if (empty($socContent['dinamic'])): ?>
                         <a href="<?php echo $socContent['soc_url']; ?>/followers" class="count-followers">Followers: <span><?php if (isset($socContent['followers_count'])) echo $socContent['followers_count']; ?></span></a>
                         <iframe style="width: 157px; height: 28px;" data-twttr-rendered="true" title="Twitter Follow Button" class="twitter-follow-button twitter-follow-button" src="http://platform.twitter.com/widgets/follow_button.1381275758.html#_=1381386016242&amp;id=twitter-widget-0&amp;lang=en&amp;screen_name=<?php echo $socContent['tweet_username']; ?>&amp;show_count=false&amp;show_screen_name=true&amp;size=l" allowtransparency="true" id="twitter-widget-0" frameborder="0" scrolling="no"></iframe>
                     <?php endif; ?>
@@ -63,7 +63,7 @@
                         <?php if (isset($socContent['tweet_datetime'])): ?>
                             <div class="left timestamp"><?php echo $socContent['tweet_datetime']; ?></div>
                         <?php endif; ?>
-                        <?php if (empty($socContent['dinamyc'])): ?>
+                        <?php if (empty($socContent['dinamic'])): ?>
                         <div class="right actions">
                             <a href="https://twitter.com/intent/tweet?in_reply_to=<?php echo $socContent['tweet_id']; ?>"><i>&#xf112;</i><span>Reply</span></a>
                             <a href="https://twitter.com/intent/retweet?tweet_id=<?php echo $socContent['tweet_id']; ?>"><i>&#xf079;</i><span>Retweet</span></a>
@@ -97,7 +97,7 @@
                         <span><?php echo $socContent['vimeo_last_video_counter']. Yii::t('eauth', ' просмотров'); ?></span>
                     </footer>
                     <?php endif; ?>
-                    <?php if (empty($socContent['dinamyc']) and isset($socContent['vimeo_video_width']) and isset($socContent['vimeo_video_height']) and ($socContent['vimeo_video_width'] > 0) and ($socContent['vimeo_video_height'] > 0)): ?>
+                    <?php if (empty($socContent['dinamic']) and isset($socContent['vimeo_video_width']) and isset($socContent['vimeo_video_height']) and ($socContent['vimeo_video_width'] > 0) and ($socContent['vimeo_video_height'] > 0)): ?>
                         <script type="text/javascript">
                             $(document).ready(function() {
                                 $('#vimeo_<?php echo $dataKey; ?>').width($('body').width() -<?php echo isset($socContent['photo']) ? '146' : '80'; ?>);
@@ -153,7 +153,7 @@
                                 allowfullscreen="true">
                         </embed>
                     </object>
-                    <?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
+                    <?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamic'])): ?>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
@@ -186,7 +186,7 @@
                         <p><?php echo $socContent['place_msg']; ?></p>
                     <?php endif; ?>
                     <div id="map_canvas_<?php echo $dataKey; ?>" style="width:400px; height:200px; margin:0 auto"></div>
-                    <?php if (empty($socContent['dinamyc'])): ?>
+                    <?php if (empty($socContent['dinamic'])): ?>
                     <script type="text/javascript">
                         var initLat = <?php echo $socContent['place_lat']; ?>;
                         var initLng = <?php echo $socContent['place_lng']; ?>;
@@ -228,7 +228,7 @@
                             <?php endif; ?>
                            allowfullscreen="true"></embed>
                 </object>
-                <?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamyc'])): ?>
+                <?php if (isset($socContent['ytube_video_rel']) and empty($socContent['dinamic'])): ?>
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['ytube_video_rel']; ?>);
@@ -304,7 +304,7 @@
                 <?php if ((!empty($socContent['soc_url']) ||
                             !empty($socContent['follow_url']))
                             and !isset($socContent['tweet_author'])
-                            and empty($socContent['dinamyc'])
+                            and empty($socContent['dinamic'])
                             and isset($socContent['invite'])
                             and empty($socContent['follow_button'])): ?>
                     <a href="<?php  if (!empty($socContent['follow_url']) && empty($socContent['follow_service']))
@@ -324,13 +324,13 @@
                             </i>
                         <?php endif; ?>
                     </a>
-                <?php elseif(!empty($socContent['follow_button']) and empty($socContent['dinamyc'])): ?>
+                <?php elseif(!empty($socContent['follow_button']) and empty($socContent['dinamic'])): ?>
                     <div class="text-center">
                     <?php echo $socContent['follow_button']; ?>
                     </div>
                 <?php endif; ?>
             <?php /* "Move your link" panel *////////////////////////////////////////////////////////////////   ?>
-            <?php if (!empty($socContent['dinamyc'])): ?>
+            <?php if (!empty($socContent['dinamic'])): ?>
             <div class="spot-cover slow">
                 <div class="spot-activity">
                     <a class="button unbind-spot round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>

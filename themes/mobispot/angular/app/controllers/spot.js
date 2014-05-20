@@ -30,9 +30,29 @@ angular.module('mobispot').controller('SpotController',
       if(data.error == 'no') {
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
+
+        $scope.keys = [];
+        $scope.keys_for_load = [];
+        $scope.content_iteration = 0;
+
+
         $scope.animateSpotSwitching();
       }
     });
+  }
+
+  $scope.fileUploadInit = function () {
+    var file_drag = document.getElementById('dropbox');
+    var file_button = document.getElementById('add-file');
+    if (file_drag && file_button) {
+      var xhr = new XMLHttpRequest();
+      if (xhr.upload) {
+        file_drag.addEventListener("dragover", fileDragHover, false);
+        file_drag.addEventListener("dragleave", fileDragHover, false);
+        file_drag.addEventListener("drop", fileSelectHandler, false);
+        file_button.addEventListener('change', fileSelectHandler, false);
+      }
+    }
   }
 
   $scope.animateSpotSwitching = function () {
@@ -64,14 +84,11 @@ angular.module('mobispot').controller('SpotController',
         spotAdd.find('a.checkbox').toggleClass('active');
         spotAdd.hide();
         delete $scope.spot.code;
-      }
-      else if (data.error == 'yes') {
+      }else if (data.error == 'yes') {
         $scope.error.code = true;
       }
     });
   };
-
-
 
   var renameSpot = angular.element('.rename-spot');
   var confirm = angular.element('.confirm');
@@ -110,8 +127,7 @@ angular.module('mobispot').controller('SpotController',
     e.preventDefault();
     if (e.type == "dragover"){
       angular.element('#dropbox').addClass("hover");
-    }
-    else {
+    }else {
       angular.element('#dropbox').removeClass("hover");
     }
   }
@@ -223,8 +239,8 @@ angular.module('mobispot').controller('SpotController',
 
     $scope.spot.discodes = spot.attr('id');
     $scope.keys = [];
-    $scope.KeysForLoad = [];
-    $scope.ContentIteration = 0;
+    $scope.keys_for_load = [];
+    $scope.content_iteration = 0;
 
     if (spotContent.attr('class') == null) {
       var data = {discodes:$scope.spot.discodes, token:$scope.user.token};
@@ -239,7 +255,7 @@ angular.module('mobispot').controller('SpotController',
           spotHat.after($compile(data.content)($scope));
           spot.addClass('open');
           spot.find('.spot-content').slideToggle('slow');
-          $scope.LoadSocContent();
+          $scope.loadSocContent();
 
           $scope.spot.content='';
 
@@ -314,15 +330,15 @@ angular.module('mobispot').controller('SpotController',
   }
 
     $scope.socTask = function(key){
-        $scope.KeysForLoad.push(key);
+        $scope.keys_for_load.push(key);
 
     }
 
-    $scope.LoadSocContent = function() {
-        var len = $scope.KeysForLoad.length;
+    $scope.loadSocContent = function() {
+        var len = $scope.keys_for_load.length;
         for (var i = 0; i < len; i++)
         {
-            var data = {discodes:$scope.spot.discodes, key:$scope.KeysForLoad[i], token:$scope.user.token};
+            var data = {discodes:$scope.spot.discodes, key:$scope.keys_for_load[i], token:$scope.user.token};
             if (len == (i+1)){
                 data.lastKey = true;
             }
@@ -354,46 +370,38 @@ angular.module('mobispot').controller('SpotController',
                 console.log(error);
             });
         }
-        $scope.KeysForLoad = [];
+        $scope.keys_for_load = [];
     }
 
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
     $scope.SocNetTooltip(false);
-    if (spot.content && spot.user) {
-        var currentNet = -1;
+    var currentNet = -1;
 
-        for (var i = 0; i < $scope.socPatterns.length; i++)
-        {
-            if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
-            {
-                currentNet = i;
-                break;
-            }
-        }
-
-        if (currentNet > -1 && $scope.socPatterns[currentNet].BindByPaste)
-        {
-            $scope.cursorWait();
-            $scope.bindByPanel($scope.socPatterns[currentNet].name);
-        }
-        else
-        {
-          $scope.addValue($scope.spot.content);
+    for (var i = 0; i < $scope.soc_patterns.length; i++){
+        if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1){
+            currentNet = i;
+            break;
         }
     }
+    if (currentNet > -1 && $scope.soc_patterns[currentNet].BindByPaste){
+        $scope.cursorWait();
+        $scope.bindByPanel($scope.soc_patterns[currentNet].name);
+    }else{
+      $scope.addValue($scope.spot.content);
+    }
+
   };
 
     //добавление непривязанного к соцсетям контента
-    $scope.addValue = function(newValue)
-    {
+    $scope.addValue = function(newValue){
       $scope.spot.content = newValue;
       $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
         if(data.error == 'no') {
           angular.element('#add-content').append($compile(data.content)($scope));
 
           $scope.keys.push(data.key);
-          $scope.spot.content='';
+          $scope.spot.content = '';
           angular.element('textarea').removeClass('put');
 
           if (angular.element('#extraMediaForm').hasClass('open'))
@@ -432,27 +440,20 @@ angular.module('mobispot').controller('SpotController',
       var spotItem = angular.element(e.currentTarget).parents('.spot-item');
       var spotEdit = angular.element('#spot-edit').clone();
 
-      if (spotItem.find('a.type-link').size() > 0)
-      {
+      if (spotItem.find('a.type-link').size() > 0){
           //ссылка
           var spotLink = spotItem.find('a.type-link');
           $scope.spot.content_new = spotLink.find('span.link').text();
-      }
-      else
-      {
+      }else{
           //текст
           var spotData = spotItem.find('p.item-type__text');
           $scope.spot.content_new = spotData.text();
       }
 
-      var spotEditText = spotEdit.find('textarea');
-      spotEditText.text('1');
-
       spotEdit.removeClass('hide');
-      spotEditText.focus(1);
+      spotEdit.find('textarea').focus(1);
       spotItem.hide().before($compile(spotEdit)($scope));
-    }
-    else {
+    }else {
       $scope.hideSpotEdit();
     }
   };
@@ -503,11 +504,11 @@ angular.module('mobispot').controller('SpotController',
     {
       var needPanel = false;
       var currentNet = -1;
-      $scope.ContentIteration++;
+      $scope.content_iteration++;
 
-      for (var i = 0; i < $scope.socPatterns.length; i++)
+      for (var i = 0; i < $scope.soc_patterns.length; i++)
       {
-          if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+          if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
           {
               needPanel = true;
               currentNet = i;
@@ -517,9 +518,9 @@ angular.module('mobispot').controller('SpotController',
 
       if (!needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
       {
-          var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.ContentIteration};
+          var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.content_iteration};
           $http.post('/spot/DetectSocNet', data).success(function(data) {
-              if (data.iteration == $scope.ContentIteration)
+              if (data.iteration == $scope.content_iteration)
               {
                   var currentNet = -1;
                   var needPanel = false;
@@ -542,8 +543,8 @@ angular.module('mobispot').controller('SpotController',
       var mediaFormA = angular.element('#extraMediaForm a');
       if (needPanel)
       {
-        var curentNet = angular.element('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']');
-        var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.socPatterns[currentNet].name + ']');
+        var curentNet = angular.element('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
+        var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.soc_patterns[currentNet].name + ']');
         otherNet.addClass('blackout');
         otherNet.fadeTo(0, 0.2);
         curentNet.removeClass('blackout');
@@ -572,8 +573,8 @@ angular.module('mobispot').controller('SpotController',
     {
         if (NeedTooltip)
         {
-            angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.socPatterns[currentNet].title + ' to share more');
-            var socImg = $('#extraMediaForm a[net=' + $scope.socPatterns[currentNet].name + ']');
+            angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.soc_patterns[currentNet].title + ' to share more');
+            var socImg = $('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
             var netPos = socImg.offset();
             $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
             $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
@@ -599,12 +600,12 @@ angular.module('mobispot').controller('SpotController',
         if ($scope.spot.content.length > 0)
         {
             data.link = $scope.spot.content;
-            for (var i = 0; i < $scope.socPatterns.length; i++)
+            for (var i = 0; i < $scope.soc_patterns.length; i++)
             {
-                if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
+                if ($scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
                 {
-                    netName = $scope.socPatterns[i].name;
-                    data.netName = $scope.socPatterns[i].name;
+                    netName = $scope.soc_patterns[i].name;
+                    data.netName = $scope.soc_patterns[i].name;
                     break;
                 }
             }
@@ -678,7 +679,7 @@ angular.module('mobispot').controller('SpotController',
 
                             var currentNet = $scope.getPatternInd(data.socnet);
                             if (currentNet > -1)
-                                $scope.socPatterns[currentNet].BindByPaste = true;
+                                $scope.soc_patterns[currentNet].BindByPaste = true;
                         }
                         else
                         {
@@ -714,9 +715,9 @@ angular.module('mobispot').controller('SpotController',
     $scope.getPatternInd = function(netName)
     {
         var currentNet = -1;
-        for (var i = 0; i < $scope.socPatterns.length; i++)
+        for (var i = 0; i < $scope.soc_patterns.length; i++)
         {
-            if ($scope.socPatterns[i].name == netName)
+            if ($scope.soc_patterns[i].name == netName)
             {
                 currentNet = i;
                 break;
@@ -781,7 +782,7 @@ angular.module('mobispot').controller('SpotController',
                 spotEdit.remove();
                 var currentNet = $scope.getPatternInd(data.socnet);
                 if (currentNet > -1)
-                    $scope.socPatterns[currentNet].BindByPaste = true;
+                    $scope.soc_patterns[currentNet].BindByPaste = true;
                 $scope.setVideoSize(spot.key);
             }
             else
@@ -966,7 +967,7 @@ angular.module('mobispot').controller('SpotController',
                             $scope.bindNet = {};
                             var currentNet = $scope.getPatternInd(data.socnet);
                             if (currentNet > -1)
-                                $scope.socPatterns[currentNet].BindByPaste = true;
+                                $scope.soc_patterns[currentNet].BindByPaste = true;
 
                         }
                         else
@@ -1003,18 +1004,17 @@ angular.module('mobispot').controller('SpotController',
 
   };
 
-    $scope.getSocPatterns = function()
-    {
+    $scope.getSocPatterns = function(){
         $scope.freeSocial = true;
-        if (typeof ($scope.socPatterns) == 'undefined')
+        if (typeof ($scope.soc_patterns) == 'undefined')
         {
             var data = {token:$scope.user.token};
             $http.post('/spot/SocPatterns', data).success(function(data) {
-                $scope.socPatterns = data.socPatterns;
-                for (var i = 0; i < $scope.socPatterns.length; i++)
+                $scope.soc_patterns = data.soc_patterns;
+                for (var i = 0; i < $scope.soc_patterns.length; i++)
                 {
-                    if (typeof ($scope.socPatterns[i].BindByPaste) == 'undefined')
-                        $scope.socPatterns[i].BindByPaste = false;
+                    if (typeof ($scope.soc_patterns[i].BindByPaste) == 'undefined')
+                        $scope.soc_patterns[i].BindByPaste = false;
                 }
             }).error(function(error){
                 console.log(error);
@@ -1060,6 +1060,8 @@ angular.module('mobispot').controller('SpotController',
 
   // Прячем текстовый блок при клике вне, данные сохраняем
   $scope.hideSpotEdit = function() {
+    if (!$scope.spot.content && !$scope.spot.content_new) return false;
+
     var spotEdit = angular.element('#spot-edit');
     var spotItem = spotEdit.next();
 

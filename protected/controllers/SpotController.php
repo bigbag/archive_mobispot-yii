@@ -228,10 +228,8 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['content']) or !isset($data['user']) or !isset($data['discodes']))
-        {
+        if (!isset($data['content']) or !isset($data['discodes']))
             $this->getJsonAndExit($answer);
-        }
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         $spotContent = SpotContent::getSpotContent($spot);
@@ -454,7 +452,7 @@ class SpotController extends MController
 
             $render_data['content'] = ($needSave)?
                 ($content['data'][$data['key']])
-                :($socInfo->getNetData($content['data'][$data['key']], $spot->discodes_id, $data['key'], $dinamyc = true));
+                :($socInfo->getNetData($content['data'][$data['key']], $spot->discodes_id, $data['key'], $dinamic = true));
 
             $answer['content'] = $this->renderPartial(
                 '//spot/personal/new_content',
@@ -911,7 +909,7 @@ class SpotController extends MController
     public function actionSocPatterns()
     {
         $socInfo = new SocInfo;
-        $answer['socPatterns'] = $socInfo->getSocPatterns();
+        $answer['soc_patterns'] = $socInfo->getSocPatterns();
 
         echo json_encode($answer);
     }

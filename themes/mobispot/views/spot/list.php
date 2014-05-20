@@ -12,3 +12,18 @@
         </div>
     </div>
 </div>
+<div id="spot-edit"
+    class="hide spot-item spot-main-input info-pick">
+    <textarea
+        ng-model="spot.content_new"
+        ng-trim="true">
+    </textarea>
+    <div class="cover-fast-link">
+            <a ng-click="saveContent(spot, $event)"
+                class="right form-button"
+                ng-class="{visible: spot.content_new}"
+                >
+                <?php echo Yii::t('spot', 'Post')?>
+            </a>
+    </div>
+</div>
