@@ -71,11 +71,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#progress-content').hide();
         angular.element('#add-content').append($compile(data.content)($scope));
         $scope.keys.push(data.key);
-
-        var scroll_height = $('#block-' + data.key).offset().top;
-        $('html, body').animate({
-          scrollTop: scroll_height
-        }, 600);
+        $scope.scrollToKey(data.key);
       }
     }
   }
@@ -204,10 +200,7 @@ angular.module('mobispot').controller('SpotController',
             angular.element('#resetPassButton').show();
             
           if ($scope.scroll_key >= 0 && $('#block-' + $scope.scroll_key).length) {
-            var scroll_height = $('#block-' + $scope.scroll_key).offset().top;
-            $('html, body').animate({
-                scrollTop: scroll_height
-            }, 600);
+            $scope.scrollToKey($scope.scroll_key);
             $scope.scroll_key = -1;
           }
 
@@ -326,22 +319,25 @@ angular.module('mobispot').controller('SpotController',
       $scope.spot.content = newValue;
       $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
         if(data.error == 'no') {
-          angular.element('#add-content').append($compile(data.content)($scope));
-
+          var panel = angular.element('#extraMediaForm');
+          var buttons = angular.element('#extraMediaForm a');
+          var addContent = angular.element('#add-content');
+        
+          addContent.append($compile(data.content)($scope));
           $scope.keys.push(data.key);
           $scope.spot.content='';
           angular.element('textarea').removeClass('put');
 
-          if (angular.element('#extraMediaForm').hasClass('open'))
+          if (panel.hasClass('open'))
           {
-                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                angular.element('#extraMediaForm').removeClass('open');
+                panel.slideUp(0, function(){
+                    buttons.removeClass('blackout');
+                    buttons.fadeTo(0, 1);
+                });
+                panel.removeClass('open');
           }
           
-          var scroll_height = $('#block-' + data.key).offset().top;
-          $('html, body').animate({
-            scrollTop: scroll_height
-          }, 600);
+          $scope.scrollToKey(data.key)
         }
       });
       $scope.resetCursor();
@@ -495,7 +491,7 @@ angular.module('mobispot').controller('SpotController',
       else if (!needPanel && mediaForm.hasClass('open'))
       {
         $scope.SocNetTooltip(false);
-        mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
+        mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');mediaFormA.fadeTo(0, 1);});
         mediaForm.removeClass('open');
       }
       else if (needPanel)
@@ -531,20 +527,12 @@ angular.module('mobispot').controller('SpotController',
     {
         var netName = buttonName;
         var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
-        //определение сети по ссылке
+        
         if ($scope.spot.content.length > 0)
         {
+            netName = $scope.getNetByLink($scope.spot.content);
             data.link = $scope.spot.content;
-            for (var i = 0; i < $scope.socPatterns.length; i++)
-            {
-                if ($scope.spot.content.indexOf($scope.socPatterns[i].baseUrl) != -1)
-                {
-                    netName = $scope.socPatterns[i].name;
-                    data.netName = $scope.socPatterns[i].name;
-                    break;
-                }
-            }
-            
+            data.netName = netName;
         }
         
         $http.post('/spot/BindByPanel', data).success(function(data) {
@@ -552,6 +540,7 @@ angular.module('mobispot').controller('SpotController',
                 if(data.profileHint.length == 0)
                 {
                     if (!data.loggedIn) {
+                        //запускаем логин в соцсети
                         var options = $.extend({
                           id: '',
                           popup: {
@@ -566,10 +555,15 @@ angular.module('mobispot').controller('SpotController',
                         if (url.indexOf('redirect_uri=') === -1)
                           url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
 
-                        var centerWidth = (window.screen.width - options.popup.width) / 2,
-                          centerHeight = (window.screen.height - options.popup.height) / 2;
+                        var centerWidth = (window.screen.width - options.popup.width) / 2
+                            ,centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                        popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                        popup = window.open(url + '&js', "yii_eauth_popup",
+                        "width=" + options.popup.width 
+                        + ",height=" + options.popup.height 
+                        + ",left=" + centerWidth + ",top=" 
+                        + centerHeight 
+                        +",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
                         
                         if (popup == null || typeof(popup)=='undefined') {
                             window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
@@ -587,12 +581,15 @@ angular.module('mobispot').controller('SpotController',
                     {
                         if(data.linkCorrect == 'ok')
                         {
-                            if(angular.element('#extraMediaForm').hasClass('open'))
+                            var mediaForm = angular.element('#extraMediaForm');
+                            var mediaFormA = angular.element('#extraMediaForm a');
+                            /*
+                            if (mediaForm.hasClass('open'))
                             {
-                                angular.element('#extraMediaForm').slideUp();
-                                angular.element('#extraMediaForm').removeClass('open');
+                                mediaForm.slideUp();
+                                mediaForm.removeClass('open');
                             }
-
+                            */
                             angular.element('#add-content').append($compile(data.content)($scope));
 
                             $scope.keys.push(data.key);
@@ -600,17 +597,14 @@ angular.module('mobispot').controller('SpotController',
                             angular.element('textarea').removeClass('put');
                             $scope.resetCursor();
                             
-                            if (angular.element('#extraMediaForm').hasClass('open'))
+                            if (mediaForm.hasClass('open'))
                             {
-                                angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                                angular.element('#extraMediaForm').removeClass('open');
+                                mediaForm.slideUp(0, function(){mediaFormA.removeClass('blackout');mediaFormA.fadeTo(0, 1);});
+                                mediaForm.removeClass('open');
                             }
                             
                             $scope.setVideoSize(data.key);
-                            var scroll_height = $('#block-' + data.key).offset().top - 100;
-                            $('html, body').animate({
-                                scrollTop: scroll_height
-                            }, 600);
+                            $scope.scrollToKey(data.key);
                             
                             var currentNet = $scope.getPatternInd(data.socnet);
                             if (currentNet > -1)
@@ -625,16 +619,7 @@ angular.module('mobispot').controller('SpotController',
                 }
                 else
                 {
-                    $timeout.cancel(holderTimer);
-                    holderTimer = $timeout($scope.hintTimer, 10000);
-                    angular.element('#socLinkHolder h4').html(data.profileHint);
-                    angular.element('#mainHolder').addClass('hide');
-                    angular.element('#socLinkHolder').removeClass('hide');
-                    angular.element('#socLinkHolder h4').stop();
-                    angular.element('#socLinkHolder h4').fadeTo(800, 0.5, 
-                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 1, 
-                            function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
-                                angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
+                    $scope.hintInInput(data.profileHint);
                 }
             }
             else
@@ -658,18 +643,56 @@ angular.module('mobispot').controller('SpotController',
                 break;
             }
         }
+        
         return currentNet;
+    }
+    
+    $scope.getNetByLink = function(link) {
+        var answer = false;
+
+        for (var i = 0; i < $scope.socPatterns.length; i++)
+        {
+            if (link.indexOf($scope.socPatterns[i].baseUrl) != -1)
+            {
+                answer = $scope.socPatterns[i].name;
+                break;
+            }
+        }
+        
+        return answer;
+    }
+    
+    $scope.hintInInput = function(hint)
+    {
+        var mainHolder = angular.element('#mainHolder');
+        var lindHolder = angular.element('#socLinkHolder');
+        var text = angular.element('#socLinkHolder h4');
+        $timeout.cancel(holderTimer);
+        holderTimer = $timeout($scope.hintTimer, 10000);
+        text.html(hint);
+        mainHolder.addClass('hide');
+        lindHolder.removeClass('hide');
+        text.stop();
+        //мерцание
+        text.fadeTo(800, 0.5, 
+            function(){text.fadeTo(800, 1, 
+                function(){text.fadeTo(800, 0.5, function(){
+                    text.fadeTo(800, 1);})})});    
     }
   
     //возврашает исходный плейсхолдер нового поля, вместо сообщения с просьбой вставить ссылку на соцсеть
     $scope.hintTimer = function()
     {
-        angular.element('#socLinkHolder h4').stop();
-        angular.element('#socLinkHolder h4').html('');
-        if (angular.element('#mainHolder').hasClass('hide'))
+        var mainHolder = angular.element('#mainHolder');
+        var lindHolder = angular.element('#socLinkHolder');
+        var text = angular.element('#socLinkHolder h4');
+        
+        text.stop();
+        text.html('');
+        if (mainHolder.hasClass('hide'))
         {
-            angular.element('#socLinkHolder').addClass('hide');
-            angular.element('#mainHolder').removeClass('hide');
+            lindHolder.addClass('hide');
+            mainHolder.removeClass('hide');
         }
     }
   
@@ -681,6 +704,7 @@ angular.module('mobispot').controller('SpotController',
       if(data.error == 'no') {
         if((data.socnet != 'no') && (data.socnet.length > 0)){
           if (!data.loggedIn) {
+            //запускаем логин в соцсети
             var options = $.extend({
               id: '',
               popup: {
@@ -706,13 +730,14 @@ angular.module('mobispot').controller('SpotController',
             else {
                 popup.focus();
             
-                $scope.bindNet = {name:data.socnet, discodes:spot.discodes, key:spot.key, spotEdit:angular.element(e.currentTarget).parents('.spot-item')};
+                $scope.bindNet = {name:data.socnet, discodes:spot.discodes, key:spot.key, spotEdit:spotEdit};
                 socTimer = $timeout($scope.loginTimer, 1000);
             }
           }
           else {
             if(data.linkCorrect == 'ok')
             {
+                //ссылка привязана, отображаем новый контент блока
                 spotEdit.before($compile(data.content)($scope));
                 spotEdit.remove();
                 var currentNet = $scope.getPatternInd(data.socnet);
@@ -730,15 +755,13 @@ angular.module('mobispot').controller('SpotController',
             contentService.setModal(data.linkCorrect, 'none');
         }
       }
-      else {
-        console.log(data.error);
-      }
     });
   };
 
   //подключение акции, требующей жетона соцсети
   $scope.checkLike = function(e, id_action)
   {
+      var SpotEdit = angular.element(e.currentTarget).parent().parent('div.spot-item');
       var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
       $http.post('/user/checkLike', data).success(function(data) {
       
@@ -769,7 +792,7 @@ angular.module('mobispot').controller('SpotController',
                   popup.focus();
 
                   $scope.checkingAction = {id:id_action};
-                  $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                  $scope.actionDiv = SpotEdit;
                   likeTimer = $timeout($scope.likesTimer, 1000);            
               }
               else
@@ -784,9 +807,8 @@ angular.module('mobispot').controller('SpotController',
                   
                   if ('undefined' != typeof (data.content))
                   {
-                    var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
-                    act.before($compile(data.content)($scope));
-                    act.remove();
+                    SpotEdit.before($compile(data.content)($scope));
+                    SpotEdit.remove();
                   }
               }
           }
@@ -829,17 +851,15 @@ angular.module('mobispot').controller('SpotController',
 
     $scope.disableAction = function(e, id_action)
     {
-
+        var SpotEdit = angular.element(e.currentTarget).parent().parent('div.spot-item');
         var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
         $http.post('/user/disableLoyalty', data).success(function(data) {
             if ('no' == data.error)
             {
-                var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
-                act.before($compile(data.content)($scope));
-                act.remove();
+                SpotEdit.before($compile(data.content)($scope));
+                SpotEdit.remove();
             }
         });
-
     }
   
   
@@ -864,13 +884,6 @@ angular.module('mobispot').controller('SpotController',
                         {
                             if (data.newField)
                             {
-
-                                if (angular.element('#extraMediaForm').hasClass('open'))
-                                {
-                                    angular.element('#extraMediaForm').slideUp();
-                                    angular.element('#extraMediaForm').removeClass('open');
-                                }
-
                                 angular.element('#add-content').append($compile(data.content)($scope));
 
                                 $scope.keys.push(data.key);
@@ -878,11 +891,17 @@ angular.module('mobispot').controller('SpotController',
                                 angular.element('textarea').removeClass('put');
                                 
                                 $scope.resetCursor()
+                                
+                                var mediaForm = angular.element('#extraMediaForm');
+                                var mediaFormA = angular.element('#extraMediaForm a');
                                
-                                if (angular.element('#extraMediaForm').hasClass('open'))
+                                if (mediaForm.hasClass('open'))
                                 {
-                                    angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                                    angular.element('#extraMediaForm').removeClass('open');
+                                    mediaForm.slideUp(0, function(){
+                                        mediaFormA.removeClass('blackout');
+                                        mediaFormA.fadeTo(0, 1);
+                                    });
+                                    mediaForm.removeClass('open');
                                 }
                                 
                                 $scope.setVideoSize(data.key);
@@ -1182,6 +1201,14 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-tabs a').removeClass('active');
         angular.element('#icon-coupons').addClass('active');
     }
+  
+    $scope.scrollToKey = function(key){
+        var scroll_height = $('#block-' + key).offset().top;
+        $('html, body').animate({
+            scrollTop: scroll_height
+        }, 600);    
+    }
+  
   
   //Открыть спот по коду
   $scope.defOpen = function(discodes){
