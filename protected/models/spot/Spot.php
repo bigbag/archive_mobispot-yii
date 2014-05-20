@@ -302,6 +302,19 @@ class Spot extends CActiveRecord
         );
     }
 
+    public function getActiveByUserid($user_id, $valid=false)
+    {
+        if (!$valid)
+        {
+            $user = User::model()->findByPk($user_id);
+            if (!$user) return false;
+        }
+
+        return Spot::model()->used()->findAllByAttributes(
+            array('user_id'=>$user_id,),
+            array('order'=>'generated_date'));
+    }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

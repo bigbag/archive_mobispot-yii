@@ -231,7 +231,7 @@ class SocInfo extends CFormModel
         return $socNetworks;
     }
 
-    public function getNetData($link, $discodesId = null, $dataKey = null, $dinamyc = false)
+    public function getNetData($link, $discodesId = null, $dataKey = null, $dinamic = false)
     {
         $this->socNet = '';
         $this->socUsername = '';
@@ -250,8 +250,8 @@ class SocInfo extends CFormModel
             $this->userDetail['netName'] = $this->socNet;
         }
 
-        if ($dinamyc)
-            $this->userDetail['dinamyc'] = true;
+        if ($dinamic)
+            $this->userDetail['dinamic'] = true;
 
         if (empty($this->userDetail['soc_url']))
             $this->userDetail['soc_url'] = $link;
@@ -399,12 +399,12 @@ class SocInfo extends CFormModel
         Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
 
         $uncheck = array('html', 'list', 'list2', 'follow_button');
-        
+
         if (empty($this->userDetail['binded_link']))
         {
             $this->userDetail['binded_link'] = $socUsername;
         }
-        
+
         foreach ($this->userDetail as $socKey => $socValue)
         {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))
@@ -662,7 +662,7 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
-    
+
     public static function setLogged($atributes)
     {
         $success = false;
@@ -673,7 +673,7 @@ class SocInfo extends CFormModel
                 Yii::app()->session[$atributes['service'] . '_profile_url'] = $atributes['url'];
             $success = true;
         }
-        
+
         return $success;
     }
 
@@ -683,18 +683,18 @@ class SocInfo extends CFormModel
         foreach($data as $key=>$value)
             if (!empty($value))
                 $answer .= '&' . $key . '=' .$value;
-            
+
         $answer = $prefix . substr($answer, 1);
 
         return $answer;
     }
-    
+
     public static function showFileSize($file)
     {
         if(!file_exists($file)) return '';
-       
+
         $filesize = filesize($file);
-       
+
         if($filesize > 1024)
         {
             $filesize = ($filesize/1024);
@@ -702,24 +702,24 @@ class SocInfo extends CFormModel
             if($filesize > 1024)
             {
                 $filesize = ($filesize/1024);
-               
+
                 if($filesize > 1024)
                 {
                     $filesize = ($filesize/1024);
                     $filesize = round($filesize, 1);
-                    return $filesize.' '.Yii::t('spot', 'GB');       
+                    return $filesize.' '.Yii::t('spot', 'GB');
                 }
                 else
                 {
                     $filesize = round($filesize, 1);
                     return $filesize.' '.Yii::t('spot', 'MB');
-                }       
+                }
             }
             else
             {
                 $filesize = round($filesize, 1);
                 return $filesize.' '.Yii::t('spot', 'Kb');
-            }  
+            }
         }
         else
         {
@@ -727,7 +727,7 @@ class SocInfo extends CFormModel
             return $filesize.' '.Yii::t('spot', 'bytes');
         }
     }
-    
+
     public function checkSharing($netName, $sharing_type, $link)
     {
         $answer = false;
@@ -742,7 +742,7 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
-    
+
 }
 
 

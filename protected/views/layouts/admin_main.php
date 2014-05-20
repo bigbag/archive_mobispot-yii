@@ -43,7 +43,7 @@
 
       <div class="clear"></div>
 
-      <div id="footer"><?php echo Yii::app()->par->load('copyright'); ?></div>
+      <div id="footer"><?php echo Yii::app()->params['copyright']; ?></div>
 
     </div>
   </body>
