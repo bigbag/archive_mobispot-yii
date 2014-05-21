@@ -9,7 +9,7 @@
  * @property string $name
  * @property string $url
  * @property string $barcode
- * @property integer $spot_type_id
+ * @property integer $type
  * @property integer $lang
  * @property integer $user_id
  * @property integer $premium
@@ -112,7 +112,7 @@ class Spot extends CActiveRecord
         // will receive user inputs.
         return array(
             array('discodes_id, code, status, premium, generated_date', 'required'),
-            array('discodes_id, spot_type_id, user_id, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, type, user_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
@@ -122,7 +122,7 @@ class Spot extends CActiveRecord
             array('code', 'length', 'max' => 10),
             array('barcode', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code128, code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code128, code, name, discodes_id, type, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -131,9 +131,9 @@ class Spot extends CActiveRecord
         return array(
             'all' => array(),
             'personal' => array(
-                'condition' => 'spot_type_id=:spot_type_id',
+                'condition' => 'type=:type',
                 'params' => array(
-                    'spot_type_id' => self::TYPE_FULL,
+                    'type' => self::TYPE_FULL,
                 ),
             ),
             'used' => array(
@@ -164,7 +164,7 @@ class Spot extends CActiveRecord
 
     public function beforeValidate()
     {
-        if (!$this->spot_type_id) $this->spot_type_id = self::TYPE_FULL;
+        if (!$this->type) $this->type = self::TYPE_FULL;
         if (!$this->lang) $this->lang = 'en';
         if (!$this->name) $this->name = 'My Spot';
         if ($this->isNewRecord) $this->generated_date = date('Y-m-d H:i:s');
@@ -200,7 +200,6 @@ class Spot extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'discodes' => array(self::BELONGS_TO, 'Discodes', 'discodes_id'),
-            'spot_type' => array(self::BELONGS_TO, 'SpotType', 'spot_type_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
         );
@@ -216,7 +215,7 @@ class Spot extends CActiveRecord
             'url' => 'Ссылка',
             'name' => 'Название',
             'discodes_id' => 'ID',
-            'spot_type_id' => 'Тип спота',
+            'type' => 'Тип спота',
             'spot_type_name' => 'Тип спота',
             'user_id' => 'Пользователь',
             'lang' => 'Язык',
@@ -257,7 +256,7 @@ class Spot extends CActiveRecord
         $criteria->compare('code', $this->code, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('discodes_id', $this->discodes_id);
-        $criteria->compare('spot_type_id', $this->spot_type_id);
+        $criteria->compare('type', $this->type);
         $criteria->compare('spot_type.name', $this->spot_type_name, true);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('barcode', $this->barcode, true);
