@@ -960,7 +960,7 @@ class SpotController extends MController
 
         if (isset($data['name']))
             $spot->name = $data['name'];
-        $spot->spot_type_id = Spot::TYPE_FULL;
+        $spot->type = Spot::TYPE_FULL;
 
         if (!$spot->save())
             $this->getJsonAndExit($answer);

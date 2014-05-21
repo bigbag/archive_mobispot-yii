@@ -45,18 +45,13 @@ angular.module('mobispot').controller('SpotController',
   };
 
   //Управление основными блоками спот, кошелек, купоны.
-  $scope.$watch('general.views', function() {
+  $scope.$watch('general.views + spot.discodes', function() {
     if ($scope.general.views == 'spot'){
       $scope.viewSpot($scope.spot);
     } else if ($scope.general.views == 'wallet'){
       $scope.viewWallet($scope.spot);
     }
 
-  });
-
-  //Загрузка тела спота
-  $scope.$watch('spot.discodes', function() {
-    $scope.viewSpot($scope.spot);
   });
 
   $scope.viewSpot = function (spot) {
