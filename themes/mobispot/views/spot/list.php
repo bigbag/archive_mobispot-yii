@@ -1,6 +1,6 @@
 <div class="content-wrapper"
     ng-controller="SpotController"
-    ng-init="spot.token=user.token; spot.discodes='<?php echo $default_discodes;?>'">
+    ng-init="spot.token=user.token; spot.discodes='<?php echo $default_discodes;?>';general.views='spot'">
     <div class="content-block">
         <div class="row">
             <div class="columns small-3 large-3">

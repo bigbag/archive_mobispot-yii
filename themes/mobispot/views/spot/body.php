@@ -2,22 +2,24 @@
     <section class="spot-wrapper">
         <div class="spot-hat">
             <div class="spot-tabs">
-                <a href="javascript:;"
-                    class="active"
-                    ng-click="spotBlock($event,'spot-block')">
+                <a class="active"
+                    ng-click="general.views='spot'"
+                    ng-class="{active: general.views=='spot'}">
                     <i class="icon">&#xe600;</i>
                     <?php echo Yii::t('spot', 'Social links')?>
                 </a>
-                <a  href="javascript:;"
-                    ng-click="spotBlock($event,'wallet-block')">
+                <?php if ($wallet and $spot->tupe == Spot::TYPE_FULL):?>
+                <a ng-click="general.views='wallet'"
+                    ng-class="{active: general.views=='wallet'}">
                     <i class="icon">&#xe006;</i>
                     <?php echo Yii::t('spot', 'Wallet')?>
                 </a>
-                <a href="javascript:;"
-                    ng-click="spotBlock($event,'coupon-block')">
+                <a ng-click="general.views='coupon'"
+                    ng-class="{active: general.views=='coupon'}">
                     <i class="icon">&#xe601;</i>
                     <?php echo Yii::t('spot', 'Coupon')?>
                 </a>
+                <?php endif;?>
                 <a href="javascript:;"
                     title="settings"
                     ng-click="spotBlock($event,'settings-block')"
@@ -45,18 +47,18 @@
                         <div class="hat-cover"></div>
                     </div>
                     <div class="cover-fast-link">
-                            <label
-                                for="add-file"
-                                title="<?php echo Yii::t('spot', 'Add file')?>"
-                                class="quick-input icon">
-                                &#xe604;
-                            </label>
-                            <input id="add-file" type="file">
-                            <a ng-click="addContent(spot)"
-                                class="right form-button"
-                                ng-class="{visible: spot.content}">
-                                <?php echo Yii::t('spot', 'Post')?>
-                            </a>
+                        <label
+                            for="add-file"
+                            title="<?php echo Yii::t('spot', 'Add file')?>"
+                            class="quick-input icon">
+                            &#xe604;
+                        </label>
+                        <input id="add-file" type="file">
+                        <a ng-click="addContent(spot)"
+                            class="right form-button"
+                            ng-class="{visible: spot.content}">
+                            <?php echo Yii::t('spot', 'Post')?>
+                        </a>
                     </div>
                 </div>
                 <div class="spot-item-stack info-pick">
@@ -69,32 +71,25 @@
                     </div>
                 </div>
                 <?php if (!empty($spotContent->content)): ?>
-            <?php $content = $spotContent->content ?>
+                    <?php $content = $spotContent->content ?>
+                    <?php if (isset($content['data']) and isset($content['keys'])): ?>
+                        <?php $keys = (isset($content['keys']) ? array_keys($content['keys']) : array()) ?>
+                        <?php $keys = '[' . implode(',', $keys) . ']'; ?>
 
-            <?php if (isset($content['data']) and isset($content['keys'])): ?>
-
-                <?php $keys = (isset($content['keys']) ? array_keys($content['keys']) : array()) ?>
-                <?php $keys = '[' . implode(',', $keys) . ']'; ?>
-
-                <span ng-init="spot.vcard=<?php echo $content['vcard']; ?>; spot.private=<?php echo $content['private']; ?>; keys=<?php echo $keys; ?>;"></span>
-
-                <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
-
-                    <?php foreach ($content_keys as $key => $type): ?>
-                        <?php $value = $content['data'][$key]; ?>
-                            <?php echo $this->renderPartial('/spot/personal/new_' . $type,
-                                array(
-                                    'key' => $key,
-                                    'content' => $value,
-                                    )
-                                );
-                            ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        <?php else: ?>
-            <span ng-init="spot.vcard=0; spot.private=0"></span>
-        <?php endif; ?>
+                        <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
+                        <?php foreach ($content_keys as $key => $type): ?>
+                            <?php $value = $content['data'][$key]; ?>
+                                <?php echo $this->renderPartial('/spot/personal/new_' . $type,
+                                    array(
+                                        'key' => $key,
+                                        'content' => $value,
+                                        )
+                                    );
+                                ?>
+                        <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
             </section>
         </div>
     </section>

@@ -102,6 +102,9 @@ class SpotController extends MController
         if (!$spot)
             $this->getJsonAndExit($answer);
 
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
             $spotContent = SpotContent::initPersonal($spot);
@@ -112,6 +115,7 @@ class SpotController extends MController
         $answer['content'] = $this->renderPartial('//spot/body',
             array(
                 'spot' => $spot,
+                'wallet' => $wallet,
                 'spotContent' => $spotContent,
                 'content_keys' => $content_keys,
             ),
@@ -956,7 +960,7 @@ class SpotController extends MController
 
         if (isset($data['name']))
             $spot->name = $data['name'];
-        $spot->spot_type_id = Spot::TYPE_PERSONAL;
+        $spot->spot_type_id = Spot::TYPE_FULL;
 
         if (!$spot->save())
             $this->getJsonAndExit($answer);
