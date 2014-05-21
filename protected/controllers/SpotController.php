@@ -19,7 +19,7 @@ class SpotController extends MController
         }
     }
 
-    // Загрузка файлов в спот
+        // Загрузка файлов в спот
     public function actionUpload()
     {
         $answer = array(
@@ -84,6 +84,37 @@ class SpotController extends MController
         $answer['error'] = "no";
 
         echo json_encode($answer);
+    }
+
+    //Определяем ид спота загружаемого по умолчанию
+    public function getDefaultSpot($default)
+    {
+        $default_discodes = $default;
+        if (isset(Yii::app()->request->cookies['default_discodes']))
+            $default_discodes = Yii::app()->request->cookies['default_discodes']->value;
+        return $default_discodes;
+    }
+
+    // Страница управления спотами
+    public function actionList()
+    {
+        $this->layout = '//layouts/spots';
+
+        $user_id = Yii::app()->user->id;
+        if (!$user_id) $this->setAccess();
+
+        $user = User::model()->findByPk($user_id);
+        if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
+
+        $default_discodes = 0;
+        $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
+        if ($spots)
+           $default_discodes = $this->getDefaultSpot($spots[0]->discodes_id);
+
+        $this->render('//spot/list', array(
+            'spots' => $spots,
+            'default_discodes' => $default_discodes,
+        ));
     }
 
     // Просмотр содержимого спота
