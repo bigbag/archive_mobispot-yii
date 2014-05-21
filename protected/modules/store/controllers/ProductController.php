@@ -8,7 +8,7 @@ class ProductController extends MController
 
     public function actionIndex()
     {
-        $this->render('index', 
+        $this->render('index',
             array(
                 'imagePath' => $this->imagePath,
                 'items_count' => $this->getItemsInCart(),
@@ -18,10 +18,10 @@ class ProductController extends MController
 
     public function actionCart()
     {
-        $this->render('cart', 
+        $this->render('cart',
             array(
                 'imagePath' => $this->imagePath,
-                
+
                 )
             );
     }
@@ -41,7 +41,7 @@ class ProductController extends MController
         echo json_encode($answer);
     }
 
-    
+
     public function getItemsInCart()
     {
         $count = 0;
@@ -59,7 +59,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         $answer = array();
-        
+
         $cart = new StoreCart;
         $answer = array();
         $answer['products'] = $cart->getStoreCart();
@@ -71,7 +71,7 @@ class ProductController extends MController
     public function actionGetCustomer()
     {
         $data = $this->validateRequest();
-        
+
         $cart = new StoreCart;
         $data['customer'] = $cart->getCustomer();
         $data['delivery'] = $cart->getDelivery();
@@ -104,7 +104,7 @@ class ProductController extends MController
         {
             $answer['error'] = 'no';
         }
-            
+
         echo json_encode($answer);
     }
 
@@ -113,7 +113,7 @@ class ProductController extends MController
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = 'error in /store/product/SaveProduct';
-        
+
         if (isset($data['oldProduct']) && isset($data['newProduct']))
         {
             $cart = new StoreCart;
@@ -122,16 +122,16 @@ class ProductController extends MController
                 $answer['error'] = 'no';
             }
         }
-        
+
         echo json_encode($answer);
     }
-    
+
     public function actionConfirmPromo()
     {
         $data = $this->validateRequest();
         $answer = array();
         $answer['error'] = Yii::t('store', 'Пожалуйста, введите код!');
-        
+
         if(!empty($data['promoCode']))
         {
             $cart = new StoreCart;
@@ -139,7 +139,7 @@ class ProductController extends MController
             $answer['error'] = $discount['error'];
             $answer['discount'] = $discount;
         }
-            
+
         echo json_encode($answer);
     }
 
@@ -190,7 +190,7 @@ class ProductController extends MController
                     $content = $this->renderPartial('//store/product/_bay_form',
                         array(
                             'order' => $order,
-                        ), 
+                        ),
                         true
                     );
 
@@ -199,10 +199,10 @@ class ProductController extends MController
                 }
             }
         }
-        
+
         echo json_encode($answer);
     }
-    
+
     public function actionPayUniteller()
     {
         $token = Yii::app()->request->getParam('token', 0);
@@ -220,21 +220,21 @@ class ProductController extends MController
 
                 if (isset($info['status']))
                 {
-                   $data = array( 
+                   $data = array(
                         "Status" => $info['status'],
                         "ApprovalCode" => $info['response_code'],
-                        "BillNumber"   => $info['billnumber'] 
-                    ); 
-                            
+                        "BillNumber"   => $info['billnumber']
+                    );
+
                     $order->payment_data = $data;
 
-                    $status = strtolower($data['Status']); 
+                    $status = strtolower($data['Status']);
                 }
                 else
-                {   
+                {
                     $status = false;
                 }
-                
+
                 if ($status != 'authorized' and $status != 'paid')
                 {
                     $order->status = -1;
@@ -266,7 +266,7 @@ class ProductController extends MController
                         Yii::app()->session['storeCart'] = $cartList;
                         Yii::app()->session['itemsInCart'] = $itemsInCart;
                     }
-                        
+
                     //Восстановление одноразового промо-кода
                     if (!empty($order->promo_id))
                     {
@@ -285,7 +285,7 @@ class ProductController extends MController
 
                     $order->status = 2;
                     MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
-                    MMail::order_track(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang());
+                    MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang());
                     $order->save();
                     $token = sha1(Yii::app()->request->csrfToken);
                     $cacheId = 'StoreOrder' . $orderId;
@@ -296,13 +296,13 @@ class ProductController extends MController
         }
         $this->redirect('/store');
     }
-    
+
     public function actionOrder()
     {
         $token = Yii::app()->request->getParam('token', 0);
         $orderId = Yii::app()->request->getParam('Order_ID', 0);
         $order = StoreOrder::model()->findByPk($orderId);
-        
+
         if ($token and $token == sha1(Yii::app()->request->csrfToken) && $order && $order->status >= 2)
         {
             $cacheId = 'StoreOrder' . $orderId;
@@ -315,5 +315,5 @@ class ProductController extends MController
         else
             $this->setNotFound();
     }
-    
+
 }

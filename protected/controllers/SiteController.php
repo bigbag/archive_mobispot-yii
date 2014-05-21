@@ -34,7 +34,7 @@ class SiteController extends MController
         if (empty($_FILES))
             $this->getJsonAndExit($answer);
 
-        $maxSize = Yii::app()->par->load('ImageSize');
+        $maxSize = Yii::app()->params['imageSize'];
         $action = Yii::app()->request->getParam('action');
 
         $tempFile = $_FILES['Filedata']['tmp_name'];

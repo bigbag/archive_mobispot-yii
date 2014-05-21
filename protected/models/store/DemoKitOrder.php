@@ -257,6 +257,7 @@ class DemoKitOrder extends CActiveRecord
     
     public function makeMailOrder()
     {
+        $shipping = self::getShipping($this->shipping);
         $mailOrder = array();
         $mailOrder['id'] = $this->id;
         $mailOrder['name'] = $this->name;
@@ -266,8 +267,8 @@ class DemoKitOrder extends CActiveRecord
         $mailOrder['address'] = $this->address;
         $mailOrder['city'] = $this->city;
         $mailOrder['country'] = $this->country;
-        $mailOrder['shipping'] = self::getShipping($this->shipping)['name'];
-        $mailOrder['shipping_price'] = self::getShipping($this->shipping)['price'];
+        $mailOrder['shipping'] = $shipping['name'];
+        $mailOrder['shipping_price'] = $shipping['price'];
         $mailOrder['subtotal'] = $this->calcSubtotal();
         $mailOrder['total'] = $this->calcSumm();
         

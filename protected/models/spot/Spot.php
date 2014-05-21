@@ -4,27 +4,24 @@
  * This is the model class for table "spot".
  *
  * The followings are the available columns in table 'spot':
- * @property string $code
- * @property string $url
- * @property string $name
  * @property integer $discodes_id
- * @property integer $lang
- * @property integer $spot_type_id
- * @property integer $user_id
+ * @property string $code
+ * @property string $name
+ * @property string $url
  * @property string $barcode
+ * @property integer $spot_type_id
+ * @property integer $lang
+ * @property integer $user_id
  * @property integer $premium
- * @property integer $status
  * @property string $generated_date
  * @property string $registered_date
  * @property string $removed_date
+ * @property integer $status
+ * @property string $code128
  */
+
 class Spot extends CActiveRecord
 {
-
-    const SYMBOL_LENGTH = 10;
-    const SYMBOL_ALL = 'AaEeIiUuYyBbCcDdFfGgHhJjKkLlMmNnPpQqRrSsTtVvWwXxZz';
-    const SYMBOL_PERSONA = 'BbCcDdFfGgHhJjKkLlMmNnPpQqRrSsTtVvWwXxZz';
-    const SYMBOL_FIRM = 'AaEeIiUuYy';
     const STATUS_GENERATED = 0;
     const STATUS_ACTIVATED = 1;
     const STATUS_REGISTERED = 2;
@@ -32,20 +29,17 @@ class Spot extends CActiveRecord
     const STATUS_REMOVED_USER = 4;
     const STATUS_REMOVED_SYS = 5;
     const STATUS_INVISIBLE = 6;
-    const TYPE_PERSONAL = 3;
-    const TYPE_COUPON = 4;
-    const TYPE_CARD = 8;
-    const TYPE_FEEDBACK = 9;
+
+    const TYPE_DEMO = 0;
+    const TYPE_FULL = 3;
 
     public $spot_type_name;
 
     public function getAllSpot()
     {
         return array(
-            self::TYPE_PERSONAL => Yii::t('account', 'Личный'),
-            self::TYPE_COUPON => Yii::t('account', 'Купон'),
-            self::TYPE_CARD => Yii::t('account', 'Инфо-постер'),
-            self::TYPE_FEEDBACK => Yii::t('account', 'Связь'),
+            self::TYPE_FULL => Yii::t('account', 'Полный'),
+            self::TYPE_DEMO => Yii::t('account', 'Демо'),
         );
     }
 
@@ -65,19 +59,6 @@ class Spot extends CActiveRecord
     public function getPremiumList()
     {
         return Discodes::getPremiumList();
-    }
-
-    public function getActionList()
-    {
-        return array(
-            self::ACTION_ADD => Yii::t('account', 'Добавить спот'),
-            self::ACTION_COPY => Yii::t('account', 'Копировать'),
-            self::ACTION_INVISIBLE => Yii::t('account', 'Невидимость'),
-            self::ACTION_CLEAR => Yii::t('account', 'Очистить'),
-            self::ACTION_REMOVE => Yii::t('account', 'Удалить'),
-            self::ACTION_CHANGE_NAME => Yii::t('account', 'Изменить название'),
-            self::ACTION_CHANGE_TYPE => Yii::t('account', 'Изменить тип'),
-        );
     }
 
     public function getStatus()
@@ -107,43 +88,6 @@ class Spot extends CActiveRecord
     public function tableName()
     {
         return 'spot';
-    }
-
-    public function getUrl()
-    {
-        $new_url = substr(sha1($this->code . $this->discodes_id . time()), 0, 15);
-        $spot = Spot::model()->findByAttributes(array('url' => $new_url));
-        if ($spot)
-            $this->getUrl();
-        else
-            return $new_url;
-    }
-
-    public function getEanSumm($ean)
-    {
-        $even = true;
-        $esum = 0;
-        $osum = 0;
-        for ($i = strlen($ean) - 1; $i >= 0; $i--)
-        {
-            if ($even)
-                $esum+=$ean[$i];
-            else
-                $osum+=$ean[$i];
-            $even = !$even;
-        }
-        return (10 - ((3 * $esum + $osum) % 10)) % 10;
-    }
-
-    public function getEan()
-    {
-        $ean = '00' . rand(1000000000, 9999999999);
-        $ean = $ean . $this->getEanSumm($ean);
-        $spot = Spot::model()->findByAttributes(array('barcode' => $ean));
-        if ($spot)
-            $this->getEan();
-        else
-            return $ean;
     }
 
     public function getSpot($data = array())
@@ -176,9 +120,9 @@ class Spot extends CActiveRecord
             array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
-            array(' barcode', 'length', 'max' => 32),
+            array('barcode', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code128, code, name, discodes_id, spot_type_id, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -189,7 +133,7 @@ class Spot extends CActiveRecord
             'personal' => array(
                 'condition' => 'spot_type_id=:spot_type_id',
                 'params' => array(
-                    'spot_type_id' => self::TYPE_PERSONAL,
+                    'spot_type_id' => self::TYPE_FULL,
                 ),
             ),
             'used' => array(
@@ -220,27 +164,10 @@ class Spot extends CActiveRecord
 
     public function beforeValidate()
     {
-
-        if (!$this->url)
-            $this->url = $this->getUrl();
-        if (!$this->spot_type_id)
-            $this->spot_type_id = self::TYPE_PERSONAL;
-
-        if (!$this->lang)
-            $this->lang = 'en';
-        if (!$this->name)
-            $this->name = 'My Spot';
-
-        if ($this->isNewRecord)
-        {
-            $this->generated_date = date('Y-m-d H:i:s');
-            if (!$this->url)
-                $this->url = abs(crc32($this->code));
-            $this->status = self::STATUS_GENERATED;
-        }
-
-        if (!$this->barcode)
-            $this->barcode = $this->getEan();
+        if (!$this->spot_type_id) $this->spot_type_id = self::TYPE_FULL;
+        if (!$this->lang) $this->lang = 'en';
+        if (!$this->name) $this->name = 'My Spot';
+        if ($this->isNewRecord) $this->generated_date = date('Y-m-d H:i:s');
 
         if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED))
         {
@@ -302,6 +229,19 @@ class Spot extends CActiveRecord
         );
     }
 
+    public function getActiveByUserid($user_id, $valid=false)
+    {
+        if (!$valid)
+        {
+            $user = User::model()->findByPk($user_id);
+            if (!$user) return false;
+        }
+
+        return Spot::model()->used()->findAllByAttributes(
+            array('user_id'=>$user_id,),
+            array('order'=>'generated_date'));
+    }
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -326,6 +266,7 @@ class Spot extends CActiveRecord
         $criteria->compare('generated_date', $this->generated_date, true);
         $criteria->compare('registered_date', $this->registered_date, true);
         $criteria->compare('removed_date', $this->removed_date, true);
+        $criteria->compare('code128', $this->code128, true);
 
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,

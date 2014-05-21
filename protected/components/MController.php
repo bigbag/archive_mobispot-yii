@@ -8,14 +8,11 @@ class MController extends Controller
 {
 
     const MIN_RESOLUTION = 1280;
-    public $pageDescription;
-    public $pageKeywords;
-    public $sliderImage;
-    public $sliderText;
-    public $pageClass;
 
     public $mainBackground = false;
     public $defaultResolution = 1280;
+    public $blockHeaderCeo = false;
+    public $blockFooterScript = false;
 
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
@@ -38,23 +35,7 @@ class MController extends Controller
 
     public function beforeRender()
     {
-
-        if (!empty($this->pageDescription))
-            $description = $this->pageDescription;
-        else
-            $description = Yii::app()->par->load('siteDesc');
-
-        Yii::app()->clientScript->registerMetaTag($description, 'description');
-
-        if (!empty($this->pageKeywords))
-            $keywords = $this->pageKeywords;
-        else
-            $keywords = Yii::app()->par->load('siteKeywords');
-
-        Yii::app()->clientScript->registerMetaTag($keywords, 'keywords');
-
         //Yii::app()->cache->flush();
-
         return true;
     }
 
@@ -109,17 +90,13 @@ class MController extends Controller
 
     public function validateRequest()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
-            $this->setBadRequest();
-        }
+        if (!Yii::app()->request->isPostRequest) $this->setBadRequest();
 
         $data = $this->getJson();
         if (!isset($data['token']) or $data['token'] != Yii::app()->request->csrfToken)
             $this->setBadRequest();
 
         unset($data['token']);
-
         return $data;
     }
 
@@ -138,7 +115,7 @@ class MController extends Controller
         echo json_encode($result);
         exit;
     }
-    
+
     public function getJsonOrRedirect($result, $target){
         if (Yii::app()->request->isPostRequest)
             $this->getJsonAndExit($result);

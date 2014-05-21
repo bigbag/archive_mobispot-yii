@@ -4,7 +4,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title><?php echo Yii::app()->par->load('siteTitle'); ?></title>
+    <title><?php echo Yii::app()->params['siteTitle']; ?></title>
 
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon16.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon32.png">
@@ -14,12 +14,12 @@
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    
-    <link rel="stylesheet" href="/themes/mobispot/new/css/reset.css">
-    <link rel="stylesheet" href="/themes/mobispot/new/css/foundation.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/style.css" />
-    <link rel="stylesheet" href="/themes/mobispot/new/css/add.css" />
-    
+
+    <link rel="stylesheet" href="/themes/mobispot/css/reset.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
+
 </head>
 <body >
     <div class="main error-page">
@@ -27,7 +27,7 @@
             <div class="hat-bar content">
                 <h1 class="logo">
                     <a href="/">
-                        <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/new/img/logo_x2.png"> 
+                        <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/img/logo_x2.png">
                     </a>
                 </h1>
             </div>

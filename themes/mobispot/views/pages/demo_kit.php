@@ -1,5 +1,6 @@
 <?php $this->pageTitle = Yii::t('store', 'Mobispot demo-kit'); ?>
 <?php $this->mainBackground = 'main-bg-w.png'?>
+<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/demokit.js"></script>'?>
 
     <div class="content-wrapper" ng-controller="DemokitController" >
         <div class="content-block" id="demo-kit-block" ng-init="order.token='<?php echo Yii::app()->request->csrfToken ?>'">
@@ -20,7 +21,7 @@
                         <h2><?php echo Yii::t('store', 'Mobispot demo-kit')?></h2>
                         <p class="form-h clearfix">
                             <?php echo Yii::t('store', 'With our demo-kit you can create really stunning applications. Bring the magic of one tap to your apps for NFC handsets, POS terminals and simple contactless readers.')?> <br>
-                            
+
                         </p>
                         <div class="kit-items">
                             <table class="table">
@@ -46,7 +47,7 @@
                                     </td>
                                     <?php endif ?>
                                 </tr>
-                                <?php endforeach; ?>                                
+                                <?php endforeach; ?>
                             </table>
                     </div>
                 </div>
@@ -147,24 +148,24 @@
                             <div class="shipping-form">
                                 <?php foreach ($config['shipping'] as $shipping):?>
                                 <div class="row" ng-init="registerShipping(<?php echo $shipping['id'] ?>, <?php echo $shipping['price'] ?>)">
-                                    <div class="radio">  
-                                        <input 
+                                    <div class="radio">
+                                        <input
                                             id="shiping<?php echo $shipping['id'] ?>"
-                                            type="radio" 
-                                            name="shipping" 
-                                            value="<?php echo $shipping['id'] ?>" 
+                                            type="radio"
+                                            name="shipping"
+                                            value="<?php echo $shipping['id'] ?>"
                                             <?php if ($shipping['id'] == $config['shipping'][0]['id']):?>
                                                 checked
                                                 ng-init="setShipping(<?php echo $shipping['id'] ?>)"
                                             <?php endif ?>
-                                        >  
-                                        <label 
+                                        >
+                                        <label
                                             for="shiping<?php echo $shipping['id'] ?>"
                                             ng-click="setShipping(<?php echo $shipping['id'] ?>)"
                                         >
-                                            <?php echo $shipping['name'] ?> | +<?php echo $shipping['price'] ?>$ 
+                                            <?php echo $shipping['name'] ?> | +<?php echo $shipping['price'] ?>$
                                         </label>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <?php endforeach ?>
                             </div>
@@ -175,18 +176,18 @@
                             <div class="shipping-form">
                                 <?php foreach ($config['payment'] as $payment): ?>
                                 <div class="row" ng-init="registerPayment(<?php echo $payment['id'] ?>, '<?php echo $payment['action'] ?>')">
-                                    <div class="radio">  
-                                            <input 
-                                                id="payment<?php echo $payment['id'] ?>" 
-                                                type="radio" 
-                                                name="payment" 
+                                    <div class="radio">
+                                            <input
+                                                id="payment<?php echo $payment['id'] ?>"
+                                                type="radio"
+                                                name="payment"
                                                 value="<?php echo $payment['id'] ?>"
                                                 <?php if ($payment['id'] == $config['payment'][0]['id']):?>
                                                 checked
                                                 ng-init="setPayment(<?php echo $payment['id'] ?>)"
                                                 <?php endif ?>
-                                                >  
-                                            <label 
+                                                >
+                                            <label
                                                 for="payment<?php echo $payment['id'] ?>"
                                                 ng-click="setPayment(<?php echo $payment['id'] ?>)"
                                             >
@@ -202,7 +203,7 @@
                         <div class="next-step">
                                 <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
                                 <p>{{summ}}$ + {{shippings[order.shipping]}}$ (Shipping)</p>
-                            <a class="form-button button button-round" 
+                            <a class="form-button button button-round"
                                 ng-click="buyDemoKit(order)"
                                 ng-init="finishButton='<?php echo Yii::t('store', 'FINISH!')?>';toMainMessage='<?php echo $config['toMainMessage']?>'"
                             >{{finishButton}}</a>

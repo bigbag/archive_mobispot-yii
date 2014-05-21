@@ -11,7 +11,21 @@ return array(
         'application.extensions.mailer.EMailer',
     ),
     'components' => array(
-        'db' => require(dirname(__FILE__) . '/db.php'),
-        'dbStack' => require(dirname(__FILE__) . '/dbStack.php'),
+        'db' => array(
+            'class' => 'CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=mobispot',
+            'username' => 'user',
+            'password' => 'password',
+            'emulatePrepare' => true,
+            'charset' => 'utf8',
+        ),
+        'dbStack' => array(
+            'class' => 'CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=stack',
+            'username' => 'user',
+            'password' => 'password',
+            'emulatePrepare' => true,
+            'charset' => 'utf8',
+        ),
     ),
 );
