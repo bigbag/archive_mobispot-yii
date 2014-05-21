@@ -14,10 +14,10 @@ Class MMail
     public function activation($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('activation', $lang);
-        $activation_url = Yii::app()->par->load('siteUrl') . '/service/activation/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->params['siteUrl'] . '/service/activation/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
@@ -33,10 +33,10 @@ Class MMail
     public function recovery($email, $activkey, $lang)
     {
         $mail_template = MailTemplate::getTemplate('recovery', $lang);
-        $activation_url = Yii::app()->par->load('siteUrl') . '/service/change/activkey/' . $activkey . '/email/' . $email;
+        $activation_url = Yii::app()->params['siteUrl'] . '/service/change/activkey/' . $activkey . '/email/' . $email;
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
@@ -54,7 +54,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('spot_feedback', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
@@ -76,7 +76,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('spot_send', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->attach = serialize($data['files']);
@@ -96,7 +96,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('spot_comment', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
@@ -116,7 +116,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('faq_question', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize($email);
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array(
@@ -137,7 +137,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('store_order', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array('order' => $mailOrder), true);
@@ -153,7 +153,7 @@ Class MMail
         $mail_template = MailTemplate::getTemplate('demokit_order', $lang);
 
         $stack = new MailStack;
-        $stack->senders = serialize(array(Yii::app()->par->load('adminEmail') => Yii::app()->par->load('generalSender')));
+        $stack->senders = serialize(array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']));
         $stack->recipients = serialize(array($email));
         $stack->subject = $mail_template->subject;
         $stack->body = MMail::render($lang . '_' . $mail_template->slug, array('order' => $mailOrder), true);

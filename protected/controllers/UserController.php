@@ -109,19 +109,50 @@ class UserController extends MController
         ));
     }
 
+    //Определяем ид спота загружаемого по умолчанию
+    public function getDefaultSpot($default)
+    {
+        $default_discodes = $default;
+        if (isset(Yii::app()->request->cookies['default_discodes']))
+            $default_discodes = Yii::app()->request->cookies['default_discodes']->value;
+        return $default_discodes;
+    }
+
+    // Страница управления спотами
+    public function actionSpots()
+    {
+        $this->layout = '//layouts/spots';
+
+        $user_id = Yii::app()->user->id;
+        if (!$user_id) $this->setAccess();
+
+        $user = User::model()->findByPk($user_id);
+        if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
+
+        $default_discodes = 0;
+        $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
+        if ($spots)
+           $default_discodes = $this->getDefaultSpot($spots[0]->discodes_id);
+
+        $this->render('//spot/list', array(
+            'spots' => $spots,
+            'default_discodes' => $default_discodes,
+        ));
+    }
+
     public function actionBindSocLogin()
     {
         $serviceName = Yii::app()->request->getQuery('service');
         $discodes = Yii::app()->request->getQuery('discodes');
         $synch = Yii::app()->request->getQuery('synch');
-        
+
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
             $this->setNotFound();
         if (!Yii::app()->user->id)
             $this->setAccess();
-            
+
         if (isset($synch) and $synch == 'true' and !empty($discodes))
         {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
@@ -137,7 +168,7 @@ class UserController extends MController
 
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
-        
+
         if (!empty(Yii::app()->session[$serviceName . '_synch_data']))
         {
             $data = Yii::app()->session[$serviceName . '_synch_data'];
@@ -165,7 +196,7 @@ class UserController extends MController
 
         if (empty($data['id']) or empty($data['discodes']))
             $this->getJsonAndExit($answer);
-        
+
         $action = Loyalty::model()->findByPk($data['id']);
         $link = $action->getLink();
 
@@ -194,13 +225,13 @@ class UserController extends MController
             $this->getJsonAndExit($answer);
         }
         */
-        
+
         $answer['error'] = "no";
         $socInfo = new SocInfo;
         if (!$socInfo->isLoggegOn($service, false)){
             $this->getJsonAndExit($answer);
         }
-        
+
         $answer['isSocLogged'] = true;
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
@@ -222,18 +253,18 @@ class UserController extends MController
             'wallet_id' => $wallet->id,
             'loyalty_id' => $action->id,
         ));
-        
+
         if (!$wl)
         {
             $wl = new WalletLoyalty;
             $wl->wallet_id = $wallet->id;
             $wl->loyalty_id = $action->id;
             $wl->bonus_limit = $action->bonus_limit;
-         
+
         }
         $wl->checked = $answer['checked'];
         $wl->save();
-        
+
         $coupon = array(
             'id' => $action->id,
             'name' => $action->name,
@@ -262,13 +293,13 @@ class UserController extends MController
 
         if (empty($data['id']) or empty($data['discodes']))
             $this->getJsonAndExit($answer);
-        
+
         $action = Loyalty::model()->findByPk($data['id']);
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
         if (!$action or !$wallet)
             $this->getJsonAndExit($answer);
-        
+
         $wl = WalletLoyalty::model()->findByAttributes(array(
             'wallet_id' => $wallet->id,
             'loyalty_id' => $action->id,
@@ -276,7 +307,7 @@ class UserController extends MController
 
         if (!$wl)
             $this->getJsonAndExit($answer);
-        
+
         $wl->checked = false;
         $wl->save();
 

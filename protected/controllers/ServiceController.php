@@ -378,19 +378,19 @@ class ServiceController extends MController
 
         echo json_encode($answer);
     }
-    
+
     public function actionBuyDemoKit()
     {
         $data = $this->validateRequest();
         $answer = array('error' => 'yes', 'content' => '', 'message'=>Yii::t('store', 'Произошла ошибка! Проверьте корректность заполнения полей заказа.'));
-        
+
         /*
         if (empty($data['products']))
             $this->getJsonAndExit($answer);
         */
-        $config = DemoKitOrder::getConfig();    
+        $config = DemoKitOrder::getConfig();
         $order = DemoKitOrder::fromArray($data);
-        
+
         if(!$order->save())
         {
             $answer['message'] = '';
@@ -400,7 +400,7 @@ class ServiceController extends MController
                     $answer['message'] .= $message . ' ';
             $this->getJsonAndExit($answer);
         }
-        
+
         /*
         if (!(DemoKitList::saveFromArray($data['products'], $order->id)))
         {
@@ -409,18 +409,18 @@ class ServiceController extends MController
             $this->getJsonAndExit($answer);
         }
         */
-        
+
         //$shipping = DemoKitOrder::getShipping($order->shipping);
         $payment = DemoKitOrder::getPayment($order->payment);
         $answer['action'] = $payment['action'];
-        
+
         if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM)
         {
-            $answer['content'] = $this->renderPartial('//store/_ym_form', 
+            $answer['content'] = $this->renderPartial('//store/_ym_form',
                 array(
                     'order'=>$order,
                     'action'=>$payment['action'],
-                ), 
+                ),
                 true
             );
             $answer['error'] = 'no';
@@ -428,19 +428,19 @@ class ServiceController extends MController
         elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL)
         {
             $mailOrder = $order->makeMailOrder();
-            
+
             //Yii::app()->session['message'] = $config['mailOrderMessage'];
             if (
                 MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang())
                 and
-                MMail::demokit_order(Yii::app()->par->load('generalEmail'), $mailOrder, $this->getLang())
+                MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang())
             )
             {
                 $answer['message'] = $config['mailOrderMessage'];
                 $answer['error'] = 'no';
             }
         }
-        
+
         echo json_encode($answer);
     }
 
