@@ -44,6 +44,16 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  //Управление основными блоками спот, кошелек, купоны.
+  $scope.$watch('general.views', function() {
+    if ($scope.general.views == 'spot'){
+      $scope.viewSpot($scope.spot);
+    } else if ($scope.general.views == 'wallet'){
+      $scope.viewWallet($scope.spot);
+    }
+
+  });
+
   //Загрузка тела спота
   $scope.$watch('spot.discodes', function() {
     $scope.viewSpot($scope.spot);
@@ -83,6 +93,16 @@ angular.module('mobispot').controller('SpotController',
           opacity: 1
         },speed)
       });
+  };
+
+  $scope.viewWallet = function (spot) {
+    var spot_block = angular.element('#spot-block');
+    $http.post('/spot/wallet', spot).success(function(data) {
+      if (data.error == 'no'){
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+      }
+    });
   };
 
   // Добавление нового блока в спот
@@ -255,7 +275,6 @@ angular.module('mobispot').controller('SpotController',
   //       }
   //     });
   // };
-
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();
