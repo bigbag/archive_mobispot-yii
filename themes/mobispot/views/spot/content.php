@@ -1,5 +1,5 @@
 <div class="spot-content">
-    <section class="spot-wrapper">
+    <section class="spot-wrapper active">
         <div class="spot-hat">
             <div class="spot-tabs">
                 <a class="active"
@@ -8,7 +8,7 @@
                     <i class="icon">&#xe600;</i>
                     <?php echo Yii::t('spot', 'Social links')?>
                 </a>
-                <?php if ($wallet and $spot->tupe == Spot::TYPE_FULL):?>
+                <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
                 <a ng-click="general.views='wallet'"
                     ng-class="{active: general.views=='wallet'}">
                     <i class="icon">&#xe006;</i>
@@ -59,6 +59,19 @@
                             ng-class="{visible: spot.content}">
                             <?php echo Yii::t('spot', 'Post')?>
                         </a>
+                    </div>
+                </div>
+                <div id="error-upload" class="hide spot-item">
+                    <div class="item-area text-center type-error">
+                        <h4 class="color"><?php echo Yii::t('spot', 'Oops!') ?></h4>
+                        <h4><?php echo Yii::t('spot', 'There was an error when attempting to upload this file<br/>Please try again') ?></h4>
+                    </div>
+                </div>
+                <div id="progress-content" class="hide spot-item">
+                    <div class="item-area type-progress">
+                        <div class="progress-bar">
+                            <div class="meter" ng-style="{'width': progress+'%'}">{{progress}}%</div>
+                        </div>
                     </div>
                 </div>
                 <div class="spot-item-stack info-pick">
