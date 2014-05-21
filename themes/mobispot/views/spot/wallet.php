@@ -17,24 +17,18 @@
 
                             <table class="table table-card">
                                 <tbody>
-                                    <tr class="main-card">
-                                        <td><i class="icon">&#xe60d;</i>4315 52** **** 6679</td>
-                                        <td class="txt-right">
-                                            <a class="make-main" >
-                                                <?php echo Yii::t('spot', 'make payment')?>
-                                            </a>
-                                            <span class="main-indicator">
-                                                <?php echo Yii::t('spot', 'payment')?>
-                                            </span>
-                                            <a class="remove-card" href="#">
-                                                <?php echo Yii::t('spot', 'Remove')?>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="icon">&#xe60d;</i>4318 34** **** 5493</td>
-                                        <td class="txt-right">
-                                        <a class="make-main">
+                                <?php foreach ($cards as $card):?>
+                                <?php $main_card = ($card->status==PaymentCard::STATUS_PAYMENT)?'main-card':''?>
+                                <tr class="<?php echo $main_card;?>">
+                                    <td>
+                                        <?php echo $card->type; ?>
+                                    </td>
+                                    <td>
+                                        <i class="icon">&#xe60d;</i>
+                                        <?php echo $card->pan; ?>
+                                    </td>
+                                    <td class="txt-right">
+                                        <a class="make-main" >
                                             <?php echo Yii::t('spot', 'make payment')?>
                                         </a>
                                         <span class="main-indicator">
@@ -43,15 +37,15 @@
                                         <a class="remove-card" href="#">
                                             <?php echo Yii::t('spot', 'Remove')?>
                                         </a>
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
                                 </tbody>
                             </table>
                             <div class="text-right">
                                 <a class="minor-link">
                                     <i class="icon">&#xe009;</i>
                                     <?php echo Yii::t('spot', 'Edit the list of cards')?>
-
                                 </a>
                             </div>
                         </div>

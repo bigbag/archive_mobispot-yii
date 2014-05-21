@@ -571,11 +571,19 @@ class SpotController extends MController
             )
         );
 
+        $cards = PaymentCard::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+
         if (!$wallet) $this->getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
-                'wallet' => $wallet
+                'wallet' => $wallet,
+                'cards' => $cards,
             ),
             true
         );
