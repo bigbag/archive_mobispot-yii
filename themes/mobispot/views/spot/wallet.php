@@ -14,7 +14,7 @@
                             </a>
                         </h4>
                         <div class="columns large-7 small-7">
-
+                            <?php if($cards): ?>
                             <table class="table table-card">
                                 <tbody>
                                 <?php foreach ($cards as $card):?>
@@ -48,6 +48,7 @@
                                     <?php echo Yii::t('spot', 'Edit the list of cards')?>
                                 </a>
                             </div>
+                            <?php endif;?>
                         </div>
                         <div class="columns large-5 small-5">
                             <div class="m-auto-payment bg-gray" ng-class="conditionAutoP">
