@@ -1,5 +1,5 @@
 <meta charset="utf-8" />
-    <title>Mobispot - Wearable NFC devices</title>
+    <title><?php echo Yii::app()->params['siteTitle']; ?></title>
 
     <?php if (!$this->blockHeaderCeo): ?>
     <meta  property="og:site_name" content="Mobispot"/>

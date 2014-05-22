@@ -11,9 +11,12 @@ angular.module('mobispot').controller('SpotController',
   $scope.action = false;
 
   $scope.error = {};
+  $scope.result = {};
+
   $scope.spot = {};
   $scope.spot.discodes = 0;
-  $scope.result = {};
+  $scope.wallet = {};
+
   $scope.scroll_key = -1;
 
   var renameSpot = angular.element('.rename-spot');
@@ -44,9 +47,13 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  //Загрузка тела спота
-  $scope.$watch('spot.discodes', function() {
-    $scope.viewSpot($scope.spot);
+  //Управление основными блоками спот, кошелек, купоны.
+  $scope.$watch('general.views + spot.discodes', function() {
+    if ($scope.general.views == 'spot'){
+      $scope.viewSpot($scope.spot);
+    } else if ($scope.general.views == 'wallet'){
+      $scope.viewWallet($scope.spot);
+    }
   });
 
   $scope.viewSpot = function (spot) {
@@ -55,7 +62,7 @@ angular.module('mobispot').controller('SpotController',
     var spot_block = angular.element('#spot-block');
     $cookies.default_discodes = spot.discodes;
 
-    $http.post('/spot/spotView', spot).success(function(data) {
+    $http.post('/spot/viewSpot', spot).success(function(data) {
       if(data.error == 'no') {
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
@@ -65,7 +72,10 @@ angular.module('mobispot').controller('SpotController',
 
         $scope.fileUploadInit();
 
-        $scope.animateSpotSwitching();
+        angular.element('.spot-content_row').show().animate({
+          opacity: 1
+        },500);
+        // $scope.animateSpotSwitching();
       }
     });
   }
@@ -208,6 +218,29 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  $scope.viewWallet = function (spot) {
+    var spot_block = angular.element('.tabs-block');
+    $http.post('/spot/wallet', spot).success(function(data) {
+      if (data.error == 'no'){
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+        angular.element('.spot-content_row').show().animate({
+          opacity: 1
+        },500);
+      }
+    });
+  };
+
+  //Блокировка спота
+  $scope.blockedWallet = function(){
+    $http.post('/spot/blockedWallet', $scope.spot).success(function(data) {
+      if (data.error == 'no'){
+        $scope.wallet.status = data.status;
+      }
+    });
+  };
+
+
   // TODO Сортировка блоков спота и сохранение порядна, не работает
   // // Сохраняем порядок блоков
   // $scope.saveOrder = function() {
@@ -254,7 +287,6 @@ angular.module('mobispot').controller('SpotController',
   //       }
   //     });
   // };
-
 
   $(document).on('click','.store-items__close', function(){
     $(this).parents('tr').remove();

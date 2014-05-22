@@ -5,14 +5,15 @@
  *
  * The followings are the available columns in table 'wallet':
  * @property integer $id
- * @property string $hard_id
  * @property string $payment_id
+ * @property string $hard_id
  * @property string $name
  * @property integer $user_id
  * @property integer $discodes_id
  * @property string $creation_date
- * @property string $balance
  * @property string $status
+ * @property integer $blacklist
+ * @property integer $type
  */
 class PaymentWallet extends CActiveRecord
 {
@@ -21,12 +22,26 @@ class PaymentWallet extends CActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = -1;
 
+    const TYPE_DEMO = 0;
+    const TYPE_FULL = 3;
+
+    const ACTIVE_ON = 1;
+    const ACTIVE_OFF = 0;
+
     public function getStatusList()
     {
         return array(
             self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
             self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
             self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
+        );
+    }
+
+    public function getAllSpot()
+    {
+        return array(
+            self::TYPE_FULL => Yii::t('account', 'Полный'),
+            self::TYPE_DEMO => Yii::t('account', 'Демо'),
         );
     }
 
@@ -64,15 +79,14 @@ class PaymentWallet extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('hard_id, name, payment_id, user_id, creation_date, balance', 'required'),
+            array('hard_id, name, payment_id, user_id, creation_date', 'required'),
             array('user_id, discodes_id, status', 'numerical', 'integerOnly' => true),
             array('hard_id, payment_id', 'length', 'max' => 20),
             array('name', 'filter', 'filter' => 'trim'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('balance', 'length', 'max' => 150),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, hard_id, payment_id, name, user_id, discodes_id, status, creation_date, balance', 'safe', 'on' => 'search'),
+            array('id, hard_id, payment_id, name, user_id, discodes_id, status, creation_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -108,36 +122,19 @@ class PaymentWallet extends CActiveRecord
         if ($this->isNewRecord)
         {
             $this->creation_date = date('Y-m-d H:i:s');
-            if (!$this->status)
-                $this->status = self::STATUS_ACTIVE;
-            if (!$this->balance)
-                $this->balance = 0;
-            if (!$this->discodes_id)
-                $this->balance = 0;
-            if (!$this->name)
-                $this->name = 'My Spot';
+            if (!$this->status) $this->status = self::STATUS_ACTIVE;
+            if (!$this->type) $this->type = self::TYPE_FULL;
+            if (!$this->blacklist) $this->blacklist = self::ACTIVE_OFF;
+            if (!$this->name) $this->name = 'My Spot';
         }
 
         return parent::beforeValidate();
-    }
-
-    public function beforeSave()
-    {
-        $this->balance = ($this->balance) * 100;
-        return parent::beforeSave();
     }
 
     protected function afterSave()
     {
         Yii::app()->cache->delete('wallet_discodes_' . $this->discodes_id);
         parent::afterSave();
-    }
-
-    public function afterFind()
-    {
-        $this->balance = ($this->balance) / 100;
-
-        return parent::afterFind();
     }
 
     public function selectUser($user_id)
@@ -167,23 +164,11 @@ class PaymentWallet extends CActiveRecord
     public static function getByWalletId($id, $page = 1, $count = 5)
     {
         $answer = array();
-
         $criteria = new CDbCriteria;
-
         $wallet = self::model()->with('loyalties')->findByPk($id);
-
-
         return $answer;
     }
 
-    public function scopes()
-    {
-        return array(
-            'blacklist' => array(
-                'condition' => 'balance<=0',
-            ),
-        );
-    }
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -197,7 +182,6 @@ class PaymentWallet extends CActiveRecord
             'user_id' => 'User',
             'discodes_id' => 'Spot',
             'creation_date' => 'Creation Date',
-            'balance' => 'Balance',
             'name' => 'Name',
             'status' => 'Status',
         );
@@ -222,7 +206,8 @@ class PaymentWallet extends CActiveRecord
         $criteria->compare('status', $this->status);
         $criteria->compare('creation_date', $this->creation_date, true);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('balance', $this->balance, true);
+        $criteria->compare('blacklist', $this->blacklist, true);
+        $criteria->compare('type', $this->type, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

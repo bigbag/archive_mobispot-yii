@@ -78,37 +78,6 @@ class UserController extends MController
         echo json_encode($answer);
     }
 
-    // Страница управления персональными спотами
-    public function actionPersonal()
-    {
-        $this->layout = '//layouts/spots';
-        $user_id = Yii::app()->user->id;
-        $open_discodes = Yii::app()->request->getQuery('discodes');
-        $open_key = Yii::app()->request->getQuery('key');
-
-        if (!$user_id)
-            $this->setAccess();
-
-        $user = User::model()->findByPk($user_id);
-        if ($user->status == User::STATUS_NOACTIVE)
-            $this->redirect('/');
-
-        $dataProvider = new CActiveDataProvider(
-                Spot::model()->personal()->used()->selectUser($user_id), array(
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array('defaultOrder' => 'registered_date asc'),
-        ));
-
-        $this->render('personal', array(
-            'dataProvider' => $dataProvider,
-            'spot_type_all' => SpotType::getSpotTypeArray(),
-            'open_discodes' => $open_discodes,
-            'open_key'=> $open_key,
-        ));
-    }
-
     //Определяем ид спота загружаемого по умолчанию
     public function getDefaultSpot($default)
     {

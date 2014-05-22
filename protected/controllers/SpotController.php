@@ -87,7 +87,7 @@ class SpotController extends MController
     }
 
     // Просмотр содержимого спота
-    public function actionSpotView()
+    public function actionViewSpot()
     {
         $answer = array(
             'error' => 'yes',
@@ -102,6 +102,9 @@ class SpotController extends MController
         if (!$spot)
             $this->getJsonAndExit($answer);
 
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
             $spotContent = SpotContent::initPersonal($spot);
@@ -109,9 +112,10 @@ class SpotController extends MController
         $content = $spotContent->content;
         $content_keys = $content['keys'];
 
-        $answer['content'] = $this->renderPartial('//spot/body',
+        $answer['content'] = $this->renderPartial('//spot/content',
             array(
                 'spot' => $spot,
+                'wallet' => $wallet,
                 'spotContent' => $spotContent,
                 'content_keys' => $content_keys,
             ),
@@ -126,94 +130,236 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    public function actionCoupons()
+
+    // Добавление нового спота
+    public function actionAddSpot()
     {
         $answer = array(
             'error' => 'yes',
-            'content' => ''
+            'content' => '',
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']) or !Yii::app()->user->id)
+        if (!isset($data['code']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spot->status = Spot::STATUS_REGISTERED;
+        $spot->lang = $this->getLang();
+        $spot->user_id = Yii::app()->user->id;
+
+        if (isset($data['name']))
+            $spot->name = $data['name'];
+        $spot->type = Spot::TYPE_FULL;
+
+        if (!$spot->save())
             $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
-        array(
-                'discodes_id' => $data['discodes'],
-                'user_id' => Yii::app()->user->id,
-                'status' => PaymentWallet::STATUS_ACTIVE,
-            )
+                array(
+                    'discodes_id' => $spot->discodes_id,
+                    'user_id' => 0,
+                )
         );
-
         if ($wallet)
         {
-            $coupons = Loyalty::getCoupons($wallet->id);
-            $answer['content'] = $this->renderPartial(
-                    '//spot/coupons', array('coupons' => $coupons), true
-            );
+            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+            $wallet->user_id = $spot->user_id;
+            $wallet->save();
         }
-        else
-            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
 
-        $answer['error'] = 'no';
+        $answer['content'] = $this->renderPartial('//user/block/spots',
+            array('data' => $spot),
+            true
+        );
+        $answer['error'] = "no";
 
         echo json_encode($answer);
     }
 
-
-    //подгрузка кошелька после открытия спота
-    public function actionWallet()
+    // Удаление спота
+    public function actionRemoveSpot()
     {
         $answer = array(
             'error' => 'yes',
-            'content' => ''
+            'content' => '',
         );
         $data = $this->validateRequest();
 
-        if (empty($data['discodes']) or Yii::app()->user->isGuest)
+        if (!isset($data['discodes']))
             $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spot->status = Spot::STATUS_REMOVED_USER;
+        if ($spot->save())
+        {
+            $answer['discodes'] = $spot->discodes_id;
+            $answer['error'] = "no";
+        }
+
+        echo json_encode($answer);
+    }
+
+    // Очистка спота
+    public function actionCleanSpot()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        $spotContent = SpotContent::initPersonal($spot, $spotContent);
+
+        if ($spotContent->save())
+            $answer['error'] = "no";
+
+        echo json_encode($answer);
+    }
+
+    //Делаем спот невидимым
+    public function actionInvisibleSpot()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        if ($spot->status == Spot::STATUS_INVISIBLE)
+            $spot->status = Spot::STATUS_REGISTERED;
+        else
+            $spot->status = Spot::STATUS_INVISIBLE;
+
+        if ($spot->save())
+            $answer['error'] = "no";
+
+        echo json_encode($answer);
+    }
+
+    //Переименовываем спот
+    public function actionRenameSpot()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'name' => ''
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['newName']) or !isset($data['discodes']))
+        {
+            $this->getJsonAndExit($answer);
+        }
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spot->name = CHtml::encode($data['newName']);
+        if (!$spot->save(false))
+            $this->getJsonAndExit($answer);
+
+        $answer['name'] = mb_substr($spot->name, 0, 45, 'utf-8');
+        $answer['error'] = "no";
 
         $wallet = PaymentWallet::model()->findByAttributes(
-            array(
-                'discodes_id' => $data['discodes'],
-                'user_id' => Yii::app()->user->id,
-            )
+                array(
+                    'discodes_id' => $data['discodes']
+                )
         );
-
-        if (!$wallet)
+        if ($wallet)
         {
-            $answer['content'] = str_replace('id="coupons-block"', 'id="wallet-block"', $this->renderPartial('//spot/no_wallet', array(), true));
-            $this->getJsonAndExit($answer);
+            $wallet->name = $spot->name;
+            $wallet->save(false);
         }
 
-        $logs = PaymentLog::getListByWalletId($wallet->id);
-        $actions = WalletLoyalty::getByWalletId($wallet->id);
-        $sms_info = false;
+        echo json_encode($answer);
+    }
 
-        $cards = array();
-        if ($logs)
+    //Задать пароль на спот
+    public function actionSetSpotPass()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['pass']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk($data['discodes']);
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        if (empty($data['pass']))
+            $spot->pass = null;
+        else
+            $spot->pass = $data['pass'];
+        if ($spot->save(false))
         {
-           foreach ($logs as $log)
+            $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
+            for ($i = 0; $i < count($whitelist); $i++)
+                $whitelist[$i]->delete();
+
+            $answer['error'] = "no";
+            $answer['saved'] = Yii::t('spot', 'Saved!');
+        }
+
+        echo json_encode($answer);
+    }
+
+    //Сохраняем
+    public function actionSaveOrder()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['keys']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent)
+            $this->getJsonAndExit($answer);
+
+
+        $content = $spotContent->content;
+        $newkeys = array();
+        foreach ($data['keys'] as $answer['key'])
+        {
+            if (isset($content['keys'][$answer['key']]))
             {
-                $cards[$log->card_pan] = $log->history_id;
+                $newkeys[$answer['key']] = $content['keys'][$answer['key']];
             }
         }
+        $content['keys'] = $newkeys;
+        $spotContent->content = $content;
 
-        $auto = PaymentAuto::model()->findByAttributes(
-            array('wallet_id' => $wallet->id)
-        );
-
-        $answer['content'] = $this->renderPartial('//spot/wallet',
-            array(
-                'wallet' => $wallet,
-                'actions' => $actions,
-                'cards' => $cards,
-                'auto' => $auto,
-                'sms_info' => $sms_info,
-            ),
-            true
-        );
-        $answer['error'] = 'no';
+        if ($spotContent->save())
+            $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -372,6 +518,112 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    public function actionCoupons()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !Yii::app()->user->id)
+            $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+        array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
+
+        if ($wallet)
+        {
+            $coupons = Loyalty::getCoupons($wallet->id);
+            $answer['content'] = $this->renderPartial(
+                    '//spot/coupons', array('coupons' => $coupons), true
+            );
+        }
+        else
+            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
+    }
+
+    // Отображение кошелька
+    public function actionWallet()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+        $data = $this->validateRequest();
+
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
+            $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+
+        $cards = PaymentCard::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+
+        if (!$wallet) $this->getJsonAndExit($answer);
+
+        $answer['content'] = $this->renderPartial('//spot/wallet',
+            array(
+                'wallet' => $wallet,
+                'cards' => $cards,
+            ),
+            true
+        );
+        $answer['error'] = 'no';
+        echo json_encode($answer);
+    }
+
+    // Блокировка кошелька
+    public function actionBlockedWallet()
+    {
+        $data = $this->validateRequest();
+        $answer = array(
+            'error' => 'yes',
+            'status' => '',
+        );
+
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+
+        if (!$wallet) $this->getJsonAndExit($answer);
+
+        if ($wallet->status == PaymentWallet::STATUS_ACTIVE)
+            $wallet->status = PaymentWallet::STATUS_BANNED;
+        else
+            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+
+        if ($wallet->save())
+        {
+            $answer['error'] = 'no';
+            $answer['status'] = $wallet->status;
+        }
+        echo json_encode($answer);
+    }
+
     //Привязка соцсетей через кнопку
     public function actionBindSocial()
     {
@@ -389,8 +641,7 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
@@ -933,238 +1184,4 @@ class SpotController extends MController
 
         echo json_encode($answer);
     }
-
-    // Добавление нового спота
-    public function actionAddSpot()
-    {
-        $answer = array(
-            'error' => 'yes',
-            'content' => '',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['code']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        $spot->status = Spot::STATUS_REGISTERED;
-        $spot->lang = $this->getLang();
-        $spot->user_id = Yii::app()->user->id;
-
-        if (isset($data['name']))
-            $spot->name = $data['name'];
-        $spot->spot_type_id = Spot::TYPE_PERSONAL;
-
-        if (!$spot->save())
-            $this->getJsonAndExit($answer);
-
-        $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $spot->discodes_id,
-                    'user_id' => 0,
-                )
-        );
-        if ($wallet)
-        {
-            $wallet->status = PaymentWallet::STATUS_ACTIVE;
-            $wallet->user_id = $spot->user_id;
-            $wallet->save();
-        }
-
-        $answer['content'] = $this->renderPartial('//user/block/spots',
-            array('data' => $spot),
-            true
-        );
-        $answer['error'] = "no";
-
-        echo json_encode($answer);
-    }
-
-    // Удаление спота
-    public function actionRemoveSpot()
-    {
-        $answer = array(
-            'error' => 'yes',
-            'content' => '',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        $spot->status = Spot::STATUS_REMOVED_USER;
-        if ($spot->save())
-        {
-            $answer['discodes'] = $spot->discodes_id;
-            $answer['error'] = "no";
-        }
-
-        echo json_encode($answer);
-    }
-
-    // Очистка спота
-    public function actionCleanSpot()
-    {
-        $answer = array(
-            'error' => 'yes',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        $spotContent = SpotContent::getSpotContent($spot);
-        $spotContent = SpotContent::initPersonal($spot, $spotContent);
-
-        if ($spotContent->save())
-            $answer['error'] = "no";
-
-        echo json_encode($answer);
-    }
-
-    //Делаем спот невидимым
-    public function actionInvisibleSpot()
-    {
-        $answer = array(
-            'error' => 'yes',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        if ($spot->status == Spot::STATUS_INVISIBLE)
-            $spot->status = Spot::STATUS_REGISTERED;
-        else
-            $spot->status = Spot::STATUS_INVISIBLE;
-
-        if ($spot->save())
-            $answer['error'] = "no";
-
-        echo json_encode($answer);
-    }
-
-    //Переименовываем спот
-    public function actionRenameSpot()
-    {
-        $answer = array(
-            'error' => 'yes',
-            'name' => ''
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['newName']) or !isset($data['discodes']))
-        {
-            $this->getJsonAndExit($answer);
-        }
-        $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        $spot->name = CHtml::encode($data['newName']);
-        if (!$spot->save(false))
-            $this->getJsonAndExit($answer);
-
-        $answer['name'] = mb_substr($spot->name, 0, 45, 'utf-8');
-        $answer['error'] = "no";
-
-        $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $data['discodes']
-                )
-        );
-        if ($wallet)
-        {
-            $wallet->name = $spot->name;
-            $wallet->save(false);
-        }
-
-        echo json_encode($answer);
-    }
-
-    //Задать пароль на спот
-    public function actionSetSpotPass()
-    {
-        $answer = array(
-            'error' => 'yes',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']) or !isset($data['pass']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        if (empty($data['pass']))
-            $spot->pass = null;
-        else
-            $spot->pass = $data['pass'];
-        if ($spot->save(false))
-        {
-            $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
-            for ($i = 0; $i < count($whitelist); $i++)
-                $whitelist[$i]->delete();
-
-            $answer['error'] = "no";
-            $answer['saved'] = Yii::t('spot', 'Saved!');
-        }
-
-        echo json_encode($answer);
-    }
-
-    //Сохраняем
-    public function actionSaveOrder()
-    {
-        $answer = array(
-            'error' => 'yes',
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']) or !isset($data['keys']))
-            $this->getJsonAndExit($answer);
-
-        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
-
-        $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent)
-            $this->getJsonAndExit($answer);
-
-
-        $content = $spotContent->content;
-        $newkeys = array();
-        foreach ($data['keys'] as $answer['key'])
-        {
-            if (isset($content['keys'][$answer['key']]))
-            {
-                $newkeys[$answer['key']] = $content['keys'][$answer['key']];
-            }
-        }
-        $content['keys'] = $newkeys;
-        $spotContent->content = $content;
-
-        if ($spotContent->save())
-            $answer['error'] = "no";
-
-        echo json_encode($answer);
-    }
-
 }
