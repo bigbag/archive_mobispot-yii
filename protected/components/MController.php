@@ -173,6 +173,28 @@ class MController extends Controller
         return $resolution;
     }
 
+    public function setCurlRequest($url, $data=false) {
+        $ch=curl_init();
+        curl_setopt($ch, CURLOPT_URL, (string)$url);
+        if ($data) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, (array)$data);
+        }
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+
+        $result=curl_exec($ch);
+        $errno=curl_errno($ch);
+        $error=curl_error($ch);
+        curl_close($ch);
+
+        if ($errno == 0) return $result;
+        else return $errno;
+    }
+
     public function init()
     {
         $all_lang = Lang::getLangArray();

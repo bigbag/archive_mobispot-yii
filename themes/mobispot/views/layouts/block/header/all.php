@@ -16,7 +16,7 @@
                 <?php echo Yii::t('menu', 'Sign in') ?>
             </a></li>
             <?php else: ?>
-            <li><a href="/user/spots/">
+            <li><a href="/spot/list/">
                 <?php echo Yii::t('menu', 'My Spots') ?>
             </a></li>
             <li><a href="/service/logout/">

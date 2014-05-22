@@ -92,6 +92,8 @@ class TwitterContent extends SocContentBase
             //Yii::app()->cache->set('twitterAppToken', $appToken);
         }
 
+        $userDetail['block_type'] = self::TYPE_TWEET;
+        
         if ((strpos($link, 'twitter.com/') !== false) && (strpos($link, '/status/') !== false))
         {
             //твитт
