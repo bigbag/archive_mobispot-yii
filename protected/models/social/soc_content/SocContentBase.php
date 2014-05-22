@@ -2,6 +2,7 @@
 
 class SocContentBase
 {
+    const TYPE_TWEET = 'tweet';
 
     public static function rmGetParam($str)
     {

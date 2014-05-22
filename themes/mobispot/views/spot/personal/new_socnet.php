@@ -1,9 +1,14 @@
 <?php $dataKey = $key; ?>
-<?php if(isset($socContent)): ?>
-    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
+<?php if(isset($socContent) and !empty($socContent['block_type'])): ?>
+    <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/spot/personal/soc_block/'
+        .$socContent['block_type']
+        .'.php'); 
+    ?>
+<?php elseif(isset($socContent)):?>
+        <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
 <?php else:?>
 <?php $socInf = new SocInfo;?>
-<div id="block-<?php echo $key;?>" class="spot-item">
+<div id="block-<?php echo $key;?>" class="spot-item" ng-init="loadSocContent(<?php echo $key;?>)">
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo CHtml::encode(CHtml::encode($content)) ?>"
@@ -18,7 +23,7 @@
         <div class="type-mess item-body">
             <div id="post-box-<?php echo $key;?>"
                 class="post-box"
-                ng-init="socTask(<?php echo $key;?>)">
+            >
             </div>
         </div>
         <div class="item-control">
