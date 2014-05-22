@@ -1,5 +1,4 @@
 <div id="block-<?php echo $dataKey;?>" class="spot-item<?php if (isset($socContent['tweet_author'])): ?> spot-item_twi<?php endif; ?>"
-<?php if (!empty($socContent['dinamic'])): ?> ng-init="socTask(<?php echo $dataKey;?>)"<?php endif; ?>>
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
@@ -8,14 +7,14 @@
             </a>
         </div>
         <div class="type-mess item-body">
-        <?php /* Avatar *////////////////////////////////////////////////////////////////////////////////// ?>
+        <?php /* Avatar *////////////////////// ?>
         <?php if (isset($socContent['photo'])): ?>
             <div class="item-user-avatar"><img width="50" height="50" src="<?php echo $socContent['photo']; ?>"></div>
         <?php endif; ?>
             <?php if (!isset($socContent['avatar_before_mess_body']) || !$socContent['avatar_before_mess_body']): ?>
             <div class="mess-body">
             <?php endif; ?>
-            <?php /* Username  and sub-line *////////////////////////////////////////////////////////////// ?>
+            <?php /* Username  and sub-line *////////////////////// ?>
             <?php if (!empty($socContent['soc_username']) || !empty($socContent['color-header']) || !empty($socContent['sub-time'])): ?>
                 <div class="author-row">
                     <?php if (isset($socContent['soc_username'])): ?>
@@ -47,7 +46,7 @@
             <?php if (isset($socContent['avatar_before_mess_body']) and $socContent['avatar_before_mess_body']): ?>
             <div class="mess-body">
             <?php endif; ?>
-            <?php /* Tweet *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Tweet *////////////////////// ?>
             <?php if (isset($socContent['tweet_author']) && isset($socContent['tweet_username']) && isset($socContent['tweet_text']) && isset($socContent['soc_url']) && isset($socContent['tweet_id'])): ?>
                     <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a><a class="user-name <?php if (!empty($socContent['dinamic'])): ?>sub-line<?php endif; ?>" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a>
                     <?php if (empty($socContent['dinamic'])): ?>
@@ -72,18 +71,18 @@
                         <?php endif; ?>
                     </footer>
             <?php endif; ?>
-            <?php /* Text post *//////////////////////////////////////////////////////////////////////////////////  ?>
+            <?php /* Text post *//////////////////////  ?>
             <?php if (isset($socContent['last_status'])): ?>
                 <p><?php echo $this->hrefActivate($socContent['last_status']); ?></p>
             <?php endif; ?>
-            <?php /* Text link *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Text link *////////////////////// ?>
             <?php if (isset($socContent['link_href']) && isset($socContent['link_text'])): ?>
                 <a href="<?php echo $socContent['link_href']; ?>"><?php echo $socContent['link_text']; ?></a>
                 <?php if (isset($socContent['link_descr'])): ?>
                     <p><?php echo $socContent['link_descr']; ?></p>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php /* Vimeo video *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Vimeo video *////////////////////// ?>
             <?php if (isset($socContent['vimeo_last_video'])): ?>
                 <div id="div_<?php echo $dataKey; ?>">
                     <iframe
@@ -112,7 +111,7 @@
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-            <?php /* Checkin *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Checkin *////////////////////// ?>
             <?php if (isset($socContent['venue_name'])): ?>
                     <?php if (isset($socContent['checkin_shout'])): ?>
                         <p><?php echo $socContent['checkin_shout'] ?></p>
@@ -121,7 +120,7 @@
                         <img src="<?php echo $socContent['checkin_photo']; ?>">
                     <?php endif; ?>
             <?php endif; ?>
-            <?php /* Image *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Image *////////////////////// ?>
             <?php if (isset($socContent['last_img']) && empty($socContent['shared_link'])): ?>
                     <?php //if (isset($socContent['last_img_href'])): ?>
                     <?php //<a href="<?php echo $socContent['last_img_href']; ?>
@@ -134,7 +133,7 @@
                         <p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
                     <?php endif; ?>
             <?php endif; ?>
-            <?php /* Shared Link *////////////////////////////////////////////////////////////////////////////////// ?>
+            <?php /* Shared Link *////////////////////// ?>
             <?php if (!empty($socContent['shared_link'])): ?>
                 <?php if (isset($socContent['last_img_msg'])): ?>
                     <p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
@@ -180,7 +179,7 @@
                 <?php endif; ?>
                 </a>
             <?php endif; ?>
-            <?php /* Map *//////////////////////////////////////////////////////////////////////////////////  ?>
+            <?php /* Map *//////////////////////  ?>
             <?php if (isset($socContent['place_lat']) && isset($socContent['place_lng'])): ?>
                     <?php if (isset($socContent['place_msg'])): ?>
                         <p><?php echo $socContent['place_msg']; ?></p>
@@ -208,7 +207,7 @@
                     <?php endif; ?>
                     <p><?php echo $socContent['place_name']; ?></p>
             <?php endif; ?>
-            <?php /* YouTube video *//////////////////////////////////////////////////////////////////////////////////  ?>
+            <?php /* YouTube video *//////////////////////  ?>
             <?php   if (!empty($socContent['ytube_video_link'])
                         && !empty($socContent['ytube_video_flash'])
                         && empty($socContent['shared_link'])
@@ -244,7 +243,7 @@
                     </footer>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php /* list *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* list *//////////////////////   ?>
                 <?php if (!empty($socContent['list'])): ?>
                     <?php if (!empty($socContent['list']['title'])): ?>
                     <h4><?php echo $socContent['list']['title']; ?></h4>
@@ -265,7 +264,7 @@
                         <?php endforeach; ?>
                         </tbody></table>
                 <?php endif; ?>
-            <?php /* list2 *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* list2 *//////////////////////   ?>
                 <?php if (!empty($socContent['list2'])): ?>
                     <?php if (!empty($socContent['list2']['title'])): ?>
                     <h4><?php echo $socContent['list2']['title']; ?></h4>
@@ -286,21 +285,21 @@
                         <?php endforeach; ?>
                         </tbody></table>
                 <?php endif; ?>
-            <?php /* html *//////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* html *////////////////////// ?>
                 <?php if (isset($socContent['html'])): ?>
                     <?php echo $socContent['html']; ?>
                 <?php endif; ?>
-            <?php /* footer-line *///////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* footer-line *////////////////////// ?>
                 <?php if (!empty($socContent['footer-line'])): ?>
                     <footer>
                         <span><?php echo $socContent['footer-line']; ?></span>
                     </footer>
                 <?php endif; ?>
-            <?php /* likes */////////////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* likes *////////////////////// ?>
                 <?php if (!empty($socContent['likes-block'])): ?>
                     <div class="likes-block"><?php echo $socContent['likes-block']; ?></div>
                 <?php endif; ?>
-            <?php /* Follow button */////////////////////////////////////////////////////////////////////////   ?>
+            <?php /* Follow button *////////////////////// ?>
                 <?php if ((!empty($socContent['soc_url']) ||
                             !empty($socContent['follow_url']))
                             and !isset($socContent['tweet_author'])
@@ -329,7 +328,8 @@
                     <?php echo $socContent['follow_button']; ?>
                     </div>
                 <?php endif; ?>
-            <?php /* "Move your link" panel *////////////////////////////////////////////////////////////////   ?>
+            <?php /* "Move your link" panel *////////////////////// ?>
+<?php /*?>
             <?php if (!empty($socContent['dinamic'])): ?>
             <div class="spot-cover slow">
                 <div class="spot-activity">
@@ -343,8 +343,9 @@
                 </div>
             </div>
             <?php endif; ?>
-
+<?php*/ ?>
             </div>
         </div>
     </div>
+</div>
 </div>
