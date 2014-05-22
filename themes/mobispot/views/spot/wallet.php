@@ -64,7 +64,8 @@
                                         </li>
                                     </ul>
                                 <div class="apay-button columns">
-                                    <a class="text-center" href="ofert.html">
+                                    <a class="text-center"
+                                        href="/spot/cardOfert/<?php echo $wallet->discodes_id?>">
                                         <i class="icon">&#xe60e;</i>
                                         <?php echo Yii::t('spot', 'Add a card')?>
                                     </a>

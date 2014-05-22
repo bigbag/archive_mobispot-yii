@@ -15,6 +15,8 @@ angular.module('mobispot').controller('SpotController',
 
   $scope.spot = {};
   $scope.spot.discodes = 0;
+  $scope.general = {};
+  $scope.general.views = false;
   $scope.wallet = {};
 
   $scope.scroll_key = -1;
@@ -239,6 +241,12 @@ angular.module('mobispot').controller('SpotController',
         $scope.wallet.status = data.status;
       }
     });
+  };
+
+  //Отправка запроса на привязку карты
+  $scope.linkingCard = function(card){
+    if (!card.terms) return false;
+    $( "#linking_card" ).submit();
   };
 
 

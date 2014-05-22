@@ -15,10 +15,12 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="/themes/mobispot/css/reset.css">
-    <link rel="stylesheet" href="/themes/mobispot/css/foundation.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation3/foundation.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
+    <script src="/themes/mobispot/js/jquery.min.js"></script>
+    <script src="/themes/mobispot/js/angular.min.js"></script>
 
 </head>
 <body >
@@ -34,5 +36,9 @@
         </div>
         <?php echo $content; ?>
     </div>
+    <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
+    <script src="/themes/mobispot/angular/app/app.js"></script>
+    <script src="/themes/mobispot/angular/app/service.js"></script>
+    <?php echo $this->blockFooterScript; ?>
 </body>
 </html>
