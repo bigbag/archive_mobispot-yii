@@ -19,7 +19,7 @@ class SpotController extends MController
         }
     }
 
-    // Загрузка файлов в спот
+        // Загрузка файлов в спот
     public function actionUpload()
     {
         $answer = array(
@@ -86,6 +86,40 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    //Определяем ид спота загружаемого по умолчанию
+    public function getDefaultSpot($default)
+    {
+        $default_discodes = $default;
+        if (isset(Yii::app()->request->cookies['default_discodes']))
+            $default_discodes = Yii::app()->request->cookies['default_discodes']->value;
+        return $default_discodes;
+    }
+
+    // Страница управления спотами
+    public function actionList()
+    {
+        $this->layout = '//layouts/spots';
+
+        $yandex_order = Yii::app()->request->getParam('orderN', false);
+        if ($yandex_order) $this->redirect('/spot/list/');
+
+        $user_id = Yii::app()->user->id;
+        if (!$user_id) $this->setAccess();
+
+        $user = User::model()->findByPk($user_id);
+        if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
+
+        $default_discodes = 0;
+        $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
+        if ($spots)
+           $default_discodes = $this->getDefaultSpot($spots[0]->discodes_id);
+
+        $this->render('//spot/list', array(
+            'spots' => $spots,
+            'default_discodes' => $default_discodes,
+        ));
+    }
+
     // Просмотр содержимого спота
     public function actionViewSpot()
     {
@@ -95,19 +129,16 @@ class SpotController extends MController
         );
 
         $data = $this->validateRequest();
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent)
-            $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
 
         $content = $spotContent->content;
         $content_keys = $content['keys'];
@@ -140,29 +171,26 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['code']))
-            $this->getJsonAndExit($answer);
+        if (!isset($data['code'])) $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REGISTERED;
         $spot->lang = $this->getLang();
         $spot->user_id = Yii::app()->user->id;
 
-        if (isset($data['name']))
-            $spot->name = $data['name'];
+        if (isset($data['name'])) $spot->name = $data['name'];
         $spot->type = Spot::TYPE_FULL;
 
         if (!$spot->save())
             $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $spot->discodes_id,
-                    'user_id' => 0,
-                )
+            array(
+                'discodes_id' => $spot->discodes_id,
+                'user_id' => 0,
+            )
         );
         if ($wallet)
         {
@@ -189,12 +217,10 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REMOVED_USER;
         if ($spot->save())
@@ -214,18 +240,15 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         $spotContent = SpotContent::initPersonal($spot, $spotContent);
 
-        if ($spotContent->save())
-            $answer['error'] = "no";
+        if ($spotContent->save()) $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -238,20 +261,16 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         if ($spot->status == Spot::STATUS_INVISIBLE)
             $spot->status = Spot::STATUS_REGISTERED;
-        else
-            $spot->status = Spot::STATUS_INVISIBLE;
+        else $spot->status = Spot::STATUS_INVISIBLE;
 
-        if ($spot->save())
-            $answer['error'] = "no";
+        if ($spot->save()) $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -306,13 +325,11 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
-        if (empty($data['pass']))
-            $spot->pass = null;
-        else
-            $spot->pass = $data['pass'];
+        if (empty($data['pass'])) $spot->pass = null;
+        else $spot->pass = $data['pass'];
+
         if ($spot->save(false))
         {
             $whitelist = SpotBlock::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id, 'whitelist' => true));
@@ -338,13 +355,10 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent)
-            $this->getJsonAndExit($answer);
-
+        if (!$spotContent) $this->getJsonAndExit($answer);
 
         $content = $spotContent->content;
         $newkeys = array();
@@ -358,8 +372,7 @@ class SpotController extends MController
         $content['keys'] = $newkeys;
         $spotContent->content = $content;
 
-        if ($spotContent->save())
-            $answer['error'] = "no";
+        if ($spotContent->save()) $answer['error'] = "no";
 
         echo json_encode($answer);
     }
@@ -379,9 +392,7 @@ class SpotController extends MController
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         $spotContent = SpotContent::getSpotContent($spot);
-
-        if (!$spotContent)
-            $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
 
         $content = $spotContent->content;
         $content['keys'][$content['counter']] = 'text';
@@ -413,13 +424,10 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-
-        if (!$spotContent)
-            $spotContent = SpotContent::initPersonal($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
 
         $content = $spotContent->content;
         $content['private'] = $data['private'];
@@ -445,12 +453,10 @@ class SpotController extends MController
             $this->getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent)
-            $this->getJsonAndExit($answer);
+        if (!$spotContent) $this->getJsonAndExit($answer);
 
         $content = $spotContent->content;
         if ($content['keys'][$data['key']] != 'text')
@@ -487,17 +493,13 @@ class SpotController extends MController
         $data = $this->validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['key']))
-        {
             $this->getJsonAndExit($answer);
-        }
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot)
-            $this->getJsonAndExit($answer);
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent)
-            $this->getJsonAndExit($answer);
+        if (!$spotContent) $this->getJsonAndExit($answer);
 
         $content = $spotContent->content;
         $content['data'][$data['key']] = $data['content_new'];
@@ -613,8 +615,7 @@ class SpotController extends MController
 
         if ($wallet->status == PaymentWallet::STATUS_ACTIVE)
             $wallet->status = PaymentWallet::STATUS_BANNED;
-        else
-            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+        else $wallet->status = PaymentWallet::STATUS_ACTIVE;
 
         if ($wallet->save())
         {
@@ -622,6 +623,33 @@ class SpotController extends MController
             $answer['status'] = $wallet->status;
         }
         echo json_encode($answer);
+    }
+
+    public function getLinkingParams($discodes_id){
+        $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/' . $discodes_id;
+        return CJSON::decode($this->setCurlRequest($url), true);
+    }
+
+    // Страница с пользовательским соглашение для привязки
+    public function actionCardOfert() {
+        $this->layout = '//layouts/error';
+
+        $discodes_id = Yii::app()->request->getParam('id', false);
+        if (!$discodes_id or !Yii::app()->user->id) $this->setNotFound();
+
+        $discodes_id = (int)$discodes_id;
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => $discodes_id,
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$wallet) $this->setNotFound();
+
+        $linking = $this->getLinkingParams($discodes_id);
+        if ($linking['error'] == 1) $this->setBadRequest();
+
+        $this->render('card_ofert',array('linking'=>$linking));
     }
 
     //Привязка соцсетей через кнопку
