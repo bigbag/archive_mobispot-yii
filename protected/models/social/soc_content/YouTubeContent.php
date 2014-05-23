@@ -66,6 +66,7 @@ class YouTubeContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = $link;
+        //$userDetail['block_type'] = self::YOUTUBE_VIDEO;
 
         //$userXML = $self::makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
         $username = '';
@@ -87,7 +88,7 @@ class YouTubeContent extends SocContentBase
             {
                 $userProfileEntry = $yt->getUserProfile($username);
 
-                //$userDetail['soc_username'] = $userProfileEntry->title->text;
+                $userDetail['soc_username'] = $userProfileEntry->title->text;
                 $userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
                 /*
                   $userDetail['age'] = $userProfileEntry->getAge();

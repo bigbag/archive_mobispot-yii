@@ -561,9 +561,7 @@ angular.module('mobispot').controller('SpotController',
         }else{
             console.log('key ' + key + ':' + data.error);
         }
-      }).error(function(error){
-          console.log(error);
-      });  
+      }); 
   }
   
   $scope.socialButton = function(){
@@ -769,7 +767,7 @@ angular.module('mobispot').controller('SpotController',
                         }
 
                         $scope.setVideoSize(data.key);
-                        var scroll_height = $('#block-' + data.key).offset().top - 100;
+                        var scroll_height = $('#block-' + data.key).offset().top;
                         $('html, body').animate({
                             scrollTop: scroll_height
                         }, 600);
