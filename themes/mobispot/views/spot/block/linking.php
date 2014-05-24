@@ -1,79 +1,112 @@
 <div id="extraMediaForm" class="linking">
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('facebook', $spotNets))?
+        ' binded':''
+        ?>"
         title="Facebook"
+        net="facebook"
         ng-click="bindByPanel('facebook')"
-        ng-mouseenter="socView('facebook')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/facebook.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('twitter', $spotNets))?
+        ' binded':''
+        ?>"
         title="Twitter"
+        net="twitter"
         ng-click="bindByPanel('twitter')"
-        ng-mouseenter="socView('twitter')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/twitter.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('linkedin', $spotNets))?
+        ' binded':''
+        ?>"
         title="LinkEdin"
+        net="linkedin"
         ng-click="bindByPanel('linkedin')"
-        ng-mouseenter="socView('linkedin')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/linkedin.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('foursquare', $spotNets))?
+        ' binded':''
+        ?>"
         title="Foursquare"
+        net="foursquare"
         ng-click="bindByPanel('foursquare')"
-        ng-mouseenter="socView('foursquare')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/foursquare.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('google_oauth', $spotNets))?
+        ' binded':''
+        ?>"
         title="Google+"
+        net="google_oauth"
         ng-click="bindByPanel('google_oauth')"
-        ng-mouseenter="socView('google_oauth')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/google.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('YouTube', $spotNets))?
+        ' binded':''
+        ?>"
         title="YouTube"
+        net="YouTube"
         ng-click="bindByPanel('YouTube')"
-        ng-mouseenter="socView('YouTube')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/youtube.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('vimeo', $spotNets))?
+        ' binded':''
+        ?>"
         title="Vimeo"
+        net="vimeo"
         ng-click="bindByPanel('vimeo')"
-        ng-mouseenter="socView('vimeo')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/vimeo.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('vk', $spotNets))?
+        ' binded':''
+        ?>"
         title="VKontakte"
+        net="vk"
         ng-click="bindByPanel('vk')"
-        ng-mouseenter="socView('vk')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/vk.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('Behance', $spotNets))?
+        ' binded':''
+        ?>"
         title="Behance"
+        net="Behance"
         ng-click="bindByPanel('Behance')"
-        ng-mouseenter="socView('Behance')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/behance.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('deviantart', $spotNets))?
+        ' binded':''
+        ?>"
         title="DeviantART"
+        net="deviantart"
         ng-click="bindByPanel('deviantart')"
-        ng-mouseenter="socView('deviantart')"
-        ng-mouseleave="socView()">
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/deviantart.png">
     </a>
-    <a class="link"
+    <a class="link<?php 
+        echo (SocInfo::nameInList('instagram', $spotNets))?
+        ' binded':''
+        ?>"
         title="Instagram"
-         ng-click="bindByPanel('instagram')"
-         ng-mouseenter="socView('instagram')"
-         ng-mouseleave="socView()">
+        net="instagram"
+        ng-click="bindByPanel('instagram')"
+        >
         <img width="36" src="/themes/mobispot/socialmediaicons/instagram.png">
     </a>
 </div>

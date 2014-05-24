@@ -150,6 +150,8 @@ angular.module('mobispot').controller('SpotController',
         var spotItem = angular.element(e.currentTarget).parents('.spot-item');
         spotItem.remove();
         $scope.keys=data.keys;
+        if (data.netDown)
+            $scope.netDown(data.netDown);
       }
     });
   };
@@ -505,46 +507,7 @@ angular.module('mobispot').controller('SpotController',
 
 /* Соц сети */
 
-  // DEL
-  /*
-  $scope.socTask = function(key){
-      $scope.keys_for_load.push(key);
-  }
-
-  $scope.loadSocContent = function() {
-    var len = $scope.keys_for_load.length;
-    for (var i = 0; i < len; i++){
-      var data = {discodes:$scope.spot.discodes, key:$scope.keys_for_load[i], token:$scope.user.token};
-      $http.post('/spot/SocNetContent', data).success(function(data) {
-        if(data.error == 'no'){
-            var spotEdit = angular.element('#block-' + data.key);
-            var oldHeight = spotEdit.height();
-            var oldScroll = spotEdit.offset().top;
-
-            spotEdit.before($compile(data.content)($scope));
-            spotEdit.remove();
-            $scope.setVideoSize(data.key);
-            if (oldScroll < $('html, body').scrollTop()) {
-                var scroll_height = $('html, body').scrollTop()
-                                    + $('#block-' + data.key).height()
-                                    - oldHeight;
-
-                $('html, body').animate({
-                    scrollTop: scroll_height
-                }, 0);
-            }
-        }else{
-            console.log('key ' + $scope.keys_for_load[i] + ' : ' + data.error);
-        }
-      }).error(function(error){
-          console.log(error);
-      });
-    }
-    $scope.keys_for_load = [];
-  }
-
-  */
-  
+  //подгрузка блока с контентом соцсети
   $scope.loadSocContent = function(key)
   {
     var data = {discodes:$scope.spot.discodes, key:key, token:$scope.user.token};
@@ -556,7 +519,7 @@ angular.module('mobispot').controller('SpotController',
 
             spotEdit.before($compile(data.content)($scope));
             spotEdit.remove();
-            $scope.setVideoSize(data.key);
+            //$scope.setVideoSize(data.key);
             if (oldScroll < $('html, body').scrollTop()) {
                 var scroll_height = $('html, body').scrollTop()
                                     + $('#block-' + data.key).height()
@@ -572,122 +535,32 @@ angular.module('mobispot').controller('SpotController',
       }); 
   }
   
-  $scope.socialButton = function(){
-    var mediaForm = angular.element('#extraMediaForm');
-    var mediaFormA = angular.element('#extraMediaForm a');
-    if(mediaForm.hasClass('open'))
-    {
-      mediaForm.slideUp();
-      mediaForm.removeClass('open');
-    }
-    else
-    {
-      $scope.freeSocial = true;
-      mediaFormA.removeClass('blackout');
-      mediaFormA.fadeTo(0, 1);
-      mediaForm.slideDown(500);
-      mediaForm.addClass('open');
-    }
-  }
-
-  $scope.socView = function(Target){
-    var mediaFormA = angular.element('#extraMediaForm a');
-
-    $scope.SocNetTooltip(false);
-    if($scope.freeSocial)
-    {
-      if (typeof (Target) != 'undefined' && Target.length > 0)
-      {
-          mediaFormA.stop();
-          var currentNet = angular.element('#extraMediaForm a[net=' + Target + ']');
-          var otherNet = angular.element('#extraMediaForm a[net!=' + Target + ']');
-          otherNet.fadeTo(600, 0.2);
-          currentNet.fadeTo(0, 1);
+  //установить подсветку кнопки соцсети
+  $scope.netCheck = function(netName) {
+    data = {token:$scope.user.token, netName:netName};
+    $http.post('/spot/netCheck', data).success(function(data) {
+      if (data.error == 'no') {
+        var button = angular.element("#extraMediaForm a[net='" + data.netName + "']");
+        if (data.binded)
+          button.addClass('binded');
+        else
+          button.removeClass('binded');
       }
-      else{
-          mediaFormA.stop();
-          mediaFormA.fadeTo(600, 1);
-      }
-    }
+    });
   }
-
-  //отслеживает поле редактирования на появление ссылок на соцсети
-  $scope.changeContent = function(){
-    var needPanel = false;
-    var currentNet = -1;
-    $scope.content_iteration++;
-
-    for (var i = 0; i < $scope.soc_patterns.length; i++)
-    {
-        if ('undefined' != typeof ($scope.spot.content) 
-            && $scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
-        {
-            needPanel = true;
-            currentNet = i;
-            break;
-        }
-    }
-
-    if ('undefined' != typeof ($scope.spot.content) && !needPanel && $scope.spot.content.indexOf('.') != -1 && $scope.spot.content.length > 2)
-    {
-        var data = {token:$scope.user.token, link:$scope.spot.content, iteration:$scope.content_iteration};
-        $http.post('/spot/DetectSocNet', data).success(function(data) {
-            if (data.iteration == $scope.content_iteration)
-            {
-                var currentNet = -1;
-                var needPanel = false;
-                if (typeof (data.netName) != 'undefined' && data.netName.length)
-                {
-                    currentNet = $scope.getPatternInd(data.netName);
-                    needPanel = true;
-                }
-                $scope.panelControl(needPanel, currentNet);
-            }
-        });
-    }
-    else
-        $scope.panelControl(needPanel, currentNet);
+  
+  //подсветить кнопку соцсети
+  $scope.netUp = function(netName) {
+    var button = angular.element("#extraMediaForm a[net='" + netName + "']");
+    button.addClass('binded');
   }
-
-  $scope.panelControl = function(needPanel, currentNet){
-    var mediaForm = angular.element('#extraMediaForm');
-    var mediaFormA = angular.element('#extraMediaForm a');
-    if (needPanel){
-      var curentNet = angular.element('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
-      var otherNet = angular.element('#extraMediaForm a[net!=' + $scope.soc_patterns[currentNet].name + ']');
-      otherNet.addClass('blackout');
-      otherNet.fadeTo(0, 0.2);
-      curentNet.removeClass('blackout');
-      curentNet.fadeTo(0, 1);
-      $scope.freeSocial = false;
-    }
-
-    if (needPanel && !mediaForm.hasClass('open')){
-      mediaForm.slideDown(500, function(){$scope.SocNetTooltip(true, currentNet)});
-      mediaForm.addClass('open');
-    }else if (!needPanel && mediaForm.hasClass('open')){
-      $scope.SocNetTooltip(false);
-      mediaForm.slideUp(400, function(){mediaFormA.removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-      mediaForm.removeClass('open');
-    }else if (needPanel){
-      $scope.SocNetTooltip(true, currentNet);
-    }
+  
+  //погасить кнопку соцсети
+  $scope.netDown = function(netName) {
+    var button = angular.element("#extraMediaForm a[net='" + netName + "']");
+    button.removeClass('binded');
   }
-
-  $scope.SocNetTooltip = function(NeedTooltip, currentNet){
-      if (NeedTooltip){
-          angular.element('#net-tooltip .STT-inner').text('Connect to ' + $scope.soc_patterns[currentNet].title + ' to share more');
-          var socImg = $('#extraMediaForm a[net=' + $scope.soc_patterns[currentNet].name + ']');
-          var netPos = socImg.offset();
-          $('#net-tooltip').css('top', netPos.top - $('#net-tooltip').height() - 12);
-          $('#net-tooltip').css('left', netPos.left - $('#net-tooltip').width()/2 + socImg.width()/2 - 2);
-          $('#net-tooltip .STT-arrow').css('left', ($('#net-tooltip').width()/2 + 0));
-          $('#net-tooltip .STT-arrow').css('top', ($('#net-tooltip').height() + 6));
-          angular.element('#net-tooltip').show();
-      }else
-          angular.element('#net-tooltip').hide();
-  }
-
+  
   // Привязка соцсетей
   var popup;
   var socTimer;
@@ -755,11 +628,6 @@ angular.module('mobispot').controller('SpotController',
                 {
                     if(data.linkCorrect == 'ok')
                     {
-                        if(angular.element('#extraMediaForm').hasClass('open'))
-                        {
-                            angular.element('#extraMediaForm').slideUp();
-                            angular.element('#extraMediaForm').removeClass('open');
-                        }
 
                         angular.element('#add-content').append($compile(data.content)($scope));
 
@@ -768,18 +636,13 @@ angular.module('mobispot').controller('SpotController',
                         angular.element('textarea').removeClass('put');
                         $scope.resetCursor();
 
-                        if (angular.element('#extraMediaForm').hasClass('open'))
-                        {
-                            angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                            angular.element('#extraMediaForm').removeClass('open');
-                        }
-
                         $scope.setVideoSize(data.key);
                         var scroll_height = $('#block-' + data.key).offset().top;
                         $('html, body').animate({
                             scrollTop: scroll_height
                         }, 600);
 
+                        $scope.netUp(data.socnet);
                         var currentNet = $scope.getPatternInd(data.socnet);
                         if (currentNet > -1)
                             $scope.soc_patterns[currentNet].BindByPaste = true;
@@ -790,19 +653,6 @@ angular.module('mobispot').controller('SpotController',
                         contentService.setModal(data.linkCorrect, 'none');
                     }
                 }
-            }
-            else
-            {
-                $timeout.cancel(holderTimer);
-                holderTimer = $timeout($scope.hintTimer, 10000);
-                angular.element('#socLinkHolder h4').html(data.profileHint);
-                angular.element('#mainHolder').addClass('hide');
-                angular.element('#socLinkHolder').removeClass('hide');
-                angular.element('#socLinkHolder h4').stop();
-                angular.element('#socLinkHolder h4').fadeTo(800, 0.5,
-                    function(){angular.element('#socLinkHolder h4').fadeTo(800, 1,
-                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
-                            angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
             }
         }
         else
@@ -827,18 +677,6 @@ angular.module('mobispot').controller('SpotController',
       }
       return currentNet;
   }
-
-    //возврашает исходный плейсхолдер нового поля, вместо сообщения с просьбой вставить ссылку на соцсеть
-    $scope.hintTimer = function()
-    {
-        angular.element('#socLinkHolder h4').stop();
-        angular.element('#socLinkHolder h4').html('');
-        if (angular.element('#mainHolder').hasClass('hide'))
-        {
-            angular.element('#socLinkHolder').addClass('hide');
-            angular.element('#mainHolder').removeClass('hide');
-        }
-    }
 
   //привязка по кнопке
   $scope.bindSocial  = function(spot, key, e) {
@@ -886,6 +724,7 @@ angular.module('mobispot').controller('SpotController',
                 if (currentNet > -1)
                     $scope.soc_patterns[currentNet].BindByPaste = true;
                 $scope.setVideoSize(spot.key);
+                $scope.netUp(data.socnet);
             }
             else
             {
@@ -1031,13 +870,6 @@ angular.module('mobispot').controller('SpotController',
                         {
                             if (data.newField)
                             {
-
-                                if (angular.element('#extraMediaForm').hasClass('open'))
-                                {
-                                    angular.element('#extraMediaForm').slideUp();
-                                    angular.element('#extraMediaForm').removeClass('open');
-                                }
-
                                 angular.element('#add-content').append($compile(data.content)($scope));
 
                                 $scope.keys.push(data.key);
@@ -1046,12 +878,7 @@ angular.module('mobispot').controller('SpotController',
 
                                 $scope.resetCursor()
 
-                                if (angular.element('#extraMediaForm').hasClass('open'))
-                                {
-                                    angular.element('#extraMediaForm').slideUp(0, function(){angular.element('#extraMediaForm a').removeClass('blackout');angular.element('#extraMediaForm a').fadeTo(0, 1);});
-                                    angular.element('#extraMediaForm').removeClass('open');
-                                }
-
+                                $scope.netUp(data.socnet);
                                 $scope.setVideoSize(data.key);
                                 var scroll_height = $('#block-' + data.key).offset().top - 100;
                                 $('html, body').animate({
@@ -1064,6 +891,7 @@ angular.module('mobispot').controller('SpotController',
                                 spotEdit.before($compile(data.content)($scope));
                                 spotEdit.remove();
                                 $scope.setVideoSize(data.key);
+                                $scope.netUp(data.socnet);
                             }
 
                             $scope.bindNet = {};
@@ -1098,6 +926,8 @@ angular.module('mobispot').controller('SpotController',
         var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
         spotEdit.before($compile(data.content)($scope));
         spotEdit.remove();
+        if (data.netDown)
+            $scope.netDown(data.netDown);
       }
       else {
         console.log(data.error);

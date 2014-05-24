@@ -150,3 +150,17 @@ li.phone-name {
 .m-result {
     display: none;
 }
+
+#extraMediaForm a {
+    opacity: 0.1;
+    transition: none;
+}
+
+#extraMediaForm a.binded {
+    opacity: 1;
+    transition:none;
+}
+
+#extraMediaForm a:hover {
+    opacity: 1;
+}
