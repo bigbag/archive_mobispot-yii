@@ -1,12 +1,15 @@
-<?php $this->pageTitle = Yii::t('spot', 'Ofert'); ?>
+<?php $this->pageTitle = Yii::t('spot', 'User agreement conﬁrmation'); ?>
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/spot.js"></script>'?>
 <div class="content-wrapper" ng-controller="SpotController">
     <div>
         <div class="row">
             <div class="content-block">
-                <h2>Подтверждение принятия условий</h2>
+                <h2><?php echo Yii::t('spot', 'User agreement conﬁrmation')?></h2>
                 <p>
-                    Согласны с <a href="https://money.yandex.ru/doc.xml?id=522764" target="_blank">"Соглашение об использовании сервиса «Яндекс.Деньги»"</a>
+                    <?php echo Yii::t('spot', 'Please read and conﬁrm that you accept the')?>
+                    <a href="https://money.yandex.ru/doc.xml?id=522764" target="_blank">
+                    <?php echo Yii::t('spot', 'Yandex.Money User Agreement')?>
+                    </a>
                 </p>
                 <form action="<?php echo $linking['url']?>" method="POST" id="linking_card" >
                     <input type="hidden"
@@ -25,12 +28,16 @@
                             value="0"
                             required
                             >
-                        <label for="spot_agree">Да, согласен с соглашением</label>
+                        <label for="spot_agree">
+                            <?php echo Yii::t('spot', 'Yes, I accept the agreement!')?>
+                        </label>
                     </div>
                     <br />
                 </form>
 
-                <a class="form-button on" ng-click="linkingCard(card)">Привязать карту</a>
+                <a class="form-button on" ng-click="linkingCard(card)">
+                    <?php echo Yii::t('spot', 'Link a bank card!')?>
+                </a>
             </div>
         </div>
 

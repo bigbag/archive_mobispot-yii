@@ -19,6 +19,7 @@ class VkContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_POST;
         $socUsername = self::parseUsername($link);
 
         $url = 'https://api.vk.com/method/users.get.json?user_ids=' . $socUsername . '&fields=uid,first_name,last_name,nickname,screen_name,photo,photo_medium';
@@ -152,6 +153,8 @@ class VkContent extends SocContentBase
         {
             $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
+        
+        $userDetail['text'] = self::clueImgText($userDetail);
 
         return $userDetail;
     }

@@ -53,6 +53,7 @@ class LinkedInContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_LIST;
         $getProfile = false;
         
         if (!empty($discodesId) && is_numeric($discodesId))

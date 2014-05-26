@@ -24,9 +24,14 @@
                 <object>
                     <param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>">
                     <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>" type="application/x-shockwave-flash" width="100%" height="480" allowfullscreen="true" style="height: 912.0000000000229px;">
+                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>" 
+                    <?php if (isset($socContent['ytube_video_rel'])): ?>
+                        rel="<?php echo $socContent['ytube_video_rel']; ?>"
+                    <?php endif; ?>
+                    type="application/x-shockwave-flash" 
+                        width="100%" height="480"
+                    allowfullscreen="true">
                 </object>
-
                 </div>
             </div>
         </div>
