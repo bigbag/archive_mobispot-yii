@@ -15,10 +15,10 @@
                     </textarea>
                     <div class="text-center label-cover" ng-class="{invisible: spot.content}">
                         <h4>
-                            <?php echo Yii::t('spot', 'Drag your files here or begin to type info or links') ?>
+                            <?php echo Yii::t('spot', 'Type the text and links or drag your ﬁles here') ?>
                         </h4>
                         <span>
-                            <?php echo Yii::t('spot', 'A maximum file size limit of 25mb for free accounts') ?>
+                            <?php echo Yii::t('spot', 'Maximum ﬁle size cannot be greater than 25mb') ?>
                         </span>
                         <div class="hat-cover"></div>
                     </div>

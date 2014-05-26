@@ -1,8 +1,8 @@
-<h4><?php echo Yii::t('spot', 'Cards')?>
+<h4><?php echo Yii::t('spot', 'My bank cards')?>
     <a class="spot-button_block" ng-click="blockedWallet()">
         <span class="block">
         <i class="icon">&#xe606;</i>
-        <?php echo Yii::t('spot', 'block wallet')?>
+        <?php echo Yii::t('spot', 'Block this wallet!')?>
         </span>
     </a>
 </h4>
@@ -23,10 +23,10 @@
             <td class="txt-right">
                 <a class="make-main"
                     ng-click='setPaymentCard(<?php echo $card->id; ?>, $event)'>
-                    <?php echo Yii::t('spot', 'make payment')?>
+                    <?php echo Yii::t('spot', 'Make current')?>
                 </a>
                 <span class="main-indicator">
-                    <?php echo Yii::t('spot', 'payment')?>
+                    <?php echo Yii::t('spot', 'Current')?>
                 </span>
                 <a class="remove-card"
                     ng-click='removeCard(<?php echo $card->id; ?>, $event)'>
@@ -40,7 +40,7 @@
     <div class="text-right">
         <a ng-click="editCardList()" class="minor-link">
             <i class="icon">&#xe009;</i>
-            <?php echo Yii::t('spot', 'Edit the list of cards')?>
+            <?php echo Yii::t('spot', 'Edit the list')?>
         </a>
     </div>
     <?php endif;?>

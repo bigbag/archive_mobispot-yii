@@ -1,5 +1,5 @@
 <div class="item-area_table">
-    <h4><?php echo Yii::t('spot', 'Recent operations')?></h4>
+    <h4><?php echo Yii::t('spot', 'Recent transactions')?></h4>
     <div class="m-table-wrapper">
         <table class="m-spot-table">
             <tbody>
@@ -14,6 +14,6 @@
         </table>
     </div>
     <!-- <a href="javascripts:;" class="link-report">
-        <i class="icon">&#xe608;</i><?php echo Yii::t('spot', 'Statement of Account')?>
+        <i class="icon">&#xe608;</i><?php echo Yii::t('spot', 'Get the statement')?>
     </a> -->
 </div>
