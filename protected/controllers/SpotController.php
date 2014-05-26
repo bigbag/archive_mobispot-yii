@@ -87,12 +87,21 @@ class SpotController extends MController
     }
 
     //Определяем ид спота загружаемого по умолчанию
-    public function getDefaultSpot($default)
+    public function getCurentSpot($curent)
     {
-        $default_discodes = $default;
-        if (isset(Yii::app()->request->cookies['default_discodes']))
-            $default_discodes = Yii::app()->request->cookies['default_discodes']->value;
-        return $default_discodes;
+        $curent_discodes = $curent;
+        if (isset(Yii::app()->request->cookies['spot_curent_discodes']))
+            $curent_discodes = Yii::app()->request->cookies['spot_curent_discodes']->value;
+        return $curent_discodes;
+    }
+
+    //Определяем вкладку таба открытую в последний раз
+    public function getCurentViews($curent)
+    {
+        $curent_views = $curent;
+        if (isset(Yii::app()->request->cookies['spot_curent_views']))
+            $curent_views = Yii::app()->request->cookies['spot_curent_views']->value;
+        return $curent_views;
     }
 
     // Страница управления спотами
@@ -109,14 +118,17 @@ class SpotController extends MController
         $user = User::model()->findByPk($user_id);
         if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
 
-        $default_discodes = 0;
+        $curent_discodes = 0;
+        $curent_views = 'spot';
         $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
         if ($spots)
-           $default_discodes = $this->getDefaultSpot($spots[0]->discodes_id);
+           $curent_discodes = $this->getCurentSpot($spots[0]->discodes_id);
+            $curent_views = $this->getCurentViews($curent_views);
 
         $this->render('//spot/list', array(
             'spots' => $spots,
-            'default_discodes' => $default_discodes,
+            'curent_discodes' => $curent_discodes,
+            'curent_views' => $curent_views,
         ));
     }
 
@@ -572,6 +584,7 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
+        if (!$wallet) $this->getJsonAndExit($answer);
 
         $cards = PaymentCard::model()->findAllByAttributes(
             array(
@@ -580,12 +593,19 @@ class SpotController extends MController
             )
         );
 
-        if (!$wallet) $this->getJsonAndExit($answer);
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => $wallet->discodes_id,
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
                 'wallet' => $wallet,
                 'cards' => $cards,
+                'spot' => $spot,
             ),
             true
         );
