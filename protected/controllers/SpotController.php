@@ -551,23 +551,33 @@ class SpotController extends MController
             )
         );
         if (!$wallet) $this->getJsonAndExit($answer);
-
-        $cards = PaymentCard::model()->findAllByAttributes(
-            array(
-                'wallet_id' => $wallet->id,
-                'user_id' => Yii::app()->user->id,
-            ),
-            array(
-                'order' => 'id desc',
-                'limit' => PaymentCard::MAX_CARDS_VIEW)
-        );
-
         $spot = Spot::model()->findByAttributes(
             array(
                 'discodes_id' => $wallet->discodes_id,
                 'user_id' => Yii::app()->user->id,
             )
         );
+
+        $cards = PaymentCard::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+            ),
+            array(
+                'order' => 'id desc',
+                'limit' => PaymentCard::MAX_CARDS_VIEW)
+        );
+
+        $history = PaymentHistory::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+                'type' => PaymentHistory::TYPE_PAYMENT,
+                'status' => PaymentHistory::STATUS_COMPLETE,
+            ),
+            array(
+                'order' => 'creation_date desc',
+                'limit' => PaymentHistory::MAX_RECORD)
+        );
+
         if (!$spot) $this->getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/wallet',
@@ -575,6 +585,7 @@ class SpotController extends MController
                 'wallet' => $wallet,
                 'cards' => $cards,
                 'spot' => $spot,
+                'history'=> $history,
             ),
             true
         );

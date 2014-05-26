@@ -14,7 +14,9 @@
                                     <?php include('block/wallet_cards.php'); ?>
                                 </div>
                                 <div class="row last-operations">
+                                    <?php if($history): ?>
                                     <?php include('block/wallet_history.php'); ?>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="cover"></div>
                             </div>
