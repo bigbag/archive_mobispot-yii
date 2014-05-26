@@ -269,7 +269,7 @@ angular.module('mobispot').controller('SpotController',
     var data = {'token': $scope.spot.token, 'card_id': card_id};
     $http.post('/spot/removeCard', data).success(function(data) {
       if (data.error == 'no'){
-        angular.element(e.currentTarget).remove();
+        angular.element(e.currentTarget).parent().parent().remove();
       }
     });
   };

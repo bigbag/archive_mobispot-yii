@@ -682,10 +682,10 @@ class SpotController extends MController
     }
 
     // Смена статуса карты на платежный
-    public function actionSetPaymentCard()
+    public function actionRemoveCard()
     {
         $data = $this->validateRequest();
-        $answer = array('error' => 'yes',);
+        $answer = array('error' => 'no',);
 
         $card = PaymentCard::model()->findByPk((int)$data['card_id']);
         if (!$card) $this->getJsonAndExit($answer);
