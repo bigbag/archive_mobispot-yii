@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="column large-12">
                         <ul class="get-up-nav">
-                            <li class="active"  ng-click="dkitForm($event, '1')"><?php echo Yii::t('store', 'Step 1: General info')?></li>
+                            <li class="active"  ng-click="dkitForm($event, '1')"><?php echo Yii::t('store', 'Step 1: Demo-kit description')?></li>
                             <li ng-click="dkitForm($event, '2')"><?php echo Yii::t('store', 'Step 2: Delivery details')?></li>
                             <li ng-click="dkitForm($event, '3')"><?php echo Yii::t('store', 'Step 3: Payment and shipping')?></li>
                         </ul>
@@ -43,7 +43,7 @@
                                     </td>
                                     <?php if ($product['id'] == $config['product'][0]['id']): ?>
                                     <td rowspan="3" class="table-info"><a href="javascript:;"><?php echo Yii::t('store', 'API description in.pdf')?></a> <br>
-                                        <?php echo Yii::t('store', 'If you need a description how to handle Spots in your application download')?>
+                                        <?php echo Yii::t('store', 'If you need a description how to handle Spots in your application download this file.')?>
                                     </td>
                                     <?php endif ?>
                                 </tr>
@@ -56,7 +56,7 @@
                     <div class="next-step" ng-init="summ=<?php echo $config['price']?>">
                         <h3><?php echo Yii::t('store', 'Price:')?> {{summ}} <?php echo Yii::t('store', 'USD')?></h3>
                         <p><?php echo Yii::t('store', 'Worldwide')?></p>
-                        <a class="form-button button button-round" href="javascript:;" ng-click="dkitForm($event, '2')"><?php echo Yii::t('store', 'Make Order')?> >></a>
+                        <a class="form-button button button-round" href="javascript:;" ng-click="dkitForm($event, '2')"><?php echo Yii::t('store', 'Make an order')?> >></a>
                     </div>
                 </div>
             </div>
@@ -121,12 +121,18 @@
                         </form>
                         </div>
                         <div class="column small-6 large-6 form-info">
-                                <?php echo Yii::t('store', '*Все поля обязательны к заполнению. Пожалуйста будьте внимательны.')?>
+                            <p>
+                            <?php echo Yii::t('store', 'If you have additional suggestions about the delivery or content of the demo kit, please contact us and we will sort your order out personally.')?>
+                            </p>
+                            <br>
+                            <p>
+                            <?php echo Yii::t('store', '*All the fields must be filled. Please be careful.')?>
+                            </p>
                         </div>
                     </div>
                         <div class="small-3 large-3 column">
                                 <div class="next-step">
-                                    <h3><?php echo Yii::t('store', 'last step')?></h3>
+                                    <h3><?php echo Yii::t('store', 'Final step')?></h3>
                                     <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3', 1)"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
                                 </div>
                         </div>

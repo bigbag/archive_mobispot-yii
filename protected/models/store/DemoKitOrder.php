@@ -46,12 +46,12 @@ class DemoKitOrder extends CActiveRecord
                     array(
                         'id' => 1,
                         'name'=>Yii::t('store', 'Regular post'),
-                        'price' => 12
+                        'price' => 25
                     ),
                     array(
                         'id' => 2,
                         'name'=>Yii::t('store', 'DHL/TNT/UPS'),
-                        'price' => 42
+                        'price' => 70
                     )
                 ),
                 'payment' => array(
@@ -62,7 +62,7 @@ class DemoKitOrder extends CActiveRecord
                     ),
                     array(
                         'id' => 2,
-                        'name' => Yii::t('store', 'Яндекс Деньги'),
+                        'name' => Yii::t('store', 'Yandex.Money'),
                         'action' => self::PAYMENT_BY_YM,
                     ),                
                     array(
