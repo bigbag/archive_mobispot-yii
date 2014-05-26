@@ -87,12 +87,21 @@ class SpotController extends MController
     }
 
     //Определяем ид спота загружаемого по умолчанию
-    public function getDefaultSpot($default)
+    public function getCurentSpot($curent)
     {
-        $default_discodes = $default;
-        if (isset(Yii::app()->request->cookies['default_discodes']))
-            $default_discodes = Yii::app()->request->cookies['default_discodes']->value;
-        return $default_discodes;
+        $curent_discodes = $curent;
+        if (isset(Yii::app()->request->cookies['spot_curent_discodes']))
+            $curent_discodes = Yii::app()->request->cookies['spot_curent_discodes']->value;
+        return $curent_discodes;
+    }
+
+    //Определяем вкладку таба открытую в последний раз
+    public function getCurentViews($curent)
+    {
+        $curent_views = $curent;
+        if (isset(Yii::app()->request->cookies['spot_curent_views']))
+            $curent_views = Yii::app()->request->cookies['spot_curent_views']->value;
+        return $curent_views;
     }
 
     // Страница управления спотами
@@ -109,14 +118,17 @@ class SpotController extends MController
         $user = User::model()->findByPk($user_id);
         if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
 
-        $default_discodes = 0;
+        $curent_discodes = 0;
+        $curent_views = 'spot';
         $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
         if ($spots)
-           $default_discodes = $this->getDefaultSpot($spots[0]->discodes_id);
+           $curent_discodes = $this->getCurentSpot($spots[0]->discodes_id);
+            $curent_views = $this->getCurentViews($curent_views);
 
-        $this->render('//spot/list', array(
+        $this->render('//spot/body', array(
             'spots' => $spots,
-            'default_discodes' => $default_discodes,
+            'curent_discodes' => $curent_discodes,
+            'curent_views' => $curent_views,
         ));
     }
 
@@ -520,40 +532,6 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    public function actionCoupons()
-    {
-        $answer = array(
-            'error' => 'yes',
-            'content' => ''
-        );
-        $data = $this->validateRequest();
-
-        if (!isset($data['discodes']) or !Yii::app()->user->id)
-            $this->getJsonAndExit($answer);
-
-        $wallet = PaymentWallet::model()->findByAttributes(
-        array(
-                'discodes_id' => $data['discodes'],
-                'user_id' => Yii::app()->user->id,
-                'status' => PaymentWallet::STATUS_ACTIVE,
-            )
-        );
-
-        if ($wallet)
-        {
-            $coupons = Loyalty::getCoupons($wallet->id);
-            $answer['content'] = $this->renderPartial(
-                    '//spot/coupons', array('coupons' => $coupons), true
-            );
-        }
-        else
-            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
-
-        $answer['error'] = 'no';
-
-        echo json_encode($answer);
-    }
-
     // Отображение кошелька
     public function actionWallet()
     {
@@ -572,20 +550,42 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
-
-        $cards = PaymentCard::model()->findAllByAttributes(
+        if (!$wallet) $this->getJsonAndExit($answer);
+        $spot = Spot::model()->findByAttributes(
             array(
-                'wallet_id' => $wallet->id,
+                'discodes_id' => $wallet->discodes_id,
                 'user_id' => Yii::app()->user->id,
             )
         );
 
-        if (!$wallet) $this->getJsonAndExit($answer);
+        $cards = PaymentCard::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+            ),
+            array(
+                'order' => 'id desc',
+                'limit' => PaymentCard::MAX_CARDS_VIEW)
+        );
+
+        $history = PaymentHistory::model()->findAllByAttributes(
+            array(
+                'wallet_id' => $wallet->id,
+                'type' => PaymentHistory::TYPE_PAYMENT,
+                // 'status' => PaymentHistory::STATUS_COMPLETE,
+            ),
+            array(
+                'order' => 'creation_date desc',
+                'limit' => PaymentHistory::MAX_RECORD)
+        );
+
+        if (!$spot) $this->getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
                 'wallet' => $wallet,
                 'cards' => $cards,
+                'spot' => $spot,
+                'history'=> $history,
             ),
             true
         );
@@ -625,12 +625,13 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    // Запрос к yandex api на получение параметров для привязки карты
     public function getLinkingParams($discodes_id){
         $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/' . $discodes_id;
         return CJSON::decode($this->setCurlRequest($url), true);
     }
 
-    // Страница с пользовательским соглашение для привязки
+    // Страница с пользовательским соглашение для привязки карты
     public function actionCardOfert() {
         $this->layout = '//layouts/error';
 
@@ -651,6 +652,85 @@ class SpotController extends MController
 
         $this->render('card_ofert',array('linking'=>$linking));
     }
+
+    // Смена статуса карты на платежный
+    public function actionSetPaymentCard()
+    {
+        $data = $this->validateRequest();
+        $answer = array('error' => 'yes',);
+
+        $card = PaymentCard::model()->findByPk((int)$data['card_id']);
+        if (!$card) $this->getJsonAndExit($answer);
+
+        $old_payment_card = PaymentCard::model()->findByAttributes(
+            array(
+                'wallet_id' => $card->wallet_id,
+                'status' => PaymentCard::STATUS_PAYMENT,
+            )
+        );
+
+        $card->status = PaymentCard::STATUS_PAYMENT;
+        if ($card->save()){
+            if ($old_payment_card){
+                $old_payment_card->status = PaymentCard::STATUS_ARCHIV;
+                $old_payment_card->save();
+            }
+            $answer['error'] = 'no';
+        }
+
+        echo json_encode($answer);
+    }
+
+    // Смена статуса карты на платежный
+    public function actionRemoveCard()
+    {
+        $data = $this->validateRequest();
+        $answer = array('error' => 'yes',);
+
+        $card = PaymentCard::model()->findByPk((int)$data['card_id']);
+        if (!$card) $this->getJsonAndExit($answer);
+
+        if ($card->delete()){
+            $answer['error'] = 'no';
+        }
+
+        echo json_encode($answer);
+    }
+
+    public function actionCoupons()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !Yii::app()->user->id)
+            $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+        array(
+                'discodes_id' => $data['discodes'],
+                'user_id' => Yii::app()->user->id,
+                'status' => PaymentWallet::STATUS_ACTIVE,
+            )
+        );
+
+        if ($wallet)
+        {
+            $coupons = Loyalty::getCoupons($wallet->id);
+            $answer['content'] = $this->renderPartial(
+                    '//spot/coupons', array('coupons' => $coupons), true
+            );
+        }
+        else
+            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
+    }
+
 
     //Привязка соцсетей через кнопку
     public function actionBindSocial()

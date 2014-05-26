@@ -51,6 +51,9 @@ angular.module('mobispot').controller('SpotController',
 
   //Управление основными блоками спот, кошелек, купоны.
   $scope.$watch('general.views + spot.discodes', function() {
+    $cookies.spot_curent_discodes = $scope.spot.discodes;
+    $cookies.spot_curent_views = $scope.general.views;
+
     if ($scope.general.views == 'spot'){
       $scope.viewSpot($scope.spot);
     } else if ($scope.general.views == 'wallet'){
@@ -62,7 +65,6 @@ angular.module('mobispot').controller('SpotController',
     if (spot.discodes == 0) return false;
 
     var spot_block = angular.element('#spot-block');
-    $cookies.default_discodes = spot.discodes;
 
     $http.post('/spot/viewSpot', spot).success(function(data) {
       if(data.error == 'no') {
@@ -77,10 +79,9 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
-        // $scope.animateSpotSwitching();
       }
     });
-  }
+  };
 
   // Анимация смены спота
   $scope.animateSpotSwitching = function () {
@@ -221,7 +222,7 @@ angular.module('mobispot').controller('SpotController',
   };
 
   $scope.viewWallet = function (spot) {
-    var spot_block = angular.element('.tabs-block');
+    var spot_block = angular.element('#spot-block');
     $http.post('/spot/wallet', spot).success(function(data) {
       if (data.error == 'no'){
         spot_block.empty();
@@ -233,7 +234,7 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  //Блокировка спота
+  // Блокировка кошелька
   $scope.blockedWallet = function(){
     $http.post('/spot/blockedWallet', $scope.spot).success(function(data) {
       if (data.error == 'no'){
@@ -242,10 +243,35 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  //Отправка запроса на привязку карты
+  // Отправка запроса на привязку карты
   $scope.linkingCard = function(card){
     if (!card.terms) return false;
     $( "#linking_card" ).submit();
+  };
+
+  // Делаем карту платежной
+  $scope.setPaymentCard = function(card_id, e){
+    var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $http.post('/spot/setPaymentCard', data).success(function(data) {
+      if (data.error == 'no'){
+        angular.element('.main-card').removeClass('main-card');
+        angular.element(e.currentTarget).parent().parent().addClass('main-card');
+      }
+    });
+  };
+
+  $scope.editCardList = function(){
+    $('.table-card').toggleClass('edit');
+  }
+
+  // Удаляем карту
+  $scope.removeCard = function(card_id, e){
+    var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $http.post('/spot/removeCard', data).success(function(data) {
+      if (data.error == 'no'){
+        angular.element(e.currentTarget).parent().parent().remove();
+      }
+    });
   };
 
 
@@ -544,7 +570,7 @@ angular.module('mobispot').controller('SpotController',
   }
 
   */
-  
+
   $scope.loadSocContent = function(key)
   {
     var data = {discodes:$scope.spot.discodes, key:key, token:$scope.user.token};
@@ -571,9 +597,9 @@ angular.module('mobispot').controller('SpotController',
         }
       }).error(function(error){
           console.log(error);
-      });  
+      });
   }
-  
+
   $scope.socialButton = function(){
     var mediaForm = angular.element('#extraMediaForm');
     var mediaFormA = angular.element('#extraMediaForm a');
@@ -621,7 +647,7 @@ angular.module('mobispot').controller('SpotController',
 
     for (var i = 0; i < $scope.soc_patterns.length; i++)
     {
-        if ('undefined' != typeof ($scope.spot.content) 
+        if ('undefined' != typeof ($scope.spot.content)
             && $scope.spot.content.indexOf($scope.soc_patterns[i].baseUrl) != -1)
         {
             needPanel = true;
@@ -747,7 +773,7 @@ angular.module('mobispot').controller('SpotController',
                         popup.focus();
 
                         $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
-                        if ('undefined' != typeof ($scope.spot.content) 
+                        if ('undefined' != typeof ($scope.spot.content)
                             && $scope.spot.content.length)
                             $scope.bindNet.link = $scope.spot.content;
                         socTimer = $timeout($scope.loginTimer, 1000);

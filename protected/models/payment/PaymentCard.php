@@ -18,6 +18,8 @@ class PaymentCard extends CActiveRecord
     const STATUS_PAYMENT = 1;
     const STATUS_ARCHIV = 0;
 
+    const MAX_CARDS_VIEW = 10;
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
