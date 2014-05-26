@@ -3,11 +3,13 @@
     <div class="m-table-wrapper">
         <table class="m-spot-table">
             <tbody>
+            <?php foreach ($history as $row): ?>
             <tr>
-                <td><div>14.04.2014, 22:01</div></td>
-                <td><div>Uilliam's, M. Bronnaya, 20a, Moscow, Russia </div></td>
-                <td><div class="txt-right">-13.34$</div></td>
+                <td><div><?php echo $row->creation_date; ?></div></td>
+                <td><div><?php echo $row->term->name; ?></div></td>
+                <td><div class="txt-right"><?php echo $row->amount; ?></div></td>
             </tr>
+            <?php endforeach ?>
             </tbody>
         </table>
     </div>

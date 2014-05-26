@@ -176,7 +176,7 @@ class PaymentHistory extends CActiveRecord
 
     public function afterFind()
     {
-        $this->amount = ($this->amount) / 100;
+        if ($this->amount != 0)  $this->amount = ($this->amount) / 100;
 
         $delta = 4 * 60 * 60;
         $this->creation_date = date('H:i d.m.Y', strtotime($this->creation_date) + $delta);

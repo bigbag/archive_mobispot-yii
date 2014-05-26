@@ -571,7 +571,7 @@ class SpotController extends MController
             array(
                 'wallet_id' => $wallet->id,
                 'type' => PaymentHistory::TYPE_PAYMENT,
-                'status' => PaymentHistory::STATUS_COMPLETE,
+                // 'status' => PaymentHistory::STATUS_COMPLETE,
             ),
             array(
                 'order' => 'creation_date desc',
@@ -685,7 +685,7 @@ class SpotController extends MController
     public function actionRemoveCard()
     {
         $data = $this->validateRequest();
-        $answer = array('error' => 'no',);
+        $answer = array('error' => 'yes',);
 
         $card = PaymentCard::model()->findByPk((int)$data['card_id']);
         if (!$card) $this->getJsonAndExit($answer);
