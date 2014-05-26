@@ -7,26 +7,30 @@
             </a>
         </div>
         <div class="type-mess item-body">
-            <div class="item-user-avatar">
-            <?php if (!empty($socContent['photo'])):?>
-                <img width="50" height="50" src="<?php echo $socContent['photo'] ?>">
-            <?php endif ?>
-            </div>
+            <div class="item-user-avatar"><img width="50" height="50" src="<?php echo $socContent['photo'] ?>"></div>
             <div class="mess-body">
                 <div class="author-row">
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
-                    <b class="time sub-line">
-                    <?php echo (!empty($socContent['sub-line']))?
-                        $socContent['sub-line']:'' ?>
+                    <b class="time">
+                    <?php if (!empty($socContent['sub-time'])):?>
+                        <?php echo $socContent['sub-time']; ?>
+                    <?php endif ?>
                     </b>
+                    <div class="sub-line">
+                        <?php if (!empty($socContent['venue_name'])): ?>
+                        <span class="icon">&#xe01b;</span>
+                        <?php echo Yii::t('eauth', 'at ') . $socContent['venue_name'] ?>
+                        <?php endif ?>
+                    </div>
                 </div>
                 <div class="ins-block">
-                    <p>
-                        <?php echo (isset($socContent['text']))?
-                        $socContent['text']:'' ?>
+                    <p>                    
+                    <?php if (!empty($socContent['checkin_shout'])):?>
+                        <?php echo $socContent['checkin_shout']; ?>
+                    <?php endif ?>
                     </p>
-                    <?php if (!empty($socContent['last_img'])): ?>
-                    <img src="<?php echo $socContent['last_img']; ?>">
+                    <?php if (!empty($socContent['checkin_photo'])):?>
+                        <img src="<?php echo $socContent['checkin_photo']; ?>">
                     <?php endif ?>
                 </div>
             </div>

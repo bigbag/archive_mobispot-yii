@@ -1,4 +1,4 @@
-<div id="block-<?php echo $dataKey;?>" class="spot-item<?php if (isset($socContent['tweet_author'])): ?> spot-item_twi<?php endif; ?>"
+<div id="block-<?php echo $dataKey;?>" class="spot-item">
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
@@ -249,7 +249,6 @@
                     <h4><?php echo $socContent['list']['title']; ?></h4>
                     <?php endif; ?>
                         <table class="j-list">
-                        <tbody>
                         <?php foreach ($socContent['list']['values'] as $li): ?>
                         <tr>
                             <td>
@@ -262,7 +261,7 @@
                             <td><?php if (isset($li['comment'])) echo $li['comment']; ?></td>
                         </tr>
                         <?php endforeach; ?>
-                        </tbody></table>
+                        </table>
                 <?php endif; ?>
             <?php /* list2 *//////////////////////   ?>
                 <?php if (!empty($socContent['list2'])): ?>
@@ -270,7 +269,6 @@
                     <h4><?php echo $socContent['list2']['title']; ?></h4>
                     <?php endif; ?>
                         <table class="j-list">
-                        <tbody>
                         <?php foreach ($socContent['list2']['values'] as $li): ?>
                         <tr>
                             <td>
@@ -283,7 +281,7 @@
                             <td><?php if (isset($li['comment'])) echo $li['comment']; ?></td>
                         </tr>
                         <?php endforeach; ?>
-                        </tbody></table>
+                        </table>
                 <?php endif; ?>
             <?php /* html *////////////////////// ?>
                 <?php if (isset($socContent['html'])): ?>

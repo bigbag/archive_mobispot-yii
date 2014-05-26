@@ -46,6 +46,7 @@ class FoursquareContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_CHECKIN;
         $socUsername = self::parseUsername($link);
 
         if (!is_numeric($socUsername))

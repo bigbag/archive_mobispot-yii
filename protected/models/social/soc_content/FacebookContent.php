@@ -323,13 +323,7 @@ class FacebookContent extends SocContentBase
             $userDetail['soc_url'] = $link;
         }
         
-        $userDetail['text'] = '';
-        if (!empty($userDetail['last_status']))
-            $userDetail['text'] .= $userDetail['last_status'].' ';
-        if (!empty($userDetail['last_img_msg']))
-            $userDetail['text'] .= $userDetail['last_img_msg'].' ';
-        if (!empty($userDetail['last_img_story']))
-            $userDetail['text'] .= $userDetail['last_img_story'].' ';
+        $userDetail['text'] = self::clueImgText($userDetail);
 
         return $userDetail;
     }

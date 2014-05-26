@@ -519,7 +519,7 @@ angular.module('mobispot').controller('SpotController',
 
             spotEdit.before($compile(data.content)($scope));
             spotEdit.remove();
-            //$scope.setVideoSize(data.key);
+            $scope.setVideoSize(data.key);
             if (oldScroll < $('html, body').scrollTop()) {
                 var scroll_height = $('html, body').scrollTop()
                                     + $('#block-' + data.key).height()
@@ -962,13 +962,13 @@ angular.module('mobispot').controller('SpotController',
             var player = angular.element('#block-' + blockKey + ' .video-vimeo');
             player.css('width', '100%');
             player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-        }
+        }/*
         else if (angular.element('#block-' + blockKey + ' .yt_player').length == 1)
         {
             var player = angular.element('#block-' + blockKey + ' .yt_player');
             player.css('width', '100%');
             player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-        }
+        }*/
     }
 
   $scope.actionSpot = function(spot, e) {

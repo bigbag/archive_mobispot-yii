@@ -30,6 +30,7 @@ class BehanceContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_POST;
         $socUsername = self::parseUsername($link);
 
         $socUser = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
@@ -120,7 +121,7 @@ class BehanceContent extends SocContentBase
                             $place .= $project['owners'][0]['country'];
                     }
                     if ($place)
-                        $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $place;
+                        $userDetail['sub-line'] = '<span class="icon">&#xe01b;</span>' . $place;
                 }
             }
         }
@@ -128,7 +129,9 @@ class BehanceContent extends SocContentBase
         {
             $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
-
+        
+        $userDetail['text'] = self::clueImgText($userDetail);
+        
         return $userDetail;
     }
 
