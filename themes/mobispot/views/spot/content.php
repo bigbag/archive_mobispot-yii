@@ -52,7 +52,7 @@
                 </div>
                 <div class="spot-item-stack info-pick">
                     <div class="stack-hat">
-                    <?php include('block/linking.php'); ?>
+                    <?php include('block/linking_socnet.php'); ?>
                         <a href="#" class="right mobile-link">
                             <i class="icon">&#xe010;</i>
                             <?php echo Yii::t('spot', 'public link')?>

@@ -234,7 +234,7 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  //Блокировка спота
+  // Блокировка кошелька
   $scope.blockedWallet = function(){
     $http.post('/spot/blockedWallet', $scope.spot).success(function(data) {
       if (data.error == 'no'){
@@ -243,10 +243,20 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  //Отправка запроса на привязку карты
+  // Отправка запроса на привязку карты
   $scope.linkingCard = function(card){
     if (!card.terms) return false;
     $( "#linking_card" ).submit();
+  };
+
+  // Делаем карту платежной
+  $scope.setPaymentCard = function(card_id){
+    var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $http.post('/spot/setPaymentCard', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.viewWallet($scope.spot);
+      }
+    });
   };
 
 
