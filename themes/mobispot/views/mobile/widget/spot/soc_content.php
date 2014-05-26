@@ -3,7 +3,7 @@
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
                 <?php $socInf = new SocInfo;?>
-                <img class="soc-icon" src="/themes/mobispot/images/icons/social/<?php echo $socInf->getSmallIcon($socContent['soc_url']);?>" height="36"> <span class="link"><?php echo $socContent['soc_url']; ?></span>
+                <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInf->getSmallIcon($socContent['soc_url']);?>" height="36"> <span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
         <div class="type-mess item-body">
@@ -345,7 +345,18 @@
             <?php endif; ?>
 <?php*/ ?>
             </div>
+            <?php if (!empty($socContent['dinamic'])): ?>
+                <div class="item-control">
+                    <span class="move move-top"></span>
+                        <div class="spot-activity">
+                            <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
+                            <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
+                        </div>
+                    <span class="move move-bottom"></span>
+                </div>
+            <?php endif ?>            
+            </div>
         </div>
+
+    
     </div>
-</div>
-</div>

@@ -3,6 +3,9 @@
 class SocContentBase
 {
     const TYPE_TWEET = 'tweet';
+    const TYPE_POST = 'post';
+    const TYPE_SHARED_LINK = 'shared_link';
+    const YOUTUBE_VIDEO = 'youtube_video';
 
     public static function rmGetParam($str)
     {

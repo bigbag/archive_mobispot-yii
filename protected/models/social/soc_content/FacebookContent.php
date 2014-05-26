@@ -49,6 +49,7 @@ class FacebookContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_POST;
         unset($postId);
         unset($photoId);
 
@@ -259,7 +260,11 @@ class FacebookContent extends SocContentBase
                                     if (isset($lastPost['story']))
                                         $userDetail['sub-line'] = $lastPost['story'];
                                     elseif (isset($lastPost['type']) and $lastPost['type'] == 'link' and isset($lastPost['status_type']) and $lastPost['status_type'] == 'shared_story' and !empty($lastPost['link']))
+                                    {
+                                        //$userDetail['block_type'] = self::TYPE_SHARED_LINK;
                                         $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
+                                        
+                                    }
 
                                     if (isset($lastPost['attachment']) and isset($lastPost['attachment']['media']) and isset($lastPost['attachment']['media'][0]) and isset($lastPost['attachment']['media'][0]['href']) and (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') !== false))
                                     {
@@ -317,6 +322,14 @@ class FacebookContent extends SocContentBase
             }
             $userDetail['soc_url'] = $link;
         }
+        
+        $userDetail['text'] = '';
+        if (!empty($userDetail['last_status']))
+            $userDetail['text'] .= $userDetail['last_status'].' ';
+        if (!empty($userDetail['last_img_msg']))
+            $userDetail['text'] .= $userDetail['last_img_msg'].' ';
+        if (!empty($userDetail['last_img_story']))
+            $userDetail['text'] .= $userDetail['last_img_story'].' ';
 
         return $userDetail;
     }
@@ -344,6 +357,7 @@ class FacebookContent extends SocContentBase
             {
                 //разшаренная ссылка
                 $postContent['shared_link'] = $post['link'];
+                $postContent['block_type'] = self::TYPE_SHARED_LINK;
                 if (!empty($post['name']))
                     $postContent['link_name'] = $post['name'];
                 if (!empty($post['caption']))
@@ -405,7 +419,7 @@ class FacebookContent extends SocContentBase
 
         return $postContent;
 
-        var_dump($postContent);
+        //var_dump($postContent);
     }
 
     public static function getAppToken()

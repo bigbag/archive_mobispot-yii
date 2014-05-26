@@ -9,7 +9,7 @@
             <div class="item-user-avatar"><img width="50" height="50" src="<?php echo $socContent['photo']; ?>"></div>
             <div class="mess-body">
                 <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['tweet_author']; ?></a>
-                    <a class="user-name sub-line" href="#">@<?php echo $socContent['tweet_username']; ?></a>
+                    <a class="user-name sub-line" href="<?php echo $socContent['soc_url']; ?>">@<?php echo $socContent['tweet_username']; ?></a>
                 </div>
                 <div class="ins-block">
                     <p><?php echo $socContent['tweet_text']; ?>

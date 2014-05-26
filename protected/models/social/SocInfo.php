@@ -742,7 +742,32 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
+    
+    public static function nameInList($name, $list)
+    {
+        $answer = false;
+        foreach($list as $item)
+        {
+            if (!empty($item['name']) and $item['name'] == $name)
+                $answer = true;
+        }
+    
+        return $answer;
+    }
 
+    public function linkInList($link, $list)
+    {
+        $answer = false;
+        
+        $net = $this->getNetByLink($link);
+        if (!$net)
+            return false;
+        
+        $answer = self::nameInList($name, $list);
+    
+        return $answer;
+    }
+    
 }
 
 
