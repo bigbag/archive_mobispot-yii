@@ -19,6 +19,7 @@ class GoogleContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
+        $userDetail['block_type'] = self::TYPE_POST;
 
         $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
 
@@ -192,6 +193,14 @@ class GoogleContent extends SocContentBase
         {
             $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
+        
+        $userDetail['text'] = '';
+        if (!empty($userDetail['last_status']))
+            $userDetail['text'] .= $userDetail['last_status'].' ';
+        if (!empty($userDetail['last_img_msg']))
+            $userDetail['text'] .= $userDetail['last_img_msg'].' ';
+        if (!empty($userDetail['last_img_story']))
+            $userDetail['text'] .= $userDetail['last_img_story'].' ';       
 
         return $userDetail;
     }

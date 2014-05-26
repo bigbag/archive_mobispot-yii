@@ -33,8 +33,10 @@ class InstagramContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::INSTAGRAM_PHOTO;
         unset($post);
         $needSave = self::contentNeedSave($link);
+        
 
         if (strpos($link, 'instagram.com') !== false && (strpos($link, '/p/') !== false) && strlen($link) > (strpos($link, '/p/') + strlen('/p/')))
         {
@@ -109,7 +111,7 @@ class InstagramContent extends SocContentBase
             }
 
             if (isset($post['location']) && !empty($post['location']['name']))
-                $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $post['location']['name'];
+                $userDetail['sub-line'] = $post['location']['name'];
             if (!empty($post['created_time']))
             {
                 $dateDiff = time() - (int) $post['created_time'];
@@ -152,6 +154,8 @@ class InstagramContent extends SocContentBase
                 $userDetail['soc_url'] = $link;
             }
         }
+        
+        $userDetail['text'] = self::clueImgText($userDetail);
 
         return $userDetail;
     }

@@ -3,6 +3,12 @@
 class SocContentBase
 {
     const TYPE_TWEET = 'tweet';
+    const TYPE_POST = 'post';
+    const TYPE_SHARED_LINK = 'shared_link';
+    const YOUTUBE_VIDEO = 'youtube_video';
+    const INSTAGRAM_PHOTO = 'instagram_photo';
+    const TYPE_CHECKIN = 'checkin';
+    const TYPE_LIST = 'list';
 
     public static function rmGetParam($str)
     {
@@ -197,6 +203,19 @@ class SocContentBase
     public static function checkSharing($sharing_type, $link)
     {
         return false;
+    }
+    
+    public static function clueImgText($userDetail)
+    {
+        $text = '';
+        if (!empty($userDetail['last_status']))
+            $text .= $userDetail['last_status'].' ';
+        if (!empty($userDetail['last_img_msg']))
+            $text .= $userDetail['last_img_msg'].' ';
+        if (!empty($userDetail['last_img_story']))
+            $text .= $userDetail['last_img_story'].' ';
+    
+        return $text;
     }
 
 }

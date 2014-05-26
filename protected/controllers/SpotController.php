@@ -161,6 +161,7 @@ class SpotController extends MController
                 'wallet' => $wallet,
                 'spotContent' => $spotContent,
                 'content_keys' => $content_keys,
+                'spotNets' => $spot->getBindedNets(),
             ),
             true
         );
@@ -457,7 +458,8 @@ class SpotController extends MController
     {
         $answer = array(
             'error' => 'yes',
-            'content' => ''
+            'content' => '',
+            'netDown' => '',
         );
         $data = $this->validateRequest();
 
@@ -471,7 +473,11 @@ class SpotController extends MController
         if (!$spotContent) $this->getJsonAndExit($answer);
 
         $content = $spotContent->content;
-        if ($content['keys'][$data['key']] != 'text')
+        if ($content['keys'][$data['key']] == 'socnet')
+            $link = $content['data'][$data['key']];
+        elseif ($content['keys'][$data['key']] == 'content')
+            $link = $content['data'][$data['key']]['binded_link'];
+        elseif ($content['keys'][$data['key']] != 'text')
         {
             $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
             @unlink($patch . $content['data'][$data['key']]);
@@ -492,6 +498,10 @@ class SpotController extends MController
             $answer['keys'] = $keys;
             $answer['error'] = "no";
         }
+        
+        if (!empty($link) and "no" == $answer['error'])
+            $answer['netDown'] = $spot->getNetDown($link);
+        
         echo json_encode($answer);
     }
 
@@ -955,7 +965,7 @@ class SpotController extends MController
             'newField' => false,
             'key' => false,
         );
-        $target = '/user/personal';
+        $target = '/spot/list';
 
         if (Yii::app()->request->isPostRequest)
             $data = $this->validateRequest();
@@ -1198,6 +1208,7 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
             'content' => '',
+            'netDown' => '',
         );
 
         if (!isset($data['discodes']) or !isset($data['key']))
@@ -1214,6 +1225,7 @@ class SpotController extends MController
         $content = $spotContent->content;
         if ($content['keys'][$data['key']] == 'socnet')
         {
+            $link = $content['data'][$data['key']];
             $content['keys'][$data['key']] = 'text';
             $spotContent->content = $content;
 
@@ -1232,6 +1244,8 @@ class SpotController extends MController
         elseif ($content['keys'][$data['key']] == 'content')
         {
             $toDelete = array();
+            $link = $content['data'][$data['key']]['binded_link'];
+            
             if (!empty($content['data'][$data['key']]['last_img']) && strpos($content['data'][$data['key']]['last_img'], '/uploads/spot/') === 0)
                 $toDelete[] = $content['data'][$data['key']]['last_img'];
 
@@ -1261,6 +1275,9 @@ class SpotController extends MController
             );
             $answer['error'] = "no";
         }
+        
+        if (!empty($link) and "no" == $answer['error'])
+            $answer['netDown'] = $spot->getNetDown($link);
 
         echo json_encode($answer);
     }
