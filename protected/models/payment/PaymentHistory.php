@@ -26,7 +26,7 @@ class PaymentHistory extends CActiveRecord
     const TYPE_SYSTEM = 1;
     const TYPE_PAYMENT = 2;
 
-    const MAX_RECORD = 20;
+    const MAX_RECORD = 40;
 
 
     public function getStatusList()

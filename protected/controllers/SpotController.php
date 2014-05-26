@@ -681,6 +681,22 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    // Смена статуса карты на платежный
+    public function actionSetPaymentCard()
+    {
+        $data = $this->validateRequest();
+        $answer = array('error' => 'yes',);
+
+        $card = PaymentCard::model()->findByPk((int)$data['card_id']);
+        if (!$card) $this->getJsonAndExit($answer);
+
+        if ($card->delete()){
+            $answer['error'] = 'no';
+        }
+
+        echo json_encode($answer);
+    }
+
     public function actionCoupons()
     {
         $answer = array(

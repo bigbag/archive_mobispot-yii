@@ -260,6 +260,20 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  $scope.editCardList = function(){
+    $('.table-card').toggleClass('edit');
+  }
+
+  // Удаляем карту
+  $scope.removeCard = function(card_id, e){
+    var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $http.post('/spot/removeCard', data).success(function(data) {
+      if (data.error == 'no'){
+        angular.element(e.currentTarget).remove();
+      }
+    });
+  };
+
 
   // TODO Сортировка блоков спота и сохранение порядна, не работает
   // // Сохраняем порядок блоков

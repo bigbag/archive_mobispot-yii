@@ -28,7 +28,8 @@
                 <span class="main-indicator">
                     <?php echo Yii::t('spot', 'payment')?>
                 </span>
-                <a class="remove-card" href="#">
+                <a class="remove-card"
+                    ng-click='removeCard(<?php echo $card->id; ?>, $event)'>
                     <?php echo Yii::t('spot', 'Remove')?>
                 </a>
             </td>
@@ -37,7 +38,7 @@
         </tbody>
     </table>
     <div class="text-right">
-        <a class="minor-link">
+        <a ng-click="editCardList()" class="minor-link">
             <i class="icon">&#xe009;</i>
             <?php echo Yii::t('spot', 'Edit the list of cards')?>
         </a>
