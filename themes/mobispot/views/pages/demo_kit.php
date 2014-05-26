@@ -169,7 +169,8 @@
                                             for="shiping<?php echo $shipping['id'] ?>"
                                             ng-click="setShipping(<?php echo $shipping['id'] ?>)"
                                         >
-                                            <?php echo $shipping['name'] ?> | +<?php echo $shipping['price'] ?>$
+                                            <?php echo $shipping['name'] ?> | +<?php echo $shipping['price'] ?>$ 
+                                            <?php echo $shipping['descr'] ?>
                                         </label>
                                     </div>
                                 </div>
@@ -208,7 +209,7 @@
                     <div class="small-3 large-3 column">
                         <div class="next-step">
                                 <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
-                                <p>{{summ}}$ + {{shippings[order.shipping]}}$ (Shipping)</p>
+                                <p>{{summ}}$ + {{shippings[order.shipping]}}$ <?php echo Yii::t('store', '(Shipping)')?></p>
                             <a class="form-button button button-round"
                                 ng-click="buyDemoKit(order)"
                                 ng-init="finishButton='<?php echo Yii::t('store', 'FINISH!')?>';toMainMessage='<?php echo $config['toMainMessage']?>'"
