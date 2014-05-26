@@ -21,7 +21,8 @@
                 <?php echo $card->pan; ?>
             </td>
             <td class="txt-right">
-                <a class="make-main"  ng-click='setPaymentCard(<?php echo $card->id; ?>)'>
+                <a class="make-main"
+                    ng-click='setPaymentCard(<?php echo $card->id; ?>, $event)'>
                     <?php echo Yii::t('spot', 'make payment')?>
                 </a>
                 <span class="main-indicator">

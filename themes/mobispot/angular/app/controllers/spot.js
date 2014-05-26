@@ -250,11 +250,12 @@ angular.module('mobispot').controller('SpotController',
   };
 
   // Делаем карту платежной
-  $scope.setPaymentCard = function(card_id){
+  $scope.setPaymentCard = function(card_id, e){
     var data = {'token': $scope.spot.token, 'card_id': card_id};
     $http.post('/spot/setPaymentCard', data).success(function(data) {
       if (data.error == 'no'){
-        $scope.viewWallet($scope.spot);
+        angular.element('.main-card').removeClass('main-card');
+        angular.element(e.currentTarget).parent().parent().addClass('main-card');
       }
     });
   };

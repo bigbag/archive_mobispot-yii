@@ -660,8 +660,10 @@ class SpotController extends MController
 
         $card->status = PaymentCard::STATUS_PAYMENT;
         if ($card->save()){
-            $old_payment_card->status = PaymentCard::STATUS_ARCHIV;
-            $old_payment_card->save();
+            if ($old_payment_card){
+                $old_payment_card->status = PaymentCard::STATUS_ARCHIV;
+                $old_payment_card->save();
+            }
             $answer['error'] = 'no';
         }
 
