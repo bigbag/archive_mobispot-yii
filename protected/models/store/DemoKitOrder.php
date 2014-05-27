@@ -16,8 +16,9 @@ class DemoKitOrder extends CActiveRecord
         return array(
                 'price' => 120,
                 'defalutCountForAll' => 3,
-                'emailNeedMessage'=>Yii::t('store', 'Необходимо заполнить поле Email'),
-                'mailOrderMessage'=>Yii::t('store', 'Ваш заказ принят, для уточнения подробностей перевода с вами свяжется наш менеджер'),
+                'fillAllMessage'=>Yii::t('store', 'All the fields must be filled'),
+                'mailOrderMessage'=>Yii::t('store', 'Thank you for your purchase.
+Our manager will contact you soon for further transfer details.'),
                 'toMainMessage' => Yii::t('store', 'To the main page'),
                 'product' => array(
                     array(
@@ -47,13 +48,13 @@ class DemoKitOrder extends CActiveRecord
                         'id' => 1,
                         'name'=>Yii::t('store', 'Regular post'),
                         'price' => 25,
-                        'descr' => Yii::t('store', '(5-7 days)'),
+                        'descr' => Yii::t('store', '+$25 (5-7 days)'),
                     ),
                     array(
                         'id' => 2,
                         'name'=>Yii::t('store', 'DHL/TNT/UPS'),
                         'price' => 70,
-                        'descr' => Yii::t('store', '(2-3 days)'),
+                        'descr' => Yii::t('store', '+$70 (2-3 days)'),
                     )
                 ),
                 'payment' => array(
