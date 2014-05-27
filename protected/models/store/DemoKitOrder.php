@@ -17,8 +17,7 @@ class DemoKitOrder extends CActiveRecord
                 'price' => 120,
                 'defalutCountForAll' => 3,
                 'fillAllMessage'=>Yii::t('store', 'All the fields must be filled'),
-                'mailOrderMessage'=>Yii::t('store', 'Thank you for your purchase.
-Our manager will contact you soon for further transfer details.'),
+                'mailOrderMessage'=>Yii::t('store', 'Thank you for your purchase. Our manager will contact you soon for further transfer details.'),
                 'toMainMessage' => Yii::t('store', 'To the main page'),
                 'product' => array(
                     array(
