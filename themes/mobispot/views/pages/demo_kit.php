@@ -65,7 +65,7 @@
                     <a class="tab-back" ng-click="dkitForm($event, '1')" href="javascript:;"><i class="icon">&#xe602;&#xe602;</i></a>
                     <div class="small-9 large-9 column">
                         <div class="column small-6 large-6">
-                        <form id="help-in" name="helpForm" class="custom">
+                        <form id="help-in" name="orderForm" class="custom">
                             <div class="form-item">
                                 <h3><?php echo Yii::t('store', 'Customer')?></h3>
                                 <input
@@ -74,14 +74,14 @@
                                         ng-model="order.name"
                                         placeholder="<?php echo Yii::t('store', 'Name')?>"
                                         maxlength="300"
-                                        ng-minlength="3"
+                                        ng-minlength="2"
                                         required >
                                 <input
                                         name='email'
                                         type="email"
                                         ng-model="order.email"
-                                        placeholder="<?php echo Yii::t('store', 'Email*')?>"
-                                        ng-init="emailNeedMessage='<?php echo $config['emailNeedMessage'] ?>'"
+                                        placeholder="<?php echo Yii::t('store', 'Email')?>"
+                                        ng-init="fillAllMessage='<?php echo $config['fillAllMessage'] ?>'"
                                         maxlength="300"
                                         ng-minlength="3"
                                         required >
@@ -92,7 +92,8 @@
                                     name='phone'
                                     type="text"
                                     ng-model="order.phone"
-                                    placeholder="<?php echo Yii::t('store', 'Phone')?>">
+                                    placeholder="<?php echo Yii::t('store', 'Phone')?>"
+                                    required >
                             <input
                                     name='address'
                                     type='text'
@@ -126,14 +127,14 @@
                             </p>
                             <br>
                             <p>
-                            <?php echo Yii::t('store', '*All the fields must be filled. Please be careful.')?>
+                            <?php echo Yii::t('store', 'All the fields must be filled. Please be careful.')?>
                             </p>
                         </div>
                     </div>
                         <div class="small-3 large-3 column">
                                 <div class="next-step">
                                     <h3><?php echo Yii::t('store', 'Final step')?></h3>
-                                    <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3', 1)"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
+                                    <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3', 1, orderForm.$valid)"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
                                 </div>
                         </div>
                 </div>
@@ -169,7 +170,7 @@
                                             for="shiping<?php echo $shipping['id'] ?>"
                                             ng-click="setShipping(<?php echo $shipping['id'] ?>)"
                                         >
-                                            <?php echo $shipping['name'] ?> | +<?php echo $shipping['price'] ?>$ 
+                                            <?php echo $shipping['name'] ?> | 
                                             <?php echo $shipping['descr'] ?>
                                         </label>
                                     </div>
@@ -209,7 +210,11 @@
                     <div class="small-3 large-3 column">
                         <div class="next-step">
                                 <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
-                                <p>{{summ}}$ + {{shippings[order.shipping]}}$ <?php echo Yii::t('store', '(Shipping)')?></p>
+                                <p>
+                                <?php echo ('en' == $this->getLang())?'$':''?>{{summ}}<?php echo ('en' == $this->getLang())?'':'$'?> 
+                                + 
+                                <?php echo ('en' == $this->getLang())?'$':''?>{{shippings[order.shipping]}}<?php echo ('en' == $this->getLang())?'':'$'?> 
+                                <?php echo Yii::t('store', '(Shipping)')?></p>
                             <a class="form-button button button-round"
                                 ng-click="buyDemoKit(order)"
                                 ng-init="finishButton='<?php echo Yii::t('store', 'FINISH!')?>';toMainMessage='<?php echo $config['toMainMessage']?>'"

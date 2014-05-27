@@ -4,18 +4,17 @@ angular.module('mobispot').controller('DemokitController',
   function($scope, $http, $compile, $timeout, contentService) {
 
 
-$scope.dkitForm = function(e, index, checkEmail){
+$scope.dkitForm = function(e, index, checkValid, valid){
     if ($scope.summ <= 0) {
         return false;
     }
     
-    if (typeof 'undefined' != checkEmail
-        && 1 == checkEmail
-        && ('undefined' == typeof $scope.order.email
-            || !$scope.order.email.length)
+    if (typeof 'undefined' != checkValid
+        && 1 == checkValid
+        && !valid
         )
     {
-        contentService.setModal($scope.emailNeedMessage, 'error');  
+        contentService.setModal($scope.fillAllMessage, 'error');  
         return false;
     }
     
