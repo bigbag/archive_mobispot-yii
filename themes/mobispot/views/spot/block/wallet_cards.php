@@ -37,10 +37,14 @@
         <?php endforeach;?>
         </tbody>
     </table>
-    <div class="text-right">
-        <a ng-click="editCardList()" class="minor-link">
+    <div class="text-right" ng-init="wallet.card_edit = 0">
+        <a ng-click="editCardList()" class="minor-link" ng-hide="wallet.card_edit">
             <i class="icon">&#xe009;</i>
             <?php echo Yii::t('spot', 'Edit the list')?>
+        </a>
+        <a ng-click="editCardList()" class="minor-link" ng-show="wallet.card_edit">
+            <i class="icon">&#xe009;</i>
+            <?php echo Yii::t('spot', 'Finish editing')?>
         </a>
     </div>
     <?php endif;?>

@@ -8,10 +8,14 @@
         </h1>
         <ul class="right">
             <li>
-                <a class="show" href="/service/logout/">
-                <?php echo Yii::t('menu', 'Logout') ?>
+                <a class="show" href="/user/profile/">
+                <?php echo Yii::t('menu', 'My profile & Security') ?>
                 <?php if ($info):?> (<?php echo $info['name']?>)<?php endif;?>
-
+                </a>
+            </li>
+            <li>
+                <a class="show" href="/service/logout/">
+                <?php echo Yii::t('menu', 'Sign Out') ?>
                 </a>
             </li>
         </ul>

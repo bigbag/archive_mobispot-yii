@@ -20,7 +20,7 @@
                 <?php echo Yii::t('menu', 'My Spots') ?>
             </a></li>
             <li><a href="/service/logout/">
-                <?php echo Yii::t('menu', 'Logout') ?>
+                <?php echo Yii::t('menu', 'Sign Out') ?>
             </a></li>
             <?php endif; ?>
         </ul>

@@ -99,7 +99,7 @@ return array(
         ),
         'dbPayment' => array(
             'class' => 'CDbConnection',
-            'connectionString' => 'mysql:host=localhost;dbname=payment_test',
+            'connectionString' => 'mysql:host=localhost;dbname=payment',
             'username' => 'user',
             'password' => 'password',
             'emulatePrepare' => true,

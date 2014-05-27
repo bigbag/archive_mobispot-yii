@@ -9,16 +9,16 @@
 <body ng-controller="UserController"
     ng-cloak class="ng-cloak"
     ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-<?php include('block/header/spots.php'); ?>
+    <div class="main spot">
+        <?php include('block/header/spots.php'); ?>
+        <?php echo $content; ?>
+    </div>
 
-<div ng-click="modal='none'">
-    <?php echo $content; ?>
-</div>
-<?php include('block/footer/spots.php'); ?>
-<div class="m-result">
-    <p></p>
-</div>
-<?php include('block/script/spots.php'); ?>
+    <?php include('block/footer/spots.php'); ?>
+    <div class="m-result">
+        <p></p>
+    </div>
+    <?php include('block/script/spots.php'); ?>
 
 </body>
 </html>
