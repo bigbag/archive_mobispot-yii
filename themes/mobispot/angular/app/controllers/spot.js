@@ -99,7 +99,6 @@ angular.module('mobispot').controller('SpotController',
 
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
-    $scope.SocNetTooltip(false);
     var currentNet = -1;
 
     for (var i = 0; i < $scope.soc_patterns.length; i++){
@@ -114,7 +113,6 @@ angular.module('mobispot').controller('SpotController',
     }else{
       $scope.addValue($scope.spot.content);
     }
-
   };
 
   // Добавление непривязанного к соцсетям контента
