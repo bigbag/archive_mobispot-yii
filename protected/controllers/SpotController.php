@@ -274,7 +274,10 @@ class SpotController extends MController
             $spot->status = Spot::STATUS_REGISTERED;
         else $spot->status = Spot::STATUS_INVISIBLE;
 
-        if ($spot->save()) $answer['error'] = "no";
+        if ($spot->save()) {
+            $answer['status'] = $spot->status;
+            $answer['error'] = "no";
+        }
 
         echo json_encode($answer);
     }

@@ -234,6 +234,15 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  // Меняем статус спота
+  $scope.ivisibleSpot = function(spot) {
+    $http.post('/spot/invisibleSpot', spot).success(function(data) {
+      if(data.error == 'no') {
+        $scope.spot.status = data.status;
+      }
+    });
+  };
+
   // Отображение окна настроек
   $scope.viewsSettings = function (spot) {
     var spot_block = angular.element('#spot-block');

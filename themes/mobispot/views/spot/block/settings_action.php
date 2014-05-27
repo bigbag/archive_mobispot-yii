@@ -28,12 +28,13 @@
         <div class="row toggle-visible">
             <div class="columns large-4">
                 <a class="red"
-                    ng-click="visibleSpot()">
-                    <div class="c-visible">
+                    ng-init="spot.status=<?php echo $spot->status; ?>"
+                    ng-click="ivisibleSpot(spot)">
+                    <div ng-show="spot.status==2">
                         <i class="icon">&#xe60b;</i>
                         <span><?php echo Yii::t('spot', 'Make spot invisible')?></span>
                     </div>
-                    <div class="c-invisible">
+                    <div ng-show="spot.status==6">
                         <i class="icon">&#xe60c;</i>
                         <span><?php echo Yii::t('spot', 'Make spot visible')?></span>
                     </div>
