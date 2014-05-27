@@ -104,14 +104,14 @@ class YouTubeContent extends SocContentBase
                 if (isset($videoFeed[0]))
                 {
                     $videoEntry = $videoFeed[0];
-                    $userDetail['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
-                    $userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                    $userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+                    $userDetail['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
+                    $userDetail['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+                    $userDetail['youtube_video_view_count'] = $videoEntry->getVideoViewCount();
 
                     $videoThumbnails = $videoEntry->getVideoThumbnails();
                     if (isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height']))
                     {
-                        $userDetail['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
+                        $userDetail['youtube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                     }
                 }
             }
@@ -153,14 +153,14 @@ class YouTubeContent extends SocContentBase
             try
             {
                 $videoEntry = $yt->getVideoEntry($videoId);
-                $videoContent['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
-                $videoContent['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                $videoContent['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+                $videoContent['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
+                $videoContent['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+                $videoContent['youtube_video_view_count'] = $videoEntry->getVideoViewCount();
 
                 $videoThumbnails = $videoEntry->getVideoThumbnails();
                 if (isset($videoThumbnails[0]))
                 {
-                    $videoContent['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
+                    $videoContent['youtube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                 }
             }
             catch (Exception $e)

@@ -6,6 +6,7 @@
                 <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInfo->getSmallIcon($socContent['soc_url']);?>" height="36"><span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
+        <?php if (!empty($socContent['youtube_video_view_count'])): ?>
         <div class="type-mess item-body">
             <div class="item-user-avatar">
             <?php if (!empty($socContent['photo'])):?>
@@ -18,23 +19,24 @@
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif ?>
                     <b class="time"><?php //echo $socContent['sub-time']; ?></b>
-                    <span class="sub-line"><?php echo $socContent['ytube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+                    <span class="sub-line"><?php echo $socContent['youtube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
                 </div>
                 <div class="ins-block">
                 <object>
-                    <param name="movie" value="<?php echo $socContent['ytube_video_flash']; ?>">
+                    <param name="movie" value="<?php echo $socContent['youtube_video_flash']; ?>">
                     <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['ytube_video_flash']; ?>" 
-                    <?php if (isset($socContent['ytube_video_rel'])): ?>
-                        rel="<?php echo $socContent['ytube_video_rel']; ?>"
+                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['youtube_video_flash']; ?>"
+                    <?php if (isset($socContent['youtube_video_rel'])): ?>
+                        rel="<?php echo $socContent['youtube_video_rel']; ?>"
                     <?php endif; ?>
-                    type="application/x-shockwave-flash" 
+                    type="application/x-shockwave-flash"
                         width="100%" height="480"
                     allowfullscreen="true">
                 </object>
                 </div>
             </div>
         </div>
+        <?php endif;?>
             <div class="item-control">
                     <span class="move move-top"></span>
                         <div class="spot-activity">
