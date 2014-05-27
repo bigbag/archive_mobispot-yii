@@ -6,6 +6,7 @@
                 <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInfo->getSmallIcon($socContent['soc_url']);?>" height="36"><span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
+        <?php if (!empty($socContent['soc_username'])): ?>
         <div class="type-mess item-body">
             <div class="item-user-avatar">
             <?php if (!empty($socContent['photo'])):?>
@@ -31,13 +32,14 @@
                 </div>
             </div>
         </div>
-            <div class="item-control">
-                    <span class="move move-top"></span>
-                        <div class="spot-activity">
-                            <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
-                            <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
-                        </div>
-                    <span class="move move-bottom"></span>
-            </div>
+        <?php endif?>
+        <div class="item-control">
+                <span class="move move-top"></span>
+                    <div class="spot-activity">
+                        <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
+                        <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
+                    </div>
+                <span class="move move-bottom"></span>
+        </div>
     </div>
 </div>
