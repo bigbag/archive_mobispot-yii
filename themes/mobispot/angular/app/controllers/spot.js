@@ -99,7 +99,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Добавление нового блока в спот
   $scope.addContent = function(spot) {
-    $scope.SocNetTooltip(false);
+   // $scope.SocNetTooltip(false);
     var currentNet = -1;
 
     for (var i = 0; i < $scope.soc_patterns.length; i++){
@@ -419,7 +419,7 @@ angular.module('mobispot').controller('SpotController',
       xhr.addEventListener("error", $scope.uploadFailed, false)
       xhr.addEventListener("load", $scope.uploadComplete, false)
       xhr.open("POST", "/spot/upload", true);
-      xhr.setRequestHeader("X-File-Name", file.name);
+      xhr.setRequestHeader("X-File-Name", unescape(encodeURIComponent(file.name)));
       xhr.setRequestHeader("X-Discodes", $scope.spot.discodes);
       xhr.send(file);
     }
