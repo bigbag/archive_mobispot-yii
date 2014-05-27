@@ -16,9 +16,9 @@
         <?php echo Yii::t('spot', 'Coupon')?>
     </a> -->
     <?php endif;?>
-    <a href="javascript:;"
-        title="settings"
-        ng-click="spotBlock($event,'settings-block')"
+    <a  title="settings"
+        ng-click="general.views='settings'"
+        ng-class="{active: general.views=='settings'}"
         class="icon-spot-button right icon settings">&#xe00f;
     </a>
 </div>

@@ -280,12 +280,16 @@ class Spot extends CActiveRecord
     public function getBindedNets()
     {
         $answer = array();
-        
+
         $spotContent = SpotContent::getSpotContent($this);
+        if (!$spotContent) {
+            $spotContent = SpotContent::initPersonal($this, $spotContent);
+        }
+
         $content = $spotContent->content;
         $content_keys = $content['keys'];
         $socInfo = new SocInfo;
-        
+
         foreach ($content_keys as $key => $type)
         {
             if ('socnet' == $type)
@@ -294,27 +298,27 @@ class Spot extends CActiveRecord
                 $link = $content['data'][$key]['binded_link'];
             else
                 continue;
-            
+
             $net = $socInfo->getNetByLink($link);
             if (empty($net))
                 continue;
-            
+
             $answer[] = $net;
         }
-    
+
         return $answer;
     }
-    
+
     public function getNetDown($link)
     {
         $netDown = '';
-        
+
         $spotNets = $this->getBindedNets();
         $socInfo = new SocInfo;
         $net = $socInfo->getNetByLink($link);
         if (!empty($net) and !SocInfo::nameInList($net['name'], $spotNets))
             $netDown = $net['name'];
-    
+
         return $netDown;
     }
 }

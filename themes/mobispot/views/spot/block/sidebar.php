@@ -2,7 +2,8 @@
     <div class="large-12 columns">
         <ul class="spot-list so-awesome">
             <?php foreach ($spots as $spot):?>
-            <li ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='spot'"
+            <li id="<?php echo $spot->discodes_id;?>"
+                ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='spot'"
                 ng-class="{active: spot.discodes=='<?php echo $spot->discodes_id;?>'}">
                 <i class="icon i-invisible">&#xe60b;</i>
                 <div class="box">
