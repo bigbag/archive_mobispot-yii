@@ -101,9 +101,7 @@ return array (
   'Zip / Post code' => 'Почтовый индекс',
   'Zip / Postal code' => '',
   'В корзину добавленно {{items.count}} спот' => '',
-  'Thank you for your purchase.
-Our manager will contact you soon for further transfer details.' => 'Спасибо за ваш заказ.
-Наш менеджер свяжется с вами в ближайшее время для уточнения деталей перевода.',
+  'Thank you for your purchase. Our manager will contact you soon for further transfer details.' => 'Спасибо за ваш заказ. Наш менеджер свяжется с вами в ближайшее время для уточнения деталей перевода.',
   'Введен неверный код!' => '',
   'Все поля обязательны для заполнения' => '',
   'Демо-кит Мобиспот' => '',
