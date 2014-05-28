@@ -12,6 +12,9 @@
                     <?php echo Yii::t('spot', 'Yandex.Money User Agreement')?>
                     </a>
                 </p>
+                <p>
+                    <?php echo Yii::t('spot', 'Attention! Next page is only linking the bank card with your spot. No charges will be made.')?>
+                </p>
                 <form action="<?php echo $linking['url']?>" method="POST" id="linking_card" >
                     <input type="hidden"
                         name="cps_context_id"
@@ -44,8 +47,10 @@
         <?php else: ?>
         <div class="row" ng-init="countReset()">
             <div class="content-block not-available">
-                <h2>Cервис оплаты в настоящий момент не доступен :(</h2>
-                <p>через <b>{{ reset_time }}</b> сек. будет проведена повторная попытка оплаты</p>
+                <h2><?php echo Yii::t('spot', 'Service is currently not available')?></h2>
+                <p><?php echo Yii::t('spot', 'Another attempt will be performed in')?>
+                    через <b>{{ reset_time }}</b>
+                    <?php echo Yii::t('spot', 'seconds')?></p>
             </div>
         </div>
     <?php endif; ?>
