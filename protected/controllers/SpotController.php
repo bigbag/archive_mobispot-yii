@@ -15,7 +15,8 @@ class SpotController extends MController
         if (Yii::app()->request->getQuery('url'))
         {
             $url = Yii::app()->request->getQuery('url');
-            $this->redirect('http://m.tmp.mobispot.com/' . $url);
+            $redirect_url = substr(Yii::app()->request->getBaseUrl(true), 7);
+            $this->redirect('http://m.'.$redirect_url.'/' . $url);
         }
     }
 
@@ -688,9 +689,7 @@ class SpotController extends MController
         if (!$wallet) $this->setNotFound();
 
         $linking = $this->getLinkingParams($discodes_id);
-        if ($linking['error'] == 1) $this->setBadRequest();
-
-        $this->render('card_ofert',array('linking'=>$linking));
+        $this->render('card_ofert', array('linking'=>$linking));
     }
 
     // Смена статуса карты на платежный
