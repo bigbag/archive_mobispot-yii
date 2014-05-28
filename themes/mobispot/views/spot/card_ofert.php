@@ -2,6 +2,7 @@
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/spot.js"></script>'?>
 <div class="content-wrapper" ng-controller="SpotController">
     <div>
+        <?php if ($linking['error'] == 0): ?>
         <div class="row">
             <div class="content-block">
                 <h2><?php echo Yii::t('spot', 'User agreement confirmation')?></h2>
@@ -40,6 +41,13 @@
                 </a>
             </div>
         </div>
-
+        <?php else: ?>
+        <div class="row" ng-init="countReset()">
+            <div class="content-block not-available">
+                <h2>Cервис оплаты в настоящий момент не доступен :(</h2>
+                <p>через <b>{{ reset_time }}</b> сек. будет проведена повторная попытка оплаты</p>
+            </div>
+        </div>
+    <?php endif; ?>
     </div>
 </div>

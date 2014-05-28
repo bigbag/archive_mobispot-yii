@@ -688,9 +688,7 @@ class SpotController extends MController
         if (!$wallet) $this->setNotFound();
 
         $linking = $this->getLinkingParams($discodes_id);
-        if ($linking['error'] == 1) $this->setBadRequest();
-
-        $this->render('card_ofert',array('linking'=>$linking));
+        $this->render('card_ofert', array('linking'=>$linking));
     }
 
     // Смена статуса карты на платежный

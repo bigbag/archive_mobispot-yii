@@ -317,6 +317,20 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  // Счетчик на странице соглашения об оплате
+  var stopped;
+  $scope.countReset = function() {
+    $scope.reset_time = typeof $scope.reset_time !== 'undefined' ? $scope.reset_time:30;
+    stopped = $timeout(function() {
+      $scope.reset_time--;
+      console.log($scope.reset_time);
+      if ($scope.reset_time == 0) {
+        $(location).attr('href',window.location.pathname);
+      }
+      $scope.countReset();
+    }, 1000);
+  };
+
 
   // TODO Сортировка блоков спота и сохранение порядна, не работает
   // // Сохраняем порядок блоков

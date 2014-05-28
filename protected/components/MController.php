@@ -193,7 +193,9 @@ class MController extends Controller
         curl_close($ch);
 
         if ($errno == 0) return $result;
-        else return $errno;
+        else {
+            return '{error: ' . $errno . '}';
+        }
     }
 
     public function init()
