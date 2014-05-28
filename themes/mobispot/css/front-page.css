@@ -242,7 +242,7 @@ a {
     width: 300px; }
   /* line 206, ../sass/front-page.scss */
   .header-page .hat-bar {
-    background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
+    background: url('../img/rgbapng/ffffffe5-5.png?1401278255');
     background: rgba(255, 255, 255, 0.9);
     height: 63px; }
     /* line 209, ../sass/front-page.scss */
@@ -251,7 +251,7 @@ a {
   /* line 213, ../sass/front-page.scss */
   .header-page .show-block {
     padding: 38px;
-    background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
+    background: url('../img/rgbapng/ffffffe5-5.png?1401278255');
     background: rgba(255, 255, 255, 0.9);
     text-align: center; }
     /* line 217, ../sass/front-page.scss */
@@ -553,7 +553,7 @@ a {
 
 /* line 483, ../sass/front-page.scss */
 .content-block {
-  background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
+  background: url('../img/rgbapng/ffffffe5-5.png?1401278255');
   background: rgba(255, 255, 255, 0.9);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1382,10 +1382,10 @@ h5 + p {
   opacity: 0; }
   /* line 362, ../sass/spot.scss */
   .item-control .move.move-top {
-    top: 0; }
+    top: 1px; }
   /* line 365, ../sass/spot.scss */
   .item-control .move.move-bottom {
-    bottom: 0; }
+    bottom: 1px; }
 /* line 369, ../sass/spot.scss */
 .item-control .spot-activity {
   -webkit-transition: opacity 0.2s;
@@ -1609,7 +1609,7 @@ h5 + p {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: url('../img/rgbapng/ffffff7f-5.png?1401182474');
+    background: url('../img/rgbapng/ffffff7f-5.png?1401278255');
     background: rgba(255, 255, 255, 0.5);
     z-index: 10;
     top: 0;
@@ -1948,7 +1948,7 @@ a.red {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url('../img/rgbapng/e0e6ede5-5.png?1401182474');
+  background: url('../img/rgbapng/e0e6ede5-5.png?1401278255');
   background: rgba(224, 230, 237, 0.9);
   z-index: -1;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -2355,33 +2355,39 @@ a.red {
   display: table;
   width: 100%; }
 
-@-webkit-keyframes info-button {
-  /* line 1188, ../sass/spot.scss */
-  0% {
-    color: #E0E6ED; }
+/* line 1183, ../sass/spot.scss */
+.no-card {
+  border: 1px solid #E9EDF2;
+  color: #8D9095;
+  text-align: center;
+  display: block;
+  vertical-align: middle;
+  border-radius: 5px;
+  width: 535px;
+  height: 164px;
+  line-height: 164px; }
+  /* line 1193, ../sass/spot.scss */
+  .card-block + .no-card {
+    display: none; }
 
-  /* line 1191, ../sass/spot.scss */
-  50% {
-    color: #0062ff; }
-
-  /* line 1194, ../sass/spot.scss */
-  100% {
-    color: #E0E6ED; } }
-
-@-moz-keyframes info-button {
-  /* line 1200, ../sass/spot.scss */
-  0% {
-    color: #E0E6ED; }
-
+/* line 1197, ../sass/spot.scss */
+.wait-card {
+  border-top: 2px solid #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  text-align: center;
+  -webkit-box-shadow: inset 0 0 0 1px #e4b63f;
+  -moz-box-shadow: inset 0 0 0 1px #e4b63f;
+  box-shadow: inset 0 0 0 1px #e4b63f;
+  height: 42px; }
   /* line 1203, ../sass/spot.scss */
-  50% {
-    color: #0062ff; }
+  tr:first-child .wait-card {
+    border-top: 0; }
 
-  /* line 1206, ../sass/spot.scss */
-  100% {
-    color: #E0E6ED; } }
-
-@-o-keyframes info-button {
+@-webkit-keyframes info-button {
   /* line 1212, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
@@ -2394,7 +2400,7 @@ a.red {
   100% {
     color: #E0E6ED; } }
 
-@keyframes info-button {
+@-moz-keyframes info-button {
   /* line 1224, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
@@ -2404,5 +2410,31 @@ a.red {
     color: #0062ff; }
 
   /* line 1230, ../sass/spot.scss */
+  100% {
+    color: #E0E6ED; } }
+
+@-o-keyframes info-button {
+  /* line 1236, ../sass/spot.scss */
+  0% {
+    color: #E0E6ED; }
+
+  /* line 1239, ../sass/spot.scss */
+  50% {
+    color: #0062ff; }
+
+  /* line 1242, ../sass/spot.scss */
+  100% {
+    color: #E0E6ED; } }
+
+@keyframes info-button {
+  /* line 1248, ../sass/spot.scss */
+  0% {
+    color: #E0E6ED; }
+
+  /* line 1251, ../sass/spot.scss */
+  50% {
+    color: #0062ff; }
+
+  /* line 1254, ../sass/spot.scss */
   100% {
     color: #E0E6ED; } }
