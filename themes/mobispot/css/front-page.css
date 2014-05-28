@@ -242,7 +242,7 @@ a {
     width: 300px; }
   /* line 206, ../sass/front-page.scss */
   .header-page .hat-bar {
-    background: url('../img/rgbapng/ffffffe5-5.png?1400490284');
+    background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
     background: rgba(255, 255, 255, 0.9);
     height: 63px; }
     /* line 209, ../sass/front-page.scss */
@@ -251,7 +251,7 @@ a {
   /* line 213, ../sass/front-page.scss */
   .header-page .show-block {
     padding: 38px;
-    background: url('../img/rgbapng/ffffffe5-5.png?1400490284');
+    background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
     background: rgba(255, 255, 255, 0.9);
     text-align: center; }
     /* line 217, ../sass/front-page.scss */
@@ -553,7 +553,7 @@ a {
 
 /* line 483, ../sass/front-page.scss */
 .content-block {
-  background: url('../img/rgbapng/ffffffe5-5.png?1400490284');
+  background: url('../img/rgbapng/ffffffe5-5.png?1401182473');
   background: rgba(255, 255, 255, 0.9);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -818,66 +818,81 @@ h5 + p {
   background: #00B397;
   color: #fff; }
 
+/* line 723, ../sass/front-page.scss */
+.not-available {
+  padding: 66px; }
+  /* line 725, ../sass/front-page.scss */
+  .not-available h2, .not-available p {
+    text-align: center; }
+  /* line 728, ../sass/front-page.scss */
+  .not-available b {
+    font-size: 30px;
+    font-family: Mobispot;
+    color: #0062FF;
+    width: 40px;
+    display: inline-block;
+    text-align: center; }
+
 @-webkit-keyframes input-error {
-  /* line 729, ../sass/front-page.scss */
+  /* line 743, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 732, ../sass/front-page.scss */
+  /* line 746, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 735, ../sass/front-page.scss */
+  /* line 749, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @-moz-keyframes input-error {
-  /* line 741, ../sass/front-page.scss */
+  /* line 755, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 744, ../sass/front-page.scss */
+  /* line 758, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 747, ../sass/front-page.scss */
+  /* line 761, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @-o-keyframes input-error {
-  /* line 753, ../sass/front-page.scss */
+  /* line 767, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 756, ../sass/front-page.scss */
+  /* line 770, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 759, ../sass/front-page.scss */
+  /* line 773, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @keyframes input-error {
-  /* line 765, ../sass/front-page.scss */
+  /* line 779, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 768, ../sass/front-page.scss */
+  /* line 782, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 771, ../sass/front-page.scss */
+  /* line 785, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
@@ -964,25 +979,35 @@ h5 + p {
     /* line 50, ../sass/spot.scss */
     .spot-list li h3 {
       margin: 0;
-      color: rgba(3, 3, 3, 0.7); }
-    /* line 54, ../sass/spot.scss */
+      color: rgba(3, 3, 3, 0.7);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 80%;
+      font-size: 22px; }
+    @media screen and (max-width: 1200px) {
+      /* line 59, ../sass/spot.scss */
+      .spot-list li h3 {
+        font-size: 18px;
+        max-width: 60%; } }
+    /* line 64, ../sass/spot.scss */
     .spot-list li.active {
       background: #E0E6ED; }
-      /* line 56, ../sass/spot.scss */
+      /* line 66, ../sass/spot.scss */
       .spot-list li.active .box {
-        border-right: 1px solid rgba(255, 255, 255, 0.5); }
-      /* line 59, ../sass/spot.scss */
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        height: 56px; }
+      /* line 70, ../sass/spot.scss */
       .spot-list li.active h3 {
         color: #0062ff; }
-    /* line 65, ../sass/spot.scss */
+    /* line 76, ../sass/spot.scss */
     .spot-list li.invisible h3 {
       color: #fff; }
-    /* line 68, ../sass/spot.scss */
+    /* line 79, ../sass/spot.scss */
     .spot-list li.invisible img {
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
       opacity: 0.3; }
 
-/* line 74, ../sass/spot.scss */
+/* line 85, ../sass/spot.scss */
 .spot-content {
   background: #E0E6ED;
   padding: 16px;
@@ -992,16 +1017,16 @@ h5 + p {
   -o-border-radius: 0 8px 8px;
   border-radius: 0 8px 8px; }
 
-/* line 79, ../sass/spot.scss */
+/* line 90, ../sass/spot.scss */
 .spot-hat {
   position: relative; }
-  /* line 81, ../sass/spot.scss */
+  /* line 92, ../sass/spot.scss */
   .spot-hat .spot-tabs {
     margin-bottom: 16px;
     position: relative;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
-    /* line 86, ../sass/spot.scss */
+    /* line 97, ../sass/spot.scss */
     .spot-hat .spot-tabs a {
       position: relative;
       z-index: 10;
@@ -1010,22 +1035,22 @@ h5 + p {
       margin-right: 22px;
       display: inline-block;
       vertical-align: top; }
-      /* line 95, ../sass/spot.scss */
+      /* line 106, ../sass/spot.scss */
       .spot-hat .spot-tabs a.right {
         color: #FFF;
         margin: -6px 0 0 22px;
         font-size: 25px;
         width: 26px; }
-      /* line 101, ../sass/spot.scss */
+      /* line 112, ../sass/spot.scss */
       .spot-hat .spot-tabs a:hover, .spot-hat .spot-tabs a.active {
         color: #0062ff; }
-      /* line 104, ../sass/spot.scss */
+      /* line 115, ../sass/spot.scss */
       .spot-hat .spot-tabs a i {
         margin-right: 6px;
         font-size: 20px;
         position: relative;
         top: -1px; }
-      /* line 110, ../sass/spot.scss */
+      /* line 121, ../sass/spot.scss */
       .spot-hat .spot-tabs a sub {
         behavior: url('../css/PIE.htc');
         position: relative;
@@ -1056,13 +1081,13 @@ h5 + p {
         right: -16px;
         background: #30D874;
         font-size: 10px; }
-  /* line 126, ../sass/spot.scss */
+  /* line 137, ../sass/spot.scss */
   .spot-hat .spot-hat-button {
     position: absolute;
     top: 0;
     right: 0;
     margin: 0; }
-    /* line 131, ../sass/spot.scss */
+    /* line 142, ../sass/spot.scss */
     .spot-hat .spot-hat-button a {
       display: block;
       height: 30px;
@@ -1072,21 +1097,21 @@ h5 + p {
       font-size: 25px;
       margin-top: -3px; }
 
-/* line 142, ../sass/spot.scss */
+/* line 153, ../sass/spot.scss */
 .spot-content_row {
   display: none;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0; }
-  /* line 145, ../sass/spot.scss */
+  /* line 156, ../sass/spot.scss */
   .spot-content_row.active {
     display: block; }
 
-/* line 149, ../sass/spot.scss */
+/* line 160, ../sass/spot.scss */
 .spot-block {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1; }
 
-/* line 152, ../sass/spot.scss */
+/* line 163, ../sass/spot.scss */
 .cover-fast-link {
   position: absolute;
   bottom: 0;
@@ -1094,7 +1119,7 @@ h5 + p {
   width: 100%;
   z-index: 20;
   cursor: text; }
-  /* line 159, ../sass/spot.scss */
+  /* line 170, ../sass/spot.scss */
   .cover-fast-link .quick-input {
     behavior: url('../css/PIE.htc');
     position: relative;
@@ -1120,7 +1145,7 @@ h5 + p {
     display: block;
     float: left;
     color: #000; }
-  /* line 169, ../sass/spot.scss */
+  /* line 180, ../sass/spot.scss */
   .cover-fast-link .form-button {
     position: absolute;
     bottom: 11px;
@@ -1131,28 +1156,28 @@ h5 + p {
     transition: opacity 0.4s ease-in-out;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
     opacity: 0; }
-    /* line 175, ../sass/spot.scss */
+    /* line 186, ../sass/spot.scss */
     .cover-fast-link .form-button.visible {
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       opacity: 1; }
 
-/* line 181, ../sass/spot.scss */
+/* line 192, ../sass/spot.scss */
 .spot-item .label-cover {
   -webkit-transition: opacity 0.4s ease-in-out;
   -moz-transition: opacity 0.4s ease-in-out;
   -o-transition: opacity 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out; }
-  /* line 183, ../sass/spot.scss */
+  /* line 194, ../sass/spot.scss */
   .spot-item .label-cover.invisible {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
     opacity: 0; }
 
-/* line 187, ../sass/spot.scss */
+/* line 198, ../sass/spot.scss */
 .spot-item-stack {
   clear: both;
   margin-top: 33px; }
 
-/* line 191, ../sass/spot.scss */
+/* line 202, ../sass/spot.scss */
 .info-button {
   position: absolute;
   right: 11px;
@@ -1162,17 +1187,17 @@ h5 + p {
   z-index: 30;
   font-weight: 100;
   padding: 1px 0; }
-  /* line 200, ../sass/spot.scss */
+  /* line 211, ../sass/spot.scss */
   .info-button:hover, .show-info .info-button {
     color: #0062ff; }
-  /* line 203, ../sass/spot.scss */
+  /* line 214, ../sass/spot.scss */
   .info-button.first-start {
     -webkit-animation: info-button .4s linear 4;
     -moz-animation: info-button .4s linear 4;
     -o-animation: info-button .4s linear 4;
     animation: info-button .4s linear 4; }
 
-/* line 210, ../sass/spot.scss */
+/* line 221, ../sass/spot.scss */
 .info-overlay {
   position: fixed;
   height: 100%;
@@ -1187,44 +1212,73 @@ h5 + p {
   -moz-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out; }
-  /* line 220, ../sass/spot.scss */
+  /* line 231, ../sass/spot.scss */
   .info-overlay.show-info {
     z-index: 90;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
     opacity: 0.9; }
 
-/* line 225, ../sass/spot.scss */
+/* line 236, ../sass/spot.scss */
 .info-pick {
   position: relative;
   z-index: 100; }
 
-/* line 229, ../sass/spot.scss */
+/* line 240, ../sass/spot.scss */
 .stack-hat {
   position: relative;
   overflow: hidden;
   margin-bottom: 11px; }
-  /* line 233, ../sass/spot.scss */
+  /* line 244, ../sass/spot.scss */
   .stack-hat .mobile-link {
     position: absolute;
     bottom: 0;
     right: 0;
     color: #8D9095; }
-    /* line 238, ../sass/spot.scss */
+    /* line 249, ../sass/spot.scss */
     .stack-hat .mobile-link:hover {
       color: #0062ff; }
-    /* line 241, ../sass/spot.scss */
+    /* line 252, ../sass/spot.scss */
     .stack-hat .mobile-link i {
       position: relative;
       top: 1px; }
 
-/* line 247, ../sass/spot.scss */
+/* line 258, ../sass/spot.scss */
 .linking {
   float: left;
   height: 30px; }
-  /* line 250, ../sass/spot.scss */
+  /* line 261, ../sass/spot.scss */
+  .linking p {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 6px 10px 6px 8px;
+    position: relative;
+    top: -11px;
+    color: #FFF;
+    background: #30D874;
+    border-radius: 0 13px 13px 0;
+    margin-left: 3px;
+    cursor: help;
+    position: relative;
+    z-index: 100; }
+    /* line 274, ../sass/spot.scss */
+    .linking p span {
+      width: 0;
+      overflow: hidden;
+      display: inline-block;
+      height: 16px;
+      margin-bottom: -3px;
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+      white-space: nowrap; }
+    /* line 284, ../sass/spot.scss */
+    .linking p:hover span {
+      width: 240px; }
+  /* line 289, ../sass/spot.scss */
   .linking a {
     display: inline-block; }
-    /* line 252, ../sass/spot.scss */
+    /* line 291, ../sass/spot.scss */
     .linking a img {
       -webkit-filter: grayscale(100%);
       -moz-filter: grayscale(100%);
@@ -1237,11 +1291,11 @@ h5 + p {
       transition: all 0.13333s ease-in-out;
       width: 30px;
       display: block; }
-    /* line 260, ../sass/spot.scss */
+    /* line 299, ../sass/spot.scss */
     .linking a:hover img {
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       opacity: 1; }
-    /* line 265, ../sass/spot.scss */
+    /* line 304, ../sass/spot.scss */
     .linking a.link img {
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       opacity: 1;
@@ -1249,12 +1303,12 @@ h5 + p {
       -moz-filter: grayscale(0);
       filter: grayscale(0); }
 
-/* line 273, ../sass/spot.scss */
+/* line 312, ../sass/spot.scss */
 .spot-item .indicator {
   top: -10px;
   left: -12px; }
 
-/* line 278, ../sass/spot.scss */
+/* line 317, ../sass/spot.scss */
 .coupon-block, .type-coupon {
   *zoom: 1; }
   /* line 38, ../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.3/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
@@ -1263,23 +1317,23 @@ h5 + p {
     display: table;
     clear: both; }
 
-/* line 281, ../sass/spot.scss */
+/* line 320, ../sass/spot.scss */
 .item-area.type-empty {
   background: none;
   text-align: center; }
-  /* line 284, ../sass/spot.scss */
+  /* line 323, ../sass/spot.scss */
   .item-area.type-empty p {
     font-size: 16px;
     color: #fff; }
 
-/* line 289, ../sass/spot.scss */
+/* line 328, ../sass/spot.scss */
 .spot-activity {
   display: block;
   position: absolute;
   top: 8px;
   right: 0;
   padding: 0 11px; }
-  /* line 295, ../sass/spot.scss */
+  /* line 334, ../sass/spot.scss */
   .spot-activity .button {
     behavior: url('../css/PIE.htc');
     position: relative;
@@ -1306,11 +1360,11 @@ h5 + p {
     float: left;
     display: block;
     color: #000; }
-    /* line 305, ../sass/spot.scss */
+    /* line 344, ../sass/spot.scss */
     .spot-activity .button:hover {
       color: #0061ff; }
 
-/* line 312, ../sass/spot.scss */
+/* line 351, ../sass/spot.scss */
 .item-control .move {
   display: block;
   height: 15px;
@@ -1326,13 +1380,13 @@ h5 + p {
   transition: opacity 0.2s;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0; }
-  /* line 323, ../sass/spot.scss */
+  /* line 362, ../sass/spot.scss */
   .item-control .move.move-top {
     top: 0; }
-  /* line 326, ../sass/spot.scss */
+  /* line 365, ../sass/spot.scss */
   .item-control .move.move-bottom {
     bottom: 0; }
-/* line 330, ../sass/spot.scss */
+/* line 369, ../sass/spot.scss */
 .item-control .spot-activity {
   -webkit-transition: opacity 0.2s;
   -moz-transition: opacity 0.2s;
@@ -1341,38 +1395,38 @@ h5 + p {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0; }
 
-/* line 336, ../sass/spot.scss */
+/* line 375, ../sass/spot.scss */
 .spot-item:hover .spot-activity, .spot-item:hover .move {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1; }
 
-/* line 342, ../sass/spot.scss */
+/* line 381, ../sass/spot.scss */
 .stack-hat + .spot-item .move-top,
 .spot-item:first-child .move-top {
   display: none; }
 
-/* line 347, ../sass/spot.scss */
+/* line 386, ../sass/spot.scss */
 .spot-item:last-child .move-bottom {
   display: none; }
 
-/* line 352, ../sass/spot.scss */
+/* line 391, ../sass/spot.scss */
 .item-head {
   line-height: 36px;
   overflow: hidden; }
 
-/* line 356, ../sass/spot.scss */
+/* line 395, ../sass/spot.scss */
 .item-body {
   background: #F0F3F6;
   overflow: hidden; }
 
-/* line 360, ../sass/spot.scss */
+/* line 399, ../sass/spot.scss */
 .item-head .type-link {
   color: #333; }
-  /* line 362, ../sass/spot.scss */
+  /* line 401, ../sass/spot.scss */
   .item-head .type-link:hover {
     color: #0062ff; }
 
-/* line 366, ../sass/spot.scss */
+/* line 405, ../sass/spot.scss */
 .item-head .type-link .link {
   position: absolute;
   left: 0;
@@ -1382,7 +1436,7 @@ h5 + p {
   white-space: nowrap;
   padding: 1px 17px 0 41px; }
 
-/* line 376, ../sass/spot.scss */
+/* line 415, ../sass/spot.scss */
 .type-link img {
   height: 20px;
   -webkit-border-radius: 3px;
@@ -1392,12 +1446,12 @@ h5 + p {
   border-radius: 3px;
   margin: 8px 11px; }
 
-/* line 381, ../sass/spot.scss */
+/* line 420, ../sass/spot.scss */
 .author-row {
   font-size: 12px;
   color: #A3A3A3; }
 
-/* line 386, ../sass/spot.scss */
+/* line 425, ../sass/spot.scss */
 .item-body footer {
   margin-top: 11px;
   font-size: 12px;
@@ -1405,19 +1459,19 @@ h5 + p {
   font-weight: 400;
   overflow: hidden; }
 
-/* line 393, ../sass/spot.scss */
+/* line 432, ../sass/spot.scss */
 .author-row .authot-name {
   font-size: 16px;
   color: #0063ff; }
 
-/* line 398, ../sass/spot.scss */
+/* line 437, ../sass/spot.scss */
 .type-mess img, .type-mess iframe, .type-mess object {
   display: block;
   margin: 11px auto 0;
   max-width: 100%;
   max-height: 512px; }
 
-/* line 404, ../sass/spot.scss */
+/* line 443, ../sass/spot.scss */
 .mess-body img {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1425,37 +1479,37 @@ h5 + p {
   -o-border-radius: 5px;
   border-radius: 5px; }
 
-/* line 407, ../sass/spot.scss */
+/* line 446, ../sass/spot.scss */
 .mess-body {
   background: #fff;
   border-radius: 3px;
   padding: 11px; }
 
-/* line 413, ../sass/spot.scss */
+/* line 452, ../sass/spot.scss */
 .spot-item .ins-block > p {
   margin-bottom: 11px;
   border-bottom: 1px solid rgba(170, 170, 170, 0.23);
   padding-bottom: 5px; }
-/* line 418, ../sass/spot.scss */
+/* line 457, ../sass/spot.scss */
 .spot-item .ins-block > h3 {
   border-bottom: 1px solid rgba(170, 170, 170, 0.23);
   padding-bottom: 5px; }
 
-/* line 423, ../sass/spot.scss */
+/* line 462, ../sass/spot.scss */
 .sub-line {
   display: block;
   margin: 5px 0; }
-  /* line 426, ../sass/spot.scss */
+  /* line 465, ../sass/spot.scss */
   .sub-line a {
     color: #A3A3A3; }
-    /* line 428, ../sass/spot.scss */
+    /* line 467, ../sass/spot.scss */
     .sub-line a:hover {
       color: #0062ff; }
 
-/* line 433, ../sass/spot.scss */
+/* line 472, ../sass/spot.scss */
 .item-download {
   padding: 0 0 18px 41px; }
-  /* line 436, ../sass/spot.scss */
+  /* line 475, ../sass/spot.scss */
   .item-download .j-list td {
     color: #B0B0B0;
     vertical-align: top;
@@ -1463,7 +1517,7 @@ h5 + p {
     font-size: 12px;
     padding: 0 20px 0 0; }
 
-/* line 445, ../sass/spot.scss */
+/* line 484, ../sass/spot.scss */
 .spot-button_block {
   color: #E0E6ED;
   text-align: center;
@@ -1472,13 +1526,13 @@ h5 + p {
   margin-left: 10px;
   font-size: 17px; }
 
-/* line 454, ../sass/spot.scss */
+/* line 493, ../sass/spot.scss */
 .wallet-block h4, .settings-block h4 {
   border-bottom: 1px solid #E9EDF2;
   margin-bottom: 22px;
   padding-bottom: 3px; }
 
-/* line 460, ../sass/spot.scss */
+/* line 499, ../sass/spot.scss */
 .input-right {
   padding: 6px 10px;
   display: -moz-inline-stack;
@@ -1488,24 +1542,24 @@ h5 + p {
   zoom: 1;
   *display: inline; }
 
-/* line 464, ../sass/spot.scss */
+/* line 503, ../sass/spot.scss */
 .form-line {
   margin-bottom: 33px; }
 
-/* line 468, ../sass/spot.scss */
+/* line 507, ../sass/spot.scss */
 .item-area_table h6 {
   color: rgba(3, 3, 3, 0.7);
   margin-bottom: 5px; }
-/* line 472, ../sass/spot.scss */
+/* line 511, ../sass/spot.scss */
 .item-area_table table {
   margin-bottom: 0; }
-/* line 475, ../sass/spot.scss */
+/* line 514, ../sass/spot.scss */
 .item-area_table .link-report {
   color: #8D9095; }
-  /* line 477, ../sass/spot.scss */
+  /* line 516, ../sass/spot.scss */
   .item-area_table .link-report:hover {
     color: #0062ff; }
-  /* line 480, ../sass/spot.scss */
+  /* line 519, ../sass/spot.scss */
   .item-area_table .link-report .icon, .item-area_table .link-report .footer-page .soc-link a, .footer-page .soc-link .item-area_table .link-report a, .item-area_table .link-report .slides-navigation a, .slides-navigation .item-area_table .link-report a {
     position: relative;
     top: 4px;
@@ -1513,7 +1567,7 @@ h5 + p {
     font-style: normal;
     font-size: 20px; }
 
-/* line 489, ../sass/spot.scss */
+/* line 528, ../sass/spot.scss */
 .m-auto-payment {
   margin-left: 26px;
   padding: 22px 22px 11px;
@@ -1523,26 +1577,26 @@ h5 + p {
   -o-border-radius: 8px;
   border-radius: 8px;
   overflow: hidden; }
-  /* line 494, ../sass/spot.scss */
+  /* line 533, ../sass/spot.scss */
   .m-auto-payment h4 {
     margin: 0 0 11px; }
-  /* line 497, ../sass/spot.scss */
+  /* line 536, ../sass/spot.scss */
   .m-auto-payment select {
     margin-bottom: 0; }
-  /* line 500, ../sass/spot.scss */
+  /* line 539, ../sass/spot.scss */
   .m-auto-payment form {
     background: #fff;
     padding: 11px;
     margin-bottom: 22px;
     position: relative; }
-  /* line 506, ../sass/spot.scss */
+  /* line 545, ../sass/spot.scss */
   .m-auto-payment .indicator {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
     opacity: 0; }
-  /* line 509, ../sass/spot.scss */
+  /* line 548, ../sass/spot.scss */
   .m-auto-payment .auto-off {
     display: none; }
-  /* line 512, ../sass/spot.scss */
+  /* line 551, ../sass/spot.scss */
   .m-auto-payment .auto-on {
     display: -moz-inline-stack;
     display: inline-block;
@@ -1550,12 +1604,12 @@ h5 + p {
     *vertical-align: auto;
     zoom: 1;
     *display: inline; }
-  /* line 515, ../sass/spot.scss */
+  /* line 554, ../sass/spot.scss */
   .m-auto-payment form .cover {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: url('../img/rgbapng/ffffff7f-5.png?1400490285');
+    background: url('../img/rgbapng/ffffff7f-5.png?1401182474');
     background: rgba(255, 255, 255, 0.5);
     z-index: 10;
     top: 0;
@@ -1563,12 +1617,12 @@ h5 + p {
     z-index: -10;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
     opacity: 0; }
-  /* line 526, ../sass/spot.scss */
+  /* line 565, ../sass/spot.scss */
   .m-auto-payment.active {
     -webkit-box-shadow: inset 0 0 0 1px #30d874;
     -moz-box-shadow: inset 0 0 0 1px #30d874;
     box-shadow: inset 0 0 0 1px #30d874; }
-    /* line 528, ../sass/spot.scss */
+    /* line 567, ../sass/spot.scss */
     .m-auto-payment.active .indicator {
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       opacity: 1;
@@ -1586,7 +1640,7 @@ h5 + p {
       width: auto;
       line-height: normal;
       height: 24px; }
-    /* line 541, ../sass/spot.scss */
+    /* line 580, ../sass/spot.scss */
     .m-auto-payment.active .auto-off {
       display: -moz-inline-stack;
       display: inline-block;
@@ -1595,19 +1649,19 @@ h5 + p {
       zoom: 1;
       *display: inline;
       color: #8D9095; }
-      /* line 544, ../sass/spot.scss */
+      /* line 583, ../sass/spot.scss */
       .m-auto-payment.active .auto-off:hover {
         color: #0062ff; }
-    /* line 548, ../sass/spot.scss */
+    /* line 587, ../sass/spot.scss */
     .m-auto-payment.active .auto-on {
       display: none; }
-    /* line 551, ../sass/spot.scss */
+    /* line 590, ../sass/spot.scss */
     .m-auto-payment.active form .cover {
       z-index: 10;
       filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
       opacity: 1; }
 
-/* line 557, ../sass/spot.scss */
+/* line 596, ../sass/spot.scss */
 .indicator {
   position: absolute;
   behavior: url('../css/PIE.htc');
@@ -1637,7 +1691,7 @@ h5 + p {
   z-index: 10;
   font-style: normal; }
 
-/* line 570, ../sass/spot.scss */
+/* line 609, ../sass/spot.scss */
 form p .agree {
   font-size: 12px;
   padding-left: 28px;
@@ -1645,29 +1699,29 @@ form p .agree {
   line-height: 16px;
   color: #333;
   margin-bottom: 0; }
-  /* line 577, ../sass/spot.scss */
+  /* line 616, ../sass/spot.scss */
   form p .agree.active {
     color: #333; }
-  /* line 580, ../sass/spot.scss */
+  /* line 619, ../sass/spot.scss */
   form p .agree i {
     position: absolute;
     top: 0;
     left: 0; }
 
-/* line 586, ../sass/spot.scss */
+/* line 625, ../sass/spot.scss */
 .spot-button_block {
   font-size: 16px;
   margin-top: 6px; }
-  /* line 589, ../sass/spot.scss */
+  /* line 628, ../sass/spot.scss */
   .spot-button_block span {
     font-weight: 100;
     font-family: museo_sans_cyrl100, Arial, Helvetica, sans-serif; }
-    /* line 592, ../sass/spot.scss */
+    /* line 631, ../sass/spot.scss */
     .spot-button_block span i {
       font-size: 14px;
       margin-right: 2px; }
 
-/* line 598, ../sass/spot.scss */
+/* line 637, ../sass/spot.scss */
 .sub-label {
   font-size: 12px;
   margin-bottom: 22px;
@@ -1676,7 +1730,7 @@ form p .agree {
   padding-left: 11px;
   margin-top: 3px;
   color: rgba(3, 3, 3, 0.8); }
-  /* line 606, ../sass/spot.scss */
+  /* line 645, ../sass/spot.scss */
   .sub-label:before {
     content: '*';
     position: absolute;
@@ -1684,7 +1738,7 @@ form p .agree {
     left: 0;
     font-size: 16px; }
 
-/* line 614, ../sass/spot.scss */
+/* line 653, ../sass/spot.scss */
 .block-information {
   position: absolute;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
@@ -1695,7 +1749,7 @@ form p .agree {
   -o-transition: opacity 0.8s ease-in-out;
   transition: opacity 0.8s ease-in-out; }
 
-/* line 621, ../sass/spot.scss */
+/* line 660, ../sass/spot.scss */
 #setPayment.disable:after {
   display: block;
   position: absolute;
@@ -1703,21 +1757,21 @@ form p .agree {
   right: 0;
   width: 100%;
   height: 100%; }
-/* line 629, ../sass/spot.scss */
+/* line 668, ../sass/spot.scss */
 #setPayment.disable h4 {
   color: rgba(3, 3, 3, 0.1); }
-  /* line 631, ../sass/spot.scss */
+  /* line 670, ../sass/spot.scss */
   #setPayment.disable h4 .b-account {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
     opacity: 0.1; }
-/* line 635, ../sass/spot.scss */
+/* line 674, ../sass/spot.scss */
 #setPayment.disable .wallet-block {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
   opacity: 0.1; }
-/* line 638, ../sass/spot.scss */
+/* line 677, ../sass/spot.scss */
 #setPayment.disable .spot-button_block {
   display: none; }
-/* line 641, ../sass/spot.scss */
+/* line 680, ../sass/spot.scss */
 #setPayment.disable .block-information {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
@@ -1735,24 +1789,24 @@ form p .agree {
   padding: 22px;
   width: 400px;
   text-align: center; }
-  /* line 653, ../sass/spot.scss */
+  /* line 692, ../sass/spot.scss */
   #setPayment.disable .block-information i {
     position: relative;
     top: 1px; }
-/* line 658, ../sass/spot.scss */
+/* line 697, ../sass/spot.scss */
 #setPayment.disable .m-table-wrapper, #setPayment.disable .link-report {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
   opacity: 0.1; }
 
-/* line 663, ../sass/spot.scss */
+/* line 702, ../sass/spot.scss */
 .spot-coupon {
   margin-bottom: -2%; }
-  /* line 666, ../sass/spot.scss */
+  /* line 705, ../sass/spot.scss */
   .spot-coupon .type-coupon.active {
     -webkit-box-shadow: inset 0 0 0 1px #30d874;
     -moz-box-shadow: inset 0 0 0 1px #30d874;
     box-shadow: inset 0 0 0 1px #30d874; }
-    /* line 668, ../sass/spot.scss */
+    /* line 707, ../sass/spot.scss */
     .spot-coupon .type-coupon.active sup {
       font-size: 14px;
       position: absolute;
@@ -1762,21 +1816,21 @@ form p .agree {
       background: #30d874;
       padding: 5px 11px;
       border-radius: 5px; }
-    /* line 678, ../sass/spot.scss */
+    /* line 717, ../sass/spot.scss */
     .spot-coupon .type-coupon.active .form-button.red {
       color: #8D9095; }
-      /* line 680, ../sass/spot.scss */
+      /* line 719, ../sass/spot.scss */
       .spot-coupon .type-coupon.active .form-button.red:hover {
         color: #0062ff; }
-  /* line 686, ../sass/spot.scss */
+  /* line 725, ../sass/spot.scss */
   .spot-coupon .details {
     height: 193px; }
 
-/* line 690, ../sass/spot.scss */
+/* line 729, ../sass/spot.scss */
 .set-item {
   padding: 0 0 22px 22px; }
 
-/* line 694, ../sass/spot.scss */
+/* line 733, ../sass/spot.scss */
 .control {
   margin: 27px 0;
   *zoom: 1; }
@@ -1785,7 +1839,7 @@ form p .agree {
     content: "";
     display: table;
     clear: both; }
-  /* line 697, ../sass/spot.scss */
+  /* line 736, ../sass/spot.scss */
   .control a {
     display: -moz-inline-stack;
     display: inline-block;
@@ -1794,48 +1848,48 @@ form p .agree {
     zoom: 1;
     *display: inline;
     margin: 10px 0; }
-    /* line 700, ../sass/spot.scss */
+    /* line 739, ../sass/spot.scss */
     .control a i {
       margin-right: 11px; }
-  /* line 704, ../sass/spot.scss */
+  /* line 743, ../sass/spot.scss */
   .control .columns {
     margin: 11px 0; }
-    /* line 706, ../sass/spot.scss */
+    /* line 745, ../sass/spot.scss */
     .control .columns:first-child {
       border-right: 1px solid #E9EDF2;
       padding-right: 22px !important; }
-  /* line 711, ../sass/spot.scss */
+  /* line 750, ../sass/spot.scss */
   .control p {
     color: #8D9095;
     padding: 2px 11px;
     margin-bottom: 0; }
-  /* line 716, ../sass/spot.scss */
+  /* line 755, ../sass/spot.scss */
   .control .checkbox {
     position: relative;
     padding-left: 30px;
     color: #333; }
-    /* line 719, ../sass/spot.scss */
+    /* line 758, ../sass/spot.scss */
     .control .checkbox i {
       position: absolute;
       left: 0;
       top: 0; }
 
-/* line 729, ../sass/spot.scss */
+/* line 768, ../sass/spot.scss */
 a.red {
   color: #ff0050; }
-  /* line 731, ../sass/spot.scss */
+  /* line 770, ../sass/spot.scss */
   a.red:hover {
     color: #333333; }
 
-/* line 737, ../sass/spot.scss */
+/* line 776, ../sass/spot.scss */
 .item-area .item-type__text {
   padding-top: 10px; }
 
-/* line 741, ../sass/spot.scss */
+/* line 780, ../sass/spot.scss */
 .c-invisible {
   display: none; }
 
-/* line 745, ../sass/spot.scss */
+/* line 784, ../sass/spot.scss */
 .invisible .toggle-visible {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -1845,30 +1899,30 @@ a.red {
   -webkit-box-shadow: inset 0 0 0 1px #30d874;
   -moz-box-shadow: inset 0 0 0 1px #30d874;
   box-shadow: inset 0 0 0 1px #30d874; }
-  /* line 748, ../sass/spot.scss */
+  /* line 787, ../sass/spot.scss */
   .invisible .toggle-visible .red {
     color: #8D9095; }
-    /* line 750, ../sass/spot.scss */
+    /* line 789, ../sass/spot.scss */
     .invisible .toggle-visible .red:hover {
       color: #333; }
-/* line 755, ../sass/spot.scss */
+/* line 794, ../sass/spot.scss */
 .invisible .c-invisible {
   display: block; }
-  /* line 757, ../sass/spot.scss */
+  /* line 796, ../sass/spot.scss */
   .invisible .c-invisible i {
     font-size: 15px;
     top: 2px;
     margin-right: 9px;
     line-height: 18px; }
-/* line 764, ../sass/spot.scss */
+/* line 803, ../sass/spot.scss */
 .invisible .c-visible {
   display: none; }
 
-/* line 768, ../sass/spot.scss */
+/* line 807, ../sass/spot.scss */
 .i-invisible {
   display: none; }
 
-/* line 772, ../sass/spot.scss */
+/* line 811, ../sass/spot.scss */
 .invisible .i-invisible {
   display: block;
   position: absolute;
@@ -1876,44 +1930,44 @@ a.red {
   right: 11px;
   color: #FFF;
   font-size: 18px; }
-  /* line 779, ../sass/spot.scss */
+  /* line 818, ../sass/spot.scss */
   .invisible .i-invisible:hover {
     color: #0062ff; }
 
-/* line 784, ../sass/spot.scss */
+/* line 823, ../sass/spot.scss */
 .wink {
   -webkit-animation: input-error .2s linear 6;
   -moz-animation: input-error .2s linear 6;
   -o-animation: input-error .2s linear 6;
   animation: input-error .2s linear 6; }
 
-/* line 790, ../sass/spot.scss */
+/* line 829, ../sass/spot.scss */
 .popup {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: url('../img/rgbapng/e0e6ede5-5.png?1400490285');
+  background: url('../img/rgbapng/e0e6ede5-5.png?1401182474');
   background: rgba(224, 230, 237, 0.9);
   z-index: -1;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0; }
 
-/* line 801, ../sass/spot.scss */
+/* line 840, ../sass/spot.scss */
 .sms .off {
   display: none;
   color: #0062ff; }
-  /* line 804, ../sass/spot.scss */
+  /* line 843, ../sass/spot.scss */
   .sms .off:hover {
     color: #8D9095; }
-/* line 809, ../sass/spot.scss */
+/* line 848, ../sass/spot.scss */
 .sms.active .off {
   display: block; }
-/* line 812, ../sass/spot.scss */
+/* line 851, ../sass/spot.scss */
 .sms.active .on {
   display: none; }
-/* line 815, ../sass/spot.scss */
+/* line 854, ../sass/spot.scss */
 .sms.active .control {
   -webkit-box-shadow: inset 0 0 0 1px #30d874;
   -moz-box-shadow: inset 0 0 0 1px #30d874;
@@ -1925,12 +1979,12 @@ a.red {
   border-radius: 5px;
   margin-left: -11px;
   padding-left: 11px; }
-  /* line 820, ../sass/spot.scss */
+  /* line 859, ../sass/spot.scss */
   .sms.active .control .control-item {
     position: relative;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
     opacity: 0.4; }
-    /* line 823, ../sass/spot.scss */
+    /* line 862, ../sass/spot.scss */
     .sms.active .control .control-item:after {
       content: '';
       display: block;
@@ -1940,20 +1994,20 @@ a.red {
       top: 0;
       left: 0; }
 
-/* line 838, ../sass/spot.scss */
+/* line 877, ../sass/spot.scss */
 .control-list a {
   position: relative;
   padding-left: 24px;
   line-height: 21px; }
-  /* line 842, ../sass/spot.scss */
+  /* line 881, ../sass/spot.scss */
   .control-list a span {
     border-bottom: 1px solid; }
-  /* line 845, ../sass/spot.scss */
+  /* line 884, ../sass/spot.scss */
   .control-list a i {
     position: absolute;
     left: 0; }
 
-/* line 851, ../sass/spot.scss */
+/* line 890, ../sass/spot.scss */
 .help-layer {
   position: absolute;
   width: 300px;
@@ -1968,35 +2022,35 @@ a.red {
   -moz-transition: opacity 0.26667s ease-in-out;
   -o-transition: opacity 0.26667s ease-in-out;
   transition: opacity 0.26667s ease-in-out; }
-  /* line 861, ../sass/spot.scss */
+  /* line 900, ../sass/spot.scss */
   .help-layer.show-info {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
     z-index: 1;
     left: -350px; }
 
-/* line 867, ../sass/spot.scss */
+/* line 906, ../sass/spot.scss */
 .pay-system {
   background: #FFF;
   margin: 0 -21px 11px;
   padding: 5px 22px; }
-  /* line 871, ../sass/spot.scss */
+  /* line 910, ../sass/spot.scss */
   .pay-system li {
     display: inline-block; }
 
-/* line 875, ../sass/spot.scss */
+/* line 914, ../sass/spot.scss */
 .table {
   width: 100%;
   border: 0;
   border-spacing: 0;
   background: none; }
-  /* line 876, ../sass/spot.scss */
+  /* line 915, ../sass/spot.scss */
   .table tbody tr:nth-child(even) {
     background: none; }
-  /* line 883, ../sass/spot.scss */
+  /* line 922, ../sass/spot.scss */
   .table .icon, .table .footer-page .soc-link a, .footer-page .soc-link .table a, .table .slides-navigation a, .slides-navigation .table a {
     display: none; }
-  /* line 887, ../sass/spot.scss */
+  /* line 926, ../sass/spot.scss */
   .table .main-card i {
     display: inline-block;
     margin-right: 8px;
@@ -2006,12 +2060,12 @@ a.red {
     margin-top: -11px;
     position: relative;
     top: 2px; }
-  /* line 897, ../sass/spot.scss */
+  /* line 936, ../sass/spot.scss */
   .table .main-card td {
     border-top: 1px solid #30D874;
     border-bottom: 1px solid #30D874;
     padding: 11px; }
-    /* line 901, ../sass/spot.scss */
+    /* line 940, ../sass/spot.scss */
     .table .main-card td:first-child {
       border-left: 1px solid #30D874;
       -webkit-border-radius: 5px 0 0 5px;
@@ -2020,7 +2074,7 @@ a.red {
       -o-border-radius: 5px 0 0 5px;
       border-radius: 5px 0 0 5px;
       font-weight: 600; }
-    /* line 906, ../sass/spot.scss */
+    /* line 945, ../sass/spot.scss */
     .table .main-card td:last-child {
       border-right: 1px solid #30D874;
       -webkit-border-radius: 0 5px 5px 0;
@@ -2028,66 +2082,66 @@ a.red {
       -ms-border-radius: 0 5px 5px 0;
       -o-border-radius: 0 5px 5px 0;
       border-radius: 0 5px 5px 0; }
-  /* line 913, ../sass/spot.scss */
+  /* line 952, ../sass/spot.scss */
   .table .main-indicator {
     display: none;
     color: #8D9095; }
-  /* line 917, ../sass/spot.scss */
+  /* line 956, ../sass/spot.scss */
   .table .make-main {
     text-decoration: underline; }
-  /* line 921, ../sass/spot.scss */
+  /* line 960, ../sass/spot.scss */
   .table .main-card .main-indicator {
     display: block; }
-  /* line 924, ../sass/spot.scss */
+  /* line 963, ../sass/spot.scss */
   .table .main-card .make-main {
     display: none; }
 
-/* line 929, ../sass/spot.scss */
+/* line 968, ../sass/spot.scss */
 .minor-link {
   color: #8D9095;
   font-size: 16px; }
-  /* line 932, ../sass/spot.scss */
+  /* line 971, ../sass/spot.scss */
   .minor-link:hover {
     color: #0062ff; }
-  /* line 935, ../sass/spot.scss */
+  /* line 974, ../sass/spot.scss */
   .minor-link i {
     font-size: 14px;
     margin-right: 3px; }
 
-/* line 940, ../sass/spot.scss */
+/* line 979, ../sass/spot.scss */
 .last-operations {
   padding-top: 33px; }
 
-/* line 943, ../sass/spot.scss */
+/* line 982, ../sass/spot.scss */
 .apay-button {
   text-align: center; }
 
-/* line 947, ../sass/spot.scss */
-.main.wallpaper .header-page .hat-bar {
+/* line 986, ../sass/spot.scss */
+.main.spot .header-page .hat-bar {
   background: none; }
-/* line 950, ../sass/spot.scss */
-.main.wallpaper .content-block {
+/* line 989, ../sass/spot.scss */
+.main.spot .content-block {
   padding: 0;
   margin: 0 -15px;
   background: none; }
 
-/* line 958, ../sass/spot.scss */
+/* line 997, ../sass/spot.scss */
 .footer-page ul.info-links li:before {
   color: #333; }
-/* line 961, ../sass/spot.scss */
+/* line 1000, ../sass/spot.scss */
 .footer-page ul.info-links a {
   color: #333; }
-  /* line 963, ../sass/spot.scss */
+  /* line 1002, ../sass/spot.scss */
   .footer-page ul.info-links a:hover {
     color: #0062ff; }
 
-/* line 971, ../sass/spot.scss */
+/* line 1010, ../sass/spot.scss */
 .apay-button .icon, .apay-button .footer-page .soc-link a, .footer-page .soc-link .apay-button a, .apay-button .slides-navigation a, .slides-navigation .apay-button a {
   position: relative;
   top: 2px;
   margin-right: 3px; }
 
-/* line 978, ../sass/spot.scss */
+/* line 1017, ../sass/spot.scss */
 .get-up-nav li {
   display: inline-block;
   width: 33%;
@@ -2096,12 +2150,12 @@ a.red {
   opacity: 0.4;
   color: #8D9095;
   cursor: pointer; }
-  /* line 985, ../sass/spot.scss */
+  /* line 1024, ../sass/spot.scss */
   .get-up-nav li.active {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-/* line 990, ../sass/spot.scss */
+/* line 1029, ../sass/spot.scss */
 .tab-item {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
@@ -2112,14 +2166,14 @@ a.red {
   -moz-transition: opacity 0.26667s ease-in-out;
   -o-transition: opacity 0.26667s ease-in-out;
   transition: opacity 0.26667s ease-in-out; }
-  /* line 996, ../sass/spot.scss */
+  /* line 1035, ../sass/spot.scss */
   .tab-item.active {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
     z-index: 10;
     height: auto; }
 
-/* line 1002, ../sass/spot.scss */
+/* line 1041, ../sass/spot.scss */
 .kit-items .img-w {
   position: relative;
   height: 100px;
@@ -2127,11 +2181,11 @@ a.red {
   padding-right: 22px;
   text-align: center;
   line-height: 100px; }
-  /* line 1009, ../sass/spot.scss */
+  /* line 1048, ../sass/spot.scss */
   .kit-items .img-w img {
     max-width: 100%;
     max-height: 100%; }
-  /* line 1013, ../sass/spot.scss */
+  /* line 1052, ../sass/spot.scss */
   .kit-items .img-w span {
     position: absolute;
     bottom: 0;
@@ -2141,7 +2195,7 @@ a.red {
     line-height: 19px;
     color: #8D9095; }
 
-/* line 1023, ../sass/spot.scss */
+/* line 1062, ../sass/spot.scss */
 .button-round {
   behavior: url('../css/PIE.htc');
   position: relative;
@@ -2161,12 +2215,12 @@ a.red {
   line-height: 201px;
   text-align: center;
   color: #0062ff; }
-  /* line 1026, ../sass/spot.scss */
+  /* line 1065, ../sass/spot.scss */
   .button-round.button-round_2line {
     line-height: normal;
     padding-top: 78px; }
 
-/* line 1032, ../sass/spot.scss */
+/* line 1071, ../sass/spot.scss */
 .inline-b {
   display: -moz-inline-stack;
   display: inline-block;
@@ -2175,19 +2229,19 @@ a.red {
   zoom: 1;
   *display: inline; }
 
-/* line 1035, ../sass/spot.scss */
+/* line 1074, ../sass/spot.scss */
 .h-link {
   margin-left: 11px;
   text-decoration: underline; }
 
-/* line 1040, ../sass/spot.scss */
+/* line 1079, ../sass/spot.scss */
 .radio label {
   display: inline-block;
   cursor: pointer;
   position: relative;
   padding-left: 25px;
   margin-right: 15px; }
-/* line 1047, ../sass/spot.scss */
+/* line 1086, ../sass/spot.scss */
 .radio label:before {
   content: "";
   display: inline-block;
@@ -2204,37 +2258,37 @@ a.red {
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
   border-radius: 50%; }
-/* line 1061, ../sass/spot.scss */
+/* line 1100, ../sass/spot.scss */
 .radio input[type=radio] {
   display: none; }
-  /* line 1063, ../sass/spot.scss */
+  /* line 1102, ../sass/spot.scss */
   .radio input[type=radio]:checked + label:before {
     background: #0062FF; }
 
-/* line 1068, ../sass/spot.scss */
+/* line 1107, ../sass/spot.scss */
 .remove-card {
   display: none;
   color: #ff0050;
   text-decoration: underline; }
-  /* line 1072, ../sass/spot.scss */
+  /* line 1111, ../sass/spot.scss */
   .edit .remove-card {
     display: inline; }
 
-/* line 1077, ../sass/spot.scss */
+/* line 1116, ../sass/spot.scss */
 .edit .main-indicator, .edit .make-main {
   display: none !important; }
-/* line 1080, ../sass/spot.scss */
+/* line 1119, ../sass/spot.scss */
 .edit .m-auto-payment, .edit .m-table-wrapper {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
   opacity: 0.1; }
-/* line 1083, ../sass/spot.scss */
+/* line 1122, ../sass/spot.scss */
 .edit .last-operations h4, .edit .link-report {
   color: rgba(3, 3, 3, 0.1); }
-/* line 1086, ../sass/spot.scss */
+/* line 1125, ../sass/spot.scss */
 .edit .minor-link {
   color: #0062FF; }
 
-/* line 1090, ../sass/spot.scss */
+/* line 1129, ../sass/spot.scss */
 .cover-coupon {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
@@ -2243,8 +2297,11 @@ a.red {
   -moz-transition: all 0.26667s ease-in-out;
   -o-transition: all 0.26667s ease-in-out;
   transition: all 0.26667s ease-in-out; }
+  /* line 1133, ../sass/spot.scss */
+  .cover-coupon li {
+    margin-bottom: 20px; }
 
-/* line 1096, ../sass/spot.scss */
+/* line 1138, ../sass/spot.scss */
 .error-coupon .cover-coupon {
   -webkit-box-shadow: inset 0 0 0 1px #ff0050;
   -moz-box-shadow: inset 0 0 0 1px #ff0050;
@@ -2265,68 +2322,87 @@ a.red {
   -o-border-radius: 3px;
   border-radius: 3px;
   padding: 33px; }
-  /* line 1109, ../sass/spot.scss */
+  /* line 1151, ../sass/spot.scss */
   .error-coupon .cover-coupon h3 {
     color: #ff0050; }
-  /* line 1112, ../sass/spot.scss */
+  /* line 1154, ../sass/spot.scss */
   .error-coupon .cover-coupon .close-info {
     position: absolute;
     top: 11px;
     right: 11px;
     color: #ff0050; }
 
-/* line 1120, ../sass/spot.scss */
+/* line 1162, ../sass/spot.scss */
 .action {
   margin-top: 2px; }
 
+/* line 1165, ../sass/spot.scss */
+.spot-name {
+  display: table-cell;
+  vertical-align: middle;
+  height: 102px;
+  position: relative;
+  top: -23px;
+  width: 100%; }
+
+/* line 1174, ../sass/spot.scss */
+.spot .content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto; }
+
+/* line 1179, ../sass/spot.scss */
+.spot-name_w {
+  display: table;
+  width: 100%; }
+
 @-webkit-keyframes info-button {
-  /* line 1128, ../sass/spot.scss */
+  /* line 1188, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
 
-  /* line 1131, ../sass/spot.scss */
+  /* line 1191, ../sass/spot.scss */
   50% {
     color: #0062ff; }
 
-  /* line 1134, ../sass/spot.scss */
+  /* line 1194, ../sass/spot.scss */
   100% {
     color: #E0E6ED; } }
 
 @-moz-keyframes info-button {
-  /* line 1140, ../sass/spot.scss */
+  /* line 1200, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
 
-  /* line 1143, ../sass/spot.scss */
+  /* line 1203, ../sass/spot.scss */
   50% {
     color: #0062ff; }
 
-  /* line 1146, ../sass/spot.scss */
+  /* line 1206, ../sass/spot.scss */
   100% {
     color: #E0E6ED; } }
 
 @-o-keyframes info-button {
-  /* line 1152, ../sass/spot.scss */
+  /* line 1212, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
 
-  /* line 1155, ../sass/spot.scss */
+  /* line 1215, ../sass/spot.scss */
   50% {
     color: #0062ff; }
 
-  /* line 1158, ../sass/spot.scss */
+  /* line 1218, ../sass/spot.scss */
   100% {
     color: #E0E6ED; } }
 
 @keyframes info-button {
-  /* line 1164, ../sass/spot.scss */
+  /* line 1224, ../sass/spot.scss */
   0% {
     color: #E0E6ED; }
 
-  /* line 1167, ../sass/spot.scss */
+  /* line 1227, ../sass/spot.scss */
   50% {
     color: #0062ff; }
 
-  /* line 1170, ../sass/spot.scss */
+  /* line 1230, ../sass/spot.scss */
   100% {
     color: #E0E6ED; } }

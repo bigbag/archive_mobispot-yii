@@ -11,6 +11,7 @@
             </div>
         </div>
     </div>
+    <div class="fc"></div>
 </div>
 <div id="spot-edit"
     class="hide spot-item spot-main-input info-pick">

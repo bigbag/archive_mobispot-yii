@@ -70,7 +70,7 @@
   box-shadow: none;
   resize: none; }
 
-/* line 61, ../sass/base.scss */
+/* line 62, ../sass/base.scss */
 .spider-desc {
   display: block;
   height: 0;
@@ -78,7 +78,7 @@
   visibility: hidden;
   position: absolute; }
 
-/* line 68, ../sass/base.scss */
+/* line 69, ../sass/base.scss */
 .row form .row {
   margin: 0 -11px;
   padding: 0 5px; }

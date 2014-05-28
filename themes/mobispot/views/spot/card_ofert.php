@@ -1,12 +1,12 @@
-<?php $this->pageTitle = Yii::t('spot', 'User agreement conﬁrmation'); ?>
+<?php $this->pageTitle = Yii::t('spot', 'User agreement confirmation'); ?>
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/spot.js"></script>'?>
 <div class="content-wrapper" ng-controller="SpotController">
     <div>
         <div class="row">
             <div class="content-block">
-                <h2><?php echo Yii::t('spot', 'User agreement conﬁrmation')?></h2>
+                <h2><?php echo Yii::t('spot', 'User agreement confirmation')?></h2>
                 <p>
-                    <?php echo Yii::t('spot', 'Please read and conﬁrm that you accept the')?>
+                    <?php echo Yii::t('spot', 'Please read and confirm that you accept the')?>
                     <a href="https://money.yandex.ru/doc.xml?id=522764" target="_blank">
                     <?php echo Yii::t('spot', 'Yandex.Money User Agreement')?>
                     </a>

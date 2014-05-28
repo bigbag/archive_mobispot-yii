@@ -6,7 +6,8 @@
         <div class="tabs-block">
             <section class="wallet-block spot-content_row tabs-item">
                 <span ng-init="wallet.status=<?php echo $wallet->status; ?>"></span>
-                <div class="row popup-row" ng-class="{disable: wallet.status == -1}">
+                <div id="setPayment" class="row popup-row"
+                    ng-class="{disable: wallet.status == -1}">
                     <div class="">
                         <div class="item-area item-area_w clearfix info-pick">
                             <div class="row">
