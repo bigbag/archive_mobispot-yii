@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/a-slider.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
