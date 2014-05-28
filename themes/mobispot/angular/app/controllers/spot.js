@@ -323,7 +323,6 @@ angular.module('mobispot').controller('SpotController',
     $scope.reset_time = typeof $scope.reset_time !== 'undefined' ? $scope.reset_time:30;
     stopped = $timeout(function() {
       $scope.reset_time--;
-      console.log($scope.reset_time);
       if ($scope.reset_time == 0) {
         $(location).attr('href',window.location.pathname);
       }
