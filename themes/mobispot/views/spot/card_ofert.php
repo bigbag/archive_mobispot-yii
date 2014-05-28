@@ -2,6 +2,7 @@
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/spot.js"></script>'?>
 <div class="content-wrapper" ng-controller="SpotController">
     <div>
+        <?php if ($linking['error'] == 0): ?>
         <div class="row">
             <div class="content-block">
                 <h2><?php echo Yii::t('spot', 'User agreement confirmation')?></h2>
@@ -10,6 +11,9 @@
                     <a href="https://money.yandex.ru/doc.xml?id=522764" target="_blank">
                     <?php echo Yii::t('spot', 'Yandex.Money User Agreement')?>
                     </a>
+                </p>
+                <p>
+                    <?php echo Yii::t('spot', 'Attention! Next page is only linking the bank card with your spot. No charges will be made.')?>
                 </p>
                 <form action="<?php echo $linking['url']?>" method="POST" id="linking_card" >
                     <input type="hidden"
@@ -40,6 +44,15 @@
                 </a>
             </div>
         </div>
-
+        <?php else: ?>
+        <div class="row" ng-init="countReset()">
+            <div class="content-block not-available">
+                <h2><?php echo Yii::t('spot', 'Service is currently not available')?></h2>
+                <p><?php echo Yii::t('spot', 'Another attempt will be performed in')?>
+                    через <b>{{ reset_time }}</b>
+                    <?php echo Yii::t('spot', 'seconds')?></p>
+            </div>
+        </div>
+    <?php endif; ?>
     </div>
 </div>

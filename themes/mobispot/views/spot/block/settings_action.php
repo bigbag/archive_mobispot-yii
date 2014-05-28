@@ -1,11 +1,10 @@
-<h4>Main</h4>
+<h4><?php echo Yii::t('spot', 'Settings')?></h4>
 <div class="set-item">
 
     <div class="row control">
         <div class="columns large-5">
             <form class="custom">
                 <input
-                    placeholder="<?php echo Yii::t('spot', 'Spot name')?>"
                     ng-init="spot.name='<?php echo $spot->name; ?>'"
                     ng-model="spot.name"
                     maxlength="300"
@@ -20,8 +19,7 @@
             </form>
         </div>
         <div class="columns large-7">
-            <p>Длина не должна превышать 10 символов.<br>
-                    Может содержать только: кириллицу, латиницу и цифровое значение. </p>
+            <p><?php echo Yii::t('spot', 'Name cannot be longer than 15 symbols. <br /> May consist of Cyrillic, Latin and digits.')?></p>
         </div>
     </div>
     <div class="control control-list">
@@ -41,7 +39,7 @@
                 </a>
             </div>
             <div class="columns left large-7">
-                <p>Открывает/Закрывает доступ к споту для просмотра в мобильном отображении</p>
+                <p><?php echo Yii::t('spot', 'Make spot invisible/Make spot visible')?></p>
             </div>
         </div>
         <div class="row">
@@ -53,7 +51,7 @@
                 </a>
             </div>
             <div class="columns left large-7">
-                <p>Полностью очистить все содержимое.<br> Восстановить будет невозмоно.</p>
+                <p><?php echo Yii::t('spot', 'Clean all the content from your spot.<br /> Will be impossible to restore.')?></p>
             </div>
         </div>
         <div class="row">
@@ -65,7 +63,7 @@
                 </a>
             </div>
             <div class="columns left large-7">
-                <p>Полность удалить устройства.<br> Восстановить будет невозмоно. </p>
+                <p><?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.')?></p>
             </div>
         </div>
         </div>

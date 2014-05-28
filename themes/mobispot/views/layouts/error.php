@@ -24,7 +24,7 @@
 
 </head>
 <body >
-    <div class="main error-page">
+    <div class="main error-page ng-cloak" ng-cloak>
         <div class="header-page">
             <div class="hat-bar content">
                 <h1 class="logo">
