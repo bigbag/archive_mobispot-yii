@@ -322,10 +322,9 @@ angular.module('mobispot').controller('SpotController',
   $scope.countReset = function() {
     $scope.reset_time = typeof $scope.reset_time !== 'undefined' ? $scope.reset_time:30;
     stopped = $timeout(function() {
-      $scope.reset_time--;
       if ($scope.reset_time == 0) {
         $(location).attr('href',window.location.pathname);
-      }
+      } else $scope.reset_time--;
       $scope.countReset();
     }, 1000);
   };
