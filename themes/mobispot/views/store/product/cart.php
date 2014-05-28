@@ -1,6 +1,6 @@
-<div ng-controller="CartController" ng-init="CartInit()">
+<div class="m-content-block store-content"  ng-controller="CartController" ng-init="CartInit()">
     <table class="twelve store-items store-items__bag">
-        <tbody>
+        <tbody ng-cloak>
             <tr>
                 <td id="emptyCart" colspan="2" ng-class="emptyClass()">
                     <h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
