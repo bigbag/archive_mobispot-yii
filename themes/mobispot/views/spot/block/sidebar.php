@@ -34,5 +34,5 @@
     </div>
 </div>
 <div class="row actSpot-wrapper">
-   <?php include('add_spot.php'); ?>
+   <?php include('add_spot_form.php'); ?>
 </div>

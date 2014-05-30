@@ -12,9 +12,12 @@
             <?php endif ?>
             </div>
             <div class="mess-body">
+                <?php if (!empty($socContent['tweet_author'])):?>
                 <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url'] ?>"><?php echo $socContent['tweet_author'] ?></a>
                     <a class="user-name sub-line" href="<?php echo $socContent['soc_url'] ?>">@<?php echo $socContent['tweet_username'] ?></a>
                 </div>
+                <?php endif ?>
+                <?php if (!empty($socContent['tweet_text'])):?>
                 <div class="ins-block">
                     <p><?php echo $socContent['tweet_text'] ?>
                     </p>
@@ -22,6 +25,7 @@
                         <div class="left timestamp"><?php echo $socContent['tweet_datetime'] ?></div>
                     </footer>
                 </div>
+                <?php endif ?>
             </div>
         </div>
             <div class="item-control">

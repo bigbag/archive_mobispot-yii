@@ -34,11 +34,12 @@ angular.module('mobispot').controller('SpotController',
     if (!spot.code | ($scope.spot.terms == 0)) return false;
     $http.post('/spot/addSpot', spot).success(function(data) {
       if(data.error == 'no') {
-        var spotAdd = angular.element('#actSpotForm')
-        angular.element('.spot-list').append($compile(data.content)($scope));
-        spotAdd.find('a.checkbox').toggleClass('active');
-        spotAdd.hide();
+        $scope.spot.discodes = data.discodes;
+        contentService.scrollPage('body'); 
+        angular.element('.spot-list').prepend($compile(data.content)($scope));
+        angular.element('#actSpot').click();
         delete $scope.spot.code;
+        delete $scope.spot.terms;
       }else if (data.error == 'yes') {
         $scope.error.code = true;
       }
