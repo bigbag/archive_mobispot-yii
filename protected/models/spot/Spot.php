@@ -238,7 +238,7 @@ class Spot extends CActiveRecord
 
         return Spot::model()->used()->findAllByAttributes(
             array('user_id'=>$user_id,),
-            array('order'=>'generated_date'));
+            array('order'=>'registered_date desc'));
     }
 
     /**

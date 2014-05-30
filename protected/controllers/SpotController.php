@@ -182,12 +182,18 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
             'content' => '',
+            'discodes' => 0,
         );
         $data = $this->validateRequest();
 
         if (!isset($data['code'])) $this->getJsonAndExit($answer);
 
-        $spot = Spot::model()->findByAttributes(array('code' => $data['code']));
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'code' => $data['code'],
+                'status' => Spot::STATUS_ACTIVATED,
+            )
+        );
         if (!$spot) $this->getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REGISTERED;
@@ -213,10 +219,11 @@ class SpotController extends MController
             $wallet->save();
         }
 
-        $answer['content'] = $this->renderPartial('//user/block/spots',
-            array('data' => $spot),
+        $answer['content'] = $this->renderPartial('//spot/block/sidebar_spot',
+            array('spot' => $spot),
             true
         );
+        $answer['discodes'] = $spot->discodes_id;
         $answer['error'] = "no";
 
         echo json_encode($answer);
