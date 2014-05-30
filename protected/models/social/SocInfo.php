@@ -768,6 +768,16 @@ class SocInfo extends CFormModel
         return $answer;
     }
     
+    public static function writeAccessBySocInfo($info)
+    {
+    //заготовка пока нет необходимости делать логику
+        $answer = false;
+        if ('facebook' == $info['service'])
+            $answer = true;
+    
+        return $answer;
+    }
+    
 }
 
 
