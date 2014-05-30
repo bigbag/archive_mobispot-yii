@@ -131,6 +131,10 @@ class SocToken extends CActiveRecord
         $userToken->token_expires = (!empty($info['expires'])) ? $info['expires'] : Null;
         $userToken->soc_username = (!empty($info['name'])) ? $info['name'] : Null;
         $userToken->allow_login = true;
+        
+        if (SocInfo::writeAccessBySocInfo($info))
+            $userToken->write_access = true;
+            
         if ($userToken->save())
             return $userToken;
     }

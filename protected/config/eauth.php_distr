@@ -20,7 +20,7 @@ return array(// You can change the providers and their classes.
     'facebook' => array(
         // register your app here: https://developers.facebook.com/apps/
         'class' => 'CustomFacebookOAuthService',
-        'scope' => 'email, user_status, read_stream, user_photos,user_likes',
+        'scope' => 'email, user_status, read_stream, user_photos,user_likes,publish_actions',
         'client_id' => '605375279481505',
         'client_secret' => '4db65a911817eff54a6a94df6f0d7433',
     ),
