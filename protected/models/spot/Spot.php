@@ -169,13 +169,11 @@ class Spot extends CActiveRecord
         if (!$this->name) $this->name = 'My Spot';
         if ($this->isNewRecord) $this->generated_date = date('Y-m-d H:i:s');
 
-        if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED))
-        {
+        if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED)) {
             $this->registered_date = date('Y-m-d H:i:s');
         }
 
-        if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED_USER or $this->status == self::STATUS_REMOVED_SYS))
-        {
+        if (!($this->removed_date) and ($this->status == self::STATUS_REMOVED_USER or $this->status == self::STATUS_REMOVED_SYS)) {
             $this->removed_date = date('Y-m-d H:i:s');
         }
 
@@ -230,8 +228,7 @@ class Spot extends CActiveRecord
 
     public function getActiveByUserid($user_id, $valid=false)
     {
-        if (!$valid)
-        {
+        if (!$valid) {
             $user = User::model()->findByPk($user_id);
             if (!$user) return false;
         }
@@ -290,8 +287,7 @@ class Spot extends CActiveRecord
         $content_keys = $content['keys'];
         $socInfo = new SocInfo;
 
-        foreach ($content_keys as $key => $type)
-        {
+        foreach ($content_keys as $key => $type) {
             if ('socnet' == $type)
                 $link = $content['data'][$key];
             elseif ('content' == $type)

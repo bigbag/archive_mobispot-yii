@@ -16,12 +16,9 @@ class MailCommand extends CConsoleCommand
         $message->setBody($body, 'text/html', 'utf-8');
         $message->setFrom($from);
         $message->setTo($to);
-        if ($attachFile)
-        {
-            if (count($attachFile) > 0)
-            {
-                foreach ($attachFile as $file)
-                {
+        if ($attachFile) {
+            if (count($attachFile) > 0) {
+                foreach ($attachFile as $file) {
                     $file_name = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $file;
                     $attachment = Swift_Attachment::fromPath($file_name);
                     $message->attach($attachment);
@@ -36,8 +33,7 @@ class MailCommand extends CConsoleCommand
 
     public function actionIndex()
     {
-        for ($i = 0; $i < self::MAIL_COUNT; $i++)
-        {
+        for ($i = 0; $i < self::MAIL_COUNT; $i++) {
             $mail_stack = MailStack::model()->findByAttributes(
                     array(
                         'lock' => 0
@@ -50,8 +46,7 @@ class MailCommand extends CConsoleCommand
             $mail_stack->save();
 
             $attach = unserialize($mail_stack->attach);
-            if (count($attach) == 0)
-            {
+            if (count($attach) == 0) {
                 $attach = false;
             }
 
@@ -59,8 +54,7 @@ class MailCommand extends CConsoleCommand
                     unserialize($mail_stack->senders), unserialize($mail_stack->recipients), $mail_stack->subject, $mail_stack->body, $attach
             );
 
-            if ($test === NULL)
-            {
+            if ($test === NULL) {
                 $mail_stack->delete();
                 continue;
             }

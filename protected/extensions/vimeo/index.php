@@ -63,8 +63,7 @@ switch ($_SESSION['vimeo_state']) {
         // Do an authenticated call
         try {
             $videos = $vimeo->call('vimeo.videos.getUploaded');
-        }
-        catch (VimeoAPIException $e) {
+        } catch (VimeoAPIException $e) {
             echo "Encountered an API error -- code {$e->getCode()} - {$e->getMessage()}";
         }
 

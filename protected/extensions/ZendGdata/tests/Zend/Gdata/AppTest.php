@@ -362,7 +362,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($found, 'If-Match header found on delete');
     }
 
-    public function testIfMatchHeaderCanBeSetOnInsert() {
+    public function testIfMatchHeaderCanBeSetOnInsert()
+    {
         $etagOverride = 'foo';
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
@@ -382,7 +383,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found, 'If-Match header not found or incorrect');
     }
 
-    public function testIfNoneMatchHeaderCanBeSetOnInsert() {
+    public function testIfNoneMatchHeaderCanBeSetOnInsert()
+    {
         $etagOverride = 'foo';
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
@@ -402,7 +404,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found, 'If-None-Match header not found or incorrect ');
     }
 
-    public function testIfMatchHeaderCanBeSetOnUpdate() {
+    public function testIfMatchHeaderCanBeSetOnUpdate()
+    {
         $etagOverride = 'foo';
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
@@ -422,7 +425,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($found, 'If-Match header not found or incorrect or incorrect');
     }
 
-    public function testIfNoneMatchHeaderCanBeSetOnUpdate() {
+    public function testIfNoneMatchHeaderCanBeSetOnUpdate()
+    {
         $etagOverride = 'foo';
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
@@ -472,7 +476,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($found, 'If-Match header found');
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsEtagIfV2() {
+    public function testGenerateIfMatchHeaderDataReturnsEtagIfV2()
+    {
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
         $entry = new Zend_Gdata_App_Entry();
@@ -481,7 +486,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($etag, $result);
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsNullIfV1() {
+    public function testGenerateIfMatchHeaderDataReturnsNullIfV1()
+    {
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(1);
         $entry = new Zend_Gdata_App_Entry();
@@ -490,13 +496,15 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $result);
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsNullIfNotEntry() {
+    public function testGenerateIfMatchHeaderDataReturnsNullIfNotEntry()
+    {
         $this->service->setMajorProtocolVersion(2);
         $result = $this->service->generateIfMatchHeaderData("Hello world", false);
         $this->assertEquals(null, $result);
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsNullIfWeak() {
+    public function testGenerateIfMatchHeaderDataReturnsNullIfWeak()
+    {
         $etag = 'W/ABCD1234';
         $this->service->setMajorProtocolVersion(2);
         $entry = new Zend_Gdata_App_Entry();
@@ -505,7 +513,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $result);
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsEtagIfWeakAndFlagSet() {
+    public function testGenerateIfMatchHeaderDataReturnsEtagIfWeakAndFlagSet()
+    {
         $etag = 'W/ABCD1234';
         $this->service->setMajorProtocolVersion(2);
         $entry = new Zend_Gdata_App_Entry();
@@ -514,7 +523,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($etag, $result);
     }
 
-    public function testGenerateIfMatchHeaderDataReturnsEtagIfNotWeakAndFlagSet() {
+    public function testGenerateIfMatchHeaderDataReturnsEtagIfNotWeakAndFlagSet()
+    {
         $etag = 'ABCD1234';
         $this->service->setMajorProtocolVersion(2);
         $entry = new Zend_Gdata_App_Entry();
@@ -523,26 +533,30 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($etag, $result);
     }
 
-    public function testImportUrlSetsMajorProtocolVersionOnEntry() {
+    public function testImportUrlSetsMajorProtocolVersionOnEntry()
+    {
         $this->adapter->setResponse($this->httpEntrySample);
         $entry = $this->service->getEntry('http://www.example.com');
         $this->assertEquals($this->expectedMajorProtocolVersion, $entry->getMajorProtocolVersion());
     }
 
-    public function testImportUrlSetsMinorProtocolVersionOnEntry() {
+    public function testImportUrlSetsMinorProtocolVersionOnEntry()
+    {
         $this->adapter->setResponse($this->httpEntrySample);
         $entry = $this->service->getEntry('http://www.example.com');
         $this->assertEquals($this->expectedMinorProtocolVersion, $entry->getMinorProtocolVersion());
     }
 
-    public function testImportUrlSetsNullVersionIfNoVersionHeaderOnEntry() {
+    public function testImportUrlSetsNullVersionIfNoVersionHeaderOnEntry()
+    {
         $this->adapter->setResponse($this->httpEntrySampleWithoutVersion);
         $entry = $this->service->getEntry('http://www.example.com');
         $this->assertEquals(null, $entry->getMinorProtocolVersion());
         $this->assertEquals(null, $entry->getMinorProtocolVersion());
     }
 
-    public function testImportUrlSetsMajorProtocolVersionOnFeed() {
+    public function testImportUrlSetsMajorProtocolVersionOnFeed()
+    {
         $this->adapter->setResponse($this->httpFeedSample);
         $feed = $this->service->getFeed('http://www.example.com');
         $this->assertEquals($this->expectedMajorProtocolVersion, $feed->getMajorProtocolVersion());
@@ -551,7 +565,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testImportUrlSetsMinorProtocolVersionOnFeed() {
+    public function testImportUrlSetsMinorProtocolVersionOnFeed()
+    {
         $this->adapter->setResponse($this->httpFeedSample);
         $feed = $this->service->getFeed('http://www.example.com');
         $this->assertEquals($this->expectedMinorProtocolVersion, $feed->getMinorProtocolVersion());
@@ -560,7 +575,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testImportUrlSetsNullVersionIfNoVersionHeaderOnFeed() {
+    public function testImportUrlSetsNullVersionIfNoVersionHeaderOnFeed()
+    {
         $this->adapter->setResponse($this->httpFeedSampleWithoutVersion);
         $feed = $this->service->getFeed('http://www.example.com');
         $this->assertEquals(null, $feed->getMajorProtocolVersion());
@@ -571,14 +587,16 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testMagicConstructorsPropogateMajorVersion() {
+    public function testMagicConstructorsPropogateMajorVersion()
+    {
         $v = 42;
         $this->service->setMajorProtocolVersion($v);
         $feed = $this->service->newFeed();
         $this->assertEquals($v, $feed->getMajorProtocolVersion());
     }
 
-    public function testMagicConstructorsPropogateMinorVersion() {
+    public function testMagicConstructorsPropogateMinorVersion()
+    {
         $v = 84;
         $this->service->setMinorProtocolVersion($v);
         $feed = $this->service->newFeed();
@@ -587,8 +605,8 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * When error handler is overridden to throw an ErrorException, the extension loader
-     * in Zend_Gdata will throw an ErrorException when the class doesn't exist in the 
-     * first extension directory even if it exists in subsequent ones.  This test 
+     * in Zend_Gdata will throw an ErrorException when the class doesn't exist in the
+     * first extension directory even if it exists in subsequent ones.  This test
      * enforces a fix that keeps this from happening
      *
      * @group ZF-12268
@@ -598,7 +616,7 @@ class Zend_Gdata_AppTest extends PHPUnit_Framework_TestCase
     {
         // Override the error handler to throw an ErrorException
         set_error_handler(create_function('$a, $b, $c, $d', 'throw new ErrorException($b, 0, $a, $c, $d);'), E_ALL);
-        try { 
+        try {
             $eq = $this->service->newEventQuery();
             restore_error_handler();
             $this->assertType('Zend_Gdata_Calendar_EventQuery', $eq);

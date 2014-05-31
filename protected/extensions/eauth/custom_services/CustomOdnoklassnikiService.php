@@ -50,13 +50,11 @@ class CustomOdnoklassnikiService extends OdnoklassnikiOAuthService
             'method' => 'share.addLink',
             'format' => 'JSON',
         );
-        if (isset($data['link']))
-        {
+        if (isset($data['link'])) {
             $post['linkUrl'] = $data['link'];
         }
 
-        if (isset($data['message']))
-        {
+        if (isset($data['message'])) {
             $post['comment'] = $data['message'];
         }
         $this->makeSignedRequest('http://api.odnoklassniki.ru/fb.do', array(

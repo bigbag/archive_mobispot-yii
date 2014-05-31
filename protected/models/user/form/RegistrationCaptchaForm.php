@@ -33,8 +33,7 @@ class RegistrationCaptchaForm extends User
 
     public function checkexists($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
+        if (!$this->hasErrors()) {
             $spot = Spot::model()->findByAttributes(array('code' => $this->activ_code, 'status' => Spot::STATUS_ACTIVATED));
 
             if ($spot = null)

@@ -18,8 +18,9 @@ class CustomVimeoOAuthService extends EOAuthService
         'access' => 'https://vimeo.com/oauth/access_token',
     );
 
-    /* 	
-      public function __construct() {
+    /*
+      public function __construct()
+      {
       Yii::import('ext.vimeo.phpVimeo');
       $this->vimeo = new phpVimeo('42a46871a80d8c21736b27a73960a58cc2c9d658', 'c47be64db67d76e07ae90b0581149ae846dcc889');
 
@@ -44,11 +45,9 @@ class CustomVimeoOAuthService extends EOAuthService
             $this->attributes['name'] = $info->display_name;
         if (isset($info->profileurl))
             $this->attributes['url'] = $info->profileurl;
-        if (isset($info->portraits))
-        {
+        if (isset($info->portraits)) {
             $portrait = $info->portraits->portrait;
-            foreach ($portrait as $p)
-            {
+            foreach ($portrait as $p) {
                 if (($p->width == 30) && !empty($p->_content))
                     $this->attributes['photo'] = $p->_content;
             }
@@ -59,7 +58,7 @@ class CustomVimeoOAuthService extends EOAuthService
         if (!empty($info->location))
             $this->attributes['location'] = $info->location;
 
-        /* 		
+        /*
           $video = $this->vimeo->call('vimeo.videos.getAll', array('user_id' => $oauth_token, 'sort'=>'newest', 'page'=>1, 'per_page'=>1, 'full_response'=>true));
 
           //$video = $video->videos->video[0]->urls->url[0]->_content;

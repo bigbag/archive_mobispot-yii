@@ -90,8 +90,7 @@ class PersonEvent extends CActiveRecord
                 array('user_id' => $user_id)
         );
 
-        if ($loyalty and $wallet)
-        {
+        if ($loyalty and $wallet) {
             $person = Person::model()->findByAttributes(
                     array(
                         'firm_id' => $loyalty->firm_id,
@@ -99,8 +98,7 @@ class PersonEvent extends CActiveRecord
                     )
             );
 
-            if (!$person)
-            {
+            if (!$person) {
                 $person = new Person();
                 $person->name = 'Участник промо-кампании';
                 $person->firm_id = $loyalty->firm_id;
@@ -109,8 +107,7 @@ class PersonEvent extends CActiveRecord
                 $person->save();
             }
 
-            foreach ($loyalty->terms_id as $term_id)
-            {
+            foreach ($loyalty->terms_id as $term_id) {
                 $personEvent = PersonEvent::model()->findByAttributes(
                         array(
                             'person_id' => $person->id,
@@ -120,8 +117,7 @@ class PersonEvent extends CActiveRecord
                         )
                 );
 
-                if (!$personEvent)
-                {
+                if (!$personEvent) {
                     $personEvent = new PersonEvent();
                     $personEvent->person_id = $person->id;
                     $personEvent->term_id = $term_id;
@@ -131,11 +127,8 @@ class PersonEvent extends CActiveRecord
 
                     if ($personEvent->save())
                         $result = True;
-                }
-                else
-                {
-                    if ($personEvent->timeout != self::LIKE_TIMEOUT)
-                    {
+                } else {
+                    if ($personEvent->timeout != self::LIKE_TIMEOUT) {
                         $personEvent->status = self::STATUS_BANNED;
                         $personEvent->save();
                     }

@@ -47,8 +47,7 @@ class Zend_Gdata_Spreadsheets_CellFeedTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(count($this->cellFeed->entries) == 2);
         $this->assertTrue($this->cellFeed->entries->count() == 2);
 
-        foreach($this->cellFeed->entries as $entry)
-        {
+        foreach($this->cellFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_CellEntry);
         }
         $this->assertTrue($this->cellFeed->getRowCount() instanceof Zend_Gdata_Spreadsheets_Extension_RowCount);
@@ -64,8 +63,7 @@ class Zend_Gdata_Spreadsheets_CellFeedTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(count($newCellFeed->entries) == 2);
         $this->assertTrue($newCellFeed->entries->count() == 2);
 
-        foreach($newCellFeed->entries as $entry)
-        {
+        foreach($newCellFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_CellEntry);
         }
         $this->assertTrue($newCellFeed->getRowCount() instanceof Zend_Gdata_Spreadsheets_Extension_RowCount);

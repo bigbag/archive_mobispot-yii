@@ -106,8 +106,7 @@ class Zend_Gdata_Gapps_GroupQuery extends Zend_Gdata_Gapps_Query
     {
         if ($value !== null) {
             $this->_params['member'] = $value;
-        }
-        else {
+        } else {
             unset($this->_params['member']);
         }
     }

@@ -100,8 +100,7 @@ class SpotContent extends CActiveRecord
     public static function getSpotContent($spot)
     {
         $spot_content = Yii::app()->cache->get('spot_content_' . $spot->discodes_id);
-        if (!$spot_content)
-        {
+        if (!$spot_content) {
             $spot_content = SpotContent::model()->findByAttributes(
                     array(
                 'discodes_id' => $spot->discodes_id

@@ -17,7 +17,7 @@
             style="font-size:14px; font-family:Helvetica; color:#707070; border:0px solid;border-radius:25px;background:#efefef;padding:30px;">
               Пользователь <?php echo $name?>, <?php echo $email?> оставил следующий вопрос:<br />
           <p><?php echo nl2br(CHtml::encode($question))?></p>
-              
+
         </td>
     </tr>
     <tr>

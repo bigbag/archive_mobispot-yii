@@ -101,7 +101,7 @@ class CustomVKontakteOAuthService extends EOAuth2Service
     /**
      * Returns the url to request to get OAuth2 code.
      * @param string $redirect_uri url to redirect after user confirmation.
-     * @return string url to request. 
+     * @return string url to request.
      */
     protected function getCodeUrl($redirect_uri)
     {
@@ -132,13 +132,10 @@ class CustomVKontakteOAuthService extends EOAuth2Service
      */
     protected function restoreAccessToken()
     {
-        if ($this->hasState('uid') && parent::restoreAccessToken())
-        {
+        if ($this->hasState('uid') && parent::restoreAccessToken()) {
             $this->uid = $this->getState('uid');
             return true;
-        }
-        else
-        {
+        } else {
             $this->uid = null;
             return false;
         }
@@ -151,14 +148,12 @@ class CustomVKontakteOAuthService extends EOAuth2Service
      */
     protected function fetchJsonError($json)
     {
-        if (isset($json->error))
-        {
+        if (isset($json->error)) {
             return array(
                 'code' => is_string($json->error) ? 0 : $json->error->error_code,
                 'message' => is_string($json->error) ? $json->error : $json->error->error_msg,
             );
-        }
-        else
+        } else
             return null;
     }
 

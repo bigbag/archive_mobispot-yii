@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="ins-block">
-                    <p>                    
+                    <p>
                     <?php if (!empty($socContent['checkin_shout'])):?>
                         <?php echo $socContent['checkin_shout']; ?>
                     <?php endif ?>

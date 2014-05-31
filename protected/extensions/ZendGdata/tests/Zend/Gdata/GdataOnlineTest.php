@@ -244,12 +244,12 @@ class Zend_Gdata_GdataOnlineTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    function testIsAuthenticated()
+    public function testIsAuthenticated()
     {
         $this->assertTrue($this->gdata->isAuthenticated());
     }
 
-    function testRetrieveNextAndPreviousFeedsFromService()
+    public function testRetrieveNextAndPreviousFeedsFromService()
     {
         $user = constant('TESTS_ZEND_GDATA_CLIENTLOGIN_EMAIL');
         $pass = constant('TESTS_ZEND_GDATA_CLIENTLOGIN_PASSWORD');
@@ -280,7 +280,7 @@ class Zend_Gdata_GdataOnlineTest extends PHPUnit_Framework_TestCase
 
     }
 
-    function testRetrieveNextFeedAndPreviousFeedsFromFeed()
+    public function testRetrieveNextFeedAndPreviousFeedsFromFeed()
     {
         $user = constant('TESTS_ZEND_GDATA_CLIENTLOGIN_EMAIL');
         $pass = constant('TESTS_ZEND_GDATA_CLIENTLOGIN_PASSWORD');

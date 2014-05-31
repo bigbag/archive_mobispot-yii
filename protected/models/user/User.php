@@ -97,8 +97,7 @@ class User extends CActiveRecord
     public function getById($id)
     {
         $user = Yii::app()->cache->get('user_' . $id);
-        if (!$user)
-        {
+        if (!$user) {
             $user = self::model()->findByPk($id);
             Yii::app()->cache->set('user_' . $id, $user, 120);
         }
@@ -117,8 +116,7 @@ class User extends CActiveRecord
 
     public function getSocInfo($serviceName)
     {
-        try
-        {
+        try {
             $user_id = Yii::app()->user->id;
             $eauth = Yii::app()->eauth->getIdentity($serviceName);
             $eauth->redirectUrl = Yii::app()->user->returnUrl;
@@ -135,9 +133,7 @@ class User extends CActiveRecord
             User::setCacheSocInfo($atributes);
 
             return $atributes;
-        }
-        catch (EAuthException $e)
-        {
+        } catch (EAuthException $e) {
             Yii::log('AuthException' . $e->getMessage(), 'error', 'application');
             return false;
         }
@@ -167,7 +163,7 @@ class User extends CActiveRecord
     public function socialCheck($service, $soc_id)
     {
         $userToken = SocToken::model()->findByAttributes(array(
-            'soc_id' => $soc_id            
+            'soc_id' => $soc_id
         ));
         if (!$userToken)
             return false;
@@ -180,8 +176,7 @@ class User extends CActiveRecord
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             $this->status = self::STATUS_NOACTIVE;
             $this->type = self::TYPE_USER;
@@ -203,8 +198,7 @@ class User extends CActiveRecord
 
     protected function afterSave()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $profile = new UserProfile;
             $profile->user_id = $this->id;
             $profile->sex = UserProfile::SEX_UNKNOWN;

@@ -53,9 +53,9 @@
                 <div class="spot-item-stack info-pick">
                     <div class="stack-hat">
                     <?php include('block/linking_socnet.php'); ?>
-                    <a onclick="window.open('/<?php echo $spot->url; ?>', 'Страницы компании', 'width=550, height=350, status=no, resizable=yes, top=200, left=200'); return false;" 
-                        href="/<?php echo $spot->url; ?>" 
-                        target="_blank" 
+                    <a onclick="window.open('/<?php echo $spot->url; ?>', 'Страницы компании', 'width=550, height=350, status=no, resizable=yes, top=200, left=200'); return false;"
+                        href="/<?php echo $spot->url; ?>"
+                        target="_blank"
                         class="right mobile-link">
                             <i class="icon">&#xe010;</i>
                             <?php echo Yii::t('spot', "Spot's URL")?>

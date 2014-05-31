@@ -78,8 +78,7 @@ class PaymentUser extends CActiveRecord
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = new CDbExpression('NOW()');
             $this->status = self::STATUS_NOACTIVE;
         }

@@ -45,8 +45,7 @@ class Zend_Gdata_Spreadsheets_SpreadsheetFeedTest extends PHPUnit_Framework_Test
     public function testToAndFromString()
     {
         $this->assertTrue(count($this->sprFeed->entries) == 1);
-        foreach($this->sprFeed->entries as $entry)
-        {
+        foreach($this->sprFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_SpreadsheetEntry);
         }
 
@@ -56,8 +55,7 @@ class Zend_Gdata_Spreadsheets_SpreadsheetFeedTest extends PHPUnit_Framework_Test
         $newSprFeed->transferFromDom($doc->documentElement);
 
         $this->assertTrue(count($newSprFeed->entries) == 1);
-        foreach($newSprFeed->entries as $entry)
-        {
+        foreach($newSprFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_SpreadsheetEntry);
         }
     }

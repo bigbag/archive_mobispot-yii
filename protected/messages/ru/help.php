@@ -19,12 +19,12 @@
 return array (
   'Email' => 'Адрес эл. почты',
   'Get Help' => 'Помощь',
-  'Have a question? Need a hand? 
+  'Have a question? Need a hand?
                             Anything bugging you?
-                            Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.' 
-        => 
-        'Есть вопрос? Нужна помощь? 
-                            Что-то беспокоит? 
+                            Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.'
+        =>
+        'Есть вопрос? Нужна помощь?
+                            Что-то беспокоит?
                             Пожалуйста, заполните данную форму, и мы с Вами свяжемся в ближайшее время. ',
   'Hook up at Facebook' => 'Следите за нами в Facebook',
   'If you have a suggested answer, please let us know' => 'Если Вы знаете возможное решение проблемы, пожалуйста, сообщите нам',

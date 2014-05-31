@@ -121,8 +121,7 @@ class Zend_Gdata_ClientLogin
                 $client->setParameterPost('logintoken', (string) $loginToken);
                 $client->setParameterPost('logincaptcha',
                         (string) $loginCaptcha);
-            }
-            else {
+            } else {
                 require_once 'Zend/Gdata/App/AuthException.php';
                 throw new Zend_Gdata_App_AuthException(
                     'Please provide both a token ID and a user\'s response ' .
@@ -169,8 +168,7 @@ class Zend_Gdata_ClientLogin
                 require_once 'Zend/Gdata/App/CaptchaRequiredException.php';
                 throw new Zend_Gdata_App_CaptchaRequiredException(
                     $goog_resp['CaptchaToken'], $goog_resp['CaptchaUrl']);
-            }
-            else {
+            } else {
                 require_once 'Zend/Gdata/App/AuthException.php';
                 throw new Zend_Gdata_App_AuthException('Authentication with Google failed. Reason: ' .
                     (isset($goog_resp['Error']) ? $goog_resp['Error'] : 'Unspecified.'));
@@ -179,4 +177,3 @@ class Zend_Gdata_ClientLogin
     }
 
 }
-

@@ -55,7 +55,7 @@ class LightOpenID
     private $identity, $claimed_id;
     protected $server, $version, $trustRoot, $aliases, $identifier_select = false
     , $ax = false, $sreg = false, $data;
-    static protected $ax_to_sreg = array(
+    protected static $ax_to_sreg = array(
         'namePerson/friendly' => 'nickname',
         'contact/email' => 'email',
         'namePerson' => 'fullname',
@@ -67,7 +67,7 @@ class LightOpenID
         'pref/timezone' => 'timezone',
     );
 
-    function __construct()
+    public function __construct()
     {
         $this->trustRoot = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
         $uri = rtrim(preg_replace('#((?<=\?)|&)openid\.[^&]+#', '', $_SERVER['REQUEST_URI']), '?');
@@ -76,7 +76,7 @@ class LightOpenID
         $this->data = $_POST + $_GET; # OPs may send data as POST or GET.
     }
 
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         switch ($name) {
             case 'identity':
@@ -98,7 +98,7 @@ class LightOpenID
         }
     }
 
-    function __get($name)
+    public function __get($name)
     {
         switch ($name) {
             case 'identity':
@@ -120,7 +120,7 @@ class LightOpenID
      * @param $url url to check
      * @return true, if the server exists; false otherwise
      */
-    function hostExists($url)
+    public function hostExists($url)
     {
         if (strpos($url, '/') === false) {
             $server = $url;
@@ -327,7 +327,7 @@ class LightOpenID
      * @return String OP Endpoint (i.e. OpenID provider address).
      * @throws ErrorException
      */
-    function discover($url)
+    public function discover($url)
     {
         if (!$url) throw new ErrorException('No identity supplied.');
         # Use xri.net proxy to resolve i-name identities
@@ -585,7 +585,7 @@ class LightOpenID
      * @param String $select_identifier Whether to request OP to select identity for an user in OpenID 2. Does not affect OpenID 1.
      * @throws ErrorException
      */
-    function authUrl($identifier_select = null)
+    public function authUrl($identifier_select = null)
     {
         if (!$this->server) $this->discover($this->identity);
 
@@ -603,7 +603,7 @@ class LightOpenID
      * @return Bool Whether the verification was successful.
      * @throws ErrorException
      */
-    function validate()
+    public function validate()
     {
         $this->claimed_id = isset($this->data['openid_claimed_id']) ? $this->data['openid_claimed_id'] : $this->data['openid_identity'];
         $params = array(
@@ -726,7 +726,7 @@ class LightOpenID
      *     * @return Array Array of attributes with keys being the AX schema names, e.g. 'contact/email'
      * @see http://www.axschema.org/types/
      */
-    function getAttributes()
+    public function getAttributes()
     {
         if (isset($this->data['openid_ns'])
             && $this->data['openid_ns'] == 'http://specs.openid.net/auth/2.0'

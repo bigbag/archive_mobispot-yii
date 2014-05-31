@@ -59,7 +59,7 @@
  * @author Richard Davey
  */
 
-class POP3
+class pop3
 {
     /**
      * Default POP3 port
@@ -415,5 +415,3 @@ class POP3
 
     //  End of class
 }
-
-?>

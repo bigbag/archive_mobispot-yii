@@ -19,5 +19,3 @@ class YServerErrorException extends CException
     }
 
 }
-
-?>

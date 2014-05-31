@@ -1,5 +1,5 @@
-<div class="m-content-block store-content" 
-    ng-controller="ProductController" 
+<div class="m-content-block store-content"
+    ng-controller="ProductController"
     ng-init="StoreInit()">
     <table class="twelve store-items">
         <tbody>
@@ -7,11 +7,11 @@
                 <td>
                     <div class="mainimageshell">
                         <div class="viewwindow">
-                            <ul 
-                                class="fullsizelist aslide" 
+                            <ul
+                                class="fullsizelist aslide"
                                 ng-style="product.listposition">
-                                <li 
-                                    ng-repeat="image in product.photo" 
+                                <li
+                                    ng-repeat="image in product.photo"
                                     class="aslide">
                                     <img class="large" ng-src="<?php echo $imagePath; ?>{{image}}" />
                                 </li>
@@ -21,9 +21,9 @@
                    <!--  <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
                         <div class="thumbswrapper">
                             <ul class = "thumblist">
-                                <li 
+                                <li
                                     class = "thumbitem"
-                                    ng-repeat="image in product.photo" 
+                                    ng-repeat="image in product.photo"
                                     ng-click="scrollTo(image,$index, product.jsID)">
                                     <div class="thumbwrapper">
                                         <img  class="thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
@@ -46,15 +46,15 @@
                     </p>
                     <div class="details">
                         <div class="twelve clearfix">
-                            <div class="columns six" 
+                            <div class="columns six"
                                 ng-show="product.size.length > 1">
                                 <span class="label label-left">
                                     <?php echo Yii::t('store', 'Size'); ?>
                                 </span>
                                 <ul class="choose inline add-active">
-                                    <li 
-                                        ng-repeat="size in product.size" 
-                                        ng-class="sizeClass(product.selectedSize.value, size.value)" 
+                                    <li
+                                        ng-repeat="size in product.size"
+                                        ng-class="sizeClass(product.selectedSize.value, size.value)"
                                         ng-click="setSize(product.jsID, size)">
                                         {{size.value}}
                                     </li>
@@ -65,9 +65,9 @@
                                     <?php echo Yii::t('store', 'Surface'); ?>
                                 </span>
                                 <ul class="choose inline add-active long">
-                                    <li 
-                                        ng-repeat="surface in product.surface" 
-                                        ng-class="surfaceClass(product.selectedSurface, surface)" 
+                                    <li
+                                        ng-repeat="surface in product.surface"
+                                        ng-class="surfaceClass(product.selectedSurface, surface)"
                                         ng-click="setSurface(product.jsID, surface)">
                                         {{surface}}
                                     </li>
@@ -77,11 +77,11 @@
                                 <span class="label label-left">
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>
-                                <input 
-                                    type="text" 
-                                    min="1" 
+                                <input
+                                    type="text"
+                                    min="1"
                                     max="99"
-                                    ng-model="product.quantity" 
+                                    ng-model="product.quantity"
                                     ng-change="resetAddedText(product.jsID)" />
                             </div>
                         </div>
@@ -92,9 +92,9 @@
                             </ul>
                         </div>
                         <footer class="columns twelve">
-                            <a 
-                                class="spot-button" 
-                                
+                            <a
+                                class="spot-button"
+
                                 ng-click="addToCart(product.jsID)">{{product.addText}}</a>
                         </footer>
                     </div>
@@ -110,9 +110,9 @@
             <i>></i>
         </a>
     </div>
-</div>    
+</div>
 
-<div  
+<div
     class="icon-bag-conteiner"
     ng-init="items.count=<?php echo $items_count;?>"
     ng-hide="items.count < 1">

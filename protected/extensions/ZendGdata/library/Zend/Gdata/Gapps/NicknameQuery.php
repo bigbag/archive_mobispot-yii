@@ -110,8 +110,7 @@ class Zend_Gdata_Gapps_NicknameQuery extends Zend_Gdata_Gapps_Query
     {
         if ($value !== null) {
             $this->_params['username'] = $value;
-        }
-        else {
+        } else {
             unset($this->_params['username']);
         }
     }

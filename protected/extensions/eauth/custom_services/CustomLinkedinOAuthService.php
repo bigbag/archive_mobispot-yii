@@ -5,7 +5,7 @@
  *
  * Register application: https://www.linkedin.com/secure/developer
  * Note: Intagration URL should be filled with a valid callback url.
- * 
+ *
  * @author Maxim Zemskov <nodge@yandex.ru>
  * @link http://github.com/Nodge/yii-eauth/
  * @license http://www.opensource.org/licenses/bsd-license.php
@@ -55,8 +55,7 @@ class CustomLinkedinOAuthService extends EOAuthService
         if (isset($component))
             $this->setComponent($component);
 
-        foreach ($options as $key => $val)
-        {
+        foreach ($options as $key => $val) {
             if (($key == 'key') || ($key == 'secret') || ($key == 'class'))
                 $this->$key = $val;
         }
@@ -101,7 +100,7 @@ class CustomLinkedinOAuthService extends EOAuthService
     /**
      *
      * @param string $xml
-     * @return array 
+     * @return array
      */
     protected function parseInfo($xml)
     {
@@ -112,14 +111,13 @@ class CustomLinkedinOAuthService extends EOAuthService
 
     /**
      *
-     * @param SimpleXMLElement $element 
+     * @param SimpleXMLElement $element
      * @return array
      */
     protected function xmlToArray($element)
     {
         $array = (array) $element;
-        foreach ($array as $key => $value)
-        {
+        foreach ($array as $key => $value) {
             if (is_object($value))
                 $array[$key] = $this->xmlToArray($value);
         }

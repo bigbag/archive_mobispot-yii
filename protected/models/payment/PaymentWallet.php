@@ -93,8 +93,7 @@ class PaymentWallet extends CActiveRecord
     public function getFreeByDiscodesId($discodes_id)
     {
         $wallet = Yii::app()->cache->get('wallet_discodes_' . $discodes_id);
-        if (!$wallet)
-        {
+        if (!$wallet) {
             $wallet = PaymentWallet::model()->findByAttributes(
                     array(
                         'discodes_id' => $discodes_id,
@@ -119,8 +118,7 @@ class PaymentWallet extends CActiveRecord
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             if (!$this->status) $this->status = self::STATUS_ACTIVE;
             if (!$this->type) $this->type = self::TYPE_FULL;

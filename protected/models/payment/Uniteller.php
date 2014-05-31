@@ -33,26 +33,20 @@ class Uniteller
         $curl_response = curl_exec($ch);
         $curl_error = curl_error($ch);
         $data = array(); // результат для возврата
-        if ($curl_error)
-        {
+        if ($curl_error) {
             // обработка ошибки обращения за статусом платежа
-        }
-        else
-        {
+        } else {
             // данные получены
             // обработка данных из переменной $curl_response
             $arr = explode(";", $curl_response);
-            if (count($arr) > 2)
-            {
+            if (count($arr) > 2) {
                 $data = array(
                     "Status" => $arr[0]
                     , "ApprovalCode" => $arr[1]
                     , "BillNumber"
                     => $arr[2]
                 );
-            }
-            else
-            {
+            } else {
                 // что-то не так, обработчик полученного ответа
             }
         }
@@ -123,7 +117,8 @@ class Uniteller
     }
 
     /*
-      public function getPass(){
+      public function getPass()
+      {
       return $this->pass;
       }
      */

@@ -4,26 +4,26 @@
     <div class="content-block form-block">
         <div class="row">
             <div class="large-4 columns">
-                <span ng-init="user.id='<?php echo $user->id;?>'; 
+                <span ng-init="user.id='<?php echo $user->id;?>';
                             user.sex=<?php echo $profile->sex;?>"></span>
                 <form id="personInfo" name="setInfoForm" class="custom">
                     <h3 class="single-form-h">
                         <?php echo Yii::t('user', 'Profile info'); ?>
                     </h3>
-                    <input 
+                    <input
                         name='name'
                         ng-init="user.name='<?php echo $profile->name;?>'"
-                        type="text" 
+                        type="text"
                         ng-model="user.name"
                         placeholder="<?php echo Yii::t('user', 'Name'); ?>"
                         autocomplete="off"
                         maxlength="300">
                     <span ng-init="user.sex='<?php echo $profile->sex;?>'"></span>
                     <label for="radio1" class="label-custom left">
-                        <input id="radio1" 
-                            checked="" 
-                            type="radio" 
-                            style="display:none;" 
+                        <input id="radio1"
+                            checked=""
+                            type="radio"
+                            style="display:none;"
                             ng-model="user.sex"
                             ng-value="0"
                             name="radio1">
@@ -31,9 +31,9 @@
                         <?php echo Yii::t('user', 'Not specified'); ?>
                     </label>
                     <label for="radio2" class="label-custom left">
-                        <input id="radio2" 
-                        type="radio" 
-                        style="display:none;" 
+                        <input id="radio2"
+                        type="radio"
+                        style="display:none;"
                         ng-model="user.sex"
                         ng-value="1"
                         name="radio2">
@@ -41,19 +41,19 @@
                         <?php echo Yii::t('user', 'Male'); ?>
                     </label>
                     <label for="radio3" class="label-custom left">
-                        <input id="radio3" 
-                        type="radio" 
+                        <input id="radio3"
+                        type="radio"
                         style="display:none;"
                         ng-model="user.sex"
-                        ng-value="3" 
+                        ng-value="3"
                         name="radio3">
                         <span class="custom radio"></span>
                         <?php echo Yii::t('user', 'Female'); ?>
                     </label>
 
                     <div class="date-input clear">
-                        <input 
-                            id="birthday" 
+                        <input
+                            id="birthday"
                             name='birthday'
                             type="text"
                             ng-model="user.birthday"
@@ -61,9 +61,9 @@
                             value=''
                             placeholder="<?php echo Yii::t('user', 'Birthday'); ?>"><i>&#xe007;</i>
                     </div>
-                    <input 
+                    <input
                         name='city'
-                        type="text" 
+                        type="text"
                         maxlength="300"
                         ng-model="user.city"
                         ng-init="user.city='<?php echo $profile->city;?>'"
@@ -79,7 +79,7 @@
             <div class="large-8 columns" id="recPassForm">
                 <h3 class="single-form-h"><?php echo Yii::t('user', 'Change password'); ?></h3>
                 <form name="recoveryForm">
-                    <span 
+                    <span
                         ng-init="recUser.email='<?php echo $user->email?>';
                             recUser.token=user.token"
                         ></span>
@@ -101,10 +101,10 @@
                 <span class="form-soc-link soc-link gray">
                     <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>
-                    
+
                     <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=twitter" class="<?php echo $twitterStatus; ?>">&#xe001;</a>
-                    
+
                     <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'active' : ''; ?>
                     <a href="/service/socialConnect?service=google_oauth" class="<?php echo $googleStatus; ?>">&#xe002;</a>
                 </span>

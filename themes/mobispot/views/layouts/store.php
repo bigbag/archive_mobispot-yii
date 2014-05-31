@@ -5,12 +5,12 @@
 <head>
     <?php include('block/head/all.php'); ?>
 </head>
-        
+
     <body ng-controller="ProductController"
         ng-cloak class="ng-cloak"
         ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
         <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-        
+
         <?php include('block/header/all.php'); ?>
 
         <div class="row">
@@ -18,11 +18,11 @@
             <?php echo $content; ?>
             </div>
         </div>
-        
+
         <div class="m-preload-store m-cover-preload">
             <img src="/themes/mobispot/images/mobispot-loading%2040.gif">
         </div>
-        
+
         <?php include('block/footer/all.php'); ?>
         <div class="m-result">
             <p></p>

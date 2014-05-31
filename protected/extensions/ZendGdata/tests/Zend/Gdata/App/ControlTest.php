@@ -36,19 +36,22 @@ require_once 'Zend/Gdata/App.php';
 class Zend_Gdata_App_ControlTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->controlText = file_get_contents(
                 'Zend/Gdata/App/_files/ControlElementSample1.xml',
                 true);
         $this->control = new Zend_Gdata_App_Extension_Control();
     }
 
-    public function testEmptyControlShouldHaveEmptyExtensionsList() {
+    public function testEmptyControlShouldHaveEmptyExtensionsList()
+    {
         $this->assertTrue(is_array($this->control->extensionElements));
         $this->assertTrue(count($this->control->extensionElements) == 0);
     }
 
-    public function testEmptyControlToAndFromStringShouldMatch() {
+    public function testEmptyControlToAndFromStringShouldMatch()
+    {
         $controlXml = $this->control->saveXML();
         $newControl = new Zend_Gdata_App_Extension_Control();
         $newControl->transferFromXML($controlXml);
@@ -56,7 +59,8 @@ class Zend_Gdata_App_ControlTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($controlXml == $newControlXml);
     }
 
-    public function testControlWithDraftToAndFromStringShouldMatch() {
+    public function testControlWithDraftToAndFromStringShouldMatch()
+    {
         $draft = new Zend_Gdata_App_Extension_Draft('yes');
         $this->control->draft = $draft;
         $controlXml = $this->control->saveXML();
@@ -67,7 +71,8 @@ class Zend_Gdata_App_ControlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('yes', $newControl->draft->text);
     }
 
-    public function testConvertControlWithDraftToAndFromString() {
+    public function testConvertControlWithDraftToAndFromString()
+    {
         $this->control->transferFromXML($this->controlText);
         $this->assertEquals('yes', $this->control->draft->text);
     }

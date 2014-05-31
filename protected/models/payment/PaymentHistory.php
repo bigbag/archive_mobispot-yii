@@ -102,8 +102,7 @@ class PaymentHistory extends CActiveRecord
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             if (!$this->status) $this->status = self::STATUS_NEW;
             if (!$this->type) $this->type = self::TYPE_PAYMENT;

@@ -60,7 +60,7 @@ class NLSClientScript extends CClientScript
 
         //Minified code
         $this->registerScript('fixDuplicateResources',
-            ';(function($){var cont=($.browser.msie&&parseInt($.browser.version)<=7)?document.createElement("div"):null,excludePattern=' . $this->excludePattern . ',includePattern=' . $this->includePattern . ';$.nlsc={resMap:{},normUrl:function(url){if(!url)return null;if(cont){cont.innerHTML="<a href=\""+url+"\"></a>";url=cont.firstChild.href;}if(excludePattern&&url.match(excludePattern))return null;if(includePattern&&!url.match(includePattern))return null;return url.replace(/\?*(_=\d+)?$/g,"");},fetchMap:function(){for(var url,i=0,res=$(document).find("script[src]");i<res.length;i++){if(!(url=this.normUrl(res[i].src?res[i].src:res[i].href)))continue;this.resMap[url]=1;}}};var c={global:true,beforeSend:function(xhr,opt){if(opt.dataType!="script")return true;if(!$.nlsc.fetched){$.nlsc.fetched=1;$.nlsc.fetchMap();}var url=$.nlsc.normUrl(opt.url);if(!url)return true;if($.nlsc.resMap[url])return false;$.nlsc.resMap[url]=1;return true;}};if($.browser.msie)c.dataFilter=function(data,type){if(type&&type!="html"&&type!="text")return data;return data.replace(/(<script[^>]+)defer(=[^\s>]*)?/ig,"$1");};$.ajaxSetup(c);})(jQuery);'
+            ';(function ($) {var cont=($.browser.msie&&parseInt($.browser.version)<=7)?document.createElement("div"):null,excludePattern=' . $this->excludePattern . ',includePattern=' . $this->includePattern . ';$.nlsc={resMap:{},normUrl:function (url) {if(!url)return null;if(cont){cont.innerHTML="<a href=\""+url+"\"></a>";url=cont.firstChild.href;}if(excludePattern&&url.match(excludePattern))return null;if(includePattern&&!url.match(includePattern))return null;return url.replace(/\?*(_=\d+)?$/g,"");},fetchMap:function () {for(var url,i=0,res=$(document).find("script[src]");i<res.length;i++){if(!(url=this.normUrl(res[i].src?res[i].src:res[i].href)))continue;this.resMap[url]=1;}}};var c={global:true,beforeSend:function (xhr,opt) {if(opt.dataType!="script")return true;if(!$.nlsc.fetched){$.nlsc.fetched=1;$.nlsc.fetchMap();}var url=$.nlsc.normUrl(opt.url);if(!url)return true;if($.nlsc.resMap[url])return false;$.nlsc.resMap[url]=1;return true;}};if($.browser.msie)c.dataFilter=function (data,type) {if(type&&type!="html"&&type!="text")return data;return data.replace(/(<script[^>]+)defer(=[^\s>]*)?/ig,"$1");};$.ajaxSetup(c);})(jQuery);'
             , CClientScript::POS_HEAD);
 
 
@@ -69,7 +69,7 @@ class NLSClientScript extends CClientScript
 
         $this->registerScript('fixDuplicateResources', '
 
-        ;(function($){
+        ;(function ($) {
 
         //some closures
         var cont = ($.browser.msie && parseInt($.browser.version)<=7) ? document.createElement("div") : null,
@@ -78,7 +78,7 @@ class NLSClientScript extends CClientScript
 
         $.nlsc = {
             resMap : {},
-            normUrl : function(url) {
+            normUrl : function (url) {
                 if (!url) return null;
                 if (cont) {
                     cont.innerHTML = "<a href=\""+url+"\"></a>";
@@ -92,7 +92,7 @@ class NLSClientScript extends CClientScript
                     return null;
                 return url.replace(/\?*(_=\d+)?$/g,"");
             },
-            fetchMap : function() {
+            fetchMap : function () {
                 //fetching scripts from the DOM
                 for(var url,i=0,res=$(document).find("script[src]"); i<res.length; i++) {
                     if (!(url = this.normUrl(res[i].src ? res[i].src : res[i].href))) continue;
@@ -103,7 +103,7 @@ class NLSClientScript extends CClientScript
 
         var c = {
             global:true,
-            beforeSend: function(xhr, opt) {
+            beforeSend: function (xhr, opt) {
                 if (opt.dataType!="script")
                     return true;
 
@@ -122,7 +122,7 @@ class NLSClientScript extends CClientScript
 
         //removing "defer" attribute from IE scripts anyway
         if ($.browser.msie)
-            c.dataFilter = function(data,type) {
+            c.dataFilter = function (data,type) {
                 if (type && type != "html" && type != "text")
                     return data;
                 return data.replace(/(<script[^>]+)defer(=[^\s>]*)?/ig, "$1");

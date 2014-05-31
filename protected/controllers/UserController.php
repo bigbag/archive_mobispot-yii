@@ -13,35 +13,30 @@ class UserController extends MController
         $user = User::model()->findByPk(Yii::app()->user->id);
         $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
-        if (!$profile)
-        {
+        if (!$profile) {
             $profile = new UserProfile;
             $profile->user_id = $user->id;
             $profile->sex = UserProfile::SEX_UNKNOWN;
             $profile->save();
         }
 
-        if (Yii::app()->request->getParam('UserProfile'))
-        {
+        if (Yii::app()->request->getParam('UserProfile')) {
             $profile->attributes = Yii::app()->request->getParam('UserProfile');
 
-            if ($profile->validate())
-            {
+            if ($profile->validate()) {
                 $profile->save();
                 $this->refresh();
             }
         }
 
         $socnet = array();
-        if ($user)
-        {
+        if ($user) {
             $userTokens = SocToken::model()->findAllByAttributes(array(
                 'user_id' => $user->id,
                 'allow_login' => true
             ));
 
-            foreach ($userTokens as $net)
-            {
+            foreach ($userTokens as $net) {
                 $socnet[$net->getType()] = 1;
             }
         }
@@ -68,8 +63,7 @@ class UserController extends MController
         $profile = UserProfile::model()->findByPk((int) $data['id']);
         $profile->attributes = $data;
 
-        if ($profile->save())
-        {
+        if ($profile->save()) {
             $answer['error'] = 'no';
             $answer['content'] = Yii::t('user', "The information has been saved successfully");
         }
@@ -90,8 +84,7 @@ class UserController extends MController
         if (!Yii::app()->user->id)
             $this->setAccess();
 
-        if (isset($synch) and $synch == 'true' and !empty($discodes))
-        {
+        if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
                 'discodes'=> $discodes,
                 'key' => $key = Yii::app()->request->getQuery('key'),
@@ -106,8 +99,7 @@ class UserController extends MController
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
 
-        if (!empty(Yii::app()->session[$serviceName . '_synch_data']))
-        {
+        if (!empty(Yii::app()->session[$serviceName . '_synch_data'])) {
             $data = Yii::app()->session[$serviceName . '_synch_data'];
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
@@ -148,14 +140,12 @@ class UserController extends MController
         $userActions = WalletLoyalty::model()->with('wallet')->findAll($criteria);
         $count = 0;
 
-        foreach ($userActions as $userAction)
-        {
+        foreach ($userActions as $userAction) {
             if (!empty($userAction->part_count))
                 $count += $userAction->part_count;
         }
 
-        if ($action->part_limit and $count >= $action->part_limit)
-        {
+        if ($action->part_limit and $count >= $action->part_limit) {
             $answer['isSocLogged'] = true; //чтобы не запускать авторизацию
             $answer['message_error'] = 'yes';
             $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
@@ -180,8 +170,7 @@ class UserController extends MController
             $this->getJsonAndExit($answer);
 
         $answer['checked'] = $socInfo->checkSharing($service, $action->sharing_type, $link);
-        if (!$answer['checked'])
-        {
+        if (!$answer['checked']) {
             $answer['message'] = $action->getPromoMessage();
             $this->getJsonAndExit($answer);
         }
@@ -191,8 +180,7 @@ class UserController extends MController
             'loyalty_id' => $action->id,
         ));
 
-        if (!$wl)
-        {
+        if (!$wl) {
             $wl = new WalletLoyalty;
             $wl->wallet_id = $wallet->id;
             $wl->loyalty_id = $action->id;

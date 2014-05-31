@@ -29,8 +29,7 @@ class RegistrationForm extends User
 
     public function checkexists($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
+        if (!$this->hasErrors()) {
             $spot = Spot::getActivatedSpot($this->activ_code);
 
             if ($spot == null)

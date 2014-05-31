@@ -25,7 +25,7 @@
                     <?php if (!empty($socContent['text'])): ?>
                         <p><?php echo $this->hrefActivate($socContent['text']); ?></p>
                     <?php endif ?>
-                    
+
                     <img src="<?php echo $socContent['last_img'] ?>">
                     <?php if (!empty($socContent['likes-block'])): ?>
                         <div class="likes-block">

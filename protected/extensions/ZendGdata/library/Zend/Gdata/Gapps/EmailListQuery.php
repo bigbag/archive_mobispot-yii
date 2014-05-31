@@ -110,8 +110,7 @@ class Zend_Gdata_Gapps_EmailListQuery extends Zend_Gdata_Gapps_Query
     {
         if ($value !== null) {
             $this->_params['recipient'] = $value;
-        }
-        else {
+        } else {
             unset($this->_params['recipient']);
         }
     }

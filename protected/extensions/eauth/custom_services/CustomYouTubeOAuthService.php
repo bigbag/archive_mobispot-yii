@@ -46,10 +46,9 @@ class CustomYouTubeOAuthService extends EOAuth2Service
         $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
         $this->attributes['refresh_token'] = ($this->getState('refresh_token')) ? $this->getState('auth_token') : false;
 
-    
+
         $videoFeed = $yt->getuserUploads('default');
-        if (isset($videoFeed[0]))
-        {
+        if (isset($videoFeed[0])) {
             $videoEntry = $videoFeed[0];
             $this->attributes['utube_video_link'] = '<a href="' . (string) $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . (string) $videoEntry->getVideoTitle() . '</a>';
             $this->attributes['utube_video_flash'] = (string) $videoEntry->getFlashPlayerUrl();
@@ -65,12 +64,11 @@ class CustomYouTubeOAuthService extends EOAuth2Service
 
         $url .= '&access_type=offline';
 
-        if (Yii::app()->user->isGuest)
-        {
+        if (Yii::app()->user->isGuest) {
             $url .= '&approval_prompt=force';
             return $url;
         }
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_YOUTUBE,
@@ -135,6 +133,6 @@ class CustomYouTubeOAuthService extends EOAuth2Service
         return array(
             'code' => $json->error->code,
             'message' => $json->error->message,
-        ); 
+        );
     }
 }

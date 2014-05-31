@@ -32,4 +32,3 @@ $this->widget('application.extensions.mbmenu.MbMenu', array(
         array('label' => 'Выйти (' . Yii::app()->user->name . ')', 'url' => array('/service/logout'), 'visible' => !Yii::app()->user->isGuest)
     ),
 ));
-?>

@@ -122,7 +122,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      * @throws Zend_Gdata_App_InvalidArgumentException
      * @return Zend_Gdata_HttpClient Provides a fluent interface
      */
-    public function setAuthSubPrivateKey($key, $passphrase = null) {
+    public function setAuthSubPrivateKey($key, $passphrase = null)
+    {
         if ($key != null && !function_exists('openssl_pkey_get_private')) {
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
@@ -139,7 +140,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      *
      * @return string The private key
      */
-    public function getAuthSubPrivateKeyId() {
+    public function getAuthSubPrivateKeyId()
+    {
         return $this->_authSubPrivateKeyId;
     }
 
@@ -148,7 +150,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      *
      * @return string The token
      */
-    public function getAuthSubToken() {
+    public function getAuthSubToken()
+    {
         return $this->_authSubToken;
     }
 
@@ -158,7 +161,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      * @param string $token The token
      * @return Zend_Gdata_HttpClient Provides a fluent interface
      */
-    public function setAuthSubToken($token) {
+    public function setAuthSubToken($token)
+    {
         $this->_authSubToken = $token;
         return $this;
     }
@@ -168,7 +172,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      *
      * @return string The token
      */
-    public function getClientLoginToken() {
+    public function getClientLoginToken()
+    {
         return $this->_clientLoginToken;
     }
 
@@ -178,7 +183,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      * @param string $token The token
      * @return Zend_Gdata_HttpClient Provides a fluent interface
      */
-    public function setClientLoginToken($token) {
+    public function setClientLoginToken($token)
+    {
         $this->_clientLoginToken = $token;
         return $this;
     }
@@ -204,7 +210,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      * @return array The processed values in an associative array,
      *               using the same names as the params
      */
-    public function filterHttpRequest($method, $url, $headers = array(), $body = null, $contentType = null) {
+    public function filterHttpRequest($method, $url, $headers = array(), $body = null, $contentType = null)
+    {
         if ($this->getAuthSubToken() != null) {
             // AuthSub authentication
             if ($this->getAuthSubPrivateKeyId() != null) {
@@ -251,7 +258,8 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
      * @param Zend_Http_Response $response The response object to filter
      * @return Zend_Http_Response The filterd response object
      */
-    public function filterHttpResponse($response) {
+    public function filterHttpResponse($response)
+    {
         return $response;
     }
 
@@ -318,8 +326,7 @@ class Zend_Gdata_HttpClient extends Zend_Http_Client
             $this->setHeaders(self::CONTENT_LENGTH,
                 $this->raw_post_data->getTotalSize());
             return $this->raw_post_data;
-        }
-        else {
+        } else {
             return parent::_prepareBody();
         }
     }

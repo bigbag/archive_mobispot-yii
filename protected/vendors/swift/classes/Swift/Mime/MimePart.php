@@ -199,7 +199,7 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
             // mb_convert_encoding must be the first one to check, since iconv cannot convert some words.
             if (function_exists('mb_convert_encoding')) {
                 $string = mb_convert_encoding($string, $charset, 'utf-8');
-            } else if (function_exists('iconv')) {
+            } elseif (function_exists('iconv')) {
                 $string = iconv($charset, 'utf-8//TRANSLIT//IGNORE', $string);
             } else {
                 throw new Swift_SwiftException('No suitable convert encoding function (use UTF-8 as your harset or install the mbstring or iconv extension).');

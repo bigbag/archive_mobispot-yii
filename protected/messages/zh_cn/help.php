@@ -19,10 +19,10 @@
 return array (
   'Email' => '电子邮箱',
   'Get Help' => '帮助',
-  'Have a question? Need a hand? 
+  'Have a question? Need a hand?
                             Anything bugging you?
-                            Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.' 
-        => 
+                            Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.'
+        =>
         '需要帮助或有疑问？请填写下列信息以便我们尽快联系您。',
   'If you have a suggested answer, please let us know' => '如果你知道可行的问题解决方法，请告知我们',
   'Hook up at Facebook' => '在 Facebook 关注我们',

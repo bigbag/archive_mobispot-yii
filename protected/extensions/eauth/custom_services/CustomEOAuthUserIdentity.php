@@ -48,20 +48,16 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
     public function __construct($attributes)
     {
 
-        if (is_array($attributes))
-        {
-            if (isset($attributes['provider']))
-            {
+        if (is_array($attributes)) {
+            if (isset($attributes['provider'])) {
                 $this->setProvider($attributes['provider']);
                 unset($attributes['provider']);
-            }
-            else
+            } else
                 $this->setProvider();
 
             foreach ($attributes as $attr => $value)
                 $this->$attr = $value;
-        }
-        else
+        } else
             return null;
     }
 
@@ -92,7 +88,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
 
     public function getPersistentStates()
     {
-        
+
     }
 
     public function authenticate()
@@ -100,20 +96,16 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
 
         $session = Yii::app()->session;
 
-        if (isset($_REQUEST['oauth_token']))
-        {
+        if (isset($_REQUEST['oauth_token'])) {
             $oauthToken = $_REQUEST['oauth_token'];
         }
-        if (isset($_REQUEST['oauth_verifier']))
-        {
+        if (isset($_REQUEST['oauth_verifier'])) {
             $oauthVerifier = $_REQUEST['oauth_verifier'];
         }
 
-        try
-        {
+        try {
 
-            if (!isset($oauthToken))
-            {
+            if (!isset($oauthToken)) {
                 // Create consumer.
                 $consumer = new OAuthConsumer($this->key, $this->secret);
 
@@ -141,9 +133,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
 
                 // Redirect to authorization URL.
                 Yii::app()->request->redirect($url);
-            }
-            else
-            {
+            } else {
                 // Retrieve consumer and token from session.
                 $consumer = $session['OAUTH_CONSUMER'];
                 $token = $session['OAUTH_TOKEN'];
@@ -160,9 +150,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
 
                 $this->_authenticated = true;
             }
-        }
-        catch (OAuthException $e)
-        {
+        } catch (OAuthException $e) {
             $this->_error = $e->getMessage();
         }
 
@@ -175,8 +163,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
             $this->_providerClass = $provider;
         $this->provider = new $this->_providerClass;
         if (is_array($provider))
-            foreach ($provider as $attr => $val)
-            {
+            foreach ($provider as $attr => $val) {
                 $attribute = $attr . '_token_endpoint';
                 $this->provider->$attribute = $val;
             }
@@ -214,8 +201,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
         $headers = curl_getinfo($ch);
         curl_close($ch);
 
-        if ($headers['http_code'] != 200)
-        {
+        if ($headers['http_code'] != 200) {
             throw new OAuthException($response);
         }
         return $this->GetTokenFromQueryString($response);
@@ -225,8 +211,7 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
     {
         $values = array();
         parse_str($queryString, $values);
-        if (!empty($values['oauth_expires_in']))
-        {
+        if (!empty($values['oauth_expires_in'])) {
             $this->token_expires = $values['oauth_expires_in'];
             if (!empty($values['oauth_authorization_expires_in']) && ($values['oauth_authorization_expires_in'] < $values['oauth_expires_in']))
                 $this->token_expires = $values['oauth_authorization_expires_in'];
@@ -235,5 +220,3 @@ class CustomEOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
     }
 
 }
-
-?>

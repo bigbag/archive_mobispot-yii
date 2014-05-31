@@ -38,7 +38,8 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
     protected $fixture;
     protected $data;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->xmlSample = file_get_contents(
                 'Zend/Gdata/Gapps/_files/AppsForYourDomainElementSample1.xml',
                 true);
@@ -52,11 +53,13 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException Zend_Gdata_Gapps_ServiceException
      */
-    public function testCanThrowServiceException() {
+    public function testCanThrowServiceException()
+    {
         throw $this->fixture;
     }
 
-    public function testCanSetAndGetErrorArray() {
+    public function testCanSetAndGetErrorArray()
+    {
         $this->fixture->setErrors($this->data);
         $incoming = $this->fixture->getErrors();
         $this->assertTrue(is_array($incoming));
@@ -66,7 +69,8 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testCanInsertSingleError() {
+    public function testCanInsertSingleError()
+    {
         $this->fixture->setErrors($this->data);
         $outgoing = new Zend_Gdata_Gapps_Error(1111, "a", "b");
         $this->fixture->addError($outgoing);
@@ -74,7 +78,8 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($outgoing, $result);
     }
 
-    public function testCanSetPropertiesViaConstructor() {
+    public function testCanSetPropertiesViaConstructor()
+    {
         $this->fixture = new Zend_Gdata_Gapps_ServiceException($this->data);
         $incoming = $this->fixture->getErrors();
         $this->assertTrue(is_array($incoming));
@@ -84,25 +89,29 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testCanRetrieveASpecificErrorByCode() {
+    public function testCanRetrieveASpecificErrorByCode()
+    {
         $this->fixture->setErrors($this->data);
         $result = $this->fixture->getError(5978);
         $this->assertEquals($this->data[3], $result);
     }
 
-    public function testRetrievingNonexistantErrorCodeReturnsNull() {
+    public function testRetrievingNonexistantErrorCodeReturnsNull()
+    {
         $this->fixture->setErrors($this->data);
         $result = $this->fixture->getError(0000);
         $this->assertEquals(null, $result);
     }
 
-    public function testCanCheckIfAKeyExists() {
+    public function testCanCheckIfAKeyExists()
+    {
         $this->fixture->setErrors($this->data);
         $this->assertTrue($this->fixture->hasError(2398));
         $this->assertFalse($this->fixture->hasError(0000));
     }
 
-    public function testCanConvertFromXML() {
+    public function testCanConvertFromXML()
+    {
         $this->fixture->importFromString($this->xmlSample);
         $incoming = $this->fixture->getErrors();
         $this->assertTrue(is_array($incoming));
@@ -112,7 +121,8 @@ class Zend_Gdata_Gapps_ServiceExceptionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Bar", $incoming[9925]->reason);
     }
 
-    public function testCanConvertToString() {
+    public function testCanConvertToString()
+    {
         $this->fixture->setErrors($this->data);
         $this->assertEquals("The server encountered the following errors processing the request:
 Error 1234: foo

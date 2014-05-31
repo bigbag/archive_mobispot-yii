@@ -44,8 +44,7 @@ class SiteController extends MController
         $fileName = $action . '_' . md5(time() . $fileParts['basename']);
         $targetFileName = $fileName . '.jpg';
 
-        if (filesize($tempFile) > $maxSize * 1024)
-        {
+        if (filesize($tempFile) > $maxSize * 1024) {
             $answer['error'] = Yii::t('images', 'Maximum file size ') . ($maxSize * 1024) . ' byte.';
             $this->getJsonAndExit($answer);
         }
@@ -55,8 +54,7 @@ class SiteController extends MController
         $image = new CImageHandler();
         $image->load($tempFile);
 
-        if (!$image->thumb(50, 50, true))
-        {
+        if (!$image->thumb(50, 50, true)) {
             $answer['error'] = Yii::t('images', 'The uploaded file is not an image');
             $this->getJsonAndExit($answer);
         }

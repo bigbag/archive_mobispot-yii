@@ -238,8 +238,7 @@ class SocInfo extends CFormModel
         $this->userDetail = array();
         $net = $this->getNetByLink($link);
 
-        if (!empty($net['name']))
-        {
+        if (!empty($net['name'])) {
             $this->socNet = $net['name'];
             $this->socUsername = $this->parceSocUrl($this->socNet, $link);
             $this->getSocInfo($this->socNet, $this->socUsername, $discodesId, $dataKey);
@@ -263,10 +262,8 @@ class SocInfo extends CFormModel
     {
         $name = $this->mergeMobile($name);
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if ($name == $net['name'])
-            {
+        foreach ($socNetworks as $net) {
+            if ($name == $net['name']) {
                 $answer = $net;
                 break;
             }
@@ -278,20 +275,16 @@ class SocInfo extends CFormModel
     {
         $answer = array();
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if (strpos($link, $net['baseUrl']) !== false)
-            {
+        foreach ($socNetworks as $net) {
+            if (strpos($link, $net['baseUrl']) !== false) {
                 $answer = $net;
                 break;
             }
         }
 
-        if (empty($answer['name']) and (strpos($link, '.') !== false))
-        {
+        if (empty($answer['name']) and (strpos($link, '.') !== false)) {
             $tumblrLink = TumblrContent::parseUsername($link);
-            if (!empty(Yii::app()->eauth->services['tumblr']))
-            {
+            if (!empty(Yii::app()->eauth->services['tumblr'])) {
                 $blogInfo = TumblrContent::makeRequest('http://api.tumblr.com/v2/blog/' . $tumblrLink . '/info?api_key=' . Yii::app()->eauth->services['tumblr']['key']);
                 if (!(is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) and isset($blogInfo['response']) and isset($blogInfo['response']['blog']))
                     $answer = $this->getNetByName('tumblr');
@@ -306,8 +299,7 @@ class SocInfo extends CFormModel
         $answer = 'ok';
 
         $net = $this->getNetByLink($link);
-        if (isset($net['contentClass']) && strlen($net['contentClass']))
-        {
+        if (isset($net['contentClass']) && strlen($net['contentClass'])) {
             $class = $net['contentClass'];
             $answer = $class::isLinkCorrect($link, $discodesId, $dataKey);
         }
@@ -319,11 +311,9 @@ class SocInfo extends CFormModel
     {
         $answer = array();
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
+        foreach ($socNetworks as $net) {
 
-            if (!empty($net['baseUrl']))
-            {
+            if (!empty($net['baseUrl'])) {
                 $pattern = array();
                 $pattern['name'] = $net['name'];
                 $pattern['baseUrl'] = $net['baseUrl'];
@@ -344,16 +334,12 @@ class SocInfo extends CFormModel
         $answer = false;
 
         $net = $this->getNetByName($netName);
-        if ($checkNeed and $net['needAuth'] == false)
-        {
+        if ($checkNeed and $net['needAuth'] == false) {
             $answer = true;
-        }
-        elseif (isset($net['contentClass']) && strlen($net['contentClass']))
-        {
+        } elseif (isset($net['contentClass']) && strlen($net['contentClass'])) {
             $class = $net['contentClass'];
             $answer = $class::isLoggegByNet();
-        }
-        elseif (!empty(Yii::app()->session[$net['name'] . '_id']))
+        } elseif (!empty(Yii::app()->session[$net['name'] . '_id']))
             $answer = true;
 
         return $answer;
@@ -377,8 +363,7 @@ class SocInfo extends CFormModel
 
         $cachedData = Yii::app()->cache->get('socData_' . md5($socUsername));
 
-        if ($cachedData !== false)
-        {
+        if ($cachedData !== false) {
             $this->userDetail = $cachedData;
             return $this->userDetail;
         }
@@ -388,25 +373,21 @@ class SocInfo extends CFormModel
         $socUsername = $this->parceSocUrl($socNet, $socUsername);
 
         $net = $this->getNetByLink($socUsername);
-        if (isset($net['contentClass']) && strlen($net['contentClass']))
-        {
+        if (isset($net['contentClass']) && strlen($net['contentClass'])) {
             $class = $net['contentClass'];
             $this->userDetail = $class::getContent($socUsername, $discodesId, $dataKey);
-        }
-        else
+        } else
             $this->userDetail['soc_username'] = Yii::t('eauth', 'This social network is not supported by Mobispot: ') . $socNet;
 
         Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
 
         $uncheck = array('html', 'list', 'list2', 'follow_button');
 
-        if (empty($this->userDetail['binded_link']))
-        {
+        if (empty($this->userDetail['binded_link'])) {
             $this->userDetail['binded_link'] = $socUsername;
         }
 
-        foreach ($this->userDetail as $socKey => $socValue)
-        {
+        foreach ($this->userDetail as $socKey => $socValue) {
             if (!is_array($socValue) && !in_array($socKey, $uncheck))
                 $this->userDetail[$socKey] = strip_tags((string) $socValue, '<div><p><br><hr><a><b><q><i><s><img><span><ui><ol><li><h1><h2><h3><h4><h5><h6><sub><strike><details><figure><figcaption><mark><menu><meter><nav><output><ruby><rt><rp><section><details><summary><time><wbr>');
         }
@@ -417,8 +398,7 @@ class SocInfo extends CFormModel
     public function parceSocUrl($socNet, $url)
     {
         $username = $url;
-        if ($socNet == 'Last.fm')
-        {
+        if ($socNet == 'Last.fm') {
             if ((strpos($username, 'lastfm.ru/user/') > 0) || (strpos($username, 'lastfm.ru/user/') !== false))
                 $username = substr($username, (strpos($username, 'lastfm.ru/user/') + 15));
             if (strpos($username, '?') > 0)
@@ -427,9 +407,7 @@ class SocInfo extends CFormModel
                 $username = substr($username, 0, strpos($username, '/'));
             if (strpos($username, '&') > 0)
                 $username = substr($username, 0, strpos($username, '&'));
-        }
-        elseif ($socNet == 'Flickr')
-        {
+        } elseif ($socNet == 'Flickr') {
             if ((strpos($username, 'flickr.com/people/') > 0) || (strpos($username, 'flickr.com/people/') !== false))
                 $username = substr($username, (strpos($username, 'flickr.com/people/') + 18));
             if ((strpos($username, 'flickr.com/photos/') > 0) || (strpos($username, 'flickr.com/photos/') !== false))
@@ -483,8 +461,7 @@ class SocInfo extends CFormModel
         if (curl_errno($ch) > 0)
             throw new CException(curl_error($ch), curl_errno($ch));
 
-        if ($headers['http_code'] != 200)
-        {
+        if ($headers['http_code'] != 200) {
             Yii::log(
                     'Invalid response http code: ' . $headers['http_code'] . '.' . PHP_EOL .
                     'URL: ' . $url . PHP_EOL .
@@ -492,8 +469,7 @@ class SocInfo extends CFormModel
                     'Result: ' . $result, CLogger::LEVEL_ERROR, 'application.extensions.eauth'
             );
             $result = 'error:' . $headers['http_code'];
-        }
-        elseif ($parseJson)
+        } elseif ($parseJson)
             $result = CJSON::decode($result, true);
         curl_close($ch);
 
@@ -518,27 +494,22 @@ class SocInfo extends CFormModel
         if (isset($options['headers']))
             curl_setopt($ch, CURLOPT_HTTPHEADER, $options['headers']);
 
-        if (isset($options['query']))
-        {
+        if (isset($options['query'])) {
             $url_parts = parse_url($url);
-            if (isset($url_parts['query']))
-            {
+            if (isset($url_parts['query'])) {
                 $query = $url_parts['query'];
                 if (strlen($query) > 0)
                     $query .= '&';
                 $query .= http_build_query($options['query']);
                 $url = str_replace($url_parts['query'], $query, $url);
-            }
-            else
-            {
+            } else {
                 $url_parts['query'] = $options['query'];
                 $new_query = http_build_query($url_parts['query']);
                 $url .= '?' . $new_query;
             }
         }
 
-        if (isset($options['data']))
-        {
+        if (isset($options['data'])) {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $options['data']);
         }
@@ -552,8 +523,7 @@ class SocInfo extends CFormModel
     protected function xmlToArray($element)
     {
         $array = (array) $element;
-        foreach ($array as $key => $value)
-        {
+        foreach ($array as $key => $value) {
             if (is_object($value))
                 $array[$key] = $this->xmlToArray($value);
         }
@@ -565,8 +535,7 @@ class SocInfo extends CFormModel
     {
         $str = mb_convert_encoding($str, 'UTF-16', 'UTF-8');
         $out = '';
-        for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++)
-        {
+        for ($i = 0; $i < mb_strlen($str, 'UTF-16'); $i++) {
             $out .= '%u' . bin2hex(mb_substr($str, $i, 1, 'UTF-16'));
         }
 
@@ -578,8 +547,7 @@ class SocInfo extends CFormModel
         $answer = false;
         $net = $this->getNetByLink($link);
 
-        if (isset($net['contentClass']) and strlen($net['contentClass']))
-        {
+        if (isset($net['contentClass']) and strlen($net['contentClass'])) {
             $class = $net['contentClass'];
             $answer = $class::contentNeedSave($link);
         }
@@ -592,8 +560,7 @@ class SocInfo extends CFormModel
         $answer = false;
         $net = $this->getNetByName($netName);
 
-        if (isset($net['contentClass']) && strlen($net['contentClass']) /* && $this->isLoggegOn($netName, false) */)
-        {
+        if (isset($net['contentClass']) && strlen($net['contentClass']) /* && $this->isLoggegOn($netName, false) */) {
             $class = $net['contentClass'];
             $answer = $class::followSocial($param);
         }
@@ -612,10 +579,8 @@ class SocInfo extends CFormModel
     {
         $answer = '';
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if (in_array($sharing_type, $net['sharingType']))
-            {
+        foreach ($socNetworks as $net) {
+            if (in_array($sharing_type, $net['sharingType'])) {
                 $answer = $net['name'];
                 break;
             }
@@ -627,10 +592,8 @@ class SocInfo extends CFormModel
     {
         $answer = '';
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if (in_array($sharing_type, $net['sharingType']))
-            {
+        foreach ($socNetworks as $net) {
+            if (in_array($sharing_type, $net['sharingType'])) {
                 $answer = $net['tokenType'];
                 break;
             }
@@ -642,10 +605,8 @@ class SocInfo extends CFormModel
     {
         $answer = array();
         $socNetworks = self::getSocNetworks();
-        foreach ($socNetworks as $net)
-        {
-            if ($net['tokenType'] == $token_type)
-            {
+        foreach ($socNetworks as $net) {
+            if ($net['tokenType'] == $token_type) {
                 $answer = $net;
                 break;
             }
@@ -666,8 +627,7 @@ class SocInfo extends CFormModel
     public static function setLogged($atributes)
     {
         $success = false;
-        if (!empty($atributes['service']) and !empty($atributes['id']))
-        {
+        if (!empty($atributes['service']) and !empty($atributes['id'])) {
             Yii::app()->session[$atributes['service'] . '_id'] = $atributes['id'];
             if (!empty($atributes['url']))
                 Yii::app()->session[$atributes['service'] . '_profile_url'] = $atributes['url'];
@@ -695,34 +655,25 @@ class SocInfo extends CFormModel
 
         $filesize = filesize($file);
 
-        if($filesize > 1024)
-        {
+        if($filesize > 1024) {
             $filesize = ($filesize/1024);
 
-            if($filesize > 1024)
-            {
+            if($filesize > 1024) {
                 $filesize = ($filesize/1024);
 
-                if($filesize > 1024)
-                {
+                if($filesize > 1024) {
                     $filesize = ($filesize/1024);
                     $filesize = round($filesize, 1);
                     return $filesize.' '.Yii::t('spot', 'GB');
-                }
-                else
-                {
+                } else {
                     $filesize = round($filesize, 1);
                     return $filesize.' '.Yii::t('spot', 'MB');
                 }
-            }
-            else
-            {
+            } else {
                 $filesize = round($filesize, 1);
                 return $filesize.' '.Yii::t('spot', 'Kb');
             }
-        }
-        else
-        {
+        } else {
             $filesize = round($filesize, 1);
             return $filesize.' '.Yii::t('spot', 'bytes');
         }
@@ -734,50 +685,48 @@ class SocInfo extends CFormModel
 
         $net = $this->getNetByName($netName);
 
-        if (isset($net['contentClass']) && strlen($net['contentClass']))
-        {
+        if (isset($net['contentClass']) && strlen($net['contentClass'])) {
             $class = $net['contentClass'];
             $answer = $class::checkSharing($sharing_type, $link);
         }
 
         return $answer;
     }
-    
+
     public static function nameInList($name, $list)
     {
         $answer = false;
-        foreach($list as $item)
-        {
+        foreach($list as $item) {
             if (!empty($item['name']) and $item['name'] == $name)
                 $answer = true;
         }
-    
+
         return $answer;
     }
 
     public function linkInList($link, $list)
     {
         $answer = false;
-        
+
         $net = $this->getNetByLink($link);
         if (!$net)
             return false;
-        
+
         $answer = self::nameInList($name, $list);
-    
+
         return $answer;
     }
-    
+
     public static function writeAccessBySocInfo($info)
     {
     //заготовка пока нет необходимости делать логику
         $answer = false;
         if ('facebook' == $info['service'])
             $answer = true;
-    
+
         return $answer;
     }
-    
+
 }
 
 
@@ -785,8 +734,7 @@ class SocInfo extends CFormModel
 
 /*
 контент неиспользуемых соцсетей
-        elseif ($socNet == 'Last.fm')
-        {
+        elseif ($socNet == 'Last.fm') {
             $socUser = $this->makeCurlRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $socUsername . '&api_key=6a76cdf194415b30b2f94a1aadb38b3e&format=json');
             $socUser = $socUser['user'];
             if (!empty($socUser['realname']))
@@ -803,12 +751,9 @@ class SocInfo extends CFormModel
                 $this->userDetail['age'] = $socUser['age'];
             if (!empty($socUser['gender']))
                 $this->userDetail['gender'] = $socUser['gender'];
-        }
-        elseif ($socNet == 'Flickr')
-        {
+        } elseif ($socNet == 'Flickr') {
             //if not id
-            if (strpos($socUsername, '@') === false)
-            {
+            if (strpos($socUsername, '@') === false) {
                 $socUsername = str_replace(' ', '+', $socUsername);
                 $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=dc1985d59dc4b427afefe54c912fae0a&username=' . $socUsername . '&format=json&nojsoncallback=1');
                 //replace username by id
@@ -817,15 +762,13 @@ class SocInfo extends CFormModel
             }
 
             $socUser = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
-            if ($socUser['stat'] == 'ok')
-            {
+            if ($socUser['stat'] == 'ok') {
                 $socUser = $socUser['person'];
                 if (!empty($socUser['realname']['_content']))
                     $this->userDetail['soc_username'] = $socUser['realname']['_content'];
                 else
                     $this->userDetail['soc_username'] = $socUser['username']['_content'];
-                if (!empty($socUser['iconserver']))
-                {
+                if (!empty($socUser['iconserver'])) {
                     if ($socUser['iconserver'] > 0)
                         $this->userDetail['photo'] = 'http://farm' . $socUser['iconfarm'] . '.staticflickr.com/' . $socUser['iconserver'] . '/buddyicons/' . $socUser['nsid'] . '.jpg';
                     else
@@ -839,13 +782,11 @@ class SocInfo extends CFormModel
                     $this->userDetail['timezone'] = $socUser['timezone']['label'] . ' ' . $socUser['timezone']['offset'];
 
                 $photo = $this->makeRequest('http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=dc1985d59dc4b427afefe54c912fae0a&user_id=' . urlencode($socUsername) . '&format=json&nojsoncallback=1');
-                if (($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id']))
-                {
+                if (($photo['stat'] == 'ok') && !empty($photo['photos']['photo'][0]['id'])) {
                     $photo = $photo['photos']['photo'][0];
                     $this->userDetail['last_photo'] = '<img src="http://farm' . $photo['farm'] . '.staticflickr.com/' . $photo['server'] . '/' . $photo['id'] . '_' . $photo['secret'] . '_z.jpg"/><br/>' . $photo['title'];
                 }
-            }
-            else
+            } else
                 $this->userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
         }
 */

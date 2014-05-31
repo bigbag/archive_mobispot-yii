@@ -19,5 +19,3 @@ class YPageNotFoundException extends CException
     }
 
 }
-
-?>

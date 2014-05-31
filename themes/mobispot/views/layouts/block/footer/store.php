@@ -8,7 +8,7 @@
 <script src="/themes/mobispot/angular/app/controllers/store.js"></script>
 <script src="/themes/mobispot/angular/app/services.js"></script>
 <script src="/themes/mobispot/js/ga.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     $('textarea').autosize();
 </script>
 

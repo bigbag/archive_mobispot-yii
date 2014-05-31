@@ -35,7 +35,8 @@ require_once 'Zend/Gdata/YouTube.php';
 class Zend_Gdata_YouTube_InboxEntryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->entryText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/InboxEntryDataSample1.xml',
                 true);
@@ -47,7 +48,8 @@ class Zend_Gdata_YouTube_InboxEntryTest extends PHPUnit_Framework_TestCase
         $this->entry = new Zend_Gdata_YouTube_InboxEntry();
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($InboxEntry) {
+    private function verifyAllSamplePropertiesAreCorrect($InboxEntry)
+    {
         $this->assertEquals(
             'http://gdata.youtube.com/feeds/api/users/andyland74/' .
             'inbox/ffb9a5f32cd5f55',
@@ -139,43 +141,50 @@ class Zend_Gdata_YouTube_InboxEntryTest extends PHPUnit_Framework_TestCase
             $InboxEntry->getStatistics()->getViewCount());
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertEquals(0, count($this->entry->extensionElements));
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertEquals(0, count($this->entry->extensionAttributes));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertEquals(0, count($this->entry->extensionElements));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertEquals(0, count($this->entry->extensionAttributes));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElementsV2() {
+    public function testSampleEntryShouldHaveNoExtensionElementsV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->v2entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertEquals(0, count($this->entry->extensionElements));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributesV2() {
+    public function testSampleEntryShouldHaveNoExtensionAttributesV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->v2entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertEquals(0, count($this->entry->extensionAttributes));
     }
 
-    public function testEmptyInboxEntryToAndFromStringShouldMatch() {
+    public function testEmptyInboxEntryToAndFromStringShouldMatch()
+    {
         $entryXml = $this->entry->saveXML();
         $newInboxEntry = new Zend_Gdata_YouTube_InboxEntry();
         $newInboxEntry->transferFromXML($entryXml);
@@ -183,7 +192,8 @@ class Zend_Gdata_YouTube_InboxEntryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($entryXml == $newInboxEntryXml);
     }
 
-    public function testEmptyInboxEntryToAndFromStringShouldMatchV2() {
+    public function testEmptyInboxEntryToAndFromStringShouldMatchV2()
+    {
         $this->entry->transferFromXML($this->v2entryText);
         $entryXml = $this->entry->saveXML();
         $newInboxEntry = new Zend_Gdata_YouTube_InboxEntry();
@@ -193,18 +203,21 @@ class Zend_Gdata_YouTube_InboxEntryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($entryXml == $newInboxEntryXml);
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->verifyAllSamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testSamplePropertiesAreCorrectV2 () {
+    public function testSamplePropertiesAreCorrectV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->v2entryText);
         $this->verifyAllSamplePropertiesAreCorrectV2($this->entry);
     }
 
-    public function testConvertInboxEntryToAndFromString() {
+    public function testConvertInboxEntryToAndFromString()
+    {
         $this->entry->transferFromXML($this->entryText);
         $entryXml = $this->entry->saveXML();
         $newInboxEntry = new Zend_Gdata_YouTube_InboxEntry();

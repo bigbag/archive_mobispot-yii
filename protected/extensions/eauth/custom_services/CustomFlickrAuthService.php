@@ -32,7 +32,7 @@ class CustomFlickrAuthService extends EOAuthService
         //'oauth_timestamp' => time(),
         //'oauth_consumer_key' => $this->key,
         //'oauth_signature_method'=>'HMAC-SHA1',
-        //'oauth_version'=>'1.0',		
+        //'oauth_version'=>'1.0',
         $this->auth = new EOAuthUserIdentity(array(
             'scope' => $this->scope,
             'key' => $this->key,

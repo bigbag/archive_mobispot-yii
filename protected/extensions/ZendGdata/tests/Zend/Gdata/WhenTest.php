@@ -34,36 +34,42 @@ require_once 'Zend/Gdata.php';
 class Zend_Gdata_WhenTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->whenText = file_get_contents(
                 'Zend/Gdata/_files/WhenElementSample1.xml',
                 true);
         $this->when = new Zend_Gdata_Extension_When();
     }
 
-    public function testEmptyWhenShouldHaveNoExtensionElements() {
+    public function testEmptyWhenShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->when->extensionElements));
         $this->assertTrue(count($this->when->extensionElements) == 0);
     }
 
-    public function testEmptyWhenShouldHaveNoExtensionAttributes() {
+    public function testEmptyWhenShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->when->extensionAttributes));
         $this->assertTrue(count($this->when->extensionAttributes) == 0);
     }
 
-    public function testSampleWhenShouldHaveNoExtensionElements() {
+    public function testSampleWhenShouldHaveNoExtensionElements()
+    {
         $this->when->transferFromXML($this->whenText);
         $this->assertTrue(is_array($this->when->extensionElements));
         $this->assertTrue(count($this->when->extensionElements) == 0);
     }
 
-    public function testSampleWhenShouldHaveNoExtensionAttributes() {
+    public function testSampleWhenShouldHaveNoExtensionAttributes()
+    {
         $this->when->transferFromXML($this->whenText);
         $this->assertTrue(is_array($this->when->extensionAttributes));
         $this->assertTrue(count($this->when->extensionAttributes) == 0);
     }
 
-    public function testNormalWhenShouldHaveNoExtensionElements() {
+    public function testNormalWhenShouldHaveNoExtensionElements()
+    {
         $this->when->valueString = "Later";
         $this->when->endTime = "2007-06-21T21:31:56-07:00";
         $this->when->startTime = "2007-06-19T05:42:19-06:00";
@@ -93,7 +99,8 @@ class Zend_Gdata_WhenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("2007-06-19T05:42:19-06:00", $newWhen2->startTime);
     }
 
-    public function testEmptyWhenToAndFromStringShouldMatch() {
+    public function testEmptyWhenToAndFromStringShouldMatch()
+    {
         $whenXml = $this->when->saveXML();
         $newWhen = new Zend_Gdata_Extension_When();
         $newWhen->transferFromXML($whenXml);
@@ -101,7 +108,8 @@ class Zend_Gdata_WhenTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($whenXml == $newWhenXml);
     }
 
-    public function testWhenWithValueToAndFromStringShouldMatch() {
+    public function testWhenWithValueToAndFromStringShouldMatch()
+    {
         $this->when->valueString = "Later";
         $this->when->endTime = "2007-06-21T21:31:56-07:00";
         $this->when->startTime = "2007-06-19T05:42:19-06:00";
@@ -115,7 +123,8 @@ class Zend_Gdata_WhenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("2007-06-19T05:42:19-06:00", $this->when->startTime);
     }
 
-    public function testExtensionAttributes() {
+    public function testExtensionAttributes()
+    {
         $extensionAttributes = $this->when->extensionAttributes;
         $extensionAttributes['foo1'] = array('name'=>'foo1', 'value'=>'bar');
         $extensionAttributes['foo2'] = array('name'=>'foo2', 'value'=>'rab');
@@ -129,14 +138,16 @@ class Zend_Gdata_WhenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('rab', $newWhen->extensionAttributes['foo2']['value']);
     }
 
-    public function testConvertFullWhenToAndFromString() {
+    public function testConvertFullWhenToAndFromString()
+    {
         $this->when->transferFromXML($this->whenText);
         $this->assertEquals("Tomorrow @ 5 PM", $this->when->valueString);
         $this->assertEquals("2005-06-06T18:00:00-08:00", $this->when->endTime);
         $this->assertEquals("2005-06-06T17:00:00-08:00", $this->when->startTime);
     }
 
-    public function testToStringCanReturnValueString() {
+    public function testToStringCanReturnValueString()
+    {
         $this->when->transferFromXML($this->whenText);
         $this->assertEquals('Tomorrow @ 5 PM', $this->when->__toString());
     }

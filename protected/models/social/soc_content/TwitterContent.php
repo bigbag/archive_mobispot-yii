@@ -8,8 +8,7 @@ class TwitterContent extends SocContentBase
         $result = 'ok';
 
         $appToken = false;
-        if ($appToken === false)
-        {
+        if ($appToken === false) {
             $credentials = base64_encode(urlencode(Yii::app()->eauth->services['twitter']['key']) . ':' . urlencode(Yii::app()->eauth->services['twitter']['secret']));
             $url = 'https://api.twitter.com/oauth2/token';
             $ch = curl_init();
@@ -32,8 +31,7 @@ class TwitterContent extends SocContentBase
                 $appToken = $curl_result['access_token'];
         }
 
-        if (!(strpos($link, 'twitter.com/') !== false) or !(strpos($link, '/status/') !== false))
-        {
+        if (!(strpos($link, 'twitter.com/') !== false) or !(strpos($link, '/status/') !== false)) {
             //профиль
             $socUsername = self::parseUsername($link);
             $url = 'https://api.twitter.com/1.1/users/show.json';
@@ -54,10 +52,9 @@ class TwitterContent extends SocContentBase
                 Yii::log($curl_error, 'error', 'application');
 
             curl_close($ch);
-            
+
             $socUser = CJSON::decode($curl_result, true);
-            if (!empty($socUser['error']) || empty($socUser['id']))
-            {
+            if (!empty($socUser['error']) || empty($socUser['id'])) {
                 $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
             }
         }
@@ -71,8 +68,7 @@ class TwitterContent extends SocContentBase
 
         //$appToken = Yii::app()->cache->get('twitterAppToken');
         $appToken = false;
-        if ($appToken === false)
-        {
+        if ($appToken === false) {
             $credentials = base64_encode(urlencode(Yii::app()->eauth->services['twitter']['key']) . ':' . urlencode(Yii::app()->eauth->services['twitter']['secret']));
             $url = 'https://api.twitter.com/oauth2/token';
             $ch = curl_init();
@@ -93,9 +89,8 @@ class TwitterContent extends SocContentBase
         }
 
         $userDetail['block_type'] = self::TYPE_TWEET;
-        
-        if ((strpos($link, 'twitter.com/') !== false) && (strpos($link, '/status/') !== false))
-        {
+
+        if ((strpos($link, 'twitter.com/') !== false) && (strpos($link, '/status/') !== false)) {
             //твитт
             $tweetId = substr($link, (strpos($link, '/status/') + 8));
             $tweetId = self::rmGetParam($tweetId);
@@ -114,17 +109,14 @@ class TwitterContent extends SocContentBase
 
             $tweet = CJSON::decode($curl_result, true);
 
-            if (!empty($tweet['id']))
-            {
+            if (!empty($tweet['id'])) {
                 $userDetail['tweet_id'] = $tweet['id'];
                 if (isset($tweet['user']) && isset($tweet['user']['name']))
                     $userDetail['tweet_author'] = $tweet['user']['name'];
-                if (isset($tweet['user']) && isset($tweet['user']['screen_name']))
-                {
+                if (isset($tweet['user']) && isset($tweet['user']['screen_name'])) {
                     $userDetail['tweet_username'] = $tweet['user']['screen_name'];
                     $userDetail['soc_url'] = 'https://twitter.com/' . $tweet['user']['screen_name'];
-                }
-                else
+                } else
                     $userDetail['soc_url'] = 'https://twitter.com/' . self::parseUsername($link);
                 if (isset($tweet['user']) && isset($tweet['user']['followers_count']))
                     $userDetail['followers_count'] = $tweet['user']['followers_count'];
@@ -134,12 +126,9 @@ class TwitterContent extends SocContentBase
                     $userDetail['photo'] = $tweet['user']['profile_image_url'];
                 if (isset($tweet['created_at']))
                     $userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($tweet['created_at']));
-            }
-            else
+            } else
                 $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
-        }
-        else
-        {
+        } else {
             //профиль
             $socUsername = self::parseUsername($link);
 
@@ -160,8 +149,7 @@ class TwitterContent extends SocContentBase
             curl_close($ch);
             $userFeed = CJSON::decode($curl_result, true);
 
-            if (isset($userFeed[0]) && !empty($userFeed[0]['id']))
-            {
+            if (isset($userFeed[0]) && !empty($userFeed[0]['id'])) {
                 $userDetail['tweet_id'] = $userFeed[0]['id'];
                 if (isset($userFeed[0]['user']) && isset($userFeed[0]['user']['name']))
                     $userDetail['tweet_author'] = $userFeed[0]['user']['name'];
@@ -184,8 +172,7 @@ class TwitterContent extends SocContentBase
     public static function parseUsername($link)
     {
         $username = $link;
-        if (strpos($username, 'twitter.com/') !== false)
-        {
+        if (strpos($username, 'twitter.com/') !== false) {
             $username = substr($username, (strpos($username, 'twitter.com/') + 12));
             $username = self::rmGetParam($username);
         }
@@ -267,8 +254,7 @@ class TwitterContent extends SocContentBase
     {
         $r = 'Authorization: OAuth ';
         $values = array();
-        foreach ($oauth as $key => $value)
-        {
+        foreach ($oauth as $key => $value) {
             $values[] = "$key=\"" . rawurlencode($value) . "\"";
         }
         $r .= implode(', ', $values);
@@ -279,34 +265,33 @@ class TwitterContent extends SocContentBase
     {
         $r = array();
         ksort($params);
-        foreach ($params as $key => $value)
-        {
+        foreach ($params as $key => $value) {
             $r[] = "$key=" . rawurlencode($value);
         }
         return $method . "&" . rawurlencode($baseURI) . '&' . rawurlencode(implode('&', $r));
     }
-    
+
     public static function checkSharing($sharing_type, $link)
     {
         $answer = false;
-        
+
         switch($sharing_type) {
             /*
-            case Loyalty::TWITTER_SHARE: 
+            case Loyalty::TWITTER_SHARE:
                 $answer = self::checkTwitSharing($link);
             break;
             */
-            case Loyalty::TWITTER_RETWIT: 
+            case Loyalty::TWITTER_RETWIT:
                 $answer = self::checkRetwit($link);
             break;
-            case Loyalty::TWITTER_READING: 
+            case Loyalty::TWITTER_READING:
                 $answer = self::checkReading($link);
             break;
-            case Loyalty::TWITTER_HASHTAG: 
+            case Loyalty::TWITTER_HASHTAG:
                 $answer = self::checkHashtag($link);
             break;
         }
-        
+
         return $answer;
     }
 
@@ -315,14 +300,14 @@ class TwitterContent extends SocContentBase
         //https://dev.twitter.com/docs/api/1.1/get/search/tweets
         return false;
     }
-    
+
     public static function checkReading($sharing_type, $link)
     {
         return false;
     }
-    
+
     public static function checkHashtag($sharing_type, $link)
     {
         return false;
-    }   
+    }
 }

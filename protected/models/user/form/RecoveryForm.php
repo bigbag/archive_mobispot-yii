@@ -37,8 +37,7 @@ class RecoveryForm extends CFormModel
 
     public function checkexists($attribute, $params)
     {
-        if (!$this->hasErrors())
-        {
+        if (!$this->hasErrors()) {
             $user = User::model()->findByAttributes(array('email' => $this->email));
 
             if ($user = null)

@@ -41,7 +41,7 @@
             <?php if (!empty($name)): ?>
                 <div class="spot-item">
                     <?php if (!empty($link[$i])): ?>
-                        <a href="<?php echo YText::formatUrl($link[$i]) ?>" class="item-area type-link"> 
+                        <a href="<?php echo YText::formatUrl($link[$i]) ?>" class="item-area type-link">
                             <?php echo $name; ?>
                         </a>
                     <?php else: ?>

@@ -103,8 +103,7 @@ class SocToken extends CActiveRecord
     public function getTypeByService($service)
     {
         $ind = -1;
-        foreach (self::getTypeList() as $key => $value)
-        {
+        foreach (self::getTypeList() as $key => $value) {
             if ($value == $service)
                 return $key;
         }
@@ -119,9 +118,9 @@ class SocToken extends CActiveRecord
         $userToken = SocToken::model()->findByAttributes(
             array(
                 'soc_id'=>$info['id'])
-            ); 
+            );
         if (!$userToken) $userToken = new SocToken;
-        
+
         $userToken->type = SocToken::getTypeByService($info['service']);
         $userToken->user_id = $info['user_id'];
         $userToken->soc_id = $info['id'];
@@ -131,10 +130,10 @@ class SocToken extends CActiveRecord
         $userToken->token_expires = (!empty($info['expires'])) ? $info['expires'] : Null;
         $userToken->soc_username = (!empty($info['name'])) ? $info['name'] : Null;
         $userToken->allow_login = true;
-        
+
         if (SocInfo::writeAccessBySocInfo($info))
             $userToken->write_access = true;
-            
+
         if ($userToken->save())
             return $userToken;
     }
