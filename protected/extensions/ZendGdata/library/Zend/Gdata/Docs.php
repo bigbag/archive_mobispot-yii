@@ -108,7 +108,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      * @return string The mime type to be sent to the server to tell it how the
      *          multipart mime data should be interpreted.
      */
-    public static function lookupMimeType($fileExtension) {
+    public static function lookupMimeType($fileExtension)
+    {
       return self::$SUPPORTED_FILETYPES[strtoupper($fileExtension)];
     }
 
@@ -122,7 +123,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
     {
         if ($location === null) {
             $uri = self::DOCUMENTS_LIST_FEED_URI;
-        } else if ($location instanceof Zend_Gdata_Query) {
+        } elseif ($location instanceof Zend_Gdata_Query) {
             $uri = $location->getQueryUrl();
         } else {
             $uri = $location;
@@ -142,7 +143,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
                     'Location must not be null');
-        } else if ($location instanceof Zend_Gdata_Query) {
+        } elseif ($location instanceof Zend_Gdata_Query) {
             $uri = $location->getQueryUrl();
         } else {
             $uri = $location;
@@ -161,7 +162,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      *     Document List URLs. Examples: document, spreadsheet, presentation
      * @return Zend_Gdata_Docs_DocumentListEntry
      */
-    public function getDoc($docId, $docType) {
+    public function getDoc($docId, $docType)
+    {
         $location = 'https://docs.google.com/feeds/documents/private/full/' .
             $docType . '%3A' . $docId;
         return $this->getDocumentListEntry($location);
@@ -173,7 +175,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      * @param string $id The URL id for the document. Example:
      *     dcmg89gw_62hfjj8m
      */
-    public function getDocument($id) {
+    public function getDocument($id)
+    {
       return $this->getDoc($id, 'document');
     }
 
@@ -183,7 +186,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      * @param string $id The URL id for the document. Example:
      *     pKq0CzjiF3YmGd0AIlHKqeg
      */
-    public function getSpreadsheet($id) {
+    public function getSpreadsheet($id)
+    {
       return $this->getDoc($id, 'spreadsheet');
     }
 
@@ -193,7 +197,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      * @param string $id The URL id for the document. Example:
      *     dcmg89gw_21gtrjcn
      */
-    public function getPresentation($id) {
+    public function getPresentation($id)
+    {
       return $this->getDoc($id, 'presentation');
     }
 
@@ -264,7 +269,8 @@ class Zend_Gdata_Docs extends Zend_Gdata
      * @todo ZF-8732: This should return a *subclass* of Zend_Gdata_Entry, but
      *       the appropriate type doesn't exist yet.
      */
-    public function createFolder($folderName, $folderResourceId=null) {
+    public function createFolder($folderName, $folderResourceId=null)
+    {
         $category = new Zend_Gdata_App_Extension_Category(self::DOCUMENTS_CATEGORY_TERM,
                                                           self::DOCUMENTS_CATEGORY_SCHEMA);
         $title = new Zend_Gdata_App_Extension_Title($folderName);

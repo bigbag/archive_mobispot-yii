@@ -23,17 +23,14 @@ class CArray
     public static function callback_string($str)
     {
         // command[param,param]
-        if (preg_match('/([^\[]*+)\[(.+)\]/', (string) $str, $match))
-        {
+        if (preg_match('/([^\[]*+)\[(.+)\]/', (string) $str, $match)) {
             // command
             $command = $match[1];
 
             // param,param
             $params = preg_split('/(?<!\\\\),/', $match[2]);
             $params = str_replace('\,', ',', $params);
-        }
-        else
-        {
+        } else {
             // command
             $command = $str;
 
@@ -56,11 +53,9 @@ class CArray
     public static function rotate($source_array, $keep_keys = TRUE)
     {
         $new_array = array();
-        foreach ($source_array as $key => $value)
-        {
+        foreach ($source_array as $key => $value) {
             $value = ($keep_keys === TRUE) ? $value : array_values($value);
-            foreach ($value as $k => $v)
-            {
+            foreach ($value as $k => $v) {
                 $new_array[$k][$key] = $v;
             }
         }
@@ -101,14 +96,10 @@ class CArray
         $keys = array_slice(func_get_args(), 1);
 
         $found = array();
-        foreach ($keys as $key)
-        {
-            if (isset($search[$key]))
-            {
+        foreach ($keys as $key) {
+            if (isset($search[$key])) {
                 $found[$key] = $search[$key];
-            }
-            else
-            {
+            } else {
                 $found[$key] = NULL;
             }
         }
@@ -143,8 +134,7 @@ class CArray
      */
     public static function map_recursive($callback, array $array)
     {
-        foreach ($array as $key => $val)
-        {
+        foreach ($array as $key => $val) {
             // Map the callback to the key
             $array[$key] = is_array($val) ? arr::map_recursive($callback, $val) : call_user_func($callback, $val);
         }
@@ -163,29 +153,23 @@ class CArray
      */
     public static function binary_search($needle, $haystack, $nearest = FALSE, $sort = FALSE)
     {
-        if ($sort === TRUE)
-        {
+        if ($sort === TRUE) {
             sort($haystack);
         }
 
         $high = count($haystack);
         $low = 0;
 
-        while ($high - $low > 1)
-        {
+        while ($high - $low > 1) {
             $probe = ($high + $low) / 2;
-            if ($haystack[$probe] < $needle)
-            {
+            if ($haystack[$probe] < $needle) {
                 $low = $probe;
-            }
-            else
-            {
+            } else {
                 $high = $probe;
             }
         }
 
-        if ($high == count($haystack) OR $haystack[$high] != $needle)
-        {
+        if ($high == count($haystack) OR $haystack[$high] != $needle) {
             if ($nearest === FALSE)
                 return FALSE;
 
@@ -211,30 +195,20 @@ class CArray
         $total = func_num_args();
 
         $result = array();
-        for ($i = 0; $i < $total; $i++)
-        {
-            foreach (func_get_arg($i) as $key => $val)
-            {
-                if (isset($result[$key]))
-                {
-                    if (is_array($val))
-                    {
+        for ($i = 0; $i < $total; $i++) {
+            foreach (func_get_arg($i) as $key => $val) {
+                if (isset($result[$key])) {
+                    if (is_array($val)) {
                         // Arrays are merged recursively
                         $result[$key] = arr::merge($result[$key], $val);
-                    }
-                    elseif (is_int($key))
-                    {
+                    } elseif (is_int($key)) {
                         // Indexed arrays are appended
                         array_push($result, $val);
-                    }
-                    else
-                    {
+                    } else {
                         // Associative arrays are replaced
                         $result[$key] = $val;
                     }
-                }
-                else
-                {
+                } else {
                     // New values are added
                     $result[$key] = $val;
                 }
@@ -254,12 +228,9 @@ class CArray
      */
     public static function overwrite($array1)
     {
-        foreach (array_slice(func_get_args(), 1) as $array2)
-        {
-            foreach ($array2 as $key => $value)
-            {
-                if (array_key_exists($key, $array1))
-                {
+        foreach (array_slice(func_get_args(), 1) as $array2) {
+            foreach ($array2 as $key => $value) {
+                if (array_key_exists($key, $array1)) {
                     $array1[$key] = $value;
                 }
             }
@@ -281,8 +252,7 @@ class CArray
             return array();
 
         $array = array();
-        for ($i = $step; $i <= $max; $i += $step)
-        {
+        for ($i = $step; $i <= $max; $i += $step) {
             $array[$i] = $i;
         }
 
@@ -299,10 +269,8 @@ class CArray
     {
         $object = new $class;
 
-        foreach ($array as $key => $value)
-        {
-            if (is_array($value))
-            {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 // Convert the array to an object
                 $value = arr::to_object($value, $class);
             }

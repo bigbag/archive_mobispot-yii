@@ -7,10 +7,16 @@
             </a>
         </div>
         <div class="type-mess item-body">
-            <div class="item-user-avatar"><img width="50" height="50" src="<?php echo $socContent['photo'] ?>"></div>
+            <div class="item-user-avatar">
+            <?php if (!empty($socContent['photo'])):?>
+                <img width="50" height="50" src="<?php echo $socContent['photo'] ?>">
+            <?php endif ?>
+            </div>
             <div class="mess-body">
                 <div class="author-row">
+                    <?php if (!empty($socContent['soc_username'])): ?>
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                    <?php endif ?>
                     <b class="time">
                     <?php if (!empty($socContent['sub-time'])):?>
                         <?php echo $socContent['sub-time']; ?>
@@ -24,7 +30,7 @@
                     </div>
                 </div>
                 <div class="ins-block">
-                    <p>                    
+                    <p>
                     <?php if (!empty($socContent['checkin_shout'])):?>
                         <?php echo $socContent['checkin_shout']; ?>
                     <?php endif ?>

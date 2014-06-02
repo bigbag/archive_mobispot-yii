@@ -1,5 +1,5 @@
 <div id="extraMediaForm" class="linking">
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('facebook', $spotNets))?
         ' binded':''
         ?>"
@@ -9,7 +9,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/facebook.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('twitter', $spotNets))?
         ' binded':''
         ?>"
@@ -19,7 +19,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/twitter.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('linkedin', $spotNets))?
         ' binded':''
         ?>"
@@ -29,7 +29,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/linkedin.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('foursquare', $spotNets))?
         ' binded':''
         ?>"
@@ -39,7 +39,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/foursquare.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('google_oauth', $spotNets))?
         ' binded':''
         ?>"
@@ -49,7 +49,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/google.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('YouTube', $spotNets))?
         ' binded':''
         ?>"
@@ -59,7 +59,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/youtube.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('vimeo', $spotNets))?
         ' binded':''
         ?>"
@@ -69,7 +69,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/vimeo.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('vk', $spotNets))?
         ' binded':''
         ?>"
@@ -79,7 +79,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/vk.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('Behance', $spotNets))?
         ' binded':''
         ?>"
@@ -89,7 +89,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/behance.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('deviantart', $spotNets))?
         ' binded':''
         ?>"
@@ -99,7 +99,7 @@
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/deviantart.png">
     </a>
-    <a class="link<?php 
+    <a class="link<?php
         echo (SocInfo::nameInList('instagram', $spotNets))?
         ' binded':''
         ?>"

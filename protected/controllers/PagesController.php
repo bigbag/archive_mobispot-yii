@@ -19,11 +19,11 @@ class PagesController extends MController
     {
         $this->layout = '//layouts/all';
         $config = DemoKitOrder::getConfig();
-	    $this->render(
-           'demo_kit', 
-           array(
-               'config'=>$config,
-           )
+        $this->render(
+            'demo_kit',
+            array(
+                'config'=>$config,
+            )
         );
     }
 }

@@ -32,16 +32,15 @@ class DemoKitList extends CActiveRecord
             array('order_id, spot_type, count', 'numerical', 'integerOnly' => true),
         );
     }
-    
+
     public function saveFromArray($products, $order_id)
     {
         $success = false;
         $config = DemoKitOrder::getConfig();
-        foreach($products as $product_id => $product_count)
-        {
+        foreach($products as $product_id => $product_count) {
             if (!DemoKitOrder::getProduct($product_id))
                 continue;
-            
+
             $item = new self();
             $item->order_id = $order_id;
             $item->spot_type = $product_id;
@@ -49,7 +48,7 @@ class DemoKitList extends CActiveRecord
             if ($item->save())
                 $success = true;
         }
-        
+
         return $success;
     }
 }

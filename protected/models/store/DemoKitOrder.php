@@ -6,7 +6,7 @@
 class DemoKitOrder extends CActiveRecord
 {
     const STATUS_CREATED = 0;
-    
+
     const PAYMENT_BY_CARD = 'AC';
     const PAYMENT_BY_YM = 'PC';
     const PAYMENT_MAIL = 'email';
@@ -66,7 +66,7 @@ class DemoKitOrder extends CActiveRecord
                         'id' => 2,
                         'name' => Yii::t('store', 'Yandex.Money'),
                         'action' => self::PAYMENT_BY_YM,
-                    ),                
+                    ),
                     array(
                         'id' => 3,
                         'name' => Yii::t('store', 'Bank transfer'),
@@ -75,7 +75,7 @@ class DemoKitOrder extends CActiveRecord
                 )
         );
     }
-    
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -106,18 +106,17 @@ class DemoKitOrder extends CActiveRecord
             array('payment', 'checkPayment'),
         );
     }
-    
+
     public function getShipping($ids)
     {
         $answer = false;
         $config = DemoKitOrder::getConfig();
-        
-        foreach ($config['shipping'] as $shipping)
-        {
+
+        foreach ($config['shipping'] as $shipping) {
             if ($shipping['id'] == $ids)
                 $answer = $shipping;
         }
-        
+
         return $answer;
     }
 
@@ -125,22 +124,21 @@ class DemoKitOrder extends CActiveRecord
     {
         $config = DemoKitOrder::getConfig();
         $shipping=self::getShipping($this->$attribute);
-        
+
         if (!$shipping)
             $this->addError($attribute, Yii::t('store','Некорректный способ доставки!'));
     }
-    
+
     public function getPayment($idp)
     {
         $answer = false;
         $config = DemoKitOrder::getConfig();
-        
-        foreach ($config['payment'] as $payment)
-        {
+
+        foreach ($config['payment'] as $payment) {
             if ($payment['id'] == $idp)
                 $answer = $payment;
         }
-        
+
         return $answer;
     }
 
@@ -148,93 +146,89 @@ class DemoKitOrder extends CActiveRecord
     {
         $config = DemoKitOrder::getConfig();
         $payment=self::getPayment($this->$attribute);
-        
+
         if (!$payment)
             $this->addError($attribute, Yii::t('store','Некорректный способ оплаты!'));
     }
-    
+
     public function getProduct($idp)
     {
         $answer = false;
         $config = DemoKitOrder::getConfig();
-        
-        foreach ($config['product'] as $product)
-        {
+
+        foreach ($config['product'] as $product) {
             if ($product['id'] == $idp)
                 $answer = $product;
         }
-        
+
         return $answer;
     }
-    
+
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             $this->status = self::STATUS_CREATED;
         }
 
         return parent::beforeValidate();
     }
-    
+
     public function calcSubtotal()
     {
         $config = self::getConfig();
         return $config['price'];
     }
-    
+
     public function calcSumm()
     {
         /*
         if (empty($this->id))
             return false;
         $summ = 0;
-        
+
         $items = DemoKitList::model()->findAllByAttributes(array('order_id'=>$this->id));
-        
-        foreach ($items as $item)
-        {
+
+        foreach ($items as $item) {
             $product = self::getProduct($item->spot_type);
             $summ += $product['price'] * $item->count;
         }
         */
         $config = self::getConfig();
         $summ = $config['price'];
-        
+
         if (empty($this->shipping))
             return $summ;
-        
+
         $shipping = self::getShipping($this->shipping);
-        $summ += $shipping['price'];        
-        
+        $summ += $shipping['price'];
+
         return $summ;
     }
-    
+
     public static function getDollarRate($timestamp = 0)
     {
         if ($timestamp == 0)
             $timestamp = time();
         $xml_rates = simplexml_load_file("http://www.cbr.ru/scripts/XML_daily.asp?date_req=".date("d/m/Y", $timestamp));
         foreach($xml_rates as $key=>$v){
-            if($v->Name == 'Доллар США')
-            {
+            if($v->Name == 'Доллар США') {
                 $rate = $v->Value;
             }
         }
-        
+
         return (float)(str_replace(',', '.', $rate));
     }
-    
+
     public function getSummRub()
     {
         return round($this->calcSumm() * self::getDollarRate(), 2);
     }
-    
+
     public function fromArray($data)
     {
         $order = new self();
-            
+
         if (!empty($data['email']))
             $order->email = $data['email'];
         if (!empty($data['name']))
@@ -253,10 +247,10 @@ class DemoKitOrder extends CActiveRecord
             $order->shipping = $data['shipping'];
         if (!empty($data['payment']))
             $order->payment = $data['payment'];
-            
+
         return $order;
     }
-    
+
     public function makeMailOrder()
     {
         $shipping = self::getShipping($this->shipping);
@@ -273,14 +267,14 @@ class DemoKitOrder extends CActiveRecord
         $mailOrder['shipping_price'] = $shipping['price'];
         $mailOrder['subtotal'] = $this->calcSubtotal();
         $mailOrder['total'] = $this->calcSumm();
-        
+
         $items = array();
         $config = self::getConfig();
         foreach ($config['product'] as $item)
             $items[] = array('name' => $item['name'], 'count' => $config['defalutCountForAll']);
-        
-        $mailOrder['items'] = $items; 
-    
+
+        $mailOrder['items'] = $items;
+
         return $mailOrder;
     }
 

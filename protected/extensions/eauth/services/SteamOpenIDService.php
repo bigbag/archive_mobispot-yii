@@ -14,8 +14,8 @@ require_once dirname(dirname(__FILE__)) . '/EOpenIDService.php';
  *
  * @package application.extensions.eauth.services
  */
-class SteamOpenIDService extends EOpenIDService {
-
+class SteamOpenIDService extends EOpenIDService
+{
     protected $name = 'steam';
     protected $title = 'Steam';
     protected $type = 'OpenID';
@@ -23,7 +23,8 @@ class SteamOpenIDService extends EOpenIDService {
 
     protected $url = 'http://steamcommunity.com/openid/';
 
-    protected function fetchAttributes() {
+    protected function fetchAttributes()
+    {
         if (isset($this->attributes['id'])) {
             $urlChunks = explode('/', $this->attributes['id']);
             if ($count = count($urlChunks)) {

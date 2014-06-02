@@ -41,12 +41,10 @@ class MController extends Controller
 
     public function userInfo()
     {
-        if (Yii::app()->user->id)
-        {
+        if (Yii::app()->user->id) {
             $id = Yii::app()->user->id;
             $info = Yii::app()->cache->get('user_' . $id);
-            if ($info == false)
-            {
+            if ($info == false) {
                 $info = UserProfile::model()->findByPk($id);
                 $user = User::model()->findByPk($id);
                 if (empty($info->name))
@@ -56,16 +54,14 @@ class MController extends Controller
             }
 
             return $info;
-        }
-        else
+        } else
             return false;
     }
 
     public function lastVisit()
     {
         $user = User::model()->findByPk(Yii::app()->user->id);
-        if ($user)
-        {
+        if ($user) {
             $user->lastvisit = date('Y-m-d H:i:s');
             if ($user->save(false))
                 return true;
@@ -111,12 +107,14 @@ class MController extends Controller
         return CJSON::decode($post, true);
     }
 
-    public function getJsonAndExit($result){
+    public function getJsonAndExit($result)
+    {
         echo json_encode($result);
         exit;
     }
 
-    public function getJsonOrRedirect($result, $target){
+    public function getJsonOrRedirect($result, $target)
+    {
         if (Yii::app()->request->isPostRequest)
             $this->getJsonAndExit($result);
         else
@@ -164,8 +162,7 @@ class MController extends Controller
     public function getResolution()
     {
         $resolution = $this->defaultResolution;
-        if (isset(Yii::app()->request->cookies['resolution']))
-        {
+        if (isset(Yii::app()->request->cookies['resolution'])) {
             $resolution = Yii::app()->request->cookies['resolution']->value;
             if ($resolution < self::MIN_RESOLUTION) $resolution = self::MIN_RESOLUTION;
 
@@ -173,7 +170,8 @@ class MController extends Controller
         return $resolution;
     }
 
-    public function setCurlRequest($url, $data=false) {
+    public function setCurlRequest($url, $data=false)
+    {
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, (string)$url);
         if ($data) {
@@ -202,17 +200,12 @@ class MController extends Controller
         $all_lang = Lang::getLangArray();
         $select_lang = 'en';
 
-        if (isset(Yii::app()->request->cookies['lang']))
-        {
+        if (isset(Yii::app()->request->cookies['lang'])) {
             $select_lang = Yii::app()->request->cookies['lang']->value;
-        }
-        elseif (Yii::app()->user->id)
-        {
+        } elseif (Yii::app()->user->id) {
             $user = User::getById(Yii::app()->user->id);
             $select_lang = $user->lang;
-        }
-        else
-        {
+        } else {
             $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
             $select_lang = substr($lang_request,0,1);
         }

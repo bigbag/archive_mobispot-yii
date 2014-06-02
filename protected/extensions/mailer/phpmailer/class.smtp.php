@@ -46,7 +46,7 @@
  * original author: Chris Ryan
  */
 
-class SMTP
+class smtp
 {
     /**
      *  SMTP server port
@@ -829,5 +829,3 @@ class SMTP
     }
 
 }
-
-?>

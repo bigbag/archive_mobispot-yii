@@ -23,66 +23,51 @@ class SpotController extends MController
     //Отоюражение спота на мобильном
     public function actionIndex()
     {
-        if (Yii::app()->request->getQuery('url', 0))
-        {
+        if (Yii::app()->request->getQuery('url', 0)) {
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
 
-            if ($spot && !empty($spot->pass))
-            {
+            if ($spot && !empty($spot->pass)) {
                 $block = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id, 'whitelist' => null));
                 $whitelist = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id, 'whitelist' => true));
-                if ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) < time())
-                {
+                if ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) < time()) {
                     //обнуление счетчика по окончанию бана
                     $block->blocked_until = null;
                     $block->fails = 0;
                     $block->save();
                 }
-            }
-            else
-            {
+            } else {
                 $block = false;
                 $whitelist = false;
             }
 
-            if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] >= time()))
-            {
+            if (isset(Yii::app()->session['spot_view_ban']) && (Yii::app()->session['spot_view_ban'] >= time())) {
                 //забанен за перебор url'ов
                 $this->redirect(array('error'));
-            }
-            elseif (!$spot)
-            {
+            } elseif (!$spot) {
                 //счетчик банов
                 $this->setBanned();
-            }
-            elseif ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) >= time())
-            {
+            } elseif ($block && !empty($block->blocked_until) && strtotime($block->blocked_until) >= time()) {
                 //забанен за перебор пароля
                 $this->setAccess();
                 //$this->redirect(array('error'));
-            }
-            elseif (!empty($spot->pass) && !(Yii::app()->request->getPost('pass')) && !$whitelist)
-            {
+            } elseif (!empty($spot->pass) && !(Yii::app()->request->getPost('pass')) && !$whitelist) {
                 //отображение клавиатуры пароля
                 $this->render('/widget/spot/pass');
-            }
-            elseif (!empty($spot->pass)
+            } elseif (!empty($spot->pass)
                     && (Yii::app()->request->getPost('pass'))
                     && (!(Yii::app()->request->getPost('token')) || Yii::app()->request->getPost('token') != Yii::app()->request->csrfToken)
                     )
             {
                 //пришел пароль, но нет жетона
                 $this->setBadRequest();
-            }
-            elseif (!empty($spot->pass)
+            } elseif (!empty($spot->pass)
                     && (Yii::app()->request->getPost('pass'))
                     && !(Yii::app()->request->getPost('pass') == $spot->pass)
                     )
             {
                 //пришел неверный пароль
-                if (!$block)
-                {
+                if (!$block) {
                     $block = new SpotBlock;
                     $block->token = Yii::app()->request->csrfToken;
                     $block->discodes_id = $spot->discodes_id;
@@ -92,33 +77,26 @@ class SpotController extends MController
                 $block->fails = $block->fails + 1;
                 $block->save();
 
-                if ($block->fails >= 3)
-                {
+                if ($block->fails >= 3) {
                     //бан
                     $block->blocked_until = date('Y-m-d H:i:s', (time() + 3*60*60));
                     $block->save();
                     $this->redirect(Yii::app()->request->requestUri);
                     $this->setAccess();
-                }
-                else
+                } else
                     $this->render('/widget/spot/pass', array('wrongPass'=> Yii::app()->request->getPost('pass')));
-            }
-            else
-            {
+            } else {
                 //отображение спота
-                if (isset(Yii::app()->session['spot_view_error_count']))
-                {
+                if (isset(Yii::app()->session['spot_view_error_count'])) {
                     //сброс счетчика перебора url
                     Yii::app()->session['spot_view_error_count'] = 0;
                     Yii::app()->session['spot_view_ban'] = 0;
                 }
 
-                if (!empty($spot->pass))
-                {
+                if (!empty($spot->pass)) {
                     //белый список - не запрашивать пароль спота
                     $newWhitelist = SpotBlock::model()->findByAttributes(array('token' => Yii::app()->request->csrfToken, 'discodes_id' => $spot->discodes_id));
-                    if (!$newWhitelist)
-                    {
+                    if (!$newWhitelist) {
                         $newWhitelist = new SpotBlock;
                         $newWhitelist->token = Yii::app()->request->csrfToken;
                         $newWhitelist->discodes_id = $spot->discodes_id;
@@ -140,48 +118,36 @@ class SpotController extends MController
                 $dataKeys = array_keys($content['keys']);
                 $fileKeys = array_keys($content['keys'], 'file');
 
-                if (count($dataKeys) == 0)
-                {
+                if (count($dataKeys) == 0) {
                     $this->setNotFound();
                 }
 
-                if ($content['private'] == 0)
-                {
+                if ($content['private'] == 0) {
                     //только файлы
-                    if (count($fileKeys) == count($dataKeys))
-                    {
+                    if (count($fileKeys) == count($dataKeys)) {
                         $this->render('/widget/spot/send', array('content' => $content));
-                    }
-                    else
-                    {
+                    } else {
                         $url = $this->urlActivate($content['data'][$dataKeys[0]]);
                         $urlVal = new CUrlValidator;
 
                         //одна ссылка
-                        if ((count($content['data']) == 1) and ($content['keys'][$dataKeys[0]] == 'text') and ($urlVal->validateValue($url)))
-                        {
+                        if ((count($content['data']) == 1) and ($content['keys'][$dataKeys[0]] == 'text') and ($urlVal->validateValue($url))) {
                             $this->redirect($url);
                         }
                         //стандартное отображение
-                        else
-                        {
+                        else {
                             $size = count($content['keys']);
-                            for ($i = 0; $i < $size; $i++)
-                            {
-                                if ($content['keys'][$dataKeys[$i]] == 'socnet')
-                                {
+                            for ($i = 0; $i < $size; $i++) {
+                                if ($content['keys'][$dataKeys[$i]] == 'socnet') {
                                     $link = $content['data'][$dataKeys[$i]];
                                     $socInfo = new SocInfo;
                                     $socData = $socInfo->getNetData($link, $spot->discodes_id, $dataKeys[$i]);
-                                    if (isset($socData['netName']))
-                                    {
+                                    if (isset($socData['netName'])) {
                                         if(empty($socData['soc_url']))
                                             $socData['soc_url'] = $link;
                                         $content['data'][$dataKeys[$i]] = $socData;
                                     }
-                                }
-                                elseif ($content['keys'][$dataKeys[$i]] == 'content')
-                                {
+                                } elseif ($content['keys'][$dataKeys[$i]] == 'content') {
                                     $socInfo = new SocInfo;
                                     $net = $socInfo->getNetByLink($content['data'][$dataKeys[$i]]['binded_link']);
                                     if (!empty($content['data'][$dataKeys[$i]]['check_following'])
@@ -200,25 +166,19 @@ class SpotController extends MController
                             $this->render('/widget/spot/personal', array('content' => $content));
                         }
                     }
-                }
-                else
-                {
+                } else {
                     $baseUrl = $this->createAbsoluteUrl("");
-                    if ((strpos($baseUrl, "http://") > 0) || (strpos($baseUrl, "http://") !== false))
-                    {
+                    if ((strpos($baseUrl, "http://") > 0) || (strpos($baseUrl, "http://") !== false)) {
                         $baseUrl = substr($baseUrl, (strpos($baseUrl, "http://") + 7));
                     }
-                    if (strpos($baseUrl, "/") > 0)
-                    {
+                    if (strpos($baseUrl, "/") > 0) {
                         $baseUrl = substr($baseUrl, 0, strpos($baseUrl, "/"));
                     }
                     $baseUrl = "http://" . $baseUrl;
                     $this->redirect($baseUrl);
                 }
             }
-        }
-        else
-        {
+        } else {
             $this->setNotFound();
         }
     }
@@ -228,13 +188,11 @@ class SpotController extends MController
         $data = $this->validateRequest();
         $answer = array();
 
-        if (!empty($data['service']) && !empty($data['param']))
-        {
+        if (!empty($data['service']) && !empty($data['param'])) {
             $socInfo = new SocInfo;
             $answer['LoggedIn'] = false;
 
-            if ($socInfo->isLoggegOn($data['service'], false))
-            {
+            if ($socInfo->isLoggegOn($data['service'], false)) {
                 $answer['LoggedIn'] = true;
                 $followResult = $socInfo->followSocial($data['service'], $data['param']);
                 foreach($followResult as $fKey => $fValue)
@@ -254,30 +212,24 @@ class SpotController extends MController
         if (empty($returnUrl) && !empty(Yii::app()->session['returnUrl']))
             $returnUrl = Yii::app()->session['returnUrl'];
 
-        if (!empty($service) && !empty($returnUrl))
-        {
+        if (!empty($service) && !empty($returnUrl)) {
             $authIdentity = Yii::app()->eauth->getIdentity($service);
             $authIdentity->redirectUrl = $returnUrl;
             $authIdentity->cancelUrl = $returnUrl;
 
-            if ($authIdentity->authenticate())
-            {
+            if ($authIdentity->authenticate()) {
                 $identity = new ServiceUserIdentity($authIdentity);
 
-                if ($identity->authenticate())
-                {
+                if ($identity->authenticate()) {
                     Yii::app()->session[$service] = 'auth';
-                    if (strpos($returnUrl, '&follow_param=') !== false)
-                    {
+                    if (strpos($returnUrl, '&follow_param=') !== false) {
                         $followParam = substr($returnUrl, strpos($returnUrl, '&follow_param=') + strlen('&follow_param='));
                         if (strpos($followParam, '&') !== false)
                             $followParam = substr($followParam, 0, strpos($followParam, '&'));
                         $returnUrl = substr($returnUrl, 0, strpos($returnUrl, '&follow_param='));
-                    }
-                    else
+                    } else
                         $followParam = Yii::app()->request->getQuery('follow_param');
-                    if (!empty($followParam))
-                    {
+                    if (!empty($followParam)) {
                         $socInfo = new SocInfo;
                         $followResult = $socInfo->followSocial($service, $followParam);
                         if (isset($followResult['error']) && 'no' == $followResult['error'])
@@ -286,15 +238,11 @@ class SpotController extends MController
                     unset(Yii::app()->session['returnUrl']);
 
                     $this->redirect('http://' . $returnUrl);
-                }
-                else
-                {
+                } else {
                     $authIdentity->cancel();
                 }
             }
-        }
-        else
-        {
+        } else {
             $this->setNotFound();
         }
     }
@@ -302,14 +250,12 @@ class SpotController extends MController
     //Защита от перебора url
     public function setBanned()
     {
-        if (!isset(Yii::app()->session['spot_view_error_count']))
-        {
+        if (!isset(Yii::app()->session['spot_view_error_count'])) {
             Yii::app()->session['spot_view_error_count'] = 0;
         }
         Yii::app()->session['spot_view_error_count'] = Yii::app()->session['spot_view_error_count'] + 1;
 
-        if (Yii::app()->session['spot_view_error_count'] >= 5)
-        {
+        if (Yii::app()->session['spot_view_error_count'] >= 5) {
             Yii::app()->session['spot_view_error_count'] = 0;
             Yii::app()->session['spot_view_ban'] = self::BAN_TIME * 60 + time();
 
@@ -322,13 +268,11 @@ class SpotController extends MController
     {
         $url = Yii::app()->request->getQuery('id');
         $spot = Spot::model()->findByAttributes(array('url' => $url));
-        if ($spot and $spot->spot_type->key == 'personal')
-        {
+        if ($spot and $spot->spot_type->key == 'personal') {
             //$content=SpotModel::model()->findByAttributes(array('spot_id'=>$spot->discodes_id, 'type'=>$spot->type));
             $spotContent = SpotContent::getSpotContent($spot);
             $content = $spotContent['content'];
-            if ($content and isset($content['razreshit-skachivat-vizitku_3'][0]))
-            {
+            if ($content and isset($content['razreshit-skachivat-vizitku_3'][0])) {
 
                 $data = array();
                 if ($content['kontaktyi_3'] !== null)
@@ -354,24 +298,19 @@ class SpotController extends MController
                 header('Content-type: text/x-vcard');
                 header('Content-Disposition: attachment; filename="card.vcf"');
                 echo $text;
-            }
-            else
+            } else
                 $this->redirect('/');
-        }
-        else
+        } else
             $this->redirect('/');
     }
 
     public function actionError()
     {
-        if (isset(Yii::app()->session['spot_view_error']))
-        {
+        if (isset(Yii::app()->session['spot_view_error'])) {
             $form = new ErrorForm();
-            if (isset($_POST['ErrorForm']))
-            {
+            if (isset($_POST['ErrorForm'])) {
                 $form->attributes = $_POST['ErrorForm'];
-                if ($form->validate() and (!isset($_POST['email'][1])))
-                {
+                if ($form->validate() and (!isset($_POST['email'][1]))) {
                     unset(Yii::app()->session['spot_view_error']);
                     unset(Yii::app()->session['Yii_Captcha']);
                     $this->redirect('/');
@@ -380,8 +319,7 @@ class SpotController extends MController
             $this->render('error', array(
                 'form' => $form,
             ));
-        }
-        else
+        } else
             $this->redirect('http://mobispot.com');
     }
 

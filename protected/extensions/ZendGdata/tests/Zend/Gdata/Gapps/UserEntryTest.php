@@ -35,14 +35,16 @@ require_once 'Zend/Gdata/Gapps.php';
 class Zend_Gdata_Gapps_UserEntryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->entryText = file_get_contents(
                 'Zend/Gdata/Gapps/_files/UserEntryDataSample1.xml',
                 true);
         $this->entry = new Zend_Gdata_Gapps_UserEntry();
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($userEntry) {
+    private function verifyAllSamplePropertiesAreCorrect($userEntry)
+    {
         $this->assertEquals('https://apps-apis.google.com/a/feeds/example.com/user/2.0/SusanJones',
             $userEntry->id->text);
         $this->assertEquals('1970-01-01T00:00:00.000Z', $userEntry->updated->text);
@@ -66,29 +68,34 @@ class Zend_Gdata_Gapps_UserEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('2048', $userEntry->quota->limit);
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testEmptyUserEntryToAndFromStringShouldMatch() {
+    public function testEmptyUserEntryToAndFromStringShouldMatch()
+    {
         $entryXml = $this->entry->saveXML();
         $newUserEntry = new Zend_Gdata_Gapps_UserEntry();
         $newUserEntry->transferFromXML($entryXml);
@@ -96,7 +103,8 @@ class Zend_Gdata_Gapps_UserEntryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($entryXml == $newUserEntryXml);
     }
 
-    public function testGetFeedLinkReturnsAllStoredEntriesWhenUsedWithNoParameters() {
+    public function testGetFeedLinkReturnsAllStoredEntriesWhenUsedWithNoParameters()
+    {
         // Prepare test data
         $entry1 = new Zend_Gdata_Extension_FeedLink();
         $entry1->rel = "first";
@@ -111,7 +119,8 @@ class Zend_Gdata_Gapps_UserEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($this->entry->feedLink));
     }
 
-    public function testGetFeedLinkCanReturnEntriesByRelValue() {
+    public function testGetFeedLinkCanReturnEntriesByRelValue()
+    {
         // Prepare test data
         $entry1 = new Zend_Gdata_Extension_FeedLink();
         $entry1->rel = "first";
@@ -127,12 +136,14 @@ class Zend_Gdata_Gapps_UserEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($entry2, $this->entry->getFeedLink('second'));
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->verifyAllSamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testConvertUserEntryToAndFromString() {
+    public function testConvertUserEntryToAndFromString()
+    {
         $this->entry->transferFromXML($this->entryText);
         $entryXml = $this->entry->saveXML();
         $newUserEntry = new Zend_Gdata_Gapps_UserEntry();

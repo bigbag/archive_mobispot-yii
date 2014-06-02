@@ -30,7 +30,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'Zend/Gdata/AuthSubTest.php';
 
 /**
- * 
+ *
  */
 require_once 'Zend/Gdata/Analytics/AccountFeedTest.php';
 require_once 'Zend/Gdata/Analytics/AccountQueryTest.php';

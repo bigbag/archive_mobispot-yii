@@ -98,12 +98,12 @@
                     <?php endif; ?>
                     <?php if (empty($socContent['dinamic']) and isset($socContent['vimeo_video_width']) and isset($socContent['vimeo_video_height']) and ($socContent['vimeo_video_width'] > 0) and ($socContent['vimeo_video_height'] > 0)): ?>
                         <script type="text/javascript">
-                            $(document).ready(function() {
+                            $(document).ready(function () {
                                 $('#vimeo_<?php echo $dataKey; ?>').width($('body').width() -<?php echo isset($socContent['photo']) ? '146' : '80'; ?>);
                                 $('#vimeo_<?php echo $dataKey; ?>').css('min-height', '10px');
                                 $('#vimeo_<?php echo $dataKey; ?>').height(($('body').width() -<?php echo isset($socContent['photo']) ? '146' : '80'; ?>) /<?php echo $socContent['vimeo_video_width'] / $socContent['vimeo_video_height']; ?>);
                             });
-                            $(window).resize(function() {
+                            $(window).resize(function () {
                                 $('#vimeo_<?php echo $dataKey; ?>').width($('body').width() -<?php echo isset($socContent['photo']) ? '146' : '80'; ?>);
                                 $('#vimeo_<?php echo $dataKey; ?>').height(($('body').width() -<?php echo isset($socContent['photo']) ? '146' : '80'; ?>) /<?php echo $socContent['vimeo_video_width'] / $socContent['vimeo_video_height']; ?>);
                             });
@@ -154,10 +154,10 @@
                     </object>
                     <?php if (isset($socContent['youtube_video_rel']) and empty($socContent['dinamic'])): ?>
                     <script type="text/javascript">
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
                         });
-                        $(window).resize(function() {
+                        $(window).resize(function () {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
                         });
                     </script>
@@ -229,17 +229,17 @@
                 </object>
                 <?php if (isset($socContent['youtube_video_rel']) and empty($socContent['dinamic'])): ?>
                     <script type="text/javascript">
-                        $(document).ready(function() {
+                        $(document).ready(function () {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
                         });
-                        $(window).resize(function() {
+                        $(window).resize(function () {
                             $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
                         });
                     </script>
                 <?php endif; ?>
-                <?php if (isset($socContent['youtube_video_view_count'])): ?>
+                <?php if (isset($socContent['view_count'])): ?>
                     <footer>
-                        <span><?php echo $socContent['youtube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+                        <span><?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
                     </footer>
                 <?php endif; ?>
             <?php endif; ?>

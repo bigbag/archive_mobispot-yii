@@ -29,13 +29,11 @@ class CustomInstagramOAuthService extends EOAuth2Service
     protected function getCodeUrl($redirect_uri)
     {
         $url = parent::getCodeUrl($redirect_uri);
-        if (strpos($url, urlencode('&return_url=')) !== false)
-        {
+        if (strpos($url, urlencode('&return_url=')) !== false) {
             $suffix = substr($url, (strpos($url, urlencode('&return_url='))));
             $url = substr($url, 0, (strpos($url, urlencode('&return_url='))));
             $returnUrl = substr($suffix, (strpos($url, urlencode('&return_url=')) + strlen(urlencode('&return_url='))));
-            if (strpos($suffix, '&') !== false)
-            {
+            if (strpos($suffix, '&') !== false) {
                 $suffix = substr($suffix, strpos($suffix, '&'));
                 $url .= $suffix;
                 $returnUrl = substr($returnUrl, 0, strpos($returnUrl, '&'));

@@ -6,7 +6,6 @@
                 <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInfo->getSmallIcon($socContent['soc_url']);?>" height="36"><span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
-        <?php if (!empty($socContent['soc_username'])): ?>
         <div class="type-mess item-body">
             <div class="item-user-avatar">
             <?php if (!empty($socContent['photo'])):?>
@@ -15,7 +14,9 @@
             </div>
             <div class="mess-body">
                 <div class="author-row">
+                    <?php if (!empty($socContent['soc_username'])): ?>
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                    <?php endif?>
                     <b class="time sub-line">
                     <?php echo (!empty($socContent['sub-line']))?
                         $socContent['sub-line']:'' ?>
@@ -23,7 +24,7 @@
                 </div>
                 <div class="ins-block">
                     <p>
-                        <?php echo (isset($socContent['text']))?
+                        <?php echo (!empty($socContent['text']))?
                         $socContent['text']:'' ?>
                     </p>
                     <?php if (!empty($socContent['last_img'])): ?>
@@ -32,7 +33,6 @@
                 </div>
             </div>
         </div>
-        <?php endif?>
         <div class="item-control">
                 <span class="move move-top"></span>
                     <div class="spot-activity">

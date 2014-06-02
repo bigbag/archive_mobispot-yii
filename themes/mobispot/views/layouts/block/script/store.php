@@ -12,7 +12,7 @@
     <script src="/themes/mobispot/js/foundation.min.js"></script>
     <script>
         $(document).foundation();
-        $(function() {
+        $(function () {
             var w = window.innerWidth;
             var h = window.innerHeight;
             $('#slides').slidesjs({

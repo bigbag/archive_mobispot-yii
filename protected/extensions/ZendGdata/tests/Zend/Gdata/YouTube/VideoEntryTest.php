@@ -36,7 +36,8 @@ require_once 'Zend/Gdata/YouTube.php';
 class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->entryText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/VideoEntryDataSample1.xml',
                 true);
@@ -49,7 +50,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->entry = new Zend_Gdata_YouTube_VideoEntry();
     }
 
-    private function createRandomString() {
+    private function createRandomString()
+    {
         $randomString = '';
         for ($x = 0; $x < 10; $x++) {
             $randomCharacter = chr(rand(97,122));
@@ -58,7 +60,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         return $randomString;
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($videoEntry) {
+    private function verifyAllSamplePropertiesAreCorrect($videoEntry)
+    {
         $this->assertEquals('http://gdata.youtube.com/feeds/videos/UMFI1hdm96E',
             $videoEntry->id->text);
         $this->assertEquals('UMFI1hdm96E', $videoEntry->getVideoId());
@@ -145,7 +148,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('2008-09-25', $videoEntry->getVideoRecorded());
     }
 
-    private function verifyAllPrivateSamplePropertiesAreCorrect ($videoEntry) {
+    private function verifyAllPrivateSamplePropertiesAreCorrect($videoEntry)
+    {
         $this->assertEquals('http://gdata.youtube.com/feeds/videos/UMFI1hdm96E',
             $videoEntry->id->text);
         $this->assertEquals('UMFI1hdm96E', $videoEntry->getVideoId());
@@ -233,7 +237,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('2008-09-25', $videoEntry->getVideoRecorded());
     }
 
-    public function verifyAllV2SamplePropertiesAreCorrect($videoEntry) {
+    public function verifyAllV2SamplePropertiesAreCorrect($videoEntry)
+    {
          $this->assertEquals('tag:youtube.com,2008:video:UMFI1hdm96E',
             $videoEntry->id->text);
         $this->assertEquals('UMFI1hdm96E', $videoEntry->getVideoId());
@@ -330,7 +335,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testGetVideoId() {
+    public function testGetVideoId()
+    {
         $videoEntry = new Zend_Gdata_YouTube_VideoEntry();
 
         // assert valid ID
@@ -338,7 +344,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('ABCDEFG12AB', $videoEntry->getVideoId());
     }
 
-    public function testGetVideoIdV2() {
+    public function testGetVideoIdV2()
+    {
         $v2VideoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $v2VideoEntry->setMajorProtocolVersion(2);
 
@@ -351,8 +358,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('UMFI1hdm96E', $v2VideoEntry->getVideoId());
     }
 
-    public function testGetVideoIdException() {
-
+    public function testGetVideoIdException()
+    {
         $exceptionCaught = false;
         $videoEntry = new Zend_Gdata_YouTube_VideoEntry();
 
@@ -370,7 +377,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
             'Zend_Gdata_AppException');
     }
 
-    public function testGetVersionExceptionOnGetRacy() {
+    public function testGetVersionExceptionOnGetRacy()
+    {
         $videoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $videoEntry->setMajorProtocolVersion(2);
 
@@ -386,7 +394,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
             'Zend_Gdata_App_VersionException');
     }
 
-    public function testGetVersionExceptionOnSetRacy() {
+    public function testGetVersionExceptionOnSetRacy()
+    {
         $videoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $videoEntry->setMajorProtocolVersion(2);
 
@@ -402,41 +411,48 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
             'Zend_Gdata_App_VersionException');
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElementsV2() {
+    public function testSampleEntryShouldHaveNoExtensionElementsV2()
+    {
         $this->entry->transferFromXML($this->v2EntryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributesV2() {
+    public function testSampleEntryShouldHaveNoExtensionAttributesV2()
+    {
         $this->entry->transferFromXML($this->v2EntryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testEmptyVideoEntryToAndFromStringShouldMatch() {
+    public function testEmptyVideoEntryToAndFromStringShouldMatch()
+    {
         $entryXml = $this->entry->saveXML();
         $newVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $newVideoEntry->transferFromXML($entryXml);
@@ -444,23 +460,27 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($entryXml == $newVideoEntryXml);
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->verifyAllSamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testPrivateSamplePropertiesAreCorrect () {
+    public function testPrivateSamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->privateEntryText);
         $this->verifyAllPrivateSamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testV2SamplePropertiesAreCorrect() {
+    public function testV2SamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->v2EntryText);
         $this->entry->setMajorProtocolVersion(2);
         $this->verifyAllV2SamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testGetVideoTitle() {
+    public function testGetVideoTitle()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals('"Crazy (Gnarles Barkley)" - Acoustic Cover', $videoEntry->getVideoTitle());
@@ -469,7 +489,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoTitle());
     }
 
-    public function testSetVideoTitle() {
+    public function testSetVideoTitle()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $newTitle = 'My New Title';
@@ -477,7 +498,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($videoEntry->getVideoTitle(), $newTitle);
     }
 
-    public function testGetVideoDescription() {
+    public function testGetVideoDescription()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals('Gnarles Barkley acoustic cover http://www.myspace.com/davidchoimusic', $videoEntry->getVideoDescription());
@@ -486,7 +508,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoDescription());
     }
 
-    public function testSetVideoDescription() {
+    public function testSetVideoDescription()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $newDescription = 'My New Description';
@@ -494,7 +517,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($videoEntry->getVideoDescription(), $newDescription);
     }
 
-    public function testGetVideoWatchPageUrl() {
+    public function testGetVideoWatchPageUrl()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals('http://www.youtube.com/watch?v=UMFI1hdm96E', $videoEntry->getVideoWatchPageUrl());
@@ -503,7 +527,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoWatchPageUrl());
     }
 
-    public function testGetVideoThumbnails() {
+    public function testGetVideoThumbnails()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -527,7 +552,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $newEntry->getVideoThumbnails());
     }
 
-    public function testGetVideoTags() {
+    public function testGetVideoTags()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -552,7 +578,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $newEntry->getVideoTags());
     }
 
-    public function testSetVideoTags() {
+    public function testSetVideoTags()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -579,7 +606,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $newEntry->getVideoTags());
     }
 
-    public function testGetVideoDeveloperTags() {
+    public function testGetVideoDeveloperTags()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -602,7 +630,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         }
       }
 
-    public function testSetVideoDeveloperTags() {
+    public function testSetVideoDeveloperTags()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $existingDevTags = $videoEntry->getVideoDeveloperTags();
@@ -621,7 +650,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetFlashPlayerUrl() {
+    public function testGetFlashPlayerUrl()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals('http://www.youtube.com/v/UMFI1hdm96E', $videoEntry->getFlashPlayerUrl());
@@ -630,7 +660,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getFlashPlayerUrl());
     }
 
-    public function testGetVideoDuration() {
+    public function testGetVideoDuration()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals(255, $videoEntry->getVideoDuration());
@@ -639,7 +670,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoDuration());
     }
 
-    public function testGetVideoViewCount() {
+    public function testGetVideoViewCount()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals(113321, $videoEntry->getVideoViewCount());
@@ -648,7 +680,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoViewCount());
     }
 
-    public function testGetVideoGeoLocation() {
+    public function testGetVideoGeoLocation()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $geoLocation =  $videoEntry->getVideoGeoLocation();
@@ -659,7 +692,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoGeoLocation());
     }
 
-    public function testGetVideoRatingInfo() {
+    public function testGetVideoRatingInfo()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -672,7 +706,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoRatingInfo());
     }
 
-    public function testGetVideoCategory() {
+    public function testGetVideoCategory()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertEquals('Music', $videoEntry->getVideoCategory());
@@ -681,7 +716,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $newEntry->getVideoCategory());
     }
 
-    public function testSetVideoCategory() {
+    public function testSetVideoCategory()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $newCategory = 'Comedy';
@@ -689,7 +725,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($videoEntry->getVideoCategory(), $newCategory);
     }
 
-    public function testConvertVideoEntryToAndFromString() {
+    public function testConvertVideoEntryToAndFromString()
+    {
         $this->entry->transferFromXML($this->entryText);
         $entryXml = $this->entry->saveXML();
         $newVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
@@ -699,13 +736,15 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($entryXml, $newVideoEntryXml);
     }
 
-    public function testNoEmbed() {
+    public function testNoEmbed()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
         $this->assertNotEquals(null, $videoEntry->getNoEmbed());
     }
 
-    public function testVideoState() {
+    public function testVideoState()
+    {
         $this->entry->transferFromXML($this->entryText);
         $videoEntry = $this->entry;
 
@@ -719,14 +758,16 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
                             $videoState->getText());
     }
 
-    public function testVideoPrivate() {
+    public function testVideoPrivate()
+    {
         $this->entry->transferFromXml($this->privateEntryText);
         $videoEntry = $this->entry;
 
         $this->assertTrue($videoEntry->isVideoPrivate());
     }
 
-    public function testSetVideoPrivate() {
+    public function testSetVideoPrivate()
+    {
         $this->entry->transferFromXml($this->entryText);
         $videoEntry = $this->entry;
         $videoEntry->setVideoPrivate();
@@ -734,7 +775,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($videoEntry->isVideoPrivate());
     }
 
-    public function testSetVideoPublic() {
+    public function testSetVideoPublic()
+    {
         $this->entry->transferFromXml($this->privateEntryText);
         $videoEntry = $this->entry;
         $videoEntry->setVideoPublic();
@@ -742,7 +784,8 @@ class Zend_Gdata_YouTube_VideoEntryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($videoEntry->isVideoPrivate());
     }
 
-    public function testRetrieveCommentsFeedUrl() {
+    public function testRetrieveCommentsFeedUrl()
+    {
         $this->entry->transferFromXML($this->entryText);
         $commentsFeedUrl = $this->entry->getVideoCommentFeedUrl();
         $this->assertEquals($commentsFeedUrl,

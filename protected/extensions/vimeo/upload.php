@@ -12,11 +12,9 @@ try {
         //$vimeo->call('vimeo.videos.setPrivacy', array('privacy' => 'nobody', 'video_id' => $video_id));
         $vimeo->call('vimeo.videos.setTitle', array('title' => 'YOUR TITLE', 'video_id' => $video_id));
         $vimeo->call('vimeo.videos.setDescription', array('description' => 'YOUR_DESCRIPTION', 'video_id' => $video_id));
-    }
-    else {
+    } else {
         echo "Video file did not exist!";
     }
-}
-catch (VimeoAPIException $e) {
+} catch (VimeoAPIException $e) {
     echo "Encountered an API error -- code {$e->getCode()} - {$e->getMessage()}";
 }

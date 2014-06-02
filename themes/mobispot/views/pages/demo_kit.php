@@ -170,7 +170,7 @@
                                             for="shiping<?php echo $shipping['id'] ?>"
                                             ng-click="setShipping(<?php echo $shipping['id'] ?>)"
                                         >
-                                            <?php echo $shipping['name'] ?> | 
+                                            <?php echo $shipping['name'] ?> |
                                             <?php echo $shipping['descr'] ?>
                                         </label>
                                     </div>
@@ -211,9 +211,9 @@
                         <div class="next-step">
                                 <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
                                 <p>
-                                <?php echo ('en' == $this->getLang())?'$':''?>{{summ}}<?php echo ('en' == $this->getLang())?'':'$'?> 
-                                + 
-                                <?php echo ('en' == $this->getLang())?'$':''?>{{shippings[order.shipping]}}<?php echo ('en' == $this->getLang())?'':'$'?> 
+                                <?php echo ('en' == $this->getLang())?'$':''?>{{summ}}<?php echo ('en' == $this->getLang())?'':'$'?>
+                                +
+                                <?php echo ('en' == $this->getLang())?'$':''?>{{shippings[order.shipping]}}<?php echo ('en' == $this->getLang())?'':'$'?>
                                 <?php echo Yii::t('store', '(Shipping)')?></p>
                             <a class="form-button button button-round"
                                 ng-click="buyDemoKit(order)"

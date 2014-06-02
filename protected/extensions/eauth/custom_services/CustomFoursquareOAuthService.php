@@ -26,12 +26,10 @@ class CustomFoursquareOAuthService extends EOAuth2Service
         $this->attributes['id'] = $info->id;
         $this->attributes['name'] = $info->id;
 
-        if (!empty($info->firstName))
-        {
+        if (!empty($info->firstName)) {
             $this->attributes['name'] = $info->firstName;
             $this->attributes['first_name'] = $info->firstName;
-            if (!empty($info->lastName))
-            {
+            if (!empty($info->lastName)) {
                 $this->attributes['name'] = $info->firstName . ' ' . $info->lastName;
                 $this->attributes['last_name'] = $info->lastName;
             }
@@ -41,7 +39,7 @@ class CustomFoursquareOAuthService extends EOAuth2Service
         $this->attributes['photo'] = (!empty($info->photo)) ? $info->photo : false;
         $this->attributes['email'] = (!empty($info->email)) ? $info->email : false;
         $this->attributes['auth_token'] = $this->access_token->access_token;
-    
+
     }
 
     protected function getAccessToken($code)

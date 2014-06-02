@@ -114,7 +114,8 @@ class Uniteller extends CApplicationComponent
    * Получаем URL для платежа
    * @return string
    */
-  public function getPayUrl() {
+  public function getPayUrl()
+  {
     $test=($this->isTest)?"test.":"";
     return "https://".$test.self::PAYMENT_URL;
   }
@@ -123,7 +124,8 @@ class Uniteller extends CApplicationComponent
    * Получаем URL для результатов авторизации
    * @return string
    */
-  public function getResultUrl()  {
+  public function getResultUrl()
+  {
     $test=($this->isTest)?"test.":"";
     return "https://".$test.self::RESULT_URL;
   }
@@ -132,7 +134,8 @@ class Uniteller extends CApplicationComponent
   * Получаем URL для отмены платежа
   * @return string
   */
-  public function getUnblockUrl() {
+  public function getUnblockUrl()
+  {
     $test=($this->isTest)?"test.":"";
     return "https://".$test.self::UNBLOCK_URL;
   }
@@ -141,11 +144,11 @@ class Uniteller extends CApplicationComponent
   * Получаем URL для автоплатежа
   * @return string
   */
-  public function getAutoPayUrl() {
+  public function getAutoPayUrl()
+  {
     if (!($this->isTest)) {
       return "https://".self::AUTO_PAY_URL;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -156,7 +159,8 @@ class Uniteller extends CApplicationComponent
    * Обязательные элементы: orderId, amount
    * @return string
    */
-  public function getPaySign($order)  {
+  public function getPaySign($order)
+  {
     $keys=array(
       $this->shopId,
       (!empty($order['orderId']))?$order['orderId']:'',
@@ -184,7 +188,8 @@ class Uniteller extends CApplicationComponent
    * Обязательные элементы: orderId, amount, parentOrderId
    * @return string
    */
-  public function getAutoPaySign($order)  {
+  public function getAutoPaySign($order)
+  {
     $keys=array(
       $this->shopId,
       (!empty($order['orderId']))?$order['orderId']:'',
@@ -207,7 +212,8 @@ class Uniteller extends CApplicationComponent
   * @param array $data
   * @return simplexml_object|string|boolean
   */
-  public function setCurlRequest($url, $data) {
+  public function setCurlRequest($url, $data)
+  {
     $ch=curl_init();
     curl_setopt($ch, CURLOPT_URL, (string)$url);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -233,13 +239,11 @@ class Uniteller extends CApplicationComponent
       $xml=simplexml_load_string($result);
       if ($xml !== false) {
           return $xml;
-      }
-     else {
+      } else {
         libxml_clear_errors();
         return $result;
       }
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -250,7 +254,8 @@ class Uniteller extends CApplicationComponent
   * @param int $orderId
   * @return array
   */
-  public function getCheckData($orderId) {
+  public function getCheckData($orderId)
+  {
     $data=array(
       'ShopOrderNumber'=>(int)$orderId,
       'Shop_ID'=>$this->shopId,
@@ -314,7 +319,8 @@ class Uniteller extends CApplicationComponent
   * Обязательные поля: orderId, amount, parentOrderId
   * @return bool
   */
-  public function setAutoPay($order) {
+  public function setAutoPay($order)
+  {
     $data=array(
       'Shop_IDP'=>$this->shopId,
       'Order_IDP'=>$order['orderId'],
@@ -327,8 +333,7 @@ class Uniteller extends CApplicationComponent
 
     if (isset($result[28]) and $result[28]==self::CODE_SUCCES)  {
       return $result[1];
-    }
-    else {
+    } else {
       return false;
     }
   }

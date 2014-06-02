@@ -747,7 +747,7 @@ class PHPMailer
      * @param string $lang_path Path to the language file directory
      * @access public
      */
-    function SetLanguage($langcode = 'en', $lang_path = 'language/')
+    public function SetLanguage($langcode = 'en', $lang_path = 'language/')
     {
         //Define full set of translatable strings
         $PHPMAILER_LANG = array(
@@ -1578,7 +1578,7 @@ class PHPMailer
                 if ($dec == 32) {
                     if ($i == ($linlen - 1)) { // convert space at eol only
                         $c = '=20';
-                    } else if ($space_conv) {
+                    } elseif ($space_conv) {
                         $c = '=20';
                     }
                 } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
@@ -2145,5 +2145,3 @@ class phpmailerException extends Exception
         return $errorMsg;
     }
 }
-
-?>

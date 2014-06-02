@@ -50,7 +50,7 @@
             </div>
         </div>
     <?php elseif (($type == 'socnet') || ($type == 'content')): ?>
-        <?php $socContent = $content['data'][$key]; ?> 
+        <?php $socContent = $content['data'][$key]; ?>
         <?php $dataKey = $key; ?>
         <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
     <?php endif; ?>

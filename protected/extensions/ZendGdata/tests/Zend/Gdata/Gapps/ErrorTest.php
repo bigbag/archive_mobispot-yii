@@ -35,35 +35,41 @@ require_once 'Zend/Gdata/Gapps.php';
 class Zend_Gdata_Gapps_ErrorTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->error = new Zend_Gdata_Gapps_Error();
     }
 
-    public function testCanSetAndGetErrorCodeUsingConstant() {
+    public function testCanSetAndGetErrorCodeUsingConstant()
+    {
         $this->error->setErrorCode(
             Zend_Gdata_Gapps_Error::INVALID_EMAIL_ADDRESS);
         $this->assertEquals(Zend_Gdata_Gapps_Error::INVALID_EMAIL_ADDRESS,
             $this->error->getErrorCode());
     }
 
-    public function testCanSetAndGetErrorCodeUsingInteger() {
+    public function testCanSetAndGetErrorCodeUsingInteger()
+    {
         $this->error->setErrorCode(123);
         $this->assertEquals(123, $this->error->getErrorCode());
     }
 
-   public function testCanSetAndGetReason() {
+   public function testCanSetAndGetReason()
+   {
         $text = "The foo is missing a bar.";
         $this->error->setReason($text);
         $this->assertEquals($text, $this->error->getReason());
     }
 
-    public function testCanSetAndGetInvalidInput() {
+    public function testCanSetAndGetInvalidInput()
+    {
          $text = "for___baz";
          $this->error->setInvalidInput($text);
          $this->assertEquals($text, $this->error->getInvalidInput());
     }
 
-    public function testContstructorAllowsSettingAllVariables() {
+    public function testContstructorAllowsSettingAllVariables()
+    {
         $this->error = new Zend_Gdata_Gapps_Error(
             Zend_Gdata_Gapps_Error::USER_DELETED_RECENTLY,
             "foo", "bar");
@@ -73,7 +79,8 @@ class Zend_Gdata_Gapps_ErrorTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("bar", $this->error->getInvalidInput());
     }
 
-    public function testToStringProvidesHelpfulMessage() {
+    public function testToStringProvidesHelpfulMessage()
+    {
         $this->error->setErrorCode(Zend_Gdata_Gapps_Error::USER_SUSPENDED);
         $this->error->setReason("The foo is missing a bar.");
         $this->error->setInvalidInput("for___baz");

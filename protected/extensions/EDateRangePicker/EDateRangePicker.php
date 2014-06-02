@@ -5,7 +5,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * EDateRangePicker displays a datepicker.
  *
  * EDateRangePicker encapsulates the
- * {@link http://www.filamentgroup.com/lab/date_range_picker_using_jquery_ui_16_and_jquery_ui_css_framework/ 
+ * {@link http://www.filamentgroup.com/lab/date_range_picker_using_jquery_ui_16_and_jquery_ui_css_framework/
  * Date Range Picker} plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -24,7 +24,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the daterangepicker plugin. Please refer to
- * the {@link http://www.filamentgroup.com/lab/date_range_picker_using_jquery_ui_16_and_jquery_ui_css_framework/ 
+ * the {@link http://www.filamentgroup.com/lab/date_range_picker_using_jquery_ui_16_and_jquery_ui_css_framework/
  * Date Range Picker} documentation
  * for possible options (name-value pairs).
  *
@@ -83,7 +83,7 @@ class EDateRangePicker extends CJuiInputWidget
         $cs = Yii::app()->getClientScript();
         if ($this->language != '' && $this->language != 'en') {
             $this->registerScriptFile($this->i18nScriptFile);
-            $js .= "setTimeout(function(){jQuery('.range-start, .range-end').datepicker('option', jQuery.datepicker.regional['{$this->language}']);},500);";
+            $js .= "setTimeout(function () {jQuery('.range-start, .range-end').datepicker('option', jQuery.datepicker.regional['{$this->language}']);},500);";
         }
         $cs->registerScript(__CLASS__ . '#' . $id, $js, CClientScript::POS_READY);
     }
@@ -108,5 +108,3 @@ class EDateRangePicker extends CJuiInputWidget
 
 
 }
-
-?>

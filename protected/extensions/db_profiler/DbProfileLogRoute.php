@@ -35,7 +35,7 @@ class DbProfileLogRoute extends CProfileLogRoute
             if (!strncasecmp($message, 'begin:', 6)) {
                 $log[0] = substr($message, 6);
                 $stack[] = $log;
-            } else if (!strncasecmp($message, 'end:', 4)) {
+            } elseif (!strncasecmp($message, 'end:', 4)) {
                 $token = substr($message, 4);
                 if (($last = array_pop($stack)) !== null && $last[0] === $token) {
                     $token = str_replace($log[2], '', $token);
@@ -88,7 +88,7 @@ class DbProfileLogRoute extends CProfileLogRoute
             if ($isAjax && $this->ignoreAjaxInFireBug)
                 return;
             $view .= '-firebug';
-        } else if (!($app instanceof CWebApplication) || $isAjax)
+        } elseif (!($app instanceof CWebApplication) || $isAjax)
             return;
 
         include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $view . '.php';

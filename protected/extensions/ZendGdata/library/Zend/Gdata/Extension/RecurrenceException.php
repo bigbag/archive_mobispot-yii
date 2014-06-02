@@ -106,11 +106,9 @@ class Zend_Gdata_Extension_RecurrenceException extends Zend_Gdata_Extension
         case 'specialized':
             if ($attribute->nodeValue == "true") {
                 $this->_specialized = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == "false") {
                 $this->_specialized = false;
-            }
-            else {
+            } else {
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for gCal:selected#value.");
             }
             break;
@@ -212,4 +210,3 @@ class Zend_Gdata_Extension_RecurrenceException extends Zend_Gdata_Extension
     }
 
 }
-

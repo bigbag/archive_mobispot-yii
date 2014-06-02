@@ -8,8 +8,8 @@
     <table style="width:100%;border:0;" cellspacing="0">
         <tr style="border-top:1px solid #bfbfbf;">
             <th style="color: #0062ff; text-align:left; border-top:1px solid #bfbfbf;padding:20px 0;">
-                <img src="http://mobispot.com/themes/mobispot/images/mail/store/order.png" /> 
-                #<?php echo $order["id"]; ?> 
+                <img src="http://mobispot.com/themes/mobispot/images/mail/store/order.png" />
+                #<?php echo $order["id"]; ?>
             </th>
             <th colspan="4" style="border-top:1px solid #bfbfbf;"></th>
         </tr>

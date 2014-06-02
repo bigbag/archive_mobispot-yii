@@ -4,8 +4,8 @@
             The following files will be sent to you:
             <ul class="file-list">
                 <?php foreach ($content['data'] as $key => $value): ?>
-                    <li><img height="40" src="/themes/mobile/images/i-files.2x.png"><?php echo $value; ?></li>	
-                <?php endforeach; ?>	
+                    <li><img height="40" src="/themes/mobile/images/i-files.2x.png"><?php echo $value; ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>

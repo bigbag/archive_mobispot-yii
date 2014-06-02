@@ -185,5 +185,3 @@ class JQRelcopy extends CWidget
         parent::init();
     }
 }
-
-?>

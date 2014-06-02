@@ -45,8 +45,7 @@ class Zend_Gdata_Spreadsheets_WorksheetFeedTest extends PHPUnit_Framework_TestCa
     public function testToAndFromString()
     {
         $this->assertTrue(count($this->wksFeed->entries) == 1);
-        foreach($this->wksFeed->entries as $entry)
-        {
+        foreach($this->wksFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_WorksheetEntry);
         }
 
@@ -56,8 +55,7 @@ class Zend_Gdata_Spreadsheets_WorksheetFeedTest extends PHPUnit_Framework_TestCa
         $newWksFeed->transferFromDom($doc->documentElement);
 
         $this->assertTrue(count($newWksFeed->entries) == 1);
-        foreach($newWksFeed->entries as $entry)
-        {
+        foreach($newWksFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_WorksheetEntry);
         }
     }

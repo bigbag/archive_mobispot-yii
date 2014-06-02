@@ -19,8 +19,7 @@ class CustomLastfmAuthService extends EAuthServiceBase
 
     protected function fetchAttributes()
     {
-        if ($this->hasState('lfmUsername'))
-        {
+        if ($this->hasState('lfmUsername')) {
             $options = array();
             $info = $this->makeRequest('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user=' . $this->getState('lfmUsername') . '&api_key=' . $this->key . '&format=json', $options, false);
             $info = CJson::decode($info, true);
@@ -46,8 +45,7 @@ class CustomLastfmAuthService extends EAuthServiceBase
 
     public function authenticate()
     {
-        if (isset($_GET['token']))
-        {
+        if (isset($_GET['token'])) {
             $this->setState('auth_token', $_GET['token']);
             $sign = md5('api_key' . $this->key . 'methodauth.getSessiontoken' . $_GET['token'] . $this->secret);
             $options = array();
@@ -55,22 +53,17 @@ class CustomLastfmAuthService extends EAuthServiceBase
             $xml = new SimpleXMLElement($sk);
             $attr = $xml->attributes();
 
-            if (((string) $attr['status']) == 'ok')
-            {
+            if (((string) $attr['status']) == 'ok') {
                 $this->setState('lfmUsername', ((string) $xml->session->name));
                 $this->setState('sessionKey', ((string) $xml->session->key));
                 $this->authenticated = true;
             }
         }
 
-        if (!$this->getIsAuthenticated())
-        {
-            if (isset($_GET['redirect_uri']))
-            {
+        if (!$this->getIsAuthenticated()) {
+            if (isset($_GET['redirect_uri'])) {
                 $redirect_uri = $_GET['redirect_uri'];
-            }
-            else
-            {
+            } else {
                 $server = Yii::app()->request->getHostInfo();
                 $path = Yii::app()->request->getUrl();
                 $redirect_uri = $server . $path;

@@ -240,8 +240,7 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
                     $phraseStr, array('"'), $this->getGrammar()->getSpecials()
                 );
                 $phraseStr = '"' . $phraseStr . '"';
-            } else // ... otherwise it needs encoding
-            {
+            } else { // ... otherwise it needs encoding
                 //Determine space remaining on line if first line
                 if ($shorten) {
                     $usedLength = strlen($header->getFieldName() . ': ');
@@ -350,8 +349,7 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             '=?' . $charsetDecl . '?' . $this->_encoder->getName() . '??='
         );
 
-        if ($firstLineOffset >= 75) //Does this logic need to be here?
-        {
+        if ($firstLineOffset >= 75) { //Does this logic need to be here?
             $firstLineOffset = 0;
         }
 
@@ -361,8 +359,7 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             )
         );
 
-        if (strtolower($this->_charset) !== 'iso-2022-jp') // special encoding for iso-2022-jp using mb_encode_mimeheader
-        {
+        if (strtolower($this->_charset) !== 'iso-2022-jp') { // special encoding for iso-2022-jp using mb_encode_mimeheader
             foreach ($encodedTextLines as $lineNum => $line) {
                 $encodedTextLines[$lineNum] = '=?' . $charsetDecl .
                     '?' . $this->_encoder->getName() .

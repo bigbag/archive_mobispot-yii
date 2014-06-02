@@ -10,17 +10,14 @@ class ServiceController extends MController
     {
         $lang = $id;
         $all_lang = Lang::getLangArray();
-        if (isset($all_lang[$lang]))
-        {
+        if (isset($all_lang[$lang])) {
 
             Yii::app()->session['lang'] = 'value';
             Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
 
-            if (isset(Yii::app()->user->id))
-            {
+            if (isset(Yii::app()->user->id)) {
                 $user = User::model()->findByPk(Yii::app()->user->id);
-                if (isset($user))
-                {
+                if (isset($user)) {
                     $user->lang = $lang;
                     $user->save(false);
                 }
@@ -64,14 +61,12 @@ class ServiceController extends MController
     //Выход
     public function actionLogout()
     {
-        if (!Yii::app()->request->isPostRequest)
-        {
+        if (!Yii::app()->request->isPostRequest) {
             Yii::app()->user->logout();
             $this->redirect("/");
         }
 
-        if (!(Yii::app()->user->isGuest))
-        {
+        if (!(Yii::app()->user->isGuest)) {
             Yii::app()->cache->get('user_' . Yii::app()->user->id);
             Yii::app()->user->logout();
             unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
@@ -92,20 +87,15 @@ class ServiceController extends MController
 
         $model = new RegistrationForm;
         $model->attributes = $data;
-        if (!$model->validate())
-        {
+        if (!$model->validate()) {
             $validate_errors = $model->getErrors();
-            if (isset($validate_errors['activ_code']))
-            {
+            if (isset($validate_errors['activ_code'])) {
                 $answer['content'] = Yii::t('user', "Wrong activation code");
                 $answer['error'] = 'code';
-            }
-            elseif (isset($validate_errors['email']))
-            {
+            } elseif (isset($validate_errors['email'])) {
                 $answer['content'] = Yii::t('user', "This email has been already used");
                 $answer['error'] = 'email';
-            }
-            else
+            } else
                 $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
 
             $this->getJsonAndExit($answer);
@@ -133,8 +123,7 @@ class ServiceController extends MController
                     'user_id' => 0,
                 )
         );
-        if ($wallet)
-        {
+        if ($wallet) {
             $wallet->status = PaymentWallet::STATUS_ACTIVE;
             $wallet->user_id = $spot->user_id;
             $wallet->save();
@@ -157,8 +146,7 @@ class ServiceController extends MController
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
 
-        if (!$email or !$activkey)
-        {
+        if (!$email or !$activkey) {
             $this->render('activation', array(
                 'title' => $title,
                 'content' => $content
@@ -167,11 +155,9 @@ class ServiceController extends MController
         }
 
         $user = User::getByEmail($email);
-        if (isset($user->activkey) and ($user->activkey == $activkey))
-        {
+        if (isset($user->activkey) and ($user->activkey == $activkey)) {
             $user->status = User::STATUS_VALID;
-            if ($user->save())
-            {
+            if ($user->save()) {
                 $identity = new SUserIdentity($user->email, $user->password);
                 $identity->authenticate();
                 $this->lastVisit();
@@ -200,11 +186,9 @@ class ServiceController extends MController
 
         $form = new RecoveryForm;
         $form->email = $data['email'];
-        if ($form->validate())
-        {
+        if ($form->validate()) {
             $user = User::getByEmail($form->email);
-            if ($user and $user->status == User::STATUS_VALID)
-            {
+            if ($user and $user->status == User::STATUS_VALID) {
                 MMail::recovery($user->email, $user->activkey, $this->getLang());
                 $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
                 $answer['error'] = "no";
@@ -256,11 +240,9 @@ class ServiceController extends MController
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
 
-        if ($email and $activkey)
-        {
+        if ($email and $activkey) {
             $user = User::getByEmail($email);
-            if (isset($user) and $user->activkey == $activkey)
-            {
+            if (isset($user) and $user->activkey == $activkey) {
                 $this->render('change', array(
                     'email' => $email,
                     'activkey' => $activkey
@@ -326,8 +308,7 @@ class ServiceController extends MController
             'user_id' => $user->id,
         ));
 
-        if ($userToken and !empty($userToken->soc_id))
-        {
+        if ($userToken and !empty($userToken->soc_id)) {
             $userToken->allow_login = !$userToken->allow_login;
             $userToken->save();
             $this->redirect('/user/profile');
@@ -338,8 +319,7 @@ class ServiceController extends MController
             $this->redirect('/user/profile');
 
         $socInfo = User::getCacheSocInfo();
-        if ($socInfo)
-        {
+        if ($socInfo) {
             SocToken::setToken($atributes);
             User::clearCacheSocInfo();
 
@@ -350,8 +330,7 @@ class ServiceController extends MController
                     )
             );
 
-            foreach ($allSocTokens as $row)
-            {
+            foreach ($allSocTokens as $row) {
                 if ($row->user_id != $user->id)
                     $row->delete();
             }
@@ -365,8 +344,7 @@ class ServiceController extends MController
         $data = $this->validateRequest();
         $answer = array('error' => "yes", "content" => "");
 
-        if (!isset($data['email']) or !isset($data['name']) or !isset($data['question']))
-        {
+        if (!isset($data['email']) or !isset($data['name']) or !isset($data['question'])) {
             $this->getJsonAndExit($answer);
         }
 
@@ -391,8 +369,7 @@ class ServiceController extends MController
         $config = DemoKitOrder::getConfig();
         $order = DemoKitOrder::fromArray($data);
 
-        if(!$order->save())
-        {
+        if(!$order->save()) {
             $answer['message'] = '';
             $errors = $order->getErrors();
             foreach ($errors as $field=>$error)
@@ -402,8 +379,7 @@ class ServiceController extends MController
         }
 
         /*
-        if (!(DemoKitList::saveFromArray($data['products'], $order->id)))
-        {
+        if (!(DemoKitList::saveFromArray($data['products'], $order->id))) {
             $order->delete();
             $answer['message'] = Yii::t('store', 'Некорректные данные в заказанных спотах!');
             $this->getJsonAndExit($answer);
@@ -414,8 +390,7 @@ class ServiceController extends MController
         $payment = DemoKitOrder::getPayment($order->payment);
         $answer['action'] = $payment['action'];
 
-        if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM)
-        {
+        if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
             $answer['content'] = $this->renderPartial('//store/_ym_form',
                 array(
                     'order'=>$order,
@@ -424,9 +399,7 @@ class ServiceController extends MController
                 true
             );
             $answer['error'] = 'no';
-        }
-        elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL)
-        {
+        } elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) {
             $mailOrder = $order->makeMailOrder();
 
             //Yii::app()->session['message'] = $config['mailOrderMessage'];

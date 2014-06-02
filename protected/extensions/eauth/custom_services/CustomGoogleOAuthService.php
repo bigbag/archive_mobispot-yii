@@ -41,8 +41,7 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
         $url .= '&access_type=offline';
 
-        if (Yii::app()->user->isGuest)
-        {
+        if (Yii::app()->user->isGuest) {
             $url .= '&approval_prompt=force';
             return $url;
         }

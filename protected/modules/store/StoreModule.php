@@ -14,8 +14,8 @@ class StoreModule extends CWebModule
     }
 
     /*
-      public function beforeControllerAction($controller, $action) {
-
+      public function beforeControllerAction($controller, $action)
+      {
       }
      */
 }

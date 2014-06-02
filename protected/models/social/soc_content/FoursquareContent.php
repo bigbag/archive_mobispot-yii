@@ -9,13 +9,11 @@ class FoursquareContent extends SocContentBase
         $result = 'ok';
         $socId = $socUsername;
 
-        if (!is_numeric($socId))
-        {
+        if (!is_numeric($socId)) {
             $profile = self::makeRequest('https://foursquare.com/' . $socId, array(), false);
             $match = array();
             preg_match('~user: {"id":"[0-9]+","firstName":~', $profile, $match);
-            if (isset($match[0]) && (strpos($match[0], 'user: {"id":"') !== false))
-            {
+            if (isset($match[0]) && (strpos($match[0], 'user: {"id":"') !== false)) {
                 $socId = str_replace('user: {"id":"', '', $match[0]);
                 $socId = str_replace('","firstName":', '', $socId);
             }
@@ -31,12 +29,10 @@ class FoursquareContent extends SocContentBase
     public static function parseUsername($link)
     {
         $username = $link;
-        if (strpos($username, 'foursquare.com/user/') !== false)
-        {
+        if (strpos($username, 'foursquare.com/user/') !== false) {
             $username = substr($username, (strpos($username, 'foursquare.com/user/') + 20));
         }
-        if (strpos($username, 'foursquare.com') !== false)
-        {
+        if (strpos($username, 'foursquare.com') !== false) {
             $username = substr($username, (strpos($username, 'foursquare.com') + 15));
         }
         $username = self::rmGetParam($username);
@@ -49,13 +45,11 @@ class FoursquareContent extends SocContentBase
         $userDetail['block_type'] = self::TYPE_CHECKIN;
         $socUsername = self::parseUsername($link);
 
-        if (!is_numeric($socUsername))
-        {
+        if (!is_numeric($socUsername)) {
             $profile = self::makeRequest('https://foursquare.com/' . $socUsername, array(), false);
             $match = array();
             preg_match('~user: {"id":"[0-9]+","firstName":~', $profile, $match);
-            if (isset($match[0]) && (strpos($match[0], 'user: {"id":"') !== false))
-            {
+            if (isset($match[0]) && (strpos($match[0], 'user: {"id":"') !== false)) {
                 $socUsername = str_replace('user: {"id":"', '', $match[0]);
                 $socUsername = str_replace('","firstName":', '', $socUsername);
             }
@@ -71,63 +65,50 @@ class FoursquareContent extends SocContentBase
         $socUser = self::makeRequest('https://api.foursquare.com/v2/users/' . $socUsername . '?client_id=' . Yii::app()->eauth->services['foursquare']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['foursquare']['client_secret'] . '&v=20130211');
         $socUser = $socUser['response']['user'];
 
-        if (!empty($socUser['firstName']))
-        {
+        if (!empty($socUser['firstName'])) {
             if (!empty($socUser['lastName']))
                 $userDetail['soc_username'] = $socUser['firstName'] . ' ' . $socUser['lastName'];
             else
                 $userDetail['soc_username'] = $socUser['firstName'];
-        }
-        else
+        } else
             $userDetail['soc_username'] = $socUser['id'];
         if (isset($socUser['photo']) && !empty($socUser['photo']['prefix']) && isset($socUser['photo']['suffix']))
             $userDetail['photo'] = $socUser['photo']['prefix'] . '100x100' . $socUser['photo']['suffix'];
 
 
         //Последний чекин
-        if (!empty($socUser['id']))
-        {
+        if (!empty($socUser['id'])) {
             $user = User::model()->findByAttributes(array(
                 'foursquare_id' => $socUser['id']
             ));
 
-            if ($user && !empty($user->foursquare_token))
-            {
+            if ($user && !empty($user->foursquare_token)) {
                 $checkins = self::makeRequest('https://api.foursquare.com/v2/users/' . $socUser['id'] . '/checkins?limit=250&sort=newestfirst&oauth_token=' . $user->foursquare_token . '&v=20130211');
-                if (isset($checkins['response']) && isset($checkins['response']['checkins']) && isset($checkins['response']['checkins']['items']))
-                {
+                if (isset($checkins['response']) && isset($checkins['response']['checkins']) && isset($checkins['response']['checkins']['items'])) {
                     unset($lastCheckin);
                     $i = 0;
 
-                    while (!isset($lastCheckin))
-                    {
-                        if (isset($checkins['response']['checkins']['items'][$i]) && isset($checkins['response']['checkins']['items'][$i]['type']) && ($checkins['response']['checkins']['items'][$i]['type'] == 'checkin') && isset($checkins['response']['checkins']['items'][$i]['venue']) && isset($checkins['response']['checkins']['items'][$i]['venue']['name']) && !isset($checkins['response']['checkins']['items'][$i]['private']))
-                        {
+                    while (!isset($lastCheckin)) {
+                        if (isset($checkins['response']['checkins']['items'][$i]) && isset($checkins['response']['checkins']['items'][$i]['type']) && ($checkins['response']['checkins']['items'][$i]['type'] == 'checkin') && isset($checkins['response']['checkins']['items'][$i]['venue']) && isset($checkins['response']['checkins']['items'][$i]['venue']['name']) && !isset($checkins['response']['checkins']['items'][$i]['private'])) {
                             $lastCheckin = $checkins['response']['checkins']['items'][$i];
-                        }
-                        elseif (!isset($checkins['response']['checkins']['items'][$i]))
-                        {
+                        } elseif (!isset($checkins['response']['checkins']['items'][$i])) {
                             $lastCheckin = 'no';
-                        }
-                        else
+                        } else
                             $i++;
                     }
 
-                    if ($lastCheckin != 'no')
-                    {
+                    if ($lastCheckin != 'no') {
                         $userDetail['venue_name'] = $lastCheckin['venue']['name'];
                         if (!empty($lastCheckin['shout']))
                             $userDetail['checkin_shout'] = $lastCheckin['shout'];
                         if (isset($lastCheckin['venue']['location']) && isset($lastCheckin['venue']['location']['address']))
                             $userDetail['venue_address'] = $lastCheckin['venue']['location']['address'];
-                        if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset']))
-                        {
+                        if (isset($lastCheckin['createdAt']) && isset($lastCheckin['timeZoneOffset'])) {
                             $dateDiff = time() - $lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset'];
                             $userDetail['sub-time'] = SocContentBase::timeDiff($dateDiff);
                             $userDetail['checkin_date'] = date('F j, Y', ($lastCheckin['createdAt'] + $lastCheckin['timeZoneOffset']));
                         }
-                        if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height']))
-                        {
+                        if (isset($lastCheckin['photos']) && isset($lastCheckin['photos']['items']) && isset($lastCheckin['photos']['items'][0]) && isset($lastCheckin['photos']['items'][0]['prefix']) && isset($lastCheckin['photos']['items'][0]['suffix']) && isset($lastCheckin['photos']['items'][0]['width']) && isset($lastCheckin['photos']['items'][0]['height'])) {
                             $userDetail['checkin_photo'] = $lastCheckin['photos']['items'][0]['prefix'] . $lastCheckin['photos']['items'][0]['width'] . 'x' . $lastCheckin['photos']['items'][0]['height'] . $lastCheckin['photos']['items'][0]['suffix'];
                         }
                     }
@@ -137,19 +118,15 @@ class FoursquareContent extends SocContentBase
         //Последний бейдж
         $badges = self::makeRequest('https://api.foursquare.com/v2/users/' . $socUsername . '/badges?client_id=' . Yii::app()->eauth->services['foursquare']['client_id'] . '&client_secret=' . Yii::app()->eauth->services['foursquare']['client_secret'] . '&v=20130211');
         $last_badge = array();
-        if (isset($badges['response']) && isset($badges['response']['badges']))
-        {
-            foreach ($badges['response']['badges'] as $badge)
-            {
-                if (isset($badge['unlocks']) && isset($badge['unlocks'][0]) && !isset($last_badge['id']))
-                {
+        if (isset($badges['response']) && isset($badges['response']['badges'])) {
+            foreach ($badges['response']['badges'] as $badge) {
+                if (isset($badge['unlocks']) && isset($badge['unlocks'][0]) && !isset($last_badge['id'])) {
                     $last_badge['id'] = $badge['id'];
                     if (isset($badge['image']) && isset($badge['image']['prefix']) && isset($badge['image']['sizes']) && isset($badge['image']['sizes']['1']) && isset($badge['image']['name']))
                         $last_badge['image'] = $badge['image']['prefix'] . $badge['image']['sizes']['1'] . $badge['image']['name'];
                     if (!empty($badge['name']))
                         $last_badge['name'] = $badge['name'];
-                    if (isset($badge['unlocks']) && isset($badge['unlocks'][0]) && isset($badge['unlocks'][0]['checkins']) && isset($badge['unlocks'][0]['checkins'][0]) && isset($badge['unlocks'][0]['checkins'][0]['createdAt']) && isset($badge['unlocks'][0]['checkins'][0]['timeZoneOffset']))
-                    {
+                    if (isset($badge['unlocks']) && isset($badge['unlocks'][0]) && isset($badge['unlocks'][0]['checkins']) && isset($badge['unlocks'][0]['checkins'][0]) && isset($badge['unlocks'][0]['checkins'][0]['createdAt']) && isset($badge['unlocks'][0]['checkins'][0]['timeZoneOffset'])) {
                         $last_badge['date'] = $badge['unlocks'][0]['checkins'][0]['createdAt'];
                         $last_badge['timeZoneOffset'] = $badge['unlocks'][0]['checkins'][0]['timeZoneOffset'];
                     }
@@ -157,16 +134,11 @@ class FoursquareContent extends SocContentBase
                         $last_badge['description'] = $badge['description'];
                     if (!empty($badge['badgeText']))
                         $last_badge['badgeText'] = $badge['badgeText'];
-                    if (isset($badge['unlocks']) && isset($last_badge['date']))
-                    {
-                        foreach ($badge['unlocks'] as $unlock)
-                        {
-                            if (isset($unlock['checkins']))
-                            {
-                                foreach ($unlock['checkins'] as $checkin)
-                                {
-                                    if (isset($checkin['createdAt']) && isset($checkin['timeZoneOffset']) && ($checkin['createdAt'] > $last_badge['date']))
-                                    {
+                    if (isset($badge['unlocks']) && isset($last_badge['date'])) {
+                        foreach ($badge['unlocks'] as $unlock) {
+                            if (isset($unlock['checkins'])) {
+                                foreach ($unlock['checkins'] as $checkin) {
+                                    if (isset($checkin['createdAt']) && isset($checkin['timeZoneOffset']) && ($checkin['createdAt'] > $last_badge['date'])) {
                                         $last_badge['date'] = $checkin['createdAt'];
                                         $last_badge['timeZoneOffset'] = $checkin['timeZoneOffset'];
                                     }
@@ -174,19 +146,12 @@ class FoursquareContent extends SocContentBase
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (isset($badge['unlocks']))
-                    {
-                        foreach ($badge['unlocks'] as $unlock)
-                        {
-                            if (isset($unlock['checkins']))
-                            {
-                                foreach ($unlock['checkins'] as $checkin)
-                                {
-                                    if ($checkin['createdAt'] > $last_badge['date'])
-                                    {
+                } else {
+                    if (isset($badge['unlocks'])) {
+                        foreach ($badge['unlocks'] as $unlock) {
+                            if (isset($unlock['checkins'])) {
+                                foreach ($unlock['checkins'] as $checkin) {
+                                    if ($checkin['createdAt'] > $last_badge['date']) {
                                         $last_badge['id'] = $badge['id'];
                                         $last_badge['image'] = $badge['image']['prefix'] . $badge['image']['sizes']['1'] . $badge['image']['name'];
                                         $last_badge['name'] = $badge['name'];
@@ -202,12 +167,10 @@ class FoursquareContent extends SocContentBase
                 }
             }
         }
-        if (!empty($last_badge['id']) && !empty($last_badge['image']))
-        {
+        if (!empty($last_badge['id']) && !empty($last_badge['image'])) {
             $userDetail['last_img'] = $last_badge['image'];
             $userDetail['last_img_href'] = 'https://foursquare.com/user/' . $socUsername . '/badge/' . $last_badge['id'];
-            if (!empty($last_badge['name']))
-            {
+            if (!empty($last_badge['name'])) {
                 $userDetail['last_img_msg'] = $last_badge['name'];
                 if (!empty($last_badge['date']) && isset($last_badge['timeZoneOffset']))
                     $userDetail['last_img_msg'] .= '<br/>' . date('F j, Y', ($last_badge['date'] + $last_badge['timeZoneOffset']));

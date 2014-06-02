@@ -26,7 +26,7 @@ class CustomMySpaceAuthService extends EOAuthService
         if (isset($info->image))
             $this->attributes['photo'] = $info->image;
         // $this->attributes['url'] = $info->webUri;
-        /* 		
+        /*
           $profile = $this->makeSignedRequest('http://api.myspace.com/v1/users/' . $info->userId . '/profile.json');
           if(!empty($profile->age))
           $this->attributes['age'] = $profile->age;
@@ -55,4 +55,3 @@ class CustomMySpaceAuthService extends EOAuthService
           }
          */
     }
-    

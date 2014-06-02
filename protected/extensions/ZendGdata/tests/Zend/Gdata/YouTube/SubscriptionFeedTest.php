@@ -35,7 +35,8 @@ require_once 'Zend/Gdata/YouTube.php';
 class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->feedText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/SubscriptionFeedDataSample1.xml',
                 true);
@@ -45,7 +46,8 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
         $this->feed = new Zend_Gdata_YouTube_SubscriptionFeed();
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($subscriptionFeed) {
+    private function verifyAllSamplePropertiesAreCorrect($subscriptionFeed)
+    {
         $this->assertEquals('http://gdata.youtube.com/feeds/users/testuser/subscriptions',
             $subscriptionFeed->id->text);
         $this->assertEquals('2007-09-20T22:12:45.193Z', $subscriptionFeed->updated->text);
@@ -62,7 +64,8 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $subscriptionFeed->totalResults->text);
     }
 
-    private function verifyAllSamplePropertiesAreCorrectV2 ($subscriptionFeed) {
+    private function verifyAllSamplePropertiesAreCorrectV2($subscriptionFeed)
+    {
         $this->assertEquals('tag:youtube.com,2008:user:zfgdata:subscriptions',
             $subscriptionFeed->id->text);
         $this->assertEquals('2007-09-20T21:01:13.000-07:00',
@@ -113,29 +116,34 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->feed->extensionElements));
         $this->assertEquals(0, count($this->feed->extensionElements));
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->feed->extensionAttributes));
         $this->assertEquals(0, count($this->feed->extensionAttributes));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->assertTrue(is_array($this->feed->extensionElements));
         $this->assertEquals(0, count($this->feed->extensionElements));
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->assertTrue(is_array($this->feed->extensionAttributes));
         $this->assertEquals(0, count($this->feed->extensionAttributes));
     }
 
-    public function testEmptySubscriptionFeedToAndFromStringShouldMatch() {
+    public function testEmptySubscriptionFeedToAndFromStringShouldMatch()
+    {
         $feedXml = $this->feed->saveXML();
         $newSubscriptionFeed = new Zend_Gdata_YouTube_SubscriptionFeed();
         $newSubscriptionFeed->transferFromXML($feedXml);
@@ -143,17 +151,20 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($feedXml == $newSubscriptionFeedXml);
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->verifyAllSamplePropertiesAreCorrect($this->feed);
     }
 
-    public function testSamplePropertiesAreCorrectV2 () {
+    public function testSamplePropertiesAreCorrectV2()
+    {
         $this->feed->transferFromXML($this->V2feedText);
         $this->verifyAllSamplePropertiesAreCorrectV2($this->feed);
     }
 
-    public function testConvertSubscriptionFeedToAndFromString() {
+    public function testConvertSubscriptionFeedToAndFromString()
+    {
         $this->feed->transferFromXML($this->feedText);
         $feedXml = $this->feed->saveXML();
         $newSubscriptionFeed = new Zend_Gdata_YouTube_SubscriptionFeed();
@@ -163,7 +174,8 @@ class Zend_Gdata_YouTube_SubscriptionFeedTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($feedXml, $newSubscriptionFeedXml);
     }
 
-    public function testConvertSubscriptionFeedToAndFromStringV2() {
+    public function testConvertSubscriptionFeedToAndFromStringV2()
+    {
         $this->feed->transferFromXML($this->V2feedText);
         $this->feed->setMajorProtocolVersion(2);
         $feedXml = $this->feed->saveXML();

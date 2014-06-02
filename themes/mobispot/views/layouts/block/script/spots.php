@@ -6,7 +6,7 @@
     <script src="/themes/mobispot/js/jquery.placeholder.js"></script>
 
     <script>
-        $(function() {
+        $(function () {
             $('input, textarea').placeholder();
         });
     </script>
@@ -24,7 +24,7 @@
 <script src="/themes/mobispot/js/foundation.min.js"></script>
 <script>
     $(document).foundation();
-    $(window).load(function() {
+    $(window).load(function () {
         $('textarea').autosize();
     });
 </script>
