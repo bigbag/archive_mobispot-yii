@@ -2,7 +2,9 @@
     <div class="large-12 columns">
         <ul class="spot-list so-awesome">
             <?php foreach ($spots as $spot):?>
+            <?php $invisible = ($spot->status==Spot::STATUS_INVISIBLE)?'invisible':'';?>
             <li id="<?php echo $spot->discodes_id;?>"
+                class="<?php echo $invisible; ?>"
                 ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='spot'"
                 ng-class="{active: spot.discodes=='<?php echo $spot->discodes_id;?>'}">
                 <i class="icon i-invisible">&#xe60b;</i>
