@@ -62,6 +62,11 @@ angular.module('mobispot').controller('SpotController',
     }
   });
 
+  $scope.bodyMinHeight = function(){
+    var listHeight = angular.element('.spot-list').height();
+    angular.element('.spot-content').css('min-height', listHeight+200);
+  }
+
   $scope.viewSpot = function (spot) {
     if (spot.discodes == 0) return false;
 
@@ -75,25 +80,12 @@ angular.module('mobispot').controller('SpotController',
         $scope.content_iteration = 0;
         $scope.fileUploadInit();
 
+        $scope.bodyMinHeight();
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
       }
     });
-  };
-
-  // Анимация смены спота
-  $scope.animateSpotSwitching = function () {
-    var speed = 400;
-    var spot_wrapper = angular.element('.spot-wrapper');
-
-      spot_wrapper.stop().animate({
-        opacity: 0
-      },speed/2,function(){
-        spot_wrapper.addClass('active').animate({
-          opacity: 1
-        },speed)
-      });
   };
 
   // Добавление нового блока в спот
@@ -265,6 +257,7 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
+        $scope.bodyMinHeight();
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
