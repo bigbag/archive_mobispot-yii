@@ -243,6 +243,7 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
+        $scope.bodyMinHeight();
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
