@@ -26,7 +26,7 @@
                                     ng-repeat="image in product.photo"
                                     ng-click="scrollTo(image,$index, product.jsID)">
                                     <div class="thumbwrapper">
-                                        <img  class="thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
+                                        <img  class="slider-thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
                                     </div>
                                 </li>
                             </ul>
