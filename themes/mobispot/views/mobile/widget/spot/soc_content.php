@@ -237,9 +237,9 @@
                         });
                     </script>
                 <?php endif; ?>
-                <?php if (isset($socContent['youtube_video_view_count'])): ?>
+                <?php if (isset($socContent['view_count'])): ?>
                     <footer>
-                        <span><?php echo $socContent['youtube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+                        <span><?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
                     </footer>
                 <?php endif; ?>
             <?php endif; ?>

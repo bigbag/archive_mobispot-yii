@@ -1,4 +1,4 @@
-<div id="block-<?php echo $dataKey;?>" class="spot-item ">
+<div id="block-<?php echo $dataKey;?>" class="spot-item">
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
@@ -6,7 +6,6 @@
                 <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInfo->getSmallIcon($socContent['soc_url']);?>" height="36"><span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
-        <?php if (!empty($socContent['youtube_video_view_count'])): ?>
         <div class="type-mess item-body">
             <div class="item-user-avatar">
             <?php if (!empty($socContent['photo'])):?>
@@ -19,13 +18,21 @@
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif ?>
                     <b class="time"><?php //echo $socContent['sub-time']; ?></b>
-                    <span class="sub-line"><?php echo $socContent['youtube_video_view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+                    <span class="sub-line">
+                    <?php if (!empty($socContent['view_count'])): ?>
+                    <?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?>
+                    <?php endif ?>
+                    </span>
                 </div>
                 <div class="ins-block">
                 <object>
-                    <param name="movie" value="<?php echo $socContent['youtube_video_flash']; ?>">
+                    <param name="movie" value="<?php 
+                    echo (!empty($socContent['youtube_video_flash']))?
+                        $socContent['youtube_video_flash']:'' ?>">
                     <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['youtube_video_flash']; ?>"
+                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php 
+                    echo (!empty($socContent['youtube_video_flash']))?
+                        $socContent['youtube_video_flash']:'' ?>"
                     <?php if (isset($socContent['youtube_video_rel'])): ?>
                         rel="<?php echo $socContent['youtube_video_rel']; ?>"
                     <?php endif; ?>
@@ -36,14 +43,13 @@
                 </div>
             </div>
         </div>
-        <?php endif;?>
-            <div class="item-control">
-                    <span class="move move-top"></span>
-                        <div class="spot-activity">
-                            <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
-                            <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
-                        </div>
-                    <span class="move move-bottom"></span>
-            </div>
+        <div class="item-control">
+                <span class="move move-top"></span>
+                    <div class="spot-activity">
+                        <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
+                        <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
+                    </div>
+                <span class="move move-bottom"></span>
+        </div>
     </div>
 </div>

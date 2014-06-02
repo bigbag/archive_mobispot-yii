@@ -93,7 +93,7 @@ class YouTubeContent extends SocContentBase
                     $videoEntry = $videoFeed[0];
                     $userDetail['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
                     $userDetail['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                    $userDetail['youtube_video_view_count'] = $videoEntry->getVideoViewCount();
+                    $userDetail['view_count'] = $videoEntry->getVideoViewCount();
 
                     $videoThumbnails = $videoEntry->getVideoThumbnails();
                     if (isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height'])) {
@@ -134,7 +134,7 @@ class YouTubeContent extends SocContentBase
                 $videoEntry = $yt->getVideoEntry($videoId);
                 $videoContent['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
                 $videoContent['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                $videoContent['youtube_video_view_count'] = $videoEntry->getVideoViewCount();
+                $videoContent['view_count'] = $videoEntry->getVideoViewCount();
 
                 $videoThumbnails = $videoEntry->getVideoThumbnails();
                 if (isset($videoThumbnails[0])) {

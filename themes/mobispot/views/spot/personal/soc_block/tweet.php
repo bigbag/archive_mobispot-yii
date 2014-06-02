@@ -14,7 +14,9 @@
             <div class="mess-body">
                 <?php if (!empty($socContent['tweet_author'])):?>
                 <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url'] ?>"><?php echo $socContent['tweet_author'] ?></a>
-                    <a class="user-name sub-line" href="<?php echo $socContent['soc_url'] ?>">@<?php echo $socContent['tweet_username'] ?></a>
+                    <a class="user-name sub-line" href="<?php echo $socContent['soc_url'] ?>">@<?php 
+                        echo (!empty($socContent['tweet_username']))?
+                        $socContent['tweet_username']:'' ?></a>
                 </div>
                 <?php endif ?>
                 <?php if (!empty($socContent['tweet_text'])):?>
@@ -22,7 +24,9 @@
                     <p><?php echo $socContent['tweet_text'] ?>
                     </p>
                     <footer>
-                        <div class="left timestamp"><?php echo $socContent['tweet_datetime'] ?></div>
+                        <div class="left timestamp"><?php 
+                        echo (!empty($socContent['tweet_datetime']))?
+                            $socContent['tweet_datetime']:'' ?></div>
                     </footer>
                 </div>
                 <?php endif ?>
