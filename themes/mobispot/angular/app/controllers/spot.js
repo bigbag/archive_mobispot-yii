@@ -35,7 +35,6 @@ angular.module('mobispot').controller('SpotController',
     $http.post('/spot/addSpot', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.discodes = data.discodes;
-        contentService.scrollPage('body'); 
         angular.element('.spot-list').prepend($compile(data.content)($scope));
         angular.element('#actSpot').click();
         delete $scope.spot.code;
@@ -84,6 +83,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
+        contentService.scrollPage('body'); 
       }
     });
   };
@@ -100,7 +100,7 @@ angular.module('mobispot').controller('SpotController',
       if(data.error == 'no') {
         angular.element('#add-content').append($compile(data.content)($scope));
 
-        $scope.keys.push(data.key);
+        $scope.spot.keys.push(data.key);
         $scope.spot.content = '';
         angular.element('textarea').removeClass('put');
 
@@ -118,6 +118,27 @@ angular.module('mobispot').controller('SpotController',
     });
     $scope.resetCursor();
   }
+
+  // Сохраняем порядок блоков
+  $scope.saveOrder = function() {
+    $http.post('/spot/saveOrder', $scope.spot).success(function(data) {
+      if(data.error == 'no') {
+
+      }
+    });
+  }
+
+  // Параметры сортировки
+  $scope.sortableOptions = {
+    update: function(e, ui) {
+      $scope.saveOrder();
+    },
+    'containment':'.spot-content',
+    'handle': '.move',
+    'scrollSensitivity': 5,
+    'tolerance': 'pointer',
+    'opacity':0.8
+  };
 
   // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
@@ -324,29 +345,6 @@ angular.module('mobispot').controller('SpotController',
     }, 1000);
   };
 
-
-  // TODO Сортировка блоков спота и сохранение порядна, не работает
-  // // Сохраняем порядок блоков
-  // $scope.saveOrder = function() {
-  //   var spot = $scope.spot;
-  //   spot.keys = $scope.keys;
-  //   $http.post('/spot/saveOrder', spot).success(function(data) {
-  //     if(data.error == 'no') {
-
-  //     }
-  //   });
-  // }
-
-  // // Параметры сортировки
-  // $scope.sortableOptions = {
-  //   update: function(e, ui) {
-  //     $scope.saveOrder();
-  //   },
-  //   'containment':'.spot-content',
-  //   'tolerance':'pointer',
-  //   'scrollSensitivity': 10,
-  //   'opacity':0.8
-  // };
 
 /*Загрузка файлов */
 

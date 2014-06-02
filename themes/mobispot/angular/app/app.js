@@ -1,2 +1,2 @@
 'use strict';
-angular.module('mobispot', ['ngCookies']);
+angular.module('mobispot', ['ngCookies', 'ui.sortable']);
