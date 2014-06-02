@@ -14,6 +14,7 @@
 <![endif]-->
 
 <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
+<script src="/themes/mobispot/angular/modules/sortable/src/sortable.js"></script>
 <script src="/themes/mobispot/angular/app/app.js"></script>
 <script src="/themes/mobispot/angular/app/service.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/user.js"></script>

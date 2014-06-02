@@ -67,8 +67,9 @@
                     <?php if (isset($content['data']) and isset($content['keys'])): ?>
                         <?php $keys = (isset($content['keys']) ? array_keys($content['keys']) : array()) ?>
                         <?php $keys = '[' . implode(',', $keys) . ']'; ?>
-
-                        <div ui-sortable="sortableOptions" ng-model="keys" id="add-content">
+                        
+                        <span ng-init="spot.keys=<?php echo $keys; ?>"></span>
+                        <div ui-sortable="sortableOptions" ng-model="spot.keys" id="add-content">
                         <?php foreach ($content_keys as $key => $type): ?>
                             <?php $value = $content['data'][$key]; ?>
                                 <?php echo $this->renderPartial('/spot/personal/new_' . $type,
