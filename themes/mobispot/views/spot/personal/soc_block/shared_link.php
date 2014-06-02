@@ -13,23 +13,34 @@
             <?php endif ?>
             </div>
             <div class="mess-body">
-                <div class="author-row"><a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                <div class="author-row">
+                <?php if (!empty($socContent['soc_username'])): ?>
+                <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                <?php endif ?>
                 <span class="sub-line">
                 <?php echo (!empty($socContent['sub-line']))?$socContent['sub-line']:'' ?>
                 </span>
                 </div>
                 <div class="ins-block">
-                    <p><?php echo $socContent['text']; ?></p>
+                    <p> <?php echo (!empty($socContent['text']))?
+                        $socContent['text']:'' ?></p>
 
-                    <a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
+                    <a href="<?php echo (!empty($socContent['shared_link']))?
+                        $socContent['shared_link']:'' ?>" class="thumbnail">
+                        <?php if (!empty($socContent['last_img'])): ?>
                         <img src="<?php echo $socContent['last_img']; ?>">
-                        <h4><?php echo $socContent['link_name']; ?></h4>
-                        <span class="sub-txt"><?php echo $socContent['link_caption']; ?></span>
-                        <p><?php echo $socContent['link_description']; ?></p>
+                        <?php endif ?>
+                        <h4><?php echo (!empty($socContent['link_name']))?
+                        $socContent['link_name']:'' ?></h4>
+                        <span class="sub-txt"><?php echo (!empty($socContent['link_caption']))?
+                        $socContent['link_caption']:'' ?></span>
+                        <p><?php echo (!empty($socContent['link_description']))?
+                        $socContent['link_description']:'' ?></p>
                     </a>
 
                     <footer>
-                        <span><?php echo $socContent['footer-line']; ?></span>
+                        <span><?php echo (!empty($socContent['footer-line']))?
+                        $socContent['footer-line']:'' ?></span>
                     </footer>
                 </div>
             </div>
