@@ -253,6 +253,7 @@ angular.module('mobispot').controller('SpotController',
     $http.post('/spot/invisibleSpot', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.status = data.status;
+        angular.element('#'+spot.discodes).toggleClass('invisible')
       }
     });
   };

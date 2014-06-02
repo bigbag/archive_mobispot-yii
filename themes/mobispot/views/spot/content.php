@@ -1,4 +1,4 @@
-<div class="spot-content">
+<div class="spot-content" ng-init="spot.status=<?php echo $spot->status; ?>">
     <section class="spot-wrapper active">
         <div class="spot-hat">
             <?php include('block/menu.php'); ?>

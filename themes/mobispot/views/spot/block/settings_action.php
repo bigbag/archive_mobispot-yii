@@ -26,7 +26,6 @@
         <div class="row toggle-visible">
             <div class="columns large-4">
                 <a class="red"
-                    ng-init="spot.status=<?php echo $spot->status; ?>"
                     ng-click="ivisibleSpot(spot)">
                     <div ng-show="spot.status==2">
                         <i class="icon">&#xe60b;</i>
