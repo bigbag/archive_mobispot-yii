@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('mobispot').controller('HelpController', 
+angular.module('mobispot').controller('HelpController',
   function($scope, $http, contentService) {
 
   $scope.error = {};
 
   $scope.send = function(user, valid){
     if (!valid) return false;
-    user.email = user.help_email
+    user.email = user.help_email;
     $http.post('/service/sendQuestion', user).success(function(data) {
       if(data.error == 'no') {
         $scope.user.name = '';

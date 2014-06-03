@@ -15,11 +15,12 @@
 
 <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
 <script src="/themes/mobispot/angular/modules/sortable/src/sortable.js"></script>
-<script src="/themes/mobispot/angular/app/app.js"></script>
+<script>angular.module('mobispot', ['ngCookies', 'ui.sortable']);</script>
 <script src="/themes/mobispot/angular/app/service.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/spot.js"></script>
 <?php echo $this->blockFooterScript; ?>
+
 <script src="/themes/mobispot/js/script-add.js"></script>
 <script src="/themes/mobispot/js/script.js"></script>
 <script src="/themes/mobispot/js/foundation.min.js"></script>
