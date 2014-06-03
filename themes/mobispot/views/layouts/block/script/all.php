@@ -1,8 +1,7 @@
     <script src="/themes/mobispot/js/jquery-ui.min.js"></script>
 
     <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
-    <script src="/themes/mobispot/angular/modules/sortable/src/sortable.js"></script>
-    <script src="/themes/mobispot/angular/app/app.js"></script>
+    <script>angular.module('mobispot', ['ngCookies']);</script>
     <script src="/themes/mobispot/angular/app/service.js"></script>
     <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
 
@@ -11,6 +10,7 @@
     <script src="/themes/mobispot/js/script.js"></script>
     <script src="/themes/mobispot/js/foundation.min.js"></script>
     <script>
+
         $(document).foundation();
         $(function () {
             var w = window.innerWidth;

@@ -536,7 +536,8 @@ angular.module('mobispot').controller('SpotController',
                       }
                     }, options);
 
-                    var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+                    var redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+                    var url = redirect_uri;
 
                     url += url.indexOf('?') >= 0 ? '&' : '?';
                     if (url.indexOf('redirect_uri=') === -1)
@@ -618,7 +619,8 @@ angular.module('mobispot').controller('SpotController',
               }
             }, options);
 
-            var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+            var redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+            var url = redirect_uri;
 
             url += url.indexOf('?') >= 0 ? '&' : '?';
             if (url.indexOf('redirect_uri=') === -1)
@@ -680,7 +682,8 @@ angular.module('mobispot').controller('SpotController',
                     }
                   }, options);
 
-                  var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+                  var redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+                  var url = redirect_uri;
 
                   url += url.indexOf('?') >= 0 ? '&' : '?';
                   if (url.indexOf('redirect_uri=') === -1)
