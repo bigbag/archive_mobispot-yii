@@ -9,19 +9,19 @@ angular.module('mobispot').controller('UserController',
 
   var prevSlide = function() {
    $('.slidesjs-previous').click();
-  }
+  };
 
   var nextSlide = function() {
     $('.slidesjs-next').click();
-  }
+  };
 
   var stopSlide = function() {
     $('.slidesjs-stop').click();
-  }
+  };
 
   var startSlide = function() {
     $('.slidesjs-play').click();
-  }
+  };
 
   //Очистка значений
   $scope.setEmpty = function() {
@@ -101,7 +101,7 @@ angular.module('mobispot').controller('UserController',
     });
   };
 
-  $scope.$watch('user.email + user.password + user.code', function(user) {
+  $scope.$watch('user.email + user.password + user.code', function() {
     $scope.error.email = false;
     $scope.error.code = false;
     $scope.error.password = false;
@@ -112,13 +112,13 @@ angular.module('mobispot').controller('UserController',
   $scope.activation = function(user, valid){
 
     if (!valid) return false;
-    if (user.terms == 0) return false;
+    if (user.terms === 0) return false;
     $http.post('/service/registration', user).success(function(data) {
 
       if (data.error == 'no'){
-        $scope.user.email = "";
-        $scope.user.password = "";
-        $scope.user.activ_code = "";
+        $scope.user.email = '';
+        $scope.user.password = '';
+        $scope.user.activ_code = '';
         $scope.user.terms = 0;
         $scope.result.message = data.content;
         contentService.viewModal('message');
@@ -144,7 +144,7 @@ angular.module('mobispot').controller('UserController',
         $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        $scope.user.email = "";
+        $scope.user.email = '';
         $scope.result.message = data.content;
         contentService.viewModal('message');
       }

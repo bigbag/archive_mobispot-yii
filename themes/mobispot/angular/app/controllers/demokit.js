@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mobispot').controller('DemokitController', 
+angular.module('mobispot').controller('DemokitController',
   function($scope, $http, $compile, $timeout, contentService) {
 
 
@@ -8,16 +8,13 @@ $scope.dkitForm = function(e, index, checkValid, valid){
     if ($scope.summ <= 0) {
         return false;
     }
-    
-    if (typeof 'undefined' != checkValid
-        && 1 == checkValid
-        && !valid
-        )
+
+    if (typeof 'undefined' != checkValid && 1 == checkValid && !valid)
     {
-        contentService.setModal($scope.fillAllMessage, 'error');  
+        contentService.setModal($scope.fillAllMessage, 'error');
         return false;
     }
-    
+
     index = --index;
 
     var $tabItem = $('.tab-item');
@@ -27,62 +24,62 @@ $scope.dkitForm = function(e, index, checkValid, valid){
     $($tabItem[index]).addClass('active');
     $($tabLink[index]).addClass('active');
 
-}
+};
 
-    $scope.order = {name:"", email:"", phone:"", address:"", city:"", zip:"", country:"", shipping: 1, payment: 1}
-    $scope.products = {}
+    $scope.order = {name:"", email:"", phone:"", address:"", city:"", zip:"", country:"", shipping: 1, payment: 1};
+    $scope.products = {};
     $scope.max_product_id = 0;
-    $scope.prices = {}
-    $scope.shippings = {}
-    $scope.payments = {}
+    $scope.prices = {};
+    $scope.shippings = {};
+    $scope.payments = {};
     //$scope.summ = 0;
     $scope.total = 0;
     $scope.toMain = false;
-    
+
     $scope.registerProduct = function(product_id, price) {
         $scope.products[product_id] = 0;
         if (product_id > $scope.max_product_id)
             $scope.max_product_id = product_id;
         $scope.prices[product_id] = price;
-    }
-    
+    };
+
     $scope.addProduct = function(product_id) {
         if ($scope.products[product_id] < 9)
             $scope.products[product_id]++;
         $scope.calculateSumm();
-    }
-    
+    };
+
     $scope.deductProduct = function(product_id) {
         if ($scope.products[product_id] > 0)
             $scope.products[product_id]--;
         $scope.calculateSumm();
-    }
+    };
 
     $scope.registerShipping = function(shipping_id, price) {
         $scope.shippings[shipping_id] = price;
-    }
-    
+    };
+
     $scope.setShipping = function(shipping_id, e) {
         $scope.order.shipping = shipping_id;
         if (typeof e != 'undefined')
             angular.element(e.currentTarget).click();
         $scope.calculateSumm();
-    }
+    };
 
     $scope.registerPayment = function(payment_id, action) {
         $scope.payments[payment_id] = action;
-    }
-    
+    };
+
     $scope.setPayment = function(payment_id, e) {
         $scope.order.payment = payment_id;
         if (typeof e != 'undefined')
             angular.element(e.currentTarget).click();
-    }
-    
+    };
+
     $scope.calculateSumm = function() {
         /*
         $scope.summ = 0;
-      
+
         for (var i = 0; i <= $scope.max_product_id; i++) {
             if (i in $scope.products) {
                 $scope.summ += $scope.products[i] * $scope.prices[i];
@@ -90,12 +87,12 @@ $scope.dkitForm = function(e, index, checkValid, valid){
         }
         */
         $scope.summ = 120;
-        
+
         $scope.total = $scope.summ;
         if ($scope.order.shipping && typeof $scope.shippings[$scope.order.shipping] != 'undefined')
             $scope.total += $scope.shippings[$scope.order.shipping];
-    }
-    
+    };
+
     $scope.buyDemoKit = function(order) {
         if ($scope.toMain)
             window.location.href = '/';
@@ -110,18 +107,13 @@ $scope.dkitForm = function(e, index, checkValid, valid){
                     }
                     else {
                       angular.element('#demo-kit-block').after($compile(data.content)($scope));
-                      angular.element('#form-ym-pay').submit(); 
+                      angular.element('#form-ym-pay').submit();
                     }
                   }
                   else {
-                      contentService.setModal(data.message, 'error');   
+                      contentService.setModal(data.message, 'error');
                   }
               });
         }
-    }
+    };
 });
-
-
-
-
-

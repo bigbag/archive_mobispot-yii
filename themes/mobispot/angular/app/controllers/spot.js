@@ -31,7 +31,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Добавление спота
   $scope.addSpot = function(spot) {
-    if (!spot.code | ($scope.spot.terms == 0)) return false;
+    if (!spot.code | ($scope.spot.terms === 0)) return false;
     $http.post('/spot/addSpot', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.discodes = data.discodes;
@@ -64,10 +64,10 @@ angular.module('mobispot').controller('SpotController',
   $scope.bodyMinHeight = function(){
     var listHeight = angular.element('.spot-list').height();
     angular.element('.spot-content').css('min-height', listHeight+200);
-  }
+  };
 
   $scope.viewSpot = function (spot) {
-    if (spot.discodes == 0) return false;
+    if (spot.discodes === 0) return false;
 
     var spot_block = angular.element('#spot-block');
     $http.post('/spot/viewSpot', spot).success(function(data) {
@@ -83,7 +83,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
-        contentService.scrollPage('body'); 
+        contentService.scrollPage('body');
       }
     });
   };
@@ -117,7 +117,7 @@ angular.module('mobispot').controller('SpotController',
       }
     });
     $scope.resetCursor();
-  }
+  };
 
   // Сохраняем порядок блоков
   $scope.saveOrder = function() {
@@ -126,7 +126,7 @@ angular.module('mobispot').controller('SpotController',
 
       }
     });
-  }
+  };
 
   // Параметры сортировки
   $scope.sortableOptions = {
@@ -225,7 +225,7 @@ angular.module('mobispot').controller('SpotController',
     if (!spot.name) return false;
     $http.post('/spot/renameSpot', spot).success(function(data) {
       if(data.error == 'no') {
-        angular.element("#" + spot.discodes + " h3").text(spot.name);
+        angular.element('#' + spot.discodes + ' h3').text(spot.name);
       }
     });
   };
@@ -253,7 +253,7 @@ angular.module('mobispot').controller('SpotController',
     $http.post('/spot/invisibleSpot', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.status = data.status;
-        angular.element('#'+spot.discodes).toggleClass('invisible')
+        angular.element('#'+spot.discodes).toggleClass('invisible');
       }
     });
   };
@@ -317,12 +317,12 @@ angular.module('mobispot').controller('SpotController',
   $scope.editCardList = function(){
     $('.table-card').toggleClass('edit');
 
-    if ($scope.wallet.card_edit == 0) {
+    if ($scope.wallet.card_edit === 0) {
       $scope.wallet.card_edit = 1;
     } else {
       $scope.wallet.card_edit = 0;
     }
-  }
+  };
 
   // Удаляем карту
   $scope.removeCard = function(card_id, e){
@@ -339,7 +339,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.countReset = function() {
     $scope.reset_time = typeof $scope.reset_time !== 'undefined' ? $scope.reset_time:30;
     stopped = $timeout(function() {
-      if ($scope.reset_time == 0) {
+      if ($scope.reset_time === 0) {
         $(location).attr('href',window.location.pathname);
       } else $scope.reset_time--;
       $scope.countReset();
@@ -362,7 +362,7 @@ angular.module('mobispot').controller('SpotController',
         file_button.addEventListener('change', fileSelectHandler, false);
       }
     }
-  }
+  };
 
   // Закачка файла html5
   function fileDragHover(e) {
@@ -402,23 +402,23 @@ angular.module('mobispot').controller('SpotController',
         }, 600);
       }
     }
-  }
+  };
 
   // Случайным образом генерируем значение для эффекта загрузки
   function uploadProgress(evt) {
     $scope.$apply(function(){
       if (evt.lengthComputable) {
-          $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+          $scope.progress = Math.round(evt.loaded * 100 / evt.total);
       } else {
-          $scope.progress = 'unable to compute'
+          $scope.progress = 'unable to compute';
       }
-    })
+    });
   }
 
   // Действие если загрузка не удалась
   $scope.uploadFailed = function(e) {
     angular.element('#error-upload').show().delay(800).slideUp('slow');
-  }
+  };
 
   $scope.uploadFile = function(file) {
 
@@ -428,21 +428,21 @@ angular.module('mobispot').controller('SpotController',
 
       xhr.upload.onprogress = function(e) {
         if (e.lengthComputable) {
-          $scope.progress = Math.round(e.loaded * 100 / e.total)
+          $scope.progress = Math.round(e.loaded * 100 / e.total);
         } else {
-          $scope.progress = 'unable to compute'
+          $scope.progress = 'unable to compute';
         }
       };
 
-      xhr.upload.addEventListener("progress", uploadProgress, false)
-      xhr.addEventListener("error", $scope.uploadFailed, false)
-      xhr.addEventListener("load", $scope.uploadComplete, false)
-      xhr.open("POST", "/spot/upload", true);
-      xhr.setRequestHeader("X-File-Name", unescape(encodeURIComponent(file.name)));
-      xhr.setRequestHeader("X-Discodes", $scope.spot.discodes);
+      xhr.upload.addEventListener('progress', uploadProgress, false);
+      xhr.addEventListener('error', $scope.uploadFailed, false);
+      xhr.addEventListener('load', $scope.uploadComplete, false);
+      xhr.open('POST', '/spot/upload', true);
+      xhr.setRequestHeader('X-File-Name', unescape(encodeURIComponent(file.name)));
+      xhr.setRequestHeader('X-Discodes', $scope.spot.discodes);
       xhr.send(file);
     }
-  }
+  };
 
 /* Соц сети */
 
@@ -460,23 +460,21 @@ angular.module('mobispot').controller('SpotController',
             spotEdit.remove();
             $scope.setVideoSize(data.key);
             if (oldScroll < $('html, body').scrollTop()) {
-                var scroll_height = $('html, body').scrollTop()
-                                    + $('#block-' + data.key).height()
-                                    - oldHeight;
+                var scroll_height = $('html, body').scrollTop() +
+                                    $('#block-' + data.key).height() -
+                                    oldHeight;
 
                 $('html, body').animate({
                     scrollTop: scroll_height
                 }, 0);
             }
-        }else{
-            console.log('key ' + key + ':' + data.error);
         }
       });
-  }
+  };
 
   //установить подсветку кнопки соцсети
   $scope.netCheck = function(netName) {
-    data = {token:$scope.user.token, netName:netName};
+    var data = {token:$scope.user.token, netName:netName};
     $http.post('/spot/netCheck', data).success(function(data) {
       if (data.error == 'no') {
         var button = angular.element("#extraMediaForm a[net='" + data.netName + "']");
@@ -486,19 +484,19 @@ angular.module('mobispot').controller('SpotController',
           button.removeClass('binded');
       }
     });
-  }
+  };
 
   //подсветить кнопку соцсети
   $scope.netUp = function(netName) {
     var button = angular.element("#extraMediaForm a[net='" + netName + "']");
     button.addClass('binded');
-  }
+  };
 
   //погасить кнопку соцсети
   $scope.netDown = function(netName) {
     var button = angular.element("#extraMediaForm a[net='" + netName + "']");
     button.removeClass('binded');
-  }
+  };
 
   // Привязка соцсетей
   var popup;
@@ -510,8 +508,7 @@ angular.module('mobispot').controller('SpotController',
     var netName = buttonName;
     var data = {spot: $scope.spot, token:$scope.user.token, netName:netName};
     //определение сети по ссылке
-    if ('undefined' != typeof ($scope.spot.content)
-        && $scope.spot.content.length)
+    if ('undefined' != typeof ($scope.spot.content) && $scope.spot.content.length)
     {
         data.link = $scope.spot.content;
         for (var i = 0; i < $scope.soc_patterns.length; i++)
@@ -528,7 +525,7 @@ angular.module('mobispot').controller('SpotController',
 
     $http.post('/spot/BindByPanel', data).success(function(data) {
         if(data.error == 'no') {
-            if(data.profileHint.length == 0)
+            if(data.profileHint.length === 0)
             {
                 if (!data.loggedIn) {
                     var options = $.extend({
@@ -539,7 +536,7 @@ angular.module('mobispot').controller('SpotController',
                       }
                     }, options);
 
-                    var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+                    var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
 
                     url += url.indexOf('?') >= 0 ? '&' : '?';
                     if (url.indexOf('redirect_uri=') === -1)
@@ -550,15 +547,14 @@ angular.module('mobispot').controller('SpotController',
 
                     popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 
-                    if (popup == null || typeof(popup)=='undefined') {
+                    if (popup === null || typeof(popup)=='undefined') {
                         window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
                     }
                     else {
                         popup.focus();
 
                         $scope.bindNet = {name:data.socnet, discodes:$scope.spot.discodes, newField:1};
-                        if ('undefined' != typeof ($scope.spot.content)
-                            && $scope.spot.content.length)
+                        if ('undefined' != typeof ($scope.spot.content) && $scope.spot.content.length)
                             $scope.bindNet.link = $scope.spot.content;
                         socTimer = $timeout($scope.loginTimer, 1000);
                     }
@@ -586,22 +582,11 @@ angular.module('mobispot').controller('SpotController',
                         if (currentNet > -1)
                             $scope.soc_patterns[currentNet].BindByPaste = true;
                     }
-                    else
-                    {
-                        $scope.addValue($scope.spot.content);
-                        contentService.setModal(data.linkCorrect, 'none');
-                    }
                 }
             }
         }
-        else
-        {
-            console.log(data.error);
-        }
-    }).error(function(error){
-        console.log(error);
     });
-  }
+  };
 
   //возврашает индекс соцсети в скопе по имени
   $scope.getPatternInd = function(netName){
@@ -615,7 +600,7 @@ angular.module('mobispot').controller('SpotController',
           }
       }
       return currentNet;
-  }
+  };
 
   //привязка по кнопке
   $scope.bindSocial  = function(spot, key, e) {
@@ -633,7 +618,7 @@ angular.module('mobispot').controller('SpotController',
               }
             }, options);
 
-            var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
+            var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.socnet;
 
             url += url.indexOf('?') >= 0 ? '&' : '?';
             if (url.indexOf('redirect_uri=') === -1)
@@ -644,7 +629,7 @@ angular.module('mobispot').controller('SpotController',
 
             popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
 
-            if (popup == null || typeof(popup)=='undefined') {
+            if (popup === null || typeof(popup)=='undefined') {
                 window.location.href = url + '&discodes=' + spot.discodes + '&key=' + spot.key + '&synch=true';
             }
             else {
@@ -670,13 +655,9 @@ angular.module('mobispot').controller('SpotController',
                 contentService.setModal(data.linkCorrect, 'none');
             }
           }
-        }
-        else if(data.linkCorrect != 'ok'){
+        }else if(data.linkCorrect != 'ok'){
             contentService.setModal(data.linkCorrect, 'none');
         }
-      }
-      else {
-        console.log(data.error);
       }
     });
   };
@@ -699,7 +680,7 @@ angular.module('mobispot').controller('SpotController',
                     }
                   }, options);
 
-                  var redirect_uri, url = redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
+                  var redirect_uri, url = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + data.service;
 
                   url += url.indexOf('?') >= 0 ? '&' : '?';
                   if (url.indexOf('redirect_uri=') === -1)
@@ -709,7 +690,7 @@ angular.module('mobispot').controller('SpotController',
                   var centerWidth = (window.screen.width - options.popup.width) / 2,
                     centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                  popup = window.open(url, "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                  popup = window.open(url, 'yii_eauth_popup', 'width=' + options.popup.width + ',height=' + options.popup.height + ',left=' + centerWidth + ',top=' + centerHeight + ',resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes');
 
                   popup.focus();
 
@@ -736,7 +717,7 @@ angular.module('mobispot').controller('SpotController',
               }
           }
       });
-  }
+  };
 
     $scope.likesTimer = function()
     {
@@ -785,8 +766,7 @@ angular.module('mobispot').controller('SpotController',
             }
         });
 
-    }
-
+    };
 
     //привязка соцсети и закрытие попапа, если пользователь залогинился через соцсеть
     $scope.loginTimer = function()
@@ -815,7 +795,7 @@ angular.module('mobispot').controller('SpotController',
                                 $scope.spot.content='';
                                 angular.element('textarea').removeClass('put');
 
-                                $scope.resetCursor()
+                                $scope.resetCursor();
 
                                 $scope.netUp(data.socnet);
                                 $scope.setVideoSize(data.key);
@@ -847,12 +827,6 @@ angular.module('mobispot').controller('SpotController',
                     else
                         socTimer = $timeout($scope.loginTimer, 1000);
                 }
-                else
-                {
-                    console.log('error in spot/bindedContent');
-                }
-            }).error(function(error){
-                console.log(error);
             });
         }
     };
@@ -868,48 +842,42 @@ angular.module('mobispot').controller('SpotController',
         if (data.netDown)
             $scope.netDown(data.netDown);
       }
-      else {
-        console.log(data.error);
-      }
     });
 
   };
 
-    $scope.getSocPatterns = function(){
-        $scope.freeSocial = true;
-        if (typeof ($scope.soc_patterns) == 'undefined')
-        {
-            var data = {token:$scope.user.token};
-            $http.post('/spot/SocPatterns', data).success(function(data) {
-                $scope.soc_patterns = data.soc_patterns;
-                for (var i = 0; i < $scope.soc_patterns.length; i++)
-                {
-                    if (typeof ($scope.soc_patterns[i].BindByPaste) == 'undefined')
-                        $scope.soc_patterns[i].BindByPaste = false;
-                }
-            }).error(function(error){
-                console.log(error);
-            });
-        }
-    }
-
-    //установка размер проигрывателя YouTube или Vimeo
-    $scope.setVideoSize = function(blockKey)
+  $scope.getSocPatterns = function(){
+    $scope.freeSocial = true;
+    if (typeof ($scope.soc_patterns) == 'undefined')
     {
-        if (angular.element('#block-' + blockKey + ' .video-vimeo').length == 1)
-        {
-            var player = angular.element('#block-' + blockKey + ' .video-vimeo');
-            player.css('width', '100%');
-            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-        }/*
-        else if (angular.element('#block-' + blockKey + ' .yt_player').length == 1)
-        {
-            var player = angular.element('#block-' + blockKey + ' .yt_player');
-            player.css('width', '100%');
-            player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-        }*/
+      var data = {token:$scope.user.token};
+      $http.post('/spot/SocPatterns', data).success(function(data) {
+          $scope.soc_patterns = data.soc_patterns;
+          for (var i = 0; i < $scope.soc_patterns.length; i++)
+          {
+              if (typeof ($scope.soc_patterns[i].BindByPaste) == 'undefined')
+                  $scope.soc_patterns[i].BindByPaste = false;
+          }
+      });
     }
+  };
 
+  //установка размер проигрывателя YouTube или Vimeo
+  $scope.setVideoSize = function(blockKey)
+  {
+      if (angular.element('#block-' + blockKey + ' .video-vimeo').length == 1)
+      {
+          var player = angular.element('#block-' + blockKey + ' .video-vimeo');
+          player.css('width', '100%');
+          player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
+      }/*
+      else if (angular.element('#block-' + blockKey + ' .yt_player').length == 1)
+      {
+          var player = angular.element('#block-' + blockKey + ' .yt_player');
+          player.css('width', '100%');
+          player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
+      }*/
+  };
 
   $scope.setNewPass = function(spot)
   {
@@ -931,13 +899,13 @@ angular.module('mobispot').controller('SpotController',
   {
       spot.pass = '';
       $scope.setNewPass(spot);
-  }
+  };
 
   $scope.savePassButtonText = function(text)
   {
       angular.element('#savePassButton').text(text);
       angular.element('#setPassForm input[name=newPass]').removeClass('error');
-  }
+  };
 
   $scope.checkStatusSpot = function(spot) {
     return true;
@@ -960,6 +928,6 @@ angular.module('mobispot').controller('SpotController',
       }
       else
           angular.element('#dropbox textarea').css('cursor', 'text');
-  }
+  };
 
 });
