@@ -2,7 +2,7 @@
     <a class="spot-button_block" ng-click="blockedWallet()">
         <span class="block">
         <i class="icon">&#xe606;</i>
-        <?php echo Yii::t('spot', 'Block this wallet')?>
+        <?php echo Yii::t('spot', 'Block wallet')?>
         </span>
     </a>
 </h4>
@@ -37,7 +37,7 @@
         <?php endforeach;?>
         <!-- <tr>
             <td class="wait-card" colspan="2">
-                <?php echo Yii::t('spot', 'Linking your card is in process. Please wait a minute...')?>
+                <?php echo Yii::t('spot', 'Linking your card is in progress. Please wait a minute.')?>
             </td>
         </tr> -->
         </tbody>
@@ -75,7 +75,7 @@
             <a class="text-center"
                 href="/spot/cardOfert/<?php echo $wallet->discodes_id?>">
                 <i class="icon">&#xe60e;</i>
-                <?php echo Yii::t('spot', 'Add a card')?>
+                <?php echo Yii::t('spot', 'Link a card')?>
             </a>
         </div>
     </div>

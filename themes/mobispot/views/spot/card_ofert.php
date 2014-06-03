@@ -13,7 +13,7 @@
                     </a>
                 </p>
                 <p>
-                    <?php echo Yii::t('spot', 'Attention! Next page is only linking the bank card with your spot. No charges will be made.')?>
+                    <?php echo Yii::t('spot', 'Attention! To link the bank card with your spot we will have to charge you $0.029.')?>
                 </p>
                 <form action="<?php echo $linking['url']?>" method="POST" id="linking_card" >
                     <input type="hidden"
@@ -33,14 +33,14 @@
                             required
                             >
                         <label for="spot_agree">
-                            <?php echo Yii::t('spot', 'Yes, I accept the agreement!')?>
+                            <?php echo Yii::t('spot', 'Yes, I accept the agreement')?>
                         </label>
                     </div>
                     <br />
                 </form>
 
                 <a class="form-button on" ng-click="linkingCard(card)">
-                    <?php echo Yii::t('spot', 'Link a bank card!')?>
+                    <?php echo Yii::t('spot', 'Link a bank card')?>
                 </a>
             </div>
         </div>

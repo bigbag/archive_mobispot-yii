@@ -606,7 +606,6 @@ class SpotController extends MController
             array(
                 'wallet_id' => $wallet->id,
                 'type' => PaymentHistory::TYPE_PAYMENT,
-                // 'status' => PaymentHistory::STATUS_COMPLETE,
             ),
             array(
                 'order' => 'creation_date desc',

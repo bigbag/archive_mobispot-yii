@@ -3,7 +3,7 @@
         <div class="custom centered column">
             <form id="add-spot" name="addSpotForm">
                 <p class="sub-txt">
-                <?php echo Yii::t('spot', 'You can change your password following the instructions in a special email from us. Please click the button below to proceed.'); ?>
+                <?php echo Yii::t('spot', 'Please type your new spot’s activation code and click the button below.'); ?>
                 </p>
                 <input type="text"
                    ng-model="spot.code"

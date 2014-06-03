@@ -8,7 +8,7 @@ body {
 }
 
 .header-page {
-   min-width: 950px; 
+   min-width: 950px;
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -36,9 +36,9 @@ body {
 
 .show-block {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; 
+    opacity: 1;
 }
-    
+
 .error-page .p-error-txt .error-icon {
       background: url(../img/i-error.2x.png) 0 0 no-repeat;
       background-size: 100%;
@@ -57,13 +57,13 @@ body {
     height: 0;
     width: 100%;
     min-width: 950px;
-    z-index: 20; 
+    z-index: 20;
     font-size: 30px;
     position: absolute;
     top: 50%;
     margin-top: 35px;
     opacity: 1;
-    cursor: pointer; 
+    cursor: pointer;
     -webkit-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -90,7 +90,7 @@ body {
 
 .help .ng-valid + .f-hint {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; 
+    opacity: 1;
 }
 
 li.phone-name {
@@ -197,4 +197,8 @@ div.store-content {
   position: absolute;
   top: 50%;
   margin-top: -20px;
+}
+
+.m-auto-payment {
+  min-height: 164px;
 }
