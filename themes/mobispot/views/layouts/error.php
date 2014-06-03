@@ -37,7 +37,7 @@
         <?php echo $content; ?>
     </div>
     <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
-    <script>angular.module('mobispot', []);</script>
+    <script>angular.module('mobispot', ['ngCookies']);</script>
     <script src="/themes/mobispot/angular/app/service.js"></script>
     <?php echo $this->blockFooterScript; ?>
 </body>

@@ -28,17 +28,17 @@
                 <a class="red"
                     ng-click="ivisibleSpot(spot)">
                     <div ng-show="spot.status==2">
-                        <i class="icon">&#xe60b;</i>
+                        <i class="icon">&#xe60c;</i>
                         <span><?php echo Yii::t('spot', 'Make spot invisible')?></span>
                     </div>
                     <div ng-show="spot.status==6">
-                        <i class="icon">&#xe60c;</i>
+                        <i class="icon">&#xe60b;</i>
                         <span><?php echo Yii::t('spot', 'Make spot visible')?></span>
                     </div>
                 </a>
             </div>
             <div class="columns left large-7">
-                <p><?php echo Yii::t('spot', 'Make spot invisible/Make spot visible')?></p>
+                <p><?php echo Yii::t('spot', 'Make your spot invisible/visible for the handsets')?></p>
             </div>
         </div>
         <div class="row">
