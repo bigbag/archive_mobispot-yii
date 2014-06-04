@@ -12,6 +12,23 @@
  */
 class FirmTerm extends CActiveRecord
 {
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return PaymentHistory the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return CDbConnection database connection
+     */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbTerm;
+    }
 
     /**
      * @return string the associated database table name
@@ -101,24 +118,4 @@ class FirmTerm extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-
-    /**
-     * @return CDbConnection the database connection used for this class
-     */
-    public function getDbConnection()
-    {
-        return Yii::app()->dbTerm;
-    }
-
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return FirmTerm the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
 }

@@ -31,7 +31,7 @@
                     <?php if (!empty($socContent['text'])): ?>
                         <p><?php echo $this->hrefActivate($socContent['text']); ?></p>
                     <?php endif ?>
-                    
+
                     <?php if (!empty($socContent['last_img'])): ?>
                     <img src="<?php echo $socContent['last_img'] ?>">
                     <?php endif ?>

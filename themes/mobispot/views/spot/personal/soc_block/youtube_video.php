@@ -26,11 +26,11 @@
                 </div>
                 <div class="ins-block">
                 <object>
-                    <param name="movie" value="<?php 
+                    <param name="movie" value="<?php
                     echo (!empty($socContent['youtube_video_flash']))?
                         $socContent['youtube_video_flash']:'' ?>">
                     <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php 
+                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php
                     echo (!empty($socContent['youtube_video_flash']))?
                         $socContent['youtube_video_flash']:'' ?>"
                     <?php if (isset($socContent['youtube_video_rel'])): ?>

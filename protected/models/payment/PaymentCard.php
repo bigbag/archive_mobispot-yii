@@ -75,6 +75,16 @@ class PaymentCard extends CActiveRecord
         );
     }
 
+    public function getJson()
+    {
+        return array(
+            'id' => $this->id,
+            'type' => $this->type,
+            'pan' => $this->pan,
+            'status' => $this->status,
+        );
+    }
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.

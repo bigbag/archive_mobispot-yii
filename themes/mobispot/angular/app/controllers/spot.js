@@ -15,9 +15,12 @@ angular.module('mobispot').controller('SpotController',
 
   $scope.spot = {};
   $scope.spot.discodes = 0;
+
   $scope.general = {};
   $scope.general.views = false;
+
   $scope.wallet = {};
+  $scope.wallet.cards = {};
 
   $scope.scroll_key = -1;
 
@@ -32,7 +35,7 @@ angular.module('mobispot').controller('SpotController',
   // Добавление спота
   $scope.addSpot = function(spot) {
     if (!spot.code | ($scope.spot.terms === 0)) return false;
-    $http.post('/spot/addSpot', spot).success(function(data) {
+    $http.post('/spot/add', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.discodes = data.discodes;
         angular.element('.spot-list').prepend($compile(data.content)($scope));
@@ -70,7 +73,7 @@ angular.module('mobispot').controller('SpotController',
     if (spot.discodes === 0) return false;
 
     var spot_block = angular.element('#spot-block');
-    $http.post('/spot/viewSpot', spot).success(function(data) {
+    $http.post('/spot/view', spot).success(function(data) {
       if(data.error == 'no') {
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
@@ -223,7 +226,7 @@ angular.module('mobispot').controller('SpotController',
   // Переименовываем спот
   $scope.renameSpot = function(spot) {
     if (!spot.name) return false;
-    $http.post('/spot/renameSpot', spot).success(function(data) {
+    $http.post('/spot/rename', spot).success(function(data) {
       if(data.error == 'no') {
         angular.element('#' + spot.discodes + ' h3').text(spot.name);
       }
@@ -232,7 +235,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Очищаем спот
   $scope.cleanSpot = function(spot) {
-    $http.post('/spot/cleanSpot', spot).success(function(data) {
+    $http.post('/spot/clean', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.general.views = 'spot';
       }
@@ -241,7 +244,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Удаляем спот
   $scope.removeSpot = function(spot) {
-    $http.post('/spot/removeSpot', spot).success(function(data) {
+    $http.post('/spot/remove', spot).success(function(data) {
       if(data.error == 'no') {
         $(location).attr('href','/spot/list/');
       }
@@ -250,7 +253,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Меняем статус спота
   $scope.ivisibleSpot = function(spot) {
-    $http.post('/spot/invisibleSpot', spot).success(function(data) {
+    $http.post('/spot/invisible', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.status = data.status;
         angular.element('#'+spot.discodes).toggleClass('invisible');
@@ -280,6 +283,9 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
+
+        $scope.getListCard();
+
         $scope.bodyMinHeight();
         angular.element('.spot-content_row').show().animate({
           opacity: 1
@@ -288,9 +294,23 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  // Список карт
+  $scope.getListCard = function(){
+    $http.post('/spot/listCard', $scope.wallet).success(function(data) {
+      if (data.error == 'no'){
+        $scope.wallet.cards = data.cards;
+        $scope.wallet.cards_count = data.cards_count;
+        $scope.wallet.linking_card = data.linking_card;
+      }
+    });
+    $timeout(function(){
+       $scope.getListCard();
+   }, 5000);
+  };
+
   // Блокировка кошелька
   $scope.blockedWallet = function(){
-    $http.post('/spot/blockedWallet', $scope.spot).success(function(data) {
+    $http.post('/spot/blockedWallet', $scope.wallet).success(function(data) {
       if (data.error == 'no'){
         $scope.wallet.status = data.status;
       }
@@ -329,7 +349,10 @@ angular.module('mobispot').controller('SpotController',
     var data = {'token': $scope.spot.token, 'card_id': card_id};
     $http.post('/spot/removeCard', data).success(function(data) {
       if (data.error == 'no'){
-        angular.element(e.currentTarget).parent().parent().remove();
+        $scope.wallet.cards_count -= 1;
+        delete $scope.wallet.cards[card_id];
+
+        // angular.element(e.currentTarget).parent().parent().remove();
       }
     });
   };
