@@ -49,7 +49,7 @@
             <div class="content-block not-available">
                 <h2><?php echo Yii::t('spot', 'Service is currently not available')?></h2>
                 <p><?php echo Yii::t('spot', 'Another attempt will be performed in')?>
-                    через <b>{{ reset_time }}</b>
+                    <b>{{ reset_time }}</b>
                     <?php echo Yii::t('spot', 'seconds')?></p>
             </div>
         </div>

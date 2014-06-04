@@ -130,7 +130,7 @@ class SpotController extends MController
     }
 
     // Просмотр содержимого спота
-    public function actionViewSpot()
+    public function actionView()
     {
         $answer = array(
             'error' => 'yes',
@@ -173,7 +173,7 @@ class SpotController extends MController
 
 
     // Добавление нового спота
-    public function actionAddSpot()
+    public function actionAdd()
     {
         $answer = array(
             'error' => 'yes',
@@ -225,7 +225,7 @@ class SpotController extends MController
     }
 
     // Удаление спота
-    public function actionRemoveSpot()
+    public function actionRemove()
     {
         $answer = array('error' => 'yes');
         $data = $this->validateRequest();
@@ -242,7 +242,7 @@ class SpotController extends MController
     }
 
     // Очистка спота
-    public function actionCleanSpot()
+    public function actionClean()
     {
         $answer = array('error' => 'yes');
         $data = $this->validateRequest();
@@ -261,7 +261,7 @@ class SpotController extends MController
     }
 
     //Делаем спот невидимым
-    public function actionInvisibleSpot()
+    public function actionInvisible()
     {
         $answer = array(
             'error' => 'yes',
@@ -286,7 +286,7 @@ class SpotController extends MController
     }
 
     // Переименовываем спот
-    public function actionRenameSpot()
+    public function actionRename()
     {
         $answer = array(
             'error' => 'yes',
@@ -555,9 +555,7 @@ class SpotController extends MController
         $answer['content'] = $this->renderPartial('//spot/settings',
             array(
                 'wallet' => $wallet,
-                // 'cards' => $cards,
                 'spot' => $spot,
-                // 'history'=> $history,
             ),
             true
         );
@@ -593,23 +591,14 @@ class SpotController extends MController
         );
         if (!$spot) $this->getJsonAndExit($answer);
 
-        $cards = PaymentCard::model()->findAllByAttributes(
+        $history = Report::model()->findAllByAttributes(
             array(
-                'wallet_id' => $wallet->id,
-            ),
-            array(
-                'order' => 'id desc',
-                'limit' => PaymentCard::MAX_CARDS_VIEW)
-        );
-
-        $history = PaymentHistory::model()->findAllByAttributes(
-            array(
-                'wallet_id' => $wallet->id,
-                'type' => PaymentHistory::TYPE_PAYMENT,
+                'payment_id' => $wallet->payment_id,
+                'type' => Report::TYPE_PAYMENT,
             ),
             array(
                 'order' => 'creation_date desc',
-                'limit' => PaymentHistory::MAX_RECORD)
+                'limit' => Report::MAX_RECORD)
         );
 
         if (!$spot) $this->getJsonAndExit($answer);
@@ -617,13 +606,42 @@ class SpotController extends MController
         $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
                 'wallet' => $wallet,
-                'cards' => $cards,
                 'spot' => $spot,
                 'history'=> $history,
             ),
             true
         );
         $answer['error'] = 'no';
+        echo json_encode($answer);
+    }
+
+    // Выводим список привязанных карт
+    public function actionListCard()
+    {
+        $data = $this->validateRequest();
+        $answer = array(
+            'error' => 'yes',
+            'cards' => array(),
+            'cards_count' => 0
+        );
+
+        if (!isset($data['id'])) $this->getJsonAndExit($answer);
+
+        $cards = PaymentCard::model()->findAllByAttributes(
+            array(
+                'wallet_id' => (int)$data['id'],
+            ),
+            array(
+                'order' => 'id desc',
+                'limit' => PaymentCard::MAX_CARDS_VIEW)
+        );
+        if (!$cards) $this->getJsonAndExit($answer);
+        foreach ($cards as $card) {
+            $answer['cards'][$card->id] = $card->getJson();
+        }
+        $answer['cards_count'] = count($cards);
+        $answer['error'] = 'no';
+
         echo json_encode($answer);
     }
 
@@ -636,11 +654,11 @@ class SpotController extends MController
             'status' => '',
         );
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (!isset($data['id'])) $this->getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
-                'discodes_id' => $data['discodes'],
+                'id' => $data['id'],
                 'user_id' => Yii::app()->user->id,
             )
         );

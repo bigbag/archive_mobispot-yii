@@ -7,34 +7,30 @@
     </a>
 </h4>
 <div class="columns large-7 small-7">
-    <?php if($cards): ?>
     <table class="table table-card">
         <tbody>
-        <?php foreach ($cards as $card):?>
-        <?php $main_card = ($card->status==PaymentCard::STATUS_PAYMENT)?'main-card':''?>
-        <tr class="<?php echo $main_card;?>">
+        <tr ng-repeat="card in wallet.cards"
+            ng-class="{'main-card': card.status==1}">
             <td>
-                <?php echo $card->type; ?>
+                {{ card.type }}
             </td>
             <td>
-                <i class="icon">&#xe60d;</i>
-                <?php echo $card->pan; ?>
+                <i class="icon">&#xe60d;</i>{{ card.pan }}
             </td>
             <td class="txt-right">
                 <a class="make-main"
-                    ng-click='setPaymentCard(<?php echo $card->id; ?>, $event)'>
+                    ng-click='setPaymentCard(card.id, $event)'>
                     <?php echo Yii::t('spot', 'Make current')?>
                 </a>
                 <span class="main-indicator">
                     <?php echo Yii::t('spot', 'Current')?>
                 </span>
                 <a class="remove-card"
-                    ng-click='removeCard(<?php echo $card->id; ?>, $event)'>
+                    ng-click='removeCard(card.id, $event)'>
                     <?php echo Yii::t('spot', 'Remove')?>
                 </a>
             </td>
         </tr>
-        <?php endforeach;?>
         <!-- <tr>
             <td class="wait-card" colspan="2">
                 <?php echo Yii::t('spot', 'Linking your card is in progress. Please wait a minute.')?>
@@ -42,7 +38,7 @@
         </tr> -->
         </tbody>
     </table>
-    <div class="text-right" ng-init="wallet.card_edit = 0">
+    <div class="text-right" ng-init="wallet.card_edit = 0" ng-show="wallet.cards_count">
         <a ng-click="editCardList()" class="minor-link" ng-hide="wallet.card_edit">
             <i class="icon">&#xe009;</i>
             <?php echo Yii::t('spot', 'Edit the list')?>
@@ -52,16 +48,14 @@
             <?php echo Yii::t('spot', 'Finish editing')?>
         </a>
     </div>
-    <?php else:?>
-        <p class="no-card">
-            <?php echo Yii::t('spot', 'You don’t have any bank cards linked with your spot.')?>
-        </p>
-    <?php endif;?>
+    <p class="no-card" ng-hide="wallet.cards_count">
+        <?php echo Yii::t('spot', 'You don’t have any bank cards linked with your spot.')?>
+    </p>
 </div>
 <div class="columns large-5 small-5">
     <div class="m-auto-payment bg-gray" ng-class="conditionAutoP">
         <span class="sub-h">
-            <?php echo Yii::t('spot', 'To make payments using your spot, use:')?>
+            <?php echo Yii::t('spot', 'Link your bank cards with your wallet to make payments using your spot')?>
         </span>
             <ul class="pay-system">
                 <li>
