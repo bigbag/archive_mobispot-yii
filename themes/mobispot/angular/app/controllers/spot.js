@@ -300,8 +300,12 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         $scope.wallet.cards = data.cards;
         $scope.wallet.cards_count = data.cards_count;
+        $scope.wallet.linking_card = data.linking_card;
       }
     });
+    $timeout(function(){
+       $scope.getListCard();
+   }, 5000);
   };
 
   // Блокировка кошелька
@@ -345,6 +349,7 @@ angular.module('mobispot').controller('SpotController',
     var data = {'token': $scope.spot.token, 'card_id': card_id};
     $http.post('/spot/removeCard', data).success(function(data) {
       if (data.error == 'no'){
+        $scope.wallet.cards_count -= 1;
         delete $scope.wallet.cards[card_id];
 
         // angular.element(e.currentTarget).parent().parent().remove();

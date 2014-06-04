@@ -7,7 +7,8 @@
     </a>
 </h4>
 <div class="columns large-7 small-7">
-    <table class="table table-card">
+    <table class="table table-card"
+        ng-show="wallet.cards_count || wallet.linking_card">
         <tbody>
         <tr ng-repeat="card in wallet.cards"
             ng-class="{'main-card': card.status==1}">
@@ -31,11 +32,11 @@
                 </a>
             </td>
         </tr>
-        <!-- <tr>
-            <td class="wait-card" colspan="2">
+        <tr ng-show="wallet.linking_card">
+            <td class="wait-card" colspan="3">
                 <?php echo Yii::t('spot', 'Linking your card is in progress. Please wait a minute.')?>
             </td>
-        </tr> -->
+        </tr>
         </tbody>
     </table>
     <div class="text-right" ng-init="wallet.card_edit = 0" ng-show="wallet.cards_count">
@@ -48,7 +49,8 @@
             <?php echo Yii::t('spot', 'Finish editing')?>
         </a>
     </div>
-    <p class="no-card" ng-hide="wallet.cards_count">
+    <p class="no-card"
+        ng-show="!wallet.linking_card && !wallet.cards_count">
         <?php echo Yii::t('spot', 'You don’t have any bank cards linked with your spot.')?>
     </p>
 </div>

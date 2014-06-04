@@ -622,7 +622,8 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
             'cards' => array(),
-            'cards_count' => 0
+            'cards_count' => 0,
+            'linking_card' => 0,
         );
 
         if (!isset($data['id'])) $this->getJsonAndExit($answer);
@@ -635,11 +636,20 @@ class SpotController extends MController
                 'order' => 'id desc',
                 'limit' => PaymentCard::MAX_CARDS_VIEW)
         );
-        if (!$cards) $this->getJsonAndExit($answer);
         foreach ($cards as $card) {
             $answer['cards'][$card->id] = $card->getJson();
         }
         $answer['cards_count'] = count($cards);
+
+        $linking_card = PaymentHistory::model()->findByAttributes(
+            array(
+                'wallet_id' => (int)$data['id'],
+                'status' => PaymentHistory::STATUS_NEW,
+                'type' => PaymentHistory::TYPE_SYSTEM,
+            )
+        );
+        $answer['linking_card'] = count($linking_card);
+
         $answer['error'] = 'no';
 
         echo json_encode($answer);
