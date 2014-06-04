@@ -61,7 +61,7 @@
 <div class="columns large-5 small-5">
     <div class="m-auto-payment bg-gray" ng-class="conditionAutoP">
         <span class="sub-h">
-            <?php echo Yii::t('spot', 'To make payments using your spot, use:')?>
+            <?php echo Yii::t('spot', 'Link your bank cards with your wallet to make payments using your spot')?>
         </span>
             <ul class="pay-system">
                 <li>
