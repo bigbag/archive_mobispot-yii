@@ -1,20 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "spot_hard".
+ * This is the model class for table "spot_colors".
  *
- * The followings are the available columns in table 'spot_hard':
- * @property string $id
+ * The followings are the available columns in table 'spot_colors':
+ * @property string $ID
  * @property string $name
  * @property integer $show
  */
-class SpotHard extends CActiveRecord
+class SpotColors extends CActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return SpotHard the static model class
+     * @return SpotColors the static model class
      */
     public static function model($className=__CLASS__)
     {
@@ -26,7 +26,7 @@ class SpotHard extends CActiveRecord
      */
     public function tableName()
     {
-        return 'spot_hard';
+        return 'spot_colors';
     }
 
     /**
@@ -37,12 +37,11 @@ class SpotHard extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'required'),
             array('show', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>300),
+            array('name', 'length', 'max'=>128),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, show', 'safe', 'on'=>'search'),
+            array('ID, name, show', 'safe', 'on'=>'search'),
         );
     }
 
@@ -63,7 +62,7 @@ class SpotHard extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'ID' => 'ID',
             'name' => 'Name',
             'show' => 'Show',
         );
@@ -87,7 +86,7 @@ class SpotHard extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id,true);
+        $criteria->compare('ID',$this->ID,true);
         $criteria->compare('name',$this->name,true);
         $criteria->compare('show',$this->show);
 

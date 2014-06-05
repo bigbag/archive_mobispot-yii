@@ -1,20 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "spot_hard".
+ * This is the model class for table "spot_patterns".
  *
- * The followings are the available columns in table 'spot_hard':
+ * The followings are the available columns in table 'spot_patterns':
  * @property string $id
  * @property string $name
  * @property integer $show
  */
-class SpotHard extends CActiveRecord
+class SpotPatterns extends CActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return SpotHard the static model class
+     * @return SpotPatterns the static model class
      */
     public static function model($className=__CLASS__)
     {
@@ -26,7 +26,7 @@ class SpotHard extends CActiveRecord
      */
     public function tableName()
     {
-        return 'spot_hard';
+        return 'spot_patterns';
     }
 
     /**
@@ -39,7 +39,7 @@ class SpotHard extends CActiveRecord
         return array(
             array('name', 'required'),
             array('show', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>300),
+            array('name', 'length', 'max'=>255),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, show', 'safe', 'on'=>'search'),

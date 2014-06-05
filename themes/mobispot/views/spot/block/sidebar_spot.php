@@ -4,7 +4,7 @@
     <i class="icon i-invisible">&#xe60b;</i>
     <div class="box">
         <div class="spot-img">
-            <img src="/themes/mobispot/img/spot-img/spot-key_red.png">
+            <img src="/uploads/products/<?php echo $spot->hard->image;?>">
         </div>
         <h3>
             <?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?>
