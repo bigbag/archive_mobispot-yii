@@ -18,6 +18,7 @@
  * @property string $removed_date
  * @property integer $status
  * @property string $code128
+ * @property integer $hard_type
  */
 
 class Spot extends CActiveRecord
@@ -111,8 +112,8 @@ class Spot extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('discodes_id, code, status, premium, generated_date', 'required'),
-            array('discodes_id, type, user_id, premium, status', 'numerical', 'integerOnly' => true),
+            array('discodes_id, hard_type, code, status, premium, generated_date', 'required'),
+            array('discodes_id, type, hard_type, user_id, premium, status', 'numerical', 'integerOnly' => true),
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
@@ -122,7 +123,7 @@ class Spot extends CActiveRecord
             array('code', 'length', 'max' => 10),
             array('barcode', 'length', 'max' => 32),
             array('registered_date, removed_date', 'safe'),
-            array('code128, code, name, discodes_id, type, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
+            array('code128, code, hard_type, name, discodes_id, type, spot_type_name, user_id, barcode, premium, status, generated_date, registered_date, removed_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -167,6 +168,7 @@ class Spot extends CActiveRecord
         if (!$this->type) $this->type = self::TYPE_FULL;
         if (!$this->lang) $this->lang = 'en';
         if (!$this->name) $this->name = 'My Spot';
+        if (!$this->hard_type) $this->hard_type = 1;
         if ($this->isNewRecord) $this->generated_date = date('Y-m-d H:i:s');
 
         if (!($this->registered_date) and ($this->status == self::STATUS_REGISTERED)) {
@@ -200,6 +202,7 @@ class Spot extends CActiveRecord
             'discodes' => array(self::BELONGS_TO, 'Discodes', 'discodes_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
+            'hard' => array(self::BELONGS_TO, 'SpotHardType', 'hard_type'),
         );
     }
 
