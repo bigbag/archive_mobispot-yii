@@ -19,7 +19,8 @@ class PaymentHistory extends CActiveRecord
 {
 
     const STATUS_NEW = 0;
-    const STATUS_COMPLETE = 1;
+    const STATUS_IN_PROGRESS = 1;
+    const STATUS_COMPLETE = 2;
     const STATUS_FAILURE = -1;
     const STATUS_MISSING = -2;
 
@@ -33,6 +34,7 @@ class PaymentHistory extends CActiveRecord
     {
         return array(
             self::STATUS_NEW => Yii::t('payment', 'Новая'),
+            self::STATUS_IN_PROGRESS => Yii::t('payment', 'В процессе проведения'),
             self::STATUS_COMPLETE => Yii::t('payment', 'Успешная'),
             self::STATUS_FAILURE => Yii::t('payment', 'Сбойная'),
         );
