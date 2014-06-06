@@ -345,7 +345,7 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    //Сохраняем
+    //Сохраняем порядок блоков в споте
     public function actionSaveOrder()
     {
         $answer = array(
@@ -525,7 +525,7 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    // Отображение кошелька
+    // Отображение настроек
     public function actionSettings()
     {
         $answer = array(
@@ -644,7 +644,7 @@ class SpotController extends MController
         $linking_card = PaymentHistory::model()->findByAttributes(
             array(
                 'wallet_id' => (int)$data['id'],
-                'status' => PaymentHistory::STATUS_NEW,
+                'status' => PaymentHistory::STATUS_IN_PROGRESS,
                 'type' => PaymentHistory::TYPE_SYSTEM,
             )
         );
