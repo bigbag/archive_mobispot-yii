@@ -18,7 +18,7 @@ class CustomFacebookOAuthService extends FacebookOAuthService
 
         $this->attributes['id'] = $info->id;
         $this->attributes['name'] = (!empty($info->name)) ? $info->name : false;
-        $this->attributes['photo'] = 'https://graph.facebook.com/' . $info->username . '/picture';
+        $this->attributes['photo'] = (!empty($info->username))?'https://graph.facebook.com/' . $info->username . '/picture':false;
         $this->attributes['url'] = (!empty($info->link)) ? $info->link : 'https://www.facebook.com/' . $info->username;
         $this->attributes['email'] = (!empty($info->email)) ? $info->email : false;
         $this->attributes['expires'] = $this->getState('expires');
