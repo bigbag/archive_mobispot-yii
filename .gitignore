@@ -30,3 +30,4 @@ robot.txt
 /nbproject/private/
 /node_modules/*
 node_modules
+/tmp/*

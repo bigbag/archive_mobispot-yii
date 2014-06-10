@@ -24,11 +24,7 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="/themes/mobispot/css/foundation3/foundation.min.css">
-    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/style.min.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/a-slider.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
