@@ -1,7 +1,7 @@
 <div class="spot-tabs">
     <a ng-click="general.views='spot'"
         ng-class="{active: general.views=='spot'}">
-        <i class="icon">&#xe600;</i>
+        <i class="icon">&#xe60f;</i>
         <?php echo Yii::t('spot', 'Social links')?>
     </a>
     <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
