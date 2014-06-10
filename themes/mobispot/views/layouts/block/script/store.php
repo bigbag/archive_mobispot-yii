@@ -6,8 +6,7 @@
     <script src="/themes/mobispot/angular/app/controllers/store.js"></script>
 
     <?php echo $this->blockFooterScript; ?>
-    <script src="/themes/mobispot/js/script-add.js"></script>
-    <script src="/themes/mobispot/js/script.js"></script>
+    <script src="/themes/mobispot/js/script.min.js"></script>
     <script src="/themes/mobispot/js/foundation.min.js"></script>
     <script>
         $(document).foundation();
