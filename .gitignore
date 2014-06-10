@@ -28,3 +28,5 @@ robot.txt
 /console.php
 /index.php
 /nbproject/private/
+/node_modules/*
+node_modules
