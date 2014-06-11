@@ -78,7 +78,7 @@ return array (
   'Type' => 'Тип',
   'Type the text and links or drag your files here' => 'Введите текст и ссылки или перетяните сюда ваши файлы',
   'Unblock' => 'Разблокировать',
-  'User agreement confirmation' => 'Принятия условий использования',
+  'User agreement confirmation' => 'Подтверждение условий',
   'Wallet' => 'Кошелек',
   'Yandex.Money User Agreement' => 'Соглашение об использовании сервиса «Яндекс.Деньги»',
   'Yes, I accept the agreement' => 'Да, я принимаю соглашение',
