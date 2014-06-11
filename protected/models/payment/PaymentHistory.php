@@ -29,37 +29,6 @@ class PaymentHistory extends CActiveRecord
 
     const MAX_RECORD = 10;
 
-
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NEW => Yii::t('payment', 'Новая'),
-            self::STATUS_IN_PROGRESS => Yii::t('payment', 'В процессе проведения'),
-            self::STATUS_COMPLETE => Yii::t('payment', 'Успешная'),
-            self::STATUS_FAILURE => Yii::t('payment', 'Сбойная'),
-        );
-    }
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_SYSTEM => Yii::t('payment', 'Системная'),
-            self::TYPE_PAYMENT => Yii::t('payment', 'Платежная'),
-        );
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -144,22 +113,6 @@ class PaymentHistory extends CActiveRecord
             'failure' => array(
                 'condition' => 'status=' . self::STATUS_FAILURE,
             ),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('payment', '№'),
-            'user_id' => Yii::t('payment', 'Пользователь'),
-            'wallet_id' => Yii::t('payment', 'Кошелёк'),
-            'amount' => Yii::t('payment', 'Сумма'),
-            'creation_date' => Yii::t('payment', 'Дата'),
-            'type' => Yii::t('payment', 'Тип'),
-            'status' => Yii::t('payment', 'Статус'),
         );
     }
 

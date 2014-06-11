@@ -11,7 +11,7 @@ class BehanceContent extends SocContentBase
         $options = array();
         $socUser = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id'], $options, false);
         if (strpos($socUser, 'error:') !== false)
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -116,7 +116,7 @@ class BehanceContent extends SocContentBase
                 }
             }
         } else {
-            $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         $userDetail['text'] = self::clueImgText($userDetail);

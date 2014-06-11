@@ -11,7 +11,7 @@ class TumblrContent extends SocContentBase
 
         $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/' . $socUsername . '/info?api_key=' . Yii::app()->eauth->services['tumblr']['key']);
         if ((is_string($blogInfo) && (strpos($blogInfo, 'error:') !== false)) || !isset($blogInfo['response']) || !isset($blogInfo['response']['blog']))
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -57,7 +57,7 @@ class TumblrContent extends SocContentBase
 
               } */
             if (!empty(Yii::app()->session['tumblr_follow_' . $socUsername]) && !$needSave) {
-                $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['title'];
+                $userDetail['invite'] = Yii::t('social', 'You\'re following ') . $blogInfo['response']['blog']['title'];
             } else {
                 $userDetail['follow_service'] = 'tumblr';
                 $userDetail['follow_param'] = urlencode($socUsername);
@@ -65,7 +65,7 @@ class TumblrContent extends SocContentBase
 
             if ($needSave) {
                 $userDetail['check_following'] = 'tumblr_follow_' . $socUsername;
-                $userDetail['message_following'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['title'];
+                $userDetail['message_following'] = Yii::t('social', 'You\'re following ') . $blogInfo['response']['blog']['title'];
             }
 
             if (isset($blogInfo['response']['posts']) and isset($blogInfo['response']['posts'][0]) and isset($blogInfo['response']['posts'][0]['type'])) {
@@ -133,7 +133,7 @@ class TumblrContent extends SocContentBase
                 }
             }
         } else {
-            $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $userDetail['error'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         return $userDetail;
@@ -194,7 +194,7 @@ class TumblrContent extends SocContentBase
 
                 $blogInfo = self::makeRequest('http://api.tumblr.com/v2/blog/' . $blogUrl . '/info?api_key=' . Yii::app()->eauth->services['tumblr']['key']);
                 if (isset($blogInfo['response']) && isset($blogInfo['response']['blog']) && !empty($blogInfo['response']['blog']['name']))
-                    $answer['message'] = Yii::t('eauth', 'You\'re following ') . $blogInfo['response']['blog']['name'];
+                    $answer['message'] = Yii::t('social', 'You\'re following ') . $blogInfo['response']['blog']['name'];
             }
         }
 

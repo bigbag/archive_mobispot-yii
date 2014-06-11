@@ -97,22 +97,6 @@ class MailTemplate extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Название',
-            'slug' => 'Код',
-            'desc' => 'Описание',
-            'lang' => 'Язык',
-            'subject' => 'Тема',
-            'content' => 'Содержимое',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */

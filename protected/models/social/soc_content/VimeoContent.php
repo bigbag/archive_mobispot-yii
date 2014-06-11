@@ -12,7 +12,7 @@ class VimeoContent extends SocContentBase
         if (is_string($socUser) || !isset($socUser['id'])) {
             $video = self::makeRequest('http://vimeo.com/api/v2/video/' . $socUsername . '.json');
             if (is_string($video) || !isset($video[0])) {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -87,12 +87,12 @@ class VimeoContent extends SocContentBase
                     $userDetail['vimeo_video_height'] = $video[0]['height'];
                 }
             } else {
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
         if (!empty($userId) && !empty(Yii::app()->session['vimeo_follow_' . $userId])) {
-            $userDetail['invite'] = Yii::t('eauth', 'You\'re following ');
+            $userDetail['invite'] = Yii::t('social', 'You\'re following ');
             if (!empty($userName))
                 $userDetail['invite'] .= $userName;
         } elseif (!empty($userId)) {
@@ -152,7 +152,7 @@ class VimeoContent extends SocContentBase
                 if (!empty($socUser['display_name'])) {
                     $userName = $socUser['display_name'];
                 }
-                $answer['message'] = Yii::t('eauth', 'You\'re following ') . $userName;
+                $answer['message'] = Yii::t('social', 'You\'re following ') . $userName;
             }
         }
 

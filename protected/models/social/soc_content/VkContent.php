@@ -11,7 +11,7 @@ class VkContent extends SocContentBase
         $url = 'https://api.vk.com/method/users.get.json?uids=' . $socUsername;
         $socUser = self::makeRequest($url);
         if (empty($socUser['response']) || empty($socUser['response'][0]) || empty($socUser['response'][0]['uid']))
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -65,7 +65,7 @@ class VkContent extends SocContentBase
                     if (!empty($lastPost['text']))
                         $userDetail['last_status'] = $lastPost['text'];
                     if (!empty($lastPost['date']))
-                        $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff(time() - $lastPost['date']);
+                        $userDetail['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff(time() - $lastPost['date']);
                     if (isset($lastPost['attachment']) && isset($lastPost['attachment']['type'])) {
                         switch ($lastPost['attachment']['type']) {
                             case 'photo':
@@ -129,7 +129,7 @@ class VkContent extends SocContentBase
                 }
             }
         } else {
-            $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         $userDetail['text'] = self::clueImgText($userDetail);

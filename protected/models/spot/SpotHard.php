@@ -56,19 +56,7 @@ class SpotHard extends CActiveRecord
         return array(
         );
     }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'show' => 'Show',
-        );
-    }
-
+    
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *

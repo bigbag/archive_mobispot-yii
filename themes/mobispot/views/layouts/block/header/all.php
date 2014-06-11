@@ -9,18 +9,18 @@
             <?php if (Yii::app()->user->isGuest): ?>
             <li><a ng-click="modal=(modal != 'activation')?'activation':'none'"
                     ng-class="{active: (modal=='activation')}">
-                <?php echo Yii::t('menu', 'Activate spot') ?>
+                <?php echo Yii::t('general', 'Activate spot') ?>
             </a></li>
             <li><a ng-click="modal=(modal != 'sign')?'sign':'none'"
                     ng-class="{active: (modal=='sign')}">
-                <?php echo Yii::t('menu', 'Sign in') ?>
+                <?php echo Yii::t('general', 'Sign in') ?>
             </a></li>
             <?php else: ?>
             <li><a href="/spot/list/">
-                <?php echo Yii::t('menu', 'My Spots') ?>
+                <?php echo Yii::t('general', 'My Spots') ?>
             </a></li>
             <li><a href="/service/logout/">
-                <?php echo Yii::t('menu', 'Sign Out') ?>
+                <?php echo Yii::t('general', 'Sign Out') ?>
             </a></li>
             <?php endif; ?>
         </ul>

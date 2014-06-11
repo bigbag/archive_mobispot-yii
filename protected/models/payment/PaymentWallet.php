@@ -28,23 +28,6 @@ class PaymentWallet extends CActiveRecord
     const ACTIVE_ON = 1;
     const ACTIVE_OFF = 0;
 
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
-            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
-        );
-    }
-
-    public function getAllSpot()
-    {
-        return array(
-            self::TYPE_FULL => Yii::t('account', 'Полный'),
-            self::TYPE_DEMO => Yii::t('account', 'Демо'),
-        );
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -166,25 +149,7 @@ class PaymentWallet extends CActiveRecord
         $wallet = self::model()->with('loyalties')->findByPk($id);
         return $answer;
     }
-
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'hard_id' => 'Hard',
-            'payment_id' => 'Payment',
-            'user_id' => 'User',
-            'discodes_id' => 'Spot',
-            'creation_date' => 'Creation Date',
-            'name' => 'Name',
-            'status' => 'Status',
-        );
-    }
-
+    
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

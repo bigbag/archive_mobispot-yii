@@ -88,27 +88,6 @@ class Person extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'tabel_id' => 'Tabel',
-            'birthday' => 'Birthday',
-            'firm_id' => 'Firm',
-            'card' => 'Card',
-            'hard_id' => 'Hard',
-            'payment_id' => 'Payment',
-            'creation_date' => 'Creation Date',
-            'status' => 'Status',
-            'wallet_status' => 'Wallet Status',
-            'type' => 'Type',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:

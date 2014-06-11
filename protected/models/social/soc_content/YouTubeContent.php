@@ -26,7 +26,7 @@ class YouTubeContent extends SocContentBase
                 $userProfileEntry = $yt->getUserProfile($username);
                 $result = 'ok';
             } catch (Exception $e) {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         } else {
             $videoId = '';
@@ -43,7 +43,7 @@ class YouTubeContent extends SocContentBase
                     $videoEntry = $yt->getVideoEntry($videoId);
                     $result = 'ok';
                 } catch (Exception $e) {
-                    $result = Yii::t('eauth', "This post doesn't exist:") . $videoId;
+                    $result = Yii::t('social', "This post doesn't exist:") . $videoId;
                 }
             }
         }
@@ -101,7 +101,7 @@ class YouTubeContent extends SocContentBase
                     }
                 }
             } catch (Exception $e) {
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         } else {
             if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false)) {
@@ -141,7 +141,7 @@ class YouTubeContent extends SocContentBase
                     $videoContent['youtube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                 }
             } catch (Exception $e) {
-                $videoContent['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $videoContent['error'] = Yii::t('social', "This post doesn't exist:") . $link;
                 $videoContent['soc_username'] = $videoContent['error'];
             }
         }

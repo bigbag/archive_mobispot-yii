@@ -84,19 +84,6 @@ class SpotContent extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'discodes_id' => 'ID',
-            'user_id' => 'Пользователь',
-            'lang' => 'Язык',
-            'content' => 'Содержимое',
-        );
-    }
-
     public static function getSpotContent($spot)
     {
         $spot_content = Yii::app()->cache->get('spot_content_' . $spot->discodes_id);

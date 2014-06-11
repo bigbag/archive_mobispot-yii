@@ -71,7 +71,7 @@
             <a class="text-center"
                 href="/spot/cardOfert/<?php echo $wallet->discodes_id?>">
                 <i class="icon">&#xe60e;</i>
-                <?php echo Yii::t('spot', 'Link a card')?>
+                <?php echo Yii::t('spot', 'Link a bank card')?>
             </a>
         </div>
     </div>

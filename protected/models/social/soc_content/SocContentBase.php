@@ -156,17 +156,17 @@ class SocContentBase
     {
         $answer = '';
         if ($diff > 31104000)
-            $answer = ((int) floor($diff / 31104000)) . ' ' . Yii::t('eauth', 'years ago');
+            $answer = ((int) floor($diff / 31104000)) . ' ' . Yii::t('social', 'years ago');
         elseif ($diff > 2592000)
-            $answer = ((int) floor($diff / 2592000)) . ' ' . Yii::t('eauth', 'months ago');
+            $answer = ((int) floor($diff / 2592000)) . ' ' . Yii::t('social', 'months ago');
         elseif ($diff > 86400)
-            $answer = ((int) floor($diff / 86400)) . ' ' . Yii::t('eauth', 'days ago');
+            $answer = ((int) floor($diff / 86400)) . ' ' . Yii::t('social', 'days ago');
         elseif ($diff > 3600)
-            $answer = ((int) floor($diff / 3600)) . ' ' . Yii::t('eauth', 'hours ago');
+            $answer = ((int) floor($diff / 3600)) . ' ' . Yii::t('social', 'hours ago');
         elseif ($diff > 60)
-            $answer = ((int) floor($diff / 60)) . ' ' . Yii::t('eauth', 'minutes ago');
+            $answer = ((int) floor($diff / 60)) . ' ' . Yii::t('social', 'minutes ago');
         else
-            $answer = $diff . ' ' . Yii::t('eauth', 'seconds ago');
+            $answer = $diff . ' ' . Yii::t('social', 'seconds ago');
 
         return $answer;
     }

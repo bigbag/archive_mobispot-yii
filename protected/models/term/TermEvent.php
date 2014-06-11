@@ -72,23 +72,6 @@ class TermEvent extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'term_id' => 'Term',
-            'event_id' => 'Event',
-            'cost' => 'Cost',
-            'start' => 'Start',
-            'stop' => 'Stop',
-            'age' => 'Age',
-            'timeout' => 'Timeout',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:

@@ -27,12 +27,12 @@ class FacebookContent extends SocContentBase
             $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername);
 
             if (!empty($socUser['error']) || empty($socUser['id']))
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             elseif ((empty($socUser['is_published']) || ($socUser['is_published'] != 'true')) && !isset($postId)) {
                 if (empty(Yii::app()->session['facebook_id'])) {
-                    $result = Yii::t('eauth', "Please log in with your Facebook account to perform this action");
+                    $result = Yii::t('social', "Please log in with your Facebook account to perform this action");
                 } elseif (Yii::app()->session['facebook_id'] != $socUser['id']) {
-                    $result = Yii::t('eauth', "You are not allowed to use page of another person in your spot");
+                    $result = Yii::t('social', "You are not allowed to use page of another person in your spot");
                 }
             }
         }
@@ -73,7 +73,7 @@ class FacebookContent extends SocContentBase
                     if (isset($validation['data']) and isset($validation['data']['is_valid']) and ($validation['data']['is_valid'] == 'true')) {
                         $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $userToken);
                         if (is_string($photoData) && (strpos($photoData, 'error:') !== false))
-                            $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
+                            $userDetail['error'] = Yii::t('social', "You have no rights to use this post in your spot:") . $link;
                         elseif (!empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images'])) {
                             $userDetail['last_img'] = $photoData['source'];
 
@@ -104,13 +104,13 @@ class FacebookContent extends SocContentBase
                                 }
                             }
                         } else
-                            $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                            $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
                     } else
                         $userDetail['error'] = 'User not logged in';
                 }
             }
             if (empty($userDetail['last_img']) && empty($userDetail['error']))
-                $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
+                $userDetail['error'] = Yii::t('social', "You have no rights to use this post in your spot:") . $link;
         } else {
             //привязан пост или профиль
             $socUsername = self::parseUsername($link);
@@ -154,7 +154,7 @@ class FacebookContent extends SocContentBase
 
                     $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $userToken);
                     if (is_string($socPost) && (strpos($socPost, 'error') !== false)) {
-                        $userDetail['error'] = Yii::t('eauth', "You have no rights to use this post in your spot:") . $link;
+                        $userDetail['error'] = Yii::t('social', "You have no rights to use this post in your spot:") . $link;
                     } else {
                         $postContent = self::getPostContent($socPost);
                         foreach ($postContent as $postKey => $postValue)
@@ -162,7 +162,7 @@ class FacebookContent extends SocContentBase
                     }
 
                     if (empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']) && empty($userDetail['link_text']))
-                        $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                        $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
                 }
                 //последний пост из профиля
 
@@ -222,7 +222,7 @@ class FacebookContent extends SocContentBase
                                         $userDetail['sub-line'] = $lastPost['story'];
                                     elseif (isset($lastPost['type']) and $lastPost['type'] == 'link' and isset($lastPost['status_type']) and $lastPost['status_type'] == 'shared_story' and !empty($lastPost['link'])) {
                                         //$userDetail['block_type'] = self::TYPE_SHARED_LINK;
-                                        $userDetail['sub-line'] = Yii::t('eauth', 'shared a link');
+                                        $userDetail['sub-line'] = Yii::t('social', 'shared a link');
 
                                     }
 
@@ -238,7 +238,7 @@ class FacebookContent extends SocContentBase
 
                                     if (!empty($lastPost['created_time'])) {
                                         $dateDiff = time() - $lastPost['created_time'];
-                                        $userDetail['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
+                                        $userDetail['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
                                     }
                                 }
                             }
@@ -254,7 +254,7 @@ class FacebookContent extends SocContentBase
                     }
                 }
             }else {
-                $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['error'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -270,7 +270,7 @@ class FacebookContent extends SocContentBase
             }
 
             if (!empty($userDetail['footer-line'])) {
-                $userDetail['footer-line'] = str_replace(Yii::t('eauth', 'last post'), '', $userDetail['footer-line']);
+                $userDetail['footer-line'] = str_replace(Yii::t('social', 'last post'), '', $userDetail['footer-line']);
             }
             $userDetail['soc_url'] = $link;
         }
@@ -307,7 +307,7 @@ class FacebookContent extends SocContentBase
                 if (!empty($post['description']))
                     $postContent['link_description'] = $post['description'];
                 if (empty($socPost['story']))
-                    $postContent['sub-line'] = Yii::t('eauth', 'shared a link');
+                    $postContent['sub-line'] = Yii::t('social', 'shared a link');
 
                 if ((strpos($post['link'], 'youtube.com') !== false) && (strpos($post['link'], 'watch?v=') !== false)) {
                     $videoContent = YouTubeContent::getVideoContent($post['link']);
@@ -347,7 +347,7 @@ class FacebookContent extends SocContentBase
 
         if (!empty($post['created_time'])) {
             $dateDiff = time() - strtotime($post['created_time']);
-            $postContent['footer-line'] = Yii::t('eauth', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
+            $postContent['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
         }
 
         return $postContent;

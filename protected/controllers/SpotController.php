@@ -339,7 +339,7 @@ class SpotController extends MController
                 $whitelist[$i]->delete();
 
             $answer['error'] = "no";
-            $answer['saved'] = Yii::t('spot', 'Saved!');
+            $answer['saved'] = Yii::t('spot', 'Saved');
         }
 
         echo json_encode($answer);
@@ -574,7 +574,6 @@ class SpotController extends MController
 
         if (empty($data['discodes']) or Yii::app()->user->isGuest)
             $this->getJsonAndExit($answer);
-
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
                 'discodes_id' => (int)$data['discodes'],
@@ -582,7 +581,6 @@ class SpotController extends MController
             )
         );
         if (!$wallet) $this->getJsonAndExit($answer);
-
         $spot = Spot::model()->findByAttributes(
             array(
                 'discodes_id' => (int)$data['discodes'],

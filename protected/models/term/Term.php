@@ -77,33 +77,7 @@ class Term extends CActiveRecord
             array('id, type, name, tz, status, report_date, config_date, blacklist_date, upload_start, upload_stop, upload_period, download_start, download_stop, download_period, blacklist, settings_id, version', 'safe', 'on' => 'search'),
         );
     }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'type' => 'Type',
-            'name' => 'Name',
-            'tz' => 'Tz',
-            'status' => 'Status',
-            'report_date' => 'Report Date',
-            'config_date' => 'Config Date',
-            'blacklist_date' => 'Blacklist Date',
-            'upload_start' => 'Upload Start',
-            'upload_stop' => 'Upload Stop',
-            'upload_period' => 'Upload Period',
-            'download_start' => 'Download Start',
-            'download_stop' => 'Download Stop',
-            'download_period' => 'Download Period',
-            'blacklist' => 'Blacklist',
-            'settings_id' => 'Settings',
-            'version' => 'Version',
-        );
-    }
-
+    
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *

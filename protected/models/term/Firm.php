@@ -73,27 +73,7 @@ class Firm extends CActiveRecord
         return array(
         );
     }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'inn' => 'Inn',
-            'sub_domain' => 'Sub Domain',
-            'logo' => 'Logo',
-            'address' => 'Address',
-            'email' => 'Email',
-            'report_email' => 'Report Email',
-            'report_excel' => 'Report Excel',
-            'report_time' => 'Report Time',
-            'sending_date' => 'Sending Date',
-        );
-    }
-
+    
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *

@@ -5,7 +5,7 @@ class LinkedInContent extends SocContentBase
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
-        $result = Yii::t('eauth', "Please log in with your LinkedIn account to perform this action");
+        $result = Yii::t('social', "Please log in with your LinkedIn account to perform this action");
 
         if (!empty($discodesId) && is_numeric($discodesId) && !empty($dataKey)) {
             $spot = Spot::model()->findByPk($discodesId);
@@ -32,7 +32,7 @@ class LinkedInContent extends SocContentBase
                         $spotContent = SpotContent::getSpotContent($spot);
                         if ($spotContent) {
                             $content = $spotContent->content;
-                            $result = Yii::t('eauth', "You are not allowed to use page of another person in your spot");
+                            $result = Yii::t('social', "You are not allowed to use page of another person in your spot");
 
                             if (!empty($socUser['id']) and $socUser['id'] = $socToken->soc_id)
                                 $result = 'ok';
@@ -135,21 +135,21 @@ class LinkedInContent extends SocContentBase
 
                         if ($currentPosition) {
                             $userPosition = array();
-                            $userPosition['title'] = Yii::t('eauth', "Текущая");
+                            $userPosition['title'] = Yii::t('social', "Current");
                             $userPosition['comment'] = $currentPosition;
                             $userDetail['list']['values'][] = $userPosition;
                         }
 
                         if ($positionString) {
                             $userPosition = array();
-                            $userPosition['title'] = Yii::t('eauth', "Предыдущие");
+                            $userPosition['title'] = Yii::t('social', "Previous");
                             $userPosition['comment'] = $positionString;
                             $userDetail['list']['values'][] = $userPosition;
                         }
 
                         if ($educationString) {
                             $userEducation = array();
-                            $userEducation['title'] = Yii::t('eauth', "Образование");
+                            $userEducation['title'] = Yii::t('social', "Education");
                             $userEducation['comment'] = $educationString;
                             $userDetail['list']['values'][] = $userEducation;
                         }

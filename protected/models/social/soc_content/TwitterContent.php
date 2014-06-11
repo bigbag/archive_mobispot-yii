@@ -55,7 +55,7 @@ class TwitterContent extends SocContentBase
 
             $socUser = CJSON::decode($curl_result, true);
             if (!empty($socUser['error']) || empty($socUser['id'])) {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -127,7 +127,7 @@ class TwitterContent extends SocContentBase
                 if (isset($tweet['created_at']))
                     $userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($tweet['created_at']));
             } else
-                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
         } else {
             //профиль
             $socUsername = self::parseUsername($link);

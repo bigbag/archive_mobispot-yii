@@ -26,7 +26,7 @@ class UserChangePassword extends CFormModel
     public function attributeLabels()
     {
         return array(
-            'password' => Yii::t('user', "password"),
+            'password' => Yii::t('user', "Password"),
             'verifyPassword' => Yii::t('user', "Retype Password"),
         );
     }

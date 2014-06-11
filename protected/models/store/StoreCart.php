@@ -393,7 +393,7 @@ class StoreCart extends CFormModel
             } else
                 $error = Yii::t('store', 'Incorrect quantity!');
         } else
-            $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
+            $error = Yii::t('store', 'Please complete all required fields!');
 
         return $error;
     }
@@ -480,7 +480,7 @@ class StoreCart extends CFormModel
     public function confirmPromo($userCode)
     {
         $discount = array();
-        $discount['error'] = Yii::t('store', 'Введен неверный код!');
+        $discount['error'] = Yii::t('store', 'You entered the wrong code!');
         $discount['promoCode'] = $userCode;
 
         $promoCode = StorePromoCode::model()->findByAttributes(array(
@@ -489,9 +489,9 @@ class StoreCart extends CFormModel
 
         if ($promoCode) {
             if ($promoCode->expires < Time())
-                $discount['error'] = Yii::t('store', 'Код устарел!');
+                $discount['error'] = Yii::t('store', 'Code is outdated!');
             elseif (!$promoCode->is_multifold && $promoCode->used) {
-                $discount['error'] = Yii::t('store', 'Код уже был использован!');
+                $discount['error'] = Yii::t('store', 'The code has already been used!');
             } else {
                 $discount['products'] = $promoCode->products;
                 $discount['error'] = 'no';
@@ -533,7 +533,7 @@ class StoreCart extends CFormModel
 
     public function saveCustomer($newCustomer)
     {
-        $error = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
+        $error = Yii::t('store', 'Please complete all required fields!');
 
         $customer = $this->getModelCustomer($newCustomer, 'Customer');
         if ($customer->validate()) {
@@ -579,7 +579,7 @@ class StoreCart extends CFormModel
 
     public function validateCustomer($newCustomer)
     {
-        $error = Yii::t('store', 'Все поля обязательны для заполнения');
+        $error = Yii::t('store', 'All fields are required');
         Yii::app()->session['storeCustomer'] = $newCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
@@ -607,7 +607,7 @@ class StoreCart extends CFormModel
     public function buy($newCustomer, $products, $discount, $selectedDelivery, $selectedPayment)
     {
         $mailOrder = array();
-        $error = Yii::t('store', 'Все поля обязательны для заполнения');
+        $error = Yii::t('store', 'All fields are required');
         Yii::app()->session['storeCustomer'] = $newCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
@@ -622,9 +622,9 @@ class StoreCart extends CFormModel
             ));
 
         if (!isset($deliv) || !$deliv) {
-            $error = Yii::t('store', 'Укажите способ доставки');
+            $error = Yii::t('store', 'Specify the delivery method');
         } elseif (!isset($pay) || !$pay) {
-            $error = Yii::t('store', 'Укажите способ оплаты');
+            $error = Yii::t('store', 'Select payment method');
         } elseif ($customer->validate()) {
             $customer->save();
 

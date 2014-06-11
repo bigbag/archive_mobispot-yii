@@ -126,7 +126,7 @@ class DemoKitOrder extends CActiveRecord
         $shipping=self::getShipping($this->$attribute);
 
         if (!$shipping)
-            $this->addError($attribute, Yii::t('store','Некорректный способ доставки!'));
+            $this->addError($attribute, Yii::t('store','Incorrect delivery method!'));
     }
 
     public function getPayment($idp)
@@ -148,7 +148,7 @@ class DemoKitOrder extends CActiveRecord
         $payment=self::getPayment($this->$attribute);
 
         if (!$payment)
-            $this->addError($attribute, Yii::t('store','Некорректный способ оплаты!'));
+            $this->addError($attribute, Yii::t('store','Invalid payment method'));
     }
 
     public function getProduct($idp)
@@ -182,18 +182,6 @@ class DemoKitOrder extends CActiveRecord
 
     public function calcSumm()
     {
-        /*
-        if (empty($this->id))
-            return false;
-        $summ = 0;
-
-        $items = DemoKitList::model()->findAllByAttributes(array('order_id'=>$this->id));
-
-        foreach ($items as $item) {
-            $product = self::getProduct($item->spot_type);
-            $summ += $product['price'] * $item->count;
-        }
-        */
         $config = self::getConfig();
         $summ = $config['price'];
 
@@ -211,9 +199,9 @@ class DemoKitOrder extends CActiveRecord
         if ($timestamp == 0)
             $timestamp = time();
         $xml_rates = simplexml_load_file("http://www.cbr.ru/scripts/XML_daily.asp?date_req=".date("d/m/Y", $timestamp));
-        foreach($xml_rates as $key=>$v){
-            if($v->Name == 'Доллар США') {
-                $rate = $v->Value;
+        foreach($xml_rates as $key=>$data){
+            if($data->Name == Yii::t('store', '$')) {
+                $rate = $data->Value;
             }
         }
 

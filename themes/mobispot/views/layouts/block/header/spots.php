@@ -9,13 +9,13 @@
         <ul class="right">
             <li>
                 <a class="show" href="/user/profile/">
-                <?php echo Yii::t('menu', 'My profile & Security') ?>
+                <?php echo Yii::t('general', 'My profile & Security') ?>
                 <?php if ($info):?> (<?php echo $info['name']?>)<?php endif;?>
                 </a>
             </li>
             <li>
                 <a class="show" href="/service/logout/">
-                <?php echo Yii::t('menu', 'Sign Out') ?>
+                <?php echo Yii::t('general', 'Sign Out') ?>
                 </a>
             </li>
         </ul>

@@ -126,7 +126,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         $answer = array();
-        $answer['error'] = Yii::t('store', 'Пожалуйста, введите код!');
+        $answer['error'] = Yii::t('store', 'Please enter the code!');
 
         if(!empty($data['promoCode'])) {
             $cart = new StoreCart;
@@ -142,7 +142,7 @@ class ProductController extends MController
     {
         $data = $this->validateRequest();
         $answer = array();
-        $answer['error'] = Yii::t('store', 'Пожалуйста, заполните все обязательные поля!');
+        $answer['error'] = Yii::t('store', 'Please complete all required fields!');
 
         if (isset($data['customer'])) {
             $cart = new StoreCart;
@@ -159,9 +159,9 @@ class ProductController extends MController
 
         $cart = new StoreCart;
         if (!isset($data['delivery']))
-            $answer['error'] = Yii::t('store', 'Укажите способ доставки');
+            $answer['error'] = Yii::t('store', 'Specify the delivery method');
         elseif (!isset($data['payment']))
-            $answer['error'] = Yii::t('store', 'Укажите способ оплаты');
+            $answer['error'] = Yii::t('store', 'Select payment method');
         else {
             $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
             $answer['error'] = $mailOrder['error'];
