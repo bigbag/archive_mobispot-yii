@@ -10,7 +10,7 @@ class DeviantARTContent extends SocContentBase
         if (strpos($link, 'deviantart.com/art/') !== false) {
             $post = self::makeRequest('http://backend.deviantart.com/oembed?url=' . $link);
             if ((is_string($post) && (strpos($post, 'error:') !== false)) || empty($post['title']))
-                $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $result = Yii::t('social', "This post doesn't exist:") . $link;
         } else {
             $socUsername = self::parseUsername($link);
 
@@ -18,7 +18,7 @@ class DeviantARTContent extends SocContentBase
             $socUser = curl_exec($ch);
             $headers = curl_getinfo($ch);
             if ($headers['http_code'] != 200) {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -62,7 +62,7 @@ class DeviantARTContent extends SocContentBase
                             $userDetail[$postKey] = $postValue;
                 }
             } else
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         return $userDetail;
@@ -77,7 +77,7 @@ class DeviantARTContent extends SocContentBase
         if (!(is_string($post) && (strpos($post, 'error:') !== false)) && !empty($post['title'])) {
             $postDetail['color-header'] = $post['title'];
             if (!empty($post['author_name']) && !empty($post['author_url']))
-                $postDetail['sub-line'] = Yii::t('eauth', "by") . ' <a href="' . $post['author_url'] . '">' . $post['author_name'] . '</a>';
+                $postDetail['sub-line'] = Yii::t('social', "by") . ' <a href="' . $post['author_url'] . '">' . $post['author_name'] . '</a>';
             $postDetail['footer-line'] = '';
             if (!empty($post['category']))
                 $postDetail['footer-line'] .= '<div>' . str_replace('>', '/', $post['category']) . '</div>';
@@ -103,7 +103,7 @@ class DeviantARTContent extends SocContentBase
             if (!empty($post['html']))
                 $postDetail['html'] = $post['html'];
         } else
-            $postDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+            $postDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
 
         return $postDetail;
     }

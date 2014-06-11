@@ -360,7 +360,11 @@ class ServiceController extends MController
     public function actionBuyDemoKit()
     {
         $data = $this->validateRequest();
-        $answer = array('error' => 'yes', 'content' => '', 'message'=>Yii::t('store', 'Произошла ошибка! Проверьте корректность заполнения полей заказа.'));
+        $answer = array(
+            'error' => 'yes', 
+            'content' => '', 
+            'message'=>Yii::t('store', 'Error! Check the correctness of filling in the order.')
+            );
 
         /*
         if (empty($data['products']))
@@ -378,15 +382,6 @@ class ServiceController extends MController
             $this->getJsonAndExit($answer);
         }
 
-        /*
-        if (!(DemoKitList::saveFromArray($data['products'], $order->id))) {
-            $order->delete();
-            $answer['message'] = Yii::t('store', 'Некорректные данные в заказанных спотах!');
-            $this->getJsonAndExit($answer);
-        }
-        */
-
-        //$shipping = DemoKitOrder::getShipping($order->shipping);
         $payment = DemoKitOrder::getPayment($order->payment);
         $answer['action'] = $payment['action'];
 
@@ -402,7 +397,6 @@ class ServiceController extends MController
         } elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) {
             $mailOrder = $order->makeMailOrder();
 
-            //Yii::app()->session['message'] = $config['mailOrderMessage'];
             if (
                 MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang())
                 and

@@ -21,10 +21,10 @@ class CrunchBaseContent extends SocContentBase
             $product = self::rmGetParam($product);
             $socUser = self::makeRequest('http://api.crunchbase.com/v/1/product/' . $product . '.js?api_key=' . Yii::app()->eauth->services['crunchbase']['key']);
         } else {
-            $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+            $result = Yii::t('social', "This post doesn't exist:") . $link;
         }
         if (isset($socUser) && is_string($socUser) && (strpos($socUser, 'error:') !== false))
-            $result = Yii::t('eauth', "This post doesn't exist:") . $link;
+            $result = Yii::t('social', "This post doesn't exist:") . $link;
 
         return $result;
     }
@@ -78,7 +78,7 @@ class CrunchBaseContent extends SocContentBase
                         unset($userDetail['list']);
                 }
             } else
-                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
         } elseif (strpos($link, 'crunchbase.com/company/') !== false) {
             //company
             $company = substr($link, (strpos($link, 'crunchbase.com/company/') + strlen('crunchbase.com/company/')));
@@ -144,7 +144,7 @@ class CrunchBaseContent extends SocContentBase
                         unset($userDetail['list2']);
                 }
             } else
-                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
         } elseif (strpos($link, 'crunchbase.com/product/') !== false) {
             //product
             $product = substr($link, (strpos($link, 'crunchbase.com/product/') + strlen('crunchbase.com/product/')));
@@ -188,9 +188,9 @@ class CrunchBaseContent extends SocContentBase
                         unset($userDetail['list']);
                 }
             } else
-                $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+                $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
         } else
-            $userDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+            $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
 
         return $userDetail;
     }

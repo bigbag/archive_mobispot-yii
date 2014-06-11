@@ -136,23 +136,6 @@ class UserController extends MController
         $criteria->compare('loyalty_id', $action->id);
         $criteria->compare('wallet.user_id', Yii::app()->user->id);
 
-        /*
-        $userActions = WalletLoyalty::model()->with('wallet')->findAll($criteria);
-        $count = 0;
-
-        foreach ($userActions as $userAction) {
-            if (!empty($userAction->part_count))
-                $count += $userAction->part_count;
-        }
-
-        if ($action->part_limit and $count >= $action->part_limit) {
-            $answer['isSocLogged'] = true; //чтобы не запускать авторизацию
-            $answer['message_error'] = 'yes';
-            $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
-            $this->getJsonAndExit($answer);
-        }
-        */
-
         $answer['error'] = "no";
         $socInfo = new SocInfo;
         if (!$socInfo->isLoggegOn($service, false)){
@@ -202,7 +185,7 @@ class UserController extends MController
 
         $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
         $answer['message_error'] = 'no';
-        $answer['message'] = Yii::t('spot', 'Вы участвуете в акции');
+        $answer['message'] = Yii::t('spot', 'You are participating in the action');
 
 
         echo json_encode($answer);

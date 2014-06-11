@@ -24,36 +24,6 @@ class User extends CActiveRecord
     const TYPE_USER = 0;
     const TYPE_ADMIN = 1;
 
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Non active'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
-            self::STATUS_VALID => Yii::t('user', 'Valid'),
-            self::STATUS_BANNED => Yii::t('user', 'Banned'),
-        );
-    }
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_USER => Yii::t('user', 'Пользователь'),
-            self::TYPE_ADMIN => Yii::t('user', 'Админ'),
-        );
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -86,8 +56,6 @@ class User extends CActiveRecord
             array('password', 'length', 'max' => 128, 'min' => 2, 'message' => Yii::t('user', "Minimum password length 2 characters")),
             array('type, status', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
-            array('type', 'in', 'range' => array_keys($this->getTypeList())),
-            array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, email, password, activkey, creation_date, lastvisit, type, status', 'safe', 'on' => 'search'),
@@ -236,26 +204,6 @@ class User extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'password' => Yii::t('user', "Пароль"),
-            'verifyPassword' => Yii::t('user', "Подтверждение пароля"),
-            'email' => Yii::t('user', "E-mail"),
-            'name' => Yii::t('user', "Имя"),
-            'verifyEmail' => Yii::t('user', "Подтверждение Email"),
-            'verifyCode' => Yii::t('user', "Проверочный код"),
-            'id' => Yii::t('user', "Id"),
-            'activkey' => Yii::t('user', "Ключ активации"),
-            'creation_date' => Yii::t('user', "Дата регистрации"),
-            'lastvisit' => Yii::t('user', "Дата последнего посещения"),
-            'status' => Yii::t('user', "Статус"),
-            'type' => Yii::t('user', "Тип"),
-        );
-    }
 
     public function scopes()
     {

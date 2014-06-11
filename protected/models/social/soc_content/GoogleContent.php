@@ -10,7 +10,7 @@ class GoogleContent extends SocContentBase
 
         $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
         if (empty($socUser['id']) || !empty($socUser['error']) || !empty($socUser['errors']))
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -111,7 +111,7 @@ class GoogleContent extends SocContentBase
                     $userDetail['last_status'] = strip_tags($post['object']['content'], '<p><br>');
                 $userDetail['sub-line'] = '';
                 if (isset($post['access']) && !empty($post['access']['description']) && ($post['access']['description'] == 'Public')) {
-                    $userDetail['sub-line'] = Yii::t('eauth', 'Shared publicly');
+                    $userDetail['sub-line'] = Yii::t('social', 'Shared publicly');
                 }
                 if (!empty($post['published'])) {
                     if (empty($userDetail['sub-line']))
@@ -157,7 +157,7 @@ class GoogleContent extends SocContentBase
                 }
             }
         }else {
-            $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $userDetail['error'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         $userDetail['text'] = '';

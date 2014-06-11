@@ -93,7 +93,7 @@
                     </iframe>
                     <?php if (isset($socContent['vimeo_last_video_counter'])): ?>
                     <footer>
-                        <span><?php echo $socContent['vimeo_last_video_counter']. Yii::t('eauth', ' просмотров'); ?></span>
+                        <span><?php echo $socContent['vimeo_last_video_counter']. Yii::t('spot', ' views'); ?></span>
                     </footer>
                     <?php endif; ?>
                     <?php if (empty($socContent['dinamic']) and isset($socContent['vimeo_video_width']) and isset($socContent['vimeo_video_height']) and ($socContent['vimeo_video_width'] > 0) and ($socContent['vimeo_video_height'] > 0)): ?>
@@ -239,7 +239,7 @@
                 <?php endif; ?>
                 <?php if (isset($socContent['view_count'])): ?>
                     <footer>
-                        <span><?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?></span>
+                        <span><?php echo $socContent['view_count'] . ' ' . Yii::t('spot', 'views'); ?></span>
                     </footer>
                 <?php endif; ?>
             <?php endif; ?>
@@ -336,7 +336,7 @@
                 </div>
                 <div class="move-spot"><i></i>
                     <span>
-                        <?php echo Yii::t('spots', 'Move your link'); ?>
+                        <?php echo Yii::t('spot', 'Move your link'); ?>
                     </span>
                 </div>
             </div>

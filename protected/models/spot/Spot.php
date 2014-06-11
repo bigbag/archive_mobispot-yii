@@ -39,33 +39,9 @@ class Spot extends CActiveRecord
     public function getAllSpot()
     {
         return array(
-            self::TYPE_FULL => Yii::t('account', 'Полный'),
-            self::TYPE_DEMO => Yii::t('account', 'Демо'),
+            self::TYPE_FULL => Yii::t('spot', 'Full'),
+            self::TYPE_DEMO => Yii::t('spot', 'Demo'),
         );
-    }
-
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_GENERATED => 'Сгенерирован',
-            self::STATUS_ACTIVATED => 'Активирован',
-            self::STATUS_REGISTERED => 'Зарегистрирован',
-            self::STATUS_INVISIBLE => 'Невидим',
-            self::STATUS_CLONES => 'Клон',
-            self::STATUS_REMOVED_USER => 'Удалён пользователем',
-            self::STATUS_REMOVED_SYS => 'Удалён системой',
-        );
-    }
-
-    public function getPremiumList()
-    {
-        return Discodes::getPremiumList();
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
     }
 
     public function getPremium()
@@ -117,7 +93,6 @@ class Spot extends CActiveRecord
             array('name', 'filter', 'filter' => 'trim'),
             array('discodes_id', 'unique'),
             array('name', 'filter', 'filter' => array($obj = new CHtmlPurifier(), 'purify')),
-            array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('url', 'length', 'max' => 128),
             array('name', 'length', 'max' => 300),
             array('code', 'length', 'max' => 10),
@@ -206,28 +181,6 @@ class Spot extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'code' => 'ДИС',
-            'url' => 'Ссылка',
-            'name' => 'Название',
-            'discodes_id' => 'ID',
-            'type' => 'Тип спота',
-            'spot_type_name' => 'Тип спота',
-            'user_id' => 'Пользователь',
-            'lang' => 'Язык',
-            'barcode' => 'BarCod',
-            'status' => 'Статус',
-            'premium' => 'Премиум',
-            'generated_date' => 'Дата генерации',
-            'registered_date' => 'Дата регистрации',
-            'removed_date' => 'Дата удаления',
-        );
-    }
 
     public function getActiveByUserid($user_id, $valid=false)
     {

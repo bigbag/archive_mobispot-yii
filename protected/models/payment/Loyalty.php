@@ -52,21 +52,21 @@ class Loyalty extends CActiveRecord
     public function getRulesList()
     {
         return array(
-            self::RULE_FIXED => Yii::t('user', 'Фиксированно'),
-            self::RULE_RATE => Yii::t('user', 'Процент'),
-            self::RULE_RATE => Yii::t('user', 'Скидка'),
-            self::RULE_RATE => Yii::t('user', 'Подарок'),
+            self::RULE_FIXED => Yii::t('wallet', 'fixedly'),
+            self::RULE_RATE => Yii::t('wallet', 'percentage'),
+            self::RULE_RATE => Yii::t('wallet', 'discount'),
+            self::RULE_RATE => Yii::t('wallet', 'gift'),
         );
     }
 
     public function getPromoMessage()
     {
-        $answer = Yii::t('spot', 'Выполните условия акции!');
+        $answer = Yii::t('wallet', 'Perform the action conditions!');
         $link = $this->getLink();
 
         $messages = array(
             self::FACEBOOK_LIKE =>
-                Yii::t('spot', "Перейдите по ссылке $link и лайкните страницу!"),
+                Yii::t('wallet', "Click on the link {link} and layknite page!"),
 
 
         );
@@ -153,27 +153,6 @@ class Loyalty extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'terms_id' => 'Terminals',
-            'firm_id' => 'Firm',
-            'event_id' => 'Events',
-            'rules' => 'Rule',
-            'interval' => 'Interval',
-            'amount' => 'Amount',
-            'threshold' => 'Threshold',
-            'desc' => 'Description',
-            'creation_date' => 'Creation Date',
-            'start_date' => 'Start Date',
-            'stop_date' => 'Stop Date',
-        );
-    }
-
     public function beforeValidate()
     {
         if ($this->isNewRecord) {
@@ -257,9 +236,9 @@ class Loyalty extends CActiveRecord
         switch ($this->rules) {
             case Loyalty::RULE_FIXED:
                 if (1 == $this->interval)
-                    $desc .= Yii::t('payment', 'На все покупки');
+                    $desc .= Yii::t('wallet', 'On all purchases');
                 else
-                    $desc .= Yii::t('payment', 'За каждую') . ' <b>' . $this->interval . '</b> ' . Yii::t('payment', 'покупку');
+                    $desc .= Yii::t('wallet', 'For each') . ' <b>' . $this->interval . '</b> ' . Yii::t('wallet', 'purchase');
         }
 
         return $desc;

@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="block-information">
-                        <i class="icon">&#xe606;</i><?php echo Yii::t('spot', 'Account is blocked ...')?>
+                        <i class="icon">&#xe606;</i><?php echo Yii::t('spot', 'Account is blocked ...')?><br />
                         <a href="javascript:;" ng-click="blockedWallet()">
                             <?php echo Yii::t('spot', 'Unblock')?>
                         </a>

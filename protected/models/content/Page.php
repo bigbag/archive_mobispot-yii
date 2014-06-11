@@ -23,20 +23,6 @@ class Page extends CActiveRecord
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
 
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_PUBLISHED => 'Опубликовано',
-            self::STATUS_DRAFT => 'Черновик',
-        );
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return array_key_exists($this->status, $data) ? $data[$this->status] : Yii::t('page', '*неизвестно*');
-    }
-
     public function getLang()
     {
         $data = Lang::getLangArray();
@@ -75,8 +61,7 @@ class Page extends CActiveRecord
             array('user_id, status', 'numerical', 'integerOnly' => true),
             array('title, slug', 'length', 'max' => 150),
             array('keywords, description', 'safe'),
-            array('status', 'in', 'range' => array_keys($this->getStatusList())),
-            array('slug', 'match', 'pattern' => '/^[a-zA-Z0-9_\-]+$/', 'message' => 'Запрещенные символы в поле {attribute}'),
+            array('slug', 'match', 'pattern' => '/^[a-zA-Z0-9_\-]+$/'),
             array('id, creation_date, change_date, user_id, title, slug, menu, body, keywords, description, status', 'safe', 'on' => 'search'),
         );
     }
@@ -114,27 +99,6 @@ class Page extends CActiveRecord
     {
         $dependency = new CDbCacheDependency("SELECT change_date FROM page WHERE slug LIKE '" . $slug . "' and lang='" . Yii::app()->language . "'");
         return Page::model()->cache(36000, $dependency)->find('slug=:slug and lang=:lang', array('slug' => trim($slug), 'lang' => Yii::app()->language));
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'lang' => 'Язык',
-            'creation_date' => 'Дата создания',
-            'change_date' => 'Дата изменения',
-            'user_id' => 'Пользователь',
-            'title' => 'Заголовок',
-            'slug' => 'URL',
-            'menu' => 'Меню',
-            'body' => 'Текст',
-            'keywords' => 'Ключевые слова',
-            'description' => 'Описание',
-            'status' => 'Статус',
-        );
     }
 
     /**

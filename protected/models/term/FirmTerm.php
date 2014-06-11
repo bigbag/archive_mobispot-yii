@@ -77,20 +77,6 @@ class FirmTerm extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'term_id' => 'Term',
-            'firm_id' => 'Firm',
-            'child_firm_id' => 'Child Firm',
-            'creation_date' => 'Creation Date',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:

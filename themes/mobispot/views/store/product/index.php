@@ -18,25 +18,10 @@
                             </ul>
                         </div>
                     </div>
-                   <!--  <div class="thumbsshell" ng-style="product.thumbShellStyle" ng-show="product.photo.length > 1">
-                        <div class="thumbswrapper">
-                            <ul class = "thumblist">
-                                <li
-                                    class = "thumbitem"
-                                    ng-repeat="image in product.photo"
-                                    ng-click="scrollTo(image,$index, product.jsID)">
-                                    <div class="thumbwrapper">
-                                        <img  class="slider-thumbnail" ng-src="<?php echo $imagePath; ?>{{image}}" width="50">
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
                 </td>
                 <td class="store-items__description">
                     <header>
                         <h1>{{product.name}}</h1>
-                        <!-- <span>{{product.code}}</span> -->
                         <div class="store-items__price">
                             {{product.selectedSize.price}}<span class="icon currency">&#xe019;</span>
                         </div>
@@ -105,8 +90,8 @@
     <div ng-hide="items.count < 1">
         <a class="bag-link" href="/store/product/cart">
             <span class="icon">&#xe01a;</span>
-            <h3><?php echo Yii::t('store', 'В корзину добавлено ')?> {{items.count}}<?php echo Yii::t('store', ' спот')?></h3>
-            <div><?php echo Yii::t('store', 'Перейти к оформлению'); ?></div>
+            <h3><?php echo Yii::t('store', 'Add to cart added')?> {{items.count}}<?php echo Yii::t('store', ' спот')?></h3>
+            <div><?php echo Yii::t('store', 'Go to registration'); ?></div>
             <i>></i>
         </a>
     </div>

@@ -1,7 +1,7 @@
 <footer class="footer-page content">
     <ul class="left">
-        <li><a href="/readers"><?php echo Yii::t('footer', 'Readers') ?></a></li>
-        <li><a href="/help"><?php echo Yii::t('footer', 'Get Help') ?></a></li>
+        <li><a href="/readers"><?php echo Yii::t('general', 'Readers') ?></a></li>
+        <li><a href="/help"><?php echo Yii::t('general', 'Get Help') ?></a></li>
         <li class="lang">
             <ul class="lang-list">
                 <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>">

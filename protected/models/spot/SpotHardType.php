@@ -62,21 +62,6 @@ class SpotHardType extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'hard_id' => 'Hard',
-            'color_id' => 'Color',
-            'pattern_id' => 'Pattern',
-            'image' => 'Image',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:

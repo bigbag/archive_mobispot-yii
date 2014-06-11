@@ -1,4 +1,4 @@
-<?php $this->pageTitle = Yii::t('profile', 'Personal data'); ?>
+<?php $this->pageTitle = Yii::t('user', 'Personal data'); ?>
 <?php $this->mainBackground = 'skulls.png'?>
 <div class="content-wrapper">
     <div class="content-block form-block">

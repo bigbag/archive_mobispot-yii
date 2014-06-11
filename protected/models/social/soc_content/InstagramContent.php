@@ -11,7 +11,7 @@ class InstagramContent extends SocContentBase
             $socUsername = self::parseUsername($link);
             $socUser = self::makeRequest('https://api.instagram.com/v1/users/search?q=' . $socUsername . '&count=1&client_id=' . Yii::app()->eauth->services['instagram']['client_id']);
             if (is_string($socUser) || !isset($socUser['data']) || !isset($socUser['data'][0])) {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -73,8 +73,8 @@ class InstagramContent extends SocContentBase
                         $post = $media['data'][0];
                 }
             } else
-                $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            //    $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+                $userDetail['error'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
+            //    $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         if (isset($post)) {
@@ -85,7 +85,7 @@ class InstagramContent extends SocContentBase
             elseif (!empty($post['user']['username']))
                 $userDetail['soc_username'] = $post['user']['username'];
             if (!empty(Yii::app()->session['instagram_mobile_follow_' . $post['user']['id']]) && !$needSave) {
-                $userDetail['invite'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
+                $userDetail['invite'] = Yii::t('social', 'You\'re following ') . $userDetail['soc_username'];
             } else {
                 $userDetail['follow_service'] = 'instagram_mobile';
                 $userDetail['follow_param'] = $post['user']['id'];
@@ -93,7 +93,7 @@ class InstagramContent extends SocContentBase
 
             if ($needSave) {
                 $userDetail['check_following'] = 'instagram_mobile_follow_' . $post['user']['id'];
-                $userDetail['message_following'] = Yii::t('eauth', 'You\'re following ') . $userDetail['soc_username'];
+                $userDetail['message_following'] = Yii::t('social', 'You\'re following ') . $userDetail['soc_username'];
             }
 
             if (isset($post['location']) && !empty($post['location']['name']))
@@ -118,12 +118,12 @@ class InstagramContent extends SocContentBase
                     if ($post['likes']['count'] > 2)
                         $userDetail['likes-block'] .= ', ';
                     else
-                        $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'and') . ' ';
+                        $userDetail['likes-block'] .= ' ' . Yii::t('social', 'and') . ' ';
                     $userDetail['likes-block'] .= '<a class="authot-name" href="http://instagram.com/' . $post['likes']['data'][1]['username'] . '">' . $post['likes']['data'][1]['full_name'] . '</a>';
                     if ($post['likes']['count'] > 2)
-                        $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'and') . ' <b>' . ($post['likes']['count'] - 2) . '</b> ' . Yii::t('eauth', 'others');
+                        $userDetail['likes-block'] .= ' ' . Yii::t('social', 'and') . ' <b>' . ($post['likes']['count'] - 2) . '</b> ' . Yii::t('social', 'others');
                 }
-                $userDetail['likes-block'] .= ' ' . Yii::t('eauth', 'like this') . '.';
+                $userDetail['likes-block'] .= ' ' . Yii::t('social', 'like this') . '.';
             }
 
             if ($needSave) {
@@ -179,7 +179,7 @@ class InstagramContent extends SocContentBase
                         $userName = $user['data']['full_name'];
                     elseif (!empty($user['data']['username']))
                         $userName = $user['data']['username'];
-                    $answer['message'] = Yii::t('eauth', 'You\'re following ') . $userName;
+                    $answer['message'] = Yii::t('social', 'You\'re following ') . $userName;
                 }
             }
         }

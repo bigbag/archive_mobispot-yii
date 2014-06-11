@@ -7,7 +7,7 @@
 <input type="hidden" name="CustName" size="43" value="<?php echo $order->name ?>">
 <input type="hidden" name="CustAddr" size="43" value="<?php echo $order->address ?>">
 <input type="hidden" name="CustEMail" size="43" value="<?php echo $order->email ?>">
-<input type="hidden" name="OrderDetails" size="43" value="<?php echo Yii::t('store', 'Демо-кит Мобиспот') ?>">
+<input type="hidden" name="OrderDetails" size="43" value="<?php echo Yii::t('store', 'Demo kit Mobispot') ?>">
 <input name="paymentType" value="<?php echo $action ?>" type="hidden">
 <!-- <br><input type="submit" value="Оплатить"><br> -->
 </form>
