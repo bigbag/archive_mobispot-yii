@@ -1,5 +1,5 @@
 <?php $this->pageTitle = Yii::t('user', 'Personal data'); ?>
-<?php $this->mainBackground = 'skulls.png'?>
+<?php $this->mainBackground = 'main-bg-w.png'?>
 <div class="content-wrapper">
     <div class="content-block form-block">
         <div class="row">
@@ -84,7 +84,7 @@
                             recUser.token=user.token"
                         ></span>
                     <p class="sub-txt">
-                        <?php echo Yii::t('user', 'You can change your password following the instructions in a special email from us. Please click the button below to proceed.'); ?>
+                        <?php echo Yii::t('user', 'To change your password please click the button below and follow the instruction in the special email from us.'); ?>
                     </p>
                     <a class="form-button toggle-box"  ng-click="recovery(recUser, recoveryForm.$valid)">
                         <?php echo Yii::t('user', 'Send to email'); ?>
@@ -99,16 +99,22 @@
                     <?php echo Yii::t('user', 'Connect your Mobispot profile with your favourite social network accounts. This will make your sign in easy. If you connect several accounts you will be able to sign in with any of them.'); ?>
                 </p>
                 <span class="form-soc-link soc-link gray">
-                    <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'active' : ''; ?>
-                    <a href="/service/socialConnect?service=facebook" class="i-round-fb <?php echo $facebookStatus; ?>">&#xe000;</a>
-
-                    <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'active' : ''; ?>
-                    <a href="/service/socialConnect?service=twitter" class="<?php echo $twitterStatus; ?>">&#xe001;</a>
-
-                    <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'active' : ''; ?>
-                    <a href="/service/socialConnect?service=google_oauth" class="<?php echo $googleStatus; ?>">&#xe002;</a>
+                    <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'link' : ''; ?>
+                    <a href="/service/socialConnect?service=google_oauth" 
+                        class="<?php echo $googleStatus; ?>">
+                        <img src="/themes/mobispot/img/google-i_x2.png">
+                    </a>
+                    <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'link' : ''; ?>
+                    <a href="/service/socialConnect?service=twitter" 
+                        class="<?php echo $twitterStatus; ?>">
+                        <img src="/themes/mobispot/img/twi-i_x2.png">
+                    </a>
+                    <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'link' : ''; ?>
+                    <a href="/service/socialConnect?service=facebook" 
+                        class="<?php echo $facebookStatus; ?>">
+                        <img src="/themes/mobispot/img/fb-i_x2.png">
+                    </a>                   
                 </span>
-                <p class="sub-txt"><?php echo Yii::t('user', "Note: This action will not connect your spots' content with your social networks. Please make it separately when editing your spots."); ?></p>
             </div>
         </div>
     </div>

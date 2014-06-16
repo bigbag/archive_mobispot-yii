@@ -202,3 +202,11 @@ div.store-content {
 .m-auto-payment {
   min-height: 164px;
 }
+
+.header-page .hat-bar a,.footer-page a{
+  font-size:16px;
+}
+
+.b-message p {
+  color: #0062ff;
+}

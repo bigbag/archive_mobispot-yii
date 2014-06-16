@@ -6,10 +6,7 @@
 
 /* line 5, ../sass/base.scss */
 .wallpaper {
-  background-size: auto;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none; }
+  background-size: auto; }
 
 /* line 9, ../sass/base.scss */
 .main {
