@@ -51,7 +51,7 @@
   'You account is blocked.' => '',
   'You account is not activated.' => '',
   'You and your first spot have been registred successfully. Please check your inbox to confirm registration.' => '',
-  'You can change your password following the instructions in a special email from us. Please click the button below to proceed.' => '',
+  'To change your password please click the button below and follow the instruction in the special email from us.' => '',
   'You\'ve made a mistake in spot activation code.' => '',
   'password' => '密码',
 );

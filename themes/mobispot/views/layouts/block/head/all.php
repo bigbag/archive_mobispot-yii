@@ -15,9 +15,9 @@
     <meta name="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
     <?php endif; ?>
 
-    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon16.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon32.png">
-    <link rel="icon" type="image/png" href="/themes/mobispot/img/favicon48.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
+    <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
 
     <!-- IE Fix for HTML5 Tags -->
     <!--[if lt IE 9]>

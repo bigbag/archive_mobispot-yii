@@ -51,7 +51,7 @@
   'You account is blocked.' => '',
   'You account is not activated.' => '',
   'You and your first spot have been registred successfully. Please check your inbox to confirm registration.' => '您和您的第一支智能手環已註冊成功。請打開您的電子信箱進行確認。',
-  'You can change your password following the instructions in a special email from us. Please click the button below to proceed.' => '',
+  'To change your password please click the button below and follow the instruction in the special email from us.' => '',
   'You\'ve made a mistake in spot activation code.' => '您的手環開通密碼錯誤。',
   'password' => '密碼',
 );

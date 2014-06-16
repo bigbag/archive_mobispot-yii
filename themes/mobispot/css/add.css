@@ -203,6 +203,10 @@ div.store-content {
   min-height: 164px;
 }
 
-.header-page .hat-bar {
-  font-size: 16px;
+.header-page .hat-bar a,.footer-page a{
+  font-size:16px;
+}
+
+.b-message p {
+  color: #0062ff;
 }
