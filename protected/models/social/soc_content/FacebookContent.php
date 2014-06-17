@@ -423,11 +423,15 @@ class FacebookContent extends SocContentBase
         return $answer;
     }
 
-    public static function checkSharing($sharing_type, $link)
+    public static function checkSharing($loyalty)
     {
         $answer = false;
+        
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
 
-        switch($sharing_type) {
+        switch($loyalty->sharing_type) {
             case Loyalty::FACEBOOK_LIKE:
                 $answer = self::checkLike($link);
             break;

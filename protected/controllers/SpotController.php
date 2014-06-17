@@ -764,24 +764,32 @@ class SpotController extends MController
         );
         $data = $this->validateRequest();
 
-        if (!isset($data['discodes']) or !Yii::app()->user->id)
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
             $this->getJsonAndExit($answer);
 
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot) $this->getJsonAndExit($answer);
+            
         $wallet = PaymentWallet::model()->findByAttributes(
         array(
-                'discodes_id' => $data['discodes'],
+                'discodes_id' => (int)$data['discodes'],
                 'user_id' => Yii::app()->user->id,
-                'status' => PaymentWallet::STATUS_ACTIVE,
             )
         );
 
-        if ($wallet) {
-            $coupons = Loyalty::getCoupons($wallet->id);
-            $answer['content'] = $this->renderPartial(
-                    '//spot/coupons', array('coupons' => $coupons), true
-            );
-        } else
-            $answer['content'] = $this->renderPartial('//spot/no_wallet', array(), true);
+        $coupons = Loyalty::getCoupons($wallet->id);
+        $answer['content'] = $this->renderPartial(
+                '//spot/coupons', array(
+                    'coupons' => $coupons,
+                    'wallet' => $wallet,
+                    'spot' => $spot,
+                ), true
+        );
 
         $answer['error'] = 'no';
 

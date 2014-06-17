@@ -152,7 +152,7 @@ class UserController extends MController
         if (!$socToken or !$link or !$wallet)
             $this->getJsonAndExit($answer);
 
-        $answer['checked'] = $socInfo->checkSharing($service, $action->sharing_type, $link);
+        $answer['checked'] = $socInfo->checkSharing($action);
         if (!$answer['checked']) {
             $answer['message'] = $action->getPromoMessage();
             $this->getJsonAndExit($answer);
@@ -183,7 +183,7 @@ class UserController extends MController
             'part' => true,
         );
 
-        $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
+        $answer['content'] = $this->renderPartial('//spot/block/coupon', array('coupon' => $coupon), true);
         $answer['message_error'] = 'no';
         $answer['message'] = Yii::t('spot', 'You are participating in the action');
 
@@ -229,7 +229,7 @@ class UserController extends MController
             'part' => false,
         );
 
-        $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
+        $answer['content'] = $this->renderPartial('//spot/block/coupon', array('coupon' => $coupon), true);
         $answer['error'] = "no";
 
         echo json_encode($answer);

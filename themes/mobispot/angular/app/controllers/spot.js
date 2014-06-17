@@ -59,6 +59,8 @@ angular.module('mobispot').controller('SpotController',
       $scope.viewSpot($scope.spot);
     } else if ($scope.general.views == 'wallet'){
       $scope.viewWallet($scope.spot);
+    } else if ($scope.general.views == 'coupon'){
+      $scope.viewCoupons($scope.spot);
     } else if ($scope.general.views == 'settings'){
       $scope.viewsSettings($scope.spot);
     }
@@ -293,7 +295,23 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
+  
 
+  // Отображение купонов
+  $scope.viewCoupons = function (spot) {
+    var spot_block = angular.element('#spot-block');
+    $http.post('/spot/coupons', spot).success(function(data) {
+      if (data.error == 'no'){
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+        $scope.bodyMinHeight();
+        angular.element('.spot-content_row').show().animate({
+          opacity: 1
+        },500);
+      }
+    });
+  };
+  
   // Список карт
   $scope.getListCard = function(){
     $http.post('/spot/listCard', $scope.wallet).success(function(data) {

@@ -66,9 +66,7 @@ class Loyalty extends CActiveRecord
 
         $messages = array(
             self::FACEBOOK_LIKE =>
-                Yii::t('wallet', "Click on the link {link} and layknite page!"),
-
-
+                Yii::t('wallet', "Click on the link and like page!"),
         );
 
         if (isset($messages[$this->sharing_type]))
