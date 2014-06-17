@@ -4,7 +4,7 @@
   'Get Help' => 'Помощь',
   'If you want your tickets close to hand,<br> put them on your wrist.' => 'Транспортные билеты всегда под рукой.<br> Прямо на вашем запястье.',
   'Make a lasting<br> connection' => 'Установите контакт',
-  'Maximum file size ' => '',
+  'Maximum file size ' => 'Максимальный размер ',
   'Met someone?<br> Share your details instantly with Mobispot.<br> Like something?<br> Share it, and brands can share right back.' => 'Познакомились с кем-то?<br> Поделитесь информацией о себе одним касанием.<br> "Лайкнули" страницу?<br> Получите бонусы от известных брендов.',
   'My Spots' => 'Мои споты',
   'My profile & Security' => 'Профиль',
@@ -15,5 +15,5 @@
   'Sign Out' => 'Выйти',
   'Sign in' => 'Войти',
   'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => 'Теперь мелкие покупки не будут<br> отнимать много времени.<br> Мобиспот поможет совершать<br> платежи в вашем кампусе.',
-  'The uploaded file is not an image' => '',
+  'The uploaded file is not an image' => 'Файл не является изображением',
 );

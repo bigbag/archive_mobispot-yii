@@ -21,7 +21,7 @@
   'Download' => 'Скачать',
   'Edit the list' => 'Редактировать список',
   'Enter spot\'s password' => 'Введите пароль',
-  'Finish editing' => '',
+  'Finish editing' => 'Готово',
   'Full' => 'Полный',
   'GB' => 'Гб',
   'Get the statement' => 'Выписка по всем операциям',
