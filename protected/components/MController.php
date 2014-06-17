@@ -196,6 +196,13 @@ class MController extends Controller
         }
     }
 
+    public function getBaseUrl()
+    {
+        return Yii::app()->request->getBaseUrl(true);
+    }
+
+
+
     public function init()
     {
         $all_lang = Lang::getLangArray();
