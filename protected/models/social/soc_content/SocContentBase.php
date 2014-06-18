@@ -187,7 +187,7 @@ class SocContentBase
         return null;
     }
 
-    public static function checkSharing($sharing_type, $link)
+    public static function checkSharing($loyalty)
     {
         return false;
     }

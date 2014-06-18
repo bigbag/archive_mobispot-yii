@@ -202,5 +202,41 @@ class FoursquareContent extends SocContentBase
 
         return $answer;
     }
+    
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
 
+        switch($sharing_type) {
+            case Loyalty::FOURSQUARE_CHECKIN:
+                $answer = self::isCheckedIn($loyalty);
+            break;
+            case Loyalty::FOURSQUARE_MAYOR:
+                $answer = self::checkMayor($loyalty);
+            break;
+            case Loyalty::FOURSQUARE_BADGE:
+                $answer = self::checkBadge($loyalty);
+            break;
+        }
+
+        return $answer;
+    }
+    
+    public static function isCheckedIn($loyalty)
+    {
+        
+        return false;
+    }
+    
+    public static function checkMayor($loyalty)
+    {
+        
+        return false;
+    }
+    
+    public static function checkBadge($loyalty)
+    {
+        
+        return false;
+    }
 }
