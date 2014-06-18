@@ -297,7 +297,7 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
+
 
   // Отображение купонов
   $scope.viewCoupons = function (spot) {
@@ -313,9 +313,10 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
+
   // Список карт
   $scope.getListCard = function(){
+    if ($scope.general.views != 'wallet') return false;
     $http.post('/spot/listCard', $scope.wallet).success(function(data) {
       if (data.error == 'no'){
         $scope.wallet.cards = data.cards;
