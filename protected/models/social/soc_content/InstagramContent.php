@@ -2,6 +2,8 @@
 
 class InstagramContent extends SocContentBase
 {
+    const OEMBED = 'http://api.instagram.com/oembed?url=';
+    const API_PATH = 'https://api.instagram.com/v1/';
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
@@ -187,4 +189,105 @@ class InstagramContent extends SocContentBase
         return $answer;
     }
 
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
+        
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
+
+        switch($loyalty->sharing_type) {
+            case Loyalty::INSTAGRAM_LIKE:
+                $answer = self::checkLike($link);
+            break;
+            case Loyalty::INSTAGRAM_FOLLOWING:
+                $answer = self::checkFollowing($link);
+            break;
+        }
+
+        return $answer;
+    }
+    
+    public static function checkLike($link)
+    {
+        $answer = false;
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_INSTAGRAM,
+        ));
+
+        if (!$socToken)
+            return false;
+
+        $post_meta = self::makeRequest(self::OEMBED . $link);
+
+        if (empty($post_meta['media_id']))
+            return false;
+
+        $likes_data = self::makeRequest(
+            self::API_PATH 
+            . 'media/'
+            . $post_meta['media_id']
+            . '/likes'
+            . '?access_token='
+            . $socToken->user_token
+        );
+        
+        if (!empty($likes_data['data']))
+        {
+            foreach ($likes_data['data'] as $user)
+            {
+                if (empty($user['id']))
+                    continue;
+                    
+                if ($user['id'] == $socToken->soc_id)
+                {
+                    $answer = true;
+                    break;
+                }
+            }
+        }
+        
+        return $answer;
+    }
+    
+    public static function checkFollowing($link)
+    {
+        $answer = false;
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_INSTAGRAM,
+        ));
+
+        if (!$socToken)
+            return false;
+        
+        $user = self::makeRequest(
+            self::API_PATH
+            . 'users/search?q='
+            . self::parseParam($link, 'instagram.com/')
+            . '&access_token='
+            . $socToken->user_token
+        );
+        
+        if (empty($user['data']) or empty($user['data'][0]) or empty($user['data'][0]['id']))
+            return false;
+        
+        $relation = self::makeRequest(
+            self::API_PATH
+            . 'users/'
+            . $user['data'][0]['id']
+            . '/relationship'
+            . '?access_token='
+            . $socToken->user_token
+        );
+        
+        if (!empty($relation['data']) and !empty($relation['data']['outgoing_status']) and 'follows' == $relation['data']['outgoing_status'])
+            $answer = true;
+
+        return $answer;
+    }    
 }

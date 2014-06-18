@@ -10,6 +10,8 @@ class DemoKitOrder extends CActiveRecord
     const PAYMENT_BY_CARD = 'AC';
     const PAYMENT_BY_YM = 'PC';
     const PAYMENT_MAIL = 'email';
+    
+    const USD_CHAR_CODE = 'USD';
 
     public static function getConfig()
     {
@@ -200,7 +202,7 @@ class DemoKitOrder extends CActiveRecord
             $timestamp = time();
         $xml_rates = simplexml_load_file("http://www.cbr.ru/scripts/XML_daily.asp?date_req=".date("d/m/Y", $timestamp));
         foreach($xml_rates as $key=>$data){
-            if($data->Name == Yii::t('store', '$')) {
+            if($data->CharCode == self::USD_CHAR_CODE) {
                 $rate = $data->Value;
             }
         }

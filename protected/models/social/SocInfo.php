@@ -679,15 +679,19 @@ class SocInfo extends CFormModel
         }
     }
 
-    public function checkSharing($netName, $sharing_type, $link)
+    public function checkSharing($loyalty)
     {
         $answer = false;
+        
+        if (empty($loyalty->sharing_type))
+            return false;
 
-        $net = $this->getNetByName($netName);
+        $net = $this->getNetByName(
+            self::getNameBySharingType($loyalty->sharing_type));
 
-        if (isset($net['contentClass']) && strlen($net['contentClass'])) {
+        if (!empty($net['contentClass'])) {
             $class = $net['contentClass'];
-            $answer = $class::checkSharing($sharing_type, $link);
+            $answer = $class::checkSharing($loyalty);
         }
 
         return $answer;
