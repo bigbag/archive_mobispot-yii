@@ -426,7 +426,6 @@ angular.module('mobispot').controller('SpotController',
 
     for (var i = 0, f; f = files[i]; i++) {
       $scope.uploadFile(f);
-      // $scope.parseFile(f);
     }
   }
 
@@ -439,6 +438,8 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#progress-content').hide();
         angular.element('#add-content').append($compile(data.content)($scope));
         $scope.keys.push(data.key);
+
+        angular.element('#add-file').val('');
 
         var scroll_height = $('#block-' + data.key).offset().top;
         $('html, body').animate({
