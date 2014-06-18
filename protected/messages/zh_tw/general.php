@@ -1,5 +1,6 @@
 <?php return  array (
   'Activate spot' => '啟用',
+  'Get our demo-kit' => '',
   'All your tickets<br> in one place' => '便利刷"環",<br>輕鬆購票',
   'Get Help' => '幫助',
   'If you want your tickets close to hand,<br> put them on your wrist.' => '想把各種車票都"戴"在你的手腕上嗎?<br>智能手環幫你實現!',

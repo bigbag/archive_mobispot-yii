@@ -46,7 +46,7 @@
   'The requested page does not exist.' => '',
   'The site already a registered member with Email' => '',
   'This email has been already used' => 'Данный адрес эл. почты уже занят.',
-  'User activation' => '',
+  'User activation' => 'Активация пользователя',
   'Wrong activation code' => 'Неверный код активации.',
   'You account is blocked.' => 'Учетная запись заблокирована',
   'You account is not activated.' => 'Учетная запись не активирована',

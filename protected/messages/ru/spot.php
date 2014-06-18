@@ -41,7 +41,7 @@
   'My bank cards' => 'Мои банковские карты',
   'Name cannot be longer than 15 symbols. <br /> May consist of Cyrillic, Latin and digits.' => 'Длина не должна превышать 15 символов.<br />
 Может содержать только: кириллицу, латиницу и цифровое значение.',
-  'Oops!' => '',
+  'Oops!' => 'Уупс!',
   'Please read and confirm that you accept the' => 'Пожалуйста, прочитайте и подтвердите ',
   'Please type your new spot’s activation code and click the button below.' => 'Пожалуйста, введите код активации вашего спота',
   'Post' => 'Сохранить',
@@ -55,7 +55,7 @@
   'Social links' => 'Соц. сети',
   'Spot activation code ' => 'Код активации',
   'Spot\'s URL' => 'Адрес страницы спота',
-  'Tap to Download' => '',
+  'Tap to Download' => 'Нажмите чтобы скачать',
   'There was an error when attempting to upload this file<br/>Please try again' => 'При закачке файла произошла ошибка.</br /> Попробуйте ещё раз.',
   'Type' => 'Тип',
   'Type the text and links or drag your files here' => 'Введите текст и ссылки или перетяните сюда ваши файлы',

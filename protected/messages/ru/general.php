@@ -1,5 +1,6 @@
 <?php return  array (
   'Activate spot' => 'Активировать',
+  'Get our demo-kit' => 'Заказать демо-кит',
   'All your tickets<br> in one place' => 'Все ваши билеты<br> собраны вместе',
   'Get Help' => 'Помощь',
   'If you want your tickets close to hand,<br> put them on your wrist.' => 'Транспортные билеты всегда под рукой.<br> Прямо на вашем запястье.',
