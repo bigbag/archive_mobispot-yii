@@ -19,13 +19,13 @@
             <?php if (Yii::app()->user->isGuest): ?>
             <li>
                 <a ng-click="modal=(modal != 'activation')?'activation':'none'"
-                    ng-class="{active: (modal=='activation')}" class="show">
+                    ng-class="{active: (modal=='activation')}">
                     <?php echo Yii::t('general', 'Activate spot') ?>
                 </a>
             </li>
             <li>
                 <a ng-click="modal=(modal != 'sign')?'sign':'none'"
-                    ng-class="{active: (modal=='sign')}" class="show">
+                    ng-class="{active: (modal=='sign')}">
                     <?php echo Yii::t('general', 'Sign in') ?>
                 </a>
             </li>
