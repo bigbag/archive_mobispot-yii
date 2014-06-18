@@ -1,6 +1,5 @@
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/js/jquery.slides.js"></script>
 ';?>
-
 <span ng-init="getResolution()"></span>
 <ul id="slides" class="slides-container">
     <li style="background-image:url(/themes/mobispot/img/slider/<?php echo $resolution?>/01.jpg); ">

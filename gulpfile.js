@@ -10,6 +10,9 @@ var gulp = require('gulp'), // Сообственно Gulp JS
     tmpPath = 'tmp';
 
 gulp.task('css', function() {
+    gulp.src('app/tmp', {read: false})
+    .pipe(clean());
+
     gulp.src([
         'themes/mobispot/css/style.css',
         'themes/mobispot/css/a-slider.css'
