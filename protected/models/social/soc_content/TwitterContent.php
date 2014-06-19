@@ -274,7 +274,7 @@ class TwitterContent extends SocContentBase
     public static function checkSharing($loyalty)
     {
         $answer = false;
-        
+
         $link = $loyalty->getLink();
         if (empty($link))
             return false;
@@ -302,9 +302,9 @@ class TwitterContent extends SocContentBase
     public static function checkRetwit($link)
     {
         $answer = false;
-        
+
         Yii::import('ext.twitteroauth.TwitterOAuth');
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_TWITTER,
@@ -312,7 +312,7 @@ class TwitterContent extends SocContentBase
 
         if (!$socToken)
             return false;
-            
+
         $settings = array(
             'oauth_access_token' => $socToken->user_token,
             'oauth_access_token_secret' => $socToken->token_secret,
@@ -320,23 +320,23 @@ class TwitterContent extends SocContentBase
             'consumer_secret' => Yii::app()->eauth->services['twitter']['secret']
         );
         $tweetId = self::parseParam($link, '/status/');
-        
+
         $connection = new TwitterOAuth(
-            Yii::app()->eauth->services['twitter']['key'], 
+            Yii::app()->eauth->services['twitter']['key'],
             Yii::app()->eauth->services['twitter']['secret'], $socToken->user_token,
             $socToken->token_secret
         );
         $tweet = $connection->get(
-            'statuses/show', 
+            'statuses/show',
             array(
-                'id' => $tweetId, 
-                'include_my_retweet'=>'true', 
+                'id' => $tweetId,
+                'include_my_retweet'=>'true',
                 'include_entities'=>'false')
         );
-        
+
         if (!empty($tweet->retweeted) and '1' == $tweet->retweeted)
             $answer = true;
-        
+
         return $answer;
     }
 
@@ -345,7 +345,7 @@ class TwitterContent extends SocContentBase
         $answer = false;
 
         Yii::import('ext.twitteroauth.TwitterOAuth');
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_TWITTER,
@@ -353,30 +353,30 @@ class TwitterContent extends SocContentBase
 
         if (!$socToken)
             return false;
-        
+
         $reading_name = self::parseParam($link, 'twitter.com/');
-        
+
         $connection = new TwitterOAuth(
-            Yii::app()->eauth->services['twitter']['key'], 
+            Yii::app()->eauth->services['twitter']['key'],
             Yii::app()->eauth->services['twitter']['secret'], $socToken->user_token,
             $socToken->token_secret
         );
-        
+
         $friendship = $connection->get(
-            'friendships/show', 
+            'friendships/show',
             array(
                 'source_screen_name' => $socToken->soc_username, 'target_screen_name' => $reading_name
             )
         );
 
         if (
-            !empty($friendship->relationship) 
+            !empty($friendship->relationship)
             and !empty($friendship->relationship->source)
             and !empty($friendship->relationship->source->following)
             and '1' == $friendship->relationship->source->following
         )
             $answer = true;
-        
+
         return $answer;
     }
 
@@ -385,7 +385,7 @@ class TwitterContent extends SocContentBase
         $answer = false;
 
         Yii::import('ext.twitteroauth.TwitterOAuth');
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_TWITTER,
@@ -393,7 +393,7 @@ class TwitterContent extends SocContentBase
 
         if (!$socToken)
             return false;
-        
+
         $hashtag = self::parseParam($link, '#');
 
         $params = array(
@@ -401,16 +401,16 @@ class TwitterContent extends SocContentBase
             'count' => 1,
             //'from' => $socToken->soc_username
         );
-        
+
         $connection = new TwitterOAuth(
-            Yii::app()->eauth->services['twitter']['key'], 
+            Yii::app()->eauth->services['twitter']['key'],
             Yii::app()->eauth->services['twitter']['secret'], $socToken->user_token,
             $socToken->token_secret
         );
-        
+
         $search = $connection->get('search/tweets', $params);
 
-        
+
         return $answer;
     }
 }

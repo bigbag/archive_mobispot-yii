@@ -30,7 +30,7 @@
 </head>
 <body >
     <?php echo $content; ?>
-    
+
     <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
     <script>angular.module('mobispot', ['ngCookies']);</script>
     <script src="/themes/mobispot/angular/app/service.js"></script>
