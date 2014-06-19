@@ -361,8 +361,8 @@ class ServiceController extends MController
     {
         $data = $this->validateRequest();
         $answer = array(
-            'error' => 'yes', 
-            'content' => '', 
+            'error' => 'yes',
+            'content' => '',
             'message'=>Yii::t('store', 'Error! Check the correctness of filling in the order.')
             );
 

@@ -55,7 +55,7 @@ class SpotColors extends CActiveRecord
         return array(
         );
     }
-    
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *

@@ -3,6 +3,8 @@
 class YouTubeContent extends SocContentBase
 {
 
+    const API_PATH = 'https://www.googleapis.com/youtube/';
+
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
@@ -163,4 +165,59 @@ class YouTubeContent extends SocContentBase
         return $answer;
     }
 
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
+
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
+
+        switch($loyalty->sharing_type) {
+            case Loyalty::YOUTUBE_FOLLOWING:
+                $data = CJSON::decode($loyalty->data);
+                if (!empty($data['channelId']))
+                    $answer = self::checkFollowing($data['channelId']);
+            break;
+            case Loyalty::YOUTUBE_VIEWS:
+                $answer = self::checkView($link);
+            break;
+        }
+
+        return $answer;
+    }
+
+    public static function checkFollowing($channel_id)
+    {
+        $answer = false;
+
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_YOUTUBE,
+        ));
+
+        if (!$socToken)
+            return false;
+
+        $options = array(
+            'headers'=>array(
+            'Authorization:Bearer '
+            . $socToken->user_token));
+
+        $subscriptions = self::makeRequest(
+            self::API_PATH
+            .'v3/subscriptions?maxResults=50&part=snippet&mine=true'
+        );
+
+
+        return $answer;
+    }
+
+    public static function checkView($link)
+    {
+        $answer = false;
+
+        return $answer;
+    }
 }

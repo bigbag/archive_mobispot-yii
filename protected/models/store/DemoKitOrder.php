@@ -10,7 +10,7 @@ class DemoKitOrder extends CActiveRecord
     const PAYMENT_BY_CARD = 'AC';
     const PAYMENT_BY_YM = 'PC';
     const PAYMENT_MAIL = 'email';
-    
+
     const USD_CHAR_CODE = 'USD';
 
     public static function getConfig()

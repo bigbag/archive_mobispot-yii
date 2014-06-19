@@ -77,7 +77,7 @@ class Term extends CActiveRecord
             array('id, type, name, tz, status, report_date, config_date, blacklist_date, upload_start, upload_stop, upload_period, download_start, download_stop, download_period, blacklist, settings_id, version', 'safe', 'on' => 'search'),
         );
     }
-    
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
