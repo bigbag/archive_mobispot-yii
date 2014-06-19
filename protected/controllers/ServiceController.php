@@ -384,6 +384,11 @@ class ServiceController extends MController
 
         $payment = DemoKitOrder::getPayment($order->payment);
         $answer['action'] = $payment['action'];
+        
+        //письмо покупателю
+        $mailOrder = $order->makeMailOrder();
+        if (!MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang()))
+            $this->getJsonAndExit($answer);
 
         if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
             $answer['content'] = $this->renderPartial('//store/_ym_form',
@@ -394,13 +399,11 @@ class ServiceController extends MController
                 true
             );
             $answer['error'] = 'no';
-        } elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) {
-            $mailOrder = $order->makeMailOrder();
-
-            if (
-                MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang())
-                and
-                MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang())
+        } 
+        elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) 
+        {
+            //банковский перевод, письмо админу
+            if (MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang())
             )
             {
                 $answer['message'] = $config['mailOrderMessage'];
