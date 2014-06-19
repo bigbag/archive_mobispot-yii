@@ -6,22 +6,40 @@
             </a>
         </h1>
         <ul class="right">
-            <?php if (Yii::app()->user->isGuest): ?>
-            <li><a ng-click="modal=(modal != 'activation')?'activation':'none'"
-                    ng-class="{active: (modal=='activation')}">
-                <?php echo Yii::t('general', 'Activate spot') ?>
-            </a></li>
-            <li><a ng-click="modal=(modal != 'sign')?'sign':'none'"
-                    ng-class="{active: (modal=='sign')}">
-                <?php echo Yii::t('general', 'Sign in') ?>
-            </a></li>
+            <li>
+            <?php if (Yii::app()->controller->action->id == 'demoKit'): ?>
+                <?php echo Yii::t('general', 'Get our demo-kit') ?>
+            </li>
             <?php else: ?>
-            <li><a href="/spot/list/">
-                <?php echo Yii::t('general', 'My Spots') ?>
-            </a></li>
-            <li><a href="/service/logout/">
+                <a href="/pages/demoKit" class="show">
+                    <?php echo Yii::t('general', 'Get our demo-kit') ?>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php if (Yii::app()->user->isGuest): ?>
+            <li>
+                <a ng-click="modal=(modal != 'activation')?'activation':'none'"
+                    ng-class="{active: (modal=='activation')}">
+                    <?php echo Yii::t('general', 'Activate spot') ?>
+                </a>
+            </li>
+            <li>
+                <a ng-click="modal=(modal != 'sign')?'sign':'none'"
+                    ng-class="{active: (modal=='sign')}">
+                    <?php echo Yii::t('general', 'Sign in') ?>
+                </a>
+            </li>
+            <?php else: ?>
+            <li>
+                <a href="/spot/list/" class="show">
+                    <?php echo Yii::t('general', 'My Spots') ?>
+                </a>
+            </li>
+            <li>
+                <a href="/service/logout/" class="show">
                 <?php echo Yii::t('general', 'Sign Out') ?>
-            </a></li>
+                </a>
+            </li>
             <?php endif; ?>
         </ul>
     </div>

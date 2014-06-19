@@ -297,7 +297,7 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
+
 
   // Отображение купонов
   $scope.viewCoupons = function (spot) {
@@ -313,9 +313,10 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
+
   // Список карт
   $scope.getListCard = function(){
+    if ($scope.general.views != 'wallet') return false;
     $http.post('/spot/listCard', $scope.wallet).success(function(data) {
       if (data.error == 'no'){
         $scope.wallet.cards = data.cards;
@@ -425,7 +426,6 @@ angular.module('mobispot').controller('SpotController',
 
     for (var i = 0, f; f = files[i]; i++) {
       $scope.uploadFile(f);
-      // $scope.parseFile(f);
     }
   }
 
@@ -438,6 +438,8 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#progress-content').hide();
         angular.element('#add-content').append($compile(data.content)($scope));
         $scope.keys.push(data.key);
+
+        angular.element('#add-file').val('');
 
         var scroll_height = $('#block-' + data.key).offset().top;
         $('html, body').animate({
