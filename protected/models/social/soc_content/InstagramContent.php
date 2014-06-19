@@ -192,7 +192,7 @@ class InstagramContent extends SocContentBase
     public static function checkSharing($loyalty)
     {
         $answer = false;
-        
+
         $link = $loyalty->getLink();
         if (empty($link))
             return false;
@@ -208,11 +208,11 @@ class InstagramContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function checkLike($link)
     {
         $answer = false;
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_INSTAGRAM,
@@ -227,32 +227,29 @@ class InstagramContent extends SocContentBase
             return false;
 
         $likes_data = self::makeRequest(
-            self::API_PATH 
+            self::API_PATH
             . 'media/'
             . $post_meta['media_id']
             . '/likes'
             . '?access_token='
             . $socToken->user_token
         );
-        
-        if (!empty($likes_data['data']))
-        {
-            foreach ($likes_data['data'] as $user)
-            {
+
+        if (!empty($likes_data['data'])) {
+            foreach ($likes_data['data'] as $user) {
                 if (empty($user['id']))
                     continue;
-                    
-                if ($user['id'] == $socToken->soc_id)
-                {
+
+                if ($user['id'] == $socToken->soc_id) {
                     $answer = true;
                     break;
                 }
             }
         }
-        
+
         return $answer;
     }
-    
+
     public static function checkFollowing($link)
     {
         $answer = false;
@@ -264,7 +261,7 @@ class InstagramContent extends SocContentBase
 
         if (!$socToken)
             return false;
-        
+
         $user = self::makeRequest(
             self::API_PATH
             . 'users/search?q='
@@ -272,10 +269,10 @@ class InstagramContent extends SocContentBase
             . '&access_token='
             . $socToken->user_token
         );
-        
+
         if (empty($user['data']) or empty($user['data'][0]) or empty($user['data'][0]['id']))
             return false;
-        
+
         $relation = self::makeRequest(
             self::API_PATH
             . 'users/'
@@ -284,10 +281,10 @@ class InstagramContent extends SocContentBase
             . '?access_token='
             . $socToken->user_token
         );
-        
+
         if (!empty($relation['data']) and !empty($relation['data']['outgoing_status']) and 'follows' == $relation['data']['outgoing_status'])
             $answer = true;
 
         return $answer;
-    }    
+    }
 }

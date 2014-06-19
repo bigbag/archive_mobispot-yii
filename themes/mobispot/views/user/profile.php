@@ -100,20 +100,20 @@
                 </p>
                 <span class="form-soc-link soc-link gray">
                     <?php $googleStatus = (!empty($socnet['google_oauth'])) ? 'link' : ''; ?>
-                    <a href="/service/socialConnect?service=google_oauth" 
+                    <a href="/service/socialConnect?service=google_oauth"
                         class="<?php echo $googleStatus; ?>">
                         <img src="/themes/mobispot/img/google-i_x2.png">
                     </a>
                     <?php $twitterStatus = (!empty($socnet['twitter'])) ? 'link' : ''; ?>
-                    <a href="/service/socialConnect?service=twitter" 
+                    <a href="/service/socialConnect?service=twitter"
                         class="<?php echo $twitterStatus; ?>">
                         <img src="/themes/mobispot/img/twi-i_x2.png">
                     </a>
                     <?php $facebookStatus = (!empty($socnet['facebook'])) ? 'link' : ''; ?>
-                    <a href="/service/socialConnect?service=facebook" 
+                    <a href="/service/socialConnect?service=facebook"
                         class="<?php echo $facebookStatus; ?>">
                         <img src="/themes/mobispot/img/fb-i_x2.png">
-                    </a>                   
+                    </a>
                 </span>
             </div>
         </div>

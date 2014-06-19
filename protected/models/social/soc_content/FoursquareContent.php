@@ -202,7 +202,7 @@ class FoursquareContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function checkSharing($loyalty)
     {
         $answer = false;
@@ -221,22 +221,22 @@ class FoursquareContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function isCheckedIn($loyalty)
     {
-        
+
         return false;
     }
-    
+
     public static function checkMayor($loyalty)
     {
-        
+
         return false;
     }
-    
+
     public static function checkBadge($loyalty)
     {
-        
+
         return false;
     }
 }

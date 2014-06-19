@@ -210,3 +210,7 @@ div.store-content {
 .b-message p {
   color: #0062ff;
 }
+
+.error-page p a {
+  border-bottom: 1px solid; 
+}
