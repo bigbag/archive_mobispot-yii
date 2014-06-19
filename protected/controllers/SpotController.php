@@ -694,7 +694,7 @@ class SpotController extends MController
     // Страница с пользовательским соглашение для привязки карты
     public function actionCardOfert()
     {
-        $this->layout = '//layouts/error';
+        $this->layout = '//layouts/singl';
 
         $discodes_id = Yii::app()->request->getParam('id', false);
         if (!$discodes_id or !Yii::app()->user->id) $this->setNotFound();

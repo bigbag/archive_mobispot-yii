@@ -242,7 +242,7 @@ a {
     width: 300px; }
   /* line 207, ../sass/front-page.scss */
   .header-page .hat-bar {
-    background: url('../img/rgbapng/ffffffe5-5.png?1403089987');
+    background: url('../img/rgbapng/ffffffe5-5.png?1403175516');
     background: rgba(255, 255, 255, 0.9);
     height: 63px;
     padding: 0 5% 0; }
@@ -252,7 +252,7 @@ a {
   /* line 215, ../sass/front-page.scss */
   .header-page .show-block {
     padding: 38px;
-    background: url('../img/rgbapng/ffffffe5-5.png?1403089987');
+    background: url('../img/rgbapng/ffffffe5-5.png?1403175516');
     background: rgba(255, 255, 255, 0.9);
     text-align: center; }
     /* line 220, ../sass/front-page.scss */
@@ -583,7 +583,7 @@ a {
 
 /* line 513, ../sass/front-page.scss */
 .content-block {
-  background: url('../img/rgbapng/ffffffe5-5.png?1403089987');
+  background: url('../img/rgbapng/ffffffe5-5.png?1403175516');
   background: rgba(255, 255, 255, 0.9);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -891,66 +891,73 @@ h5 + p {
     -moz-filter: grayscale(0);
     filter: grayscale(0); }
 
+/* line 791, ../sass/front-page.scss */
+.message-page p {
+  font-size: 16px; }
+/* line 794, ../sass/front-page.scss */
+.message-page .checkbox {
+  margin: 4px 0 11px; }
+
 @-webkit-keyframes input-error {
-  /* line 795, ../sass/front-page.scss */
+  /* line 803, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 798, ../sass/front-page.scss */
+  /* line 806, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 801, ../sass/front-page.scss */
+  /* line 809, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @-moz-keyframes input-error {
-  /* line 807, ../sass/front-page.scss */
+  /* line 815, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 810, ../sass/front-page.scss */
+  /* line 818, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 813, ../sass/front-page.scss */
+  /* line 821, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @-o-keyframes input-error {
-  /* line 819, ../sass/front-page.scss */
+  /* line 827, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 822, ../sass/front-page.scss */
+  /* line 830, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 825, ../sass/front-page.scss */
+  /* line 833, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
 
 @keyframes input-error {
-  /* line 831, ../sass/front-page.scss */
+  /* line 839, ../sass/front-page.scss */
   0% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; }
 
-  /* line 834, ../sass/front-page.scss */
+  /* line 842, ../sass/front-page.scss */
   50% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
     opacity: 0.3; }
 
-  /* line 837, ../sass/front-page.scss */
+  /* line 845, ../sass/front-page.scss */
   100% {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1; } }
@@ -1672,7 +1679,7 @@ h5 + p {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: url('../img/rgbapng/ffffff7f-5.png?1403089987');
+    background: url('../img/rgbapng/ffffff7f-5.png?1403175516');
     background: rgba(255, 255, 255, 0.5);
     z-index: 10;
     top: 0;
@@ -2011,7 +2018,7 @@ a.red {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url('../img/rgbapng/e0e6ede5-5.png?1403089987');
+  background: url('../img/rgbapng/e0e6ede5-5.png?1403175516');
   background: rgba(224, 230, 237, 0.9);
   z-index: -1;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
