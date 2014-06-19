@@ -774,7 +774,7 @@ class SpotController extends MController
             )
         );
         if (!$spot) $this->getJsonAndExit($answer);
-            
+
         $wallet = PaymentWallet::model()->findByAttributes(
         array(
                 'discodes_id' => (int)$data['discodes'],

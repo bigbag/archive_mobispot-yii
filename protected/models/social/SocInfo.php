@@ -682,7 +682,7 @@ class SocInfo extends CFormModel
     public function checkSharing($loyalty)
     {
         $answer = false;
-        
+
         if (empty($loyalty->sharing_type))
             return false;
 

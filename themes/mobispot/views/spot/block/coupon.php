@@ -8,7 +8,7 @@
                 </div>
                 <div class="coupon-terms">
                     <div class="details">
-                        <h3><?php echo $coupon['name']?> 
+                        <h3><?php echo $coupon['name']?>
                         </h3>
                         <?php echo $coupon['desc']; ?>
                         <div class="soc-block">

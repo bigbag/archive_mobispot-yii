@@ -95,8 +95,8 @@
   'USD' => 'USD',
   'Unique NFC wristband from Mobispot. Waterproof and sexy.' => 'Уникальный NFC браслет от Mobispot. Красивый, удобный и водонепроницаемый.',
   'VISA/MasterCard' => '',
-  'With our demo-kit you can create really stunning applications. Bring the magic of one tap to your apps for NFC handsets, POS terminals and simple contactless readers.' => 'С нашим демо-набором вы можете создавать по-настоящему удивительные приложения. 
-Добавьте магию одного касания в ваши приложения для NFC телефонов, POS терминалов и 
+  'With our demo-kit you can create really stunning applications. Bring the magic of one tap to your apps for NFC handsets, POS terminals and simple contactless readers.' => 'С нашим демо-набором вы можете создавать по-настоящему удивительные приложения.
+Добавьте магию одного касания в ваши приложения для NFC телефонов, POS терминалов и
 других бесконтактных ридеров.',
   'Worldwide' => 'По всему миру',
   'Yandex.Money' => 'Яндекс.Деньги',

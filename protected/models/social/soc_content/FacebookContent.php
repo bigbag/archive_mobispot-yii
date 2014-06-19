@@ -426,7 +426,7 @@ class FacebookContent extends SocContentBase
     public static function checkSharing($loyalty)
     {
         $answer = false;
-        
+
         $link = $loyalty->getLink();
         if (empty($link))
             return false;
