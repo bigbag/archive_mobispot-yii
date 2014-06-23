@@ -399,7 +399,6 @@ class TwitterContent extends SocContentBase
         $params = array(
             'q' => $hashtag . ' from:'.$socToken->soc_username,
             'count' => 1,
-            //'from' => $socToken->soc_username
         );
 
         $connection = new TwitterOAuth(
@@ -409,7 +408,8 @@ class TwitterContent extends SocContentBase
         );
 
         $search = $connection->get('search/tweets', $params);
-
+        if (!empty($search->statuses) and !empty($search->statuses[0]))
+            $answer = true;
 
         return $answer;
     }

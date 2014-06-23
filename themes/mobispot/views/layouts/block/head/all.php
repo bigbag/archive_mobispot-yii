@@ -25,6 +25,7 @@
     <![endif]-->
 
     <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
