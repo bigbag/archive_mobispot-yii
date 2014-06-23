@@ -214,3 +214,8 @@ div.store-content {
 .error-page p a {
   border-bottom: 1px solid; 
 }
+
+.header-page li span.right-menu {
+    padding: 18px 0px;
+    display: block;
+}
