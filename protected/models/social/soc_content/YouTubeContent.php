@@ -4,6 +4,7 @@ class YouTubeContent extends SocContentBase
 {
 
     const API_PATH = 'https://www.googleapis.com/youtube/';
+    const TOKEN_URL = 'https://accounts.google.com/o/oauth2/token';
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
@@ -218,6 +219,36 @@ class YouTubeContent extends SocContentBase
     {
         $answer = false;
 
+        return $answer;
+    }
+    
+    public static function refreshToken($token)
+    {
+        $answer = false;
+        
+        if (empty($token->refresh_token) or (time() + 60 < $token->token_expires))
+            return false;
+        
+        $options = array('data' => 
+            'client_id=' 
+            . Yii::app()->eauth->services['youtube']['client_id']
+            . '&client_secret=' 
+            . Yii::app()->eauth->services['youtube']['client_secret']
+            . '&refresh_token=' 
+            . $token->refresh_token
+            .'&grant_type=refresh_token'
+        );
+    
+        $newToken = self::makeRequest(self::TOKEN_URL, $options, true);
+        
+        if (!empty($newToken['access_token']) and !empty($newToken['expires_in']))
+        {
+            $token->user_token = $newToken['access_token'];
+            $token->token_expires = time() + $newToken['expires_in'] - 60;
+            $token->save();
+            $answer = true;
+        }
+        
         return $answer;
     }
 }
