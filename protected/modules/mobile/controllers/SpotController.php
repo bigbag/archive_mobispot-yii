@@ -5,7 +5,7 @@ class SpotController extends MController
 
     const BAN_TIME = 5;
 
-    public $layout = '//layouts/mobile';
+    public $layout = '//layouts/m';
 
     public function actions()
     {
@@ -20,10 +20,13 @@ class SpotController extends MController
         );
     }
 
-    //Отоюражение спота на мобильном
+    //Отображение спота на мобильном
     public function actionIndex()
     {
         if (Yii::app()->request->getQuery('url', 0)) {
+            //шаблон отображения контента спота
+            $this->layout = '//layouts/mobile';
+            
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
 
@@ -178,9 +181,131 @@ class SpotController extends MController
                     $this->redirect($baseUrl);
                 }
             }
+        } elseif (!(Yii::app()->user->isGuest)) {
+            //к списку спотов в моб.версии
+            $this->redirect('spot/list');
         } else {
-            $this->setNotFound();
+            //форма логина
+            $this->render('/spot/login');
         }
+    }
+    
+    public function actionList()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user->status == User::STATUS_NOACTIVE)
+            $this->setAccess();
+
+        $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
+
+        $this->render('/spot/list', array(
+            'spots' => $spots,
+        ));
+    }
+    
+    public function actionView()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+    
+        $url = Yii::app()->request->getQuery('url', 0);
+        if (!$url)
+            $this->setNotFound();
+            
+        $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
+        
+        if (!$spot)
+            $this->setNotFound();
+            
+        $curent_views = $this->getCurentViews();
+        
+        $this->render('/spot/personal', array(
+            'spot' => $spot,
+            'curent_views' => $curent_views,
+        ));
+    }
+    
+    public function actionSpotContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+
+        $data = $this->validateRequest();
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk((int)$data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content_keys = $content['keys'];
+
+        $answer['content'] = $this->renderPartial('/spot/content',
+            array(
+                'spot' => $spot,
+                'wallet' => $wallet,
+                'spotContent' => $spotContent,
+                'content_keys' => $content_keys,
+                'spotNets' => $spot->getBindedNets(),
+            ),
+            true
+        );
+
+        $answer['pass'] = '';
+        if (!empty($spot->pass))
+            $answer['pass'] = $spot->pass;
+        $answer['error'] = "no";
+
+        echo json_encode($answer);
+    }
+    
+    public function actionSocNetContent()
+    {
+        $answer = array('error' => 'yes');
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
+
+        if (!isset($spotContent->content['keys'][$data['key']]))
+            $this->getJsonAndExit($answer);
+        if ($spotContent->content['keys'][$data['key']] != 'socnet')
+            $this->getJsonAndExit($answer);
+
+        $socInfo = new SocInfo;
+        $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
+
+        $answer['content'] = $this->renderPartial('/spot/personal/new_content',
+            array(
+                'content' => $spotContent->content['data'][$data['key']],
+                'key' => $data['key'],
+                'socContent' => $socContent,
+            ),
+            true
+        );
+
+        $answer['key'] = $data['key'];
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
     }
 
     public function actionFollowSocial()
@@ -316,6 +441,7 @@ class SpotController extends MController
                     $this->redirect('/');
                 }
             }
+            $this->layout = '//layouts/mobile';
             $this->render('error', array(
                 'form' => $form,
             ));
@@ -323,4 +449,12 @@ class SpotController extends MController
             $this->redirect('http://mobispot.com');
     }
 
+    //Определяем вкладку таба открытую в последний раз
+    public function getCurentViews($curent = 'spot')
+    {
+        $curent_views = $curent;
+        if (isset(Yii::app()->request->cookies['spot_curent_views']))
+            $curent_views = Yii::app()->request->cookies['spot_curent_views']->value;
+        return $curent_views;
+    }
 }

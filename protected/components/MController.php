@@ -223,5 +223,10 @@ class MController extends Controller
         Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
         Yii::app()->language = $select_lang;
     }
+    
+    public function desctopHost()
+    {
+        return 'http://' . str_replace("m.", ' ', $_SERVER['SERVER_NAME']);
+    }
 
 }

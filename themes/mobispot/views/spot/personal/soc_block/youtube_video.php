@@ -44,12 +44,15 @@
             </div>
         </div>
         <div class="item-control">
-                <span class="move move-top"></span>
-                    <div class="spot-activity">
-                        <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
-                        <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
-                    </div>
-                <span class="move move-bottom"></span>
+            <div class="spot-activity">
+                <a 
+                    class="button round" 
+                    href="javascripts:;"
+                    ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
+                >
+                &#xe00b;
+                </a>
+            </div>
         </div>
     </div>
 </div>
