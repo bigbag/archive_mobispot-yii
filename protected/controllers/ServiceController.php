@@ -257,23 +257,35 @@ class ServiceController extends MController
     public function actionSocial()
     {
         $serviceName = Yii::app()->request->getQuery('service');
+        $returnTo = Yii::app()->request->getQuery('return_to');
+        $redirect = '/';
+        
+        if(!empty($returnTo))
+        {
+            $returnTo = urldecode($returnTo);
+            $redirect = $returnTo;
+        }
+        
         if (!isset($serviceName))
-            $this->redirect('/');
+            $this->redirect($redirect);
 
         $atributes = User::getSocInfo($serviceName);
         if (!$atributes)
-            $this->redirect('/');
+            $this->redirect($redirect);
 
         $result = User::socialCheck($serviceName, $atributes['id']);
         if ($result['user'] and !$result['token']->allow_login)
-            $this->redirect('/');
+            $this->redirect($redirect);
 
         if (!$result['user'])
             $this->redirect('/service/socialReg');
 
         $this->autoLogin($result['user']);
         User::clearCacheSocInfo();
-        $this->redirect('/user/personal');
+        if(!empty($returnTo))
+            $this->redirect($returnTo);
+        else
+            $this->redirect('/spot/list');
     }
 
     //Страница регистрации через соц сети

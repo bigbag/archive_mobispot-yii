@@ -1,0 +1,5 @@
+input.error {
+    border: 1px solid #C60F13;
+    background:none;
+    color: rgba(0, 0, 0, 0.75);
+}

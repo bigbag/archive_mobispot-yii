@@ -1169,7 +1169,7 @@ class SpotController extends MController
         if(Yii::app()->request->isPostRequest)
             echo json_encode($answer);
         else
-            $this->redirect('/user/personal?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
+            $this->redirect('/spot/list?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
     }
 
     public function actionSocNetContent()
