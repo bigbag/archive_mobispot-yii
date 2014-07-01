@@ -81,7 +81,7 @@
         echo (SocInfo::nameInList('instagram', $spotNets))?        'link':''
         ?>" 
         title="Instagram"
-        ng-click="bindByPanel('instagram')"
+        ng-click="bindByPanel('instagram_mobile')"
         href="javascript:;"><img width="36" src="<?php echo $this->desctopHost(); ?>/themes/mobispot/socialmediaicons/instagram.png"> </a>
                     </div>
             </div>
@@ -102,4 +102,7 @@
             <?php endforeach; ?>
         <?php endif; ?>
         </div>
+        <?php if (!empty($to_key)):?>
+            <span ng-init="toKey(<?php echo $to_key; ?>)"></span>
+        <?php endif; ?>
     </article>

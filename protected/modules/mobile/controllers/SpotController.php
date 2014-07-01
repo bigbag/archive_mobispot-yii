@@ -212,6 +212,7 @@ class SpotController extends MController
             $this->setAccess();
     
         $url = Yii::app()->request->getQuery('url', 0);
+        $key = Yii::app()->request->getQuery('key', 0);
         if (!$url)
             $this->setNotFound();
             
@@ -225,6 +226,7 @@ class SpotController extends MController
         $this->render('/spot/personal', array(
             'spot' => $spot,
             'curent_views' => $curent_views,
+            'to_key' => $key,
         ));
     }
     
@@ -642,6 +644,8 @@ class SpotController extends MController
 
             if (!$spot)
                 $this->getJsonOrRedirect($answer, $target);
+                
+            $target = '/spot/view/' . $spot->url;
 
             $socInfo = new SocInfo;
             $socNet = $socInfo->getNetByName($answer['socnet']);
@@ -716,6 +720,64 @@ class SpotController extends MController
         }
         
         $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
+    }
+    
+    // Удаление блока из спота
+    public function actionSpotRemoveContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+            'netDown' => '',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+
+        $content = $spotContent->content;
+        if ($content['keys'][$data['key']] == 'socnet')
+            $link = $content['data'][$data['key']];
+        elseif ($content['keys'][$data['key']] == 'content')
+            $link = $content['data'][$data['key']]['binded_link'];
+        elseif ($content['keys'][$data['key']] != 'text') {
+            $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            @unlink($patch . $content['data'][$data['key']]);
+            @unlink($patch . 'tmb_' . $content['data'][$data['key']]);
+        }
+
+        unset($content['keys'][$data['key']]);
+        unset($content['data'][$data['key']]);
+        $spotContent->content = $content;
+        if ($spotContent->save()) {
+            $keys = array();
+            foreach ($content['keys'] as $answer['key'] => $value) {
+                $keys[] = $answer['key'];
+            }
+
+            $answer['keys'] = $keys;
+            $answer['error'] = "no";
+        }
+
+        if (!empty($link) and "no" == $answer['error'])
+            $answer['netDown'] = $spot->getNetDown($link);
+
+        echo json_encode($answer);
+    }
+    
+    public function actionAddSpot()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+    
+        $this->render('/spot/add_spot', array(
+        ));
     }
     
 }

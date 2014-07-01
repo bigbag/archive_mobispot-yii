@@ -16,16 +16,28 @@
                     <?php if (!empty($socContent['soc_username'])): ?>
                     <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif?>
-                    <span class="sub-line"><?php echo (!empty($socContent['sub-line']))?
-                        $socContent['sub-line']:'' ?></span>
+                    <span class="sub-line">
+                    <?php if (!empty($socContent['sub-line'])): ?>
+                        <?php echo $socContent['sub-line']; ?>
+                    <?php elseif (!empty($socContent['venue_name'])): ?>
+                        <span class="icon">&#xe01b;</span>
+                        <?php echo Yii::t('eauth', 'at ') . $socContent['venue_name'] ?>
+                    <?php endif; ?>
+                    </span>
                 </div>
                 <div class="ins-block">
                     <?php if (!empty($socContent['text'])): ?>
                         <p><?php echo $socContent['text']; ?></p>
                     <?php elseif (!empty($socContent['last_status'])):?>
                         <p><?php echo $socContent['last_status']; ?></p>
+                    <?php elseif (!empty($socContent['tweet_text'])):?>
+                        <p><?php echo $socContent['tweet_text']; ?></p>
+                    <?php elseif (!empty($socContent['checkin_shout'])):?>
+                        <p><?php echo $socContent['checkin_shout']; ?></p>
                     <?php endif ?>
-                    <?php if (!empty($socContent['last_img'])): ?>
+                    <?php if (!empty($socContent['checkin_photo'])):?>
+                    <img src="<?php echo $socContent['checkin_photo']; ?>">
+                    <?php elseif (!empty($socContent['last_img'])): ?>
                     <img src="<?php echo $socContent['last_img']; ?>">
                     <?php endif ?>
                 </div>

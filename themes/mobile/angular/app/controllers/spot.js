@@ -87,19 +87,26 @@ angular.module('mobispot').controller('SpotController',
 
         $scope.keys.push(data.key);
         $scope.spot.content = '';
-        
-        var scroll_height = $('#block-' + data.key).offset().top;
-        $('html, body').animate({
-          scrollTop: scroll_height
-        }, 600);
+        $scope.toKey(data.key);
       }
     });
   };
+  
+  $scope.toKey = function(key)
+  {
+    var block = $('#block-' + key);
+    if (block.length) {
+      var scroll_height = block.offset().top;
+      $('html, body').animate({
+        scrollTop: scroll_height
+      }, 600);
+    }
+  }
 
   // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
     spot.key = key;
-    $http.post($scope.desctopHost() + '/spot/spotRemoveContent', spot).success(function(data) {
+    $http.post('/spot/spotRemoveContent', spot).success(function(data) {
       if(data.error == 'no') {
         var spotItem = angular.element(e.currentTarget).parents('.spot-item');
         spotItem.remove();
@@ -117,15 +124,19 @@ angular.module('mobispot').controller('SpotController',
     $http.post('/spot/bindByPanel', data).success(function(data) {
         if(data.error == 'no') {
             if (!data.loggedIn) {
-                var redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+                var redirect_uri = 'http://' + window.location.hostname + '/service/socLogin?service=' + netName;
                 var url = redirect_uri;
 
                 url += url.indexOf('?') >= 0 ? '&' : '?';
                 if (url.indexOf('redirect_uri=') === -1)
                   url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
-
-                window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true' + '&return_host=' + encodeURIComponent(window.location.protocol + '//' +
-                window.location.hostname);
+                  
+                var href = url + '&discodes=' + $scope.spot.discodes + '&newField=1' + '&synch=true';
+                
+                if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
+                    href += '&link=' + encodeURIComponent($scope.spot.content);
+                
+                window.location.href = href;
             }
             else
             {
@@ -147,14 +158,5 @@ angular.module('mobispot').controller('SpotController',
         }
     });
   };
-  
-  $scope.desctopHost = function()
-  {
-      var hostname = window.location.hostname;
-      if (hostname.indexOf('m.') != -1)
-        hostname = hostname.replace('m.', '');
-      
-      return 'http://' + hostname;
-  }
   
 });

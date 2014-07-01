@@ -34,21 +34,9 @@
                     <a class="form-link" href="#b_forgot"><?php echo Yii::t('user', 'Forgot password?'); ?></a>
                         <div class="soc-login">
                         <p><?php echo Yii::t('user', 'login with'); ?></p>
-                            <a href="<?php echo
-                                $this->desctopHost() 
-                                . '/service/social?service=google_oauth&return_to='
-                                . urlencode($this->request_url())
-                            ?>"><img src='/themes/mobile/images/icons/google-i_x2.png'></a>
-                            <a href="<?php echo
-                                $this->desctopHost() 
-                                . '/service/social?service=twitter&return_to='
-                                . urlencode($this->request_url())
-                            ?>"><img src='/themes/mobile/images/icons/twi-i_x2.png'></a>
-                            <a href="<?php echo
-                                $this->desctopHost() 
-                                . '/service/social?service=facebook&return_to='
-                                . urlencode($this->request_url())
-                            ?>"><img src='/themes/mobile/images/icons/fb-i_x2.png'></a>
+                            <a href=" /service/social?service=google_oauth"><img src='/themes/mobile/images/icons/google-i_x2.png'></a>
+                            <a href="/service/social?service=twitter"><img src='/themes/mobile/images/icons/twi-i_x2.png'></a>
+                            <a href="/service/social?service=facebook"><img src='/themes/mobile/images/icons/fb-i_x2.png'></a>
                         </div>
                     <a class="form-button" href="javascript:;" ng-click="login(user, loginForm.$valid)"><?php echo Yii::t('user', 'Enter'); ?></a>
                 </form>
