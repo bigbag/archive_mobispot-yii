@@ -23,7 +23,7 @@
         echo (SocInfo::nameInList('linkedin', $spotNets))?
         ' binded':''
         ?>"
-        title="LinkEdin"
+        title="LinkedIn"
         net="linkedin"
         ng-click="bindByPanel('linkedin')"
         >

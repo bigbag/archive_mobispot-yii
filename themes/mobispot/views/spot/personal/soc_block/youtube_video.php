@@ -47,7 +47,7 @@
             <div class="spot-activity">
                 <a 
                     class="button round" 
-                    href="javascripts:;"
+                    href=""
                     ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                 >
                 &#xe00b;

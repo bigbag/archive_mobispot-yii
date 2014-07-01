@@ -226,7 +226,35 @@ class MController extends Controller
     
     public function desctopHost()
     {
-        return 'http://' . str_replace("m.", ' ', $_SERVER['SERVER_NAME']);
+        $prot = 'http://';
+        if (isset($_SERVER['HTTPS']))
+            $prot = 'https://';
+        return $prot . str_replace("m.", ' ', $_SERVER['SERVER_NAME']);
     }
 
+    function request_url()
+    {
+        $answer = '';
+        $default_port = 80;
+ 
+        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS']=='on')) 
+        {
+            $answer .= 'https://';
+            $default_port = 443;
+        } else {
+            $answer .= 'http://';
+        }
+  
+        $answer .= $_SERVER['SERVER_NAME'];
+ 
+        if ($_SERVER['SERVER_PORT'] != $default_port) 
+        {
+            $answer .= ':'.$_SERVER['SERVER_PORT'];
+        }
+  
+        $answer .= $_SERVER['REQUEST_URI'];
+  
+        return $answer;
+    }
+    
 }

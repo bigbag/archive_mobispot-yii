@@ -16,7 +16,7 @@
                         >&#xe009;</a>
                         <a 
                             class="button round" 
-                            href="javascripts:;"
+                            href=""
                             ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe00b;</a>
                 </div>
@@ -35,8 +35,8 @@
                         >&#xe009;</a>
                         <a 
                             class="button round" 
-                            href="javascripts:;"
                             ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
+                            href=""
                         >&#xe00b;</a>
                     </div>
         </div>
