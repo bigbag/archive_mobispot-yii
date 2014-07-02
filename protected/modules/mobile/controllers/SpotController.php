@@ -616,6 +616,7 @@ class SpotController extends MController
     public function actionBindedContent()
     {
         $target = '/spot/list';
+        $answer = array('loggedIn'=>false, 'error'=>'yes');
 
         $data = array('bindNet' => array(
                         'name'=>Yii::app()->request->getQuery('service'),
@@ -630,7 +631,8 @@ class SpotController extends MController
         if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
             $this->setBadReques();
 
-        $answer['socnet'] = $data['bindNet']['name'];
+        $socInfo = new SocInfo;
+        $answer['socnet'] = $socInfo->mergeMobile($data['bindNet']['name']);
         $discodes_id = $data['bindNet']['discodes'];
 
         if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
@@ -647,7 +649,6 @@ class SpotController extends MController
                 
             $target = '/spot/view/' . $spot->url;
 
-            $socInfo = new SocInfo;
             $socNet = $socInfo->getNetByName($answer['socnet']);
             if (!empty($data['bindNet']['link'])) {
                 $socNet = $socInfo->getNetByLink($data['bindNet']['link']);

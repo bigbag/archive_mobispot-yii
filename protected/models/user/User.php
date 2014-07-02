@@ -98,6 +98,8 @@ class User extends CActiveRecord
 
             if (!isset($atributes['id']))
                 return false;
+            $socInfo = new SocInfo;
+            $atributes['service'] = $socInfo->mergeMobile($atributes['service']);
             User::setCacheSocInfo($atributes);
 
             return $atributes;
