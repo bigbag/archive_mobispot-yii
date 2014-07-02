@@ -20,7 +20,7 @@
                     <b class="time"><?php //echo $socContent['sub-time']; ?></b>
                     <span class="sub-line">
                     <?php if (!empty($socContent['view_count'])): ?>
-                    <?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?>
+                    <?php echo $socContent['view_count'] . ' ' . Yii::t('spot', 'views'); ?>
                     <?php endif ?>
                     </span>
                 </div>
