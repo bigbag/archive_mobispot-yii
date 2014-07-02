@@ -17,7 +17,7 @@
     <section class="content">
         <ul class="spot-list">
         <?php foreach ($spots as $spot): ?>
-            <li 
+            <li
                 <?php if (Spot::STATUS_INVISIBLE == $spot->status):?>
                 class="invisible"
                 <?php endif; ?>

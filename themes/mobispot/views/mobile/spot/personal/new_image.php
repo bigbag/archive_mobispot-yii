@@ -4,8 +4,8 @@
     </div>
         <div class="item-control">
             <div class="spot-activity">
-                <a 
-                    class="button round" 
+                <a
+                    class="button round"
                     href=""
                     ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                 >

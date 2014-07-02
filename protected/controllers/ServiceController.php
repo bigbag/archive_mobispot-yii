@@ -259,13 +259,12 @@ class ServiceController extends MController
         $serviceName = Yii::app()->request->getQuery('service');
         $returnTo = Yii::app()->request->getQuery('return_to');
         $redirect = '/';
-        
-        if(!empty($returnTo))
-        {
+
+        if(!empty($returnTo)) {
             $returnTo = urldecode($returnTo);
             $redirect = $returnTo;
         }
-        
+
         if (!isset($serviceName))
             $this->redirect($redirect);
 
@@ -396,7 +395,7 @@ class ServiceController extends MController
 
         $payment = DemoKitOrder::getPayment($order->payment);
         $answer['action'] = $payment['action'];
-        
+
         //письмо покупателю
         $mailOrder = $order->makeMailOrder();
         if (!MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang()))
@@ -411,9 +410,7 @@ class ServiceController extends MController
                 true
             );
             $answer['error'] = 'no';
-        } 
-        elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) 
-        {
+        } elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) {
             //банковский перевод, письмо админу
             if (MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang())
             )

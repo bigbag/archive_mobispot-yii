@@ -11,7 +11,7 @@
         <section class="author-block tabs-content">
             <article class="active">
                 <form name="loginForm">
-                    <input 
+                    <input
                         name='email'
                         type="email"
                         ng-model="user.email"
@@ -21,7 +21,7 @@
                         ng-class="{error: error.email}"
                         required
                     >
-                    <input 
+                    <input
                         name='password'
                         type="password"
                         ng-model="user.password"
@@ -73,8 +73,8 @@
                         autocomplete="off"
                         maxlength="300"
                         required >
-                    <div class="checkbox">  
-                        <input 
+                    <div class="checkbox">
+                        <input
                             id="formReg_agree"
                             type="checkbox"
                             name="formReg_agree"
@@ -82,10 +82,10 @@
                             ng-true-value="1"
                             ng-false-value="0"
                         >
-                        <label for="formReg_agree"><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></label>  
+                        <label for="formReg_agree"><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></label>
                     </div>
-                    <a 
-                        class="form-button" 
+                    <a
+                        class="form-button"
                         ng-click="activation(user, activForm.$valid)"
                         href="javascript:;"
                     >

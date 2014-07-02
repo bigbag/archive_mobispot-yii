@@ -9,13 +9,13 @@
         </div>
             <div class="item-control">
                 <div class="spot-activity">
-                        <a 
-                            class="button round" 
+                        <a
+                            class="button round"
                             href="javascripts:;"
                             ng-click="editContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe009;</a>
-                        <a 
-                            class="button round" 
+                        <a
+                            class="button round"
                             href=""
                             ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe00b;</a>
@@ -28,13 +28,13 @@
     <p class=" item-type__text"><?php echo CHtml::encode($content); ?></p>
     <div class="item-control">
                     <div class="spot-activity">
-                        <a 
-                            class="button round" 
+                        <a
+                            class="button round"
                             href="javascripts:;"
                             ng-click="editContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe009;</a>
-                        <a 
-                            class="button round" 
+                        <a
+                            class="button round"
                             ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                             href=""
                         >&#xe00b;</a>

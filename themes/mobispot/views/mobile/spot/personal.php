@@ -1,7 +1,7 @@
-<div class="wrapper" 
+<div class="wrapper"
     ng-controller="SpotController"
     ng-init=
-        "spot.token='<?php echo Yii::app()->request->csrfToken; ?>'; 
+        "spot.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>'
         "
@@ -24,31 +24,31 @@
             </div>
             <section class="content tabs spot">
             <nav>
-                <a 
+                <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='spot'}" 
-                    ng-click="general.views='spot'" 
+                    ng-class="{active: general.views=='spot'}"
+                    ng-click="general.views='spot'"
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
                 <!--
                 <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='wallet'}" 
-                    ng-click="general.views='wallet'" 
+                    ng-class="{active: general.views=='wallet'}"
+                    ng-click="general.views='wallet'"
                 >
                     <?php //echo Yii::t('spot', 'Wallet'); ?>
                 </a>
-                <a 
+                <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='coupon'}" 
+                    ng-class="{active: general.views=='coupon'}"
                     ng-click="general.views='coupon'" >
                     <?php //echo Yii::t('spot', 'Coupon'); ?>
                 </a>
-                <a 
+                <a
                     href="javascript:;"
                     ng-class="{active: general.views=='settings'}"
-                    ng-click="general.views='settings'" 
+                    ng-click="general.views='settings'"
                     class="settings">
                     <i class="icon">&#xe00F;</i>
                 </a>

@@ -9,7 +9,7 @@
         <div class="item-download">
             <table class="j-list">
                 <tr>
-                    <!-- 
+                    <!--
                     <td>PDF</td>
                     <td>Текстовый контент</td>
                     <td>25mb</td>
@@ -23,8 +23,8 @@
         </div>
         <div class="item-control">
             <div class="spot-activity">
-                <a 
-                    class="button round" 
+                <a
+                    class="button round"
                     href="javascripts:;"
                     ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                 >

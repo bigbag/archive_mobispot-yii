@@ -20,9 +20,9 @@
                     You can change your password following the instructions in a special email from us. Please click the button below to proceed.
                 </p>
                     <input placeholder="Spot activation code" type="text">
-                    <div class="checkbox">  
-                        <input id="formReg_agree" type="checkbox" name="formReg_agree" value="check1">  
-                        <label for="formReg_agree">I agree to Terms and Conditions</label>  
+                    <div class="checkbox">
+                        <input id="formReg_agree" type="checkbox" name="formReg_agree" value="check1">
+                        <label for="formReg_agree">I agree to Terms and Conditions</label>
                     </div>
 
                     <a class="form-button" href="#">Activate</a>

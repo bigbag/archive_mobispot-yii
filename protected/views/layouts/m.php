@@ -5,7 +5,7 @@
             <title><?php echo Yii::app()->params['siteTitle']; ?></title>
             <link rel="stylesheet" href="/themes/mobile/stylesheets/m-style.css">
             <link rel="stylesheet" href="/themes/mobile/stylesheets/add.css">
-            
+
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
             <?php Yii::app()->getClientScript()->registerScriptFile('http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'); ?>
@@ -17,11 +17,11 @@
             <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/angular/app/controllers/spot.js'); ?>
     </head>
     <body>
-        
+
         <?php echo $content; ?>
-        
+
         <footer id="footer">
-            <a href="http://mobispot.com/readers">Device compatibility</a> <a href="http://mobispot.com/help">Get Help</a> <a href="#">Email us</a> 
+            <a href="http://mobispot.com/readers">Device compatibility</a> <a href="http://mobispot.com/help">Get Help</a> <a href="#">Email us</a>
         </footer>
     </body>
 </html>
