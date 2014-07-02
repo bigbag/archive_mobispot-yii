@@ -35,7 +35,7 @@ angular.module('mobispot').controller('SpotController',
 
     var spot_block = angular.element('#spot-block');
     
-    $http.post('/mobile/spot/spotContent', spot).success(function(data) {
+    $http.post('/spot/spotContent', spot).success(function(data) {
       if(data.error == 'no') {
         spot_block.empty();
         spot_block.html($compile(data.content)($scope));
@@ -63,7 +63,7 @@ angular.module('mobispot').controller('SpotController',
   {
     var data = {discodes:$scope.spot.discodes, key:key, token:$scope.spot.token};
 
-    $http.post('/mobile/spot/socNetContent', data).success(function(data) {
+    $http.post('/spot/socNetContent', data).success(function(data) {
       if(data.error == 'no'){
             var spotEdit = angular.element('#block-' + data.key);
             spotEdit.before($compile(data.content)($scope));
@@ -81,7 +81,7 @@ angular.module('mobispot').controller('SpotController',
   // Добавление непривязанного к соцсетям контента
   $scope.addValue = function(newValue){
     $scope.spot.content = newValue;
-    $http.post('/mobile/spot/spotAddContent', $scope.spot).success(function(data) {
+    $http.post('/spot/spotAddContent', $scope.spot).success(function(data) {
       if(data.error == 'no') {
         angular.element('#add-content').append($compile(data.content)($scope));
 
@@ -106,7 +106,7 @@ angular.module('mobispot').controller('SpotController',
   // Удаление блока в споте
   $scope.removeContent = function(spot, key, e) {
     spot.key = key;
-    $http.post('/mobile/spot/spotRemoveContent', spot).success(function(data) {
+    $http.post('/spot/spotRemoveContent', spot).success(function(data) {
       if(data.error == 'no') {
         var spotItem = angular.element(e.currentTarget).parents('.spot-item');
         spotItem.remove();
@@ -121,7 +121,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.bindByPanel = function(buttonName) {
     var netName = buttonName;
     var data = {spot: $scope.spot, token:$scope.spot.token, netName:netName};
-    $http.post('/mobile/spot/bindByPanel', data).success(function(data) {
+    $http.post('/spot/bindByPanel', data).success(function(data) {
         if(data.error == 'no') {
             if (!data.loggedIn) {
                 var redirect_uri = 'http://' + window.location.hostname + '/service/socLogin?service=' + netName;
