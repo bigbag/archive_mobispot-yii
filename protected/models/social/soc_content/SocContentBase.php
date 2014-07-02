@@ -6,10 +6,11 @@ class SocContentBase
     const TYPE_POST = 'post';
     const TYPE_SHARED_LINK = 'shared_link';
     const YOUTUBE_VIDEO = 'youtube_video';
+    const VIMEO_VIDEO = 'vimeo_video';
     const INSTAGRAM_PHOTO = 'instagram_photo';
     const TYPE_CHECKIN = 'checkin';
     const TYPE_LIST = 'list';
-
+    
     public static function rmGetParam($str)
     {
         if (strpos($str, '?') > 0)
