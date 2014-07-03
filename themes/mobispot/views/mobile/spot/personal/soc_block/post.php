@@ -1,7 +1,7 @@
 <article id="block-<?php echo $dataKey;?>" class="spot-item">
     <div class="item-area type-itembox">
         <div class="item-head">
-            <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">
+            <a href="<?php echo YText::urlActivate($socContent['soc_url']); ?>" class="type-link">
                 <img class="soc-icon" src="/themes/mobispot/socialmediaicons/<?php echo $socInfo->getSmallIcon(CHtml::encode($socContent['soc_url']));?>" height="18"><span class="link"><?php echo $socContent['soc_url']; ?></span>
             </a>
         </div>
