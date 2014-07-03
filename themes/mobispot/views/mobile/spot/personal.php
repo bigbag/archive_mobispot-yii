@@ -9,7 +9,7 @@
         <div id="menu" class="main-menu">
             <ul>
                 <li><a href="#"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
-                <li><a href="<?php echo $this->desktopHost(); ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
+                <li><a href="<?php echo MHttp::desktopHost(); ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
                 <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
             </ul>
         </div>
@@ -19,7 +19,7 @@
         </header>
         <div class="control">
                 <a href="/spot/list" class="back icon">&#xe602;</a>
-                <h4 class="spot-h"><i><img src="<?php echo $this->desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
+                <h4 class="spot-h"><i><img src="<?php echo MHttp::desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
                 <a href="javascript:;" id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
             </div>
             <section class="content tabs spot">

@@ -73,7 +73,7 @@
             <?php endif; ?>
             <?php /* Text post *//////////////////////  ?>
             <?php if (isset($socContent['last_status'])): ?>
-                <p><?php echo $this->hrefActivate($socContent['last_status']); ?></p>
+                <p><?php echo YText::hrefActivate($socContent['last_status']); ?></p>
             <?php endif; ?>
             <?php /* Text link *////////////////////// ?>
             <?php if (isset($socContent['link_href']) && isset($socContent['link_text'])): ?>
@@ -126,17 +126,17 @@
                     <?php //<a href="<?php echo $socContent['last_img_href']; ?>
                     <?php //endif; ?>
                     <?php if (isset($socContent['last_img_msg'])): ?>
-                        <p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
+                        <p><?php echo YText::hrefActivate($socContent['last_img_msg']); ?></p>
                     <?php endif; ?>
                     <img src="<?php echo $socContent['last_img']; ?>">
                     <?php if (isset($socContent['last_img_story'])): ?>
-                        <p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
+                        <p><?php echo YText::hrefActivate($socContent['last_img_story']); ?></p>
                     <?php endif; ?>
             <?php endif; ?>
             <?php /* Shared Link *////////////////////// ?>
             <?php if (!empty($socContent['shared_link'])): ?>
                 <?php if (isset($socContent['last_img_msg'])): ?>
-                    <p><?php echo $this->hrefActivate($socContent['last_img_msg']); ?></p>
+                    <p><?php echo YText::hrefActivate($socContent['last_img_msg']); ?></p>
                 <?php endif; ?>
                 <a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
                 <?php if (!empty($socContent['youtube_video_link']) && !empty($socContent['youtube_video_flash'])):?>
@@ -172,10 +172,10 @@
                     <span class="sub-txt"><?php echo $socContent['link_caption']; ?></span>
                 <?php endif; ?>
                 <?php if (isset($socContent['link_description'])): ?>
-                    <p><?php echo $this->hrefActivate($socContent['link_description']); ?></p>
+                    <p><?php echo YText::hrefActivate($socContent['link_description']); ?></p>
                 <?php endif; ?>
                 <?php if (isset($socContent['last_img_story'])): ?>
-                    <p><?php echo $this->hrefActivate($socContent['last_img_story']); ?></p>
+                    <p><?php echo YText::hrefActivate($socContent['last_img_story']); ?></p>
                 <?php endif; ?>
                 </a>
             <?php endif; ?>

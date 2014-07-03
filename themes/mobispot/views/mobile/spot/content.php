@@ -18,7 +18,7 @@
         ng-click="bindByPanel('facebook')"
         href="javascript:;"
     >
-        <img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/facebook.png">
+        <img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/facebook.png">
     </a>
     <a class="<?php
         echo (SocInfo::nameInList('twitter', $spotNets))? 'link':''
@@ -27,62 +27,62 @@
         ng-click="bindByPanel('twitter')"
         href="javascript:;"
     >
-        <img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/twitter.png">
+        <img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/twitter.png">
     </a>
     <a class="<?php
         echo (SocInfo::nameInList('linkedin', $spotNets))? 'link':''
         ?>"
         title="LinkedIn"
         ng-click="bindByPanel('linkedin')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/linkedin.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/linkedin.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('foursquare', $spotNets))?        'link':''
         ?>"
         title="Foursquare"
         ng-click="bindByPanel('foursquare')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/foursquare.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/foursquare.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('google_oauth', $spotNets))?        'link':''
         ?>"
         title="Google+"
         ng-click="bindByPanel('google_oauth')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/google.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/google.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('YouTube', $spotNets))?        'link':''
         ?>"
         title="YouTube"
         ng-click="bindByPanel('YouTube')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/youtube.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/youtube.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('vimeo', $spotNets))?        'link':''
         ?>"
         title="Vimeo"
         ng-click="bindByPanel('vimeo')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/vimeo.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/vimeo.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('vk', $spotNets))?        'link':''
         ?>"
         title="VKontakte"
         ng-click="bindByPanel('vk')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/vk.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/vk.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('Behance', $spotNets))?        'link':''
         ?>"
         title="Behance"
         ng-click="bindByPanel('Behance')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/behance.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/behance.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('deviantart', $spotNets))?        'link':''
         ?>"
         title="DeviantART"
         ng-click="bindByPanel('deviantart')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/deviantart.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/deviantart.png"> </a>
     <a class="<?php
         echo (SocInfo::nameInList('instagram', $spotNets))?        'link':''
         ?>"
         title="Instagram"
         ng-click="bindByPanel('instagram_mobile')"
-        href="javascript:;"><img width="36" src="<?php echo $this->desktopHost(); ?>/themes/mobispot/socialmediaicons/instagram.png"> </a>
+        href="javascript:;"><img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/instagram.png"> </a>
                     </div>
             </div>
             <a class="add-button" ng-click="addContent()" href="javascript:;" ><?php echo Yii::t('spot', 'Post'); ?></a>
@@ -101,7 +101,7 @@
                     ?>
             <?php endforeach; ?>
         <?php endif; ?>
-        
+
             <article id="spot-edit" class="hide spot-item item-area input-block">
                 <textarea class="main-input"
                     ng-model="spot.content_new"

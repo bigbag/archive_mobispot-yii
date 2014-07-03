@@ -29,7 +29,7 @@
                 </div>
                 <div class="ins-block">
                     <?php if (!empty($socContent['text'])): ?>
-                        <p><?php echo $this->hrefActivate($socContent['text']); ?></p>
+                        <p><?php echo YText::hrefActivate($socContent['text']); ?></p>
                     <?php endif ?>
 
                     <?php if (!empty($socContent['last_img'])): ?>

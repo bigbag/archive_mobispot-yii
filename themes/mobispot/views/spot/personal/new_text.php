@@ -4,8 +4,11 @@
 <div id="block-<?php echo $key;?>" class="spot-item item-area">
     <div class="item-head"
         ng-dblclick="editContent(spot, <?php echo $key; ?>, $event)">
-        <a href="<?php echo CHtml::encode($content); ?>" class="type-link">
-            <span class="link"><?php echo CHtml::encode($content); ?></span>
+        <a href="<?php echo YText::urlActivate(CHtml::encode($content)); ?>"
+            class="type-link">
+            <span class="link">
+            <?php echo CHtml::encode($content); ?>
+            </span>
         </a>
     </div>
     <div class="item-control">

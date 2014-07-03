@@ -2,7 +2,7 @@
     <div id="menu" class="main-menu">
         <ul ng-controller="UserCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>'">
             <li><a href="/spot/addSpot"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
-            <li><a href="<?php echo $this->desktopHost() ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
+            <li><a href="<?php echo MHttp::desktopHost() ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
             <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
         </ul>
     </div>
@@ -25,7 +25,7 @@
             >
             <i class="icon i-invisible">&#xe60b;</i>
                 <div class="spot-pic">
-                    <img src="<?php echo $this->desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>">
+                    <img src="<?php echo MHttp::desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>">
                 </div>
                 <div class="spot-name">
                     <h3><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h3>

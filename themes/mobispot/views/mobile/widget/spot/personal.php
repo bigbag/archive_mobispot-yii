@@ -13,7 +13,7 @@
         </div>
     <?php elseif ($type == 'text'): ?>
         <div class="spot-item">
-            <p class="item-area item-type__text"><?php echo $this->hrefActivate($content['data'][$key]); ?></p>
+            <p class="item-area item-type__text"><?php echo YText::hrefActivate($content['data'][$key]); ?></p>
         </div>
     <?php elseif ($type == 'image'): ?>
         <div class="item-area text-center">

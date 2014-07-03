@@ -14,6 +14,7 @@
  */
 class YText
 {
+    const URL_PATTERN = '{(https?://)?(www\.)?([a-zA-Z0-9_.\-%]*)\b\.[a-z]{2,4}(\.[a-z]{2})?((/[a-zA-Z0-9_%?=]*)+)?([^\]\s]*)?}xis';
 
     public static function translit($str)
     {
@@ -329,6 +330,34 @@ class YText
         if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0 && strpos($url, 'ftp://') !== 0)
             $url = 'http://' . $url;
         return $url;
+    }
+
+    public function hrefCallback($p)
+    {
+        $name = htmlspecialchars($p[0]);
+        $href = !empty($p[1]) ? $name : "http://$name";
+        return "<a href=\"$href\">$name</a>";
+    }
+
+    public function hrefActivate($text)
+    {
+        return preg_replace_callback(
+            self::URL_PATTERN, 'YText::hrefCallback', $text
+        );
+    }
+
+    public function urlCallback($p)
+    {
+        $name = htmlspecialchars($p[0]);
+        $href = !empty($p[1]) ? $name : "http://$name";
+        return $href;
+    }
+
+    public function urlActivate($text)
+    {
+        return preg_replace_callback(
+            self::URL_PATTERN, 'YText::urlCallback', $text
+        );
     }
 
 }

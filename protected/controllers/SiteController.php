@@ -2,6 +2,19 @@
 
 class SiteController extends MController
 {
+    const MIN_RESOLUTION = 1280;
+    public $defaultResolution = 1280;
+
+    public function getResolution()
+    {
+        $resolution = $this->defaultResolution;
+        if (isset(Yii::app()->request->cookies['resolution'])) {
+            $resolution = Yii::app()->request->cookies['resolution']->value;
+            if ($resolution < self::MIN_RESOLUTION) $resolution = self::MIN_RESOLUTION;
+
+        }
+        return $resolution;
+    }
 
     public function actionIndex()
     {
