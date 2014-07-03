@@ -101,6 +101,20 @@
                     ?>
             <?php endforeach; ?>
         <?php endif; ?>
+        
+            <article id="spot-edit" class="hide spot-item item-area input-block">
+                <textarea class="main-input"
+                    ng-model="spot.content_new"
+                    ng-trim="true">
+                </textarea>
+                <a ng-click="saveContent(spot, $event)"
+                    class="right m-link"
+                    ng-class="{visible: spot.content_new}"
+                    >
+                    <?php echo Yii::t('spot', 'Post')?>
+                </a>
+            </article>
+    
         </div>
         <?php if (!empty($to_key)):?>
             <span ng-init="toKey(<?php echo $to_key; ?>)"></span>

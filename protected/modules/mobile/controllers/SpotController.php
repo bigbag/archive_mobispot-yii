@@ -780,5 +780,40 @@ class SpotController extends MController
         $this->render('/spot/add_spot', array(
         ));
     }
-    
+ 
+    // Сохранение содержимого блока
+    public function actionSpotSaveContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+
+        $content = $spotContent->content;
+        $content['data'][$data['key']] = $data['content_new'];
+
+        $spotContent->content = $content;
+        if ($spotContent->save()) {
+            $answer['content'] = $this->renderPartial('/spot/personal/new_text',
+                array(
+                    'content' => $data['content_new'],
+                    'key' => $data['key'],
+                ),
+                true
+            );
+            $answer['error'] = "no";
+        }
+
+        echo json_encode($answer);
+    } 
 }

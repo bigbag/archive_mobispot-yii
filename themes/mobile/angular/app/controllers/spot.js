@@ -159,4 +159,71 @@ angular.module('mobispot').controller('SpotController',
     });
   };
   
+  // Редактирование текстового блока в споте
+  $scope.editContent = function(spot, key, e) {
+    if (!spot.content_new){
+      spot.key = key;
+      var spotItem = angular.element(e.currentTarget).parents('.spot-item');
+      var spotEdit = angular.element('#spot-edit').clone();
+
+      if (spotItem.find('a.type-link').size() > 0){
+          //ссылка
+          var spotLink = spotItem.find('a.type-link');
+          $scope.spot.content_new = spotLink.find('span.link').text();
+      }else{
+          //текст
+          var spotData = spotItem.find('p.item-type__text');
+          $scope.spot.content_new = spotData.text();
+      }
+
+      spotEdit.removeClass('hide');
+      spotEdit.find('textarea').focus(1);
+      spotItem.hide().before($compile(spotEdit)($scope));
+    }else {
+      $scope.hideSpotEdit();
+    }
+  };
+  
+  // Сохранение текстового блока в споте
+  $scope.saveContent = function(spot, e) {
+    var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
+    var spotItem = spotEdit.next();
+
+    $http.post('/spot/spotSaveContent', spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
+      }
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+      delete $scope.spot.content_new;
+    });
+  };
+  
+  
+  // Прячем текстовый блок при клике вне, данные сохраняем
+  $scope.hideSpotEdit = function() {
+    if (!$scope.spot.content && !$scope.spot.content_new) return false;
+
+    var spotEdit = angular.element('#spot-edit');
+    var spotItem = spotEdit.next();
+
+    $http.post('/spot/spotSaveContent', $scope.spot).success(function(data) {
+      if(data.error == 'no') {
+        spotEdit.before($compile(data.content)($scope));
+        spotEdit.remove();
+        spotItem.remove();
+      }
+      else {
+        spotEdit.remove();
+        spotItem.show();
+      }
+      delete $scope.spot.content_new;
+    });
+  };
+  
+  
 });
