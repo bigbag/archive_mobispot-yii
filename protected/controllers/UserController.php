@@ -90,6 +90,7 @@ class UserController extends MController
                 'key' => $key = Yii::app()->request->getQuery('key'),
                 'newField' => Yii::app()->request->getQuery('newField'),
                 'link' => Yii::app()->request->getQuery('link'),
+                'returnHost' => Yii::app()->request->getQuery('return_host'),
             );
         }
 
@@ -103,7 +104,11 @@ class UserController extends MController
             $data = Yii::app()->session[$serviceName . '_synch_data'];
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
-            $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
+            $host = '';
+            if (!empty($data['returnHost'])) {
+                $this->redirect($data['returnHost'] . '/mobile' . '/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'), true, 302);
+            } else
+                $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
         }
     }
 

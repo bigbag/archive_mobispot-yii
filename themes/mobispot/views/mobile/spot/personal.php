@@ -1,7 +1,7 @@
-<div class="wrapper" 
+<div class="wrapper"
     ng-controller="SpotController"
     ng-init=
-        "spot.token='<?php echo Yii::app()->request->csrfToken; ?>'; 
+        "spot.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>'
         "
@@ -9,7 +9,7 @@
         <div id="menu" class="main-menu">
             <ul>
                 <li><a href="#"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
-                <li><a href="<?php echo $this->desctopHost(); ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
+                <li><a href="<?php echo $this->desktopHost(); ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
                 <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
             </ul>
         </div>
@@ -19,36 +19,36 @@
         </header>
         <div class="control">
                 <a href="/spot/list" class="back icon">&#xe602;</a>
-                <h4 class="spot-h"><i><img src="<?php echo $this->desctopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
+                <h4 class="spot-h"><i><img src="<?php echo $this->desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
                 <a href="javascript:;" id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
             </div>
             <section class="content tabs spot">
             <nav>
-                <a 
+                <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='spot'}" 
-                    ng-click="general.views='spot'" 
+                    ng-class="{active: general.views=='spot'}"
+                    ng-click="general.views='spot'"
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
                 <!--
                 <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='wallet'}" 
-                    ng-click="general.views='wallet'" 
+                    ng-class="{active: general.views=='wallet'}"
+                    ng-click="general.views='wallet'"
                 >
                     <?php //echo Yii::t('spot', 'Wallet'); ?>
                 </a>
-                <a 
+                <a
                     href="javascript:;"
-                    ng-class="{active: general.views=='coupon'}" 
+                    ng-class="{active: general.views=='coupon'}"
                     ng-click="general.views='coupon'" >
                     <?php //echo Yii::t('spot', 'Coupon'); ?>
                 </a>
-                <a 
+                <a
                     href="javascript:;"
                     ng-class="{active: general.views=='settings'}"
-                    ng-click="general.views='settings'" 
+                    ng-click="general.views='settings'"
                     class="settings">
                     <i class="icon">&#xe00F;</i>
                 </a>

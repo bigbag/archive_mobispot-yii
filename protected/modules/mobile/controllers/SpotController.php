@@ -5,7 +5,7 @@ class SpotController extends MController
 
     const BAN_TIME = 5;
 
-    public $layout = '//layouts/mobile';
+    public $layout = '//layouts/m';
 
     public function actions()
     {
@@ -20,10 +20,13 @@ class SpotController extends MController
         );
     }
 
-    //Отоюражение спота на мобильном
+    //Отображение спота на мобильном
     public function actionIndex()
     {
         if (Yii::app()->request->getQuery('url', 0)) {
+            //шаблон отображения контента спота
+            $this->layout = '//layouts/mobile';
+
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
 
@@ -178,9 +181,133 @@ class SpotController extends MController
                     $this->redirect($baseUrl);
                 }
             }
+        } elseif (!(Yii::app()->user->isGuest)) {
+            //к списку спотов в моб.версии
+            $this->redirect('spot/list');
         } else {
-            $this->setNotFound();
+            //форма логина
+            $this->render('/spot/login');
         }
+    }
+
+    public function actionList()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user->status == User::STATUS_NOACTIVE)
+            $this->setAccess();
+
+        $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
+
+        $this->render('/spot/list', array(
+            'spots' => $spots,
+        ));
+    }
+
+    public function actionView()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+
+        $url = Yii::app()->request->getQuery('url', 0);
+        $key = Yii::app()->request->getQuery('key', 0);
+        if (!$url)
+            $this->setNotFound();
+
+        $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
+
+        if (!$spot)
+            $this->setNotFound();
+
+        $curent_views = $this->getCurentViews('spot');
+
+        $this->render('/spot/personal', array(
+            'spot' => $spot,
+            'curent_views' => $curent_views,
+            'to_key' => $key,
+        ));
+    }
+
+    public function actionSpotContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+
+        $data = $this->validateRequest();
+        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByPk((int)$data['discodes']);
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content_keys = $content['keys'];
+
+        $answer['content'] = $this->renderPartial('/spot/content',
+            array(
+                'spot' => $spot,
+                'wallet' => $wallet,
+                'spotContent' => $spotContent,
+                'content_keys' => $content_keys,
+                'spotNets' => $spot->getBindedNets(),
+            ),
+            true
+        );
+
+        $answer['pass'] = '';
+        if (!empty($spot->pass))
+            $answer['pass'] = $spot->pass;
+        $answer['error'] = "no";
+
+        echo json_encode($answer);
+    }
+
+    public function actionSocNetContent()
+    {
+        $answer = array('error' => 'yes');
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent)
+            $spotContent = SpotContent::initPersonal($spot);
+
+        if (!isset($spotContent->content['keys'][$data['key']]))
+            $this->getJsonAndExit($answer);
+        if ($spotContent->content['keys'][$data['key']] != 'socnet')
+            $this->getJsonAndExit($answer);
+
+        $socInfo = new SocInfo;
+        $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
+
+        $answer['content'] = $this->renderPartial('/spot/personal/new_content',
+            array(
+                'content' => $spotContent->content['data'][$data['key']],
+                'key' => $data['key'],
+                'socContent' => $socContent,
+            ),
+            true
+        );
+
+        $answer['key'] = $data['key'];
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
     }
 
     public function actionFollowSocial()
@@ -316,6 +443,7 @@ class SpotController extends MController
                     $this->redirect('/');
                 }
             }
+            $this->layout = '//layouts/mobile';
             $this->render('error', array(
                 'form' => $form,
             ));
@@ -323,4 +451,366 @@ class SpotController extends MController
             $this->redirect('http://mobispot.com');
     }
 
+    //Определяем вкладку таба открытую в последний раз
+    public function getCurentViews($curent = 'spot')
+    {
+        $curent_views = $curent;
+        /*
+        if (isset(Yii::app()->request->cookies['spot_curent_views']))
+            $curent_views = Yii::app()->request->cookies['spot_curent_views']->value;
+        */
+        return $curent_views;
+    }
+
+    // Добавление блока в спот
+    public function actionSpotAddContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+            'key' => ''
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['content']) or !isset($data['discodes']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
+
+        $content = $spotContent->content;
+        $content['keys'][$content['counter']] = 'text';
+        $answer['key'] = $content['counter'];
+        $content['data'][$answer['key']] = $data['content'];
+        $content['counter'] = $content['counter'] + 1;
+        $spotContent->content = $content;
+        $spotContent->save();
+
+        $answer['content'] = $this->renderPartial('/spot/personal/new_text',
+            array(
+                'content' => $data['content'],
+                'key' => $answer['key'],
+            ),
+            true
+        );
+        $answer['error'] = "no";
+
+        echo json_encode($answer);
+    }
+
+    //Привязка соцсетей
+    public function actionBindByPanel()
+    {
+        $target = '/spot/list';
+
+        $data = $this->validateRequest();
+
+        if (!empty($data['spot']) and !empty($data['spot']['content']))
+            $data['link'] = $data['spot']['content'];
+
+        $answer = array (
+            'error' => 'yes',
+            'content' => '',
+            'socnet' => 'no',
+            'loggedIn' => false,
+            'linkCorrect' => Yii::t('eauth', "This account doesn't exist"),
+            'profileHint' => '',
+            'key' => false,
+        );
+        $needSave = false;
+
+        if (!isset($data['spot']) or empty($data['spot']['discodes']) or !isset($data['netName']))
+            $this->getJsonAndExit($answer);
+
+        $discodes_id = $data['spot']['discodes'];
+        $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+        $answer['socnet'] = $data['netName'];
+
+        if (!$spot)
+            $this->getJsonAndExit($answer);
+
+        $answer['error'] = 'no';
+        $socInfo = new SocInfo;
+        $socNet = $socInfo->getNetByName($answer['socnet']);
+
+        if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link'])) {
+            $answer['profileHint'] = $socNet['profileHint'];
+            $this->getJsonAndExit($answer);
+        }
+
+        if (!empty($data['link'])) {
+            $socNet = $socInfo->getNetByLink($data['link']);
+            $needSave = $socInfo->contentNeedSave($data['link']);
+        } else
+            $socNet = $socInfo->getNetByName($answer['socnet']);
+
+        if (!empty($socNet['name']) and ($socInfo->isLoggegOn($answer['socnet']) || (!empty($data['link']) and !$socNet['needAuth']))) {
+            //авторизован через соцсеть, либо сеть не требует авторизации и есть привязываемая ссылка
+            $answer['loggedIn'] = true;
+            $answer['socnet'] = $socNet['name'];
+            $spotContent = SpotContent::getSpotContent($spot);
+            if (!$spotContent)
+                $spotContent = SpotContent::initPersonal($spot);
+
+            $content = $spotContent->content;
+            if ($needSave && !empty($data['link'])) {
+                $userDetail = $socInfo->getSocInfo($answer['socnet'], $data['link'], $discodes_id, null);
+                if (empty($userDetail['error'])) {
+                    $userDetail['binded_link'] = $data['link'];
+                    $content['keys'][$content['counter']] = 'content';
+                    $content['data'][$content['counter']] = $userDetail;
+                    $answer['key'] = $content['counter'];
+                    $content['counter'] = $content['counter'] + 1;
+                    $spotContent->content = $content;
+                    $spotContent->save();
+
+                    $answer['linkCorrect'] = 'ok';
+                    Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                    $answer['content'] = $this->renderPartial('//spot/personal/new_content', array(
+                        'content' => $content['data'][$answer['key']],
+                        'key' => $answer['key'],
+                            ), true);
+                } else
+                    $answer['linkCorrect'] = $userDetail['error'];
+            } else {
+                if (!empty($data['link']))
+                    $answer['linkCorrect'] = $socInfo->isLinkCorrect($data['link'], $discodes_id, null);
+                else
+                    $answer['linkCorrect'] = 'ok';
+
+                if ($answer['linkCorrect'] == 'ok') {
+                    $content['keys'][$content['counter']] = 'socnet';
+
+                    if (!empty($data['link']))
+                        $content['data'][$content['counter']] = $data['link'];
+                    else
+                        $content['data'][$content['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
+
+                    $answer['key'] = $content['counter'];
+                    $content['counter'] = $content['counter'] + 1;
+                    $spotContent->content = $content;
+                    $spotContent->save();
+                    Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                    $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
+                    $answer['content'] = $this->renderPartial('/spot/personal/new_content',
+                        array(
+                            'content' => $content['data'][$answer['key']],
+                            'key' => $answer['key'],
+                            'socContent' => $socContent,
+                        ),
+                        true
+                    );
+                }
+            }
+        } else
+            $answer['linkCorrect'] == 'ok';
+
+        echo json_encode($answer);
+    }
+
+    public function actionBindedContent()
+    {
+        $target = '/spot/list';
+        $answer = array('loggedIn'=>false, 'error'=>'yes');
+
+        $data = array('bindNet' => array(
+                        'name'=>Yii::app()->request->getQuery('service'),
+                        'discodes'=>Yii::app()->request->getQuery('discodes'),
+                        'key'=>Yii::app()->request->getQuery('key'),
+                        'newField'=>Yii::app()->request->getQuery('newField'),
+                        'link'=>Yii::app()->request->getQuery('link'),
+                    ));
+
+        $needSave = false;
+
+        if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
+            $this->setBadReques();
+
+        $socInfo = new SocInfo;
+        $answer['socnet'] = $socInfo->mergeMobile($data['bindNet']['name']);
+        $discodes_id = $data['bindNet']['discodes'];
+
+        if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
+            $answer['loggedIn'] = true;
+
+        if ($answer['loggedIn']) {
+            //привязка через плашку
+            $answer['newField'] = true;
+            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+
+            if (!$spot)
+                $this->getJsonOrRedirect($answer, $target);
+
+            $target = '/spot/view/' . $spot->url;
+
+            $socNet = $socInfo->getNetByName($answer['socnet']);
+            if (!empty($data['bindNet']['link'])) {
+                $socNet = $socInfo->getNetByLink($data['bindNet']['link']);
+                $needSave = $socInfo->contentNeedSave($data['bindNet']['link']);
+            } else
+                $socNet = $socInfo->getNetByName($answer['socnet']);
+
+            if (empty($socNet['name']) or empty(Yii::app()->session[$answer['socnet'] . '_profile_url']))
+                $this->getJsonOrRedirect($answer, $target);
+
+            $answer['socnet'] = $socNet['name'];
+            $spotContent = SpotContent::getSpotContent($spot);
+            if (!$spotContent)
+                $spotContent = SpotContent::initPersonal($spot);
+
+            $content = $spotContent->content;
+
+            if ($needSave && !empty($data['bindNet']['link'])) {
+                $userDetail = $socInfo->getSocInfo($answer['socnet'], $data['bindNet']['link'], $discodes_id, null);
+                if (!empty($userDetail['error'])) {
+                    $answer['linkCorrect'] = $userDetail['error'];
+                    $this->getJsonOrRedirect($answer, $target);
+                }
+
+                $userDetail['binded_link'] = $data['bindNet']['link'];
+                $content['keys'][$content['counter']] = 'content';
+                $content['data'][$content['counter']] = $userDetail;
+                $answer['key'] = $content['counter'];
+                $content['counter'] = $content['counter'] + 1;
+                $spotContent->content = $content;
+                $spotContent->save();
+
+                $answer['linkCorrect'] = 'ok';
+                Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+                $answer['content'] = $this->renderPartial('//spot/personal/new_content',
+                    array(
+                        'content' => $content['data'][$answer['key']],
+                        'key' => $answer['key'],
+                    ),
+                    true
+                );
+
+            } else {
+                if (!empty($data['bindNet']['link']))
+                    $answer['linkCorrect'] = $socInfo->isLinkCorrect($data['bindNet']['link'], $discodes_id);
+                else
+                    $answer['linkCorrect'] = 'ok';
+
+                if ($answer['linkCorrect'] == 'ok') {
+                    $content['keys'][$content['counter']] = 'socnet';
+                    if (!empty($data['bindNet']['link']))
+                        $content['data'][$content['counter']] = $data['bindNet']['link'];
+                    else
+                        $content['data'][$content['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
+                    $answer['key'] = $content['counter'];
+                    $content['counter'] = $content['counter'] + 1;
+                    $spotContent->content = $content;
+                    $spotContent->save();
+
+                    Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
+
+                    $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
+                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
+                        'content' => $content['data'][$answer['key']],
+                        'key' => $answer['key'],
+                        'socContent' => $socContent,
+                            ), true);
+                }
+            }
+        }
+
+        $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
+    }
+
+    // Удаление блока из спота
+    public function actionSpotRemoveContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+            'netDown' => '',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+
+        $content = $spotContent->content;
+        if ($content['keys'][$data['key']] == 'socnet')
+            $link = $content['data'][$data['key']];
+        elseif ($content['keys'][$data['key']] == 'content')
+            $link = $content['data'][$data['key']]['binded_link'];
+        elseif ($content['keys'][$data['key']] != 'text') {
+            $patch = Yii::getPathOfAlias('webroot.uploads.spot.') . '/';
+            @unlink($patch . $content['data'][$data['key']]);
+            @unlink($patch . 'tmb_' . $content['data'][$data['key']]);
+        }
+
+        unset($content['keys'][$data['key']]);
+        unset($content['data'][$data['key']]);
+        $spotContent->content = $content;
+        if ($spotContent->save()) {
+            $keys = array();
+            foreach ($content['keys'] as $answer['key'] => $value) {
+                $keys[] = $answer['key'];
+            }
+
+            $answer['keys'] = $keys;
+            $answer['error'] = "no";
+        }
+
+        if (!empty($link) and "no" == $answer['error'])
+            $answer['netDown'] = $spot->getNetDown($link);
+
+        echo json_encode($answer);
+    }
+
+    public function actionAddSpot()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+
+        $this->render('/spot/add_spot', array(
+        ));
+    }
+
+    // Сохранение содержимого блока
+    public function actionSpotSaveContent()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = $this->validateRequest();
+
+        if (!isset($data['discodes']) or !isset($data['key']))
+            $this->getJsonAndExit($answer);
+
+        $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+        if (!$spot) $this->getJsonAndExit($answer);
+
+        $spotContent = SpotContent::getSpotContent($spot);
+        if (!$spotContent) $this->getJsonAndExit($answer);
+
+        $content = $spotContent->content;
+        $content['data'][$data['key']] = $data['content_new'];
+
+        $spotContent->content = $content;
+        if ($spotContent->save()) {
+            $answer['content'] = $this->renderPartial('/spot/personal/new_text',
+                array(
+                    'content' => $data['content_new'],
+                    'key' => $data['key'],
+                ),
+                true
+            );
+            $answer['error'] = "no";
+        }
+
+        echo json_encode($answer);
+    }
 }

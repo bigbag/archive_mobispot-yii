@@ -253,6 +253,10 @@ class DemoKitOrder extends CActiveRecord
         $mailOrder['address'] = $this->address;
         $mailOrder['city'] = $this->city;
         $mailOrder['country'] = $this->country;
+<<<<<<< HEAD
+=======
+        $shipping = self::getShipping($this->shipping);
+>>>>>>> 8b10548caa50f2c0440468b81b323652e2cb5569
         $mailOrder['shipping'] = $shipping['name'];
         $mailOrder['shipping_price'] = $shipping['price'];
         $mailOrder['subtotal'] = $this->calcSubtotal();

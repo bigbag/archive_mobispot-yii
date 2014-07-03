@@ -23,6 +23,7 @@ class VimeoContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
+        $userDetail['block_type'] = self::VIMEO_VIDEO;
 
         $socUser = self::makeRequest('http://vimeo.com/api/v2/' . $socUsername . '/info.json');
         if (!is_string($socUser) && isset($socUser['id'])) {

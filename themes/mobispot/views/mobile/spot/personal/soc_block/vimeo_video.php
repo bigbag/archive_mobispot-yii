@@ -17,33 +17,19 @@
                         <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif?>
                     <b class="time"><?php //echo $socContent['sub-time']; ?></b>
-                    <span class="sub-line"><?php if (!empty($socContent['view_count'])): ?>
-                    <?php echo $socContent['view_count'] . ' ' . Yii::t('spot', 'views'); ?>
+                    <span class="sub-line"><?php if (!empty($socContent['vimeo_last_video_counter'])): ?>
+                    <?php echo $socContent['vimeo_last_video_counter'] . ' ' . Yii::t('spot', 'views'); ?>
                     <?php endif ?></span>
                 </div>
                 <div class="ins-block">
-                <object>
-                    <param name="movie" value="<?php
-                    echo (!empty($socContent['youtube_video_flash']))?
-                        $socContent['youtube_video_flash']:'' ?>">
-                    <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php
-                    echo (!empty($socContent['youtube_video_flash']))?
-                        $socContent['youtube_video_flash']:'' ?>"
-                    <?php if (isset($socContent['youtube_video_rel'])): ?>
-                        rel="<?php echo $socContent['youtube_video_rel']; ?>"
-                    <?php endif; ?>
-                    type="application/x-shockwave-flash"
-
-                    allowfullscreen="true">
-                </object>
+                <iframe id="vimeo_<?php echo $dataKey;?>" src="http://player.vimeo.com/video/<?php echo $socContent['vimeo_last_video']; ?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                 </div>
             </div>
         </div>
         <div class="item-control">
             <div class="spot-activity">
-                <a
-                    class="button round"
+                <a 
+                    class="button round" 
                     href=""
                     ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                 >

@@ -8,7 +8,9 @@
         <ul class="right">
             <li>
             <?php if (Yii::app()->controller->action->id == 'demoKit'): ?>
+                <span class="right-menu">
                 <?php echo Yii::t('general', 'Get our demo-kit') ?>
+                </span>
             </li>
             <?php else: ?>
                 <a href="/pages/demoKit" class="show">

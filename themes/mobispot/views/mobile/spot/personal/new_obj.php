@@ -9,22 +9,22 @@
         <div class="item-download">
             <table class="j-list">
                 <tr>
-                    <!-- 
+                    <!--
                     <td>PDF</td>
                     <td>Текстовый контент</td>
                     <td>25mb</td>
                     -->
                 </tr>
                 <tr>
-                    <td><a href="<?php echo $this->desctopHost(); ?>/uploads/spot/<?php echo CHtml::encode($content) ?>"><?php echo Yii::t('eauth', 'Download'); ?></a></td>
+                    <td><a href="<?php echo $this->desktopHost(); ?>/uploads/spot/<?php echo CHtml::encode($content) ?>"><?php echo Yii::t('eauth', 'Download'); ?></a></td>
                     <td></td><td></td>
                 </tr>
             </table>
         </div>
         <div class="item-control">
             <div class="spot-activity">
-                <a 
-                    class="button round" 
+                <a
+                    class="button round"
                     href="javascripts:;"
                     ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
                 >

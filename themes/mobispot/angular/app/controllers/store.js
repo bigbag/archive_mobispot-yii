@@ -68,15 +68,12 @@ angular.module('mobispot').controller('ProductController',
                 selectedSurface : $scope.products[jsID].selectedSurface,
                 selectedSize : $scope.products[jsID].selectedSize
             };
-            $http.post(('/store/product/addToCart'), data).success(function(data, status) {
+            $http.post(('/store/product/addToCart'), data).success(function(data, status){
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
                     $scope.items.count += parseInt($scope.products[jsID].quantity);
                     var basket = angular.element('a.icon-bag-link span');
                     basket.text($scope.items.count);
-                }
-                else{
-                    console.log(data.error);
                 }
             });
 
@@ -141,14 +138,14 @@ angular.module('mobispot').controller('ProductController',
         if($scope.products[jsID].quantity < 0){
             $scope.products[jsID].quantity = 0;
         }
-    }
+    };
 
     $scope.thumbClass = function(len){
         if (len > 3)
             return "thumbswrapper xscrolled";
         else
             return "thumbswrapper";
-    }
+    };
 /*
     $scope.thumbLiClass = function(ind){
         if ((ind % 3) == 0)
@@ -169,8 +166,9 @@ angular.module('mobispot').controller('CartController',
         $http.post('/store/product/GetCart', data).success(function(data) {
             $scope.products = data.products;
             $scope.discount = data.discount;
-            if(!($scope.products.length > 0))
-                 window.location = "/store";
+            if($scope.products.length <= 0){
+               window.location = "/store";
+            }
             for (var i = 0; i < $scope.products.length; i++) {
                 $scope.products[i].jsID = i;
                 $scope.products[i].quantity = parseInt($scope.products[i].quantity);
@@ -266,7 +264,7 @@ angular.module('mobispot').controller('CartController',
     $scope.setSize = function(jsID, size){
         $scope.summ -= parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;
         $scope.products[jsID].selectedSize = size;
-        $scope.summ += parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;;
+        $scope.summ += parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;
     };
 
     $scope.setColor = function(jsID, color){
@@ -293,12 +291,8 @@ angular.module('mobispot').controller('CartController',
 
         var data = {token: $scope.user.token, oldProduct:oldProduct, newProduct:$scope.products[jsID]};
         $http.post('/store/product/SaveProduct', data).success(function(data) {
-            if (data.error != 'no')
-            {
-                console.log(data.error);
+            if (data.error != 'no'){
             }
-        }).error(function(error){
-            console.log(error);
         });
     };
 
@@ -343,18 +337,15 @@ angular.module('mobispot').controller('CartController',
 
             var data = {token: $scope.user.token, oldProduct:$scope.products[jsID], newProduct:$scope.products[jsID]};
             $http.post('/store/product/SaveProduct', data).success(function(data) {
-                if (data.error != 'no')
-                {
-                    console.log(data.error);
+                if (data.error != 'no'){
+
                 }
-            }).error(function(error){
-                console.log(error);
             });
         }
     };
 
     $scope.checkOut = function(){
-        if ($scope.summ == 0) return false;
+        if ($scope.summ === 0) return false;
 
         if(!$scope.checkingOut){
              var data = {token: $scope.user.token};
@@ -418,7 +409,7 @@ angular.module('mobispot').controller('CartController',
                     }
 
 
-                    if(!($scope.products.length > 0)){
+                    if($scope.products.length <= 0) {
                         window.location = "/store";
                     }
                 }
@@ -481,7 +472,7 @@ angular.module('mobispot').controller('CartController',
 
     $scope.saveCustomer = function(valid){
         if (!valid ) return false;
-        if ($scope.summ == 0)  return false;
+        if ($scope.summ === 0)  return false;
 
         if(!$scope.inRequest){
             $scope.inRequest = true;
@@ -506,7 +497,7 @@ angular.module('mobispot').controller('CartController',
 
     $scope.buy = function(){
 
-        if ($scope.summ == 0) return false;
+        if ($scope.summ === 0) return false;
 
         var data = {
             token: $scope.user.token,
@@ -525,8 +516,6 @@ angular.module('mobispot').controller('CartController',
             }
             else
                contentService.setModal(data.error, 'error');
-        }).error(function(error){
-            console.log(error);
         });
     };
 
@@ -535,21 +524,12 @@ angular.module('mobispot').controller('CartController',
             return "thumbswrapper xscrolled";
         else
             return "thumbswrapper";
-    }
-/*
-    $scope.thumbLiClass = function(ind){
-        if ((ind % 3) == 0)
-            return "brslide";
-        else
-            return "thimbslide";
-    }
-*/
+    };
 
     $scope.valClass = function(isValid){
         if(isValid)
             return "";
         else
             return "error";
-    }
-
+    };
 });

@@ -20,7 +20,7 @@
                     <b class="time"><?php //echo $socContent['sub-time']; ?></b>
                     <span class="sub-line">
                     <?php if (!empty($socContent['view_count'])): ?>
-                    <?php echo $socContent['view_count'] . ' ' . Yii::t('eauth', 'просмотров'); ?>
+                    <?php echo $socContent['view_count'] . ' ' . Yii::t('spot', 'views'); ?>
                     <?php endif ?>
                     </span>
                 </div>
@@ -44,12 +44,15 @@
             </div>
         </div>
         <div class="item-control">
-                <span class="move move-top"></span>
-                    <div class="spot-activity">
-                        <a class="button round" ng-click="unBindSocial(spot, <?php echo $dataKey; ?>, $event)">&#xe003;</a>
-                        <a class="button round" ng-click="removeContent(spot, <?php echo $dataKey; ?>, $event)">&#xe00b;</a>
-                    </div>
-                <span class="move move-bottom"></span>
+            <div class="spot-activity">
+                <a
+                    class="button round"
+                    href=""
+                    ng-click="removeContent(spot, <?php echo $key; ?>, $event)"
+                >
+                &#xe00b;
+                </a>
+            </div>
         </div>
     </div>
 </div>

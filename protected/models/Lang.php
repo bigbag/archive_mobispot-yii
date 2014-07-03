@@ -10,7 +10,8 @@
  */
 class Lang extends CActiveRecord
 {
-
+    const DEFAULT_DESC = 'en';
+    const DEFAULT_ID = 0;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -56,43 +57,54 @@ class Lang extends CActiveRecord
         return array();
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
+    public function setCurrentLang()
     {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'desc' => 'Desc',
-        );
-    }
+        $all_lang = Lang::getLangArray();
+        $select_lang = 'en';
 
-    public static function getLang()
-    {
-        $lang = Yii::app()->cache->get('lang');
-        if (!$lang) {
-            $lang = Lang::model()->findAll(array('order' => 'name'));
-
-            Yii::app()->cache->set('lang', $lang, 36000);
+        if (isset(Yii::app()->request->cookies['lang'])) {
+            $select_lang = Yii::app()->request->cookies['lang']->value;
+        } elseif (Yii::app()->user->id) {
+            $user = User::getById(Yii::app()->user->id);
+            $select_lang = $user->lang;
+        } else {
+            $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
+            $select_lang = substr($lang_request,0,1);
         }
-        return $lang;
+
+        if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
+
+        Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
+        Yii::app()->language = $select_lang;
     }
+
+
+    public function getCurrentLang()
+    {
+        $current_lang = Yii::app()->request->cookies['lang'];
+        if ($current_lang) return $curent_lang->value;
+
+        return self::DEFAULT_DESC;
+    }
+
 
     public static function getLangArray()
     {
-        $lang = Yii::app()->cache->get('lang_desc');
+        $lang = Yii::app()->cache->get('lang_array');
         if (!$lang) {
-            $lang = CHtml::listData(Lang::getLang(), 'name', 'desc');
+            $lang = CHtml::listData(
+                Lang::model()->findAll(array('order' => 'name')),
+                'name',
+                'desc'
+            );
 
-            Yii::app()->cache->set('lang_desc', $lang, 36000);
+            Yii::app()->cache->set('lang_array', $lang, 36000);
         }
         return $lang;
     }
 
     protected function afterSave()
     {
-        Yii::app()->cache->delete('lang');
         Yii::app()->cache->delete('lang_array');
 
         parent::afterSave();
