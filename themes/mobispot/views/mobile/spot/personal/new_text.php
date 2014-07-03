@@ -11,7 +11,8 @@
                 <div class="spot-activity">
                         <a
                             class="button round"
-                            href="javascripts:;"
+                            href=""
+
                             ng-click="editContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe009;</a>
                         <a
@@ -30,7 +31,7 @@
                     <div class="spot-activity">
                         <a
                             class="button round"
-                            href="javascripts:;"
+                            href=""
                             ng-click="editContent(spot, <?php echo $key; ?>, $event)"
                         >&#xe009;</a>
                         <a

@@ -3,3 +3,17 @@ input.error {
     background:none;
     color: rgba(0, 0, 0, 0.75);
 }
+
+a {
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+    opacity: 0;
+}
+
+a.m-link {
+    font-family: Mobispot;
+    font-size: 20px;
+}
