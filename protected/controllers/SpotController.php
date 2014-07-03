@@ -15,8 +15,7 @@ class SpotController extends MController
         if (Yii::app()->request->getQuery('url')) {
             $url = Yii::app()->request->getQuery('url');
             $redirect_url = substr(Yii::app()->request->getBaseUrl(true), 7);
-            echo 'http://m.'.$redirect_url.'/' . $url ;
-            #$this->redirect('http://m.'.$redirect_url.'/' . $url);
+            $this->redirect('http://m.'.$redirect_url.'/' . $url);
         }
     }
 
