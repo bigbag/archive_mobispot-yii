@@ -130,7 +130,7 @@ class SpotController extends MController
                     if (count($fileKeys) == count($dataKeys)) {
                         $this->render('/widget/spot/send', array('content' => $content));
                     } else {
-                        $url = $this->urlActivate($content['data'][$dataKeys[0]]);
+                        $url = YText::urlActivate($content['data'][$dataKeys[0]]);
                         $urlVal = new CUrlValidator;
 
                         //одна ссылка
