@@ -26,16 +26,6 @@ class ServiceController extends MController
         $this->redirect((isset($_SERVER["HTTP_REFERER"])) ? $_SERVER["HTTP_REFERER"] : '/');
     }
 
-    //Автологин
-    public function autoLogin($user)
-    {
-        $identity = new SUserIdentity($user->email, $user->password);
-        $identity->authenticate();
-        $this->lastVisit();
-        return Yii::app()->user->login($identity);
-    }
-
-    //Авторизация
     public function actionLogin()
     {
         $data = $this->validateRequest();
@@ -52,13 +42,12 @@ class ServiceController extends MController
         if (!$form->validate())
             $this->getJsonAndExit($answer);
 
-        $this->autoLogin($form);
+        User::autoLogin($form);
         $answer['error'] = "no";
 
         echo json_encode($answer);
     }
 
-    //Выход
     public function actionLogout()
     {
         if (!Yii::app()->request->isPostRequest) {
@@ -113,7 +102,7 @@ class ServiceController extends MController
 
         $spot = Spot::getActivatedSpot($data['activ_code']);
         $spot->user_id = $model->id;
-        $spot->lang = $this->getLang();
+        $spot->lang = Lang::getCurrentLang();
         $spot->status = Spot::STATUS_REGISTERED;
         $spot->save();
 
@@ -129,7 +118,7 @@ class ServiceController extends MController
             $wallet->save();
         }
 
-        MMail::activation($model->email, $model->activkey, $this->getLang());
+        MMail::activation($model->email, $model->activkey, Lang::getCurrentLang());
         $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
         $answer['error'] = "no";
         echo json_encode($answer);
@@ -160,7 +149,7 @@ class ServiceController extends MController
             if ($user->save()) {
                 $identity = new SUserIdentity($user->email, $user->password);
                 $identity->authenticate();
-                $this->lastVisit();
+                User::lastVisit();
                 Yii::app()->user->login($identity);
                 $this->redirect('/user/personal');
             }
@@ -189,7 +178,7 @@ class ServiceController extends MController
         if ($form->validate()) {
             $user = User::getByEmail($form->email);
             if ($user and $user->status == User::STATUS_VALID) {
-                MMail::recovery($user->email, $user->activkey, $this->getLang());
+                MMail::recovery($user->email, $user->activkey, Lang::getCurrentLang());
                 $answer['content'] = Yii::t('user', "A letter with instructions has been sent to your email address. Thank you.");
                 $answer['error'] = "no";
             }
@@ -228,7 +217,7 @@ class ServiceController extends MController
         $user->activkey = sha1(microtime() . $data['password']);
         $user->save(false);
 
-        $this->autoLogin($user);
+        User::autoLogin($user);
         $answer['error'] = "no";
 
         echo json_encode($answer);
@@ -279,7 +268,7 @@ class ServiceController extends MController
         if (!$result['user'])
             $this->redirect('/service/socialReg');
 
-        $this->autoLogin($result['user']);
+        User::autoLogin($result['user']);
         User::clearCacheSocInfo();
         if(!empty($returnTo))
             $this->redirect($returnTo);
@@ -361,7 +350,7 @@ class ServiceController extends MController
 
         $recipients = array('ilya.radaev@gmail.com', 'alex.kulagin@mobispot.com', 'volgin@mobispot.com');
 
-        MMail::question($recipients, $data, $this->getLang());
+        MMail::question($recipients, $data, Lang::getCurrentLang());
         $answer['content'] = Yii::t('help', 'Question has been submitted');
         $answer['error'] = "no";
 
@@ -398,7 +387,7 @@ class ServiceController extends MController
 
         //письмо покупателю
         $mailOrder = $order->makeMailOrder();
-        if (!MMail::demokit_order($mailOrder['email'], $mailOrder, $this->getLang()))
+        if (!MMail::demokit_order($mailOrder['email'], $mailOrder, Lang::getCurrentLang()))
             $this->getJsonAndExit($answer);
 
         if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
@@ -412,7 +401,7 @@ class ServiceController extends MController
             $answer['error'] = 'no';
         } elseif ($payment['action'] == DemoKitOrder::PAYMENT_MAIL) {
             //банковский перевод, письмо админу
-            if (MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang())
+            if (MMail::demokit_order(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang())
             )
             {
                 $answer['message'] = $config['mailOrderMessage'];

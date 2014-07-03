@@ -1,4 +1,4 @@
-<?php $info = $this->userInfo(); ?>
+<?php $info = User::userInfo(); ?>
 <header class="header-page">
     <div class="hat-bar content">
         <h1 class="logo">

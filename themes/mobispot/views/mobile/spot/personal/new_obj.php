@@ -16,7 +16,7 @@
                     -->
                 </tr>
                 <tr>
-                    <td><a href="<?php echo $this->desctopHost(); ?>/uploads/spot/<?php echo CHtml::encode($content) ?>"><?php echo Yii::t('eauth', 'Download'); ?></a></td>
+                    <td><a href="<?php echo $this->desktopHost(); ?>/uploads/spot/<?php echo CHtml::encode($content) ?>"><?php echo Yii::t('eauth', 'Download'); ?></a></td>
                     <td></td><td></td>
                 </tr>
             </table>
