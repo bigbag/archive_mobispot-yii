@@ -110,18 +110,18 @@ class ServiceController extends MController
             $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
         }
     }
-    
+
     //Регистрация
     public function actionRegistration()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => "yes",
             "content" => Yii::t('user', "You've made a mistake in spot activation code.")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $model = new RegistrationForm;
         $model->attributes = $data;
@@ -136,12 +136,12 @@ class ServiceController extends MController
             } else
                 $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
 
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $model->password = Yii::app()->hasher->hashPassword($model->password);
         if (!$model->save())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $socInfo = User::getCacheSocInfo();
         $socInfo['user_id'] = $model->id;
