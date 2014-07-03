@@ -144,6 +144,42 @@ class User extends CActiveRecord
         );
     }
 
+    public function userInfo()
+    {
+        if (!Yii::app()->user->id) return false;
+
+        $id = Yii::app()->user->id;
+        $info = Yii::app()->cache->get('user_' . $id);
+        if ($info) return $info;
+
+        $info = UserProfile::model()->findByPk($id);
+        $user = User::model()->findByPk($id);
+        if (empty($info->name)) $info->name = $user->email;
+
+        Yii::app()->cache->set('user_' . $id, $info, 3600);
+
+        return $info;
+    }
+
+    public function lastVisit()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user) {
+            $user->lastvisit = date('Y-m-d H:i:s');
+            $user->activkey = sha1(microtime() . $user->password);
+            if ($user->save(false)) return true;
+        }
+        return false;
+    }
+
+    public function autoLogin($user)
+    {
+        $identity = new SUserIdentity($user->email, $user->password);
+        $identity->authenticate();
+        User::lastVisit();
+        return Yii::app()->user->login($identity);
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord) {

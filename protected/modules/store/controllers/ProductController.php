@@ -262,8 +262,8 @@ class ProductController extends MController
                     $mailOrder = StoreCart::getMessageByOrder($order->id);
 
                     $order->status = 2;
-                    MMail::order_track($mailOrder['email'], $mailOrder, $this->getLang());
-                    MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, $this->getLang());
+                    MMail::order_track($mailOrder['email'], $mailOrder, Lang::getCurrentLang());
+                    MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
                     $order->save();
                     $token = sha1(Yii::app()->request->csrfToken);
                     $cacheId = 'StoreOrder' . $orderId;

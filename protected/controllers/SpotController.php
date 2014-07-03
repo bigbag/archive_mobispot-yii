@@ -193,7 +193,7 @@ class SpotController extends MController
         if (!$spot) $this->getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REGISTERED;
-        $spot->lang = $this->getLang();
+        $spot->lang = Lang::getCurrentLang();
         $spot->user_id = Yii::app()->user->id;
 
         if (isset($data['name'])) $spot->name = $data['name'];

@@ -84,8 +84,7 @@ class UserController extends MController
         if (!Yii::app()->user->id)
             $this->setAccess();
 
-        if (isset($synch) and $synch == 'true' and !empty($discodes)) 
-        {
+        if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
                 'discodes'=> $discodes,
                 'key' => $key = Yii::app()->request->getQuery('key'),
@@ -106,11 +105,9 @@ class UserController extends MController
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
             $host = '';
-            if (!empty($data['returnHost']))
-            {
+            if (!empty($data['returnHost'])) {
                 $this->redirect($data['returnHost'] . '/mobile' . '/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'), true, 302);
-            }
-            else
+            } else
                 $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
         }
     }

@@ -16,20 +16,18 @@ class ServiceController extends MController
             unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
         }
     }
-    
-    //Логин и регистрация через соц сети
+
     public function actionSocial()
     {
         $serviceName = Yii::app()->request->getQuery('service');
         $returnTo = Yii::app()->request->getQuery('return_to');
         $redirect = '/';
-        
-        if(!empty($returnTo))
-        {
+
+        if(!empty($returnTo)) {
             $returnTo = urldecode($returnTo);
             $redirect = $returnTo;
         }
-        
+
         if (!isset($serviceName))
             $this->redirect($redirect);
 
@@ -44,15 +42,14 @@ class ServiceController extends MController
         if (!$result['user'])
             $this->redirect('/service/socialReg');
 
-        $this->autoLogin($result['user']);
+        User::autoLogin($result['user']);
         User::clearCacheSocInfo();
         if(!empty($returnTo))
             $this->redirect($returnTo);
         else
             $this->redirect('/spot/list');
     }
-    
-    //Авторизация
+
     public function actionLogin()
     {
         $data = $this->validateRequest();
@@ -69,21 +66,12 @@ class ServiceController extends MController
         if (!$form->validate())
             $this->getJsonAndExit($answer);
 
-        $this->autoLogin($form);
+        User::autoLogin($form);
         $answer['error'] = "no";
 
         echo json_encode($answer);
     }
-    
-    //Автологин
-    public function autoLogin($user)
-    {
-        $identity = new SUserIdentity($user->email, $user->password);
-        $identity->authenticate();
-        $this->lastVisit();
-        return Yii::app()->user->login($identity);
-    }
-    
+
     //логин в соцсети
     public function actionSocLogin()
     {
@@ -98,8 +86,7 @@ class ServiceController extends MController
         if (!Yii::app()->user->id)
             $this->setAccess();
 
-        if (isset($synch) and $synch == 'true' and !empty($discodes)) 
-        {
+        if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
                 'discodes'=> $discodes,
                 'key' => $key = Yii::app()->request->getQuery('key'),
@@ -119,7 +106,7 @@ class ServiceController extends MController
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
             $host = '';
-            
+
             $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
         }
     }

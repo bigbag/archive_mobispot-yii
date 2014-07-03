@@ -26,7 +26,7 @@ class SpotController extends MController
         if (Yii::app()->request->getQuery('url', 0)) {
             //шаблон отображения контента спота
             $this->layout = '//layouts/mobile';
-            
+
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
 
@@ -189,7 +189,7 @@ class SpotController extends MController
             $this->render('/spot/login');
         }
     }
-    
+
     public function actionList()
     {
         if (Yii::app()->user->isGuest)
@@ -205,31 +205,31 @@ class SpotController extends MController
             'spots' => $spots,
         ));
     }
-    
+
     public function actionView()
     {
         if (Yii::app()->user->isGuest)
             $this->setAccess();
-    
+
         $url = Yii::app()->request->getQuery('url', 0);
         $key = Yii::app()->request->getQuery('key', 0);
         if (!$url)
             $this->setNotFound();
-            
+
         $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
-        
+
         if (!$spot)
             $this->setNotFound();
-            
+
         $curent_views = $this->getCurentViews('spot');
-        
+
         $this->render('/spot/personal', array(
             'spot' => $spot,
             'curent_views' => $curent_views,
             'to_key' => $key,
         ));
     }
-    
+
     public function actionSpotContent()
     {
         $answer = array(
@@ -270,7 +270,7 @@ class SpotController extends MController
 
         echo json_encode($answer);
     }
-    
+
     public function actionSocNetContent()
     {
         $answer = array('error' => 'yes');
@@ -461,7 +461,7 @@ class SpotController extends MController
         */
         return $curent_views;
     }
-    
+
     // Добавление блока в спот
     public function actionSpotAddContent()
     {
@@ -503,12 +503,12 @@ class SpotController extends MController
     public function actionBindByPanel()
     {
         $target = '/spot/list';
-        
+
         $data = $this->validateRequest();
-        
+
         if (!empty($data['spot']) and !empty($data['spot']['content']))
             $data['link'] = $data['spot']['content'];
-        
+
         $answer = array (
             'error' => 'yes',
             'content' => '',
@@ -534,14 +534,12 @@ class SpotController extends MController
         $socInfo = new SocInfo;
         $socNet = $socInfo->getNetByName($answer['socnet']);
 
-        if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link'])) 
-        {
+        if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link'])) {
             $answer['profileHint'] = $socNet['profileHint'];
             $this->getJsonAndExit($answer);
         }
 
-        if (!empty($data['link'])) 
-        {
+        if (!empty($data['link'])) {
             $socNet = $socInfo->getNetByLink($data['link']);
             $needSave = $socInfo->contentNeedSave($data['link']);
         } else
@@ -638,15 +636,14 @@ class SpotController extends MController
         if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
             $answer['loggedIn'] = true;
 
-        if ($answer['loggedIn']) 
-        {
+        if ($answer['loggedIn']) {
             //привязка через плашку
             $answer['newField'] = true;
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
 
             if (!$spot)
                 $this->getJsonOrRedirect($answer, $target);
-                
+
             $target = '/spot/view/' . $spot->url;
 
             $socNet = $socInfo->getNetByName($answer['socnet']);
@@ -719,10 +716,10 @@ class SpotController extends MController
                 }
             }
         }
-        
+
         $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
     }
-    
+
     // Удаление блока из спота
     public function actionSpotRemoveContent()
     {
@@ -771,16 +768,16 @@ class SpotController extends MController
 
         echo json_encode($answer);
     }
-    
+
     public function actionAddSpot()
     {
         if (Yii::app()->user->isGuest)
             $this->setAccess();
-    
+
         $this->render('/spot/add_spot', array(
         ));
     }
- 
+
     // Сохранение содержимого блока
     public function actionSpotSaveContent()
     {
@@ -815,5 +812,5 @@ class SpotController extends MController
         }
 
         echo json_encode($answer);
-    } 
+    }
 }

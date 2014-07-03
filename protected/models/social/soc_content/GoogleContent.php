@@ -3,7 +3,7 @@
 class GoogleContent extends SocContentBase
 {
     const TOKEN_URL = 'https://accounts.google.com/o/oauth2/token';
-    
+
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = self::parseUsername($link);
@@ -215,37 +215,36 @@ class GoogleContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function refreshToken($token)
     {
         $answer = false;
-        
+
         if (empty($token->refresh_token) or (time() + 60 < $token->token_expires))
             return false;
-        
-        $options = array('data' => 
-            'client_id=' 
+
+        $options = array('data' =>
+            'client_id='
             . Yii::app()->eauth->services['google_oauth']['client_id']
-            . '&client_secret=' 
+            . '&client_secret='
             . Yii::app()->eauth->services['google_oauth']['client_secret']
-            . '&refresh_token=' 
+            . '&refresh_token='
             . $token->refresh_token
             .'&grant_type=refresh_token'
         );
-    
+
         $newToken = self::makeRequest(self::TOKEN_URL, $options, true);
-        
-        if (!empty($newToken['access_token']) and !empty($newToken['expires_in']))
-        {
+
+        if (!empty($newToken['access_token']) and !empty($newToken['expires_in'])) {
             $token->user_token = $newToken['access_token'];
             $token->token_expires = time() + $newToken['expires_in'] - 60;
             $token->save();
             $answer = true;
         }
-        
+
         return $answer;
     }
-    
+
     public static function checkSharing($loyalty)
     {
         $answer = false;
@@ -265,7 +264,7 @@ class GoogleContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function checkInCircle($link)
     {
         $answer = false;
@@ -277,10 +276,10 @@ class GoogleContent extends SocContentBase
 
         if (!$socToken)
             return false;
-     
+
         return $answer;
     }
-    
+
     public static function checkPlusOne($link)
     {
         $answer = false;
@@ -292,7 +291,7 @@ class GoogleContent extends SocContentBase
 
         if (!$socToken)
             return false;
-     
+
         return $answer;
     }
 }
