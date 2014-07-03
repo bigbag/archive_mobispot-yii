@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobispot').controller('UserCtrl',
-  function($scope, $http) {
+  function($scope, $http, contentService) {
 
   $scope.user = {};
   $scope.error = {};
@@ -32,4 +32,31 @@ angular.module('mobispot').controller('UserCtrl',
   $scope.$watch('user.password + user.email', function() {
     $scope.error.email = false;
   });
+  
+  // Регистрация
+  $scope.activation = function(user, valid){
+
+    if (!valid) return false;
+    if (user.terms === 0) return false;
+
+    $http.post('/service/registration', user).success(function(data) {
+
+      if (data.error == 'no'){
+        $scope.user.email = '';
+        $scope.user.password = '';
+        $scope.user.activ_code = '';
+        $scope.user.terms = 0;
+        $scope.result.message = data.content;
+        contentService.viewModal('message');
+      }
+      else if (data.error == 'email') {
+        $scope.error.email = true;
+        $scope.error.content = data.content;
+      }
+      else if (data.error == 'code'){
+        $scope.error.code = true;
+        $scope.error.content = data.content;
+      }
+    }).error(function(error){alert(error)});
+  };
 });
