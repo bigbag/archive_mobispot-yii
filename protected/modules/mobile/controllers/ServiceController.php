@@ -52,19 +52,19 @@ class ServiceController extends MController
 
     public function actionLogin()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $form = new LoginForm;
         $form->attributes = $data;
         if (!$form->validate())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         User::autoLogin($form);
         $answer['error'] = "no";
@@ -82,9 +82,9 @@ class ServiceController extends MController
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
-            $this->setNotFound();
+            MHttp::setNotFound();
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
@@ -96,7 +96,7 @@ class ServiceController extends MController
         }
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->setAccess();
+        if (!$atributes) MHttp::setAccess();
 
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);

@@ -28,19 +28,19 @@ class ServiceController extends MController
 
     public function actionLogin()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $form = new LoginForm;
         $form->attributes = $data;
         if (!$form->validate())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         User::autoLogin($form);
         $answer['error'] = "no";
@@ -65,14 +65,14 @@ class ServiceController extends MController
     //Регистрация
     public function actionRegistration()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => "yes",
             "content" => Yii::t('user', "You've made a mistake in spot activation code.")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $model = new RegistrationForm;
         $model->attributes = $data;
@@ -87,12 +87,12 @@ class ServiceController extends MController
             } else
                 $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
 
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $model->password = Yii::app()->hasher->hashPassword($model->password);
         if (!$model->save())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $socInfo = User::getCacheSocInfo();
         $socInfo['user_id'] = $model->id;
@@ -168,10 +168,10 @@ class ServiceController extends MController
             'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['email']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $form = new RecoveryForm;
         $form->email = $data['email'];
@@ -196,22 +196,22 @@ class ServiceController extends MController
             'error' => "yes",
             "content" => Yii::t('user', "Error")
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         $email = Yii::app()->request->getParam('email');
         $activkey = Yii::app()->request->getParam('activkey');
         if (!$email or !$activkey)
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         if (!isset($data['password']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $user = User::model()->findByAttributes(array(
             'email' => $email,
             'activkey' => $activkey
         ));
         if (!$user)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $user->password = Yii::app()->hasher->hashPassword($data['password']);
         $user->activkey = sha1(microtime() . $data['password']);
@@ -341,11 +341,11 @@ class ServiceController extends MController
     //Отсылка вопроса
     public function actionSendQuestion()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array('error' => "yes", "content" => "");
 
         if (!isset($data['email']) or !isset($data['name']) or !isset($data['question'])) {
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $recipients = array('ilya.radaev@gmail.com', 'alex.kulagin@mobispot.com', 'volgin@mobispot.com');
@@ -359,7 +359,7 @@ class ServiceController extends MController
 
     public function actionBuyDemoKit()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'content' => '',
@@ -368,7 +368,7 @@ class ServiceController extends MController
 
         /*
         if (empty($data['products']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         */
         $config = DemoKitOrder::getConfig();
         $order = DemoKitOrder::fromArray($data);
@@ -379,7 +379,7 @@ class ServiceController extends MController
             foreach ($errors as $field=>$error)
                 foreach ($error as $message)
                     $answer['message'] .= $message . ' ';
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $payment = DemoKitOrder::getPayment($order->payment);
@@ -388,7 +388,7 @@ class ServiceController extends MController
         //письмо покупателю
         $mailOrder = $order->makeMailOrder();
         if (!MMail::demokit_order($mailOrder['email'], $mailOrder, Lang::getCurrentLang()))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
             $answer['content'] = $this->renderPartial('//store/_ym_form',

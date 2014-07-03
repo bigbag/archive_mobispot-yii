@@ -15,7 +15,8 @@ class SpotController extends MController
         if (Yii::app()->request->getQuery('url')) {
             $url = Yii::app()->request->getQuery('url');
             $redirect_url = substr(Yii::app()->request->getBaseUrl(true), 7);
-            $this->redirect('http://m.'.$redirect_url.'/' . $url);
+            echo 'http://m.'.$redirect_url.'/' . $url ;
+            #$this->redirect('http://m.'.$redirect_url.'/' . $url);
         }
     }
 
@@ -32,7 +33,7 @@ class SpotController extends MController
         $file = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 
         if (!$file or !$discodes)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $fileType = strtolower(substr(strrchr($file, '.'), 1));
         $file = md5(time() . $discodes) . '_' . $file;
@@ -41,7 +42,7 @@ class SpotController extends MController
         $file_name = $patch . $file;
 
         if (!file_put_contents($file_name, file_get_contents('php://input'))) {
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $images = $this->getImageType();
@@ -56,7 +57,7 @@ class SpotController extends MController
 
         $spot = Spot::getSpot(array('discodes_id' => $discodes));
         if (!$spot)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
@@ -110,7 +111,7 @@ class SpotController extends MController
         if ($yandex_order) $this->redirect('/spot/list/');
 
         $user_id = Yii::app()->user->id;
-        if (!$user_id) $this->setAccess();
+        if (!$user_id) MHttp::setAccess();
 
         $user = User::model()->findByPk($user_id);
         if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
@@ -137,11 +138,11 @@ class SpotController extends MController
             'content' => ''
         );
 
-        $data = $this->validateRequest();
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        $data = MHttp::validateRequest();
+        if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk((int)$data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
@@ -180,9 +181,9 @@ class SpotController extends MController
             'content' => '',
             'discodes' => 0,
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
-        if (!isset($data['code'])) $this->getJsonAndExit($answer);
+        if (!isset($data['code'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByAttributes(
             array(
@@ -190,7 +191,7 @@ class SpotController extends MController
                 'status' => Spot::STATUS_ACTIVATED,
             )
         );
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REGISTERED;
         $spot->lang = Lang::getCurrentLang();
@@ -200,7 +201,7 @@ class SpotController extends MController
         $spot->type = Spot::TYPE_FULL;
 
         if (!$spot->save())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
@@ -228,12 +229,12 @@ class SpotController extends MController
     public function actionRemove()
     {
         $answer = array('error' => 'yes');
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spot->status = Spot::STATUS_REMOVED_USER;
         if ($spot->save()) $answer['error'] = "no";
@@ -245,12 +246,12 @@ class SpotController extends MController
     public function actionClean()
     {
         $answer = array('error' => 'yes');
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         $spotContent = SpotContent::initPersonal($spot, $spotContent);
@@ -266,12 +267,12 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
-        if (!isset($data['discodes'])) $this->getJsonAndExit($answer);
+        if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         if ($spot->status == Spot::STATUS_INVISIBLE)
             $spot->status = Spot::STATUS_REGISTERED;
@@ -292,17 +293,17 @@ class SpotController extends MController
             'error' => 'yes',
             'name' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['name']) or !isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
         if (!$spot)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot->name = CHtml::encode($data['name']);
-        if (!$spot->save(false)) $this->getJsonAndExit($answer);
+        if (!$spot->save(false)) MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
                 array('discodes_id' => $data['discodes'])
@@ -322,13 +323,13 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['pass']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk($data['discodes']);
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         if (empty($data['pass'])) $spot->pass = null;
         else $spot->pass = $data['pass'];
@@ -351,16 +352,16 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['keys']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
+        if (!$spotContent) MHttp::getJsonAndExit($answer);
 
         $content = $spotContent->content;
         $newkeys = array();
@@ -385,10 +386,10 @@ class SpotController extends MController
             'content' => '',
             'key' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['content']) or !isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         $spotContent = SpotContent::getSpotContent($spot);
@@ -418,13 +419,13 @@ class SpotController extends MController
     public function actionSpotAtributeSave()
     {
         $answer = array('error' => 'yes');
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (isset($data['discodes']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
@@ -448,16 +449,16 @@ class SpotController extends MController
             'content' => '',
             'netDown' => '',
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['key']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
+        if (!$spotContent) MHttp::getJsonAndExit($answer);
 
         $content = $spotContent->content;
         if ($content['keys'][$data['key']] == 'socnet')
@@ -496,16 +497,16 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => '',
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['key']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
-        if (!$spotContent) $this->getJsonAndExit($answer);
+        if (!$spotContent) MHttp::getJsonAndExit($answer);
 
         $content = $spotContent->content;
         $content['data'][$data['key']] = $data['content_new'];
@@ -532,10 +533,10 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (empty($data['discodes']) or Yii::app()->user->isGuest)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
@@ -550,7 +551,7 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/settings',
             array(
@@ -570,24 +571,24 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (empty($data['discodes']) or Yii::app()->user->isGuest)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
                 'discodes_id' => (int)$data['discodes'],
                 'user_id' => Yii::app()->user->id,
             )
         );
-        if (!$wallet) $this->getJsonAndExit($answer);
+        if (!$wallet) MHttp::getJsonAndExit($answer);
         $spot = Spot::model()->findByAttributes(
             array(
                 'discodes_id' => (int)$data['discodes'],
                 'user_id' => Yii::app()->user->id,
             )
         );
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $history = Report::model()->findAllByAttributes(
             array(
@@ -599,7 +600,7 @@ class SpotController extends MController
                 'limit' => Report::MAX_RECORD)
         );
 
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartial('//spot/wallet',
             array(
@@ -616,7 +617,7 @@ class SpotController extends MController
     // Выводим список привязанных карт
     public function actionListCard()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'cards' => array(),
@@ -624,7 +625,7 @@ class SpotController extends MController
             'linking_card' => 0,
         );
 
-        if (!isset($data['id'])) $this->getJsonAndExit($answer);
+        if (!isset($data['id'])) MHttp::getJsonAndExit($answer);
 
         $cards = PaymentCard::model()->findAllByAttributes(
             array(
@@ -656,13 +657,13 @@ class SpotController extends MController
     // Блокировка кошелька
     public function actionBlockedWallet()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'status' => '',
         );
 
-        if (!isset($data['id'])) $this->getJsonAndExit($answer);
+        if (!isset($data['id'])) MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array(
@@ -671,7 +672,7 @@ class SpotController extends MController
             )
         );
 
-        if (!$wallet) $this->getJsonAndExit($answer);
+        if (!$wallet) MHttp::getJsonAndExit($answer);
 
         if ($wallet->status == PaymentWallet::STATUS_ACTIVE)
             $wallet->status = PaymentWallet::STATUS_BANNED;
@@ -688,7 +689,7 @@ class SpotController extends MController
     public function getLinkingParams($discodes_id)
     {
         $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/' . $discodes_id;
-        return CJSON::decode($this->setCurlRequest($url), true);
+        return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
     // Страница с пользовательским соглашение для привязки карты
@@ -697,7 +698,7 @@ class SpotController extends MController
         $this->layout = '//layouts/singl';
 
         $discodes_id = Yii::app()->request->getParam('id', false);
-        if (!$discodes_id or !Yii::app()->user->id) $this->setNotFound();
+        if (!$discodes_id or !Yii::app()->user->id) MHttp::setNotFound();
 
         $discodes_id = (int)$discodes_id;
         $wallet = PaymentWallet::model()->findByAttributes(
@@ -706,7 +707,7 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
-        if (!$wallet) $this->setNotFound();
+        if (!$wallet) MHttp::setNotFound();
 
         $linking = $this->getLinkingParams($discodes_id);
         $this->render('card_ofert', array('linking'=>$linking));
@@ -715,11 +716,11 @@ class SpotController extends MController
     // Смена статуса карты на платежный
     public function actionSetPaymentCard()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array('error' => 'yes',);
 
         $card = PaymentCard::model()->findByPk((int)$data['card_id']);
-        if (!$card) $this->getJsonAndExit($answer);
+        if (!$card) MHttp::getJsonAndExit($answer);
 
         $old_payment_card = PaymentCard::model()->findByAttributes(
             array(
@@ -743,11 +744,11 @@ class SpotController extends MController
     // Смена статуса карты на платежный
     public function actionRemoveCard()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array('error' => 'yes',);
 
         $card = PaymentCard::model()->findByPk((int)$data['card_id']);
-        if (!$card) $this->getJsonAndExit($answer);
+        if (!$card) MHttp::getJsonAndExit($answer);
 
         if ($card->delete()){
             $answer['error'] = 'no';
@@ -762,10 +763,10 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (empty($data['discodes']) or Yii::app()->user->isGuest)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByAttributes(
             array(
@@ -773,7 +774,7 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
         array(
@@ -800,7 +801,7 @@ class SpotController extends MController
     //Привязка соцсетей через кнопку
     public function actionBindSocial()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'content' => '',
@@ -811,10 +812,10 @@ class SpotController extends MController
         $needSave = false;
 
         if (!isset($data['discodes']) or !isset($data['key']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-        if (!$spot) $this->getJsonAndExit($answer);
+        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
@@ -824,7 +825,7 @@ class SpotController extends MController
         $socNet = $socInfo->getNetByLink($spotContent->content['data'][$data['key']]);
 
         if (empty($socNet['name']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $answer['socnet'] = $socNet['name'];
         $content = $spotContent->content;
@@ -832,7 +833,7 @@ class SpotController extends MController
         $answer['loggedIn'] = $socInfo->isLoggegOn($answer['socnet']);
         if (!$answer['loggedIn']) {
             $answer['error'] = "no";
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
         $needSave = $socInfo->contentNeedSave($spotContent->content['data'][$data['key']]);
 
@@ -884,7 +885,7 @@ class SpotController extends MController
     // //Привязка через плашку
     public function actionBindByPanel()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array (
             'error' => 'yes',
             'content' => '',
@@ -897,14 +898,14 @@ class SpotController extends MController
         $needSave = false;
 
         if (!isset($data['spot']) or empty($data['spot']['discodes']) or !isset($data['netName']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $discodes_id = $data['spot']['discodes'];
         $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
         $answer['socnet'] = $data['netName'];
 
         if (!$spot)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $answer['error'] = 'no';
         $socInfo = new SocInfo;
@@ -912,7 +913,7 @@ class SpotController extends MController
 
         if (isset($socNet['needAuth']) and !$socNet['needAuth'] and !empty($socNet['profileHint']) and empty($data['link'])) {
             $answer['profileHint'] = $socNet['profileHint'];
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         if (!empty($data['link'])) {
@@ -1002,7 +1003,7 @@ class SpotController extends MController
         $target = '/spot/list';
 
         if (Yii::app()->request->isPostRequest)
-            $data = $this->validateRequest();
+            $data = MHttp::validateRequest();
         else {
             $data = array('bindNet' => array(
                         'name'=>Yii::app()->request->getQuery('service'),
@@ -1093,7 +1094,7 @@ class SpotController extends MController
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
 
             if (!$spot)
-                $this->getJsonOrRedirect($answer, $target);
+                MHttp::getJsonOrRedirect($answer, $target);
 
             $socInfo = new SocInfo;
             $socNet = $socInfo->getNetByName($answer['socnet']);
@@ -1104,7 +1105,7 @@ class SpotController extends MController
                 $socNet = $socInfo->getNetByName($answer['socnet']);
 
             if (empty($socNet['name']) or empty(Yii::app()->session[$answer['socnet'] . '_profile_url']))
-                $this->getJsonOrRedirect($answer, $target);
+                MHttp::getJsonOrRedirect($answer, $target);
 
             $answer['socnet'] = $socNet['name'];
             $spotContent = SpotContent::getSpotContent($spot);
@@ -1117,7 +1118,7 @@ class SpotController extends MController
                 $userDetail = $socInfo->getSocInfo($answer['socnet'], $data['bindNet']['link'], $discodes_id, null);
                 if (!empty($userDetail['error'])) {
                     $answer['linkCorrect'] = $userDetail['error'];
-                    $this->getJsonOrRedirect($answer, $target);
+                    MHttp::getJsonOrRedirect($answer, $target);
                 }
 
                 $userDetail['binded_link'] = $data['bindNet']['link'];
@@ -1175,23 +1176,23 @@ class SpotController extends MController
     public function actionSocNetContent()
     {
         $answer = array('error' => 'yes');
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['discodes']) or !isset($data['key']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         if (!$spot)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
             $spotContent = SpotContent::initPersonal($spot);
 
         if (!isset($spotContent->content['keys'][$data['key']]))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         if ($spotContent->content['keys'][$data['key']] != 'socnet')
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $socInfo = new SocInfo;
         $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
@@ -1217,7 +1218,7 @@ class SpotController extends MController
     //Отвязка соцсети
     public function actionUnBindSocial()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'content' => '',
@@ -1225,11 +1226,11 @@ class SpotController extends MController
         );
 
         if (!isset($data['discodes']) or !isset($data['key']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
         if (!$spot)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent)
@@ -1242,7 +1243,7 @@ class SpotController extends MController
             $spotContent->content = $content;
 
             if (!$spotContent->save())
-                $this->getJsonAndExit($answer);
+                MHttp::getJsonAndExit($answer);
 
             $answer['content'] = $this->renderPartial('//spot/personal/new_text',
                 array(
@@ -1267,7 +1268,7 @@ class SpotController extends MController
             $spotContent->content = $content;
 
             if (!$spotContent->save())
-                $this->getJsonAndExit($answer);
+                MHttp::getJsonAndExit($answer);
 
             foreach ($toDelete as $path) {
                 $path = substr($path, (strpos($path, '/uploads/spot/') + 14));
@@ -1305,10 +1306,10 @@ class SpotController extends MController
             'netName' => '',
             'iteration' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['link']) or !isset($data['iteration']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $net = SocInfo::getNetByLink($data['link']);
         if (!empty($net['name']))
