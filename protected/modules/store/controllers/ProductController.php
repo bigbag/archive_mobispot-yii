@@ -28,7 +28,7 @@ class ProductController extends MController
 
     public function actionGetPriceList()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
 
         $cart = new StoreCart;
@@ -56,7 +56,7 @@ class ProductController extends MController
 
     public function actionGetCart()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
 
         $cart = new StoreCart;
@@ -69,7 +69,7 @@ class ProductController extends MController
 
     public function actionGetCustomer()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         $cart = new StoreCart;
         $data['customer'] = $cart->getCustomer();
@@ -81,7 +81,7 @@ class ProductController extends MController
 
     public function actionAddToCart()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
 
         $cart = new StoreCart;
@@ -94,7 +94,7 @@ class ProductController extends MController
 
     public function actionDeleteFromCart()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
         $answer['error'] = '-1';
 
@@ -108,7 +108,7 @@ class ProductController extends MController
 
     public function actionSaveProduct()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
         $answer['error'] = 'error in /store/product/SaveProduct';
 
@@ -124,7 +124,7 @@ class ProductController extends MController
 
     public function actionConfirmPromo()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
         $answer['error'] = Yii::t('store', 'Please enter the code!');
 
@@ -140,7 +140,7 @@ class ProductController extends MController
 
     public function actionSaveCustomer()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
         $answer['error'] = Yii::t('store', 'Please complete all required fields!');
 
@@ -154,7 +154,7 @@ class ProductController extends MController
 
     public function actionBuy()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array();
 
         $cart = new StoreCart;
@@ -287,9 +287,9 @@ class ProductController extends MController
             if ($mailOrder !== false)
                 $this->render('order', array('order' => $mailOrder));
             else
-                $this->setNotFound();
+                MHttp::setNotFound();
         } else
-            $this->setNotFound();
+            MHttp::setNotFound();
     }
 
 }

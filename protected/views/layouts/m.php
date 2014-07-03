@@ -44,6 +44,7 @@
             <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/angular/app/app.js'); ?>
             <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/angular/app/controllers/user.js'); ?>
             <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/angular/app/controllers/spot.js'); ?>
+            <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/angular/app/service.js'); ?>
     </head>
     <body>
 
@@ -52,6 +53,9 @@
         <footer id="footer">
             <a href="http://mobispot.com/readers">Device compatibility</a> <a href="http://mobispot.com/help">Get Help</a> <a href="#">Email us</a>
         </footer>
+        <div class="m-result">
+            <p></p>
+        </div>
     </body>
 </html>
 >>>>>>> 8b10548caa50f2c0440468b81b323652e2cb5569

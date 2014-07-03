@@ -8,7 +8,7 @@ class UserController extends MController
     public function actionProfile()
     {
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         $user = User::model()->findByPk(Yii::app()->user->id);
         $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
@@ -55,10 +55,10 @@ class UserController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['id']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $profile = UserProfile::model()->findByPk((int) $data['id']);
         $profile->attributes = $data;
@@ -80,9 +80,9 @@ class UserController extends MController
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
-            $this->setNotFound();
+            MHttp::setNotFound();
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
@@ -95,7 +95,7 @@ class UserController extends MController
         }
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->setAccess();
+        if (!$atributes) MHttp::setAccess();
 
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
@@ -115,7 +115,7 @@ class UserController extends MController
     //подключение акции, требующей жетона соцсети
     public function actionCheckLike()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => 'yes',
             'message_error' => 'yes',
@@ -126,10 +126,10 @@ class UserController extends MController
         $link = '';
 
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (empty($data['id']) or empty($data['discodes']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $action = Loyalty::model()->findByPk($data['id']);
         $link = $action->getLink();
@@ -144,7 +144,7 @@ class UserController extends MController
         $answer['error'] = "no";
         $socInfo = new SocInfo;
         if (!$socInfo->isLoggegOn($service, false)){
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $answer['isSocLogged'] = true;
@@ -155,12 +155,12 @@ class UserController extends MController
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
         if (!$socToken or !$link or !$wallet)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $answer['checked'] = $socInfo->checkSharing($action);
         if (!$answer['checked']) {
             $answer['message'] = $action->getPromoMessage();
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $wl = WalletLoyalty::model()->findByAttributes(array(
@@ -198,20 +198,20 @@ class UserController extends MController
 
     public function actionDisableLoyalty()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array('error' => "yes");
 
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (empty($data['id']) or empty($data['discodes']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $action = Loyalty::model()->findByPk($data['id']);
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
         if (!$action or !$wallet)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $wl = WalletLoyalty::model()->findByAttributes(array(
             'wallet_id' => $wallet->id,
@@ -219,7 +219,7 @@ class UserController extends MController
         ));
 
         if (!$wl)
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $wl->checked = false;
         $wl->save();

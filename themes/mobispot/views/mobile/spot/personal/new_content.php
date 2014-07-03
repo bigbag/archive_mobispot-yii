@@ -1,5 +1,8 @@
 <?php $dataKey = $key; ?>
 <?php $socInfo = new SocInfo;?>
+<?php if (empty($socContent) and !empty($content)):?>
+<?php $socContent = $content;?>
+<?php endif ?>
 <?php if (isset($socContent) and !empty($socContent['block_type']) and !empty($socContent['soc_url'])
 and ($socContent['block_type'] == SocContentBase::YOUTUBE_VIDEO
     or

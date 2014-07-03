@@ -180,19 +180,19 @@ class ServiceController extends MController
 
     public function actionLogin()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array(
             'error' => "yes",
             "content" => Yii::t('user', "Check your email and password")
         );
 
         if (!isset($data['email']) or !isset($data['password']))
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $form = new LoginForm;
         $form->attributes = $data;
         if (!$form->validate())
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         User::autoLogin($form);
         $answer['error'] = "no";
@@ -210,9 +210,9 @@ class ServiceController extends MController
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
-            $this->setNotFound();
+            MHttp::setNotFound();
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (isset($synch) and $synch == 'true' and !empty($discodes)) {
             Yii::app()->session[$serviceName . '_synch_data'] = array(
@@ -224,7 +224,7 @@ class ServiceController extends MController
         }
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->setAccess();
+        if (!$atributes) MHttp::setAccess();
 
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
@@ -237,6 +237,68 @@ class ServiceController extends MController
 
             $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
         }
+    }
+
+    //Регистрация
+    public function actionRegistration()
+    {
+        $data = MHttp::validateRequest();
+        $answer = array(
+            'error' => "yes",
+            "content" => Yii::t('user', "You've made a mistake in spot activation code.")
+        );
+
+        if (!isset($data['email']) or !isset($data['password']))
+            MHttp::setBadRequest();
+
+        $model = new RegistrationForm;
+        $model->attributes = $data;
+        if (!$model->validate()) {
+            $validate_errors = $model->getErrors();
+            if (isset($validate_errors['activ_code'])) {
+                $answer['content'] = Yii::t('user', "Wrong activation code");
+                $answer['error'] = 'code';
+            } elseif (isset($validate_errors['email'])) {
+                $answer['content'] = Yii::t('user', "This email has been already used");
+                $answer['error'] = 'email';
+            } else
+                $answer['content'] = Yii::t('user', "Password is too short (minimum is 5 characters).");
+
+            MHttp::getJsonAndExit($answer);
+        }
+
+        $model->password = Yii::app()->hasher->hashPassword($model->password);
+        if (!$model->save())
+            MHttp::getJsonAndExit($answer);
+
+        $socInfo = User::getCacheSocInfo();
+        $socInfo['user_id'] = $model->id;
+
+        if ($socInfo)
+            SocToken::setToken($socInfo);
+
+        $spot = Spot::getActivatedSpot($data['activ_code']);
+        $spot->user_id = $model->id;
+        $spot->lang = $this->getLang();
+        $spot->status = Spot::STATUS_REGISTERED;
+        $spot->save();
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+                array(
+                    'discodes_id' => $spot->discodes_id,
+                    'user_id' => 0,
+                )
+        );
+        if ($wallet) {
+            $wallet->status = PaymentWallet::STATUS_ACTIVE;
+            $wallet->user_id = $spot->user_id;
+            $wallet->save();
+        }
+
+        MMail::activation($model->email, $model->activkey, $this->getLang());
+        $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
+        $answer['error'] = "no";
+        echo json_encode($answer);
     }
 }
 >>>>>>> 8b10548caa50f2c0440468b81b323652e2cb5569

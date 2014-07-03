@@ -15,7 +15,7 @@ class SiteController extends MController
     {
         $this->layout = '//layouts/singl';
         if (!Yii::app()->errorHandler->error)
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $error = Yii::app()->errorHandler->error;
 
@@ -32,7 +32,7 @@ class SiteController extends MController
         );
 
         if (empty($_FILES))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $maxSize = Yii::app()->params['imageSize'];
         $action = Yii::app()->request->getParam('action');
@@ -46,7 +46,7 @@ class SiteController extends MController
 
         if (filesize($tempFile) > $maxSize * 1024) {
             $answer['error'] = Yii::t('general', 'Maximum file size ') . ($maxSize * 1024) . ' byte.';
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $targetPath = Yii::getPathOfAlias('webroot.uploads.images.') . '/';
@@ -56,7 +56,7 @@ class SiteController extends MController
 
         if (!$image->thumb(50, 50, true)) {
             $answer['error'] = Yii::t('general', 'The uploaded file is not an image');
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
         }
 
         $image->save($targetPath . 'tmb_' . $fileName . '.jpg');

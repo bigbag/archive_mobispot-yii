@@ -264,7 +264,7 @@ class Uniteller extends CApplicationComponent
       'Format'=>'4',
     );
 
-    $xml=$this->setCurlRequest($this->getResultUrl(), $data);
+    $xml=MHttp::setCurlRequest($this->getResultUrl(), $data);
 
     $array_xml = (array)$xml;
     if ($xml===false) {
@@ -328,7 +328,7 @@ class Uniteller extends CApplicationComponent
       'Parent_Order_IDP'=>$order['parentOrderId'],
       'Signature'=>$this->getAutoPaySign($order),
       );
-    $result=$this->setCurlRequest($this->getAutoPayUrl(), $data);
+    $result=MHttp::setCurlRequest($this->getAutoPayUrl(), $data);
     $result=explode(';',$result);
 
     if (isset($result[28]) and $result[28]==self::CODE_SUCCES)  {

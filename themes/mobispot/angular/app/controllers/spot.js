@@ -161,9 +161,8 @@ angular.module('mobispot').controller('SpotController',
 
   // Редактирование текстового блока в споте
   $scope.editContent = function(spot, key, e) {
-    spot.key = key;
     if (!spot.content_new){
-
+      spot.key = key;
       var spotItem = angular.element(e.currentTarget).parents('.spot-item');
       var spotEdit = angular.element('#spot-edit').clone();
 
