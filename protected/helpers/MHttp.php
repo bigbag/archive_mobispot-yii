@@ -88,6 +88,11 @@ class MHttp
 
     public function desktopHost($protocol = 'http')
     {
-        return $protocol . '://' . str_replace("m.", '', $_SERVER['SERVER_NAME']);
+        $host = $_SERVER['HTTP_HOST'];
+        if (!empty(Yii::app()->params['desctop_host']))
+            $host = $protocol . '://' . Yii::app()->params['desctop_host'];
+        else
+            $host = $protocol . '://' . str_replace("m.", '', $host);
+        return $host;
     }
 }
