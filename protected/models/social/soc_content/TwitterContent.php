@@ -163,6 +163,9 @@ class TwitterContent extends SocContentBase
                     $userDetail['photo'] = $userFeed[0]['user']['profile_image_url'];
                 if (isset($userFeed[0]['created_at']))
                     $userDetail['tweet_datetime'] = date('g:i A - j M y', strtotime($userFeed[0]['created_at']));
+                    
+                if (isset($userFeed[0]['user']) and !empty($userFeed[0]['user']['screen_name']))
+                    $userDetail['soc_url'] = 'https://twitter.com/' . $userFeed[0]['user']['screen_name'];
             }
         }
 
