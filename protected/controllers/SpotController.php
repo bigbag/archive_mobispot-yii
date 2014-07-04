@@ -1034,7 +1034,8 @@ class SpotController extends MController
         if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
             $this->setBadReques();
 
-        $answer['socnet'] = $data['bindNet']['name'];
+        $socInfo = new SocInfo;
+        $answer['socnet'] = $socInfo->mergeMobile($data['bindNet']['name']);
         $discodes_id = $data['bindNet']['discodes'];
 
         if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
@@ -1057,7 +1058,6 @@ class SpotController extends MController
                     $spotContent = SpotContent::initPersonal($spot);
 
                 if ($spotContent) {
-                    $socInfo = new SocInfo;
                     $socNet = $socInfo->getNetByName($answer['socnet']);
 
                     if (!empty($socNet['name'])) {
@@ -1116,7 +1116,7 @@ class SpotController extends MController
 
             if (!$spot)
                 MHttp::getJsonOrRedirect($answer, $target);
-            $socInfo = new SocInfo;
+
             $socNet = $socInfo->getNetByName($answer['socnet']);
             if (!empty($data['bindNet']['link'])) {
                 $socNet = $socInfo->getNetByLink($data['bindNet']['link']);
