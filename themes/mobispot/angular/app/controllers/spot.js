@@ -18,6 +18,7 @@ angular.module('mobispot').controller('SpotController',
 
   $scope.general = {};
   $scope.general.views = false;
+  $scope.host_mobile = 0;
 
   $scope.wallet = {};
   $scope.wallet.cards = {};
@@ -494,6 +495,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.loadSocContent = function(key)
   {
     var data = {discodes:$scope.spot.discodes, key:key, token:$scope.user.token};
+
     $http.post('/spot/SocNetContent', data).success(function(data) {
       if(data.error == 'no'){
             var spotEdit = angular.element('#block-' + data.key);
@@ -590,10 +592,17 @@ angular.module('mobispot').controller('SpotController',
                     var centerWidth = (window.screen.width - options.popup.width) / 2,
                       centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                    popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
-
+                    if (!$scope.general.host_mobile) {
+                        popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+                    }
+                    
                     if (popup === null || typeof(popup)=='undefined') {
-                        window.location.href = url + '&discodes=' + $scope.spot.discodes + '&link=' + encodeURIComponent($scope.spot.content) + '&newField=1' + '&synch=true';
+                        var href = url + '&discodes=' + $scope.spot.discodes + '&newField=1' + '&synch=true';
+                
+                        if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
+                            href += '&link=' + encodeURIComponent($scope.spot.content);
+                        
+                        window.location.href = href;
                     }
                     else {
                         popup.focus();

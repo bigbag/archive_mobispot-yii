@@ -122,16 +122,23 @@ class SpotController extends MController
            $curent_discodes = $this->getCurentSpot($spots[0]->discodes_id);
             $curent_views = $this->getCurentViews($curent_views);
 
-        $this->render('//spot/body', array(
-            'spots' => $spots,
-            'curent_discodes' => $curent_discodes,
-            'curent_views' => $curent_views,
-        ));
+        $this->renderWithMobile(
+            '//spot/body',
+            array(
+                'spots' => $spots,
+                'curent_discodes' => $curent_discodes,
+                'curent_views' => $curent_views,
+            ),
+            '//mobile/spot/list'
+        );
     }
 
     // Просмотр содержимого спота
     public function actionView()
     {
+        if (!Yii::app()->request->isPostRequest)
+            $this->viewMobile();
+    
         $answer = array(
             'error' => 'yes',
             'content' => ''
@@ -152,7 +159,8 @@ class SpotController extends MController
         $content = $spotContent->content;
         $content_keys = $content['keys'];
 
-        $answer['content'] = $this->renderPartial('//spot/content',
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/content',
             array(
                 'spot' => $spot,
                 'wallet' => $wallet,
@@ -160,7 +168,8 @@ class SpotController extends MController
                 'content_keys' => $content_keys,
                 'spotNets' => $spot->getBindedNets(),
             ),
-            true
+            true,
+            '//mobile/spot/content'
         );
 
         $answer['pass'] = '';
@@ -945,10 +954,15 @@ class SpotController extends MController
                     $answer['linkCorrect'] = 'ok';
                     Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
 
-                    $answer['content'] = $this->renderPartial('//spot/personal/new_content', array(
-                        'content' => $content['data'][$answer['key']],
-                        'key' => $answer['key'],
-                            ), true);
+                    $answer['content'] = $this->renderPartialWithMobile(
+                        '//spot/personal/new_content', 
+                        array(
+                            'content' => $content['data'][$answer['key']],
+                            'key' => $answer['key'],
+                        ), 
+                        true,
+                        '//mobile/spot/personal/new_content'
+                        );
                 } else
                     $answer['linkCorrect'] = $userDetail['error'];
             } else {
@@ -972,13 +986,15 @@ class SpotController extends MController
                     Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
 
                     $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
-                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet',
+                    $answer['content'] = $this->renderPartialWithMobile(
+                        '//spot/personal/new_socnet',
                         array(
                             'content' => $content['data'][$answer['key']],
                             'key' => $answer['key'],
                             'socContent' => $socContent,
                         ),
-                        true
+                        true,
+                        '//mobile/spot/personal/new_content'
                     );
                 }
             }
@@ -1012,7 +1028,7 @@ class SpotController extends MController
                         'link'=>Yii::app()->request->getQuery('link'),
                     ));
         }
-
+        
         $needSave = false;
 
         if (!isset($data['bindNet']) or empty($data['bindNet']['name']) or empty($data['bindNet']['discodes']))
@@ -1023,11 +1039,18 @@ class SpotController extends MController
 
         if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
             $answer['loggedIn'] = true;
+            
+        $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+        if (!$spot)
+            MHttp::getJsonOrRedirect($answer, $target);
+            
+        if ($this->isHostMobile())
+            $target = '/spot/view/' . $spot->url;
 
         if (!empty($data['bindNet']['key']) && $answer['loggedIn']) {
             //привязка через кнопку
             $answer['key'] = $data['bindNet']['key'];
-            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+            
             if ($spot) {
                 $spotContent = SpotContent::getSpotContent($spot);
                 if (!$spotContent)
@@ -1090,11 +1113,9 @@ class SpotController extends MController
         } elseif (!empty($data['bindNet']['newField']) && $answer['loggedIn']) {
             //привязка через плашку
             $answer['newField'] = true;
-            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
 
             if (!$spot)
                 MHttp::getJsonOrRedirect($answer, $target);
-
             $socInfo = new SocInfo;
             $socNet = $socInfo->getNetByName($answer['socnet']);
             if (!empty($data['bindNet']['link'])) {
@@ -1130,12 +1151,14 @@ class SpotController extends MController
 
                 $answer['linkCorrect'] = 'ok';
                 Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
-                $answer['content'] = $this->renderPartial('//spot/personal/new_content',
+                $answer['content'] = $this->renderPartialWithMobile(
+                    '//spot/personal/new_content',
                     array(
                         'content' => $content['data'][$answer['key']],
                         'key' => $answer['key'],
                     ),
-                    true
+                    true,
+                    '//mobile/spot/personal/new_content'
                 );
 
             } else {
@@ -1158,16 +1181,23 @@ class SpotController extends MController
                     Yii::app()->session[$answer['socnet'] . '_BindByPaste'] = true;
 
                     $socContent = $socInfo->getNetData($content['data'][$answer['key']], $discodes_id, $answer['key'], true);
-                    $answer['content'] = $this->renderPartial('//spot/personal/new_socnet', array(
-                        'content' => $content['data'][$answer['key']],
-                        'key' => $answer['key'],
-                        'socContent' => $socContent,
-                            ), true);
+                    $answer['content'] = $this->renderPartialWithMobile(
+                        '//spot/personal/new_socnet', 
+                        array(
+                            'content' => $content['data'][$answer['key']],
+                            'key' => $answer['key'],
+                            'socContent' => $socContent,
+                            ), 
+                        true,
+                        '//mobile/spot/personal/new_content'
+                    );
                 }
             }
         }
         if(Yii::app()->request->isPostRequest)
             echo json_encode($answer);
+        elseif ($this->isHostMobile())
+            $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
         else
             $this->redirect('/spot/list?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
     }
@@ -1196,13 +1226,15 @@ class SpotController extends MController
         $socInfo = new SocInfo;
         $socContent = $socInfo->getNetData($spotContent->content['data'][$data['key']], $data['discodes'], $data['key'], true);
 
-        $answer['content'] = $this->renderPartial('//spot/personal/new_socnet',
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/personal/new_socnet',
             array(
                 'content' => $spotContent->content['data'][$data['key']],
                 'key' => $data['key'],
                 'socContent' => $socContent,
             ),
-            true
+            true,
+            '//mobile/spot/personal/new_content'
         );
 
         $answer['key'] = $data['key'];
@@ -1317,5 +1349,36 @@ class SpotController extends MController
         $answer['iteration'] = $data['iteration'];
 
         echo json_encode($answer);
+    }
+    
+    public function viewMobile()
+    {
+        if (Yii::app()->user->isGuest)
+            $this->setAccess();
+
+        $url = Yii::app()->request->getQuery('url', 0);
+        $key = Yii::app()->request->getQuery('key', 0);
+        if (!$url)
+            $this->setNotFound();
+            
+        $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
+
+        if (!$spot)
+            $this->setNotFound();
+
+        if (!$this->isHostMobile())
+            $this->redirect($this->desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
+            
+        //$curent_views = $this->getCurentViews('spot');
+        $curent_views = 'spot';
+
+        $this->layout = self::MOBILE_LAYOUT;
+        $this->render('/mobile/spot/personal', array(
+            'spot' => $spot,
+            'curent_views' => $curent_views,
+            'to_key' => $key,
+        ));
+        
+        Yii::app()->end();
     }
 }
