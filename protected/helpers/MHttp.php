@@ -88,6 +88,6 @@ class MHttp
 
     public function desktopHost($protocol = 'http')
     {
-        return $protocol . '://' . str_replace("m.", ' ', $_SERVER['SERVER_NAME']);
+        return $protocol . '://' . str_replace("m.", '', $_SERVER['SERVER_NAME']);
     }
 }

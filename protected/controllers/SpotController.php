@@ -1042,7 +1042,7 @@ class SpotController extends MController
             
         $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
         if (!$spot)
-            MHttp::getJsonOrRedirect(($answer, $target);
+            MHttp::getJsonOrRedirect($answer, $target);
             
         if ($this->isHostMobile())
             $target = '/spot/view/' . $spot->url;
