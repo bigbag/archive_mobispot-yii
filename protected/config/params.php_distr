@@ -19,4 +19,6 @@ return array(
     'ym_scid' => '',
     'ym_shop_id' => '',
     'internal_api' => ''
+    'desctop_host' => 'mobispot.co',
+    'mobile_host' => 'm.mobispot.co',
 );

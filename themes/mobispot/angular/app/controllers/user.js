@@ -110,9 +110,9 @@ angular.module('mobispot').controller('UserController',
 
   // Регистрация
   $scope.activation = function(user, valid){
-
     if (!valid) return false;
     if (user.terms === 0) return false;
+    
     $http.post('/service/registration', user).success(function(data) {
 
       if (data.error == 'no'){
@@ -126,10 +126,14 @@ angular.module('mobispot').controller('UserController',
       else if (data.error == 'email') {
         $scope.error.email = true;
         $scope.error.content = data.content;
+        $scope.result.message = data.content;
+        contentService.viewModal('message');
       }
       else if (data.error == 'code'){
         $scope.error.code = true;
         $scope.error.content = data.content;
+        $scope.result.message = data.content;
+        contentService.viewModal('message');
       }
     });
   };

@@ -2,14 +2,16 @@
     ng-controller="SpotController"
     ng-init=
         "spot.token='<?php echo Yii::app()->request->csrfToken; ?>';
+        user.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
-        spot.discodes='<?php echo $spot->discodes_id;?>'
+        spot.discodes='<?php echo $spot->discodes_id;?>';
+        general.host_mobile=1
         "
 >
-        <div id="menu" class="main-menu">
+        <div id="menu" class="main-menu" ng-init="getSocPatterns()">
             <ul>
                 <li><a href="#"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
-                <li><a href="<?php echo $this->desktopHost(); ?>/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
+                <li><a href="/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
                 <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
             </ul>
         </div>
