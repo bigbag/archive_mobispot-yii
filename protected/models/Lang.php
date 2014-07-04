@@ -82,8 +82,8 @@ class Lang extends CActiveRecord
     public function getCurrentLang()
     {
         $current_lang = Yii::app()->request->cookies['lang'];
-        if ($current_lang) return Yii::app()->request->cookies['lang']->value;
-
+        if ($current_lang and !empty(Yii::app()->request->cookies['lang']->value)) 
+            return Yii::app()->request->cookies['lang']->value;
         return self::DEFAULT_DESC;
     }
 

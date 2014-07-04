@@ -21,7 +21,12 @@ class SiteController extends MController
         $this->layout = '//layouts/all';
 
         $resolution = $this->getResolution();
-        $this->render('index', array('resolution' => $resolution));
+        
+        if ($this->isHostMobile() and !(Yii::app()->user->isGuest))
+            //к списку спотов в моб.версии
+            $this->redirect('spot/list');
+        
+        $this->renderWithMobile('index', array('resolution' => $resolution), '//mobile/spot/login');
     }
 
     public function actionError()
