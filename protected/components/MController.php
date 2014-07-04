@@ -35,7 +35,7 @@ class MController extends CController
 
     public function desktopHost($protocol = 'http')
     {
-        $host = $_SERVER['SERVER_NAME'];
+        $host = $_SERVER['HTTP_HOST'];
         if (!empty(Yii::app()->params['desctop_host']))
             $host = $protocol . '://' . Yii::app()->params['desctop_host'];
         else
@@ -53,7 +53,7 @@ class MController extends CController
             $default_port = 443;
         }
 
-        $answer .= $_SERVER['SERVER_NAME'];
+        $answer .= $_SERVER['HTTP_HOST'];
 
         if ($_SERVER['SERVER_PORT'] != $default_port) {
             $answer .= ':'.$_SERVER['SERVER_PORT'];
@@ -79,10 +79,10 @@ class MController extends CController
     public function isHostMobile()
     {
         $answer = false;
-        if (!empty(Yii::app()->params['mobile_host']) and $_SERVER['SERVER_NAME'] == Yii::app()->params['mobile_host'])
+        if (!empty(Yii::app()->params['mobile_host']) and $_SERVER['HTTP_HOST'] == Yii::app()->params['mobile_host'])
             $answer = true;
         elseif(empty(Yii::app()->params['mobile_host']) 
-            and (strpos($_SERVER['SERVER_NAME'], 'm.') !== false))
+            and (strpos($_SERVER['HTTP_HOST'], 'm.') !== false))
             $answer = true;
     
         return $answer;
