@@ -67,12 +67,12 @@ class Spot extends CActiveRecord
         return 'spot';
     }
 
-    public function getSpot($data = array())
+    public static function getSpot($data = array())
     {
         return Spot::model()->findByAttributes($data);
     }
 
-    public function getActivatedSpot($activ_code)
+    public static function getActivatedSpot($activ_code)
     {
         return Spot::model()->findByAttributes(array(
                     'code' => $activ_code,
@@ -182,7 +182,7 @@ class Spot extends CActiveRecord
     }
 
 
-    public function getActiveByUserid($user_id, $valid=false)
+    public static function getActiveByUserId($user_id, $valid=false)
     {
         if (!$valid) {
             $user = User::model()->findByPk($user_id);
@@ -192,42 +192,6 @@ class Spot extends CActiveRecord
         return Spot::model()->used()->findAllByAttributes(
             array('user_id'=>$user_id,),
             array('order'=>'registered_date desc'));
-    }
-
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
-    public function search()
-    {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria = new CDbCriteria;
-
-        $criteria->with = 'spot_type';
-        $criteria->compare('code', $this->code, true);
-        $criteria->compare('name', $this->name, true);
-        $criteria->compare('discodes_id', $this->discodes_id);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('spot_type.name', $this->spot_type_name, true);
-        $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('barcode', $this->barcode, true);
-        $criteria->compare('premium', $this->premium);
-        $criteria->compare('status', $this->status);
-        $criteria->compare('generated_date', $this->generated_date, true);
-        $criteria->compare('registered_date', $this->registered_date, true);
-        $criteria->compare('removed_date', $this->removed_date, true);
-        $criteria->compare('code128', $this->code128, true);
-
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-            'pagination' => array(
-                'pageSize' => 20,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'generated_date DESC',),
-        ));
     }
 
     public function getBindedNets()
@@ -272,5 +236,41 @@ class Spot extends CActiveRecord
             $netDown = $net['name'];
 
         return $netDown;
+    }
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+
+        $criteria->with = 'spot_type';
+        $criteria->compare('code', $this->code, true);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('discodes_id', $this->discodes_id);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('spot_type.name', $this->spot_type_name, true);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('barcode', $this->barcode, true);
+        $criteria->compare('premium', $this->premium);
+        $criteria->compare('status', $this->status);
+        $criteria->compare('generated_date', $this->generated_date, true);
+        $criteria->compare('registered_date', $this->registered_date, true);
+        $criteria->compare('removed_date', $this->removed_date, true);
+        $criteria->compare('code128', $this->code128, true);
+
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 20,
+            ),
+            'sort' => array(
+                'defaultOrder' => 'generated_date DESC',),
+        ));
     }
 }

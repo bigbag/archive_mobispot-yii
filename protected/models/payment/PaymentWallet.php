@@ -73,7 +73,7 @@ class PaymentWallet extends CActiveRecord
         );
     }
 
-    public function getFreeByDiscodesId($discodes_id)
+    public static function getFreeByDiscodesId($discodes_id)
     {
         $wallet = Yii::app()->cache->get('wallet_discodes_' . $discodes_id);
         if (!$wallet) {
@@ -88,7 +88,7 @@ class PaymentWallet extends CActiveRecord
         return $wallet;
     }
 
-    public function getActivByDiscodesId($discodes_id)
+    public static function getActivByDiscodesId($discodes_id)
     {
         return PaymentWallet::model()->findByAttributes(
             array(

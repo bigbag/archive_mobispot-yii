@@ -72,12 +72,12 @@ class User extends CActiveRecord
         return $user;
     }
 
-    public function getActivkey($salt)
+    public static function getActivkey($salt)
     {
         return sha1(microtime() . $salt);
     }
 
-    public function getByEmail($email)
+    public static function getByEmail($email)
     {
         return User::model()->findByAttributes(array('email' => $email));
     }
@@ -109,7 +109,7 @@ class User extends CActiveRecord
         }
     }
 
-    public function setCacheSocInfo($info)
+    public static function setCacheSocInfo($info)
     {
         if (empty($info))
             return false;
@@ -117,7 +117,7 @@ class User extends CActiveRecord
         return true;
     }
 
-    public function getCacheSocInfo()
+    public static function getCacheSocInfo()
     {
         $info = Yii::app()->cache->get('user_soc_' . Yii::app()->request->csrfToken);
         if (!$info)
@@ -125,12 +125,12 @@ class User extends CActiveRecord
         return $info;
     }
 
-    public function clearCacheSocInfo()
+    public static function clearCacheSocInfo()
     {
         return Yii::app()->cache->delete('user_soc_' . Yii::app()->request->csrfToken);
     }
 
-    public function socialCheck($service, $soc_id)
+    public static function socialCheck($service, $soc_id)
     {
         $userToken = SocToken::model()->findByAttributes(array(
             'soc_id' => $soc_id
@@ -144,7 +144,7 @@ class User extends CActiveRecord
         );
     }
 
-    public function userInfo()
+    public static function userInfo()
     {
         if (!Yii::app()->user->id) return false;
 
@@ -161,7 +161,7 @@ class User extends CActiveRecord
         return $info;
     }
 
-    public function lastVisit()
+    public static function lastVisit()
     {
         $user = User::model()->findByPk(Yii::app()->user->id);
         if ($user) {
@@ -172,7 +172,7 @@ class User extends CActiveRecord
         return false;
     }
 
-    public function autoLogin($user)
+    public static function autoLogin($user)
     {
         $identity = new SUserIdentity($user->email, $user->password);
         $identity->authenticate();

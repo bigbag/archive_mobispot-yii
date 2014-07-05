@@ -324,7 +324,7 @@ class YText
         return $str;
     }
 
-    public function formatUrl($value)
+    public static function formatUrl($value)
     {
         $url = $value;
         if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0 && strpos($url, 'ftp://') !== 0)
@@ -332,28 +332,28 @@ class YText
         return $url;
     }
 
-    public function hrefCallback($p)
+    public static function hrefCallback($p)
     {
         $name = htmlspecialchars($p[0]);
         $href = !empty($p[1]) ? $name : "http://$name";
         return "<a href=\"$href\">$name</a>";
     }
 
-    public function hrefActivate($text)
+    public static function hrefActivate($text)
     {
         return preg_replace_callback(
             self::URL_PATTERN, 'YText::hrefCallback', $text
         );
     }
 
-    public function urlCallback($p)
+    public static function urlCallback($p)
     {
         $name = htmlspecialchars($p[0]);
         $href = !empty($p[1]) ? $name : "http://$name";
         return $href;
     }
 
-    public function urlActivate($text)
+    public static function urlActivate($text)
     {
         return preg_replace_callback(
             self::URL_PATTERN, 'YText::urlCallback', $text
