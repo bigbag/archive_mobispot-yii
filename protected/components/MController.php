@@ -16,10 +16,10 @@ class MController extends CController
     public $menu = array();
     public $breadcrumbs = array();
 
-    public function beforeRender()
+    public function beforeRender($action)
     {
         //Yii::app()->cache->flush();
-        return true;
+        return parent::beforeRender($action);
     }
 
     public function getBaseUrl()

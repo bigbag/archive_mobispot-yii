@@ -57,7 +57,7 @@ class Lang extends CActiveRecord
         return array();
     }
 
-    public function setCurrentLang()
+    public static function setCurrentLang()
     {
         $all_lang = Lang::getLangArray();
         $select_lang = 'en';
@@ -79,10 +79,10 @@ class Lang extends CActiveRecord
     }
 
 
-    public function getCurrentLang()
+    public static function getCurrentLang()
     {
         $current_lang = Yii::app()->request->cookies['lang'];
-        if ($current_lang and !empty(Yii::app()->request->cookies['lang']->value)) 
+        if ($current_lang and !empty(Yii::app()->request->cookies['lang']->value))
             return Yii::app()->request->cookies['lang']->value;
         return self::DEFAULT_DESC;
     }
