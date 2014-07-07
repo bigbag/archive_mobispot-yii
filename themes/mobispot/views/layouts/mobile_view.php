@@ -10,7 +10,7 @@
 
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="stylesheet" href="/themes/mobile/stylesheets/style_view.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/style_mobile_view.min.css">
 
     <script src="https://maps.google.com/maps/api/js?key=<?php echo Yii::app()->eauth->services['google_oauth']['key']; ?>&sensor=true"></script>
     <script src="/themes/mobispot/js/jquery.min.js"></script>
