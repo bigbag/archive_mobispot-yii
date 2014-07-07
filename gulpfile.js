@@ -29,20 +29,35 @@ gulp.task('css', function() {
     .pipe(gulp.dest(tmpPath));
 
     gulp.src([
-        'themes/mobispot/css/foundation3/foundation.min.css', 
-        'themes/mobispot/css/foundation_actual/foundation.min.css', 
+        'themes/mobispot/css/foundation3/foundation.min.css',
+        'themes/mobispot/css/foundation_actual/foundation.min.css',
         'tmp/style.min.css',
         'tmp/add.min.css'
     ])
     .pipe(concat('all.min.css'))
     .pipe(gulp.dest(cssPath));
 
+    gulp.src([
+        'themes/mobile/stylesheets/style.css'
+    ])
+    .pipe(rename('style_view.min.css'))
+    .pipe(minifyCSS())
+    .pipe(gulp.dest('themes/mobile/stylesheets/'));
+
+    gulp.src([
+        'themes/mobispot/css/mobile-style.css',
+        'themes/mobispot/css/mobile-add.css'
+    ])
+    .pipe(rename('style.min.css'))
+    .pipe(minifyCSS())
+    .pipe(gulp.dest('themes/mobile/stylesheets/'));
+
 });
 
 gulp.task('js', function() {
     gulp.src([
-        'themes/mobispot/js/script.js', 
-        'themes/mobispot/js/script-add.js', 
+        'themes/mobispot/js/script.js',
+        'themes/mobispot/js/script-add.js',
     ])
     .pipe(concat('script.min.js'))
     .pipe(uglify())
