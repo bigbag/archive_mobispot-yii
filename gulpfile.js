@@ -40,17 +40,17 @@ gulp.task('css', function() {
     gulp.src([
         'themes/mobile/stylesheets/style.css'
     ])
-    .pipe(rename('style_view.min.css'))
+    .pipe(rename('style_mobile_view.min.css'))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('themes/mobile/stylesheets/'));
+    .pipe(gulp.dest('themes/mobispot/css/'));
 
     gulp.src([
         'themes/mobispot/css/mobile-style.css',
         'themes/mobispot/css/mobile-add.css'
     ])
-    .pipe(rename('style.min.css'))
+    .pipe(rename('style_mobile.min.css'))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('themes/mobile/stylesheets/'));
+    .pipe(gulp.dest('themes/mobispot/css/'));
 
 });
 
