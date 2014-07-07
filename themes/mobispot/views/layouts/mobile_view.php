@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="mobispot" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" ng-app="mobispot" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" ng-app="mobispot" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
+<html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=cp1251"/>
+    <meta charset="utf-8" />
     <title><?php echo Yii::app()->params['siteTitle']; ?></title>
 
     <link rel="icon" type="image/png" href="/themes/mobile/images/favicon16.png">
@@ -17,12 +12,12 @@
 
     <link rel="stylesheet" href="/themes/mobile/stylesheets/style.css">
 
-    <?php Yii::app()->getClientScript()->registerScriptFile('https://maps.google.com/maps/api/js?key='.Yii::app()->eauth->services['google_oauth']['key'].'&sensor=true'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/js/mobile.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('http://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/js/app.js'); ?>
-    <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobile/js/controllers.js'); ?>
+    <script src="https://maps.google.com/maps/api/js?key=<?php echo Yii::app()->eauth->services['google_oauth']['key']; ?>&sensor=true"></script>
+    <script src="/themes/mobispot/js/jquery.min.js"></script>
+    <script src="/themes/mobispot/js/angular.min.js"></script>
+    <script src="/themes/mobile/js/mobile.js"></script>
+    <script src="/themes/mobile/js/app.js"></script>
+    <script src="/themes/mobile/js/controllers.js"></script>
 </head>
 <body>
     <div class="content-wrapper bg-gray">
