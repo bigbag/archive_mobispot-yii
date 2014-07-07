@@ -12,7 +12,7 @@ $(document).ready( function(){
         'url('
         + 'http://'        
         + window.location.hostname 
-        + '/themes/mobile/images/bg-main/bg_' + getRandomInt(1, 4) + '.jpg)';
+        + '/themes/mobispot/images/bg-main/bg_' + getRandomInt(1, 4) + '.jpg)';
 
 	$('body').css('background-image', randomImgLink);
 
