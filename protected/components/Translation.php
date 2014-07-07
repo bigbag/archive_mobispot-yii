@@ -3,7 +3,7 @@
 class Translation
 {
 
-    public function missing($messageEvent)
+    public static function missing($messageEvent)
     {
         Yii::log(
                 "'" . $messageEvent->message . "' => '',", 'translation', $messageEvent->category . '.' . $messageEvent->language
