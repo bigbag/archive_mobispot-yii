@@ -5,7 +5,7 @@ class SpotController extends MController
 
     const BAN_TIME = 5;
 
-    public $layout = '//layouts/m';
+    public $layout = '//layouts/mobile_view';
 
     public function actions()
     {
@@ -24,8 +24,6 @@ class SpotController extends MController
     public function actionIndex()
     {
         if (Yii::app()->request->getQuery('url', 0)) {
-            //шаблон отображения контента спота
-            $this->layout = '//layouts/mobile';
 
             $url = Yii::app()->request->getQuery('url', 0);
             $spot = Spot::model()->mobil()->findByAttributes(array('url' => $url));
@@ -443,7 +441,7 @@ class SpotController extends MController
                     $this->redirect('/');
                 }
             }
-            $this->layout = '//layouts/mobile';
+
             $this->render('error', array(
                 'form' => $form,
             ));
