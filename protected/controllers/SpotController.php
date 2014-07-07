@@ -1354,7 +1354,7 @@ class SpotController extends MController
     public function viewMobile()
     {
         if (Yii::app()->user->isGuest)
-            $this->setAccess();
+            MHttp::setAccess();
 
         $url = Yii::app()->request->getQuery('url', 0);
         $key = Yii::app()->request->getQuery('key', 0);

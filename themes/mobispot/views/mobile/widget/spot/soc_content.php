@@ -1,4 +1,4 @@
-<div id="block-<?php echo $dataKey;?>" class="spot-item">
+<div id="block-<?php echo $dataKey;?>" class="spot-item<?php echo !empty($socContent['tweet_author'])?' spot-item_twi':'';?>">
     <div class="item-area type-itembox">
         <div class="item-head">
             <a href="<?php echo $socContent['soc_url']; ?>" class="type-link">

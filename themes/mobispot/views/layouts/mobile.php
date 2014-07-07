@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
             <title><?php echo Yii::app()->params['siteTitle']; ?></title>
-            <link rel="stylesheet" href="/themes/mobile/stylesheets/m-style.css">
-            <link rel="stylesheet" href="/themes/mobile/stylesheets/add.css">
+            <link rel="stylesheet" href="/themes/mobispot/css/mobile-style.css">
+            <link rel="stylesheet" href="/themes/mobispot/css/mobile-add.css">
 
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/jquery.min.js'); ?>
-            <?php Yii::app()->getClientScript()->registerScriptFile('/themes/mobispot/js/angular.min.js'); ?>
-            <script src="/themes/mobile/js/script-ck.js"></script>
-            <script src="/themes/mobile/js/script.js"></script>
+            <script src="/themes/mobispot/js/jquery.min.js"></script>
+            <script src="/themes/mobispot/js/angular.min.js"></script>
+            <script src="/themes/mobispot/js/mobile/script-ck.js"></script>
+            <script src="/themes/mobispot/js/mobile/script.js"></script>
     </head>
     <body>
 
