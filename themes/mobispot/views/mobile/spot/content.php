@@ -6,7 +6,7 @@
         </p>
         <div class="soc-link">
             <p><?php echo Yii::t('spot', 'Добовление файлов недоступно в мобильной версии'); ?><br>
-                <a class="full-size" href="http://mobispot.com"><?php echo Yii::t('spot', 'Full size version'); ?></a>
+                <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><?php echo Yii::t('spot', 'Full size version'); ?></a>
             </p>
             <div class="linking">
                     <h4><?php echo Yii::t('spot', 'Привязка социальных сетей'); ?></h4>

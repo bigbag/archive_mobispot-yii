@@ -8,7 +8,7 @@
     </div>
     <header>
         <h1><a href="/"><img width="140" src="/themes/mobispot/img/logo_x2.png"></a></h1>
-        <a class="full-size" href="http://mobispot.com"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
+        <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
     </header>
     <div class="control">
             <h4><?php echo Yii::t('user', 'Spot List'); ?></h4>
