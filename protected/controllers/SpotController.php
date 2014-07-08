@@ -610,13 +610,15 @@ class SpotController extends MController
 
         if (!$spot) MHttp::getJsonAndExit($answer);
 
-        $answer['content'] = $this->renderPartial('//spot/wallet',
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/wallet',
             array(
                 'wallet' => $wallet,
                 'spot' => $spot,
                 'history'=> $history,
             ),
-            true
+            true,
+            '//mobile/spot/wallet'
         );
         $answer['error'] = 'no';
         echo json_encode($answer);
