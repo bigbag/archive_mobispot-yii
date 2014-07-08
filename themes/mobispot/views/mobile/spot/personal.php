@@ -5,7 +5,8 @@
         user.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
-        general.host_mobile=1
+        general.host_mobile=1;
+        spot.status=<?php echo $spot->status; ?>
         "
 >
         <div id="menu" class="main-menu" ng-init="getSocPatterns()">
@@ -48,6 +49,7 @@
                     ng-click="general.views='coupon'" >
                     <?php //echo Yii::t('spot', 'Coupon'); ?>
                 </a>
+                -->
                 <a
                     href="javascript:;"
                     ng-class="{active: general.views=='settings'}"
@@ -55,7 +57,6 @@
                     class="settings">
                     <i class="icon">&#xe00F;</i>
                 </a>
-                -->
             </nav>
             <section class="author-block" id="spot-block">
             </section>
