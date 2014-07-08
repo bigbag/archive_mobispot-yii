@@ -1387,4 +1387,14 @@ class SpotController extends MController
 
         Yii::app()->end();
     }
+    
+    public function actionAddSpot()
+    {
+        if (Yii::app()->user->isGuest)
+            MHttp::setAccess();
+    
+        $this->layout = self::MOBILE_LAYOUT;
+        $this->render('//mobile/spot/add_spot', array(
+        ));
+    }
 }
