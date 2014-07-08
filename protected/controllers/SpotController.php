@@ -561,12 +561,14 @@ class SpotController extends MController
         );
         if (!$spot) MHttp::getJsonAndExit($answer);
 
-        $answer['content'] = $this->renderPartial('//spot/settings',
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/settings',
             array(
                 'wallet' => $wallet,
                 'spot' => $spot,
             ),
-            true
+            true,
+            '//mobile/spot/settings'
         );
         $answer['error'] = 'no';
         echo json_encode($answer);
@@ -794,12 +796,15 @@ class SpotController extends MController
         );
 
         $coupons = Loyalty::getCoupons($wallet->id);
-        $answer['content'] = $this->renderPartial(
-                '//spot/coupons', array(
-                    'coupons' => $coupons,
-                    'wallet' => $wallet,
-                    'spot' => $spot,
-                ), true
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/coupons', 
+            array(
+                'coupons' => $coupons,
+                'wallet' => $wallet,
+                'spot' => $spot,
+            ), 
+            true,
+            '//mobile/spot/coupons'
         );
 
         $answer['error'] = 'no';
@@ -1371,8 +1376,7 @@ class SpotController extends MController
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
 
-        //$curent_views = $this->getCurentViews('spot');
-        $curent_views = 'spot';
+        $curent_views = $this->getCurentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
         $this->render('/mobile/spot/personal', array(
@@ -1382,5 +1386,15 @@ class SpotController extends MController
         ));
 
         Yii::app()->end();
+    }
+    
+    public function actionAddSpot()
+    {
+        if (Yii::app()->user->isGuest)
+            MHttp::setAccess();
+    
+        $this->layout = self::MOBILE_LAYOUT;
+        $this->render('//mobile/spot/add_spot', array(
+        ));
     }
 }

@@ -1,4 +1,4 @@
-<div class="wrapper" ng-controller="UserCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>'">
+<div class="wrapper" ng-controller="SpotController" ng-init="spot.token='<?php echo Yii::app()->request->csrfToken; ?>'; general.host_mobile=1;">
     <div id="menu" class="main-menu">
         <ul>
             <li><a href="/spot/addSpot"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
@@ -7,25 +7,38 @@
         </ul>
     </div>
     <header>
-        <h1><a href="#"><img width="140" src="img/logo_x2.png"></a></h1>
-        <a class="full-size" href="http://mobispot.com"><i class="icon">&#xf108;</i>Full size version</a>
+        <h1><a href="/"><img width="140" src="/themes/mobispot/img/logo_x2.png"></a></h1>
+        <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
     </header>
     <div class="control">
-            <h4>Add New Spot</h4>
+            <h4><?php echo Yii::t('spot', 'Add New Spot') ?></h4>
             <a href="javascript:;" id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
         </div>
     <section class="content">
-        <form>
+        <form id="add-spot" name="addSpotForm">
                 <p>
-                    You can change your password following the instructions in a special email from us. Please click the button below to proceed.
+                    <?php echo Yii::t('spot', 'Please type your new spot’s activation code and click the button below.'); ?>
                 </p>
-                    <input placeholder="Spot activation code" type="text">
+                    <input type="text"
+                       ng-model="spot.code"
+                       name="code"
+                       placeholder="<?php echo Yii::t('spot', 'Spot activation code ') ?>"
+                       autocomplete="off"
+                       maxlength="10"
+                       ng-class="{error: error.code}"
+                       required>
                     <div class="checkbox">
-                        <input id="formReg_agree" type="checkbox" name="formReg_agree" value="check1">
-                        <label for="formReg_agree">I agree to Terms and Conditions</label>
+                        <input
+                            id="spot_agree"
+                            ng-model="spot.terms"
+                            type="checkbox"
+                            name="formSpot_agree"
+                            value="0"
+                            required
+                        >
+                        <label for="spot_agree"><?php echo Yii::t('spot', 'I agree to Mobispot Pages Terms'); ?></label>
                     </div>
-
-                    <a class="form-button" href="#">Activate</a>
+                    <a class="form-button" ng-click="addSpot(spot)"><?php echo Yii::t('spot', 'Activate spot'); ?></a>
                 </form>
 
     </section>
