@@ -42,14 +42,12 @@
                 >
                     <?php echo Yii::t('spot', 'Wallet'); ?>
                 </a>
-                <!--
                 <a
                     href="javascript:;"
                     ng-class="{active: general.views=='coupon'}"
                     ng-click="general.views='coupon'" >
-                    <?php //echo Yii::t('spot', 'Coupon'); ?>
+                    <?php echo Yii::t('spot', 'Coupon'); ?>
                 </a>
-                -->
                 <a
                     href="javascript:;"
                     ng-class="{active: general.views=='settings'}"
