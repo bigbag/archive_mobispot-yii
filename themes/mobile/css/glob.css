@@ -1,0 +1,147 @@
+html,body{
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+body{
+	background:#fff;
+	font-family:"Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
+	font-weight:normal;
+	font-style:normal;
+	font-size: 14px;
+	line-height:1;
+	color:#222;
+	position:relative;
+	background: rgb(224, 230, 237);
+}
+img{
+	border: 0;
+}
+@font-face {
+	font-family: Mobispot;
+	src: url('../fonts/mobispot-webfont.eot');
+	src: url('../fonts/mobispot-webfont.eot?iefix') format('eot'),
+	url('../fonts/mobispot-webfont.woff') format('woff'),
+	url('../fonts/mobispot-webfont.ttf') format('truetype'),
+	url('../fonts/mobispot-webfont.svg#webfontjSpbZQRv') format('svg');
+}
+@font-face {
+	font-family: Mobispot-icon;
+	src: url('../fonts/mobispot-icon.eot');
+	src: url('../fonts/mobispot-icon.eot?iefix') format('eot'),
+	url('../fonts/mobispot-icon.woff') format('woff'),
+	url('../fonts/mobispot-icon.ttf') format('truetype'),
+	url('../fonts/mobispot-icon.svg#webfontjSpbZQRv') format('svg');
+}
+
+a{
+	color: #000;
+	text-decoration: none;
+	line-height: inherit;
+}
+*{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.color{
+	color: #0063ff;
+}
+.content-wrapper{
+	min-height: 100%;
+	padding-bottom: 12em;
+	padding: 12px 6px;
+	max-width: 720px;
+	margin: 0 auto;
+}
+.content-wrapper:after{
+	content: "";
+	display: block;
+	height: 40px;
+	width: 100%;
+}
+li{
+	list-style: none;
+}
+.logo a{
+	display: block;
+	max-width: 207px;
+}
+
+::-webkit-input-placeholder {color:#000 !important;}
+::-moz-placeholder {color:#000 !important;}
+:-ms-input-placeholder { color:#000!important; }
+input:-moz-placeholder { color:#000!important; }
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+html[xmlns] .clearfix {
+	display: block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+.table-reset{
+	background: none;
+	border: 0;
+	margin: 0;
+	border-spacing: 0;
+
+}
+.table-reset tbody tr:nth-child(2n){
+	background: none;
+}
+.round{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+.slow{
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+}
+.hide{
+	display: none;
+}
+.overflow-h{
+	overflow: hidden;
+}
+.text-center{
+	text-align: center;
+}
+::-webkit-input-placeholder {color:#9E9E9E !important;}
+::-moz-placeholder {color:#9E9E9E !important;}
+:-ms-input-placeholder { color:#9E9E9E !important; }
+input:-moz-placeholder { color:#9E9E9E !important; }
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.icon{
+	font-family: Mobispot-icon;
+}
+.color-black{
+	color: #343434;
+}
+.text-right{
+	text-align: right;
+}
+.text-left{
+	text-align: left;
+}
