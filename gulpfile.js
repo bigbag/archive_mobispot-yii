@@ -38,11 +38,11 @@ gulp.task('css', function() {
     .pipe(gulp.dest(cssPath));
 
     gulp.src([
-        'themes/mobile/stylesheets/style.css'
+        'themes/mobile/css/style.css'
     ])
     .pipe(rename('style_mobile_view.min.css'))
     .pipe(minifyCSS())
-    .pipe(gulp.dest('themes/mobispot/css/'));
+    .pipe(gulp.dest('themes/mobile/css/'));
 
     gulp.src([
         'themes/mobispot/css/mobile-style.css',
