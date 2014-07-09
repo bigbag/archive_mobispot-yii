@@ -1,4 +1,4 @@
-<article class="coupon">
+<article class="coupon<?php echo ($coupon['part'])?' active':''; ?>">
     <?php if($coupon['part']):?>
         <sup><?php echo Yii::t('spot', 'Учавствую')?></sup>
     <?php endif; ?>

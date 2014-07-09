@@ -748,13 +748,22 @@ angular.module('mobispot').controller('SpotController',
                   var centerWidth = (window.screen.width - options.popup.width) / 2,
                     centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                  popup = window.open(url, 'yii_eauth_popup', 'width=' + options.popup.width + ',height=' + options.popup.height + ',left=' + centerWidth + ',top=' + centerHeight + ',resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes');
+                  if (!$scope.general.host_mobile) {
+                    popup = window.open(url, 'yii_eauth_popup', 'width=' + options.popup.width + ',height=' + options.popup.height + ',left=' + centerWidth + ',top=' + centerHeight + ',resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes');
+                  }
+                    
+                  if (popup === null || typeof(popup)=='undefined') {
+                    var href = url + '&discodes=' + $scope.spot.discodes + '&chek_like=' + id_action;
+                
+                    window.location.href = href;
+                  }
+                  else {
+                    popup.focus();
 
-                  popup.focus();
-
-                  $scope.checkingAction = {id:id_action};
-                  $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
-                  likeTimer = $timeout($scope.likesTimer, 1000);
+                    $scope.checkingAction = {id:id_action};
+                    $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    likeTimer = $timeout($scope.likesTimer, 1000);
+                  }
               }
               else
               {
@@ -768,7 +777,11 @@ angular.module('mobispot').controller('SpotController',
 
                   if ('undefined' != typeof (data.content))
                   {
-                    var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    if (!$scope.general.host_mobile)
+                      var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    else
+                      var act = angular.element(e.currentTarget).parent().parent().parent().parent();
+                    
                     act.before($compile(data.content)($scope));
                     act.remove();
                   }
@@ -813,17 +826,20 @@ angular.module('mobispot').controller('SpotController',
 
     $scope.disableAction = function(e, id_action)
     {
-
         var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+
         $http.post('/user/disableLoyalty', data).success(function(data) {
             if ('no' == data.error)
             {
-                var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                if (!$scope.general.host_mobile)
+                    var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                else
+                    var act = angular.element(e.currentTarget).parent().parent().parent().parent();
+
                 act.before($compile(data.content)($scope));
                 act.remove();
             }
         });
-
     };
 
     //привязка соцсети и закрытие попапа, если пользователь залогинился через соцсеть
