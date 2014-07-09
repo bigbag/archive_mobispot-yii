@@ -16,4 +16,71 @@ a {
 a.m-link {
     font-family: Mobispot;
     font-size: 20px;
+=======
+input.error {
+    border: 1px solid #C60F13;
+    background:none;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+a {
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
+    opacity: 0;
+}
+
+a.m-link {
+    font-family: Mobispot;
+    font-size: 20px;
+}
+
+.m-result {
+    display: none;
+}
+
+.m-result{
+    position: fixed;
+    top: -6px;
+    left: 0;
+    text-align: center;
+    z-index: 99;
+    width: 100%;
+    height: 0;
+
+}
+.m-result p{
+    font-family: Mobispot, Arial, sans-serif;
+    display: inline-block;
+    background: #12ad51;
+    color: #fff;
+    padding: 10px 11px 6px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius:  5px;
+    border-radius:  5px;
+    behavior:  url(/PIE.htc);
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.m-negative p{
+    background-color: #ff2400;
+}
+
+.coupon.active sup {
+    font-size: 14px;
+    /*position: absolute;
+    top: 11px;
+    right: 11px;*/
+    float:right;
+    color: #FFF;
+    background: none repeat scroll 0% 0% #30D874;
+    padding: 5px 11px;
+    border-radius: 5px;
+}
+
+.coupon.active {
+    /*box-shadow: 0px 0px 0px 1px #30D874 inset;*/
 }

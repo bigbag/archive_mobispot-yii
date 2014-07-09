@@ -57,3 +57,5 @@
         </section>
         <div class="fc"></div>
     </div>
+    <?php //include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/layouts/block/soc-widget.php');
+    ?>

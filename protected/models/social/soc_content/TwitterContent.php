@@ -282,7 +282,7 @@ class TwitterContent extends SocContentBase
         if (empty($link))
             return false;
 
-        switch($sharing_type) {
+        switch($loyalty->sharing_type) {
             /*
             case Loyalty::TWITTER_SHARE:
                 $answer = self::checkTwitSharing($link);

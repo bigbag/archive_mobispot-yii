@@ -4,7 +4,7 @@
         <meta charset="utf-8">
             <title><?php echo Yii::app()->params['siteTitle']; ?></title>
             <link rel="stylesheet" href="/themes/mobispot/css/mobile-style.css">
-            <link rel="stylesheet" href="/themes/mobispot/css/add.css">
+            <link rel="stylesheet" href="/themes/mobispot/css/mobile-add.css">
 
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <script src="/themes/mobispot/js/jquery.min.js"></script>

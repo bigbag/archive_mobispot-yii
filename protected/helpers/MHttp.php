@@ -46,7 +46,7 @@ class MHttp
     public static function getJsonOrRedirect($result, $target)
     {
         if (Yii::app()->request->isPostRequest) self::getJsonAndExit($result);
-        else $this->redirect($target);
+        else Yii::app()->controller->redirect($target);
     }
 
     public static function setCurlRequest($url, $data=false)
