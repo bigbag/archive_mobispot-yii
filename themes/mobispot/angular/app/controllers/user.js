@@ -120,20 +120,17 @@ angular.module('mobispot').controller('UserController',
         $scope.user.password = '';
         $scope.user.activ_code = '';
         $scope.user.terms = 0;
-        $scope.result.message = data.content;
-        contentService.viewModal('message');
+        contentService.setModal(data.content, 'none'); 
       }
       else if (data.error == 'email') {
         $scope.error.email = true;
         $scope.error.content = data.content;
-        $scope.result.message = data.content;
-        contentService.viewModal('message');
+        contentService.setModal(data.content, 'error'); 
       }
       else if (data.error == 'code'){
         $scope.error.code = true;
         $scope.error.content = data.content;
-        $scope.result.message = data.content;
-        contentService.viewModal('message');
+        contentService.setModal(data.content, 'error'); 
       }
     });
   };
