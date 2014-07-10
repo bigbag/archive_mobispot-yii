@@ -812,6 +812,48 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    //список купонов
+    public function actionListCoupons()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+        
+        $data = MHttp::validateRequest();    
+        if (empty($data['discodes']) or Yii::app()->user->isGuest 
+            or empty($data['page']) or !isset($data['phrase']))
+            MHttp::getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot) MHttp::getJsonAndExit($answer);
+
+        $wallet = PaymentWallet::model()->findByAttributes(
+        array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        
+        $coupons = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase']);
+        
+        $answer['content'] = $this->renderPartial(
+            '//mobile/spot/list_coupons',
+            array(
+                'coupons' => $coupons,
+             ), 
+            true
+        );
+        
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
+    }
 
     //Привязка соцсетей через кнопку
     public function actionBindSocial()

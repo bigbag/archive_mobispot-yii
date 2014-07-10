@@ -33,6 +33,10 @@ class Loyalty extends CActiveRecord
     const STATUS_ALL = 2;
     const STATUS_MY = 100;
 
+    const PAGE_ALL = 'all';
+    const PAGE_MY = 'my';
+    const PAGE_NEW = 'new';  
+    
     const FACEBOOK_LIKE = 1;
     const FACEBOOK_SHARE = 2;
     const TWITTER_SHARE = 3;
@@ -286,13 +290,22 @@ class Loyalty extends CActiveRecord
         return true;
     }
 
-    public static function getCoupons($wallet_id = null)
+    public static function getCoupons($wallet_id = null, $page = self::PAGE_ALL, $phrase = '')
     {
         $criteria = new CDbCriteria;
         $answer = array();
         $loyaltyList = array();
 
         $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
+        if (self::PAGE_NEW == $page)
+            $criteria->condition .= ' AND TO_DAYS(start_date) = (select max(TO_DAYS(m.start_date)) FROM ' . Loyalty::tableName() . ' AS m)';
+        if ($phrase)
+        {
+            $phrase = addCslashes(addslashes($phrase), '%_');
+            $criteria->condition .= 
+                ' AND (`desc` LIKE \'%' . $phrase . '%\''
+                .'OR `name` LIKE \'%' . $phrase . '%\')';
+        }   
         $coupons = self::model()->findAll($criteria);
 
         if (null != $wallet_id) {
@@ -311,20 +324,19 @@ class Loyalty extends CActiveRecord
         }
 
         foreach ($coupons as $coupon) {
-            $criteria = new CDbCriteria;
             $part = false;
             if (in_array($coupon->id, $loyaltyList))
                 $part = true;
-
-            $answer[] = array(
-                'id' => $coupon->id,
-                'name' => $coupon->name,
-                'coupon_class' => $coupon->coupon_class,
-                'img' => $coupon->img,
-                'desc' => $coupon->desc,
-                'soc_block' => $coupon->soc_block,
-                'part' => $part,
-            );
+            if (self::PAGE_MY != $page or $part)
+                $answer[] = array(
+                    'id' => $coupon->id,
+                    'name' => $coupon->name,
+                    'coupon_class' => $coupon->coupon_class,
+                    'img' => $coupon->img,
+                    'desc' => $coupon->desc,
+                    'soc_block' => $coupon->soc_block,
+                    'part' => $part,
+                );
         }
 
         return $answer;
