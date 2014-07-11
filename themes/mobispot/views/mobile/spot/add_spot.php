@@ -4,6 +4,7 @@
             <li><a href="/spot/addSpot"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
             <li><a href="/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
             <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
+            <li><a class="main-back" href="javascript:;"><i class="icon">&#xe603;</i></a></li>
         </ul>
     </div>
     <header>
