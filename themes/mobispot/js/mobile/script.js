@@ -8,11 +8,7 @@ var hideMenu = function (){
 
 $(document).ready( function(){
 
-    var randomImgLink = 
-        'url('
-        + 'http://'        
-        + window.location.hostname 
-        + '/themes/mobispot/images/bg-main/bg_' + getRandomInt(1, 4) + '.jpg)';
+	var randomImgLink = 'url(img/bg-main/bg_' + getRandomInt(1, 4) + '.jpg)';
 
 	$('body').css('background-image', randomImgLink);
 
@@ -34,6 +30,7 @@ $(document).ready( function(){
 		$('.wrapper').addClass('showMenu');
 	});
 	$(document).on('click','.showMenu',hideMenu);
+	$(document).on('click','.main-back',hideMenu);
 	$(document).on('click','#menu', function(event){
 		event.stopPropagation();
 	});
