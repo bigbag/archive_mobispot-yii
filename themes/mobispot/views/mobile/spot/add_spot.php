@@ -11,7 +11,7 @@
         <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
     </header>
     <div class="control">
-            <h4><?php echo Yii::t('spot', 'Add New Spot') ?></h4>
+            <h4><?php echo Yii::t('user', 'Add New Spot') ?></h4>
             <a href="javascript:;" id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
         </div>
     <section class="content">

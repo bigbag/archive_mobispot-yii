@@ -13,7 +13,7 @@
         <a href="#actSpotForm" id="actSpot" class="add-spot toggle-box button round slideToThis">
             <i class="icon">&#xe015;</i>
             <span class="m-tooltip m-tooltip-open">
-                <?php echo Yii::t('spot', 'Add new spot'); ?>
+                <?php echo Yii::t('user', 'Add new spot'); ?>
             </span>
             <span class="m-tooltip m-tooltip-close">
                 <?php echo Yii::t('spot', 'Close form'); ?>
