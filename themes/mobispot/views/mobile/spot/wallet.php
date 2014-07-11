@@ -46,12 +46,14 @@
         </h3>
         <table>
             <?php for($i=0; $i<5; $i++): ?>
-            <?php $row = $history[$i]; ?>
-            <tr>
-                <td><?php echo $row->creation_date; ?></td>
-                <td><?php echo $row->term->name; ?></td>
-                <td><?php echo $row->amount; ?></td>
-            </tr>
+                <?php if (!empty($history[$i])): ?>
+                    <?php $row = $history[$i]; ?>
+                    <tr>
+                        <td><?php echo $row->creation_date; ?></td>
+                        <td><?php echo $row->term->name; ?></td>
+                        <td><?php echo $row->amount; ?></td>
+                    </tr>
+                <?php endif; ?>
             <?php endfor; ?>
         </table>
     </div>
