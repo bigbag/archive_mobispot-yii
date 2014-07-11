@@ -2,14 +2,14 @@
     <div class="input-block">
         <textarea class="main-input" ng-model="spot.content" name=""></textarea>
         <p class="input-over">
-            <?php echo Yii::t('spot', 'Begin to type info or links'); ?>
+            <?php echo Yii::t('spot', 'Type the text or links'); ?>
         </p>
         <div class="soc-link">
-            <p><?php echo Yii::t('spot', 'Добовление файлов недоступно в мобильной версии'); ?><br>
+            <p><?php echo Yii::t('spot', 'Adding files is not available in the mobile version'); ?><br>
                 <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><?php echo Yii::t('spot', 'Full size version'); ?></a>
             </p>
             <div class="linking">
-                    <h4><?php echo Yii::t('spot', 'Привязка социальных сетей'); ?></h4>
+                    <h4><?php echo Yii::t('spot', 'Social network connecting'); ?></h4>
 
             <a class="<?php
                 echo (SocInfo::nameInList('facebook', $spotNets))?'link':''

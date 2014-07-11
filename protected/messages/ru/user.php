@@ -54,4 +54,15 @@
   'To change your password please click the button below and follow the instruction in the special email from us.' => 'Для смены пароля, пожалуйста, нажмите на кнопку ниже и следуйте инструкциям в электронном письме.',
   'You\'ve made a mistake in spot activation code.' => 'Вы сделали ошибку в коде активации Спота.',
   'password' => 'пароль',
+  'Enter' => 'Войти',
+  'login with' => 'войти с помощью',
+  'Enter' => 'Войти',
+  'Spot List' => 'Ваши споты',
+  'Add New Spot' => 'Новый спот',
+  'Profile' => 'Профиль',
+  'Log Out' => 'Выход',
+  'Get Help' => 'Помощь',
+  'Device compatibility' => 'Совместимые устройства',
+  'Email us' => 'Обратная связь',
+
 );
