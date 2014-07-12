@@ -70,7 +70,7 @@
   'seconds' => 'секунд',
   'views' => 'просмотры',
   'Adding files is not available in the mobile version' => 'Добавление файлов недоступно в мобильной версии',
-  'Social network connecting' => 'Привязка социальных сетей',  
+  'Social network connecting' => 'Привязка социальных сетей',
   'Participating' => 'Участвую',
   'All' => 'Все',
   'New' => 'Новые',

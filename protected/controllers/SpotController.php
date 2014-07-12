@@ -797,12 +797,12 @@ class SpotController extends MController
 
         $coupons = Loyalty::getCoupons($wallet->id);
         $answer['content'] = $this->renderPartialWithMobile(
-            '//spot/coupons', 
+            '//spot/coupons',
             array(
                 'coupons' => $coupons,
                 'wallet' => $wallet,
                 'spot' => $spot,
-            ), 
+            ),
             true,
             '//mobile/spot/coupons'
         );
@@ -819,9 +819,9 @@ class SpotController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        
-        $data = MHttp::validateRequest();    
-        if (empty($data['discodes']) or Yii::app()->user->isGuest 
+
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or Yii::app()->user->isGuest
             or empty($data['page']) or !isset($data['phrase']))
             MHttp::getJsonAndExit($answer);
 
@@ -839,17 +839,17 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
-        
+
         $coupons = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase']);
-        
+
         $answer['content'] = $this->renderPartial(
             '//mobile/spot/list_coupons',
             array(
                 'coupons' => $coupons,
-             ), 
+             ),
             true
         );
-        
+
         $answer['error'] = 'no';
 
         echo json_encode($answer);
@@ -1429,12 +1429,12 @@ class SpotController extends MController
 
         Yii::app()->end();
     }
-    
+
     public function actionAddSpot()
     {
         if (Yii::app()->user->isGuest)
             MHttp::setAccess();
-    
+
         $this->layout = self::MOBILE_LAYOUT;
         $this->render('//mobile/spot/add_spot', array(
         ));

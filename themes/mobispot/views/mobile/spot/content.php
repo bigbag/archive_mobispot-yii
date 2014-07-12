@@ -16,7 +16,7 @@
                 ?>"
                 title="Facebook"
                 ng-click="bindByPanel('facebook')"
-                
+
             >
                 <img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/facebook.png">
             </a>
@@ -25,7 +25,7 @@
                 ?>"
                 title="Twitter"
                 ng-click="bindByPanel('twitter')"
-                
+
             >
                 <img width="36" src="<?php echo MHttp::desktopHost(); ?>/themes/mobispot/socialmediaicons/twitter.png">
             </a>
@@ -106,7 +106,7 @@
             <?php endforeach; ?>
         <?php endif; ?>
     <?php endif; ?>
-    
+
         <article id="spot-edit" class="hide spot-item item-area input-block">
             <textarea class="main-input"
                 ng-model="spot.content_new"

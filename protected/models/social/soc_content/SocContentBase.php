@@ -10,7 +10,7 @@ class SocContentBase
     const INSTAGRAM_PHOTO = 'instagram_photo';
     const TYPE_CHECKIN = 'checkin';
     const TYPE_LIST = 'list';
-    
+
     public static function rmGetParam($str)
     {
         if (strpos($str, '?') > 0)
