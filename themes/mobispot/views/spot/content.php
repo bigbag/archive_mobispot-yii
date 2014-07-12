@@ -30,7 +30,7 @@
                             &#xe604;
                         </label>
                         <input id="add-file" type="file">
-                        <a ng-click="addContent(spot)"
+                        <a ng-click="addContent()"
                             class="right form-button"
                             ng-class="{visible: spot.content}">
                             <?php echo Yii::t('spot', 'Post')?>

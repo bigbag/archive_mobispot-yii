@@ -27,7 +27,7 @@
                     <?php echo Yii::t('spot', 'Current')?>
                 </span>
                 <a class="remove-card"
-                    ng-click='removeCard(card.id, $event)'>
+                    ng-click='removeCard(card.id)'>
                     <?php echo Yii::t('spot', 'Remove')?>
                 </a>
             </td>

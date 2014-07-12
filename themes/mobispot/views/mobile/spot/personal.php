@@ -34,7 +34,7 @@
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
-                
+
                 <a
                     ng-class="{active: general.views=='wallet'}"
                     ng-click="general.views='wallet'"

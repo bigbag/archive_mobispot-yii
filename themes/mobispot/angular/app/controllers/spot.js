@@ -24,7 +24,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.wallet.cards = {};
 
   $scope.scroll_key = -1;
-  
+
   $scope.actions = {};
   $scope.actions.page = '';
   $scope.actions.phrase = '';
@@ -32,7 +32,7 @@ angular.module('mobispot').controller('SpotController',
 /* CRUD для спота */
 
   //Тригер на снятие ошибки при изменении поля
-  $scope.$watch('spot.code + spot.terms', function(spot) {
+  $scope.$watch('spot.code + spot.terms', function() {
     $scope.error.code = false;
     $scope.error.terms = false;
   });
@@ -101,7 +101,7 @@ angular.module('mobispot').controller('SpotController',
   };
 
   // Добавление нового блока в спот
-  $scope.addContent = function(spot) {
+  $scope.addContent = function() {
     $scope.addValue($scope.spot.content);
   };
 
@@ -142,7 +142,7 @@ angular.module('mobispot').controller('SpotController',
 
   // Параметры сортировки
   $scope.sortableOptions = {
-    update: function(e, ui) {
+    update: function() {
       $scope.saveOrder();
     },
     'containment':'.spot-content',
@@ -324,7 +324,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.listCoupons = function (spot, actions) {
     if (!actions.page) return false;
     var list = angular.element('#coupons-list');
-    
+
     var data = {'discodes': spot.discodes, 'token': spot.token, 'page': actions.page, 'phrase': actions.phrase};
 
     $http.post('/spot/listCoupons', data).success(function(data) {
@@ -335,9 +335,9 @@ angular.module('mobispot').controller('SpotController',
 
       }
     });
-    
+
   };
-  
+
   // Список карт
   $scope.getListCard = function(){
     if ($scope.general.views != 'wallet') return false;
@@ -390,14 +390,12 @@ angular.module('mobispot').controller('SpotController',
   };
 
   // Удаляем карту
-  $scope.removeCard = function(card_id, e){
+  $scope.removeCard = function(card_id){
     var data = {'token': $scope.spot.token, 'card_id': card_id};
     $http.post('/spot/removeCard', data).success(function(data) {
       if (data.error == 'no'){
         $scope.wallet.cards_count -= 1;
         delete $scope.wallet.cards[card_id];
-
-        // angular.element(e.currentTarget).parent().parent().remove();
       }
     });
   };
@@ -485,7 +483,7 @@ angular.module('mobispot').controller('SpotController',
   }
 
   // Действие если загрузка не удалась
-  $scope.uploadFailed = function(e) {
+  $scope.uploadFailed = function() {
     angular.element('#error-upload').show().delay(800).slideUp('slow');
   };
 
@@ -572,7 +570,7 @@ angular.module('mobispot').controller('SpotController',
   var popup;
   var socTimer;
   var likeTimer;
-  var holderTimer;
+
   //через плашку
   $scope.bindByPanel = function(buttonName) {
     var netName = buttonName;
@@ -619,13 +617,13 @@ angular.module('mobispot').controller('SpotController',
                     if (!$scope.general.host_mobile) {
                         popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
                     }
-                    
+
                     if (popup === null || typeof(popup)=='undefined') {
                         var href = url + '&discodes=' + $scope.spot.discodes + '&newField=1' + '&synch=true';
-                
+
                         if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
                             href += '&link=' + encodeURIComponent($scope.spot.content);
-                        
+
                         window.location.href = href;
                     }
                     else {
@@ -745,6 +743,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.checkLike = function(e, id_action)
   {
       var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+      var act;
       $http.post('/user/checkLike', data).success(function(data) {
 
           if ('no' == data.error)
@@ -773,10 +772,10 @@ angular.module('mobispot').controller('SpotController',
                   if (!$scope.general.host_mobile) {
                     popup = window.open(url, 'yii_eauth_popup', 'width=' + options.popup.width + ',height=' + options.popup.height + ',left=' + centerWidth + ',top=' + centerHeight + ',resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes');
                   }
-                    
+
                   if (popup === null || typeof(popup)=='undefined') {
                     var href = url + '&discodes=' + $scope.spot.discodes + '&chek_like=' + id_action;
-                
+
                     window.location.href = href;
                   }
                   else {
@@ -800,10 +799,10 @@ angular.module('mobispot').controller('SpotController',
                   if ('undefined' != typeof (data.content))
                   {
                     if (!$scope.general.host_mobile)
-                      var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                      act = angular.element(e.currentTarget).parent().parent('div.spot-item');
                     else
-                      var act = angular.element(e.currentTarget).parent().parent().parent().parent();
-                    
+                      act = angular.element(e.currentTarget).parent().parent().parent().parent();
+
                     act.before($compile(data.content)($scope));
                     act.remove();
                   }
@@ -849,14 +848,14 @@ angular.module('mobispot').controller('SpotController',
     $scope.disableAction = function(e, id_action)
     {
         var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
-
+        var act;
         $http.post('/user/disableLoyalty', data).success(function(data) {
             if ('no' == data.error)
             {
                 if (!$scope.general.host_mobile)
-                    var act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    act = angular.element(e.currentTarget).parent().parent('div.spot-item');
                 else
-                    var act = angular.element(e.currentTarget).parent().parent().parent().parent();
+                    act = angular.element(e.currentTarget).parent().parent().parent().parent();
 
                 act.before($compile(data.content)($scope));
                 act.remove();
@@ -1003,7 +1002,7 @@ angular.module('mobispot').controller('SpotController',
       angular.element('#setPassForm input[name=newPass]').removeClass('error');
   };
 
-  $scope.checkStatusSpot = function(spot) {
+  $scope.checkStatusSpot = function() {
     return true;
   };
 
@@ -1030,5 +1029,5 @@ angular.module('mobispot').controller('SpotController',
   $scope.$watch('actions.page', function() {
     $scope.listCoupons($scope.spot, $scope.actions);
   });
-  
+
 });

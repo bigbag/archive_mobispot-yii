@@ -48,8 +48,7 @@ class MController extends CController
     {
         if (!$this->isHostMobile())
             $this->render($view, $data);
-        else
-        {
+        else {
             if (!$viewMobile)
                 $viewMobile = '/mobile/' . $this->getUniqueId() . '/' . $view;
             if (!$dataMobile)
@@ -66,8 +65,7 @@ class MController extends CController
 
         if (!$this->isHostMobile())
             $answer = $this->renderPartial($view, $data, $return);
-        else
-        {
+        else {
             if (!$viewMobile)
                 $viewMobile = '/mobile/' . $this->getUniqueId() . '/' . $view;
             if (!$dataMobile)
