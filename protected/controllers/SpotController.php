@@ -733,7 +733,7 @@ class SpotController extends MController
                     . Yii::app()->params['mobile_host'] 
                     . '/spot/view/'
                     . $spot->url;
-                $linking['shopFailURL'] = $linking['shopFailURL'];
+                $linking['shopFailURL'] = $linking['shopSuccessURL'];
             }
         }
         $this->render('card_ofert', array('linking'=>$linking));
