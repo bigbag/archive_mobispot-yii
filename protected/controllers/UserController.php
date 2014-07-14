@@ -92,9 +92,7 @@ class UserController extends MController
                 'newField' => Yii::app()->request->getQuery('newField'),
                 'link' => Yii::app()->request->getQuery('link'),
             );
-        } 
-        elseif (isset($checkLike))
-        {
+        } elseif (isset($checkLike)) {
             Yii::app()->session[$serviceName . '_loyalty_data'] = array(
                 'discodes'=> $discodes,
                 'loyalty_id'=>$checkLike,
@@ -107,16 +105,13 @@ class UserController extends MController
         SocToken::setToken($atributes);
         SocInfo::setLogged($atributes);
 
-        if (!empty(Yii::app()->session[$serviceName . '_synch_data'])) 
-        {
+        if (!empty(Yii::app()->session[$serviceName . '_synch_data'])) {
             $data = Yii::app()->session[$serviceName . '_synch_data'];
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
 
             $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
-        }
-        elseif(!empty(Yii::app()->session[$serviceName . '_loyalty_data']))
-        {
+        } elseif(!empty(Yii::app()->session[$serviceName . '_loyalty_data'])) {
             $data = Yii::app()->session[$serviceName . '_loyalty_data'];
             unset(Yii::app()->session[$serviceName . '_loyalty_data']);
             $this->redirect('/user/checkLike' . SocInfo::toGetParams($data));
@@ -128,15 +123,14 @@ class UserController extends MController
     {
         if (Yii::app()->request->isPostRequest)
             $data = MHttp::validateRequest();
-        else 
-        {
+        else {
             $data = array(
                 'discodes'=>Yii::app()->request->getQuery('discodes'),
                 'id'=>Yii::app()->request->getQuery('loyalty_id'),
             );
         }
         $target = '/spot/list';
-        
+
         $answer = array(
             'error' => 'yes',
             'message_error' => 'yes',
@@ -155,7 +149,7 @@ class UserController extends MController
         $action = Loyalty::model()->findByPk($data['id']);
         if (!$action)
             MHttp::getJsonOrRedirect($answer, $target);
-            
+
         $link = $action->getLink();
 
         $service = SocInfo::getNameBySharingType($action->sharing_type);
@@ -181,14 +175,13 @@ class UserController extends MController
         if (!$socToken or !$link or !$wallet)
             MHttp::getJsonOrRedirect($answer, $target);
 
-        if ($this->isHostMobile())
-        {
+        if ($this->isHostMobile()) {
             $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
             if ($spot)
                 $target = '/spot/view/' . $spot->url;
-         
+
         }
-        
+
         $answer['checked'] = $socInfo->checkSharing($action);
         if (!$answer['checked']) {
             $answer['message'] = $action->getPromoMessage();
@@ -221,12 +214,12 @@ class UserController extends MController
         );
 
         $answer['content'] = $this->renderPartialWithMobile(
-            '//spot/block/coupon', 
-            array('coupon' => $coupon), 
+            '//spot/block/coupon',
+            array('coupon' => $coupon),
             true,
             '//mobile/spot/coupon'
         );
-        
+
         $answer['message_error'] = 'no';
         $answer['message'] = Yii::t('spot', 'You are participating in the action');
 
@@ -272,10 +265,10 @@ class UserController extends MController
         );
 
         $answer['content'] = $this->renderPartialWithMobile(
-            '//spot/block/coupon', 
-            array('coupon' => $coupon), 
+            '//spot/block/coupon',
+            array('coupon' => $coupon),
             true,
-            '//mobile/spot/coupon' 
+            '//mobile/spot/coupon'
         );
         $answer['error'] = "no";
 

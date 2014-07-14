@@ -26,7 +26,7 @@ $scope.dkitForm = function(e, index, checkValid, valid){
 
 };
 
-    $scope.order = {name:"", email:"", phone:"", address:"", city:"", zip:"", country:"", shipping: 1, payment: 1};
+    $scope.order = {name:'', email:'', phone:'', address:'', city:'', zip:'', country:'', shipping: 1, payment: 1};
     $scope.products = {};
     $scope.max_product_id = 0;
     $scope.prices = {};

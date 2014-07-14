@@ -35,8 +35,8 @@ class Loyalty extends CActiveRecord
 
     const PAGE_ALL = 'all';
     const PAGE_MY = 'my';
-    const PAGE_NEW = 'new';  
-    
+    const PAGE_NEW = 'new';
+
     const FACEBOOK_LIKE = 1;
     const FACEBOOK_SHARE = 2;
     const TWITTER_SHARE = 3;
@@ -299,13 +299,12 @@ class Loyalty extends CActiveRecord
         $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
         if (self::PAGE_NEW == $page)
             $criteria->condition .= ' AND TO_DAYS(start_date) = (select max(TO_DAYS(m.start_date)) FROM ' . Loyalty::tableName() . ' AS m)';
-        if ($phrase)
-        {
+        if ($phrase) {
             $phrase = addCslashes(addslashes($phrase), '%_');
-            $criteria->condition .= 
+            $criteria->condition .=
                 ' AND (`desc` LIKE \'%' . $phrase . '%\''
                 .'OR `name` LIKE \'%' . $phrase . '%\')';
-        }   
+        }
         $coupons = self::model()->findAll($criteria);
 
         if (null != $wallet_id) {

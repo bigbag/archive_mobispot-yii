@@ -1,7 +1,7 @@
 <article>
     <div class="tabs-item">
         <div class="button-input">
-            <input type="text" ng-model="actions.phrase" placeholder="<?php echo Yii::t('spot', 'Search for Coupons')?>"> 
+            <input type="text" ng-model="actions.phrase" placeholder="<?php echo Yii::t('spot', 'Search for Coupons')?>">
             <a ng-click="listCoupons(spot, actions)"><i class="icon">&#xe612;</i></a>
         </div>
         <div class="filter" ng-init="actions.phrase='';actions.page = 'all';">
