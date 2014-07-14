@@ -701,7 +701,7 @@ class SpotController extends MController
     public function getLinkingParams($discodes_id)
     {
         $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/';
-        $url .= $discodes_id . '/' . rawurlencode(Yii::app()->params['siteUrl']. '/spot/list/');
+        $url .= $discodes_id . '?url=' . rawurlencode(Yii::app()->params['siteUrl']. '/spot/list/');
         return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
