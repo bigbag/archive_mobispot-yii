@@ -724,7 +724,7 @@ class SpotController extends MController
         $linking = $this->getLinkingParams($discodes_id);
         if ($this->isHostMobile() and !empty(Yii::app()->params['mobile_host']))
         {
-            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
             
             if ($spot) 
             {
