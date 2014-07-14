@@ -700,7 +700,8 @@ class SpotController extends MController
     // Запрос к yandex api на получение параметров для привязки карты
     public function getLinkingParams($discodes_id)
     {
-        $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/' . $discodes_id;
+        $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/';
+        $url .= $discodes_id . '/' . Yii::app()->params['siteUrl']. '/spot/list/';
         return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
