@@ -722,6 +722,20 @@ class SpotController extends MController
         if (!$wallet) MHttp::setNotFound();
 
         $linking = $this->getLinkingParams($discodes_id);
+        if ($this->isHostMobile() and !empty(Yii::app()->params['mobile_host']))
+        {
+            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            
+            if ($spot) 
+            {
+                $linking['shopSuccessURL'] = 
+                    'http://' 
+                    . Yii::app()->params['mobile_host'] 
+                    . '/spot/view/'
+                    . $spot->url;
+                $linking['shopFailURL'] = $linking['shopFailURL'];
+            }
+        }
         $this->render('card_ofert', array('linking'=>$linking));
     }
 
