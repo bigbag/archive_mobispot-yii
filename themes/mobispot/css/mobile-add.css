@@ -65,3 +65,7 @@ a.m-link {
 .coupon.active {
     /*box-shadow: 0px 0px 0px 1px #30D874 inset;*/
 }
+
+.input-block .add-button {
+    font-size: 18px;
+}

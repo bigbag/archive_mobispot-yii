@@ -8,7 +8,6 @@ class MController extends CController
 {
     const MOBILE_LAYOUT = '//layouts/mobile';
     public $mainBackground = false;
-
     public $blockHeaderCeo = false;
     public $blockFooterScript = false;
 

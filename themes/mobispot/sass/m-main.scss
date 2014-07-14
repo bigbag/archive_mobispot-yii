@@ -105,7 +105,7 @@ header{
 		nav{
 			overflow: hidden;
 			a{
-				width: 50%;
+				width: 65%;
 				display: inline-block;
 				float: left;
 				color: #fff;
@@ -115,6 +115,9 @@ header{
 				font-size: 23px;
 				background: #E0E6ED;
 				color: #fff;
+				&:first-child{
+					width: 35%;
+				}
 				&.active{
 					background: none;
 					color: #222;
@@ -348,7 +351,9 @@ input{
 			text-align: center;
 			margin: 0 19px;
 			font-size: 26px;
-			line-height: 25px;
+			line-height: 63px;
+			padding: 0 0 0 4px;
+
 			i{
 				margin: 0;
 			}
