@@ -701,7 +701,7 @@ class SpotController extends MController
     public function getLinkingParams($discodes_id)
     {
         $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/';
-        $url .= $discodes_id . '/' . Yii::app()->params['siteUrl']. '/spot/list/';
+        $url .= $discodes_id . '/' . rawurlencode(Yii::app()->params['siteUrl']. '/spot/list/');
         return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
@@ -726,12 +726,12 @@ class SpotController extends MController
         if ($this->isHostMobile() and !empty(Yii::app()->params['mobile_host']))
         {
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
-            
-            if ($spot) 
+
+            if ($spot)
             {
-                $linking['shopSuccessURL'] = 
-                    'http://' 
-                    . Yii::app()->params['mobile_host'] 
+                $linking['shopSuccessURL'] =
+                    'http://'
+                    . Yii::app()->params['mobile_host']
                     . '/spot/view/'
                     . $spot->url;
                 $linking['shopFailURL'] = $linking['shopSuccessURL'];
