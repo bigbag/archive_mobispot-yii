@@ -143,7 +143,7 @@ class SocToken extends CActiveRecord
         $dubleTokens = SocToken::model()->findAllByAttributes(
                 array(
                     'type' => SocToken::getTypeByService($info['service']),
-                    'soc_id' => $atributes['id'],
+                    'soc_id' => $info['id'],
                 )
         );
 
