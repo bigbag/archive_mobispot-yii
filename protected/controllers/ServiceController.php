@@ -308,8 +308,8 @@ class ServiceController extends MController
             'user_id' => $user->id,
         ));
 
-        if ($userToken and !empty($userToken->soc_id)) {
-            $userToken->allow_login = !$userToken->allow_login;
+        if ($userToken and !empty($userToken->soc_id) and $userToken->allow_login) {
+            $userToken->allow_login = false;
             $userToken->save();
             $this->redirect('/user/profile');
         }
@@ -318,23 +318,20 @@ class ServiceController extends MController
         if (!$atributes)
             $this->redirect('/user/profile');
 
-        $socInfo = User::getCacheSocInfo();
-        if ($socInfo) {
-            SocToken::setToken($atributes);
-            User::clearCacheSocInfo();
+        SocToken::setToken($atributes);
+        User::clearCacheSocInfo();
 
-            $allSocTokens = SocToken::model()->findAllByAttributes(
-                    array(
-                        'type' => SocToken::getTypeByService($serviceName),
-                        'soc_id' => $socInfo['id'],
-                    )
-            );
+        $userToken = SocToken::model()->findByAttributes(array(
+            'type' => SocToken::getTypeByService($serviceName),
+            'user_id' => $user->id,
+        ));
 
-            foreach ($allSocTokens as $row) {
-                if ($row->user_id != $user->id)
-                    $row->delete();
-            }
+        if ($userToken and !empty($userToken->soc_id) and !$userToken->allow_login) {
+            $userToken->allow_login = true;
+            $userToken->save();
+            $this->redirect('/user/profile');
         }
+
         $this->redirect('/user/profile');
     }
 

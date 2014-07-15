@@ -112,13 +112,16 @@ class SocToken extends CActiveRecord
 
     public function setToken($info)
     {
+        $answer = false;
         if (!isset($info['user_id']) or !isset($info['id']))
             return false;
 
         $userToken = SocToken::model()->findByAttributes(
             array(
-                'soc_id'=>$info['id'])
-            );
+                'user_id' => $info['user_id'],
+                'type' => SocToken::getTypeByService($info['service']),
+            )
+        );
         if (!$userToken) $userToken = new SocToken;
 
         $userToken->type = SocToken::getTypeByService($info['service']);
@@ -135,7 +138,22 @@ class SocToken extends CActiveRecord
             $userToken->write_access = true;
 
         if ($userToken->save())
-            return $userToken;
+            $answer = $userToken;
+            
+        $dubleTokens = SocToken::model()->findAllByAttributes(
+                array(
+                    'type' => SocToken::getTypeByService($serviceName),
+                    'soc_id' => $atributes['id'],
+                )
+        );
+
+        foreach ($dubleTokens as $row) 
+        {
+            if ($row->user_id != $info['user_id'])
+                $row->delete();
+        }
+            
+        return $answer;
     }
 
 }
