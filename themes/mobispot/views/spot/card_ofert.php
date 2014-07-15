@@ -32,16 +32,6 @@
                         <input type="hidden"
                             name="paymentType"
                             value="<?php echo $linking['params']['paymentType']?>" >
-                        <?php if (!empty($linking['params']['shopSuccessURL'])): ?>
-                        <input type="hidden"
-                            name="shopSuccessURL"
-                            value="<?php echo $linking['params']['shopSuccessURL']?>" >
-                        <?php endif; ?>
-                        <?php if (!empty($linking['params']['shopFailURL'])): ?>
-                        <input type="hidden"
-                            name="shopFailURL"
-                            value="<?php echo $linking['params']['shopFailURL']?>" >
-                        <?php endif; ?>
                         <br />
                         <div class="checkbox">
                             <input id="spot_agree"
