@@ -61,6 +61,7 @@ angular.module('mobispot').controller('SpotController',
     if ($scope.general.views != 'settings') {
       $cookies.spot_curent_views = $scope.general.views;
     }
+    $scope.actions.page = '';
 
     if ($scope.general.views == 'spot'){
       $scope.viewSpot($scope.spot);
