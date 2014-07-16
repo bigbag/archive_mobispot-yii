@@ -118,10 +118,10 @@
 	padding: 4px 42px 2px;
 }
 .button.add-spot{
-	height: 99px;
-	width: 99px;
-	line-height: 99px;
-	margin-top: 32px;
+	height: 50px;
+	width: 50px;
+	line-height: 50px;
+	margin-left: 17px;
 	-webkit-transition: color 600ms ease-out;
 	-moz-transition: color 600ms ease-out;
 	-o-transition: color 600ms ease-out;
@@ -130,6 +130,7 @@
 	-moz-transition: background-color 600ms ease-out;
 	-o-transition: background-color 600ms ease-out;
 	transition: background-color 600ms ease-out;
+	margin-bottom: 0;
 }
 .button.add-spot .m-tooltip-open{
 	display: block;
@@ -160,8 +161,8 @@
 	float: left;
 	color: #000;
 	font-style: normal;
-	font-size: 38px;
-	width: 99px;
+	font-size: 20px;
+	width: 50px;
 	text-align: center;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
