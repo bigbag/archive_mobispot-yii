@@ -15,7 +15,10 @@
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/superslides.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/reset.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
@@ -28,7 +31,7 @@
     <script src="/themes/mobispot/js/angular.min.js"></script>
 
 </head>
-<body >
+<body class="ofert-page">
     <?php echo $content; ?>
 
     <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
