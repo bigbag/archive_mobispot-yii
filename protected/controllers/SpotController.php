@@ -148,7 +148,8 @@ class SpotController extends MController
         if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk((int)$data['discodes']);
-        if (!$spot) MHttp::getJsonAndExit($answer);
+        if (!$spot or $spot->user_id != Yii::app()->user->id) 
+            MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
@@ -609,8 +610,6 @@ class SpotController extends MController
                 'order' => 'creation_date desc',
                 'limit' => Report::MAX_RECORD)
         );
-
-        if (!$spot) MHttp::getJsonAndExit($answer);
 
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/wallet',
