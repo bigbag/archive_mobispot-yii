@@ -700,8 +700,13 @@ class SpotController extends MController
     // Запрос к yandex api на получение параметров для привязки карты
     public function getLinkingParams($discodes_id)
     {
-        $url = Yii::app()->params['internal_api'] . '/api/internal/yandex/linking/';
-        $url .= $discodes_id . '?url=' . rawurlencode(Yii::app()->params['siteUrl']. '/spot/list/');
+        $url = 
+            Yii::app()->params['internal_api'] 
+            . '/api/internal/yandex/linking/'
+            . $discodes_id 
+            . '?url=' 
+            . rawurlencode($this->spotUrl($discodes_id));
+            
         return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
@@ -722,13 +727,6 @@ class SpotController extends MController
         );
         if (!$wallet) MHttp::setNotFound();
 
-        if ($this->isHostMobile() and !empty(Yii::app()->params['mobile_host'])) {
-            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
-
-            if ($spot){
-                $url = 'http://' . Yii::app()->params['mobile_host'] . '/spot/view/' . $spot->url;
-            }
-        }
         $linking = $this->getLinkingParams($discodes_id);
         $this->render('card_ofert', array('linking'=>$linking));
     }
@@ -1446,5 +1444,30 @@ class SpotController extends MController
         $this->layout = self::MOBILE_LAYOUT;
         $this->render('//mobile/spot/add_spot', array(
         ));
+    }
+    
+    public function spotUrl($discodes_id = false)
+    {
+        $answer = Yii::app()->params['siteUrl']. '/spot/list/';
+        
+        if (!$this->isHostMobile() or empty(Yii::app()->params['mobile_host']))
+            return $answer;
+        
+        $answer = 
+            'http://' 
+            . Yii::app()->params['mobile_host']
+            . '/spot/list/';
+        
+        if ($discodes_id)
+            $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+        
+        if (!empty($spot))
+            $answer = 
+                'http://' 
+                . Yii::app()->params['mobile_host']
+                . '/spot/view/' 
+                . $spot->url;
+        
+        return $answer;
     }
 }
