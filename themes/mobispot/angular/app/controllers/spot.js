@@ -101,6 +101,7 @@ angular.module('mobispot').controller('SpotController',
           contentService.scrollPage('#block-' + $scope.scroll_key);
         else
           contentService.scrollPage('body');
+        $scope.scroll_key = -1;
       }
     });
   };
@@ -970,13 +971,13 @@ angular.module('mobispot').controller('SpotController',
           var player = angular.element('#block-' + blockKey + ' .video-vimeo');
           player.css('width', '100%');
           player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-      }/*
+      }
       else if (angular.element('#block-' + blockKey + ' .yt_player').length == 1)
       {
           var player = angular.element('#block-' + blockKey + ' .yt_player');
           player.css('width', '100%');
           player.css('height', (parseInt(player.css('width'), 10) / player.attr('rel') + 'px'));
-      }*/
+      }
   };
 
   $scope.setNewPass = function(spot)
