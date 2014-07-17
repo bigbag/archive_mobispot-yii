@@ -94,7 +94,7 @@ class ServiceController extends MController
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
-            $this->setNotFound();
+            MHttp::setNotFound();
         if (!Yii::app()->user->id)
             $this->setAccess();
 

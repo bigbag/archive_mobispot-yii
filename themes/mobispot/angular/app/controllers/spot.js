@@ -47,7 +47,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#actSpot').click();
         delete $scope.spot.code;
         delete $scope.spot.terms;
-        if ($scope.general.host_mobile)
+        if ($scope.host_mobile)
             window.location.href = 'http://' + window.location.hostname + '/spot/list';
       }else if (data.error == 'yes') {
         $scope.error.code = true;
@@ -620,7 +620,7 @@ angular.module('mobispot').controller('SpotController',
                     var centerWidth = (window.screen.width - options.popup.width) / 2,
                       centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                    if (!$scope.general.host_mobile) {
+                    if (!$scope.host_mobile) {
                         popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
                     }
 
@@ -775,7 +775,7 @@ angular.module('mobispot').controller('SpotController',
                   var centerWidth = (window.screen.width - options.popup.width) / 2,
                     centerHeight = (window.screen.height - options.popup.height) / 2;
 
-                  if (!$scope.general.host_mobile) {
+                  if (!$scope.host_mobile) {
                     popup = window.open(url, 'yii_eauth_popup', 'width=' + options.popup.width + ',height=' + options.popup.height + ',left=' + centerWidth + ',top=' + centerHeight + ',resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes');
                   }
 
@@ -804,7 +804,7 @@ angular.module('mobispot').controller('SpotController',
 
                   if ('undefined' != typeof (data.content))
                   {
-                    if (!$scope.general.host_mobile)
+                    if (!$scope.host_mobile)
                       act = angular.element(e.currentTarget).parent().parent('div.spot-item');
                     else
                       act = angular.element(e.currentTarget).parent().parent().parent().parent();
@@ -858,7 +858,7 @@ angular.module('mobispot').controller('SpotController',
         $http.post('/user/disableLoyalty', data).success(function(data) {
             if ('no' == data.error)
             {
-                if (!$scope.general.host_mobile)
+                if (!$scope.host_mobile)
                     act = angular.element(e.currentTarget).parent().parent('div.spot-item');
                 else
                     act = angular.element(e.currentTarget).parent().parent().parent().parent();

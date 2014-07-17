@@ -1413,12 +1413,12 @@ class SpotController extends MController
         $url = Yii::app()->request->getQuery('url', 0);
         $scroll_key = (int)Yii::app()->request->getQuery('key', 0);
         if (!$url)
-            $this->setNotFound();
+            MHttp::setNotFound();
 
         $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
 
         if (!$spot)
-            $this->setNotFound();
+            MHttp::setNotFound();
 
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
