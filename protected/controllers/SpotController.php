@@ -1411,7 +1411,7 @@ class SpotController extends MController
             MHttp::setAccess();
 
         $url = Yii::app()->request->getQuery('url', 0);
-        $key = Yii::app()->request->getQuery('key', 0);
+        $scroll_key = (int)Yii::app()->request->getQuery('key', 0);
         if (!$url)
             $this->setNotFound();
 
@@ -1422,15 +1422,26 @@ class SpotController extends MController
 
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
+            
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
 
         $curent_views = $this->getCurentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
-        $this->render('/mobile/spot/personal', array(
+        $data = array(
             'spot' => $spot,
+            'wallet' => $wallet,
             'curent_views' => $curent_views,
-            'to_key' => $key,
-        ));
+        );
+        
+        if (!empty($scroll_key))
+        {
+            $data['scroll_key'] = $scroll_key;
+            $curent_views = 'spot';
+        }
+        
+        $this->render('/mobile/spot/personal', $data);
 
         Yii::app()->end();
     }

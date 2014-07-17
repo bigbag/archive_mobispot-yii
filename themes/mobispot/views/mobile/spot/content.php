@@ -1,7 +1,7 @@
 <article class="active spot-link">
     <div class="input-block">
         <textarea class="main-input" ng-model="spot.content" name=""></textarea>
-        <p class="input-over">
+        <p class="input-over" ng-hide="spot.content">
             <?php echo Yii::t('spot', 'Type the text or links'); ?>
         </p>
         <div class="soc-link">
@@ -120,7 +120,4 @@
             </a>
         </article>
     </div>
-    <?php if (!empty($to_key)):?>
-        <span ng-init="toKey(<?php echo $to_key; ?>)"></span>
-    <?php endif; ?>
 </article>

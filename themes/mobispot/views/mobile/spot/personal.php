@@ -34,7 +34,7 @@
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
-
+                <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
                 <a
                     ng-class="{active: general.views=='wallet'}"
                     ng-click="general.views='wallet'"
@@ -46,6 +46,7 @@
                     ng-click="general.views='coupon'" >
                     <?php echo Yii::t('spot', 'Coupon'); ?>
                 </a>
+                <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
                     ng-click="general.views='settings'"
@@ -57,6 +58,9 @@
             </section>
         </section>
         <div class="fc"></div>
+        <?php if (!empty($scroll_key)):?>
+            <span ng-init="scroll_key=<?php echo $scroll_key; ?>"></span>
+        <?php endif; ?>
     </div>
     <?php //include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/layouts/block/soc-widget.php');
     ?>
