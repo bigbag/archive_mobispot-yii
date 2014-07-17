@@ -34,7 +34,7 @@
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
-
+                <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
                 <a
                     ng-class="{active: general.views=='wallet'}"
                     ng-click="general.views='wallet'"
@@ -46,6 +46,7 @@
                     ng-click="general.views='coupon'" >
                     <?php echo Yii::t('spot', 'Coupon'); ?>
                 </a>
+                <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
                     ng-click="general.views='settings'"

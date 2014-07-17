@@ -1422,12 +1422,16 @@ class SpotController extends MController
 
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
+            
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
 
         $curent_views = $this->getCurentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
         $data = array(
             'spot' => $spot,
+            'wallet' => $wallet,
             'curent_views' => $curent_views,
         );
         
