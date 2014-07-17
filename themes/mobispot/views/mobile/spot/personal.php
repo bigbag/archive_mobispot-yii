@@ -57,6 +57,9 @@
             </section>
         </section>
         <div class="fc"></div>
+        <?php if (!empty($scroll_key)):?>
+            <span ng-init="scroll_key=<?php echo $scroll_key; ?>"></span>
+        <?php endif; ?>
     </div>
     <?php //include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/layouts/block/soc-widget.php');
     ?>

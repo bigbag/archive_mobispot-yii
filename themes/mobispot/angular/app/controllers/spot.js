@@ -96,7 +96,11 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
-        contentService.scrollPage('body');
+
+        if ($scope.scroll_key)
+          contentService.scrollPage('#block-' + $scope.scroll_key);
+        else
+          contentService.scrollPage('body');
       }
     });
   };

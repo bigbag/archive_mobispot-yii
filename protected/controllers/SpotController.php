@@ -1411,7 +1411,7 @@ class SpotController extends MController
             MHttp::setAccess();
 
         $url = Yii::app()->request->getQuery('url', 0);
-        $key = Yii::app()->request->getQuery('key', 0);
+        $scroll_key = (int)Yii::app()->request->getQuery('key', 0);
         if (!$url)
             $this->setNotFound();
 
@@ -1426,11 +1426,18 @@ class SpotController extends MController
         $curent_views = $this->getCurentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
-        $this->render('/mobile/spot/personal', array(
+        $data = array(
             'spot' => $spot,
             'curent_views' => $curent_views,
-            'to_key' => $key,
-        ));
+        );
+        
+        if (!empty($scroll_key))
+        {
+            $data['scroll_key'] = $scroll_key;
+            $curent_views = 'spot';
+        }
+        
+        $this->render('/mobile/spot/personal', $data);
 
         Yii::app()->end();
     }

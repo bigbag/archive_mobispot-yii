@@ -120,7 +120,4 @@
             </a>
         </article>
     </div>
-    <?php if (!empty($to_key)):?>
-        <span ng-init="toKey(<?php echo $to_key; ?>)"></span>
-    <?php endif; ?>
 </article>
