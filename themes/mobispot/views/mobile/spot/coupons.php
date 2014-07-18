@@ -2,7 +2,7 @@
     <div class="tabs-item">
         <div class="button-input">
             <input type="text" ng-model="actions.phrase" placeholder="<?php echo Yii::t('spot', 'Search for Coupons')?>">
-            <a ng-click="listCoupons(spot, actions)"><i class="icon">&#xe612;</i></a>
+            <a ng-click="filterCoupons(spot, actions)"><i class="icon">&#xe612;</i></a>
         </div>
         <div class="filter" ng-init="actions.phrase='';actions.page = 'all';">
             <a ng-class="{fl: actions.page == 'all'}" ng-click="actions.page = 'all'"><?php echo Yii::t('spot', 'All')?></a>
@@ -15,4 +15,5 @@
             <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/spot/coupon.php'); ?>
         <?php endforeach; */?>
     </div>
+    <span ng-init="couponsScroll()"></span>
 </article>

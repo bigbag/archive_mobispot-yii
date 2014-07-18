@@ -574,7 +574,7 @@ a.active .m-tooltip{
 	left:100%;
 }
 .add-spot-box{
-	padding: 26px 0 14px;
+	padding: 11px 0 14px;
 }
 .add-spot-box .spot-button{
 	margin-bottom: 0;
@@ -605,8 +605,10 @@ a.active .m-tooltip{
 	color: #E0E6ED;
 }
 .label-cover h4{
-	margin: 10px 0 5px;
+	margin: 11px 0 9px;
+	font-size: 18px;
 	color: #E0E6ED;
+	letter-spacing: 1px;
 }
 .put + .label-cover{
 	display: none;
@@ -2308,7 +2310,7 @@ form .row .row.margen_0{
 	background: #30D874;
 }
 .sub-h {
-	margin-bottom: 22px;
+	margin-bottom: 11px;
 	display: block;
 	color: #333;
 	font-size: 13px;
@@ -2729,7 +2731,7 @@ a.sub-link__disable, a.sub-link__disable:hover {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	overflow: hidden;
-	height: 237px;
+	height: 183px;
 }
 .type-coupon .s-content img{
 	width: 100%;
@@ -2750,6 +2752,7 @@ a.sub-link__disable, a.sub-link__disable:hover {
 	display: block;
 	float: none;
 	margin-top: 0;
+	font-size: 22px;
 }
 .coupon-terms h3 sup{
 	color: #30D874;
@@ -2770,7 +2773,7 @@ a.sub-link__disable, a.sub-link__disable:hover {
 .type-coupon__50{
 	width: 49%;
 	float: left;
-	height: 504px;
+	height: 472px;
 	clear: none;
 }
 .type-coupon__50:nth-child(even){

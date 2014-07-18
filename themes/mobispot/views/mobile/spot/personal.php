@@ -5,7 +5,7 @@
         user.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
-        general.host_mobile=1;
+        host_mobile=1;
         spot.status=<?php echo $spot->status; ?>
         "
 >
@@ -34,7 +34,7 @@
                 >
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
-
+                <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
                 <a
                     ng-class="{active: general.views=='wallet'}"
                     ng-click="general.views='wallet'"
@@ -46,6 +46,7 @@
                     ng-click="general.views='coupon'" >
                     <?php echo Yii::t('spot', 'Coupon'); ?>
                 </a>
+                <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
                     ng-click="general.views='settings'"
@@ -57,6 +58,9 @@
             </section>
         </section>
         <div class="fc"></div>
+        <?php if (!empty($scroll_key)):?>
+            <span ng-init="scroll_key=<?php echo $scroll_key; ?>"></span>
+        <?php endif; ?>
     </div>
     <?php //include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/layouts/block/soc-widget.php');
     ?>

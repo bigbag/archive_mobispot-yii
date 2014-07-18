@@ -148,7 +148,8 @@ class SpotController extends MController
         if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk((int)$data['discodes']);
-        if (!$spot) MHttp::getJsonAndExit($answer);
+        if (!$spot or $spot->user_id != Yii::app()->user->id) 
+            MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
@@ -610,8 +611,6 @@ class SpotController extends MController
                 'limit' => Report::MAX_RECORD)
         );
 
-        if (!$spot) MHttp::getJsonAndExit($answer);
-
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/wallet',
             array(
@@ -801,7 +800,8 @@ class SpotController extends MController
             )
         );
 
-        $coupons = Loyalty::getCoupons($wallet->id);
+        $couponsList = Loyalty::getCoupons($wallet->id, Loyalty::PAGE_ALL, '', 0, -1);
+        $coupons = $couponsList['coupons'];
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/coupons',
             array(
@@ -823,7 +823,10 @@ class SpotController extends MController
     {
         $answer = array(
             'error' => 'yes',
-            'content' => ''
+            'content' => '',
+            'count' => 0,
+            'offset' => 0,
+            'countAll' => 0,
         );
 
         $data = MHttp::validateRequest();
@@ -845,8 +848,15 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
+        $offset = 0;
+        if (!empty($data['offset']))
+            $offset = $data['offset'];
 
-        $coupons = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase']);
+        $couponsList = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase'], $offset);
+        $coupons = $couponsList['coupons'];
+        $answer['count'] = $couponsList['count'];
+        $answer['offset'] = $couponsList['offset'];
+        $answer['count_all'] = $couponsList['countAll'];
 
         $answer['content'] = $this->renderPartial(
             '//mobile/spot/list_coupons',
@@ -1412,26 +1422,37 @@ class SpotController extends MController
             MHttp::setAccess();
 
         $url = Yii::app()->request->getQuery('url', 0);
-        $key = Yii::app()->request->getQuery('key', 0);
+        $scroll_key = (int)Yii::app()->request->getQuery('key', 0);
         if (!$url)
-            $this->setNotFound();
+            MHttp::setNotFound();
 
         $spot = Spot::model()->findByAttributes(array('url' => $url, 'user_id'=>Yii::app()->user->id));
 
         if (!$spot)
-            $this->setNotFound();
+            MHttp::setNotFound();
 
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
+            
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
 
         $curent_views = $this->getCurentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
-        $this->render('/mobile/spot/personal', array(
+        $data = array(
             'spot' => $spot,
+            'wallet' => $wallet,
             'curent_views' => $curent_views,
-            'to_key' => $key,
-        ));
+        );
+        
+        if (!empty($scroll_key))
+        {
+            $data['scroll_key'] = $scroll_key;
+            $curent_views = 'spot';
+        }
+        
+        $this->render('/mobile/spot/personal', $data);
 
         Yii::app()->end();
     }

@@ -37,7 +37,7 @@
                         ng-class="{error: error.email}"
                         required
                     >
-                    <a class="form-link" href="#b_forgot"><?php echo Yii::t('user', 'Forgot password?'); ?></a>
+                    <a class="form-link" href="/user/forgotPassword"><?php echo Yii::t('user', 'Forgot password?'); ?></a>
                         <div class="soc-login">
                         <p><?php echo Yii::t('user', 'login with'); ?></p>
                             <a href="/service/social?service=google_oauth"><img src='/themes/mobile/images/icons/google-i_x2.png'></a>

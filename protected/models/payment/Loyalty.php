@@ -52,6 +52,8 @@ class Loyalty extends CActiveRecord
     const GOOGLE_PLUS_ONE = 13;
     const YOUTUBE_FOLLOWING = 14;
     const YOUTUBE_VIEWS = 15;
+    
+    const MOBILE_COUNT = 3;
 
     public function getRulesList()
     {
@@ -290,10 +292,10 @@ class Loyalty extends CActiveRecord
         return true;
     }
 
-    public static function getCoupons($wallet_id = null, $page = self::PAGE_ALL, $phrase = '')
+    public static function getCoupons($wallet_id = null, $page = self::PAGE_ALL, $phrase = '', $offset = 0, $count = self::MOBILE_COUNT)
     {
         $criteria = new CDbCriteria;
-        $answer = array();
+        $answer = array('coupons'=>array(), 'offset'=>0, 'count'=>0, 'countAll'=>0);
         $loyaltyList = array();
 
         $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
@@ -305,6 +307,15 @@ class Loyalty extends CActiveRecord
                 ' AND (`desc` LIKE \'%' . $phrase . '%\''
                 .'OR `name` LIKE \'%' . $phrase . '%\')';
         }
+        
+        if ($offset and self::PAGE_MY != $page)
+        {
+            $criteria->offset = $offset;
+            $answer['offset'] = $offset;
+        }
+        if ($count and self::PAGE_MY != $page)
+            $criteria->limit = $count;
+        $answer['countAll'] = self::model()->count($criteria);
         $coupons = self::model()->findAll($criteria);
 
         if (null != $wallet_id) {
@@ -327,7 +338,8 @@ class Loyalty extends CActiveRecord
             if (in_array($coupon->id, $loyaltyList))
                 $part = true;
             if (self::PAGE_MY != $page or $part)
-                $answer[] = array(
+            {
+                $answer['coupons'][] = array(
                     'id' => $coupon->id,
                     'name' => $coupon->name,
                     'coupon_class' => $coupon->coupon_class,
@@ -336,6 +348,13 @@ class Loyalty extends CActiveRecord
                     'soc_block' => $coupon->soc_block,
                     'part' => $part,
                 );
+                $answer['count'] = $answer['count'] + 1;
+            }
+        }
+        
+        if (self::PAGE_MY == $page) {
+            $answer['offset'] = $answer['count'];
+            $answer['countAll'] = $answer['count'];
         }
 
         return $answer;
