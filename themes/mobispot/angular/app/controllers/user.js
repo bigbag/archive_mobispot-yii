@@ -6,6 +6,7 @@ angular.module('mobispot').controller('UserController',
   $scope.error = {};
   $scope.result = {};
   $scope.modal = 'none';
+  $scope.host_mobile = 0;
 
   var prevSlide = function() {
    $('.slidesjs-previous').click();
@@ -143,11 +144,17 @@ angular.module('mobispot').controller('UserController',
       if (data.error == 'yes') {
         $scope.error.email = true;
         $scope.error.content = data.content;
+        if ($scope.host_mobile)
+            contentService.setModal(data.content, 'error'); 
       }
       else if (data.error == 'no'){
         $scope.user.email = '';
         $scope.result.message = data.content;
-        contentService.viewModal('message');
+
+        if ($scope.host_mobile)
+            contentService.setModal(data.content, 'none'); 
+        else
+            contentService.viewModal('message');
       }
     });
   };

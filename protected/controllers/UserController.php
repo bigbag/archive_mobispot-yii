@@ -274,4 +274,10 @@ class UserController extends MController
 
         echo json_encode($answer);
     }
+    
+    public function actionForgotPassword()
+    {
+        $this->layout = self::MOBILE_LAYOUT;
+        $this->render('//mobile/spot/forgot', array());
+    }
 }
