@@ -800,7 +800,8 @@ class SpotController extends MController
             )
         );
 
-        $coupons = Loyalty::getCoupons($wallet->id);
+        $couponsList = Loyalty::getCoupons($wallet->id, Loyalty::PAGE_ALL, '', 0, -1);
+        $coupons = $couponsList['coupons'];
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/coupons',
             array(
@@ -822,7 +823,10 @@ class SpotController extends MController
     {
         $answer = array(
             'error' => 'yes',
-            'content' => ''
+            'content' => '',
+            'count' => 0,
+            'offset' => 0,
+            'countAll' => 0,
         );
 
         $data = MHttp::validateRequest();
@@ -844,8 +848,15 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
+        $offset = 0;
+        if (!empty($data['offset']))
+            $offset = $data['offset'];
 
-        $coupons = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase']);
+        $couponsList = Loyalty::getCoupons($wallet->id, $data['page'], $data['phrase'], $offset);
+        $coupons = $couponsList['coupons'];
+        $answer['count'] = $couponsList['count'];
+        $answer['offset'] = $couponsList['offset'];
+        $answer['count_all'] = $couponsList['countAll'];
 
         $answer['content'] = $this->renderPartial(
             '//mobile/spot/list_coupons',
