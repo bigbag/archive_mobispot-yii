@@ -58,6 +58,9 @@ class ServiceController extends MController
         if (!(Yii::app()->user->isGuest)) {
             Yii::app()->cache->get('user_' . Yii::app()->user->id);
             Yii::app()->user->logout();
+
+            unset(Yii::app()->request->cookies['spot_curent_discodes']);
+            unset(Yii::app()->request->cookies['spot_curent_views']);
             unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
         }
     }
