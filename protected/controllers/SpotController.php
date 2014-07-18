@@ -148,7 +148,7 @@ class SpotController extends MController
         if (!isset($data['discodes'])) MHttp::getJsonAndExit($answer);
 
         $spot = Spot::model()->findByPk((int)$data['discodes']);
-        if (!$spot or $spot->user_id != Yii::app()->user->id) 
+        if (!$spot or $spot->user_id != Yii::app()->user->id)
             MHttp::getJsonAndExit($answer);
 
         $wallet = PaymentWallet::model()->findByAttributes(
@@ -699,13 +699,13 @@ class SpotController extends MController
     // Запрос к yandex api на получение параметров для привязки карты
     public function getLinkingParams($discodes_id)
     {
-        $url = 
-            Yii::app()->params['internal_api'] 
+        $url =
+            Yii::app()->params['internal_api']
             . '/api/internal/yandex/linking/'
-            . $discodes_id 
-            . '?url=' 
+            . $discodes_id
+            . '?url='
             . rawurlencode($this->spotUrl($discodes_id));
-            
+
         return CJSON::decode(MHttp::setCurlRequest($url), true);
     }
 
@@ -1433,7 +1433,7 @@ class SpotController extends MController
 
         if (!$this->isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
-            
+
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
 
@@ -1445,13 +1445,12 @@ class SpotController extends MController
             'wallet' => $wallet,
             'curent_views' => $curent_views,
         );
-        
-        if (!empty($scroll_key))
-        {
+
+        if (!empty($scroll_key)) {
             $data['scroll_key'] = $scroll_key;
             $curent_views = 'spot';
         }
-        
+
         $this->render('/mobile/spot/personal', $data);
 
         Yii::app()->end();
@@ -1466,29 +1465,29 @@ class SpotController extends MController
         $this->render('//mobile/spot/add_spot', array(
         ));
     }
-    
+
     public function spotUrl($discodes_id = false)
     {
         $answer = Yii::app()->params['siteUrl']. '/spot/list/';
-        
+
         if (!$this->isHostMobile() or empty(Yii::app()->params['mobile_host']))
             return $answer;
-        
-        $answer = 
-            'http://' 
+
+        $answer =
+            'http://'
             . Yii::app()->params['mobile_host']
             . '/spot/list/';
-        
+
         if ($discodes_id)
             $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
-        
+
         if (!empty($spot))
-            $answer = 
-                'http://' 
+            $answer =
+                'http://'
                 . Yii::app()->params['mobile_host']
-                . '/spot/view/' 
+                . '/spot/view/'
                 . $spot->url;
-        
+
         return $answer;
     }
 }

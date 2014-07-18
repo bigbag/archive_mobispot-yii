@@ -139,7 +139,7 @@ class SocToken extends CActiveRecord
 
         if ($userToken->save())
             $answer = $userToken;
-            
+
         $dubleTokens = SocToken::model()->findAllByAttributes(
                 array(
                     'type' => SocToken::getTypeByService($info['service']),
@@ -147,12 +147,11 @@ class SocToken extends CActiveRecord
                 )
         );
 
-        foreach ($dubleTokens as $row) 
-        {
+        foreach ($dubleTokens as $row) {
             if ($row->user_id != $info['user_id'])
                 $row->delete();
         }
-            
+
         return $answer;
     }
 

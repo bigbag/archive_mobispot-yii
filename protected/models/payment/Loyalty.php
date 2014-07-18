@@ -52,7 +52,7 @@ class Loyalty extends CActiveRecord
     const GOOGLE_PLUS_ONE = 13;
     const YOUTUBE_FOLLOWING = 14;
     const YOUTUBE_VIEWS = 15;
-    
+
     const MOBILE_COUNT = 3;
 
     public function getRulesList()
@@ -307,9 +307,8 @@ class Loyalty extends CActiveRecord
                 ' AND (`desc` LIKE \'%' . $phrase . '%\''
                 .'OR `name` LIKE \'%' . $phrase . '%\')';
         }
-        
-        if ($offset and self::PAGE_MY != $page)
-        {
+
+        if ($offset and self::PAGE_MY != $page) {
             $criteria->offset = $offset;
             $answer['offset'] = $offset;
         }
@@ -337,8 +336,7 @@ class Loyalty extends CActiveRecord
             $part = false;
             if (in_array($coupon->id, $loyaltyList))
                 $part = true;
-            if (self::PAGE_MY != $page or $part)
-            {
+            if (self::PAGE_MY != $page or $part) {
                 $answer['coupons'][] = array(
                     'id' => $coupon->id,
                     'name' => $coupon->name,
@@ -351,7 +349,7 @@ class Loyalty extends CActiveRecord
                 $answer['count'] = $answer['count'] + 1;
             }
         }
-        
+
         if (self::PAGE_MY == $page) {
             $answer['offset'] = $answer['count'];
             $answer['countAll'] = $answer['count'];
