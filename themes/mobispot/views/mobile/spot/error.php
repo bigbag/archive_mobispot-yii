@@ -1,6 +1,6 @@
 <div class="spot-item">
     <p class="item-area item-type__text">
-        Для продолжения работы с сайтом вам необходимо ввести код изображенный на картинке.
+        <?php echo Yii::t('user', 'Для продолжения работы с сайтом вам необходимо ввести код изображенный на картинке.'); ?>
         <?php echo CHtml::errorSummary($form); ?>
     </p>
 </div>

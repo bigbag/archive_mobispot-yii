@@ -48,10 +48,8 @@ class Phone extends CActiveRecord
         $brands = array();
         $answer = array();
 
-        foreach ($phones as $phone)
-        {
-            if (!isset($brands[$phone->brand]))
-            {
+        foreach ($phones as $phone) {
+            if (!isset($brands[$phone->brand])) {
                 $brands[$phone->brand] = array();
                 $brands[$phone->brand]['models'] = array();
                 $brands[$phone->brand]['badModels'] = array();
@@ -63,8 +61,7 @@ class Phone extends CActiveRecord
                 $brands[$phone->brand]['models'][] = array('id' => $phone->slug, 'name' => $phone->name, 'page' => $phone->page);
         }
 
-        foreach ($brands as $brand => $brandPhones)
-        {
+        foreach ($brands as $brand => $brandPhones) {
             if (count($brandPhones['badModels']))
                 $answer[] = array('brand' => $brand, 'models' => $brandPhones['models'], 'badModels' => $brandPhones['badModels']);
             else
@@ -82,10 +79,8 @@ class Phone extends CActiveRecord
         $brands = array();
         $answer = array();
 
-        foreach ($phones as $phone)
-        {
-            if (!isset($brands[$phone->brand]))
-            {
+        foreach ($phones as $phone) {
+            if (!isset($brands[$phone->brand])) {
                 $brands[$phone->brand] = array();
                 $brands[$phone->brand]['models'] = array();
             }
@@ -93,8 +88,7 @@ class Phone extends CActiveRecord
             $brands[$phone->brand]['models'][] = array('id' => $phone->slug, 'name' => $phone->name, 'page' => $phone->page);
         }
 
-        foreach ($brands as $brand => $brandPhones)
-        {
+        foreach ($brands as $brand => $brandPhones) {
             $answer[] = array('brand' => $brand, 'models' => $brandPhones['models']);
         }
 

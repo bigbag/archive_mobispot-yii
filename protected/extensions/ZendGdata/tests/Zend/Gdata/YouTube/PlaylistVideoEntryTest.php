@@ -35,7 +35,8 @@ require_once 'Zend/Gdata/YouTube.php';
 class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->entryText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/PlaylistVideoEntryDataSample1.xml',
                 true);
@@ -45,7 +46,8 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
         $this->entry = new Zend_Gdata_YouTube_PlaylistVideoEntry();
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($playlistVideoEntry) {
+    private function verifyAllSamplePropertiesAreCorrect($playlistVideoEntry)
+    {
         $this->assertEquals('http://gdata.youtube.com/feeds/playlists/46A2F8C9B36B6FE7/efb9b9a8dd4c2b21',
             $playlistVideoEntry->id->text);
         $this->assertEquals('2007-09-20T22:56:57.061Z', $playlistVideoEntry->updated->text);
@@ -103,7 +105,8 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
         $this->assertEquals('http://gdata.youtube.com/feeds/videos/UMFI1hdm96E/comments', $playlistVideoEntry->comments->feedLink->href);
     }
 
-      private function verifyAllSamplePropertiesAreCorrectV2 ($playlistVideoEntry) {
+      private function verifyAllSamplePropertiesAreCorrectV2($playlistVideoEntry)
+      {
         $this->assertEquals(
             'tag:youtube.com,2008:playlist:4E6265CEF8BAA793:579617126485907C',
             $playlistVideoEntry->id->text);
@@ -266,43 +269,50 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
 
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElementsV2() {
+    public function testSampleEntryShouldHaveNoExtensionElementsV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->V2entryText);
         $this->assertTrue(is_array($this->entry->extensionElements));
         $this->assertTrue(count($this->entry->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributesV2() {
+    public function testSampleEntryShouldHaveNoExtensionAttributesV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->V2entryText);
         $this->assertTrue(is_array($this->entry->extensionAttributes));
         $this->assertTrue(count($this->entry->extensionAttributes) == 0);
     }
 
-    public function testEmptyPlaylistVideoEntryToAndFromStringShouldMatch() {
+    public function testEmptyPlaylistVideoEntryToAndFromStringShouldMatch()
+    {
         $entryXml = $this->entry->saveXML();
         $newPlaylistVideoEntry = new Zend_Gdata_YouTube_PlaylistVideoEntry();
         $newPlaylistVideoEntry->transferFromXML($entryXml);
@@ -310,7 +320,8 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
         $this->assertTrue($entryXml == $newPlaylistVideoEntryXml);
     }
 
-    public function testEmptyPlaylistVideoEntryToAndFromStringShouldMatchV2() {
+    public function testEmptyPlaylistVideoEntryToAndFromStringShouldMatchV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $entryXml = $this->entry->saveXML();
         $newPlaylistVideoEntry = new Zend_Gdata_YouTube_PlaylistVideoEntry();
@@ -320,18 +331,21 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
         $this->assertTrue($entryXml == $newPlaylistVideoEntryXml);
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->entry->transferFromXML($this->entryText);
         $this->verifyAllSamplePropertiesAreCorrect($this->entry);
     }
 
-    public function testSamplePropertiesAreCorrectV2 () {
+    public function testSamplePropertiesAreCorrectV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->V2entryText);
         $this->verifyAllSamplePropertiesAreCorrectV2($this->entry);
     }
 
-    public function testConvertPlaylistVideoEntryToAndFromString() {
+    public function testConvertPlaylistVideoEntryToAndFromString()
+    {
         $this->entry->transferFromXML($this->entryText);
         $entryXml = $this->entry->saveXML();
         $newPlaylistVideoEntry = new Zend_Gdata_YouTube_PlaylistVideoEntry();
@@ -341,7 +355,8 @@ class Zend_Gdata_YouTube_PlaylistVideoEntryTest extends PHPUnit_Framework_TestCa
         $this->assertEquals($entryXml, $newPlaylistVideoEntryXml);
     }
 
-    public function testConvertPlaylistVideoEntryToAndFromStringV2() {
+    public function testConvertPlaylistVideoEntryToAndFromStringV2()
+    {
         $this->entry->setMajorProtocolVersion(2);
         $this->entry->transferFromXML($this->V2entryText);
         $entryXml = $this->entry->saveXML();

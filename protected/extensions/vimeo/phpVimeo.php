@@ -170,8 +170,7 @@ class phpVimeo
         foreach ($call_params as $k => $v) {
             if (strpos($k, 'oauth_') === 0) {
                 $oauth_params[$k] = $v;
-            }
-            else if ($call_params[$k] !== null) {
+            } elseif ($call_params[$k] !== null) {
                 $api_params[$k] = $v;
             }
         }
@@ -190,8 +189,7 @@ class phpVimeo
         // Curl options
         if ($use_auth_header) {
             $params = $api_params;
-        }
-        else {
+        } else {
             $params = $all_params;
         }
 
@@ -201,8 +199,7 @@ class phpVimeo
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => 30
             );
-        }
-        else if (strtoupper($request_method) == 'POST') {
+        } elseif (strtoupper($request_method) == 'POST') {
             $curl_url = $url;
             $curl_opts = array(
                 CURLOPT_RETURNTRANSFER => true,
@@ -234,8 +231,7 @@ class phpVimeo
             $response = unserialize($response);
             if ($response->stat == 'ok') {
                 return $response;
-            }
-            else if ($response->err) {
+            } elseif ($response->err) {
                 throw new VimeoAPIException($response->err->msg, $response->err->code);
             }
 
@@ -437,8 +433,7 @@ class phpVimeo
                     'size' => filesize($chunk_file_name)
                 );
             }
-        }
-        else {
+        } else {
             $chunks[] = array(
                 'file' => realpath($file_path),
                 'size' => filesize($file_path)
@@ -502,8 +497,7 @@ class phpVimeo
         // Confirmation successful, return video id
         if ($complete->stat == 'ok') {
             return $complete->ticket->video_id;
-        }
-        else if ($complete->err) {
+        } elseif ($complete->err) {
             throw new VimeoAPIException($complete->err->msg, $complete->err->code);
         }
     }
@@ -528,11 +522,9 @@ class phpVimeo
     {
         if (is_array($input)) {
             return array_map(array('phpVimeo', 'url_encode_rfc3986'), $input);
-        }
-        else if (is_scalar($input)) {
+        } elseif (is_scalar($input)) {
             return str_replace(array('+', '%7E'), array(' ', '~'), rawurlencode($input));
-        }
-        else {
+        } else {
             return '';
         }
     }

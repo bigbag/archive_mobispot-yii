@@ -11,95 +11,23 @@
  * @property integer $amount
  * @property string $creation_date
  * @property integer $type
+ * @property string $request_id
+ * @property string $invoice_id
  * @property integer $status
  */
 class PaymentHistory extends CActiveRecord
 {
 
     const STATUS_NEW = 0;
-    const STATUS_COMPLETE = 1;
+    const STATUS_IN_PROGRESS = 1;
+    const STATUS_COMPLETE = 2;
     const STATUS_FAILURE = -1;
     const STATUS_MISSING = -2;
-    const DESC_FAILURE = 'Отмененное пополнение через Uniteller';
-    const DESC_COMPLETE = 'Пополнение через Uniteller';
-    const DESC_POS = 'Покупка';
-    const TYPE_MINUS = -1;
-    const TYPE_PLUS = 1;
-    const TYPE_CASHBACK = 2;
-    const RECORD_MAX = 20;
 
-    public function getPaymentDesc()
-    {
-        $txt = '';
-        switch ($this->type)
-        {
-            case self::TYPE_MINUS:
-                $txt.=Yii::t('payment', 'Покупка, ');
-                $term = Term::model()->findByPk($this->term_id);
-                if ($term)
-                {
-                    $txt.=$term->name;
-                }
-                else
-                {
-                    $txt.=Yii::t('payment', 'терминал ') . $this->term_id;
-                }
-                break;
+    const TYPE_SYSTEM = 1;
+    const TYPE_PAYMENT = 2;
 
-            case self::TYPE_PLUS:
-                if ($this->status == self::STATUS_COMPLETE)
-                {
-                    $txt.=Yii::t('payment', 'Пополнение через Uniteller');
-                }
-                else
-                {
-                    $txt.=Yii::t('payment', 'Отмененное пополнение через Uniteller');
-                }
-            case self::TYPE_CASHBACK:
-                break;
-                $txt.=Yii::t('payment', 'Возврат средств, ');
-                $term = Term::model()->findByPk($this->term_id);
-                if ($term)
-                {
-                    $txt.=$term->name;
-                }
-                else
-                {
-                    $txt.=Yii::t('payment', 'терминал ') . $this->term_id;
-                }
-        }
-
-        return $txt;
-    }
-
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NEW => Yii::t('payment', 'Новая'),
-            self::STATUS_COMPLETE => Yii::t('payment', 'Успешная'),
-            self::STATUS_FAILURE => Yii::t('payment', 'Сбойная'),
-        );
-    }
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_MINUS => Yii::t('payment', 'Расход'),
-            self::TYPE_PLUS => Yii::t('payment', 'Приход'),
-        );
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
-    }
+    const MAX_RECORD = 10;
 
     /**
      * Returns the static model of the specified AR class.
@@ -124,7 +52,7 @@ class PaymentHistory extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.history';
+        return 'history';
     }
 
     /**
@@ -135,21 +63,20 @@ class PaymentHistory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, wallet_id, amount, creation_date, status', 'required'),
+            array('user_id, wallet_id, amount, creation_date, status, request_id', 'required'),
             array('user_id, wallet_id, amount, type', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, user_id, wallet_id, amount, creation_date, type, status', 'safe', 'on' => 'search'),
+            array('id, user_id, wallet_id, amount, creation_date, type, status, request_id, invoice_id', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
-            if (!$this->status)
-                $this->status = self::STATUS_NEW;
+            if (!$this->status) $this->status = self::STATUS_NEW;
+            if (!$this->type) $this->type = self::TYPE_PAYMENT;
         }
 
         return parent::beforeValidate();
@@ -189,108 +116,6 @@ class PaymentHistory extends CActiveRecord
         );
     }
 
-    public function getListByWalletId($id, $count = 20)
-    {
-        $history = Yii::app()->cache->get('historys_wallet_' . $id);
-        if (!$history)
-        {
-            $criteria = new CDbCriteria;
-            $criteria->compare('wallet_id', $id);
-            $criteria->order = 'id desc';
-            $criteria->limit = $count;
-            $history = self::model()->complete()->findAll($criteria);
-
-            Yii::app()->cache->set('historys_wallet_' . $id, $history, 120);
-        }
-        return $history;
-    }
-
-    public function getListByParams($id, $page = 1, $search = false)
-    {
-        if (!$search)
-            $key = 'payment_history_' . md5($id . $page);
-        else
-            $key = 'payment_history_' . md5($id . $page . implode($search));
-
-        $answer = Yii::app()->cache->get($key);
-
-        if (!$answer)
-        {
-            $answer = array();
-
-            $criteria = new CDbCriteria;
-            $criteria->compare('wallet_id', $id);
-            $criteria->compare('status', self::STATUS_COMPLETE);
-            $criteria->order = 'id desc';
-            $count = PaymentHistory::model()->count($criteria);
-            $answer['count'] = $count;
-
-            $pages = new CPagination($count);
-            $pages->setCurrentPage($page);
-            $pages->pageSize = self::RECORD_MAX;
-            $pages->applyLimit($criteria);
-
-            $historys = PaymentHistory::model()->findAll($criteria);
-
-            $result = array();
-            foreach ($historys as $history)
-            {
-                $result[$history->id]['desc'] = $history->getPaymentDesc();
-                $result[$history->id]['creation_date'] = Yii::app()->dateFormatter->format("dd.MM.yyyy, HH:mm", $history->creation_date);
-                $result[$history->id]['amount'] = $history->amount;
-                $result[$history->id]['type'] = $history->getType();
-            }
-            $answer['result'] = $result;
-
-
-            // if ($filterDate and CDateTimeParser::parse($filterDate,'dd.MM.yyyy'))
-            // {
-            //     $criteria->compare('day(`creation_date`)', substr($filterDate, 0, 2));
-            //     $criteria->compare('month(`creation_date`)', substr($filterDate, 3, 2));
-            //     $criteria->compare('year(`creation_date`)', substr($filterDate, 6));
-            // }
-            // if ($filterTerm)
-            // {
-            //     $termCriteria = new CDbCriteria;
-            //     $termCriteria->addSearchCondition('name', $filterTerm);
-            //     $terms = Term::model()->findAll($termCriteria);
-            //     $inTerms = array();
-            //     foreach ($terms as $term)
-            //     {
-            //         $inTerms[] = $term->id;
-            //     }
-            //     $criteria->addInCondition('term_id', $inTerms);
-            // }
-            // $countHistory = self::model()->complete()->count($criteria);
-            // $criteria->limit = $count;
-            // if ($page > 1)
-            //     $criteria->offset = ($page - 1) * $count;
-            // $answer['history'] = self::model()->complete()->findAll($criteria);
-            // $answer['pagination'] = array('pages'=>ceil($countHistory / $count), 'current'=>$page);
-            // $answer['filter'] = array('date'=>$filterDate, 'term'=>$filterTerm);
-
-            Yii::app()->cache->set($key, $answer, 360);
-        }
-
-        return $answer;
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => Yii::t('payment', '№'),
-            'user_id' => Yii::t('payment', 'Пользователь'),
-            'wallet_id' => Yii::t('payment', 'Кошелёк'),
-            'amount' => Yii::t('payment', 'Сумма'),
-            'creation_date' => Yii::t('payment', 'Дата'),
-            'type' => Yii::t('payment', 'Тип'),
-            'status' => Yii::t('payment', 'Статус'),
-        );
-    }
-
     public function beforeSave()
     {
         $this->amount = ($this->amount) * 100;
@@ -305,7 +130,7 @@ class PaymentHistory extends CActiveRecord
 
     public function afterFind()
     {
-        $this->amount = ($this->amount) / 100;
+        if ($this->amount != 0)  $this->amount = ($this->amount) / 100;
 
         $delta = 4 * 60 * 60;
         $this->creation_date = date('H:i d.m.Y', strtotime($this->creation_date) + $delta);

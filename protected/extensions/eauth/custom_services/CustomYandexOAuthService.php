@@ -21,35 +21,27 @@ class CustomYandexOAuthService extends YandexOAuthService
     public function authenticate()
     {
         // user denied error
-        if (isset($_GET['error']) && $_GET['error'] == 'access_denied')
-        {
+        if (isset($_GET['error']) && $_GET['error'] == 'access_denied') {
             $this->cancel();
             return false;
         }
 
         // Get the access_token and save them to the session.
-        if (isset($_GET['code']))
-        {
+        if (isset($_GET['code'])) {
             $code = $_GET['code'];
             $token = $this->getAccessToken($code);
-            if (isset($token))
-            {
+            if (isset($token)) {
                 $this->saveAccessToken($token);
                 $this->authenticated = true;
             }
         }
         // Redirect to the authorization page
-        else
-        {
-            if (!$this->restoreAccessToken())
-            {
+        else {
+            if (!$this->restoreAccessToken()) {
                 // Use the URL of the current page as the callback URL.
-                if (isset($_GET['redirect_uri']))
-                {
+                if (isset($_GET['redirect_uri'])) {
                     $redirect_uri = $_GET['redirect_uri'];
-                }
-                else
-                {
+                } else {
                     $server = Yii::app()->request->getHostInfo();
                     $path = Yii::app()->request->getUrl();
                     $redirect_uri = $server . $path;

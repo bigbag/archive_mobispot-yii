@@ -7,6 +7,7 @@ class LoginForm extends CFormModel
     public $terms;
     public $password;
     public $rememberMe;
+    public $activ_code;
 
     /**
      * Declares the validation rules.
@@ -24,6 +25,7 @@ class LoginForm extends CFormModel
             array('rememberMe', 'boolean'),
             // password needs to be authenticated
             array('password', 'authenticate'),
+            array('activ_code, rememberMe, password, terms, email', 'safe'),
         );
     }
 
@@ -45,12 +47,10 @@ class LoginForm extends CFormModel
      */
     public function authenticate($attribute, $params)
     {
-        if (!$this->hasErrors())
-        { // we only want to authenticate when no input errors
+        if (!$this->hasErrors()) { // we only want to authenticate when no input errors
             $identity = new UserIdentity($this->email, $this->password);
             $identity->authenticate();
-            switch ($identity->errorCode)
-            {
+            switch ($identity->errorCode) {
                 case UserIdentity::ERROR_NONE:
                     $duration = $this->rememberMe ? 3600 * 24 * 30 : 0; // 30 days
                     Yii::app()->user->login($identity, $duration);

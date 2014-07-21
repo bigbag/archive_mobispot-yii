@@ -24,36 +24,6 @@ class User extends CActiveRecord
     const TYPE_USER = 0;
     const TYPE_ADMIN = 1;
 
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Non active'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
-            self::STATUS_VALID => Yii::t('user', 'Valid'),
-            self::STATUS_BANNED => Yii::t('user', 'Banned'),
-        );
-    }
-
-    public function getTypeList()
-    {
-        return array(
-            self::TYPE_USER => Yii::t('user', 'Пользователь'),
-            self::TYPE_ADMIN => Yii::t('user', 'Админ'),
-        );
-    }
-
-    public function getType()
-    {
-        $data = $this->getTypeList();
-        return $data[$this->type];
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -86,8 +56,6 @@ class User extends CActiveRecord
             array('password', 'length', 'max' => 128, 'min' => 2, 'message' => Yii::t('user', "Minimum password length 2 characters")),
             array('type, status', 'numerical', 'integerOnly' => true),
             array('email, password, activkey', 'length', 'max' => 128),
-            array('type', 'in', 'range' => array_keys($this->getTypeList())),
-            array('status', 'in', 'range' => array_keys($this->getStatusList())),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, email, password, activkey, creation_date, lastvisit, type, status', 'safe', 'on' => 'search'),
@@ -97,28 +65,26 @@ class User extends CActiveRecord
     public function getById($id)
     {
         $user = Yii::app()->cache->get('user_' . $id);
-        if (!$user)
-        {
+        if (!$user) {
             $user = self::model()->findByPk($id);
             Yii::app()->cache->set('user_' . $id, $user, 120);
         }
         return $user;
     }
 
-    public function getActivkey($salt)
+    public static function getActivkey($salt)
     {
         return sha1(microtime() . $salt);
     }
 
-    public function getByEmail($email)
+    public static function getByEmail($email)
     {
         return User::model()->findByAttributes(array('email' => $email));
     }
 
     public function getSocInfo($serviceName)
     {
-        try
-        {
+        try {
             $user_id = Yii::app()->user->id;
             $eauth = Yii::app()->eauth->getIdentity($serviceName);
             $eauth->redirectUrl = Yii::app()->user->returnUrl;
@@ -132,18 +98,18 @@ class User extends CActiveRecord
 
             if (!isset($atributes['id']))
                 return false;
+            $socInfo = new SocInfo;
+            $atributes['service'] = $socInfo->mergeMobile($atributes['service']);
             User::setCacheSocInfo($atributes);
 
             return $atributes;
-        }
-        catch (EAuthException $e)
-        {
+        } catch (EAuthException $e) {
             Yii::log('AuthException' . $e->getMessage(), 'error', 'application');
             return false;
         }
     }
 
-    public function setCacheSocInfo($info)
+    public static function setCacheSocInfo($info)
     {
         if (empty($info))
             return false;
@@ -151,7 +117,7 @@ class User extends CActiveRecord
         return true;
     }
 
-    public function getCacheSocInfo()
+    public static function getCacheSocInfo()
     {
         $info = Yii::app()->cache->get('user_soc_' . Yii::app()->request->csrfToken);
         if (!$info)
@@ -159,15 +125,15 @@ class User extends CActiveRecord
         return $info;
     }
 
-    public function clearCacheSocInfo()
+    public static function clearCacheSocInfo()
     {
         return Yii::app()->cache->delete('user_soc_' . Yii::app()->request->csrfToken);
     }
 
-    public function socialCheck($service, $soc_id)
+    public static function socialCheck($service, $soc_id)
     {
         $userToken = SocToken::model()->findByAttributes(array(
-            'soc_id' => $soc_id            
+            'soc_id' => $soc_id
         ));
         if (!$userToken)
             return false;
@@ -178,10 +144,46 @@ class User extends CActiveRecord
         );
     }
 
+    public static function userInfo()
+    {
+        if (!Yii::app()->user->id) return false;
+
+        $id = Yii::app()->user->id;
+        $info = Yii::app()->cache->get('user_' . $id);
+        if ($info) return $info;
+
+        $info = UserProfile::model()->findByPk($id);
+        $user = User::model()->findByPk($id);
+        if (empty($info->name)) $info->name = $user->email;
+
+        Yii::app()->cache->set('user_' . $id, $info, 3600);
+
+        return $info;
+    }
+
+    public static function lastVisit()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user) {
+            $user->lastvisit = date('Y-m-d H:i:s');
+            $user->activkey = sha1(microtime() . $user->password);
+            if ($user->save(false)) return true;
+        }
+        return false;
+    }
+
+    public static function autoLogin($user)
+    {
+        $identity = new SUserIdentity($user->email, $user->password);
+        $identity->authenticate();
+        User::lastVisit();
+
+        return Yii::app()->user->login($identity);
+    }
+
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             $this->status = self::STATUS_NOACTIVE;
             $this->type = self::TYPE_USER;
@@ -203,8 +205,7 @@ class User extends CActiveRecord
 
     protected function afterSave()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $profile = new UserProfile;
             $profile->user_id = $this->id;
             $profile->sex = UserProfile::SEX_UNKNOWN;
@@ -242,26 +243,6 @@ class User extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'password' => Yii::t('user', "Пароль"),
-            'verifyPassword' => Yii::t('user', "Подтверждение пароля"),
-            'email' => Yii::t('user', "E-mail"),
-            'name' => Yii::t('user', "Имя"),
-            'verifyEmail' => Yii::t('user', "Подтверждение Email"),
-            'verifyCode' => Yii::t('user', "Проверочный код"),
-            'id' => Yii::t('user', "Id"),
-            'activkey' => Yii::t('user', "Ключ активации"),
-            'creation_date' => Yii::t('user', "Дата регистрации"),
-            'lastvisit' => Yii::t('user', "Дата последнего посещения"),
-            'status' => Yii::t('user', "Статус"),
-            'type' => Yii::t('user', "Тип"),
-        );
-    }
 
     public function scopes()
     {

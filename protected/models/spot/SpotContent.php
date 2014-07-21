@@ -7,7 +7,6 @@
  * @property integer $discodes_id
  * @property integer $user_id
  * @property integer $lang
- * @property integer $spot_type_id
  * @property text $content
  */
 class SpotContent extends CActiveRecord
@@ -39,9 +38,9 @@ class SpotContent extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('discodes_id, user_id, lang, spot_type_id', 'required'),
-            array('discodes_id, user_id, spot_type_id', 'numerical', 'integerOnly' => true),
-            array('discodes_id, user_id, lang, spot_type_id, content', 'safe', 'on' => 'search'),
+            array('discodes_id, user_id, lang', 'required'),
+            array('discodes_id, user_id', 'numerical', 'integerOnly' => true),
+            array('discodes_id, user_id, lang, content', 'safe', 'on' => 'search'),
         );
     }
 
@@ -80,35 +79,18 @@ class SpotContent extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'spot' => array(self::BELONGS_TO, 'Spot', 'discodes_id'),
-            'spot_type' => array(self::BELONGS_TO, 'SpotType', 'spot_type_id'),
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'discodes_id' => 'ID',
-            'spot_type_id' => 'Тип спота',
-            'user_id' => 'Пользователь',
-            'lang' => 'Язык',
-            'content' => 'Содержимое',
         );
     }
 
     public static function getSpotContent($spot)
     {
         $spot_content = Yii::app()->cache->get('spot_content_' . $spot->discodes_id);
-        if (!$spot_content)
-        {
+        if (!$spot_content) {
             $spot_content = SpotContent::model()->findByAttributes(
                     array(
-                'discodes_id' => $spot->discodes_id,
-                'spot_type_id' => $spot->spot_type_id,
+                'discodes_id' => $spot->discodes_id
                     ), array('order' => 'id DESC')
             );
             if ($spot_content)
@@ -121,10 +103,10 @@ class SpotContent extends CActiveRecord
     {
         if (!$spotContent)
             $spotContent = new SpotContent;
+
         $spotContent->discodes_id = $spot->discodes_id;
         $spotContent->user_id = $spot->user_id;
         $spotContent->lang = $spot->lang;
-        $spotContent->spot_type_id = $spot->spot_type_id;
 
         $content = array();
         $content['counter'] = 0;
@@ -148,7 +130,6 @@ class SpotContent extends CActiveRecord
 
         $criteria = new CDbCriteria;
         $criteria->compare('discodes_id', $this->discodes_id);
-        $criteria->compare('spot_type_id', $this->spot_type_id);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('content', $this->content, true);
 

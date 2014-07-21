@@ -46,8 +46,7 @@ class Zend_Gdata_Spreadsheets_ListFeedTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(count($this->listFeed->entries) == 2);
         $this->assertTrue($this->listFeed->entries->count() == 2);
-        foreach($this->listFeed->entries as $entry)
-        {
+        foreach($this->listFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_ListEntry);
         }
 
@@ -58,8 +57,7 @@ class Zend_Gdata_Spreadsheets_ListFeedTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(count($newListFeed->entries) == 2);
         $this->assertTrue($newListFeed->entries->count() == 2);
-        foreach($newListFeed->entries as $entry)
-        {
+        foreach($newListFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Spreadsheets_ListEntry);
         }
 

@@ -13,7 +13,7 @@
         </div>
     <?php elseif ($type == 'text'): ?>
         <div class="spot-item">
-            <p class="item-area item-type__text"><?php echo $this->hrefActivate($content['data'][$key]); ?></p>
+            <p class="item-area item-type__text"><?php echo YText::hrefActivate($content['data'][$key]); ?></p>
         </div>
     <?php elseif ($type == 'image'): ?>
         <div class="item-area text-center">
@@ -22,14 +22,35 @@
             </a>
         </div>
     <?php elseif ($type == 'obj'): ?>
-        <a href="<?php echo $folderUploads . $content['data'][$key]; ?>" class="item-area text-center">
-            <div class="file-block">
-                <span><?php echo substr(strchr($content['data'][$key], '_'), 1); ?></span>
-                <img src="/themes/mobile/images/icons/i-files.2x.png" width="80">
+        <div class="spot-item">
+            <div class="item-area type-itembox">
+                <div class="item-head">
+                    <a href="<?php echo $folderUploads . $content['data'][$key]; ?>" class="type-link type-file">
+                        <img src="/themes/mobile/images/icons/i-files.2x.png" height="36"> <span class="link"><?php echo substr(strchr($content['data'][$key], '_'), 1); ?></span>
+                    </a>
+                </div>
+
+                <div class="item-body item-download">
+                    <table class="j-list">
+                        <tr>
+                            <td><span><?php echo Yii::t('spot', 'Type') ?></span></td>
+                            <td><?php echo substr(strchr($content['data'][$key], '.'), 1); ?></td>
+                        </tr>
+                        <tr>
+                            <td><span><?php echo Yii::t('spot', 'Description')?></span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><span><?php echo Yii::t('spot', 'Size') ?></span></td>
+                            <td><?php echo SocInfo::showFileSize(Yii::getPathOfAlias('webroot.uploads.spot.').DIRECTORY_SEPARATOR.$content['data'][$key])?></td>
+                        </tr>
+                    </table>
+                    <a href="<?php echo $folderUploads . $content['data'][$key]; ?>" class="spot-button soc-link" ><?php echo Yii::t('spot', 'Tap to Download') ?></a>
+                </div>
             </div>
-        </a>
+        </div>
     <?php elseif (($type == 'socnet') || ($type == 'content')): ?>
-        <?php $socContent = $content['data'][$key]; ?> 
+        <?php $socContent = $content['data'][$key]; ?>
         <?php $dataKey = $key; ?>
         <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/widget/spot/soc_content.php'); ?>
     <?php endif; ?>

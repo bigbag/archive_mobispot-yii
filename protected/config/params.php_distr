@@ -1,4 +1,24 @@
 <?php
 
 return array(
+    'siteUrl' => '',
+    'siteTitle' => '',
+    'copyright' => '',
+    'generalEmail' => '',
+    'generalSender' => '',
+    'adminEmail' => '',
+    'imageSize' => '',
+    'siteDesc' => '',
+    'siteKeywords' => '',
+    'smtpServer' => 'smtp.gmail.com',
+    'smtpUser' => 'no-reply@mobispot.com',
+    'smtpPassword' => '',
+    'smptPort' => 587,
+    'ssl' => '/etc/nginx/ssl/mobispot/mobispot.com-combined.crt',
+    'ym_pay_url' => 'https://demomoney.yandex.ru/eshop.xml',
+    'ym_scid' => '',
+    'ym_shop_id' => '',
+    'internal_api' => ''
+    'desctop_host' => 'mobispot.co',
+    'mobile_host' => 'm.mobispot.co',
 );

@@ -1,21 +1,31 @@
-<script src="/themes/mobispot/foundation/js/foundation.min.js"></script>
+<script src="/themes/mobispot/js/jquery-ui.min.js"></script>
+<script src="/themes/mobispot/js/slide-box.min.js"></script>
+<script src="/themes/mobispot/js/jquery.autosize-min.js"></script>
+<script src="/themes/mobispot/js/jquery.animate-enhanced.min.js"></script>
+<!--[if lt IE 9]>
+    <script src="/themes/mobispot/js/jquery.placeholder.js"></script>
 
-<script src="/themes/mobispot/js/general.js"></script>
+    <script>
+        $(function () {
+            $('input, textarea').placeholder();
+        });
+    </script>
 
-<script src="/themes/mobispot/angular/modules/sortable/sortable.js"></script>
-<script src="/themes/mobispot/angular/app/app.js"></script>
+<![endif]-->
+
+<script src="/themes/mobispot/js/angular-cookies.min.js"></script>
+<script src="/themes/mobispot/angular/modules/sortable/src/sortable.js"></script>
+<script>angular.module('mobispot', ['ngCookies', 'ui.sortable']);</script>
+<script src="/themes/mobispot/angular/app/service.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
 <script src="/themes/mobispot/angular/app/controllers/spot.js"></script>
-<script src="/themes/corp/angular/app/controllers/payment.js"></script>
-<script src="/themes/mobispot/angular/app/services.js"></script>
-<script src="/themes/mobispot/js/ga.js"></script>
-<script type="text/javascript"> 
-    $('textarea').autosize();
-</script>
-<script type="text/javascript">
-    if (window.location.hash == '#_=_') {
-        window.location.hash = ''; // for older browsers, leaves a # behind
-        history.pushState('', document.title, window.location.pathname); // nice and clean
-        e.preventDefault(); // no page reload
-    }
+<?php echo $this->blockFooterScript; ?>
+
+<script src="/themes/mobispot/js/script.min.js"></script>
+<script src="/themes/mobispot/js/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+    $(window).load(function () {
+        $('textarea').autosize();
+    });
 </script>

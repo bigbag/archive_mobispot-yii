@@ -19,5 +19,3 @@ class YAccessDeniedException extends CException
     }
 
 }
-
-?>

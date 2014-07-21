@@ -1,46 +1,79 @@
-/* line 3, ../sass/base.scss */
-.wallpaper {
-  background-size: auto;
+/* line 2, ../sass/base.scss */
+.button:active {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none; }
 
-/* line 7, ../sass/base.scss */
+/* line 5, ../sass/base.scss */
+body {
+  background-color: #E9EDF2; }
+
+/* line 8, ../sass/base.scss */
+.wallpaper {
+  background-size: auto; }
+
+/* line 12, ../sass/base.scss */
 .main {
   min-width: 768px; }
+  /* line 14, ../sass/base.scss */
+  .main.spot {
+    max-width: 1024px;
+    position: relative;
+    margin: 0 auto;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background: #fff; }
+    /* line 20, ../sass/base.scss */
+    .main.spot + .footer-page {
+      max-width: 1024px;
+      margin: 0 auto;
+      background: #fff; }
 
-/* line 10, ../sass/base.scss */
+/* line 27, ../sass/base.scss */
 .row {
   min-width: 0; }
 
-/* line 14, ../sass/base.scss */
+/* line 31, ../sass/base.scss */
 .content-block.form-block {
   padding: 30px 30px 0; }
-  /* line 16, ../sass/base.scss */
+  /* line 33, ../sass/base.scss */
   .content-block.form-block .single-form-h {
     border-bottom: 1px solid rgba(0, 0, 0, 0.07);
     padding-bottom: 10px; }
-  /* line 20, ../sass/base.scss */
+  /* line 37, ../sass/base.scss */
   .content-block.form-block .columns {
     margin-bottom: 30px; }
 
 @media only screen and (max-width: 767px) {
-  /* line 27, ../sass/base.scss */
+  /* line 44, ../sass/base.scss */
   .form-block .column, .form-block .columns {
     width: 100% !important; } }
 
-/* line 32, ../sass/base.scss */
+/* line 49, ../sass/base.scss */
 .single-block {
   width: 443px;
   margin: 0 auto; }
 
-/* line 36, ../sass/base.scss */
+/* line 53, ../sass/base.scss */
+.spot-main-input {
+  border: 2px dashed;
+  border-color: rgba(3, 3, 3, 0.3);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; }
+  /* line 57, ../sass/base.scss */
+  .spot-main-input.show-info {
+    border-color: rgba(0, 98, 255, 0.8); }
+
+/* line 61, ../sass/base.scss */
 .spot-item textarea {
   color: #000;
   text-align: left;
-  padding: 34px;
+  padding: 22px 33px 0 22px;
   box-sizing: border-box;
-  height: 159px;
+  height: 106px;
   position: relative;
   z-index: 20;
   background: none;
@@ -49,12 +82,18 @@
   border: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none; }
+  box-shadow: none;
+  resize: none; }
 
-/* line 50, ../sass/base.scss */
+/* line 77, ../sass/base.scss */
 .spider-desc {
   display: block;
   height: 0;
   overflow: hidden;
   visibility: hidden;
   position: absolute; }
+
+/* line 84, ../sass/base.scss */
+.row form .row {
+  margin: 0 -11px;
+  padding: 0 5px; }

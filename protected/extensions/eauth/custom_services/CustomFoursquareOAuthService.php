@@ -21,17 +21,15 @@ class CustomFoursquareOAuthService extends EOAuth2Service
         //    $info = (array)$this->makeSignedRequest('https://api.foursquare.com/v2/users/self', array(), true);
         $token = $this->getState('auth_token')->access_token;
         $info = (object) $this->makeRequest('https://api.foursquare.com/v2/users/self?oauth_token=' . $token . '&v=20140203', array(), true);
-        $info = $info['response']->user;
+        $info = $info->response->user;
 
         $this->attributes['id'] = $info->id;
         $this->attributes['name'] = $info->id;
 
-        if (!empty($info->firstName))
-        {
+        if (!empty($info->firstName)) {
             $this->attributes['name'] = $info->firstName;
             $this->attributes['first_name'] = $info->firstName;
-            if (!empty($info->lastName))
-            {
+            if (!empty($info->lastName)) {
                 $this->attributes['name'] = $info->firstName . ' ' . $info->lastName;
                 $this->attributes['last_name'] = $info->lastName;
             }
@@ -40,8 +38,8 @@ class CustomFoursquareOAuthService extends EOAuth2Service
         $this->attributes['url'] = 'https://ru.foursquare.com/user/' . $info->id;
         $this->attributes['photo'] = (!empty($info->photo)) ? $info->photo : false;
         $this->attributes['email'] = (!empty($info->email)) ? $info->email : false;
-        $this->attributes['auth_token'] = ($this->getState('auth_token')) ? $this->getState('auth_token') : false;
-    
+        $this->attributes['auth_token'] = $this->access_token->access_token;
+
     }
 
     protected function getAccessToken($code)
@@ -60,13 +58,6 @@ class CustomFoursquareOAuthService extends EOAuth2Service
     protected function getTokenUrl($code)
     {
         return $this->providerOptions['access_token'] . '?client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&grant_type=authorization_code&redirect_uri=' . $this->getState('foursquare_redirect_uri') . '&code=' . $code . '&v=20140203';
-    }
-
-     protected function saveAccessToken($token)
-    {
-        $this->setState('auth_token', $token->access_token);
-        $this->access_token = $token->access_token;
-        parent::saveAccessToken($token);
     }
 
 }

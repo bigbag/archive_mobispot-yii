@@ -15,6 +15,3 @@ class OAuthSignatureMethod
         return $built == $signature;
     }
 }
-
-
-

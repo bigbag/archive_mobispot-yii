@@ -204,11 +204,9 @@ class Zend_Gdata_Gapps_Extension_Login extends Zend_Gdata_Extension
         case 'admin':
             if ($attribute->nodeValue == "true") {
                 $this->_admin = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == "false") {
                 $this->_admin = false;
-            }
-            else {
+            } else {
                 require_once('Zend/Gdata/App/InvalidArgumentException.php');
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for apps:login#admin.");
             }
@@ -216,11 +214,9 @@ class Zend_Gdata_Gapps_Extension_Login extends Zend_Gdata_Extension
         case 'agreedToTerms':
             if ($attribute->nodeValue == "true") {
                 $this->_agreedToTerms = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == "false") {
                 $this->_agreedToTerms = false;
-            }
-            else {
+            } else {
                 require_once('Zend/Gdata/App/InvalidArgumentException.php');
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for apps:login#agreedToTerms.");
             }
@@ -228,11 +224,9 @@ class Zend_Gdata_Gapps_Extension_Login extends Zend_Gdata_Extension
         case 'suspended':
             if ($attribute->nodeValue == "true") {
                 $this->_suspended = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == "false") {
                 $this->_suspended = false;
-            }
-            else {
+            } else {
                 require_once('Zend/Gdata/App/InvalidArgumentException.php');
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for apps:login#suspended.");
             }
@@ -240,11 +234,9 @@ class Zend_Gdata_Gapps_Extension_Login extends Zend_Gdata_Extension
         case 'changePasswordAtNextLogin':
             if ($attribute->nodeValue == "true") {
                 $this->_changePasswordAtNextLogin = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == "false") {
                 $this->_changePasswordAtNextLogin = false;
-            }
-            else {
+            } else {
                 require_once('Zend/Gdata/App/InvalidArgumentException.php');
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for apps:login#changePasswordAtNextLogin.");
             }

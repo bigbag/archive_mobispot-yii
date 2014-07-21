@@ -11,7 +11,7 @@ class BehanceContent extends SocContentBase
         $options = array();
         $socUser = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id'], $options, false);
         if (strpos($socUser, 'error:') !== false)
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -19,8 +19,7 @@ class BehanceContent extends SocContentBase
     public static function parseUsername($link)
     {
         $username = $link;
-        if (strpos($username, 'behance.net/') !== false)
-        {
+        if (strpos($username, 'behance.net/') !== false) {
             $username = substr($username, (strpos($username, 'behance.net/') + 12));
             $username = self::rmGetParam($username);
         }
@@ -30,12 +29,12 @@ class BehanceContent extends SocContentBase
     public static function getContent($link, $discodesId = null, $dataKey = null)
     {
         $userDetail = array();
+        $userDetail['block_type'] = self::TYPE_POST;
         $socUsername = self::parseUsername($link);
 
         $socUser = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
 
-        if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)) && !empty($socUser['user']))
-        {
+        if (!(is_string($socUser) && (strpos($socUser, 'error:') !== false)) && !empty($socUser['user'])) {
             $socUser = $socUser['user'];
             if (!empty($socUser['display_name']))
                 $userDetail['soc_username'] = $socUser['display_name'];
@@ -79,16 +78,12 @@ class BehanceContent extends SocContentBase
              */
 
             $projects = self::makeRequest('http://www.behance.net/v2/users/' . $socUsername . '/projects?api_key=' . Yii::app()->eauth->services['behance']['client_id']);
-            if (!(is_string($projects) && (strpos($projects, 'error:') !== false)) && isset($projects['projects']) && !empty($projects['projects'][0]))
-            {
+            if (!(is_string($projects) && (strpos($projects, 'error:') !== false)) && isset($projects['projects']) && !empty($projects['projects'][0])) {
                 $project = $projects['projects'][0];
-                if (!empty($project['covers']))
-                {
+                if (!empty($project['covers'])) {
                     $maxSize = 0;
-                    foreach ($project['covers'] as $size => $img)
-                    {
-                        if ($size > $maxSize)
-                        {
+                    foreach ($project['covers'] as $size => $img) {
+                        if ($size > $maxSize) {
                             $userDetail['last_img'] = $img;
                             $maxSize = $size;
                         }
@@ -100,34 +95,31 @@ class BehanceContent extends SocContentBase
                     $userDetail['last_img_msg'] = $project['name'];
                 if (!empty($project['published_on']))
                     $userDetail['sub-time'] = date('F d, Y', $project['published_on']);
-                if (isset($project['owners']) && isset($project['owners'][0]))
-                {
+                if (isset($project['owners']) && isset($project['owners'][0])) {
                     $place = '';
                     if (!empty($project['owners'][0]['city']))
                         $place .= $project['owners'][0]['city'];
-                    if (!empty($project['owners'][0]['state']) && !(!empty($project['owners'][0]['city']) && $project['owners'][0]['city'] == $project['owners'][0]['state']))
-                    {
+                    if (!empty($project['owners'][0]['state']) && !(!empty($project['owners'][0]['city']) && $project['owners'][0]['city'] == $project['owners'][0]['state'])) {
                         if ($place)
                             $place .= ', ' . $project['owners'][0]['state'];
                         else
                             $place .= $project['owners'][0]['state'];
                     }
-                    if (!empty($project['owners'][0]['country']))
-                    {
+                    if (!empty($project['owners'][0]['country'])) {
                         if ($place)
                             $place .= ', ' . $project['owners'][0]['country'];
                         else
                             $place .= $project['owners'][0]['country'];
                     }
                     if ($place)
-                        $userDetail['sub-line'] = '<span class="icon">&#xe018;</span>' . $place;
+                        $userDetail['sub-line'] = '<span class="icon">&#xe01b;</span>' . $place;
                 }
             }
+        } else {
+            $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
-        else
-        {
-            $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-        }
+
+        $userDetail['text'] = self::clueImgText($userDetail);
 
         return $userDetail;
     }

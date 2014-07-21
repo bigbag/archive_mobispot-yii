@@ -17,7 +17,7 @@ class ErrorForm extends CFormModel
      */
     public function attributeLabels()
     {
-        
+
     }
 
 }

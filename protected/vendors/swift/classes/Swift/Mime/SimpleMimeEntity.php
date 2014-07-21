@@ -270,8 +270,7 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_MimeEntity
 
         foreach ($children as $child) {
             $level = $this->_getNeededChildLevel($child, $compoundLevel);
-            if (empty($immediateChildren)) //first iteration
-            {
+            if (empty($immediateChildren)) { //first iteration
                 $immediateChildren = array($child);
             } else {
                 $nextLevel = $this->_getNeededChildLevel($immediateChildren[0], $compoundLevel);

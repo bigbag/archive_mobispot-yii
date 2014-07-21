@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mobispot').controller('ProductController', 
+angular.module('mobispot').controller('ProductController',
   function($scope, $http, $compile, $timeout, contentService) {
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
@@ -45,11 +45,11 @@ angular.module('mobispot').controller('ProductController',
             });
 
             angular.element('body').removeClass('overflow-h');
-            angular.element('.m-cover-preload').fadeOut(600);            
+            angular.element('.m-cover-preload').fadeOut(600);
     };
-    
-    var IMAGE_WIDTH = 242;    
-        
+
+    var IMAGE_WIDTH = 242;
+
     $scope.scrollTo = function(image,ind, jsID) {
         $scope.products[jsID].listposition = {left:(IMAGE_WIDTH * ind * -1) + "px"};
     };
@@ -66,24 +66,21 @@ angular.module('mobispot').controller('ProductController',
                 quantity : parseInt($scope.products[jsID].quantity),
                 selectedColor : $scope.products[jsID].selectedColor,
                 selectedSurface : $scope.products[jsID].selectedSurface,
-                selectedSize : $scope.products[jsID].selectedSize        
+                selectedSize : $scope.products[jsID].selectedSize
             };
-            $http.post(('/store/product/addToCart'), data).success(function(data, status) {
+            $http.post(('/store/product/addToCart'), data).success(function(data, status){
                 if(data.error == 'no'){
                     $scope.products[jsID].addText = $scope.settings.added;
                     $scope.items.count += parseInt($scope.products[jsID].quantity);
                     var basket = angular.element('a.icon-bag-link span');
                     basket.text($scope.items.count);
                 }
-                else{
-                    console.log(data.error);
-                }
             });
 
             $scope.inRequest = false;
         }
     };
-    
+
     $scope.sizeClass = function(selectedSize, size) {
         if (selectedSize === size) {
             return "active";
@@ -91,7 +88,7 @@ angular.module('mobispot').controller('ProductController',
             return "";
         }
     };
-    
+
     $scope.colorClass = function(selectedColor, color) {
         if (selectedColor === color) {
             return "active";
@@ -107,12 +104,12 @@ angular.module('mobispot').controller('ProductController',
             return "";
         }
     };
-    
+
     $scope.setSize = function(jsID, size){
         $scope.products[jsID].selectedSize = size;
         $scope.products[jsID].addText = $scope.settings.addToCart;
     };
-    
+
     $scope.setColor = function(jsID, color){
         $scope.products[jsID].selectedColor = color;
         $scope.products[jsID].addText = $scope.settings.addToCart;
@@ -135,32 +132,32 @@ angular.module('mobispot').controller('ProductController',
         $scope.products[jsID].selectedSurface = surface;
         $scope.products[jsID].addText = $scope.settings.addToCart;
     };
-    
+
     $scope.resetAddedText = function(jsID){
         $scope.products[jsID].addText = $scope.settings.addToCart;
         if($scope.products[jsID].quantity < 0){
             $scope.products[jsID].quantity = 0;
-        }     
-    }
-    
+        }
+    };
+
     $scope.thumbClass = function(len){
         if (len > 3)
             return "thumbswrapper xscrolled";
         else
             return "thumbswrapper";
-    }
+    };
 /*
     $scope.thumbLiClass = function(ind){
         if ((ind % 3) == 0)
             return "brslide";
         else
             return "thimbslide";
-    }    
+    }
 */
 });
 
 
-angular.module('mobispot').controller('CartController', 
+angular.module('mobispot').controller('CartController',
   function($scope, $http, $compile, $timeout, contentService) {
     $scope.CartInit = function(){
         $scope.summ = 0;
@@ -169,8 +166,9 @@ angular.module('mobispot').controller('CartController',
         $http.post('/store/product/GetCart', data).success(function(data) {
             $scope.products = data.products;
             $scope.discount = data.discount;
-            if(!($scope.products.length > 0))
-                 window.location = "/store";        
+            if($scope.products.length <= 0){
+               window.location = "/store";
+            }
             for (var i = 0; i < $scope.products.length; i++) {
                 $scope.products[i].jsID = i;
                 $scope.products[i].quantity = parseInt($scope.products[i].quantity);
@@ -190,7 +188,7 @@ angular.module('mobispot').controller('CartController',
                     }
                 }
             }
-            
+
             if ($scope.discount.products){
                 if ($scope.discount.products.length > 0){
                     $scope.discount.summ = 0;
@@ -204,9 +202,9 @@ angular.module('mobispot').controller('CartController',
                     }
                     if ($scope.discount.summ > 0)
                         $scope.summ -= $scope.discount.summ;
-                } 
+                }
             }
-            
+
             $scope.checkingOut = false;
             $scope.inRequest = false;
         });
@@ -215,12 +213,12 @@ angular.module('mobispot').controller('CartController',
         angular.element('.m-cover-preload').fadeOut(600);
     };
 
-    var IMAGE_WIDTH = 242;    
-        
+    var IMAGE_WIDTH = 242;
+
     $scope.scrollTo = function(image,ind, jsID) {
         $scope.products[jsID].listposition = {left:(IMAGE_WIDTH * ind * -1) + "px"};
-    };        
-    
+    };
+
     $scope.emptyClass = function() {
         if ($scope.products){
             if ($scope.products.length > 0) {
@@ -228,9 +226,9 @@ angular.module('mobispot').controller('CartController',
             } else {
                 return "";
             }
-        }  
+        }
     };
-    
+
     $scope.sizeClass = function(selectedSize, size) {
         if (selectedSize === size) {
             return "active";
@@ -238,7 +236,7 @@ angular.module('mobispot').controller('CartController',
             return "";
         }
     };
-    
+
     $scope.colorClass = function(selectedColor, color) {
         if (selectedColor === color) {
             return "active";
@@ -253,8 +251,8 @@ angular.module('mobispot').controller('CartController',
         } else {
             return "";
         }
-    };    
-    
+    };
+
     $scope.chekingOutClass = function(){
         if(!$scope.checkingOut){
             return "hide";
@@ -262,22 +260,22 @@ angular.module('mobispot').controller('CartController',
             return "";
         }
     };
-    
+
     $scope.setSize = function(jsID, size){
         $scope.summ -= parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;
         $scope.products[jsID].selectedSize = size;
-        $scope.summ += parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;;
+        $scope.summ += parseFloat($scope.products[jsID].selectedSize.price)*$scope.products[jsID].quantity;
     };
-    
+
     $scope.setColor = function(jsID, color){
         var oldProduct = {id:$scope.products[jsID].id, quantity:$scope.products[jsID].quantity, selectedColor:$scope.products[jsID].selectedColor};
         if (typeof ($scope.products[jsID].selectedSize) != 'undefined')
             oldProduct.selectedSize = $scope.products[jsID].selectedSize;
         if (typeof ($scope.products[jsID].selectedSurface) != 'undefined')
             oldProduct.selectedSurface = $scope.products[jsID].selectedSurface;
-        
+
         $scope.products[jsID].selectedColor = color;
-        
+
         if (typeof $scope.products[jsID].photo != 'undefined' && $scope.products[jsID].photo.length > 0){
             var suffix = '_' + color;
             for (var i = 0; i < $scope.products[jsID].photo.length; i++)
@@ -290,30 +288,26 @@ angular.module('mobispot').controller('CartController',
                 }
             }
         }
-        
-        var data = {token: $scope.user.token, oldProduct:oldProduct, newProduct:$scope.products[jsID]}; 
+
+        var data = {token: $scope.user.token, oldProduct:oldProduct, newProduct:$scope.products[jsID]};
         $http.post('/store/product/SaveProduct', data).success(function(data) {
-            if (data.error != 'no')
-            {
-                console.log(data.error);
+            if (data.error != 'no'){
             }
-        }).error(function(error){
-            console.log(error);
         });
     };
 
     $scope.setSurface = function(jsID, surface){
         $scope.products[jsID].selectedSurface = surface;
     };
-    
+
     $scope.setDelivery = function(jsID){
         $scope.selectedDelivery = $scope.deliveries[jsID];
     };
-    
+
     $scope.setPayment = function(jsID){
         $scope.selectedPayment = $scope.payments[jsID];
     };
-    
+
     $scope.changeQuantity = function(jsID){
         if (parseInt($scope.products[jsID].quantity) <= 0)
         {
@@ -325,7 +319,7 @@ angular.module('mobispot').controller('CartController',
             for (var i = 0; i < $scope.products.length; i++) {
                 $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
             }
-            
+
             if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
                 $scope.discount.summ = 0;
                 for (var i = 0; i < $scope.products.length; i++) {
@@ -338,23 +332,20 @@ angular.module('mobispot').controller('CartController',
                 }
                 if ($scope.discount.summ > 0) {
                     $scope.summ -= $scope.discount.summ;
-                }   
-            }
-            
-            var data = {token: $scope.user.token, oldProduct:$scope.products[jsID], newProduct:$scope.products[jsID]}; 
-            $http.post('/store/product/SaveProduct', data).success(function(data) {
-                if (data.error != 'no')
-                {
-                    console.log(data.error);
                 }
-            }).error(function(error){
-                console.log(error);
+            }
+
+            var data = {token: $scope.user.token, oldProduct:$scope.products[jsID], newProduct:$scope.products[jsID]};
+            $http.post('/store/product/SaveProduct', data).success(function(data) {
+                if (data.error != 'no'){
+
+                }
             });
         }
     };
-    
+
     $scope.checkOut = function(){
-        if ($scope.summ == 0) return false;
+        if ($scope.summ === 0) return false;
 
         if(!$scope.checkingOut){
              var data = {token: $scope.user.token};
@@ -382,14 +373,14 @@ angular.module('mobispot').controller('CartController',
     $scope.deleteItem = function(jsID){
         if(!$scope.inRequest){
             $scope.inRequest = true;
-            var data = 
+            var data =
                 {
                     token: $scope.user.token,
                     id : $scope.products[jsID].id,
                     quantity : $scope.products[jsID].quantity,
                     selectedColor : $scope.products[jsID].selectedColor,
                     selectedSurface : $scope.products[jsID].selectedSurface,
-                    selectedSize : $scope.products[jsID].selectedSize    
+                    selectedSize : $scope.products[jsID].selectedSize
                 };
 
             $http.post(('/store/product/deleteFromCart'), data).success(function(data, status) {
@@ -397,7 +388,7 @@ angular.module('mobispot').controller('CartController',
                     $scope.products.splice(jsID, 1);
                     $scope.summ = 0;
                     for (var i = 0; i < $scope.products.length; i++){
-                        $scope.products[i].jsID = i;                    
+                        $scope.products[i].jsID = i;
                         $scope.summ += parseFloat($scope.products[i].selectedSize.price)*$scope.products[i].quantity;
                     }
                     if ($scope.discount.products) {
@@ -413,14 +404,14 @@ angular.module('mobispot').controller('CartController',
                             }
                             if ($scope.discount.summ > 0){
                                 $scope.summ -= $scope.discount.summ;
-                            }  
+                            }
                         }
                     }
-                    
-                    
-                    if(!($scope.products.length > 0)){
+
+
+                    if($scope.products.length <= 0) {
                         window.location = "/store";
-                    }                    
+                    }
                 }
             });
             $scope.inRequest = false;
@@ -473,7 +464,7 @@ angular.module('mobispot').controller('CartController',
                     $scope.summ += parseFloat($scope.discount.summ);
                     $scope.discount.summ = 0;
                 }
-                
+
             });
         }
         $scope.inRequest = false;
@@ -481,8 +472,8 @@ angular.module('mobispot').controller('CartController',
 
     $scope.saveCustomer = function(valid){
         if (!valid ) return false;
-        if ($scope.summ == 0)  return false;
-        
+        if ($scope.summ === 0)  return false;
+
         if(!$scope.inRequest){
             $scope.inRequest = true;
 
@@ -498,15 +489,15 @@ angular.module('mobispot').controller('CartController',
                 else{
                     contentService.setModal(data.error, 'error');
                 }
-            });        
+            });
 
             $scope.inRequest = false;
         }
     };
-    
+
     $scope.buy = function(){
 
-        if ($scope.summ == 0) return false;
+        if ($scope.summ === 0) return false;
 
         var data = {
             token: $scope.user.token,
@@ -520,36 +511,25 @@ angular.module('mobispot').controller('CartController',
             if (data.error == 'no'){
                 if (data.payment == 'Uniteller'){
                     angular.element('#proceedFinishForm').after($compile(data.content)($scope));
-                    angular.element('#payUniteller').submit();        
+                    angular.element('#payUniteller').submit();
                 }
             }
             else
                contentService.setModal(data.error, 'error');
-        }).error(function(error){
-            console.log(error);
-        });       
+        });
     };
-    
+
     $scope.thumbClass = function(len){
         if (len > 3)
             return "thumbswrapper xscrolled";
         else
             return "thumbswrapper";
-    }    
-/*
-    $scope.thumbLiClass = function(ind){
-        if ((ind % 3) == 0)
-            return "brslide";
-        else
-            return "thimbslide";
-    }        
-*/
-    
+    };
+
     $scope.valClass = function(isValid){
         if(isValid)
             return "";
         else
             return "error";
-    }
-    
+    };
 });

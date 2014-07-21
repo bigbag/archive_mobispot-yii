@@ -14,6 +14,23 @@
  */
 class PersonEvent extends CActiveRecord
 {
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return PaymentHistory the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return CDbConnection database connection
+     */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbTerm;
+    }
 
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = 0;
@@ -90,8 +107,7 @@ class PersonEvent extends CActiveRecord
                 array('user_id' => $user_id)
         );
 
-        if ($loyalty and $wallet)
-        {
+        if ($loyalty and $wallet) {
             $person = Person::model()->findByAttributes(
                     array(
                         'firm_id' => $loyalty->firm_id,
@@ -99,8 +115,7 @@ class PersonEvent extends CActiveRecord
                     )
             );
 
-            if (!$person)
-            {
+            if (!$person) {
                 $person = new Person();
                 $person->name = 'Участник промо-кампании';
                 $person->firm_id = $loyalty->firm_id;
@@ -109,8 +124,7 @@ class PersonEvent extends CActiveRecord
                 $person->save();
             }
 
-            foreach ($loyalty->terms_id as $term_id)
-            {
+            foreach ($loyalty->terms_id as $term_id) {
                 $personEvent = PersonEvent::model()->findByAttributes(
                         array(
                             'person_id' => $person->id,
@@ -120,8 +134,7 @@ class PersonEvent extends CActiveRecord
                         )
                 );
 
-                if (!$personEvent)
-                {
+                if (!$personEvent) {
                     $personEvent = new PersonEvent();
                     $personEvent->person_id = $person->id;
                     $personEvent->term_id = $term_id;
@@ -131,11 +144,8 @@ class PersonEvent extends CActiveRecord
 
                     if ($personEvent->save())
                         $result = True;
-                }
-                else
-                {
-                    if ($personEvent->timeout != self::LIKE_TIMEOUT)
-                    {
+                } else {
+                    if ($personEvent->timeout != self::LIKE_TIMEOUT) {
                         $personEvent->status = self::STATUS_BANNED;
                         $personEvent->save();
                     }
@@ -177,24 +187,4 @@ class PersonEvent extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-
-    /**
-     * @return CDbConnection the database connection used for this class
-     */
-    public function getDbConnection()
-    {
-        return Yii::app()->dbTerm;
-    }
-
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return PersonEvent the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
 }

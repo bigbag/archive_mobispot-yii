@@ -1099,7 +1099,8 @@ class Zend_Gdata_App
      * @return mixed A new feed of the same type as the one originally
      *          passed in, containing all relevent entries.
      */
-    public function retrieveAllEntriesForFeed($feed) {
+    public function retrieveAllEntriesForFeed($feed)
+    {
         $feedClass = get_class($feed);
         $reflectionObj = new ReflectionClass($feedClass);
         $result = $reflectionObj->newInstance();
@@ -1114,8 +1115,7 @@ class Zend_Gdata_App
             } else {
                 $feed = null;
             }
-        }
-        while ($feed != null);
+        } while ($feed != null);
         return $result;
     }
 

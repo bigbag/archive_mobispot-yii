@@ -41,8 +41,7 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
         $url .= '&access_type=offline';
 
-        if (Yii::app()->user->isGuest)
-        {
+        if (Yii::app()->user->isGuest) {
             $url .= '&approval_prompt=force';
             return $url;
         }
@@ -61,7 +60,8 @@ class CustomGoogleOAuthService extends GoogleOAuthService
 
     protected function saveAccessToken($token)
     {
-        $this->setState('refresh_token', $token->refresh_token);
+        if (!empty($token->refresh_token))
+            $this->setState('refresh_token', $token->refresh_token);
         $this->setState('auth_token', $token->access_token);
         $this->setState('expires', time() + $token->expires_in - 60);
         $this->access_token = $token->access_token;

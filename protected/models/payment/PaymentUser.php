@@ -17,21 +17,6 @@ class PaymentUser extends CActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_BANNED = -1;
 
-    public function getStatusList()
-    {
-        return array(
-            self::STATUS_NOACTIVE => Yii::t('user', 'Не активирован'),
-            self::STATUS_ACTIVE => Yii::t('user', 'Активирован'),
-            self::STATUS_BANNED => Yii::t('user', 'Заблокирован'),
-        );
-    }
-
-    public function getStatus()
-    {
-        $data = $this->getStatusList();
-        return $data[$this->status];
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -55,7 +40,7 @@ class PaymentUser extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.user';
+        return 'user';
     }
 
     /**
@@ -71,15 +56,13 @@ class PaymentUser extends CActiveRecord
             array('email', 'length', 'max' => 150),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('status', 'in', 'range' => array_keys($this->getStatusList())),
             array('id, email, status, mobispot_id, creation_date', 'safe', 'on' => 'search'),
         );
     }
 
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = new CDbExpression('NOW()');
             $this->status = self::STATUS_NOACTIVE;
         }
@@ -96,20 +79,6 @@ class PaymentUser extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'mobispot_user' => array(self::BELONGS_TO, 'User', 'mobispot_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'email' => 'Email',
-            'status' => 'Status',
-            'mobispot_id' => 'Mobispot',
-            'creation_date' => 'Creation Date',
         );
     }
 

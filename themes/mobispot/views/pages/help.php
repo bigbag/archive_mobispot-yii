@@ -1,5 +1,6 @@
 <?php $this->pageTitle = Yii::t('phone', 'Help'); ?>
 <?php $this->mainBackground = 'main_bg_1.jpg'?>
+<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/help.js"></script>'?>
 
 <div class="content-wrapper">
     <div class="content-block" ng-controller="HelpController" >
@@ -15,7 +16,7 @@
                 <div class="row">
                     <div class="small-8 large-8 column">
                         <span class="form-h">
-                            <?php echo Yii::t('help', 'Have a question? Need a hand? 
+                            <?php echo Yii::t('help', 'Have a question? Need a hand?
                             Anything bugging you?
                             Please stick your details in this form and we’ll get back to you. Pronto. If not sooner.') ?>
                         </span>

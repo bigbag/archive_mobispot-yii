@@ -1,6 +1,6 @@
-<div ng-controller="CartController" ng-init="CartInit()">
+<div class="m-content-block store-content"  ng-controller="CartController" ng-init="CartInit()">
     <table class="twelve store-items store-items__bag">
-        <tbody>
+        <tbody ng-cloak>
             <tr>
                 <td id="emptyCart" colspan="2" ng-class="emptyClass()">
                     <h1><?php echo Yii::t('store', 'Cart is empty'); ?></h1>
@@ -15,11 +15,11 @@
                 <td>
                     <div class="mainimageshell">
                         <div class="viewwindow">
-                            <ul 
-                                class="fullsizelist aslide" 
+                            <ul
+                                class="fullsizelist aslide"
                                 ng-style="product.listposition">
-                                <li 
-                                    ng-repeat="image in product.photo" 
+                                <li
+                                    ng-repeat="image in product.photo"
                                     class="aslide">
                                     <img class="large" ng-src="<?php echo $imagePath; ?>{{image}}" />
                                 </li>
@@ -31,8 +31,8 @@
                     <header>
                         <h1>{{product.name}}</h1>
                         <!-- <span>{{product.code}}</span> -->
-                        <div 
-                            class="store-items__price store-items__close" 
+                        <div
+                            class="store-items__price store-items__close"
                             ng-click="deleteItem(product.jsID)">
                             {{product.selectedSize.price}}<span class="icon currency">&#xe019;</span>
                         </div>
@@ -44,9 +44,9 @@
                                     <?php echo Yii::t('store', 'Size'); ?>
                                 </span>
                                 <ul class="choose inline  add-active">
-                                    <li 
-                                        ng-repeat="size in product.size" 
-                                        ng-class="sizeClass(product.selectedSize.value, size.value)" 
+                                    <li
+                                        ng-repeat="size in product.size"
+                                        ng-class="sizeClass(product.selectedSize.value, size.value)"
                                         ng-click="setSize(product.jsID, size)">
                                         {{size.value}}
                                     </li>
@@ -57,23 +57,23 @@
                                     <?php echo Yii::t('store', 'Surface'); ?>
                                 </span>
                                 <ul class="choose inline add-active long">
-                                    <li 
-                                        ng-repeat="surface in product.surface" 
-                                        ng-class="surfaceClass(product.selectedSurface, surface)" 
+                                    <li
+                                        ng-repeat="surface in product.surface"
+                                        ng-class="surfaceClass(product.selectedSurface, surface)"
                                         ng-click="setSurface(product.jsID, surface)">
                                         {{surface}}
                                     </li>
                                 </ul>
-                            </div>                            
+                            </div>
                             <div class="columns six inline choose">
                                 <span class="label label-left">
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>
-                                <input 
+                                <input
                                     type="text"
-                                    min="1" 
+                                    min="1"
                                     max="99"
-                                    ng-model="product.quantity" 
+                                    ng-model="product.quantity"
                                     ng-change="changeQuantity(product.jsID)"/>
                             </div>
                         </div>
@@ -82,9 +82,9 @@
                                 <?php echo Yii::t('store', 'Choose your color'); ?>
                             </div>
                             <ul class="choose-color add-active">
-                                <li 
-                                    ng-repeat="color in product.color" 
-                                    ng-class="colorClass(product.selectedColor, color)" 
+                                <li
+                                    ng-repeat="color in product.color"
+                                    ng-class="colorClass(product.selectedColor, color)"
                                     ng-click="setColor(product.jsID, color)">
                                     <i class="bg-{{color}}"></i>
                                 </li>
@@ -96,19 +96,19 @@
 
         </tbody>
     </table>
-    
+
     <div id="promoForm" class="six columns">
         <div class="label">
             <?php echo Yii::t('store', 'Got a promo-code? Put it in here and get your discount.'); ?>
         </div>
-        <input 
-            type="text" 
-            name="promo" 
-            ng-model="discount.promoCode" 
+        <input
+            type="text"
+            name="promo"
+            ng-model="discount.promoCode"
             placeholder="<?php echo Yii::t('store', 'Promo-code'); ?>">
-        <a 
-            id="codeConfirm" 
-            class="spot-button right" 
+        <a
+            id="codeConfirm"
+            class="spot-button right"
             ng-click="confirmPromo()">
             <?php echo Yii::t('store', 'Confirm'); ?>
         </a>
@@ -120,8 +120,8 @@
             <img src="/themes/mobispot/images/icons/i-quick.2x.png" width="88">
             {{summ}}<span class="icon currency">&#xe019;</span>
         </h1>
-        <a 
-            class="spot-button right {{ summ || 'button-disable'}}" 
+        <a
+            class="spot-button right {{ summ || 'button-disable'}}"
             ng-click="checkOut()">
             <?php echo Yii::t('store', 'Proceed to checkout'); ?>
         </a>
@@ -133,68 +133,68 @@
             <form name="formCustomer" class="customer-info clearfix">
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'New customer'); ?></h3>
-                    <input 
-                        type="text" 
-                        ng-model="customer.first_name" 
+                    <input
+                        type="text"
+                        ng-model="customer.first_name"
                         placeholder="<?php echo Yii::t('store', 'First name'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        ng-model="customer.last_name" 
+                    <input
+                        type="text"
+                        ng-model="customer.last_name"
                         placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
                         required>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        ng-model="customer.email" 
-                        placeholder="<?php echo Yii::t('store', 'Email address'); ?>" 
+                    <input
+                        type="email"
+                        name="email"
+                        ng-model="customer.email"
+                        placeholder="<?php echo Yii::t('store', 'Email address'); ?>"
                         required>
                 </div>
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
-                    <input 
-                        type="text" 
-                        ng-model="customer.target_first_name" 
+                    <input
+                        type="text"
+                        ng-model="customer.target_first_name"
                         placeholder="<?php echo Yii::t('store', 'First name'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        ng-model="customer.target_last_name" 
+                    <input
+                        type="text"
+                        ng-model="customer.target_last_name"
                         placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        name="phone" 
-                        ng-model="customer.phone" 
-                        placeholder="<?php echo Yii::t('store', 'Phone'); ?>" 
+                    <input
+                        type="text"
+                        name="phone"
+                        ng-model="customer.phone"
+                        placeholder="<?php echo Yii::t('store', 'Phone'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        name="address" 
-                        ng-model="customer.address" 
-                        placeholder="<?php echo Yii::t('store', 'Address'); ?>" 
+                    <input
+                        type="text"
+                        name="address"
+                        ng-model="customer.address"
+                        placeholder="<?php echo Yii::t('store', 'Address'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        name="city" 
-                        ng-model="customer.city" 
-                        placeholder="<?php echo Yii::t('store', 'City'); ?>" 
+                    <input
+                        type="text"
+                        name="city"
+                        ng-model="customer.city"
+                        placeholder="<?php echo Yii::t('store', 'City'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        name="zip" 
-                        ng-model="customer.zip" 
-                        placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>" 
+                    <input
+                        type="text"
+                        name="zip"
+                        ng-model="customer.zip"
+                        placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>"
                         required>
-                    <input 
-                        type="text" 
-                        name="country" 
-                        ng-model="customer.country" 
-                        placeholder="<?php echo Yii::t('store', 'Country'); ?>" 
+                    <input
+                        type="text"
+                        name="country"
+                        ng-model="customer.country"
+                        placeholder="<?php echo Yii::t('store', 'Country'); ?>"
                         required>
-                    <a 
-                        class="spot-button {{ formCustomer.$valid || 'button-disable'}}" 
-                        style="cursor: pointer" 
+                    <a
+                        class="spot-button {{ formCustomer.$valid || 'button-disable'}}"
+                        style="cursor: pointer"
                         ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
                     </a>
@@ -216,7 +216,7 @@
                             <tbody class="add-active">
                                 <tr ng-repeat="delivery in deliveries">
                                     <td>
-                                        <a  
+                                        <a
                                             class="radio-link"
                                             ng-click="setDelivery(delivery.id)">
                                             <i class="large"></i>{{delivery.name}}
@@ -245,7 +245,7 @@
                     <div class="six columns">
                         <ul class="add-active payment-options">
                             <li ng-repeat="payment in payments">
-                                <a   
+                                <a
                                     class="radio-link"
                                     ng-click="setPayment(payment.id)">
                                     <i class="large"></i>

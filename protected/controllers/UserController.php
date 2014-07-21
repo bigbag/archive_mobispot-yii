@@ -2,47 +2,41 @@
 
 class UserController extends MController
 {
-
     public $defaultAction = 'profile';
 
     // Вывод профиля
     public function actionProfile()
     {
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         $user = User::model()->findByPk(Yii::app()->user->id);
         $profile = UserProfile::model()->findByPk(Yii::app()->user->id);
 
-        if (!$profile)
-        {
+        if (!$profile) {
             $profile = new UserProfile;
             $profile->user_id = $user->id;
             $profile->sex = UserProfile::SEX_UNKNOWN;
             $profile->save();
         }
 
-        if (Yii::app()->request->getParam('UserProfile'))
-        {
+        if (Yii::app()->request->getParam('UserProfile')) {
             $profile->attributes = Yii::app()->request->getParam('UserProfile');
 
-            if ($profile->validate())
-            {
+            if ($profile->validate()) {
                 $profile->save();
                 $this->refresh();
             }
         }
 
         $socnet = array();
-        if ($user)
-        {
+        if ($user) {
             $userTokens = SocToken::model()->findAllByAttributes(array(
                 'user_id' => $user->id,
                 'allow_login' => true
             ));
 
-            foreach ($userTokens as $net)
-            {
+            foreach ($userTokens as $net) {
                 $socnet[$net->getType()] = 1;
             }
         }
@@ -61,16 +55,15 @@ class UserController extends MController
             'error' => 'yes',
             'content' => ''
         );
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
 
         if (!isset($data['id']))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
         $profile = UserProfile::model()->findByPk((int) $data['id']);
         $profile->attributes = $data;
 
-        if ($profile->save())
-        {
+        if ($profile->save()) {
             $answer['error'] = 'no';
             $answer['content'] = Yii::t('user', "The information has been saved successfully");
         }
@@ -78,80 +71,86 @@ class UserController extends MController
         echo json_encode($answer);
     }
 
-    // Страница управления персональными спотами
-    public function actionPersonal()
-    {
-        $this->layout = '//layouts/spots';
-        $user_id = Yii::app()->user->id;
-
-        if (!$user_id)
-            $this->setAccess();
-
-        $user = User::model()->findByPk($user_id);
-        if ($user->status == User::STATUS_NOACTIVE)
-            $this->redirect('/');
-
-        $dataProvider = new CActiveDataProvider(
-                Spot::model()->personal()->used()->selectUser($user_id), array(
-            'pagination' => array(
-                'pageSize' => 100,
-            ),
-            'sort' => array('defaultOrder' => 'registered_date asc'),
-        ));
-
-        $this->render('personal', array(
-            'dataProvider' => $dataProvider,
-            'spot_type_all' => SpotType::getSpotTypeArray(),
-        ));
-    }
-
     public function actionBindSocLogin()
     {
         $serviceName = Yii::app()->request->getQuery('service');
         $discodes = Yii::app()->request->getQuery('discodes');
-        $tech = Yii::app()->request->getParam('tech');
+        $synch = Yii::app()->request->getQuery('synch');
+        $checkLike = Yii::app()->request->getQuery('chek_like');
 
         if (!isset($discodes))
             $discodes = '';
         if (!isset($serviceName))
-            $this->setNotFound();
+            MHttp::setNotFound();
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
-        if (($serviceName == 'instagram') && isset($tech) && ($tech == Yii::app()->eauth->services['instagram']['client_id']))
-            Yii::app()->session['instagram_tech'] = $tech;
+        if (isset($synch) and $synch == 'true' and !empty($discodes)) {
+            Yii::app()->session[$serviceName . '_synch_data'] = array(
+                'discodes'=> $discodes,
+                'key' => $key = Yii::app()->request->getQuery('key'),
+                'newField' => Yii::app()->request->getQuery('newField'),
+                'link' => Yii::app()->request->getQuery('link'),
+            );
+        } elseif (isset($checkLike)) {
+            Yii::app()->session[$serviceName . '_loyalty_data'] = array(
+                'discodes'=> $discodes,
+                'loyalty_id'=>$checkLike,
+            );
+        }
 
         $atributes = User::getSocInfo($serviceName);
-        if (!$atributes) $this->setAccess();
+        if (!$atributes) MHttp::setAccess();
 
         SocToken::setToken($atributes);
-        Yii::app()->session[$serviceName] = 'auth';
-        Yii::app()->session[$serviceName . '_id'] = $atributes['id'];
-        Yii::app()->session[$serviceName . '_profile_url'] = $atributes['url'];
+        SocInfo::setLogged($atributes);
+
+        if (!empty(Yii::app()->session[$serviceName . '_synch_data'])) {
+            $data = Yii::app()->session[$serviceName . '_synch_data'];
+            $data['link'] = urlencode($data['link']);
+            unset(Yii::app()->session[$serviceName . '_synch_data']);
+
+            $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
+        } elseif(!empty(Yii::app()->session[$serviceName . '_loyalty_data'])) {
+            $data = Yii::app()->session[$serviceName . '_loyalty_data'];
+            unset(Yii::app()->session[$serviceName . '_loyalty_data']);
+            $this->redirect('/user/checkLike' . SocInfo::toGetParams($data));
+        }
     }
 
     //подключение акции, требующей жетона соцсети
     public function actionCheckLike()
     {
-        $data = $this->validateRequest();
-        $answer = array();
-        $answer['error'] = "yes";
-        $answer['isSocLogged'] = false;
+        if (Yii::app()->request->isPostRequest)
+            $data = MHttp::validateRequest();
+        else {
+            $data = array(
+                'discodes'=>Yii::app()->request->getQuery('discodes'),
+                'id'=>Yii::app()->request->getQuery('loyalty_id'),
+            );
+        }
+        $target = '/spot/list';
+
+        $answer = array(
+            'error' => 'yes',
+            'message_error' => 'yes',
+            'message' => '',
+            'checked' => false,
+            'isSocLogged' => false,
+        );
         $link = '';
 
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (empty($data['id']) or empty($data['discodes']))
-            $this->getJsonAndExit($answer);
-        
+            MHttp::getJsonOrRedirect($answer, $target);
+
         $action = Loyalty::model()->findByPk($data['id']);
-        if ($action and strpos($action->desc, '<a ng-click="checkLike(' . $action->id . ')">') !== false)
-        {
-            $link = substr($action->desc, (strpos($action->desc, '<a ng-click="checkLike(' . $action->id . ')">') + strlen('<a ng-click="checkLike(' . $action->id . ')">')));
-            if (strpos($link, '</a>') > 0)
-                $link = substr($link, 0, strpos($link, '</a>'));
-        }
+        if (!$action)
+            MHttp::getJsonOrRedirect($answer, $target);
+
+        $link = $action->getLink();
 
         $service = SocInfo::getNameBySharingType($action->sharing_type);
         $answer['service'] = $service;
@@ -160,27 +159,12 @@ class UserController extends MController
         $criteria->compare('loyalty_id', $action->id);
         $criteria->compare('wallet.user_id', Yii::app()->user->id);
 
-        $userActions = WalletLoyalty::model()->with('wallet')->findAll($criteria);
-        $count = 0;
-
-        foreach ($userActions as $userAction)
-        {
-            if (!empty($userAction->part_count))
-                $count += $userAction->part_count;
-        }
-
-        if ($action->part_limit and $count >= $action->part_limit)
-        {
-            $answer['isSocLogged'] = true; //чтобы не запускать авторизацию
-            $answer['message_error'] = 'yes';
-            $answer['message'] = Yii::t('wallet', 'Вы уже поучаствовали в этой акции!');
-            $this->getJsonAndExit($answer);
-        }
-        
+        $answer['error'] = "no";
         $socInfo = new SocInfo;
-        if (!$socInfo->isLoggegOn($service, false))
-            $this->getJsonAndExit($answer);
-        
+        if (!$socInfo->isLoggegOn($service, false)){
+            MHttp::getJsonOrRedirect($answer, $target);
+        }
+
         $answer['isSocLogged'] = true;
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
@@ -189,32 +173,35 @@ class UserController extends MController
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
         if (!$socToken or !$link or !$wallet)
-            $this->getJsonAndExit($answer);
-        
-        $likesStack = LikesStack::model()->findByAttributes(array(
-            'token_id' => $socToken->id,
-            'loyalty_id' => $action->id,
-        ));
-        if (!$likesStack)
-        {
-            $likesStack = new LikesStack;
-            $likesStack->token_id = $socToken->id;
-            $likesStack->loyalty_id = $action->id;
-            $likesStack->save();
+            MHttp::getJsonOrRedirect($answer, $target);
+
+        if ($this->isHostMobile()) {
+            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            if ($spot)
+                $target = '/spot/view/' . $spot->url;
+
+        }
+
+        $answer['checked'] = $socInfo->checkSharing($action);
+        if (!$answer['checked']) {
+            $answer['message'] = $action->getPromoMessage();
+            MHttp::getJsonOrRedirect($answer, $target);
         }
 
         $wl = WalletLoyalty::model()->findByAttributes(array(
             'wallet_id' => $wallet->id,
             'loyalty_id' => $action->id,
         ));
-        if (!$wl)
-        {
+
+        if (!$wl) {
             $wl = new WalletLoyalty;
             $wl->wallet_id = $wallet->id;
             $wl->loyalty_id = $action->id;
-            $wl->bonus_count = $action->bonus_count;
-            $wl->save();
+            $wl->bonus_limit = $action->bonus_limit;
+
         }
+        $wl->checked = $answer['checked'];
+        $wl->save();
 
         $coupon = array(
             'id' => $action->id,
@@ -226,40 +213,46 @@ class UserController extends MController
             'part' => true,
         );
 
-        $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
-        $answer['message_error'] = 'no';
-        $answer['message'] = Yii::t('wallet', 'Вы участвуете в акции');
-        $answer['error'] = "no";
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/block/coupon',
+            array('coupon' => $coupon),
+            true,
+            '//mobile/spot/coupon'
+        );
 
-        echo json_encode($answer);
+        $answer['message_error'] = 'no';
+        $answer['message'] = Yii::t('spot', 'You are participating in the action');
+
+        MHttp::getJsonOrRedirect($answer, $target);
     }
 
     public function actionDisableLoyalty()
     {
-        $data = $this->validateRequest();
+        $data = MHttp::validateRequest();
         $answer = array('error' => "yes");
 
         if (!Yii::app()->user->id)
-            $this->setAccess();
+            MHttp::setAccess();
 
         if (empty($data['id']) or empty($data['discodes']))
-            $this->getJsonAndExit($answer);
-        
+            MHttp::getJsonAndExit($answer);
+
         $action = Loyalty::model()->findByPk($data['id']);
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
         if (!$action or !$wallet)
-            $this->getJsonAndExit($answer);
-        
+            MHttp::getJsonAndExit($answer);
+
         $wl = WalletLoyalty::model()->findByAttributes(array(
             'wallet_id' => $wallet->id,
             'loyalty_id' => $action->id,
         ));
 
         if (!$wl)
-            $this->getJsonAndExit($answer);
-        
-        $wl->delete();
+            MHttp::getJsonAndExit($answer);
+
+        $wl->checked = false;
+        $wl->save();
 
         $coupon = array(
             'id' => $action->id,
@@ -271,9 +264,20 @@ class UserController extends MController
             'part' => false,
         );
 
-        $answer['content'] = $this->renderPartial('//spot/coupon', array('coupon' => $coupon), true);
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/block/coupon',
+            array('coupon' => $coupon),
+            true,
+            '//mobile/spot/coupon'
+        );
         $answer['error'] = "no";
 
         echo json_encode($answer);
+    }
+
+    public function actionForgotPassword()
+    {
+        $this->layout = self::MOBILE_LAYOUT;
+        $this->render('//mobile/spot/forgot', array());
     }
 }

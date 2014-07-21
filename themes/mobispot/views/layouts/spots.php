@@ -1,26 +1,24 @@
 <!DOCTYPE html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if IE 8]> <html class="no-js lt-ie9" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
+<head>
+    <?php $this->blockHeaderCeo = true;?>
+    <?php include('block/head/all.php'); ?>
+</head>
+<body ng-controller="UserController"
+    ng-cloak class="ng-cloak"
+    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
+    <div class="main spot">
+        <?php include('block/header/spots.php'); ?>
+        <?php echo $content; ?>
+    </div>
 
-    <?php include('block/head.php'); ?>
-    <body ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>'">
-        <div id="net-tooltip" class="SocnetTooltip" >
-            <div class="STT-arrow"></div>
-            <div class="STT-inner"></div>
-        </div>
-        <div
-            class="content-wrapper"
-            ng-controller="SpotController"
-            ng-init="spot.user=<?php echo Yii::app()->user->id; ?>; spot.token='<?php echo Yii::app()->request->csrfToken ?>'">
-                <?php include('block/header/spots.php'); ?>
-                <?php echo $content; ?>
+    <?php include('block/footer/spots.php'); ?>
+    <div class="m-result">
+        <p></p>
+    </div>
+    <?php include('block/script/spots.php'); ?>
 
-        </div>
-
-        <?php include('block/footer/all.php'); ?>
-        <?php include('block/script/spots.php'); ?>
-    </body>
+</body>
 </html>

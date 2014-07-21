@@ -24,6 +24,23 @@
  */
 class Term extends CActiveRecord
 {
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return PaymentHistory the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return CDbConnection database connection
+     */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbTerm;
+    }
 
     const STATUS_VALID = 1;
     const STATUS_BANNED = 0;
@@ -58,32 +75,6 @@ class Term extends CActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, type, name, tz, status, report_date, config_date, blacklist_date, upload_start, upload_stop, upload_period, download_start, download_stop, download_period, blacklist, settings_id, version', 'safe', 'on' => 'search'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'type' => 'Type',
-            'name' => 'Name',
-            'tz' => 'Tz',
-            'status' => 'Status',
-            'report_date' => 'Report Date',
-            'config_date' => 'Config Date',
-            'blacklist_date' => 'Blacklist Date',
-            'upload_start' => 'Upload Start',
-            'upload_stop' => 'Upload Stop',
-            'upload_period' => 'Upload Period',
-            'download_start' => 'Download Start',
-            'download_stop' => 'Download Stop',
-            'download_period' => 'Download Period',
-            'blacklist' => 'Blacklist',
-            'settings_id' => 'Settings',
-            'version' => 'Version',
         );
     }
 
@@ -127,24 +118,4 @@ class Term extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-
-    /**
-     * @return CDbConnection the database connection used for this class
-     */
-    public function getDbConnection()
-    {
-        return Yii::app()->dbTerm;
-    }
-
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return Term the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
 }

@@ -1,5 +1,6 @@
 <?php $this->pageTitle = Yii::t('phone', 'Readers'); ?>
 <?php $this->mainBackground = 'main_bg_2.jpg'?>
+<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/phone.js"></script>'?>
 
 <div class="content-wrapper">
     <div class="content-block" ng-controller="PhonesController" ng-init="initPhones(<?php echo $phones ?>);initDevices(<?php echo $devices ?>)">

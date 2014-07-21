@@ -2,20 +2,38 @@
 
 class SiteController extends MController
 {
+    const MIN_RESOLUTION = 1280;
+    public $defaultResolution = 1280;
+
+    public function getResolution()
+    {
+        $resolution = $this->defaultResolution;
+        if (isset(Yii::app()->request->cookies['resolution'])) {
+            $resolution = Yii::app()->request->cookies['resolution']->value;
+            if ($resolution < self::MIN_RESOLUTION) $resolution = self::MIN_RESOLUTION;
+
+        }
+        return $resolution;
+    }
 
     public function actionIndex()
     {
         $this->layout = '//layouts/all';
 
         $resolution = $this->getResolution();
-        $this->render('index', array('resolution' => $resolution));
+
+        if ($this->isHostMobile() and !(Yii::app()->user->isGuest))
+            //к списку спотов в моб.версии
+            $this->redirect('spot/list');
+
+        $this->renderWithMobile('index', array('resolution' => $resolution), '//mobile/spot/login');
     }
 
     public function actionError()
     {
-        $this->layout = '//layouts/error';
+        $this->layout = '//layouts/singl';
         if (!Yii::app()->errorHandler->error)
-            $this->setBadRequest();
+            MHttp::setBadRequest();
 
         $error = Yii::app()->errorHandler->error;
 
@@ -32,9 +50,9 @@ class SiteController extends MController
         );
 
         if (empty($_FILES))
-            $this->getJsonAndExit($answer);
+            MHttp::getJsonAndExit($answer);
 
-        $maxSize = Yii::app()->par->load('ImageSize');
+        $maxSize = Yii::app()->params['imageSize'];
         $action = Yii::app()->request->getParam('action');
 
         $tempFile = $_FILES['Filedata']['tmp_name'];
@@ -44,10 +62,9 @@ class SiteController extends MController
         $fileName = $action . '_' . md5(time() . $fileParts['basename']);
         $targetFileName = $fileName . '.jpg';
 
-        if (filesize($tempFile) > $maxSize * 1024)
-        {
-            $answer['error'] = Yii::t('images', 'Maximum file size ') . ($maxSize * 1024) . ' byte.';
-            $this->getJsonAndExit($answer);
+        if (filesize($tempFile) > $maxSize * 1024) {
+            $answer['error'] = Yii::t('general', 'Maximum file size ') . ($maxSize * 1024) . ' byte.';
+            MHttp::getJsonAndExit($answer);
         }
 
         $targetPath = Yii::getPathOfAlias('webroot.uploads.images.') . '/';
@@ -55,10 +72,9 @@ class SiteController extends MController
         $image = new CImageHandler();
         $image->load($tempFile);
 
-        if (!$image->thumb(50, 50, true))
-        {
-            $answer['error'] = Yii::t('images', 'The uploaded file is not an image');
-            $this->getJsonAndExit($answer);
+        if (!$image->thumb(50, 50, true)) {
+            $answer['error'] = Yii::t('general', 'The uploaded file is not an image');
+            MHttp::getJsonAndExit($answer);
         }
 
         $image->save($targetPath . 'tmb_' . $fileName . '.jpg');

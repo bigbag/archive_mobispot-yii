@@ -2,6 +2,7 @@
 
 class GoogleContent extends SocContentBase
 {
+    const TOKEN_URL = 'https://accounts.google.com/o/oauth2/token';
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
@@ -10,7 +11,7 @@ class GoogleContent extends SocContentBase
 
         $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
         if (empty($socUser['id']) || !empty($socUser['error']) || !empty($socUser['errors']))
-            $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
 
         return $result;
     }
@@ -19,11 +20,11 @@ class GoogleContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = self::parseUsername($link);
+        $userDetail['block_type'] = self::TYPE_POST;
 
         $socUser = self::makeRequest('https://www.googleapis.com/plus/v1/people/' . $socUsername . '?key=' . Yii::app()->eauth->services['google_oauth']['key']);
 
-        if (!isset($socUser['error']) && !isset($socUser['errors']) && isset($socUser['id']))
-        {
+        if (!isset($socUser['error']) && !isset($socUser['errors']) && isset($socUser['id'])) {
             $userDetail['UserExists'] = true;
             if (isset($socUser['displayName']))
                 $userDetail['soc_username'] = $socUser['displayName'];
@@ -68,74 +69,52 @@ class GoogleContent extends SocContentBase
             unset($post);
             $i = 0;
 
-            if ((strpos($link, '/posts/') !== false) && strlen($link) > (strpos($link, '/posts/') + strlen('/posts/')))
-            {
+            if ((strpos($link, '/posts/') !== false) && strlen($link) > (strpos($link, '/posts/') + strlen('/posts/'))) {
                 //привязан пост
-                while (!isset($post))
-                {
-                    if (isset($userFeed['items']) && isset($userFeed['items'][$i]) && isset($userFeed['items'][$i]['url']) && self::parsePostSlug($userFeed['items'][$i]['url']) == self::parsePostSlug($link))
-                    {
+                while (!isset($post)) {
+                    if (isset($userFeed['items']) && isset($userFeed['items'][$i]) && isset($userFeed['items'][$i]['url']) && self::parsePostSlug($userFeed['items'][$i]['url']) == self::parsePostSlug($link)) {
                         $post = $userFeed['items'][$i];
-                    }
-                    elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken']))
-                    {
+                    } elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken'])) {
                         //следующая страница
                         $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/'
                                         . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key']
                                         . '&pageToken=' . $userFeed['nextPageToken']
                         );
                         $i = 0;
-                    }
-                    elseif (!isset($userFeed['items']) || (!isset($userFeed['items'][$i])))
-                    {
+                    } elseif (!isset($userFeed['items']) || (!isset($userFeed['items'][$i]))) {
                         $post = 'no';
-                    }
-                    else
-                    {
+                    } else {
                         $i++;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 //привязан профиль
-                while (!isset($post))
-                {
-                    if (isset($userFeed['items']) && isset($userFeed['items'][$i]) && isset($userFeed['items'][$i]['actor']) && isset($userFeed['items'][$i]['actor']['id']) && ($userFeed['items'][$i]['actor']['id'] == $socUser['id']) && isset($userFeed['items'][$i]['object']))
-                    {
+                while (!isset($post)) {
+                    if (isset($userFeed['items']) && isset($userFeed['items'][$i]) && isset($userFeed['items'][$i]['actor']) && isset($userFeed['items'][$i]['actor']['id']) && ($userFeed['items'][$i]['actor']['id'] == $socUser['id']) && isset($userFeed['items'][$i]['object'])) {
                         $post = $userFeed['items'][$i];
-                    }
-                    elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken']))
-                    {
+                    } elseif (isset($userFeed['items']) && count($userFeed['items']) > 0 && !isset($userFeed['items'][$i]) && isset($userFeed['nextPageToken'])) {
                         //следующая страница
                         $userFeed = self::makeRequest('https://www.googleapis.com/plus/v1/people/'
                                         . $socUsername . '/activities/public?key=' . Yii::app()->eauth->services['google_oauth']['key']
                                         . '&pageToken=' . $userFeed['nextPageToken']
                         );
                         $i = 0;
-                    }
-                    elseif (!isset($userFeed['items']) || (!isset($userFeed['items'][$i])))
-                    {
+                    } elseif (!isset($userFeed['items']) || (!isset($userFeed['items'][$i]))) {
                         $post = 'no';
-                    }
-                    else
-                    {
+                    } else {
                         $i++;
                     }
                 }
             }
 
-            if ($post != 'no')
-            {
+            if ($post != 'no') {
                 if (isset($post['object']['content']))
                     $userDetail['last_status'] = strip_tags($post['object']['content'], '<p><br>');
                 $userDetail['sub-line'] = '';
-                if (isset($post['access']) && !empty($post['access']['description']) && ($post['access']['description'] == 'Public'))
-                {
-                    $userDetail['sub-line'] = Yii::t('eauth', 'Shared publicly');
+                if (isset($post['access']) && !empty($post['access']['description']) && ($post['access']['description'] == 'Public')) {
+                    $userDetail['sub-line'] = Yii::t('social', 'Shared publicly');
                 }
-                if (!empty($post['published']))
-                {
+                if (!empty($post['published'])) {
                     if (empty($userDetail['sub-line']))
                         $userDetail['sub-line'] = date('F j, Y', strtotime($post['published']));
                     else
@@ -143,32 +122,24 @@ class GoogleContent extends SocContentBase
                 }
 
                 //Картинка
-                if (isset($post['object']['attachments']))
-                {
+                if (isset($post['object']['attachments'])) {
                     $i = 0;
                     unset($imgSrc);
-                    while (isset($post['object']['attachments'][$i]) && !isset($imgSrc))
-                    {
-                        if (isset($post['object']['attachments'][$i]['fullImage']) && !empty($post['object']['attachments'][$i]['fullImage']['url']) && ($post['object']['attachments'][$i]['fullImage']['url'] != ' https:'))
-                        {
+                    while (isset($post['object']['attachments'][$i]) && !isset($imgSrc)) {
+                        if (isset($post['object']['attachments'][$i]['fullImage']) && !empty($post['object']['attachments'][$i]['fullImage']['url']) && ($post['object']['attachments'][$i]['fullImage']['url'] != ' https:')) {
                             $imgSrc = $post['object']['attachments'][$i]['fullImage']['url'];
-                        }
-                        elseif (isset($post['object']['attachments'][$i]['image']) && !empty($post['object']['attachments'][$i]['image']['url']) && ($post['object']['attachments'][$i]['image']['url'] != ' https:'))
-                        {
+                        } elseif (isset($post['object']['attachments'][$i]['image']) && !empty($post['object']['attachments'][$i]['image']['url']) && ($post['object']['attachments'][$i]['image']['url'] != ' https:')) {
                             $imgSrc = $post['object']['attachments'][$i]['image']['url'];
-                        }
-                        else
+                        } else
                             $i++;
                     }
-                    if (!empty($imgSrc))
-                    {
+                    if (!empty($imgSrc)) {
                         $userDetail['last_img'] = $imgSrc;
                         if (isset($post['object']['attachments'][$i]['displayName']) && (strlen($post['object']['attachments'][$i]['displayName']) > 0))
                             $userDetail['last_img_msg'] = strip_tags($post['object']['attachments'][$i]['displayName'], '<p><br>');
                         elseif (isset($post['object']['attachments'][$i]['content']) && (strlen($post['object']['attachments'][$i]['content']) > 0))
                             $userDetail['last_img_msg'] = strip_tags($post['object']['attachments'][$i]['content'], '<p><br>');
-                        elseif (isset($userDetail['last_status']))
-                        {
+                        elseif (isset($userDetail['last_status'])) {
                             $userDetail['last_img_msg'] = $userDetail['last_status'];
                             unset($userDetail['last_status']);
                         }
@@ -177,10 +148,8 @@ class GoogleContent extends SocContentBase
                     }
                 }
 
-                if (self::contentNeedSave($link))
-                {
-                    if (!empty($userDetail['last_img']))
-                    {
+                if (self::contentNeedSave($link)) {
+                    if (!empty($userDetail['last_img'])) {
                         $savedImg = self::saveImage($userDetail['last_img']);
                         if ($savedImg)
                             $userDetail['last_img'] = $savedImg;
@@ -188,10 +157,17 @@ class GoogleContent extends SocContentBase
                     $userDetail['soc_url'] = $link;
                 }
             }
-        }else
-        {
-            $userDetail['error'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+        }else {
+            $userDetail['error'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
+
+        $userDetail['text'] = '';
+        if (!empty($userDetail['last_status']))
+            $userDetail['text'] .= $userDetail['last_status'].' ';
+        if (!empty($userDetail['last_img_msg']))
+            $userDetail['text'] .= $userDetail['last_img_msg'].' ';
+        if (!empty($userDetail['last_img_story']))
+            $userDetail['text'] .= $userDetail['last_img_story'].' ';
 
         return $userDetail;
     }
@@ -199,14 +175,11 @@ class GoogleContent extends SocContentBase
     public static function parseUsername($link)
     {
         $username = $link;
-        if (strpos($username, 'google.com') !== false)
-        {
-            if (strpos($username, 'google.com/u/0/') !== false)
-            {
+        if (strpos($username, 'google.com') !== false) {
+            if (strpos($username, 'google.com/u/0/') !== false) {
                 $username = substr($username, (strpos($username, 'google.com/u/0/') + 15));
             }
-            if (strpos($username, 'google.com/') !== false)
-            {
+            if (strpos($username, 'google.com/') !== false) {
                 $username = substr($username, (strpos($username, 'google.com/') + 11));
             }
             $username = self::rmGetParam($username);
@@ -217,8 +190,7 @@ class GoogleContent extends SocContentBase
     public static function parsePostSlug($link)
     {
         $slug = '';
-        if (strpos($link, 'google.com') !== false && (strpos($link, '/posts/') !== false) && strlen($link) > (strpos($link, '/posts/') + strlen('/posts/')))
-        {
+        if (strpos($link, 'google.com') !== false && (strpos($link, '/posts/') !== false) && strlen($link) > (strpos($link, '/posts/') + strlen('/posts/'))) {
             $slug = substr($link, (strpos($link, '/posts/') + strlen('/posts/')));
             $slug = self::rmGetParam($slug);
         }
@@ -244,4 +216,82 @@ class GoogleContent extends SocContentBase
         return $answer;
     }
 
+    public static function refreshToken($token)
+    {
+        $answer = false;
+
+        if (empty($token->refresh_token) or (time() + 60 < $token->token_expires))
+            return false;
+
+        $options = array('data' =>
+            'client_id='
+            . Yii::app()->eauth->services['google_oauth']['client_id']
+            . '&client_secret='
+            . Yii::app()->eauth->services['google_oauth']['client_secret']
+            . '&refresh_token='
+            . $token->refresh_token
+            .'&grant_type=refresh_token'
+        );
+
+        $newToken = self::makeRequest(self::TOKEN_URL, $options, true);
+
+        if (!empty($newToken['access_token']) and !empty($newToken['expires_in'])) {
+            $token->user_token = $newToken['access_token'];
+            $token->token_expires = time() + $newToken['expires_in'] - 60;
+            $token->save();
+            $answer = true;
+        }
+
+        return $answer;
+    }
+
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
+
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
+
+        switch($sharing_type) {
+            case Loyalty::GOOGLE_CIRCLE:
+                $answer = self::checkInCircle($link);
+            break;
+            case Loyalty::GOOGLE_PLUS_ONE:
+                $answer = self::checkPlusOne($link);
+            break;
+        }
+
+        return $answer;
+    }
+
+    public static function checkInCircle($link)
+    {
+        $answer = false;
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_GOOGLE,
+        ));
+
+        if (!$socToken)
+            return false;
+
+        return $answer;
+    }
+
+    public static function checkPlusOne($link)
+    {
+        $answer = false;
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_GOOGLE,
+        ));
+
+        if (!$socToken)
+            return false;
+
+        return $answer;
+    }
 }

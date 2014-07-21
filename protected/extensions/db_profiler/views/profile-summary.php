@@ -30,14 +30,14 @@
         }
 
         echo <<<EOD
-	<tr style="background:{$color}">
-		<td style="background:{$color}">{$proc}</td>
-		<td style="background:{$color}; text-align: right">{$entry[1]}</td>
-		<td style="background:{$color}; text-align: right">{$total}</td>
-		<td style="background:{$color}; text-align: right">{$average}</td>
-		<td style="background:{$color}; text-align: right">{$min}</td>
-		<td style="background:{$color}; text-align: right">{$max}</td>
-	</tr>
+    <tr style="background:{$color}">
+        <td style="background:{$color}">{$proc}</td>
+        <td style="background:{$color}; text-align: right">{$entry[1]}</td>
+        <td style="background:{$color}; text-align: right">{$total}</td>
+        <td style="background:{$color}; text-align: right">{$average}</td>
+        <td style="background:{$color}; text-align: right">{$min}</td>
+        <td style="background:{$color}; text-align: right">{$max}</td>
+    </tr>
 EOD;
     }
     ?>

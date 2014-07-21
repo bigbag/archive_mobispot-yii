@@ -34,14 +34,11 @@ class ServiceUserIdentity extends CUserIdentity
 
         // $user = User::model()->findByAttributes(array('email' => $this->service->email));
 
-        if ($this->service->isAuthenticated)
-        {
+        if ($this->service->isAuthenticated) {
             $this->_id = $this->service->getAttribute('id');
             $this->_profileUrl = $this->service->getAttribute('url');
             $this->errorCode = self::ERROR_NONE;
-        }
-        else
-        {
+        } else {
             $this->errorCode = self::ERROR_NOT_AUTHENTICATED;
         }
         return !$this->errorCode;

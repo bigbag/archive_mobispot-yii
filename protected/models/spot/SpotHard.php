@@ -4,21 +4,19 @@
  * This is the model class for table "spot_hard".
  *
  * The followings are the available columns in table 'spot_hard':
- * @property integer $id
- * @property integer $discodes_id
- * @property string $hard_id
- * @property integer $spot_hard_type_id
- * @property string $chip_type
+ * @property string $id
+ * @property string $name
+ * @property integer $show
  */
 class SpotHard extends CActiveRecord
 {
-
     /**
      * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
      * @return SpotHard the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className=__CLASS__)
     {
         return parent::model($className);
     }
@@ -39,13 +37,12 @@ class SpotHard extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('discodes_id, hard_id, spot_hard_type_id', 'required'),
-            array('discodes_id, spot_hard_type_id', 'numerical', 'integerOnly' => true),
-            array('hard_id', 'length', 'max' => 20),
-            array('chip_type', 'length', 'max' => 4),
+            array('name', 'required'),
+            array('show', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>300),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('id, discodes_id, hard_id, spot_hard_type_id, chip_type', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('id, name, show', 'safe', 'on'=>'search'),
         );
     }
 
@@ -57,44 +54,33 @@ class SpotHard extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'discodes' => array(self::BELONGS_TO, 'Discodes', 'discodes_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'discodes_id' => 'Discodes',
-            'hard_id' => 'Hard',
-            'spot_hard_type_id' => 'Spot Hard Type',
-            'chip_type' => 'Chip Type',
         );
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
      */
     public function search()
     {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('discodes_id', $this->discodes_id);
-        $criteria->compare('hard_id', $this->hard_id, true);
-        $criteria->compare('spot_hard_type_id', $this->spot_hard_type_id);
-        $criteria->compare('chip_type', $this->chip_type, true);
+        $criteria->compare('id',$this->id,true);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('show',$this->show);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
+            'criteria'=>$criteria,
         ));
     }
-
 }

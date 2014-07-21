@@ -17,7 +17,7 @@ class OAuthRequest
     public static $version = '1.0';
     public static $POST_INPUT = 'php://input';
 
-    function __construct($http_method, $http_url, $parameters = NULL)
+    public function __construct($http_method, $http_url, $parameters = NULL)
     {
         @$parameters or $parameters = array();
         $this->parameters = $parameters;

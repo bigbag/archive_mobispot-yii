@@ -42,18 +42,18 @@
                         ng-class="{error: error.code}"
                         required >
                 </div>
-                <div class="checkbox">  
-                <input 
-                    id="formReg_agree" 
-                    type="checkbox" 
-                    name="formReg_agree" 
+                <div class="checkbox">
+                <input
+                    id="formReg_agree"
+                    type="checkbox"
+                    name="formReg_agree"
                     ng-model="user.terms"
                     ng-true-value="1"
-                    ng-false-value="0">  
-                    <label for="formReg_agree"><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></label>  
+                    ng-false-value="0">
+                    <label for="formReg_agree"><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></label>
                 </div>
                 <footer class="form-footer">
-                    <a class="left form-button" 
+                    <a class="left form-button"
                         ng-click="activation(user, activForm.$valid)"
                         href="javascript:;">
                         <?php echo Yii::t('user', 'Activate spot'); ?>
@@ -63,4 +63,3 @@
         </div>
     </div>
 </div>
-        

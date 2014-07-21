@@ -47,8 +47,7 @@ class Zend_Gdata_Docs_DocumentListFeedTest extends PHPUnit_Framework_TestCase
         // There should be 2 entries in the feed.
         $this->assertTrue(count($this->docFeed->entries) == 2);
         $this->assertTrue($this->docFeed->entries->count() == 2);
-        foreach($this->docFeed->entries as $entry)
-        {
+        foreach($this->docFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Docs_DocumentListEntry);
         }
 
@@ -58,8 +57,7 @@ class Zend_Gdata_Docs_DocumentListFeedTest extends PHPUnit_Framework_TestCase
         $newDocFeed->transferFromDom($doc->documentElement);
 
         $this->assertTrue(count($newDocFeed->entries) == count($this->docFeed->entries));
-        foreach($newDocFeed->entries as $entry)
-        {
+        foreach($newDocFeed->entries as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Docs_DocumentListEntry);
         }
     }

@@ -5,7 +5,7 @@
     <div class="twelve columns">
         <div  class="row">
             <div class="seven columns centered">
-                <h3><?php echo Yii::t('activate', 'Start using your spot right now'); ?></h3>
+                <h3><?php echo Yii::t('user', 'Start using your spot right now'); ?></h3>
             </div>
         </div>
         <div class="row">

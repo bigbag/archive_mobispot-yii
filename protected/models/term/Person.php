@@ -19,6 +19,23 @@
  */
 class Person extends CActiveRecord
 {
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return PaymentHistory the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return CDbConnection database connection
+     */
+    public function getDbConnection()
+    {
+        return Yii::app()->dbTerm;
+    }
 
     const STATUS_VALID = 1;
     const STATUS_BANNED = 0;
@@ -71,27 +88,6 @@ class Person extends CActiveRecord
     }
 
     /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'tabel_id' => 'Tabel',
-            'birthday' => 'Birthday',
-            'firm_id' => 'Firm',
-            'card' => 'Card',
-            'hard_id' => 'Hard',
-            'payment_id' => 'Payment',
-            'creation_date' => 'Creation Date',
-            'status' => 'Status',
-            'wallet_status' => 'Wallet Status',
-            'type' => 'Type',
-        );
-    }
-
-    /**
      * Retrieves a list of models based on the current search/filter conditions.
      *
      * Typical usecase:
@@ -126,24 +122,4 @@ class Person extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
-
-    /**
-     * @return CDbConnection the database connection used for this class
-     */
-    public function getDbConnection()
-    {
-        return Yii::app()->dbTerm;
-    }
-
-    /**
-     * Returns the static model of the specified AR class.
-     * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
-     * @return Person the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
 }

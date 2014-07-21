@@ -103,8 +103,7 @@ class SocToken extends CActiveRecord
     public function getTypeByService($service)
     {
         $ind = -1;
-        foreach (self::getTypeList() as $key => $value)
-        {
+        foreach (self::getTypeList() as $key => $value) {
             if ($value == $service)
                 return $key;
         }
@@ -113,15 +112,18 @@ class SocToken extends CActiveRecord
 
     public function setToken($info)
     {
+        $answer = false;
         if (!isset($info['user_id']) or !isset($info['id']))
             return false;
 
         $userToken = SocToken::model()->findByAttributes(
             array(
-                'soc_id'=>$info['id'])
-            ); 
+                'user_id' => $info['user_id'],
+                'type' => SocToken::getTypeByService($info['service']),
+            )
+        );
         if (!$userToken) $userToken = new SocToken;
-        
+
         $userToken->type = SocToken::getTypeByService($info['service']);
         $userToken->user_id = $info['user_id'];
         $userToken->soc_id = $info['id'];
@@ -131,8 +133,26 @@ class SocToken extends CActiveRecord
         $userToken->token_expires = (!empty($info['expires'])) ? $info['expires'] : Null;
         $userToken->soc_username = (!empty($info['name'])) ? $info['name'] : Null;
         $userToken->allow_login = true;
+
+        if (SocInfo::writeAccessBySocInfo($info))
+            $userToken->write_access = true;
+
         if ($userToken->save())
-            return $userToken;
+            $answer = $userToken;
+
+        $dubleTokens = SocToken::model()->findAllByAttributes(
+                array(
+                    'type' => SocToken::getTypeByService($info['service']),
+                    'soc_id' => $info['id'],
+                )
+        );
+
+        foreach ($dubleTokens as $row) {
+            if ($row->user_id != $info['user_id'])
+                $row->delete();
+        }
+
+        return $answer;
     }
 
 }

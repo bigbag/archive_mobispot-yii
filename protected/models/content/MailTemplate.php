@@ -69,8 +69,7 @@ class MailTemplate extends CActiveRecord
     public static function getTemplate($slug, $lang)
     {
         $mail_template = Yii::app()->cache->get('mail_template_' . $slug);
-        if (!$mail_template)
-        {
+        if (!$mail_template) {
             $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug, 'lang' => $lang));
 
             Yii::app()->cache->set('mail_template_' . $slug, $mail_template, 36000);
@@ -94,22 +93,6 @@ class MailTemplate extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'lang' => array(self::BELONGS_TO, 'Lang', 'lang'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'name' => 'Название',
-            'slug' => 'Код',
-            'desc' => 'Описание',
-            'lang' => 'Язык',
-            'subject' => 'Тема',
-            'content' => 'Содержимое',
         );
     }
 

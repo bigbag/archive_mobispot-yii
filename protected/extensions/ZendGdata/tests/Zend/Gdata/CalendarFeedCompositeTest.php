@@ -419,8 +419,7 @@ class Zend_Gdata_CalendarFeedCompositeTest extends PHPUnit_Framework_TestCase
 
         // Verify that the comments appear to be good
         $commentCount = 0;
-        foreach ($cFeed as $entry)
-        {
+        foreach ($cFeed as $entry) {
             $this->assertTrue($entry instanceof Zend_Gdata_Entry);
             $commentCount++;
         }

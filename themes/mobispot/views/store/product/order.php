@@ -4,7 +4,7 @@
     <table id="orderTable" cellspacing="0">
         <tr class="borderTop">
             <th id="orderNo">
-                <?php echo Yii::t('store', 'Order'); ?> #<?php echo $order["id"]; ?> 
+                <?php echo Yii::t('store', 'Order'); ?> #<?php echo $order["id"]; ?>
             </th>
             <th colspan="4" class="borderTop"></th>
         </tr>
@@ -58,8 +58,8 @@
                 <td class="borderTop"><?php echo $item["size_name"]; ?></td>
                 <td class="borderTop"><?php echo $item["price"]; ?></td>
                 <td class="borderTop"><?php echo $item["quantity"]; ?></td>
-            </tr>   
-        <?php endforeach ?>     
+            </tr>
+        <?php endforeach ?>
         <tr>
             <td class="borderTop"><?php echo Yii::t('store', 'Subtotal'); ?></td>
             <td class="borderTop"><?php echo $order["subtotal"]; ?></td>

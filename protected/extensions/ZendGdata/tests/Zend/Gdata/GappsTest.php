@@ -45,7 +45,8 @@ class Zend_Gdata_GappsTest extends PHPUnit_Framework_TestCase
         $this->gdata = new Zend_Gdata_Gapps(null, self::TEST_DOMAIN);
     }
 
-    public function testMagicFactoryProvidesQueriesWithDomains() {
+    public function testMagicFactoryProvidesQueriesWithDomains()
+    {
         $userQ = $this->gdata->newUserQuery();
         $this->assertTrue($userQ instanceof Zend_Gdata_Gapps_UserQuery);
         $this->assertEquals(self::TEST_DOMAIN, $userQ->getDomain());
@@ -57,13 +58,15 @@ class Zend_Gdata_GappsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $userQ->getUsername());
     }
 
-    public function testMagicFactoryLeavesNonQueriesAlone() {
+    public function testMagicFactoryLeavesNonQueriesAlone()
+    {
         $login = $this->gdata->newLogin('blah');
         $this->assertTrue($login instanceof Zend_Gdata_Gapps_Extension_Login);
         $this->assertEquals('blah', $login->username);
     }
 
-    public function testEmptyResponseExceptionRaisesException() {
+    public function testEmptyResponseExceptionRaisesException()
+    {
       require_once('Zend/Gdata/App/HttpException.php');
       $e = new Zend_Gdata_App_HttpException();
       $e->setResponse(null);

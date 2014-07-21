@@ -35,14 +35,16 @@ require_once 'Zend/Gdata/YouTube.php';
 class Zend_Gdata_YouTube_PlaylistVideoFeedTest extends PHPUnit_Framework_TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->feedText = file_get_contents(
                 'Zend/Gdata/YouTube/_files/PlaylistVideoFeedDataSample1.xml',
                 true);
         $this->feed = new Zend_Gdata_YouTube_PlaylistVideoFeed();
     }
 
-    private function verifyAllSamplePropertiesAreCorrect ($playlistVideoFeed) {
+    private function verifyAllSamplePropertiesAreCorrect($playlistVideoFeed)
+    {
         $this->assertEquals('http://gdata.youtube.com/feeds/playlists/46A2F8C9B36B6FE7',
             $playlistVideoFeed->id->text);
         $this->assertEquals('2007-09-20T13:42:19.000-07:00', $playlistVideoFeed->updated->text);
@@ -64,29 +66,34 @@ class Zend_Gdata_YouTube_PlaylistVideoFeedTest extends PHPUnit_Framework_TestCas
         $this->assertEquals(1, $entries[0]->getPosition()->getText());
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionElements() {
+    public function testEmptyEntryShouldHaveNoExtensionElements()
+    {
         $this->assertTrue(is_array($this->feed->extensionElements));
         $this->assertTrue(count($this->feed->extensionElements) == 0);
     }
 
-    public function testEmptyEntryShouldHaveNoExtensionAttributes() {
+    public function testEmptyEntryShouldHaveNoExtensionAttributes()
+    {
         $this->assertTrue(is_array($this->feed->extensionAttributes));
         $this->assertTrue(count($this->feed->extensionAttributes) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionElements() {
+    public function testSampleEntryShouldHaveNoExtensionElements()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->assertTrue(is_array($this->feed->extensionElements));
         $this->assertTrue(count($this->feed->extensionElements) == 0);
     }
 
-    public function testSampleEntryShouldHaveNoExtensionAttributes() {
+    public function testSampleEntryShouldHaveNoExtensionAttributes()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->assertTrue(is_array($this->feed->extensionAttributes));
         $this->assertTrue(count($this->feed->extensionAttributes) == 0);
     }
 
-    public function testEmptyPlaylistVideoFeedToAndFromStringShouldMatch() {
+    public function testEmptyPlaylistVideoFeedToAndFromStringShouldMatch()
+    {
         $entryXml = $this->feed->saveXML();
         $newPlaylistVideoFeed = new Zend_Gdata_YouTube_PlaylistVideoFeed();
         $newPlaylistVideoFeed->transferFromXML($entryXml);
@@ -94,12 +101,14 @@ class Zend_Gdata_YouTube_PlaylistVideoFeedTest extends PHPUnit_Framework_TestCas
         $this->assertTrue($entryXml == $newPlaylistVideoFeedXml);
     }
 
-    public function testSamplePropertiesAreCorrect () {
+    public function testSamplePropertiesAreCorrect()
+    {
         $this->feed->transferFromXML($this->feedText);
         $this->verifyAllSamplePropertiesAreCorrect($this->feed);
     }
 
-    public function testConvertPlaylistVideoFeedToAndFromString() {
+    public function testConvertPlaylistVideoFeedToAndFromString()
+    {
         $this->feed->transferFromXML($this->feedText);
         $feedXml = $this->feed->saveXML();
         $newPlaylistVideoFeed = new Zend_Gdata_YouTube_PlaylistVideoFeed();

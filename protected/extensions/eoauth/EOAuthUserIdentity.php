@@ -178,5 +178,3 @@ class EOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
     }
 
 }
-
-?>

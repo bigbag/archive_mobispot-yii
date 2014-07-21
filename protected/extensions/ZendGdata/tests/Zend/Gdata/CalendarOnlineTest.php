@@ -78,7 +78,7 @@ class Zend_Gdata_CalendarOnlineTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(count($eventFeed) == $eventCount);
     }
 
-    function getEvent($eventId)
+    public function getEvent($eventId)
     {
         $query = $this->gdata->newEventQuery();
         $query->setUser('default');
@@ -132,7 +132,7 @@ class Zend_Gdata_CalendarOnlineTest extends PHPUnit_Framework_TestCase
         return $createdEntry;
     }
 
-    function updateEvent ($eventId, $newTitle)
+    public function updateEvent($eventId, $newTitle)
     {
         $eventOld = $this->getEvent($eventId);
         $eventOld->title = $this->gdata->newTitle($newTitle);

@@ -3,6 +3,9 @@
 class YouTubeContent extends SocContentBase
 {
 
+    const API_PATH = 'https://www.googleapis.com/youtube/';
+    const TOKEN_URL = 'https://accounts.google.com/o/oauth2/token';
+
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $socUsername = $link;
@@ -13,8 +16,7 @@ class YouTubeContent extends SocContentBase
             $username = substr($socUsername, (strpos($socUsername, 'youtube.com/channel/') + 20));
         if (strpos($socUsername, 'youtube.com/user/') !== false)
             $username = substr($socUsername, (strpos($socUsername, 'youtube.com/user/') + 17));
-        if (strlen($username) > 0)
-        {
+        if (strlen($username) > 0) {
             $username = self::rmGetParam($username);
 
             Yii::import('ext.ZendGdata.library.*');
@@ -23,21 +25,15 @@ class YouTubeContent extends SocContentBase
 
             $yt = new Zend_Gdata_YouTube();
             $yt->setMajorProtocolVersion(2);
-            try
-            {
+            try {
                 $userProfileEntry = $yt->getUserProfile($username);
                 $result = 'ok';
+            } catch (Exception $e) {
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
-            catch (Exception $e)
-            {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            }
-        }
-        else
-        {
+        } else {
             $videoId = '';
-            if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false))
-            {
+            if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false)) {
                 $videoId = self::rmGetParam(substr($socUsername, (strpos($socUsername, 'watch?v=') + 8)));
 
                 Yii::import('ext.ZendGdata.library.*');
@@ -46,14 +42,11 @@ class YouTubeContent extends SocContentBase
 
                 $yt = new Zend_Gdata_YouTube();
                 $yt->setMajorProtocolVersion(2);
-                try
-                {
+                try {
                     $videoEntry = $yt->getVideoEntry($videoId);
                     $result = 'ok';
-                }
-                catch (Exception $e)
-                {
-                    $result = Yii::t('eauth', "This post doesn't exist:") . $videoId;
+                } catch (Exception $e) {
+                    $result = Yii::t('social', "This post doesn't exist:") . $videoId;
                 }
             }
         }
@@ -66,6 +59,7 @@ class YouTubeContent extends SocContentBase
     {
         $userDetail = array();
         $socUsername = $link;
+        $userDetail['block_type'] = self::YOUTUBE_VIDEO;
 
         //$userXML = $self::makeRequest('http://gdata.youtube.com/feeds/api/users/'.$socUsername);
         $username = '';
@@ -73,8 +67,7 @@ class YouTubeContent extends SocContentBase
             $username = substr($socUsername, (strpos($socUsername, 'youtube.com/channel/') + 20));
         if ((strpos($socUsername, 'youtube.com/user/') > 0) || (strpos($socUsername, 'youtube.com/user/') !== false))
             $username = substr($socUsername, (strpos($socUsername, 'youtube.com/user/') + 17));
-        if (strlen($username) > 0)
-        {
+        if (strlen($username) > 0) {
             $username = self::rmGetParam($username);
 
             Yii::import('ext.ZendGdata.library.*');
@@ -83,11 +76,10 @@ class YouTubeContent extends SocContentBase
 
             $yt = new Zend_Gdata_YouTube();
             $yt->setMajorProtocolVersion(2);
-            try
-            {
+            try {
                 $userProfileEntry = $yt->getUserProfile($username);
 
-                //$userDetail['soc_username'] = $userProfileEntry->title->text;
+                $userDetail['soc_username'] = $userProfileEntry->title->text;
                 $userDetail['photo'] = $userProfileEntry->getThumbnail()->getUrl();
                 /*
                   $userDetail['age'] = $userProfileEntry->getAge();
@@ -100,29 +92,22 @@ class YouTubeContent extends SocContentBase
 
                 $videoFeed = $yt->getuserUploads($username);
 
-                if (isset($videoFeed[0]))
-                {
+                if (isset($videoFeed[0])) {
                     $videoEntry = $videoFeed[0];
-                    $userDetail['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
-                    $userDetail['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                    $userDetail['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+                    $userDetail['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
+                    $userDetail['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+                    $userDetail['view_count'] = $videoEntry->getVideoViewCount();
 
                     $videoThumbnails = $videoEntry->getVideoThumbnails();
-                    if (isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height']))
-                    {
-                        $userDetail['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
+                    if (isset($videoThumbnails[0]) && isset($videoThumbnails[0]['width']) && isset($videoThumbnails[0]['height'])) {
+                        $userDetail['youtube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                     }
                 }
+            } catch (Exception $e) {
+                $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
-            catch (Exception $e)
-            {
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
-            }
-        }
-        else
-        {
-            if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false))
-            {
+        } else {
+            if ((strpos($socUsername, 'youtube.com') !== false) && (strpos($socUsername, 'watch?v=') !== false)) {
                 $videoContent = self::getVideoContent($socUsername);
 
                 foreach ($videoContent as $postKey => $postValue)
@@ -139,8 +124,7 @@ class YouTubeContent extends SocContentBase
         $videoContent = array();
 
         $videoId = '';
-        if ((strpos($link, 'youtube.com') !== false) && (strpos($link, 'watch?v=') !== false))
-        {
+        if ((strpos($link, 'youtube.com') !== false) && (strpos($link, 'watch?v=') !== false)) {
             $videoId = self::rmGetParam(substr($link, (strpos($link, 'watch?v=') + 8)));
 
             Yii::import('ext.ZendGdata.library.*');
@@ -149,22 +133,18 @@ class YouTubeContent extends SocContentBase
 
             $yt = new Zend_Gdata_YouTube();
             $yt->setMajorProtocolVersion(2);
-            try
-            {
+            try {
                 $videoEntry = $yt->getVideoEntry($videoId);
-                $videoContent['ytube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
-                $videoContent['ytube_video_flash'] = $videoEntry->getFlashPlayerUrl();
-                $videoContent['ytube_video_view_count'] = $videoEntry->getVideoViewCount();
+                $videoContent['youtube_video_link'] = '<a href="' . $videoEntry->getVideoWatchPageUrl() . '" target="_blank">' . $videoEntry->getVideoTitle() . '</a>';
+                $videoContent['youtube_video_flash'] = $videoEntry->getFlashPlayerUrl();
+                $videoContent['view_count'] = $videoEntry->getVideoViewCount();
 
                 $videoThumbnails = $videoEntry->getVideoThumbnails();
-                if (isset($videoThumbnails[0]))
-                {
-                    $videoContent['ytube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
+                if (isset($videoThumbnails[0])) {
+                    $videoContent['youtube_video_rel'] = $videoThumbnails[0]['width'] / $videoThumbnails[0]['height'];
                 }
-            }
-            catch (Exception $e)
-            {
-                $videoContent['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+            } catch (Exception $e) {
+                $videoContent['error'] = Yii::t('social', "This post doesn't exist:") . $link;
                 $videoContent['soc_username'] = $videoContent['error'];
             }
         }
@@ -186,4 +166,88 @@ class YouTubeContent extends SocContentBase
         return $answer;
     }
 
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
+
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
+
+        switch($loyalty->sharing_type) {
+            case Loyalty::YOUTUBE_FOLLOWING:
+                $data = CJSON::decode($loyalty->data);
+                if (!empty($data['channelId']))
+                    $answer = self::checkFollowing($data['channelId']);
+            break;
+            case Loyalty::YOUTUBE_VIEWS:
+                $answer = self::checkView($link);
+            break;
+        }
+
+        return $answer;
+    }
+
+    public static function checkFollowing($channel_id)
+    {
+        $answer = false;
+
+
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_YOUTUBE,
+        ));
+
+        if (!$socToken)
+            return false;
+
+        $options = array(
+            'headers'=>array(
+            'Authorization:Bearer '
+            . $socToken->user_token));
+
+        $subscriptions = self::makeRequest(
+            self::API_PATH
+            .'v3/subscriptions?maxResults=50&part=snippet&mine=true'
+        );
+
+
+        return $answer;
+    }
+
+    public static function checkView($link)
+    {
+        $answer = false;
+
+        return $answer;
+    }
+
+    public static function refreshToken($token)
+    {
+        $answer = false;
+
+        if (empty($token->refresh_token) or (time() + 60 < $token->token_expires))
+            return false;
+
+        $options = array('data' =>
+            'client_id='
+            . Yii::app()->eauth->services['youtube']['client_id']
+            . '&client_secret='
+            . Yii::app()->eauth->services['youtube']['client_secret']
+            . '&refresh_token='
+            . $token->refresh_token
+            .'&grant_type=refresh_token'
+        );
+
+        $newToken = self::makeRequest(self::TOKEN_URL, $options, true);
+
+        if (!empty($newToken['access_token']) and !empty($newToken['expires_in'])) {
+            $token->user_token = $newToken['access_token'];
+            $token->token_expires = time() + $newToken['expires_in'] - 60;
+            $token->save();
+            $answer = true;
+        }
+
+        return $answer;
+    }
 }

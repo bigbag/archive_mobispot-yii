@@ -1,25 +1,88 @@
 'use strict';
 
-angular.module('mobispot').controller('UserController', 
-  function($scope, $http, $compile, $timeout, contentService) {
+angular.module('mobispot').controller('UserController',
+  function($scope, $http, $compile, $cookies, contentService) {
 
+  $scope.error = {};
+  $scope.result = {};
+  $scope.modal = 'none';
+  $scope.host_mobile = 0;
+
+  var prevSlide = function() {
+   $('.slidesjs-previous').click();
+  };
+
+  var nextSlide = function() {
+    $('.slidesjs-next').click();
+  };
+
+  var stopSlide = function() {
+    $('.slidesjs-stop').click();
+  };
+
+  var startSlide = function() {
+    $('.slidesjs-play').click();
+  };
+
+  //Очистка значений
+  $scope.setEmpty = function() {
+    // $scope.user.email = '';
+    $scope.user.password = '';
+    $scope.user.terms = 0;
+
+    $scope.error = {};
+    $scope.result = {};
+  };
+
+  //Инициализация датапикера
   $('#birthday').datepicker({
-      yearRange: '1900:-0',
-      dateFormat: 'dd.mm.yy',
-      onSelect: function (dateText, inst) {
-        $scope.$apply(function () {
-            $scope.user.birthday = dateText;
-        }); 
-      }
-    });
+    yearRange: '1900:-0',
+    dateFormat: 'dd.mm.yy',
+    onSelect: function (dateText, inst) {
+      $scope.$apply(function () {
+          $scope.user.birthday = dateText;
+      });
+    }
+  });
+
+  //Сторож модальных окон
+  $scope.$watch('modal', function() {
+    $scope.setEmpty();
+    contentService.viewModal($scope.modal);
+  });
 
   //Редактирование профиля пользователя
   $scope.setProfile = function(user){
     $http.post('/user/editProfile',user).success(function(data) {
         if (data.error == 'no'){
-          contentService.setModal(data.content, 'none');
+          $scope.result.message = data.content;
+          contentService.viewModal('message');
         }
     });
+  };
+
+  $(document).on('keyup', function(e) {
+    if (!angular.isUndefined($scope.modal)  && ($scope.modal == 'none')) {
+      if (e.keyCode === 37) prevSlide();
+      if (e.keyCode === 39) nextSlide();
+    }
+  });
+
+  //Автоопределение разрещения
+  $scope.getResolution = function() {
+    var resolution = $cookies.resolution;
+    if (!resolution) {
+      var clientRes = Math.max(screen.width,screen.height);
+      var res = [1920, 1400, 1280];
+      for(var i=0; i<res.length; i++) {
+        if (clientRes >= res[i]){
+          resolution = res[i];
+          break;
+        }
+      }
+      $cookies.resolution = '' + resolution;
+      $scope.resolution = resolution;
+    }
   };
 
   //Авторизация
@@ -27,13 +90,11 @@ angular.module('mobispot').controller('UserController',
    if (!valid) return false;
     $http.post('/service/login', user).success(function(data) {
       if (data.error == 'yes') {
-        contentService.setModal(data.content, 'error');
-
-        angular.element('#sign-in input[name=email]').addClass('error');
-        angular.element('#sign-in input[name=password]').addClass('error');
+          $scope.error.email = true;
+          $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        $(location).attr('href','/user/personal');
+        $(location).attr('href','/spot/list/');
       }
       else {
         $(location).attr('href','/');
@@ -41,151 +102,69 @@ angular.module('mobispot').controller('UserController',
     });
   };
 
-  // Атрибут огласия с условиями сервиса
-  $scope.setTerms = function(user){
-    if (user.terms == 1) user.terms = 0;
-    else user.terms = 1;
-  };
-
-  // Регистрация
-  $scope.registration = function(user, valid){
-    if (!valid) return false;
-
-    var emailId = angular.element('#personSpotForm input[name=email]');
-    var passwordId = angular.element('#personSpotForm input[name=password]');
-    var codeId = angular.element('#personSpotForm input[name=code]');
-
-    $http.post('/service/registration', user).success(function(data) {
-      emailId.removeClass('error');
-      passwordId.removeClass('error');
-      codeId.removeClass('error');
-
-      if (data.error == 'no'){
-        angular.element('#actSpotForm').slideUp(400, function() {
-          contentService.setModal(data.content, 'none');
-        });
-
-        $scope.user.email="";
-        $scope.user.password="";
-        $scope.user.activ_code="";
-        $scope.user.terms=0;
-      }
-      else {
-        if (data.error == 'yes') {
-          emailId.addClass('error');
-          passwordId.addClass('error');
-        }
-        else if (data.error == 'code'){
-          codeId.addClass('error');
-        }
-        contentService.setModal(data.content, 'error');
-      }
-    });
-  };
-
-  //Меняем статус активности кнопки отправить в форме регистрации через соц сети
-  $scope.$watch('user.email + user.activ_code + user.terms', function(user) {
-    if ($scope.user) {
-      var socialButton = angular.element('#socialForm .form-control a.activ');
-
-      if ($scope.user.email && $scope.user.activ_code && $scope.user.terms){
-        if (($scope.user.terms == 1) && ($scope.user.activ_code.length == 10)) {
-          socialButton.removeClass('button-disable');
-        }
-        else {
-          socialButton.addClass('button-disable');
-        }
-      }
-      else {
-        socialButton.addClass('button-disable');
-      }
-    }
+  $scope.$watch('user.email + user.password + user.code', function() {
+    $scope.error.email = false;
+    $scope.error.code = false;
+    $scope.error.password = false;
+    $scope.error.content = '';
   });
 
-  // Регистрация через соц сети
-  $scope.social = function(user){
-    var emailField = angular.element('#socialForm input[name=email]');
-    var codeField = angular.element('#socialForm input[name=code]');
+  // Регистрация
+  $scope.activation = function(user, valid){
+    if (!valid) return false;
+    if (user.terms === 0) return false;
 
-    $http.post('/service/social', user).success(function(data) {
-      if (data.error == 'yes') {
-        if (emailField){
-          emailField.addClass('error');
-        }
-        codeField.addClass('error');
+    $http.post('/service/registration', user).success(function(data) {
+
+      if (data.error == 'no'){
+        $scope.user.email = '';
+        $scope.user.password = '';
+        $scope.user.activ_code = '';
+        $scope.user.terms = 0;
+        contentService.setModal(data.content, 'none');
       }
-      else if ((data.error == 'email') || (data.error == 'code')){
+      else if (data.error == 'email') {
+        $scope.error.email = true;
+        $scope.error.content = data.content;
         contentService.setModal(data.content, 'error');
       }
-      else if (data.error == 'no'){
-        $scope.user.email="";
-        $scope.user.activ_code="";
-        $scope.user.terms=0;
-
-        resultModal.show();
-        resultContent.text(data.content);
-        resultModal.fadeOut(8000, function() {
-          $(location).attr('href','/');
-        });
-
-        if (emailField){
-          emailField.removeClass('error');
-        }
-        codeField.removeClass('error');
+      else if (data.error == 'code'){
+        $scope.error.code = true;
+        $scope.error.content = data.content;
+        contentService.setModal(data.content, 'error');
       }
     });
-
   };
 
   // Восстановление пароля
-  $scope.recovery = function(recovery, valid){
+  $scope.recovery = function(user, valid){
     if (!valid) return false;
 
-    var user = $scope.user;
-    user.email = recovery.email;
-    user.action = 'recovery';
     $http.post('/service/recovery', user).success(function(data) {
       if (data.error == 'yes') {
-        angular.element('#recPassForm input[name=email]').addClass('error');
-        contentService.setModal(data.content, 'error');
+        $scope.error.email = true;
+        $scope.error.content = data.content;
+        if ($scope.host_mobile)
+            contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
-        
-        angular.element('#recPassForm').slideUp(400, function() {
-          contentService.setModal(data.content, 'none');
-        });
-        
-        $scope.user.email="";
-        $scope.recovery.email="";
-        angular.element('#recPassForm input[name=email]').removeClass('error');
+        $scope.user.email = '';
+        $scope.result.message = data.content;
+
+        if ($scope.host_mobile)
+            contentService.setModal(data.content, 'none');
+        else
+            contentService.viewModal('message');
       }
     });
   };
-
-  //Меняем статус активности кнопки отправить на странице востановления пароля
-  $scope.$watch('user.password + user.confirmPassword', function(change) {
-    if ($scope.user) {
-      var activButton = angular.element('#change-pass .form-control a');
-      if ($scope.user.password && $scope.user.confirmPassword && ($scope.user.password == $scope.user.confirmPassword)){
-        activButton.removeClass('button-disable');
-      }
-      else {
-        activButton.addClass('button-disable');
-      }
-    }
-  });
 
   // Смена пароля
   $scope.change = function(user, valid){
     if (!valid) return false;
-    user.action = 'change';
 
-    $http.post('/service/recovery', user).success(function(data) {
-      if (data.error == 'yes') {
-        angular.element('#changePassForm input[name=password]').addClass('error');
-        angular.element('#changePassForm input[name=confirmPassword]').addClass('error');
-      }
-      else if (data.error == 'no'){
+    $http.post(window.location.pathname , user).success(function(data) {
+      if (data.error == 'no'){
         $(location).attr('href','/user/personal');
       }
     });

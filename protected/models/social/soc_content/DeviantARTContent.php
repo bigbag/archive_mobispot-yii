@@ -7,22 +7,18 @@ class DeviantARTContent extends SocContentBase
     {
         $result = 'ok';
 
-        if (strpos($link, 'deviantart.com/art/') !== false)
-        {
+        if (strpos($link, 'deviantart.com/art/') !== false) {
             $post = self::makeRequest('http://backend.deviantart.com/oembed?url=' . $link);
             if ((is_string($post) && (strpos($post, 'error:') !== false)) || empty($post['title']))
-                $result = Yii::t('eauth', "This post doesn't exist:") . $link;
-        }
-        else
-        {
+                $result = Yii::t('social', "This post doesn't exist:") . $link;
+        } else {
             $socUsername = self::parseUsername($link);
 
             $ch = self::initRequest('http://' . $socUsername . '.deviantart.com', array());
             $socUser = curl_exec($ch);
             $headers = curl_getinfo($ch);
-            if ($headers['http_code'] != 200)
-            {
-                $result = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            if ($headers['http_code'] != 200) {
+                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
             }
         }
 
@@ -33,24 +29,20 @@ class DeviantARTContent extends SocContentBase
     {
         $userDetail = array();
 
-        if (strpos($link, 'deviantart.com/art/') !== false)
-        {
+        if (strpos($link, 'deviantart.com/art/') !== false) {
             $postDetail = self::getPostContent($link);
             if (empty($postDetail['error']) && !empty($postDetail['color-header']))
                 foreach ($postDetail as $postKey => $postValue)
                     $userDetail[$postKey] = $postValue;
             if (!empty($userDetail['last_img']))
                 $userDetail['last_img'] = self::saveImage($userDetail['last_img']);
-        }
-        else
-        {
+        } else {
             $socUsername = self::parseUsername($link);
 
             $ch = self::initRequest('http://' . $socUsername . '.deviantart.com', array(), false);
             $socUser = curl_exec($ch);
             $headers = curl_getinfo($ch);
-            if ($headers['http_code'] == 200)
-            {
+            if ($headers['http_code'] == 200) {
                 //$userDetail['soc_username'] = $socUsername;
                 $userDetail['soc_url'] = 'http://' . $socUsername . '.deviantart.com';
 
@@ -61,8 +53,7 @@ class DeviantARTContent extends SocContentBase
 
                 $i = 0; //оставлено под счетчик, если требуется вытащить более одной записи
 
-                if (!empty($userLent) && !(is_string($userLent) && (strpos($userLent, 'error:') !== false)) && isset($xml) && isset($xml->channel) && isset($xml->channel->item) && isset($xml->channel->item[$i]) && isset($xml->channel->item[$i]->link))
-                {
+                if (!empty($userLent) && !(is_string($userLent) && (strpos($userLent, 'error:') !== false)) && isset($xml) && isset($xml->channel) && isset($xml->channel->item) && isset($xml->channel->item[$i]) && isset($xml->channel->item[$i]->link)) {
                     $dev_link = (string) $xml->channel->item[$i]->link;
 
                     $postDetail = self::getPostContent($dev_link);
@@ -70,9 +61,8 @@ class DeviantARTContent extends SocContentBase
                         foreach ($postDetail as $postKey => $postValue)
                             $userDetail[$postKey] = $postValue;
                 }
-            }
-            else
-                $userDetail['soc_username'] = Yii::t('eauth', "This account doesn't exist:") . $socUsername;
+            } else
+                $userDetail['soc_username'] = Yii::t('social', "This account doesn't exist:") . $socUsername;
         }
 
         return $userDetail;
@@ -84,18 +74,16 @@ class DeviantARTContent extends SocContentBase
 
         $post = self::makeRequest('http://backend.deviantart.com/oembed?url=' . $link);
 
-        if (!(is_string($post) && (strpos($post, 'error:') !== false)) && !empty($post['title']))
-        {
+        if (!(is_string($post) && (strpos($post, 'error:') !== false)) && !empty($post['title'])) {
             $postDetail['color-header'] = $post['title'];
             if (!empty($post['author_name']) && !empty($post['author_url']))
-                $postDetail['sub-line'] = Yii::t('eauth', "by") . ' <a href="' . $post['author_url'] . '">' . $post['author_name'] . '</a>';
+                $postDetail['sub-line'] = Yii::t('social', "by") . ' <a href="' . $post['author_url'] . '">' . $post['author_name'] . '</a>';
             $postDetail['footer-line'] = '';
             if (!empty($post['category']))
                 $postDetail['footer-line'] .= '<div>' . str_replace('>', '/', $post['category']) . '</div>';
             if (!empty($xml->channel->copyright))
                 $postDetail['footer-line'] .= '<p>' . str_replace('Copyright ', '©', (string) $xml->channel->copyright) . '</p>';
-            if (!empty($post['url']) && !empty($post['thumbnail_url']))
-            {
+            if (!empty($post['url']) && !empty($post['thumbnail_url'])) {
                 if (!empty($post['url']))
                     $postDetail['last_img'] = $post['url'];
                 else
@@ -103,8 +91,7 @@ class DeviantARTContent extends SocContentBase
                 //$postDetail['last_img_msg'] = $post['title'];
                 unset($postDetail['last_status']);
                 /*
-                  if (!empty($xml->channel->item[$i]->description))
-                  {
+                  if (!empty($xml->channel->item[$i]->description)) {
                   $postDetail['last_img_story'] = strip_tags((string)$xml->channel->item[$i]->description, '<p><br>');
                   if (strpos($postDetail['last_img_story'], '<br') !== false)
                   $postDetail['last_img_story'] = substr($postDetail['last_img_story'], 0, strpos($postDetail['last_img_story'], '<br'));
@@ -115,9 +102,8 @@ class DeviantARTContent extends SocContentBase
             }
             if (!empty($post['html']))
                 $postDetail['html'] = $post['html'];
-        }
-        else
-            $postDetail['error'] = Yii::t('eauth', "This post doesn't exist:") . $link;
+        } else
+            $postDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
 
         return $postDetail;
     }

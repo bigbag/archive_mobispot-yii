@@ -88,4 +88,3 @@ class Zend_Gdata_Gapps_OwnerQueryTest extends PHPUnit_Framework_TestCase
     }
 
 }
-

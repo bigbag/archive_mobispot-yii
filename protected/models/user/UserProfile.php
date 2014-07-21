@@ -24,8 +24,8 @@ class UserProfile extends CActiveRecord
     public function getSexList()
     {
         return array(
-            self::SEX_MALE => Yii::t('user', 'Мужской'),
-            self::SEX_FEMALE => Yii::t('user', 'Женский'),
+            self::SEX_MALE => Yii::t('user', 'Male'),
+            self::SEX_FEMALE => Yii::t('user', 'Female'),
         );
     }
 
@@ -78,21 +78,6 @@ class UserProfile extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'user_id' => 'Пользователь',
-            'name' => 'Имя',
-            'city' => 'Город',
-            'sex' => 'Пол',
-            'birthday' => 'Birthday',
-            'photo' => 'Photo',
         );
     }
 

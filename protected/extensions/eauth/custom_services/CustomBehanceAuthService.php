@@ -37,38 +37,31 @@ class CustomBehanceAuthService extends EOAuth2Service
     public function authenticate()
     {
         // user denied error
-        if (isset($_GET['error']) && $_GET['error'] == 'access_denied')
-        {
+        if (isset($_GET['error']) && $_GET['error'] == 'access_denied') {
             $this->cancel();
             return false;
         }
 
         // Get the access_token and save them to the session.
-        if (isset($_GET['code']))
-        {
+        if (isset($_GET['code'])) {
             $code = $_GET['code'];
             $options = array();
             $options['data'] = 'client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&code=' . $code . '&redirect_uri=' . urlencode($this->getState('redirect_uri')) . '&grant_type=authorization_code';
             $token_url = $this->providerOptions['access_token'] . '?client_id=' . $this->client_id . '&client_secret=' . $this->client_secret . '&code=' . $code . '&redirect_uri=' . urlencode($this->getState('redirect_uri')) . '&grant_type=authorization_code';
             //$token = $this->makeRequest($token_url);
             $token = $this->makeRequest($this->providerOptions['access_token'], $options, true);
-            if (isset($token))
-            {
+            if (isset($token)) {
                 $this->saveAccessToken($token->access_token);
                 $this->setState('idUser', $token->user->id);
                 $this->authenticated = true;
             }
         }
         // Redirect to the authorization page
-        else if (!$this->restoreAccessToken())
-        {
+        else if (!$this->restoreAccessToken()) {
             // Use the URL of the current page as the callback URL.
-            if (isset($_GET['redirect_uri']))
-            {
+            if (isset($_GET['redirect_uri'])) {
                 $redirect_uri = $_GET['redirect_uri'];
-            }
-            else
-            {
+            } else {
                 $server = Yii::app()->request->getHostInfo();
                 $path = Yii::app()->request->getUrl();
                 $redirect_uri = $server . $path;

@@ -39,7 +39,7 @@ class WalletLoyalty extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.wallet_loyalty';
+        return 'wallet_loyalty';
     }
 
     /**
@@ -76,14 +76,10 @@ class WalletLoyalty extends CActiveRecord
         $criteria = new CDbCriteria;
         $criteria->compare('wallet_id', $id);
 
-        if ($search)
-        {
-            if (preg_match("~^[0-9]+$~", $search))
-            {
+        if ($search) {
+            if (preg_match("~^[0-9]+$~", $search)) {
                 $criteria->condition .= ' AND (loyalty.amount =\'' . ($search * 100) . '\' OR loyalty.desc LIKE \'%' . $search . '%\')';
-            }
-            elseif (CDateTimeParser::parse($search, 'dd.MM.yy') or CDateTimeParser::parse($search, 'dd.MM.yyyy'))
-            {
+            } elseif (CDateTimeParser::parse($search, 'dd.MM.yy') or CDateTimeParser::parse($search, 'dd.MM.yyyy')) {
                 $searchDate = date("Y-m-d H:i:s", strtotime($search));
                 $criteria->condition .= ' AND ((TO_DAYS(loyalty.stop_date) >= TO_DAYS(\''
                         . $searchDate
@@ -91,8 +87,7 @@ class WalletLoyalty extends CActiveRecord
                         . $searchDate
                         . '\'))'
                         . ' OR loyalty.desc LIKE \'%' . $search . '%\')';
-            }
-            else
+            } else
                 $criteria->addSearchCondition('loyalty.desc', $search);
         }
 
@@ -116,20 +111,18 @@ class WalletLoyalty extends CActiveRecord
         return $answer;
     }
 
-    function getByUserId($user_id)
+    public function getByUserId($user_id)
     {
         $result = array();
 
         $wallets = PaymentWallet::model()->findAllByAttributes(
                 array('user_id' => $user_id)
         );
-        foreach ($wallets as $wallet)
-        {
+        foreach ($wallets as $wallet) {
             $walletLoyaltis = WalletLoyalty::model()->findAllByAttributes(
                     array('wallet_id' => $wallet->id)
             );
-            foreach ($walletLoyaltis as $row)
-            {
+            foreach ($walletLoyaltis as $row) {
                 if (!empty($userActions[$row->loyalty_id]))
                     $result[$row->loyalty_id] += $row->summ;
                 else

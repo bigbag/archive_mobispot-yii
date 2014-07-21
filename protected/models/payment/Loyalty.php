@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'loyalty':
  * @property integer $id
  * @property string $terms_id
- * @property string $event_id 
+ * @property string $event_id
  * @property string $firm_id
  * @property integer $rules
  * @property integer $interval
@@ -15,7 +15,7 @@
  * @property string $desc
  * @property string $creation_date
  * @property string $start_date
- * @property string $stop_date 
+ * @property string $stop_date
  * @property integer $sharing_type
  * @property integer $limit
  * @property integer $timeout
@@ -27,10 +27,16 @@ class Loyalty extends CActiveRecord
     const RULE_RATE = 1;
     const RULE_DISCOUNT = 2;
     const RULE_PRESENT = 3;
+
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
     const STATUS_MY = 100;
+
+    const PAGE_ALL = 'all';
+    const PAGE_MY = 'my';
+    const PAGE_NEW = 'new';
+
     const FACEBOOK_LIKE = 1;
     const FACEBOOK_SHARE = 2;
     const TWITTER_SHARE = 3;
@@ -47,14 +53,32 @@ class Loyalty extends CActiveRecord
     const YOUTUBE_FOLLOWING = 14;
     const YOUTUBE_VIEWS = 15;
 
+    const MOBILE_COUNT = 3;
+
     public function getRulesList()
     {
         return array(
-            self::RULE_FIXED => Yii::t('user', 'Фиксированно'),
-            self::RULE_RATE => Yii::t('user', 'Процент'),
-            self::RULE_RATE => Yii::t('user', 'Скидка'),
-            self::RULE_RATE => Yii::t('user', 'Подарок'),
+            self::RULE_FIXED => Yii::t('wallet', 'fixedly'),
+            self::RULE_RATE => Yii::t('wallet', 'percentage'),
+            self::RULE_RATE => Yii::t('wallet', 'discount'),
+            self::RULE_RATE => Yii::t('wallet', 'gift'),
         );
+    }
+
+    public function getPromoMessage()
+    {
+        $answer = Yii::t('wallet', 'Perform the action conditions!');
+        $link = $this->getLink();
+
+        $messages = array(
+            self::FACEBOOK_LIKE =>
+                Yii::t('wallet', "Click on the link and like page!"),
+        );
+
+        if (isset($messages[$this->sharing_type]))
+            $answer = $messages[$this->sharing_type];
+
+        return $answer;
     }
 
     /**
@@ -80,7 +104,7 @@ class Loyalty extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment.loyalty';
+        return 'loyalty';
     }
 
     /**
@@ -133,31 +157,9 @@ class Loyalty extends CActiveRecord
         );
     }
 
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'terms_id' => 'Terminals',
-            'firm_id' => 'Firm',
-            'event_id' => 'Events',
-            'rules' => 'Rule',
-            'interval' => 'Interval',
-            'amount' => 'Amount',
-            'threshold' => 'Threshold',
-            'desc' => 'Description',
-            'creation_date' => 'Creation Date',
-            'start_date' => 'Start Date',
-            'stop_date' => 'Stop Date',
-        );
-    }
-
     public function beforeValidate()
     {
-        if ($this->isNewRecord)
-        {
+        if ($this->isNewRecord) {
             $this->creation_date = date('Y-m-d H:i:s');
             if (!$this->rules)
                 $this->rules = self::RULE_FIXED;
@@ -175,35 +177,26 @@ class Loyalty extends CActiveRecord
         $criteria = new CDbCriteria;
         $prefix = ' ';
 
-        if (self::STATUS_ACTUAL == $status)
-        {
+        if (self::STATUS_ACTUAL == $status) {
             $criteria->condition .= ' TO_DAYS(stop_date) > TO_DAYS(NOW())';
             $prefix = ' AND ';
-        }
-        elseif (self::STATUS_NOT_ACTUAL == $status)
-        {
+        } elseif (self::STATUS_NOT_ACTUAL == $status) {
             $criteria->condition .= ' TO_DAYS(stop_date) <= TO_DAYS(NOW())';
             $prefix = ' AND ';
-        }
-        elseif (self::STATUS_MY == $status and !Yii::app()->user->isGuest)
-        {
-            $sql = ' EXISTS(SELECT wl.id FROM ' . WalletLoyalty::tableName() . ' 
+        } elseif (self::STATUS_MY == $status and !Yii::app()->user->isGuest) {
+            $sql = ' EXISTS(SELECT wl.id FROM ' . WalletLoyalty::tableName() . '
                 AS wl WHERE wl.loyalty_id = t.id ';
-            $sql .=' AND EXISTS(SELECT w.id FROM ' . PaymentWallet::tableName() . ' 
+            $sql .=' AND EXISTS(SELECT w.id FROM ' . PaymentWallet::tableName() . '
                 AS w WHERE wl.wallet_id = w.id AND w.user_id = ' . Yii::app()->user->id . '))';
 
             $criteria->condition .= $sql;
             $prefix = ' AND ';
         }
 
-        if ($search)
-        {
-            if (preg_match("~^[0-9]+$~", $search))
-            {
+        if ($search) {
+            if (preg_match("~^[0-9]+$~", $search)) {
                 $criteria->condition .= $prefix . '(amount =\'' . ($search * 100) . '\' OR `desc` LIKE \'%' . $search . '%\')';
-            }
-            elseif (CDateTimeParser::parse($search, 'dd.MM.yyyy') or CDateTimeParser::parse($search, 'dd.MM.yy'))
-            {
+            } elseif (CDateTimeParser::parse($search, 'dd.MM.yyyy') or CDateTimeParser::parse($search, 'dd.MM.yy')) {
                 $searchDate = date("Y-m-d H:i:s", strtotime($search));
 
                 $criteria->condition .= $prefix . '((TO_DAYS(stop_date) >= TO_DAYS(\''
@@ -212,8 +205,7 @@ class Loyalty extends CActiveRecord
                         . $searchDate
                         . '\'))'
                         . ' OR t.`desc` LIKE \'%' . $search . '%\')';
-            }
-            else
+            } else
                 $criteria->addSearchCondition('`desc`', $search);
         }
 
@@ -226,8 +218,7 @@ class Loyalty extends CActiveRecord
 
         $answer['loyalties'] = self::model()->findAll($criteria);
 
-        if (Yii::app()->user->id)
-        {
+        if (Yii::app()->user->id) {
             $userActions = WalletLoyalty::getByUserId(Yii::app()->user->id);
         }
 
@@ -246,13 +237,12 @@ class Loyalty extends CActiveRecord
     {
         $desc = '';
 
-        switch ($this->rules)
-        {
+        switch ($this->rules) {
             case Loyalty::RULE_FIXED:
                 if (1 == $this->interval)
-                    $desc .= Yii::t('payment', 'На все покупки');
+                    $desc .= Yii::t('wallet', 'On all purchases');
                 else
-                    $desc .= Yii::t('payment', 'За каждую') . ' <b>' . $this->interval . '</b> ' . Yii::t('payment', 'покупку');
+                    $desc .= Yii::t('wallet', 'For each') . ' <b>' . $this->interval . '</b> ' . Yii::t('wallet', 'purchase');
         }
 
         return $desc;
@@ -276,27 +266,22 @@ class Loyalty extends CActiveRecord
 
         $tokens = SocToken::model()->with('user')->findAll($criteria);
 
-        foreach ($tokens as $token)
-        {
+        foreach ($tokens as $token) {
             $check = SocInfo::checkToken($token->type, $token->user_token, $token->token_secret);
 
-            if (true === $check)
-            {
+            if (true === $check) {
                 $likesStack = LikesStack::model()->findByAttributes(array(
                     'token_id' => $token->id,
                     'loyalty_id' => $loyalty_id,
                 ));
 
-                if (!$likesStack)
-                {
+                if (!$likesStack) {
                     $likesStack = new LikesStack;
                     $likesStack->token_id = $token->id;
                     $likesStack->loyalty_id = $loyalty_id;
                     $likesStack->save();
                 }
-            }
-            elseif (false === $check)
-            {
+            } elseif (false === $check) {
                 $token->user_token = null;
                 $token->token_secret = null;
                 $token->allow_login = false;
@@ -307,51 +292,85 @@ class Loyalty extends CActiveRecord
         return true;
     }
 
-    public static function getCoupons($wallet_id = null)
+    public static function getCoupons($wallet_id = null, $page = self::PAGE_ALL, $phrase = '', $offset = 0, $count = self::MOBILE_COUNT)
     {
         $criteria = new CDbCriteria;
-        $answer = array();
+        $answer = array('coupons'=>array(), 'offset'=>0, 'count'=>0, 'countAll'=>0);
         $loyaltyList = array();
 
         $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
+        if (self::PAGE_NEW == $page)
+            $criteria->condition .= ' AND TO_DAYS(start_date) = (select max(TO_DAYS(m.start_date)) FROM ' . Loyalty::tableName() . ' AS m)';
+        if ($phrase) {
+            $phrase = addCslashes(addslashes($phrase), '%_');
+            $criteria->condition .=
+                ' AND (`desc` LIKE \'%' . $phrase . '%\''
+                .'OR `name` LIKE \'%' . $phrase . '%\')';
+        }
+
+        if ($offset and self::PAGE_MY != $page) {
+            $criteria->offset = $offset;
+            $answer['offset'] = $offset;
+        }
+        if ($count and self::PAGE_MY != $page)
+            $criteria->limit = $count;
+        $answer['countAll'] = self::model()->count($criteria);
         $coupons = self::model()->findAll($criteria);
 
-        if (null != $wallet_id)
-        {
+        if (null != $wallet_id) {
             $wallet = PaymentWallet::model()->findByPk($wallet_id);
-            if ($wallet)
-            {
+            if ($wallet) {
                 $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
                     'wallet_id' => $wallet->id,
+                    'checked' => true,
                 ));
 
 
-                foreach ($wLoyalties as $wl)
-                {
+                foreach ($wLoyalties as $wl) {
                     $loyaltyList[] = $wl->loyalty_id;
                 }
             }
         }
 
-        foreach ($coupons as $coupon)
-        {
-            $criteria = new CDbCriteria;
+        foreach ($coupons as $coupon) {
             $part = false;
             if (in_array($coupon->id, $loyaltyList))
                 $part = true;
+            if (self::PAGE_MY != $page or $part) {
+                $answer['coupons'][] = array(
+                    'id' => $coupon->id,
+                    'name' => $coupon->name,
+                    'coupon_class' => $coupon->coupon_class,
+                    'img' => $coupon->img,
+                    'desc' => $coupon->desc,
+                    'soc_block' => $coupon->soc_block,
+                    'part' => $part,
+                );
+                $answer['count'] = $answer['count'] + 1;
+            }
+        }
 
-            $answer[] = array(
-                'id' => $coupon->id,
-                'name' => $coupon->name,
-                'coupon_class' => $coupon->coupon_class,
-                'img' => $coupon->img,
-                'desc' => $coupon->desc,
-                'soc_block' => $coupon->soc_block,
-                'part' => $part,
-            );
+        if (self::PAGE_MY == $page) {
+            $answer['offset'] = $answer['count'];
+            $answer['countAll'] = $answer['count'];
         }
 
         return $answer;
+    }
+
+    public function getLink()
+    {
+        $link = $this->link;
+
+        if (!empty($link))
+            return $link;
+
+        if (strpos($this->desc, '<a ng-click="checkLike(' . $this->id . ')">') !== false)
+            $link = substr($this->desc, (strpos($this->desc, '<a ng-click="checkLike(' . $this->id . ')">') + strlen('<a ng-click="checkLike(' . $this->id . ')">')));
+            if (strpos($link, '</a>') > 0)
+                $link = substr($link, 0, strpos($link, '</a>'));
+
+        return $link;
     }
 
 }
