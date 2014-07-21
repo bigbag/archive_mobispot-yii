@@ -1427,7 +1427,7 @@ class SpotController extends MController
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
 
-        $curent_views = $this->getCurentViews('spot');
+        $curent_views = Spot::curentViews('spot');
 
         $this->layout = self::MOBILE_LAYOUT;
         $data = array(
