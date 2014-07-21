@@ -97,7 +97,7 @@ angular.module('mobispot').controller('SpotController',
           opacity: 1
         },500);
 
-        if ($scope.scroll_key)
+        if ($scope.scroll_key && $scope.scroll_key > 1)
           contentService.scrollPage('#block-' + $scope.scroll_key);
         else
           contentService.scrollPage('body');
