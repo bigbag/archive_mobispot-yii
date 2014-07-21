@@ -11,8 +11,14 @@
     </header>
     <section class="content author tabs">
         <nav>
-            <a class="active" href="javascript:;"><?php echo Yii::t('user', 'Sign in'); ?></a>
-            <a href="javascript:;"><?php echo Yii::t('user', 'Register spot'); ?></a>
+            <a class="active" href="javascript:;">
+                <div class="v-text"><?php echo Yii::t('user', 'Sign in'); ?></div>
+                <div class="v-helper"></div>
+            </a>
+            <a href="javascript:;">
+                <div class="v-text"><?php echo Yii::t('user', 'Register spot'); ?></div>
+                <div class="v-helper"></div>
+            </a>
         </nav>
         <section class="author-block tabs-content">
             <article class="active">
