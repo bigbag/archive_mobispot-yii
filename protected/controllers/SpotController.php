@@ -83,24 +83,6 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
-    //Определяем ид спота загружаемого по умолчанию
-    public function getCurentSpot($curent)
-    {
-        $curent_discodes = $curent;
-        if (isset(Yii::app()->request->cookies['spot_curent_discodes']))
-            $curent_discodes = Yii::app()->request->cookies['spot_curent_discodes']->value;
-        return $curent_discodes;
-    }
-
-    //Определяем вкладку таба открытую в последний раз
-    public function getCurentViews($curent)
-    {
-        $curent_views = $curent;
-        if (isset(Yii::app()->request->cookies['spot_curent_views']))
-            $curent_views = Yii::app()->request->cookies['spot_curent_views']->value;
-        return $curent_views;
-    }
-
     // Страница управления спотами
     public function actionList()
     {
@@ -118,9 +100,10 @@ class SpotController extends MController
         $curent_discodes = 0;
         $curent_views = 'spot';
         $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
-        if ($spots)
-           $curent_discodes = $this->getCurentSpot($spots[0]->discodes_id);
-            $curent_views = $this->getCurentViews($curent_views);
+        if ($spots){
+            $curent_discodes = Spot::curentSpot($spots[0]->discodes_id);
+            $curent_views = Spot::curentViews($curent_views);
+        }
 
         $this->renderWithMobile(
             '//spot/body',
@@ -153,6 +136,9 @@ class SpotController extends MController
 
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
+
+        Spot::curentSpot($spot->discodes_id, true);
+        Spot::curentViews('spot', true);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
@@ -611,6 +597,8 @@ class SpotController extends MController
                 'limit' => Report::MAX_RECORD)
         );
 
+        Spot::curentViews('wallet', true);
+
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/wallet',
             array(
@@ -799,6 +787,8 @@ class SpotController extends MController
                 'user_id' => Yii::app()->user->id,
             )
         );
+
+        Spot::curentViews('coupon', true);
 
         $couponsList = Loyalty::getCoupons($wallet->id, Loyalty::PAGE_ALL, '', 0, -1);
         $coupons = $couponsList['coupons'];

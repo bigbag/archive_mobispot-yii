@@ -51,16 +51,16 @@ class ServiceController extends MController
     public function actionLogout()
     {
         if (!Yii::app()->request->isPostRequest) {
+            Spot::clearCurrentSpotView();
+            Spot::clearCurrentSpot();
             Yii::app()->user->logout();
             $this->redirect("/");
         }
 
         if (!(Yii::app()->user->isGuest)) {
-            Yii::app()->cache->get('user_' . Yii::app()->user->id);
+            Spot::clearCurrentSpot();
+            Spot::clearCurrentSpotView();
             Yii::app()->user->logout();
-
-            unset(Yii::app()->request->cookies['spot_curent_discodes']);
-            unset(Yii::app()->request->cookies['spot_curent_views']);
             unset(Yii::app()->request->cookies['YII_CSRF_TOKEN']);
         }
     }

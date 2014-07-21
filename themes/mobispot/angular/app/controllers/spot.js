@@ -60,10 +60,6 @@ angular.module('mobispot').controller('SpotController',
 
   //Управление основными блоками спот, кошелек, купоны.
   $scope.$watch('general.views + spot.discodes', function() {
-    $cookies.spot_curent_discodes = $scope.spot.discodes;
-    if ($scope.general.views != 'settings') {
-      $cookies.spot_curent_views = $scope.general.views;
-    }
     $scope.actions.page = '';
     angular.element(window).unbind('scroll', $scope.loadMoreCoupons);
 
@@ -342,7 +338,7 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         $scope.actions.offset += data.count;
         $scope.actions.count_all = data.count_all;
-        
+
         list.append($compile(data.content)($scope));
         $scope.actions.in_progress = false;
       }
@@ -357,7 +353,7 @@ angular.module('mobispot').controller('SpotController',
     $scope.actions.count_all = 0;
     $scope.listCoupons(spot, actions);
   }
-  
+
   // Список карт
   $scope.getListCard = function(){
     if ($scope.general.views != 'wallet') return false;
@@ -1058,17 +1054,17 @@ angular.module('mobispot').controller('SpotController',
     $scope.actions.in_progress = false;
     angular.element(window).bind('scroll', $scope.loadMoreCoupons);
   };
-  
+
   $scope.loadMoreCoupons = function() {
     if(
-      angular.element(window).scrollTop() 
-      + angular.element(window).height() 
-      >= 
-      angular.element(document).height() - 200 
+      angular.element(window).scrollTop()
+      + angular.element(window).height()
+      >=
+      angular.element(document).height() - 200
       && !$scope.actions.in_progress
       && $scope.actions.offset < $scope.actions.count_all) {
         $scope.listCoupons($scope.spot, $scope.actions);
-      }  
+      }
   };
-  
+
 });

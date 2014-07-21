@@ -238,6 +238,40 @@ class Spot extends CActiveRecord
         return $netDown;
     }
 
+    //Определяем ид спота загружаемого по умолчанию
+    public function curentSpot($default, $replace=false)
+    {
+        $key = Yii::app()->request->csrfToken . '_curent_spot';
+
+        $id = Yii::app()->cache->get($key);
+        if (!$id or $replace)  $id = $default;
+
+        Yii::app()->cache->set($key, $id, 36000);
+        return $id;
+    }
+
+    public function clearCurrentSpot(){
+        Yii::app()->cache->delete(Yii::app()->request->csrfToken . '_curent_spot');
+    }
+
+
+    //Определяем вкладку таба открытую в последний раз
+    public function curentViews($default, $replace=false)
+    {
+        $key = Yii::app()->request->csrfToken . '_curent_spot_view';
+
+        $id = Yii::app()->cache->get($key);
+        if (!$id or $replace)  $id = $default;
+
+        Yii::app()->cache->set($key, $id, 36000);
+        return $id;
+    }
+
+    public function clearCurrentSpotView(){
+        Yii::app()->cache->delete(Yii::app()->request->csrfToken . '_curent_spot_view');
+    }
+
+
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

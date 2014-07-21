@@ -113,7 +113,7 @@ angular.module('mobispot').controller('UserController',
   $scope.activation = function(user, valid){
     if (!valid) return false;
     if (user.terms === 0) return false;
-    
+
     $http.post('/service/registration', user).success(function(data) {
 
       if (data.error == 'no'){
@@ -121,17 +121,17 @@ angular.module('mobispot').controller('UserController',
         $scope.user.password = '';
         $scope.user.activ_code = '';
         $scope.user.terms = 0;
-        contentService.setModal(data.content, 'none'); 
+        contentService.setModal(data.content, 'none');
       }
       else if (data.error == 'email') {
         $scope.error.email = true;
         $scope.error.content = data.content;
-        contentService.setModal(data.content, 'error'); 
+        contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'code'){
         $scope.error.code = true;
         $scope.error.content = data.content;
-        contentService.setModal(data.content, 'error'); 
+        contentService.setModal(data.content, 'error');
       }
     });
   };
@@ -145,14 +145,14 @@ angular.module('mobispot').controller('UserController',
         $scope.error.email = true;
         $scope.error.content = data.content;
         if ($scope.host_mobile)
-            contentService.setModal(data.content, 'error'); 
+            contentService.setModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         $scope.user.email = '';
         $scope.result.message = data.content;
 
         if ($scope.host_mobile)
-            contentService.setModal(data.content, 'none'); 
+            contentService.setModal(data.content, 'none');
         else
             contentService.viewModal('message');
       }

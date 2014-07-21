@@ -174,12 +174,10 @@ class User extends CActiveRecord
 
     public static function autoLogin($user)
     {
-        unset(Yii::app()->request->cookies['spot_curent_discodes']);
-        unset(Yii::app()->request->cookies['spot_curent_views']);
-
         $identity = new SUserIdentity($user->email, $user->password);
         $identity->authenticate();
         User::lastVisit();
+
         return Yii::app()->user->login($identity);
     }
 
