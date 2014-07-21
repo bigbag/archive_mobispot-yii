@@ -69,3 +69,19 @@ a.m-link {
 .input-block .add-button {
     font-size: 18px;
 }
+
+.content.author.tabs nav a {
+    height: 82px;
+}
+
+.v-text {
+     display:inline-block;
+     vertical-align:middle;
+ }
+
+.v-helper {
+     display:inline-block;
+     vertical-align:middle;
+     height:100%;
+     width:0px;
+ }
