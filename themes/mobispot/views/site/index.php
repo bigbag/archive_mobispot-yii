@@ -6,7 +6,7 @@
     </article>
     <footer class="footer-page">
         <ul class="left">
-            <li><a href="/readers"><?php echo Yii::t('general', 'Device compatibility'); ?></a></li>
+            <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
             <li><a href="mailto:hola@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
 
             <li class="lang">
@@ -49,12 +49,12 @@
     </ul>
         <div id="devices" class="info-item">
             <header>
-                <h1><?php echo Yii::t('general', 'Gather all your contactless cards in one device. <br> Then wear it.'); ?> </h1>
+                <h1><?php echo Yii::t('general', 'Gather all your contactless cards in one device.<br> Then wear it.'); ?> </h1>
             </header>
             <div class="products-list" ng-controller="slideController">
                 <article id="slider-wristband" ng-init="">
                                                 <h3><?php echo Yii::t('general', 'Wristband'); ?></h3>
-                                                <p><?php echo Yii::t('general', 'Unique	NFC	wristband	from Mobispot.	Waterproof	and	sexy.'); ?></p>
+                                                <p><?php echo Yii::t('store', 'Unique NFC wristband from Mobispot. Waterproof and sexy.'); ?></p>
                                                 <ul class="color-list">
                                                         <li ng-click="fadeTo(wristband, 1)" style="background: #0062FF"></li>
                                                         <li ng-click="fadeTo(wristband, 3)" style="background: #5AC0B9" ></li>
@@ -92,8 +92,8 @@
                                                 </div>
                 </article>
                 <article class="left" id="slider-cards">
-                                                <h3><?php echo Yii::t('general', 'Card'); ?></h3>
-                                                <p><?php echo Yii::t('general', 'Choice of conservative ones. If you get bored - draw something on it.'); ?></p>
+                                                <h3><?php echo Yii::t('store', 'Card'); ?></h3>
+                                                <p><?php echo Yii::t('store', 'Choice of conservative ones. If you get bored - draw something on it.'); ?></p>
                                                 <ul class="color-list">
                                                         <li ng-click="fadeTo(cards, 1)" style="background: #0062FF"></li>
                                                         <li ng-click="fadeTo(cards, 2)" style="background: #5AC0B9" ></li>
@@ -118,8 +118,8 @@
         </div>
                 </article>
                 <article class="keyfob" id="slider-keyfobs">
-                                                <h3><?php echo Yii::t('general', 'Keyfob'); ?></h3>
-                                                <p><?php echo Yii::t('general', 'Occupies no space in your pocket but brings all the power of NFC.'); ?></p>
+                                                <h3><?php echo Yii::t('store', 'Keyfob'); ?></h3>
+                                                <p><?php echo Yii::t('store', 'Occupies no space in your pocket but brings all the power of NFC.'); ?></p>
                                                 <ul class="color-list">
                                                         <li ng-click="fadeTo(keyfobs, 4)" style="background: #0062FF" ></li>
                                                         <li ng-click="fadeTo(keyfobs, 2)" style="background: #5AC0B9" ></li>
@@ -150,8 +150,7 @@
         <div class="wrapper">
             <header>
                 <h1><?php echo Yii::t('general', 'Pay with a tap, not with cash'); ?></h1>
-                <p class="sub-text"><?php echo Yii::t('general', 'Spend less time paying for lunch, spend more time eating it. 
-                Mobispot works with your campus payment scheme.'); ?></p>
+                <p class="sub-text"><?php echo Yii::t('general', 'Spend less time paying for lunch, spend more time eating it. Mobispot works with your campus payment scheme.'); ?></p>
             </header>
             <article  class="payment-item img-left">
                     <h3><?php echo Yii::t('general', 'Make your wristband pay for you'); ?></h3>
@@ -198,17 +197,14 @@
                 <h1><?php echo Yii::t('general', 'Make a lasting connection'); ?></h1>
                 
                 <p class="sub-text">
-                    <?php echo Yii::t('general', 'Met someone? 
-                    Share your details instantly with Mobispot. 
-                    Like something? 
-                    Share it, and brands can share right back.'); ?>
+                    <?php echo Yii::t('general', 'Met someone? Share your details instantly with Mobispot. Like something? Share it, and brands can share right back.'); ?>
                 </p>
             </header>
             <div class="triple">
                 <article  class="payment-item">
                         <h3><?php echo Yii::t('general', 'Connect digital<br> and real life'); ?></h3>
                         <div class="item-body">
-                        <p><?php echo Yii::t('general', 'All your social networks accounts are connected to your wristband  just with a few clicks.'); ?>
+                        <p><?php echo Yii::t('general', 'All your social networks accounts are connected to your wristband just with a few clicks.'); ?>
                             
                         </p>
                             <div class="img-wrapper">

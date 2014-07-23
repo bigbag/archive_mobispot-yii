@@ -103,4 +103,5 @@
   'You entered the wrong code!' => '',
   'Zip / Post code' => 'Почтовый индекс',
   'Zip / Postal code' => 'Почтовый индекс',
+  'Keyfob' => 'Брелок',
 );
