@@ -7,7 +7,7 @@
     <footer class="footer-page">
         <ul class="left">
             <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
-            <li><a href="mailto:hola@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
+            <li><a href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
 
             <li class="lang">
                         <ul class="lang-list">
@@ -300,7 +300,7 @@
                         <?php echo Yii::t('general', 'We are constantly working with transport service providers to bring you smart and handy wearable tickets. We will certainly inform you when you are able to pay for a ride with our NFC wristband in your hometown.'); ?> 
                     </p>
                         <div class="img-wrapper">
-                            <img src="/themes/mobispot/img/info/IMG_9593-0.jpg">
+                            <img src="/themes/mobispot/img/info/IMG_transport.jpg">
                         </div>
                     </div>
             </article>

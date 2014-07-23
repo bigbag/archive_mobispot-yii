@@ -56,7 +56,7 @@
   'Find an NFC reader at the cashdesk and tap it when check-out.' => 'Найдите бесконтактный терминал на кассе и прикоснитесь к нему при оплате ваших покупок.',
   'All your tickets in one place' => 'Все ваши билеты собраны вместе',
   'If you want your tickets close to hand, put them on your wrist.' => 'Транспортные билеты всегда под рукой. Прямо на вашем запястье.',
-  'We are constantly working with transport service providers to bring you smart and handy wearable tickets. We will certainly inform you when you are able to pay for a ride with our NFC wristband in your hometown.' => 'Мы постоянно работаем с поставщиками транспортных услуг, чтобы предоставить вам умные и удобные носимые билеты. Мы обязательно известим вас, когда вы сможете платить за поездку нашим NFC браслетом в вашем родном городе.',
+  'We are constantly working with transport service providers to bring you smart and handy wearable tickets. We will certainly inform you when you are able to pay for a ride with our NFC wristband in your hometown.' => 'Мы постоянно работаем с операторами общественного транспорта, чтобы разместить их билеты в наших устройствах. Мы обязательно известим вас, когда вы сможете платить за поездку нашим NFC браслетом в вашем родном городе.',
   'Would you like to enhance<br>
                     your project<br>
                     with modern features?<br>
@@ -64,8 +64,8 @@
                     and wearables<br>
                      at a time.  <br>' 
   => 
-  'Хотите улучшить<br> свой проект<br> современными функциями?<br> Мы предоставим<br> вам технологии<br> NFC и носимых устройств.',
-  'Campuses, retailers, e-wallets, transportation companies are welcomed.' => 'Кампусные проекты, розничные компании, электронные кошельки и транспортные компании приветствуются.',
-  'Come on, drop a line to ' => 'Будем рады получить письмо от вас на ',
+  'Хотите добавить NFC<br> в свой проект?<br> Мы расскажем, как это сделать<br> и поможем вам в разработке.',
+  'Campuses, retailers, e-wallets, transportation companies are welcomed.' => 'Мы рады пообщаться со всеми,<br> но особенно мы будем полезны учебным заведениям и офисам,<br> электронным кошелькам, розничным компаниям<br> и транспортным операторам.',
+  'Come on, drop a line to ' => 'Ждем письмо от вас на ',
   'Email us' => 'Обратная связь',
 );
