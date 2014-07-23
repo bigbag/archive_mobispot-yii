@@ -25,7 +25,7 @@ function slideController($scope) {
         {id:11, img:'wristband_red_p7.png', tmb_style:'background: #30D874'},
         {id:12, img:'wristband_white.png', tmb_style:'background: #fff'}
     ];
-    $scope.wristband.current = $scope.getRandomInt(0, $scope.wristband.slides.length);
+    $scope.wristband.current = $scope.getRandomInt(0, $scope.wristband.slides.length - 1);
     
     $scope.cards = {};
     $scope.cards.name = 'cards';
