@@ -165,29 +165,46 @@
                          </p>
             </article>
             <div class="double-block">
-                <article id="tapPay" class="payment-item payment-item-50">
-                        <h3><?php echo Yii::t('general', 'Tap to pay'); ?></h3>
-                        <div class="item-body w-bg">
-                            <p><?php echo Yii::t('general', 'Find Mobispot payment reader in your campus. Tap your wristband to the reader to purchase coffee, snacks or lunch.'); ?>
-                            </p>
-                            <div class="img-wrapper">
-                                <img src="/themes/mobispot/img/info/defoult02.jpg">
-                            </div>
-                            
-                        </div>
-                </article>
+                <table class="info-table">
+                    <colgroup>
+                        <col width="45%">
+                        <col width="10%">
+                        <col width="45%">
+                    </colgroup>
+                    <tr>
+                        <td><h3><?php echo Yii::t('general', 'Tap to pay'); ?></h3></td>
+                        <td></td>
+                        <td><h3><?php echo Yii::t('general', 'Manage spendings'); ?></h3></td>
+                    </tr>
 
-                <article class="payment-item payment-item-50">
-                        <h3><?php echo Yii::t('general', 'Manage spendings'); ?></h3>
-                        <div class="item-body">
-                            
+                    <tr>
+                        <td>
                             <p>
-                            <?php echo Yii::t('general', 'Track all your spendings at your personal account. Link even more banking cards to have several sources of money for your in-campus payments.'); ?>  </p>
+                                <?php echo Yii::t('general', 'Find Mobispot payment reader in your campus. Tap your wristband to the reader to purchase coffee, snacks or lunch.'); ?>
+                            </p>
+                        </td>
+                        <td></td>
+                        <td>
+                            <p>
+                                <?php echo Yii::t('general', 'Track all your spendings at your personal account. Link even more banking cards to have several sources of money for your in-campus payments.'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                                <div class="img-wrapper">
+                                    <img src="/themes/mobispot/img/info/defoult02.jpg">
+                                </div>
+                        </td>
+                        <td></td>
+                        <td>
                             <div class="img-wrapper">
-                                <img src="/themes/mobispot/img/info/defoult03.jpg">
-                            </div>
-                        </div>
-                </article>
+                                    <img src="/themes/mobispot/img/info/defoult03.jpg">
+                                </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         </div>
@@ -201,42 +218,54 @@
                 </p>
             </header>
             <div class="triple">
-                <article  class="payment-item">
-                        <h3><?php echo Yii::t('general', 'Connect digital<br> and real life'); ?></h3>
-                        <div class="item-body">
-                        <p><?php echo Yii::t('general', 'All your social networks accounts are connected to your wristband just with a few clicks.'); ?>
-                            
-                        </p>
+                <table class="info-table">
+                    <colgroup>
+                        <col width="33.33%">
+                        <col width="33.33%">
+                        <col width="33.33%">
+                    </colgroup>
+                    <tr>
+                        <td>
+                            <h3><?php echo Yii::t('general', 'Connect digital<br> and real life'); ?></h3>
+                        </td>
+                        <td><h3><?php echo Yii::t('general', 'Make friends'); ?></h3></td>
+                        <td><h3><?php echo Yii::t('general', 'Get rewards'); ?></h3></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                <?php echo Yii::t('general', 'All your social networks accounts are connected to your wristband just with a few clicks.'); ?>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <?php echo Yii::t('general', 'When somebody wants to add you as a friend he can just tap your wristband with NFC phone. It’s easier than searching.'); ?>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <?php echo Yii::t('general', 'Follow some brands on the web? We will help you to find retailers who are grateful for your likes, shares and re-tweets. Just tap your wristband at the cashdesk to claim for a reward.'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <div class="img-wrapper">
                                 <img src="/themes/mobispot/img/info/IMG_9261.jpg">
                             </div>
-                        </div>
-                        
-                </article>
-
-                <article class="payment-item">
-                        <h3><?php echo Yii::t('general', 'Make friends'); ?></h3>
-                        <div class="item-body">
-                            <p>
-                                <?php echo Yii::t('general', 'When somebody wants to add you as a friend he can just tap your wristband with NFC phone. It’s easier than searching.'); ?> 
-                            </p>
+                        </td>
+                        <td>
                             <div class="img-wrapper">
                                 <img src="/themes/mobispot/img/info/IMG_9478.jpg">
                             </div>
-                            
-                        </div>
-                </article>
-
-                <article class="payment-item">
-                        <h3><?php echo Yii::t('general', 'Get rewards'); ?></h3>
-                        <div class="item-body">
-                            <p>
-                            <?php echo Yii::t('general', 'Follow some brands on the web? We will help you to find retailers who are grateful for your likes, shares and re-tweets. Just tap your wristband at the cashdesk to claim for a reward.'); ?></p>
+                        </td>
+                        <td>
                             <div class="img-wrapper">
                                 <img src="/themes/mobispot/img/info/get-rewards.jpg">
                             </div>
-                        </div>
-                </article>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <a href="javacsript:;" data-scroll-nav="3" data-scroll-index="3" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Coupons'); ?></a>
@@ -256,30 +285,45 @@
                     </p>
             </article>
             <div class="double-block">
-                <article class="payment-item payment-item-50">
-                        <h3><?php echo Yii::t('general', 'Participate in campaigns'); ?></h3>
-                        <div class="item-body w-bg">
+                <table class="info-table">
+                    <colgroup>
+                        <col width="45%">
+                        <col width="10%">
+                        <col width="45%">
+                    </colgroup>
+                    
+                    <tr>
+                        <td><h3><?php echo Yii::t('general', 'Participate in campaigns'); ?></h3></td>
+                        <td></td>
+                        <td><h3><?php echo Yii::t('general', 'Get your discount'); ?></h3></td>
+                    </tr>
+                    <tr>
+                        <td>
                             <p>
-                                <?php echo Yii::t('general', 'Choose the discount campaign you would like to take part. Sometimes reatilers may ask you to follow them or post a nice pic to Instagram.'); ?>  
+                                <?php echo Yii::t('general', 'Choose the discount campaign you would like to take part. Sometimes reatilers may ask you to follow them or post a nice pic to Instagram.'); ?> 
                             </p>
+                        </td>
+                        <td></td>
+                        <td>
+                            <p>
+                                <?php echo Yii::t('general', 'Find an NFC reader at the cashdesk and tap it when check-out.'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <div class="img-wrapper">
                                 <img src="/themes/mobispot/img/info/coupons.jpg">
                             </div>
-                            
-                        </div>
-                </article>
-
-                <article class="payment-item payment-item-50">
-                        <h3><?php echo Yii::t('general', 'Get your discount'); ?></h3>
-                        <div class="item-body">
-                            
-                            <p>
-                            <?php echo Yii::t('general', 'Find an NFC reader at the cashdesk and tap it when check-out.'); ?></p>
+                        </td>
+                        <td></td>
+                        <td>
                             <div class="img-wrapper">
                                 <img src="/themes/mobispot/img/info/get-discount.jpg">
                             </div>
-                        </div>
-                </article>
+                        </td>
+                    </tr>
+                </table>
                 </div>
             </div>
         </div>
@@ -300,7 +344,7 @@
                         <?php echo Yii::t('general', 'We are constantly working with transport service providers to bring you smart and handy wearable tickets. We will certainly inform you when you are able to pay for a ride with our NFC wristband in your hometown.'); ?> 
                     </p>
                         <div class="img-wrapper">
-                            <img src="/themes/mobispot/img/info/IMG_transport.jpg">
+                            <img src="/themes/mobispot/img/info/IMG_9593-0.jpg">
                         </div>
                     </div>
             </article>
