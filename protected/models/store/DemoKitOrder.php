@@ -48,8 +48,8 @@ class DemoKitOrder extends CActiveRecord
                     array(
                         'id' => 1,
                         'name'=>Yii::t('store', 'Regular post'),
-                        'price' => 25,
-                        'descr' => Yii::t('store', '+$25 (5-7 days)'),
+                        'price' => 12,
+                        'descr' => Yii::t('store', '+$12 (5-7 days)'),
                     ),
                     array(
                         'id' => 2,
