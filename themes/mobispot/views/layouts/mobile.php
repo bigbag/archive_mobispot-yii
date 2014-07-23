@@ -18,7 +18,7 @@
         <?php echo $content; ?>
 
         <footer id="footer">
-            <a href="/readers"><?php echo Yii::t('user', 'Device compatibility'); ?></a> <a href="/help"><?php echo Yii::t('user', 'Get Help'); ?></a> <a href="mailto:helpme@mobispot.com"><?php echo Yii::t('user', 'Email us'); ?></a>
+            <a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a> <a href="/help"><?php echo Yii::t('user', 'Get Help'); ?></a> <a href="mailto:helpme@mobispot.com"><?php echo Yii::t('user', 'Email us'); ?></a>
         </footer>
         <div class="m-result">
             <p></p>

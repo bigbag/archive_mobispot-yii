@@ -18,7 +18,7 @@ class SiteController extends MController
 
     public function actionIndex()
     {
-        $this->layout = '//layouts/all';
+        $this->layout = '//layouts/new';
 
         $resolution = $this->getResolution();
 
