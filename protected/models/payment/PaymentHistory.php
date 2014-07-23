@@ -22,12 +22,13 @@ class PaymentHistory extends CActiveRecord
     const STATUS_IN_PROGRESS = 1;
     const STATUS_COMPLETE = 2;
     const STATUS_FAILURE = -1;
-    const STATUS_MISSING = -2;
 
     const TYPE_SYSTEM = 1;
     const TYPE_PAYMENT = 2;
+    const TYPE_UNITELLER = 3;
 
     const MAX_RECORD = 10;
+
 
     /**
      * Returns the static model of the specified AR class.
@@ -53,6 +54,49 @@ class PaymentHistory extends CActiveRecord
     public function tableName()
     {
         return 'history';
+    }
+
+    public function getPaymentDesc()
+    {
+        $txt = '';
+        if ($this->term_id != 0){
+            $txt .= 'Терминал ' . $this->term_id;
+        } else {
+            $txt .= 'Пополнение';
+        }
+        return $txt;
+    }
+
+    public function getStatusList()
+    {
+        return array(
+            self::STATUS_NEW => Yii::t('payment', 'Новая'),
+            self::STATUS_IN_PROGRESS => Yii::t('payment', 'Проводится'),
+            self::STATUS_COMPLETE => Yii::t('payment', 'Успешная'),
+            self::STATUS_FAILURE => Yii::t('payment', 'Сбойная'),
+        );
+    }
+
+    public function getTypeList()
+    {
+        return array(
+
+            self::TYPE_SYSTEM => Yii::t('payment', 'Приход'),
+            self::TYPE_PAYMENT => Yii::t('payment', 'Расход'),
+            self::TYPE_UNITELLER => Yii::t('payment', 'Приход'),
+        );
+    }
+
+    public function getType()
+    {
+        $data = $this->getTypeList();
+        return $data[$this->type];
+    }
+
+    public function getStatus()
+    {
+        $data = $this->getStatusList();
+        return $data[$this->status];
     }
 
     /**
@@ -162,4 +206,53 @@ class PaymentHistory extends CActiveRecord
         ));
     }
 
+    public function getListByWalletId($id, $count=20)
+    {
+        $history = Yii::app()->cache->get('historys_wallet_'.$id);
+        if (!$history) {
+            $criteria = new CDbCriteria;
+            $criteria->compare('wallet_id', $id);
+            $criteria->order = 'id desc';
+            $criteria->limit = $count;
+            $history = self::model()->complete()->findAll($criteria);
+
+            Yii::app()->cache->set('historys_wallet_'.$id, $history, 120);
+        }
+        return $history;
+    }
+
+    public function getListWithPagination($id, $page = 1, $filterDate = '', $filterTerm = '', $count=20)
+    {
+        $answer = array();
+
+        $criteria = new CDbCriteria;
+        $criteria->compare('wallet_id', $id);
+        $criteria->order = 'id desc';
+        if ($filterDate && preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $filterDate)) {
+            $criteria->compare('day(`creation_date`)', substr($filterDate, 0, 2));
+            $criteria->compare('month(`creation_date`)', substr($filterDate, 3, 2));
+            $criteria->compare('year(`creation_date`)', substr($filterDate, 6));
+        }
+        if ($filterTerm) {
+            $termCriteria = new CDbCriteria;
+            $termCriteria->addSearchCondition('name', $filterTerm);
+            $terms = Term::model()->findAll($termCriteria);
+            $inTerms = array();
+            foreach ($terms as $term) {
+                $inTerms[] = $term->id;
+            }
+
+            $criteria->addInCondition('term_id', $inTerms);
+        }
+        $countHistory = self::model()->complete()->count($criteria);
+        $criteria->limit = $count;
+        if ($page > 1)
+            $criteria->offset = ($page - 1) * $count;
+
+        $answer['history'] = self::model()->complete()->findAll($criteria);
+        $answer['pagination'] = array('pages'=>ceil($countHistory / $count), 'current'=>$page);
+        $answer['filter'] = array('date'=>$filterDate, 'term'=>$filterTerm);
+
+        return $answer;
+    }
 }

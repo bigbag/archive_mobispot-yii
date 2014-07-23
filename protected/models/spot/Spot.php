@@ -250,7 +250,8 @@ class Spot extends CActiveRecord
         return $id;
     }
 
-    public function clearCurrentSpot(){
+    public function clearCurrentSpot()
+    {
         Yii::app()->cache->delete(Yii::app()->request->csrfToken . '_curent_spot');
     }
 
@@ -267,7 +268,8 @@ class Spot extends CActiveRecord
         return $id;
     }
 
-    public function clearCurrentSpotView(){
+    public function clearCurrentSpotView()
+    {
         Yii::app()->cache->delete(Yii::app()->request->csrfToken . '_curent_spot_view');
     }
 

@@ -1,0 +1,209 @@
+span.payment-rules{
+  color: #000000;
+  border-bottom: 0px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.settings-button{
+  cursor: pointer;
+}
+.go-button{
+  height: 180px;
+  width: 180px;
+  line-height: 180px;
+  font-size: 23px;
+}
+
+.corp-register-form{
+  margin: 20px 0;
+}
+
+.long li{
+  width: 80px;
+}
+
+.m-preload-store  {
+  height: 100%;
+  width: 100%;
+  top:0;
+  left: 0;
+  background: #fff;
+  z-index: 999;
+  text-align: center;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=1);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  display: block;
+}
+
+.m-preload-store img{
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+}
+
+.image-block{
+  display: inline-block;
+  position: absolute;
+  right: 2em;
+}
+
+.biggest-heading{
+  font-size: 50px;
+  margin: 30px 0;
+}
+
+.biggest-heading img{
+  display: inline-block;
+  position: relative;
+  top:30px;
+}
+
+.singlebox-margin{
+  margin-top: 20px;
+}
+
+.recovery{
+  margin-top: 100px;
+}
+
+.m-result{
+  display: none;
+}
+
+
+.m-card-cur{
+  color: #000;
+}
+
+#enableReccurent form.custom div.custom.dropdown ul{
+  bottom: auto;
+}
+
+
+.button-disable:focus,
+.button-disable:hover,
+.button-disable {
+    color: #BBB;
+    background: #E9EDF2;
+    cursor: default;
+    outline: none;
+}
+
+#card_date {
+    white-space: nowrap;
+}
+
+.m-card-cur.m-card_visa:before{
+    background-position: -6px -7px;
+}
+
+.m-card-cur.m-card_mastercard:before{
+    background-position: -81px -7px;
+}
+
+.m-card-cur.m-card_uniteller:before{
+    background-position: -159px -7px;
+}
+
+.m-card-cur.m-card_maestro:before{
+    background-position: -226px -7px;
+}
+
+#proceedNextForm div.six.columns{
+    width:50%;
+}
+
+#block-history .loading table tbody tr td div {
+    color:silver !important;
+}
+
+#block-history .loading table tbody tr td div a {
+    color:silver !important;
+}
+
+#block-history .cover-loading{
+    display: none;
+}
+
+#block-history .loading .cover-loading{
+    display: block;
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cover-loading img{
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin-top: -20px;
+}
+
+.ui-datepicker.ui-widget{
+    border: 1px solid black;
+}
+
+
+#block-history input{
+    background-color:white;
+    color:#757575;
+}
+
+#block-history input[name=term]{
+    text-align:left;
+}
+
+.dispaly-none{
+    display:none;
+}
+
+#j-settingsForm div.custom.dropdown{
+	width:130px !important;
+	float:left;
+}
+
+#j-settingsForm div.custom.dropdown ul{
+	width:130px !important;
+}
+
+#j-settingsForm div.condition01 label{
+	padding-left:140px;
+}
+
+#j-settingsForm div.condition01 div.content-row{
+	float:left;
+	width:130px;
+	margin-right:10px;
+}
+
+.floatleft{
+	float:left;
+}
+
+#wallet-actions div.table-fltr input, #all-actions div.table-fltr input{
+	right:100px;
+}
+
+#button-search{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 90px;
+}
+
+.checkbox.active + .active-sub .condition02 p{
+  color: #000 !important;
+}
+
+.checkbox,
+.checkbox:hover{
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+  line-height: 21px;
+}
