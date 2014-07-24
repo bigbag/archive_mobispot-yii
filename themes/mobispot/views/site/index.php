@@ -71,7 +71,7 @@
             <header>
                 <h1><?php echo Yii::t('general', 'Gather all your contactless cards in one device.<br> Then wear it.'); ?> </h1>
             </header>
-            <div class="products-list" ng-controller="slideController">
+            <div class="products-list" ng-controller="SlideController">
                 <article id="slider-wristband" ng-init="">
                     <h3><?php echo Yii::t('general', 'Wristband'); ?></h3>
                     <p>

@@ -5,27 +5,23 @@
 <head>
     <?php include('block/head/all.php'); ?>
 </head>
-<body ng-controller="UserController"
-    ng-cloak class="ng-cloak"
-    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-    <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-
-    <?php include('block/header/all.php'); ?>
-    <?php if ($this->mainBackground):?>
+    <body ng-controller="UserController"
+        class="splash"
+        ng-cloak class="ng-cloak"
+        ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
+        <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
+        <?php include('block/header/all.php'); ?>
+        <?php if ($this->mainBackground):?>
         <div
          class="main wallpaper" style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)">
-    <?php endif;?>
-    <div ng-click="modal='none'">
-        <?php echo $content; ?>
-    </div>
-    <?php if ($this->mainBackground):?>
-        </div>
-    <?php endif;?>
+        <?php endif;?>
+        <div ng-click="modal='none'">
 
-    <?php include('block/footer/all.php'); ?>
-    <div class="m-result">
-        <p></p>
-    </div>
+            <?php echo $content; ?>
+        </div>
+        <?php if ($this->mainBackground):?>
+            </div>
+        <?php endif;?>
     <?php include('block/script/all.php'); ?>
-</body>
+    </body>
 </html>

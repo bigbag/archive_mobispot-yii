@@ -14,8 +14,9 @@ gulp.task('css', function() {
     .pipe(clean());
 
     gulp.src([
+        'themes/mobispot/css/reset.css',
         'themes/mobispot/css/style.css',
-        'themes/mobispot/css/a-slider.css'
+        'themes/mobispot/css/front-page-slider.css',
     ])
     .pipe(rename('style.min.css'))
     .pipe(minifyCSS())
@@ -58,6 +59,7 @@ gulp.task('js', function() {
     gulp.src([
         'themes/mobispot/js/script.js',
         'themes/mobispot/js/script-add.js',
+        'themes/mobispot/js/scrollIt.min.js'
     ])
     .pipe(concat('script.min.js'))
     .pipe(uglify())

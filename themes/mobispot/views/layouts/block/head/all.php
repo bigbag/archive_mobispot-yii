@@ -19,11 +19,6 @@
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
 
-    <!-- IE Fix for HTML5 Tags -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
 
     <!--[if IE 8]>

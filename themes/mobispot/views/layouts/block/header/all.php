@@ -6,18 +6,6 @@
             </a>
         </h1>
         <ul class="right">
-            <li>
-            <?php if (Yii::app()->controller->action->id == 'demoKit'): ?>
-                <span class="right-menu">
-                <?php echo Yii::t('general', 'Get our demo-kit') ?>
-                </span>
-            </li>
-            <?php else: ?>
-                <a href="/pages/demoKit" class="show">
-                    <?php echo Yii::t('general', 'Get our demo-kit') ?>
-                </a>
-            </li>
-            <?php endif; ?>
             <?php if (Yii::app()->user->isGuest): ?>
             <li>
                 <a ng-click="modal=(modal != 'activation')?'activation':'none'"
