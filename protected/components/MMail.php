@@ -5,7 +5,7 @@ Class MMail
 
     public function render($template, array $data = array())
     {
-        $path = Yii::getPathOfAlias(Yii::app()->params['mail_template']) . '/' . $template . '.php';
+        $path = Yii::getPathOfAlias(Yii::app()->params['mailTemplate']) . '/' . $template . '.php';
 
         if (!file_exists($path))
             throw new Exception('Template ' . $path . ' does not exist.');
@@ -14,19 +14,19 @@ Class MMail
 
     public function saveMail($method, $lang, $senders, $recipients, $data)
     {
-        $mail_template = MailTemplate::getTemplate($method, $lang);
+        $mailTemplate = MailTemplate::getTemplate($method, $lang);
 
         if (!is_array($senders))
             $senders = array($senders);
 
         if (!is_array($recipients))
-            $senders = array($recipients);
+            $recipients = array($recipients);
 
         $stack = new MailStack;
         $stack->senders = json_encode($senders);
         $stack->recipients = json_encode($recipients);
-        $stack->subject = $mail_template->subject;
-        $stack->body = MMail::render($lang . '_' . $mail_template->slug, $data, true);
+        $stack->subject = $mailTemplate->subject;
+        $stack->body = MMail::render($lang . '_' . $mailTemplate->slug, $data, true);
 
         if (!$stack->save())
             return false;

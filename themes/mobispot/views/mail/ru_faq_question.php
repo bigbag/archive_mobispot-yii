@@ -11,7 +11,7 @@
 </div>
 <table style="margin-top:40px; width:660px; padding:0 30px" >
     <tr>
-	<td rowspan="2" style="text-align:left;align:left;">&copy; Mobispot Social Systems. All rights reserved<br>
+    <td rowspan="2" style="text-align:left;align:left;">&copy; Mobispot Social Systems. All rights reserved<br>
                         sales@mobispot.com<br>
                 </td>
 

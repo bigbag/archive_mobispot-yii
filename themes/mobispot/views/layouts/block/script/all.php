@@ -11,7 +11,7 @@
 <script src="/themes/mobispot/js/foundation.min.js"></script>
 
 <script>
-    $(function(){
+    $(function () {
         $.scrollIt();
     });
 </script>
