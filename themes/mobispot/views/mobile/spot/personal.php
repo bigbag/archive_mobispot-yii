@@ -41,11 +41,13 @@
                 >
                     <?php echo Yii::t('spot', 'Wallet'); ?>
                 </a>
+                <!--
                 <a
                     ng-class="{active: general.views=='coupon'}"
                     ng-click="general.views='coupon'" >
-                    <?php echo Yii::t('spot', 'Coupon'); ?>
+                    <?php //echo Yii::t('spot', 'Coupon'); ?>
                 </a>
+                -->
                 <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
