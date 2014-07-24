@@ -1,6 +1,6 @@
 <?php return  array (
   'Activate spot' => '激活',
-  'Get our demo-kit' => '',
+  'Get our demo-kit' => '获得我们的演示',
   'All your tickets<br> in one place' => '轻松刷“环”,<br>便利买票',
   'Get Help' => '帮助',
   'If you want your tickets close to hand,<br> put them on your wrist.' => '想把各种公共交通票都“戴”在你的手腕上吗?<br>智能手环帮你实现!',
@@ -13,11 +13,11 @@
   'Pay with a tap,<br> not with cash' => '轻轻一触,<br>刷“环”付款',
   'Readers' => '解读器',
   'Save time, carry less. You can keep<br> your loyalty cards, tickets and<br> membership details on your Spot.' => '节省时间的好帮手 - 打折卡, 公车票,<br>出入证, 全部刷“环”, <br>无所不能!',
-  'Sign Out' => '',
+  'Sign Out' => '推出',
   'Sign in' => '登陆',
   'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => '便利的小金额付款方式, <br>智能手环让你足不出户, <br>轻松付款.',
   'The uploaded file is not an image' => '',
-  'Connect digital<br> & real via NFC' => '连接数字和真实的生活',
+  'Connect digital<br> & real via NFC' => '连接数字和<br> 真实的生活',
   'Pay. Ride. Share. Get rewards.' => '付钱。乘车。分享。得到酬谢。',
   'Our devices' => '我们的设备',
   'Payments' => '付款', 
@@ -25,7 +25,7 @@
   'Coupons' => '优惠券和折扣',
   'Tickets' => '公共交通票',
   'Work with us' => '合作',
-  'Gather all your contactless cards in one device.<br> Then wear it.' => '把所有的无触点的卡片收集在一个设备，<br>然后把设备放在口<br>袋里或者戴在你的手腕上。',
+  'Gather all your contactless cards in one device.<br> Then wear it.' => '把所有的无触点的卡片收集在一个设备，<br> 然后放在口袋里或<br>戴在你的手腕上。',
   'Wristband' => '',
   'Pay with a tap, not with cash' => '轻轻一触，刷“环“付款',
   'Spend less time paying for lunch, spend more time eating it. Mobispot works with your campus payment scheme.' => '便利的小金额付款方式, 智能手环让你足不出户, 轻松付款',
@@ -66,5 +66,6 @@
   '你想通过新功能改善自己的项目吗？<br>我们会给你提供NFC技术和设备。',
   'Campuses, retailers, e-wallets, transportation companies are welcomed.' => '  ',
   'Come on, drop a line to ' => '联系我们： ',
-  'Email us' => '',
+  'Email us' => '联系我们',
+  
 );
