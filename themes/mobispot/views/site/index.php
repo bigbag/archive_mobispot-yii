@@ -73,7 +73,7 @@
             </header>
             <div class="products-list" ng-controller="SlideController">
                 <article id="slider-wristband" ng-init="">
-                    <h3><?php echo Yii::t('general', 'Wristband'); ?></h3>
+                    <h3><?php echo Yii::t('store', 'Wristband'); ?></h3>
                     <p>
                         <?php echo Yii::t('store', 'Unique NFC wristband from Mobispot. Waterproof and sexy.'); ?>
                     </p>
