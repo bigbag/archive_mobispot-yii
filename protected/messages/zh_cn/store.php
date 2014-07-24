@@ -28,7 +28,7 @@ return array (
   'Brace' => '',
   'Buy' => '',
   'COLOR' => '',
-  'Card' => '',
+  'Card' => '卡片',
   'Cart is empty' => '',
   'Choice of conservative ones. If you get bored - draw something on it.' => '如果你喜欢稳定，你就喜欢我们的设备。如果你感到无聊, 面上可以画一画。',
   'Choose the most convenient delivery option' => '',
@@ -119,8 +119,9 @@ return array (
   'Укажите способ доставки' => '',
   'Укажите способ оплаты' => '',
   */
-  'Keyfob' => '',
-  '+$12 (5-7 days)' => '+$12 (5­7 天)',
-  '+$70 (2-3 days)' => '+70 $ (2­3 天)',
+  'Keyfob' => '挂饰',
+  'Wristband' => '腕带',
+  '+$25 (5-7 days)' => '+25 $ (5-7 天)',
+  '+$70 (2-3 days)' => '+70 $ (2-3 天)',
   '(Shipping)' => '(运送)',
 );
