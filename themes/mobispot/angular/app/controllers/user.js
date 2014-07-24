@@ -9,19 +9,19 @@ angular.module('mobispot').controller('UserController',
   $scope.host_mobile = 0;
 
   var prevSlide = function() {
-   $('.slidesjs-previous').click();
+   angular.element('.slidesjs-previous').click();
   };
 
   var nextSlide = function() {
-    $('.slidesjs-next').click();
+    angular.element('.slidesjs-next').click();
   };
 
   var stopSlide = function() {
-    $('.slidesjs-stop').click();
+    angular.element('.slidesjs-stop').click();
   };
 
   var startSlide = function() {
-    $('.slidesjs-play').click();
+    angular.element('.slidesjs-play').click();
   };
 
   //Очистка значений
@@ -35,7 +35,7 @@ angular.module('mobispot').controller('UserController',
   };
 
   //Инициализация датапикера
-  $('#birthday').datepicker({
+  angular.element('#birthday').datepicker({
     yearRange: '1900:-0',
     dateFormat: 'dd.mm.yy',
     onSelect: function (dateText, inst) {
@@ -61,7 +61,7 @@ angular.module('mobispot').controller('UserController',
     });
   };
 
-  $(document).on('keyup', function(e) {
+  angular.element(document).on('keyup', function(e) {
     if (!angular.isUndefined($scope.modal)  && ($scope.modal == 'none')) {
       if (e.keyCode === 37) prevSlide();
       if (e.keyCode === 39) nextSlide();
@@ -94,10 +94,10 @@ angular.module('mobispot').controller('UserController',
           $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        $(location).attr('href','/spot/list/');
+        angular.element(location).attr('href','/spot/list/');
       }
       else {
-        $(location).attr('href','/');
+        angular.element(location).attr('href','/');
       }
     });
   };
@@ -165,7 +165,7 @@ angular.module('mobispot').controller('UserController',
 
     $http.post(window.location.pathname , user).success(function(data) {
       if (data.error == 'no'){
-        $(location).attr('href','/user/personal');
+        angular.element(location).attr('href','/user/personal');
       }
     });
   };
