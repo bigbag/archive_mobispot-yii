@@ -20,8 +20,8 @@
   'Connect digital<br> & real via NFC' => '连接数字和真实的生活',
   'Pay. Ride. Share. Get rewards.' => '付钱。乘车。分享。得到酬谢。',
   'Our devices' => '我们的设备',
-  'Payments' => '付款', 
-  'Social links' => '社交网络',  
+  'Payments' => '付款',
+  'Social links' => '社交网络',
   'Coupons' => '优惠券和折扣',
   'Tickets' => '公共交通票',
   'Work with us' => '合作',
@@ -43,7 +43,7 @@
   'Make friends' => '交朋友',
   'When somebody wants to add you as a friend he can just tap your wristband with NFC phone. It’s easier than searching.' => '当有人想添加你作为朋友，他就可以把NFC手机触及腕带。',
   'Get rewards' => '得到酬谢',
-  'Follow some brands on the web? We will help you to find retailers who are grateful for your likes, shares and re-tweets. Just tap your wristband at the cashdesk to claim for a reward.' => '网上追随品牌吗？我们将帮你找到用酬谢换取你的Likes和Re-tweets的零售商。', 
+  'Follow some brands on the web? We will help you to find retailers who are grateful for your likes, shares and re-tweets. Just tap your wristband at the cashdesk to claim for a reward.' => '网上追随品牌吗？我们将帮你找到用酬谢换取你的Likes和Re-tweets的零售商。',
   'One tap is all it takes' => '轻轻一触',
   'Save time, carry less. You can keep your loyalty cards, tickets and membership details on your Spot.' => '节省钱包的空间，一切会员卡、优惠卡、折扣和通行卡收集在你的腕带。',
   'Reduce the amount of plastic in your pocket' => '减少口袋里的塑料',
@@ -61,8 +61,8 @@
                     with modern features?<br>
                     We will bring you NFC <br>
                     and wearables<br>
-                     at a time.  <br>' 
-  => 
+                     at a time.  <br>'
+  =>
   '你想通过新功能改善自己的项目吗？<br>我们会给你提供NFC技术和设备。',
   'Campuses, retailers, e-wallets, transportation companies are welcomed.' => '  ',
   'Come on, drop a line to ' => '联系我们： ',

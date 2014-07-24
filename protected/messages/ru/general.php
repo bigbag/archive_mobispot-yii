@@ -25,7 +25,7 @@
   'Coupons' => 'Купоны & скидки',
   'Tickets' => 'Транспорт/Билеты',
   'Work with us' => 'Сотрудничество',
-  'Gather all your contactless cards in one device.<br> Then wear it.' => 'Соберите все ваши бесконтактные карты в одном устройстве. Носите его на руке или в кармане. 
+  'Gather all your contactless cards in one device.<br> Then wear it.' => 'Соберите все ваши бесконтактные карты в одном устройстве. Носите его на руке или в кармане.
 ',
   'Wristband' => 'Браслет',
   'Pay with a tap, not with cash' => 'Платите касанием, без наличных',
@@ -62,8 +62,8 @@
                     with modern features?<br>
                     We will bring you NFC <br>
                     and wearables<br>
-                     at a time.  <br>' 
-  => 
+                     at a time.  <br>'
+  =>
   'Хотите добавить NFC<br> в свой проект?<br> Мы расскажем, как это сделать<br> и поможем вам в разработке.',
   'Campuses, retailers, e-wallets, transportation companies are welcomed.' => 'Мы рады пообщаться со всеми,<br> но особенно мы будем полезны учебным заведениям и офисам,<br> электронным кошелькам, розничным компаниям<br> и транспортным операторам.',
   'Come on, drop a line to ' => 'Ждем письмо от вас на ',

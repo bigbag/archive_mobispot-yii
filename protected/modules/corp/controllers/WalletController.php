@@ -33,6 +33,9 @@ class WalletController extends MController
         if (!$wallet or Yii::app()->user->id != $wallet->user_id)
             MHttp::getJsonAndExit($answer);
 
+        Spot::curentSpot($wallet->discodes_id, true);
+        Spot::curentViews('wallet', true);
+
         $historyList = PaymentHistory::getListWithPagination($data['wallet_id']);
         $history = $historyList['history'];
 
