@@ -2,9 +2,6 @@
 
 class SpotController extends MController
 {
-
-    public $defaultAction = 'list';
-
     // Список отображаемых картинок
     public function getImageType()
     {
