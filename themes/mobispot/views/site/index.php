@@ -117,7 +117,6 @@
                         <li ng-repeat="slide in wristband.slides" class="aslide">
                             <img id="wristband_{{slide.id}}"
                                class="large f-slide"
-                               ng-class="{displaynone: slide.id != wristband.current}"
                                ng-src="/themes/mobispot/img/a_slider/{{slide.img}}" />
                         </li>
                     </ul>
@@ -149,7 +148,6 @@
                                 class="aslide">
                                 <img id="cards_{{slide.id}}"
                                     class="large f-slide"
-                                    ng-class="{displaynone: slide.id != cards.current}"
                                     ng-src="/themes/mobispot/img/a_slider/{{slide.img}}" />
                             </li>
                         </ul>
@@ -179,7 +177,6 @@
                                 class="aslide">
                                 <img id="keyfobs_{{slide.id}}"
                                     class="large f-slide"
-                                    ng-class="{displaynone: slide.id != keyfobs.current}"
                                     ng-src="/themes/mobispot/img/a_slider/{{slide.img}}" />
                             </li>
                         </ul>
