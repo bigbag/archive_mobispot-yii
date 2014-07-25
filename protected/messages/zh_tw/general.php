@@ -17,5 +17,5 @@
   'Sign in' => '會員登入',
   'Spend less time paying for lunch,<br> spend more time eating it. Mobispot works<br> with your campus payment scheme.' => '便利的小額付款,<br> 智能手環讓你在家購物,<br> 輕鬆付款.',
   'The uploaded file is not an image' => '',
-  'Look for the payment reader with our logo in your campus.' => '',
+  'Look for the payment reader with our logo in your campus.' => '在你的校园里寻找面上有我们标志的阅读机',
 );

@@ -68,5 +68,5 @@
   'Campuses, retailers, e-wallets, transportation companies are welcomed.' => 'Мы рады пообщаться со всеми,<br> но особенно мы будем полезны учебным заведениям и офисам,<br> электронным кошелькам, розничным компаниям<br> и транспортным операторам.',
   'Come on, drop a line to ' => 'Ждем письмо от вас на ',
   'Email us' => 'Обратная связь',
-  'Look for the payment reader with our logo in your campus.' => '',
+  'Look for the payment reader with our logo in your campus.' => 'Ищите в своем кампусе платежный ридер с нашим логотипом',
 );
