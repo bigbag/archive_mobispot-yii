@@ -62,6 +62,7 @@ angular.module('mobispot').controller('SlideController',
   $scope.fadeTo = function(slider, ind) {
     angular.element("#slider-" + slider.name + " .f-slide").stop();
     var id = "#" + slider.name + "_" + ind;
+    console.log(id);
     angular.element("#slider-" + slider.name + " .f-slide[id!=" +id +"]").fadeOut(0);
     angular.element(id).fadeIn($scope.FADE_SPEED);
   };

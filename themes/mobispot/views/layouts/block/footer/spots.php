@@ -1,7 +1,15 @@
 <footer class="footer-page content">
     <ul class="left info-links">
-        <li><a href="/readers"><?php echo Yii::t('general', 'Readers') ?></a></li>
-        <li><a href="/help"><?php echo Yii::t('general', 'Get Help') ?></a></li>
+        <li>
+            <a href="/readers">
+                <?php echo Yii::t('phone', 'Device compatibility'); ?>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:helpme@mobispot.com">
+                <?php echo Yii::t('general', 'Email us'); ?>
+            </a>
+        </li>
         <li class="lang">
             <ul class="lang-list">
                 <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>">

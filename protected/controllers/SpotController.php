@@ -88,8 +88,6 @@ class SpotController extends MController
     // Страница управления спотами
     public function actionList()
     {
-        $this->layout = '//layouts/spots';
-
         $yandex_order = Yii::app()->request->getParam('orderN', false);
         if ($yandex_order) $this->redirect('/spot/list/');
 

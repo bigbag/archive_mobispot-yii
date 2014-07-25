@@ -10,15 +10,7 @@
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
 
-    <!-- IE Fix for HTML5 Tags -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <link rel="stylesheet" href="/themes/mobispot/css/superslides.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/reset.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.min.css" />
-    <link rel="stylesheet" href="/themes/mobispot/css/style.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
