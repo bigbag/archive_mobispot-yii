@@ -14,12 +14,12 @@
     <?php endif;?>
     >
     <div class="main spot">
-        <?php include('block/header/all.php'); ?>
+        <?php include('block/header/spots.php'); ?>
         <?php echo $content; ?>
     </div>
 
-    <?php include('block/footer/all.php'); ?>
-    <?php include('block/script/all.php'); ?>
+    <?php include('block/footer/spots.php'); ?>
+    <?php include('block/script/spots.php'); ?>
 
 </body>
 </html>

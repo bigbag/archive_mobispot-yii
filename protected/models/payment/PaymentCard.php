@@ -77,10 +77,11 @@ class PaymentCard extends CActiveRecord
 
     public function getJson()
     {
+        $pan_leng = count($this->pan);
         return array(
             'id' => $this->id,
             'type' => $this->type,
-            'pan' => $this->pan,
+            'pan' => mb_substr($this->pan, $pan_leng - 9),
             'status' => $this->status,
         );
     }
