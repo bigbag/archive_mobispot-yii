@@ -39,11 +39,11 @@
                             <img src="/themes/mobispot/img/lang-icon_zh_cn.png">中文简体
                         </a>
                     </li>
-                    <li class="<?php echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>">
+                    <!-- <li class="<?php echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>">
                         <a href="/service/lang/zh_tw">
                             <img src="/themes/mobispot/img/lang-icon_zh_tw.png">中文繁體
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             <span class="current"><img src="/themes/mobispot/img/lang-icon_<?php echo Yii::app()->language ?>.png"></span>
             </li>
