@@ -22,7 +22,7 @@
   'Our devices' => 'Наши устройства',
   'Payments' => 'Платежи',
   'Social links' => 'Социальные сети',
-  'Coupons' => 'Купоны & скидки',
+  'Coupons' => 'Купоны и скидки',
   'Tickets' => 'Транспорт/Билеты',
   'Work with us' => 'Сотрудничество',
   'Gather all your contactless cards in one device.<br> Then wear it.' => 'Соберите все ваши бесконтактные карты в одном устройстве. Носите его на руке или в кармане.

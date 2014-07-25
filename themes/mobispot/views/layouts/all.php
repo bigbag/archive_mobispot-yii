@@ -13,7 +13,7 @@
     style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)"
     <?php endif;?>
     >
-    <div class="main spot">
+    <div class="main spot spot-all">
         <?php include('block/header/all.php'); ?>
         <?php echo $content; ?>
     </div>
