@@ -2,9 +2,11 @@
 <?php $this->mainBackground = 'main-bg-w.png'?>
 <?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/demokit.js"></script>'?>
 
-    <div class="content-wrapper" ng-controller="DemokitController" >
-        <div class="content-block" id="demo-kit-block" ng-init="order.token='<?php echo Yii::app()->request->csrfToken ?>'">
-        <div class="row">
+<div class="content-wrapper" ng-controller="DemokitController" >
+    <div class="content-block"
+        id="demo-kit-block"
+        ng-init="order.token='<?php echo Yii::app()->request->csrfToken ?>'">
+    <div class="row">
         <div class="large-12 columns form-block">
             <div>
                 <div class="row">
@@ -28,12 +30,6 @@
                                 <?php foreach ($config['product'] as $product): ?>
                                 <tr ng-init="registerProduct(<?php echo $product['id']?>, <?php echo $product['price']?>)">
                                     <td>
-                                        <?php /*
-                                        <div class="img-w">
-                                            <img ng-click="addProduct(<?php echo $product['id']?>)" src="<?php echo $product['img'] ?>">
-                                            <span>x{{products.<?php echo $product['id']?>}}</span><a ng-click="addProduct(<?php echo $product['id']?>)" class="plus">+</a><a ng-click="deductProduct(<?php echo $product['id']?>)" class="minus" ng-show="products.<?php echo $product['id']?>">-</a>
-                                        </div>
-                                        */?>
                                         <div class="img-w">
                                             <img src="<?php echo $product['img'] ?>">
                                             <span>x<?php echo $config['defalutCountForAll']?>
@@ -49,8 +45,8 @@
                                 </tr>
                                 <?php endforeach; ?>
                             </table>
+                        </div>
                     </div>
-                </div>
                 <div>
                 <div class="small-3 large-3 column">
                     <div class="next-step" ng-init="summ=<?php echo $config['price']?>">
@@ -68,56 +64,56 @@
                         <form id="help-in" name="orderForm" class="custom">
                             <div class="form-item">
                                 <h3><?php echo Yii::t('store', 'Customer')?></h3>
-                                <input
-                                        name='name'
+                                <input name='name'
                                         type="text"
                                         ng-model="order.name"
                                         placeholder="<?php echo Yii::t('store', 'Name')?>"
                                         maxlength="300"
                                         ng-minlength="2"
+                                        ng-class="{error: error.field}"
                                         required >
-                                <input
-                                        name='email'
+                                <input name='email'
                                         type="email"
                                         ng-model="order.email"
                                         placeholder="<?php echo Yii::t('store', 'Email')?>"
                                         ng-init="fillAllMessage='<?php echo $config['fillAllMessage'] ?>'"
                                         maxlength="300"
                                         ng-minlength="3"
+                                        ng-class="{error: error.field}"
                                         required >
-                                </div>
+                            </div>
                             <div class="form-item">
-                            <h3><?php echo Yii::t('store', 'Delivery details')?></h3>
-                            <input
-                                    name='phone'
-                                    type="text"
-                                    ng-model="order.phone"
-                                    placeholder="<?php echo Yii::t('store', 'Phone')?>"
-                                    required >
-                            <input
-                                    name='address'
-                                    type='text'
-                                    ng-model="order.address"
-                                    placeholder="<?php echo Yii::t('store', 'Address')?>"
-                                    required >
-                            <input
-                                    name='city'
-                                    type='text'
-                                    ng-model="order.city"
-                                    placeholder="<?php echo Yii::t('store', 'City')?>"
-                                    required >
-                            <input
-                                    name='zip'
-                                    type='text'
-                                    ng-model="order.zip"
-                                    placeholder="<?php echo Yii::t('store', 'Zip code')?>"
-                                    required >
-                            <input
-                                    name='country'
-                                    type='text'
-                                    ng-model="order.country"
-                                    placeholder="<?php echo Yii::t('store', 'Country')?>"
-                                    required >
+                                <h3><?php echo Yii::t('store', 'Delivery details')?></h3>
+                                <input name='phone'
+                                        type="text"
+                                        ng-model="order.phone"
+                                        placeholder="<?php echo Yii::t('store', 'Phone')?>"
+                                        ng-class="{error: error.field}"
+                                        required >
+                                <input name='address'
+                                        type='text'
+                                        ng-model="order.address"
+                                        placeholder="<?php echo Yii::t('store', 'Address')?>"
+                                        ng-class="{error: error.field}"
+                                        required >
+                                <input name='city'
+                                        type='text'
+                                        ng-model="order.city"
+                                        placeholder="<?php echo Yii::t('store', 'City')?>"
+                                        ng-class="{error: error.field}"
+                                        required >
+                                <input name='zip'
+                                        type='text'
+                                        ng-model="order.zip"
+                                        placeholder="<?php echo Yii::t('store', 'Zip code')?>"
+                                        ng-class="{error: error.field}"
+                                        required >
+                                <input name='country'
+                                        type='text'
+                                        ng-model="order.country"
+                                        placeholder="<?php echo Yii::t('store', 'Country')?>"
+                                        ng-class="{error: error.field}"
+                                        required >
                             </div>
                         </form>
                         </div>
@@ -139,7 +135,11 @@
                         </div>
                 </div>
                 <div class="row tab-item">
-                <a class="tab-back" ng-click="dkitForm($event, '2')" href="javascript:;"><i class="icon">&#xe602;&#xe602;</i></a>
+                    <a class="tab-back"
+                        ng-click="dkitForm($event, '2')"
+                        href="javascript:;">
+                        <i class="icon">&#xe602;&#xe602;</i>
+                    </a>
                     <div class="small-9 large-9 column">
                         <h3><?php echo Yii::t('store', 'Address')?></h3>
                         <div class="show-address">
@@ -149,7 +149,6 @@
                             <div>{{order.phone}}</div>
 
                         </div>
-
                         <div class="small-6 large-6 columns">
                             <h3><?php echo Yii::t('store', 'Shipping')?></h3>
                             <div class="shipping-form">
@@ -183,24 +182,25 @@
                             <h3><?php echo Yii::t('store', 'Payment')?></h3>
                             <div class="shipping-form">
                                 <?php foreach ($config['payment'] as $payment): ?>
-                                <div class="row" ng-init="registerPayment(<?php echo $payment['id'] ?>, '<?php echo $payment['action'] ?>')">
+                                <div class="row"
+                                    ng-init="registerPayment(<?php echo $payment['id'] ?>, '<?php echo $payment['action'] ?>')">
                                     <div class="radio">
-                                            <input
-                                                id="payment<?php echo $payment['id'] ?>"
-                                                type="radio"
-                                                name="payment"
-                                                value="<?php echo $payment['id'] ?>"
-                                                <?php if ($payment['id'] == $config['payment'][0]['id']):?>
-                                                checked
-                                                ng-init="setPayment(<?php echo $payment['id'] ?>)"
-                                                <?php endif ?>
-                                                >
-                                            <label
-                                                for="payment<?php echo $payment['id'] ?>"
-                                                ng-click="setPayment(<?php echo $payment['id'] ?>)"
+                                        <input
+                                            id="payment<?php echo $payment['id'] ?>"
+                                            type="radio"
+                                            name="payment"
+                                            value="<?php echo $payment['id'] ?>"
+                                            <?php if ($payment['id'] == $config['payment'][0]['id']):?>
+                                            checked
+                                            ng-init="setPayment(<?php echo $payment['id'] ?>)"
+                                            <?php endif ?>
                                             >
-                                                <?php echo $payment['name'] ?>
-                                            </label>
+                                        <label
+                                            for="payment<?php echo $payment['id'] ?>"
+                                            ng-click="setPayment(<?php echo $payment['id'] ?>)"
+                                        >
+                                            <?php echo $payment['name'] ?>
+                                        </label>
                                     </div>
                                 </div>
                                 <?php endforeach ?>
@@ -209,7 +209,9 @@
                     </div>
                     <div class="small-3 large-3 column">
                         <div class="next-step">
-                                <h3><?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?></h3>
+                                <h3>
+                                    <?php echo Yii::t('store', 'Total:')?> {{total}} <?php echo Yii::t('store', 'USD')?>
+                                    </h3>
                                 <p>
                                 <?php echo ('en' == Lang::getCurrentLang())?'$':''?>{{summ}}<?php echo ('en' == Lang::getCurrentLang())?'':'$'?>
                                 +
@@ -225,6 +227,5 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    <div class="fc"></div>
+</div>
+<div class="fc"></div>
