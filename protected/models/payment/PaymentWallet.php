@@ -99,6 +99,20 @@ class PaymentWallet extends CActiveRecord
         );
     }
 
+    public static function getActiveByUserId($user_id, $valid=false)
+    {
+        if (!$valid) {
+            $user = User::model()->findByPk($user_id);
+            if (!$user) return false;
+        }
+
+        return PaymentWallet::model()->findAllByAttributes(
+            array(
+                'user_id'=>$user_id,
+                'status' => PaymentWallet::STATUS_ACTIVE
+            ));
+    }
+
     public function beforeValidate()
     {
         if ($this->isNewRecord) {
@@ -112,10 +126,23 @@ class PaymentWallet extends CActiveRecord
         return parent::beforeValidate();
     }
 
+    public function beforeSave()
+    {
+        $this->balance = ($this->balance) * 100;
+        return parent::beforeSave();
+    }
+
     protected function afterSave()
     {
-        Yii::app()->cache->delete('wallet_discodes_' . $this->discodes_id);
+        Yii::app()->cache->delete('wallet_discodes_'.$this->discodes_id);
         parent::afterSave();
+    }
+
+    public function afterFind()
+    {
+        $this->balance = ($this->balance) / 100;
+
+        return parent::afterFind();
     }
 
     public function selectUser($user_id)

@@ -44,6 +44,9 @@ return array(
         'store' => array(
             'defaultController' => 'product',
         ),
+        'corp' => array(
+            'defaultController' => 'site',
+        ),
     ),
     // application components
     'components' => array(

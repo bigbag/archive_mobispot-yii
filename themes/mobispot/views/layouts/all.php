@@ -3,29 +3,23 @@
 <!--[if IE 8]> <html class="no-js lt-ie9" ng-app="mobispot" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 <head>
+    <?php $this->blockHeaderCeo = true;?>
     <?php include('block/head/all.php'); ?>
 </head>
 <body ng-controller="UserController"
     ng-cloak class="ng-cloak"
-    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-    <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-
-    <?php include('block/header/all.php'); ?>
+    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'"
     <?php if ($this->mainBackground):?>
-        <div
-         class="main wallpaper" style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)">
+    style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)"
     <?php endif;?>
-    <div ng-click="modal='none'">
+    >
+    <div class="main spot">
+        <?php include('block/header/spots.php'); ?>
         <?php echo $content; ?>
     </div>
-    <?php if ($this->mainBackground):?>
-        </div>
-    <?php endif;?>
 
-    <?php include('block/footer/all.php'); ?>
-    <div class="m-result">
-        <p></p>
-    </div>
-    <?php include('block/script/all.php'); ?>
+    <?php include('block/footer/spots.php'); ?>
+    <?php include('block/script/spots.php'); ?>
+
 </body>
 </html>

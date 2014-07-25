@@ -110,7 +110,7 @@
                                     name='zip'
                                     type='text'
                                     ng-model="order.zip"
-                                    placeholder="<?php echo Yii::t('store', 'Zip / Post code')?>"
+                                    placeholder="<?php echo Yii::t('store', 'Zip code')?>"
                                     required >
                             <input
                                     name='country'
@@ -123,7 +123,7 @@
                         </div>
                         <div class="column small-6 large-6 form-info">
                             <p>
-                            <?php echo Yii::t('store', 'If you have additional suggestions about the delivery or content of the demo kit, please contact us and we will sort your order out personally.')?>
+                            <?php echo Yii::t('store', 'If you have additional suggestions about the delivery or content of the demo kit, please contact us before you place and pay for your order, and we will sort it out quickly.') ?>
                             </p>
                             <br>
                             <p>

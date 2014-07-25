@@ -348,9 +348,9 @@ class ServiceController extends MController
             MHttp::getJsonAndExit($answer);
         }
 
-        $recipients = array('ilya.radaev@gmail.com', 'alex.kulagin@mobispot.com', 'volgin@mobispot.com');
-
+        $recipients = Yii::app()->params['questionMail'];
         MMail::question($recipients, $data, Lang::getCurrentLang());
+
         $answer['content'] = Yii::t('help', 'Question has been submitted');
         $answer['error'] = "no";
 
