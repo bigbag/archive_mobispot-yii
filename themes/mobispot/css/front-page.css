@@ -242,7 +242,7 @@ a {
     width: 300px; }
   /* line 207, ../sass/front-page.scss */
   .header-page .hat-bar {
-    background: url('../img/rgbapng/ffffffe5-5.png?1406283814');
+    background: url('../img/rgbapng/ffffffe5-5.png?1406286016');
     background: rgba(255, 255, 255, 0.9);
     height: 63px;
     padding: 0 5% 0; }
@@ -252,7 +252,7 @@ a {
   /* line 215, ../sass/front-page.scss */
   .header-page .show-block {
     padding: 38px;
-    background: url('../img/rgbapng/ffffffe5-5.png?1406283814');
+    background: url('../img/rgbapng/ffffffe5-5.png?1406286016');
     background: rgba(255, 255, 255, 0.9);
     text-align: center; }
     /* line 220, ../sass/front-page.scss */
@@ -584,7 +584,7 @@ a {
 
 /* line 514, ../sass/front-page.scss */
 .content-block {
-  background: url('../img/rgbapng/ffffffe5-5.png?1406283814');
+  background: url('../img/rgbapng/ffffffe5-5.png?1406286016');
   background: rgba(255, 255, 255, 0.9);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -929,7 +929,7 @@ h5 + p {
   background: #fff; }
   /* line 825, ../sass/front-page.scss */
   .splash .pay-logo {
-    background: #27F;
+    background: #E0E6ED;
     margin: -44px 0 -33px;
     position: relative;
     -webkit-border-radius: 0;
@@ -943,7 +943,7 @@ h5 + p {
       vertical-align: middle !important; }
     /* line 835, ../sass/front-page.scss */
     .splash .pay-logo tr p {
-      color: #fff; }
+      color: #000; }
     /* line 838, ../sass/front-page.scss */
     .splash .pay-logo tr .img-wrapper {
       -webkit-border-radius: 50%;
@@ -2235,7 +2235,7 @@ h5 + p {
     position: absolute;
     height: 100%;
     width: 100%;
-    background: url('../img/rgbapng/ffffff7f-5.png?1406283814');
+    background: url('../img/rgbapng/ffffff7f-5.png?1406286017');
     background: rgba(255, 255, 255, 0.5);
     z-index: 10;
     top: 0;
@@ -2574,7 +2574,7 @@ a.red {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url('../img/rgbapng/e0e6ede5-5.png?1406283814');
+  background: url('../img/rgbapng/e0e6ede5-5.png?1406286017');
   background: rgba(224, 230, 237, 0.9);
   z-index: -1;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
