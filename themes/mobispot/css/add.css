@@ -210,8 +210,6 @@ div.store-content {
 .b-message p {
   color: #0062ff;
 }
-<<<<<<< HEAD
-=======
 
 .error-page p a {
   border-bottom: 1px solid; 
@@ -221,4 +219,7 @@ div.store-content {
     padding: 18px 0px;
     display: block;
 }
->>>>>>> 8b10548caa50f2c0440468b81b323652e2cb5569
+
+.displaynone {
+    display: none;
+}
