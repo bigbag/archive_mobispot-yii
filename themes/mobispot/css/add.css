@@ -180,3 +180,6 @@ div.store-content {
     padding: 18px 0px;
     display: block;
 }
+.display_none {
+    display: none;
+}
