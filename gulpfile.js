@@ -24,7 +24,6 @@ gulp.task('css', function() {
 
     gulp.src([
         'themes/mobispot/css/add.css',
-        'themes/mobispot/css/a-slider.css',
     ])
     .pipe(rename('add.min.css'))
     .pipe(minifyCSS())
