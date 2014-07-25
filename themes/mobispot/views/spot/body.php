@@ -1,3 +1,5 @@
+<?php $this->mainBackground = 'main-bg-w.png'?>
+
 <div class="content-wrapper"
     ng-controller="SpotController"
     ng-init="spot.token=user.token; spot.discodes='<?php echo $curent_discodes;?>';general.views='<?php echo $curent_views;?>'">

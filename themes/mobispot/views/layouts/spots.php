@@ -8,7 +8,11 @@
 </head>
 <body ng-controller="UserController"
     ng-cloak class="ng-cloak"
-    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
+    ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'"
+    <?php if ($this->mainBackground):?>
+    style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground;?>)"
+    <?php endif;?>
+    >
     <div class="main spot">
         <?php include('block/header/spots.php'); ?>
         <?php echo $content; ?>
