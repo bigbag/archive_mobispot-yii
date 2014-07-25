@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="column twelve text-center toggle-active">
+    <div class="column twelve toggle-active">
         <a href="#actSpotForm" id="actSpot" class="add-spot toggle-box button round slideToThis">
             <i class="icon">&#xe015;</i>
             <span class="m-tooltip m-tooltip-open">

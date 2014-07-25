@@ -6,9 +6,16 @@
     </article>
     <footer class="footer-page">
         <ul class="left">
-            <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
-            <li><a href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
-
+            <li>
+                <a href="/readers">
+                    <?php echo Yii::t('phone', 'Device compatibility'); ?>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:helpme@mobispot.com">
+                    <?php echo Yii::t('general', 'Email us'); ?>
+                </a>
+            </li>
             <li class="lang">
                 <ul class="lang-list">
                     <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>">
