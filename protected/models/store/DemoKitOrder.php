@@ -25,21 +25,21 @@ class DemoKitOrder extends CActiveRecord
                     array(
                         'id' => 1,
                         'name' => Yii::t('store', 'Brace'),
-                        'img' => '/uploads/store/product/brace_blue.png',
+                        'img' => '/themes/mobispot/img/a_slider/wristband_blue.png',
                         'descr' => Yii::t('store', 'Unique NFC wristband from Mobispot. Waterproof and sexy.'),
                         'price' => 120
                     ),
                     array(
                         'id' => 2,
                         'name' => Yii::t('store', 'Key'),
-                        'img' => '/uploads/store/product/key_green.png',
+                        'img' => '/themes/mobispot/img/a_slider/keyfobs_green.png',
                         'descr' => Yii::t('store', 'Occupies no space in your pocket but brings all the power of NFC.'),
                         'price' => 120
                     ),
                     array(
                         'id' => 3,
                         'name' => Yii::t('store', 'Card'),
-                        'img' => '/uploads/store/product/card_red.png',
+                        'img' => '/themes/mobispot/img/a_slider/card_red.png',
                         'descr' => Yii::t('store', 'Choice of conservative ones. If you get bored - draw something on it.'),
                         'price' => 120
                     )
