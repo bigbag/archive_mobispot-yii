@@ -4,26 +4,32 @@ angular.module('mobispot').controller('DemokitController',
   function($scope, $http, $compile, $timeout, contentService) {
 
 
-$scope.dkitForm = function(e, index, checkValid, valid){
-  if ($scope.summ <= 0) {
+  $scope.dkitForm = function(e, index, checkValid, valid){
+    if ($scope.summ <= 0) {
+        return false;
+    }
+
+    if (typeof 'undefined' != checkValid && 1 == checkValid && !valid){
+      $scope.error.field = true;
       return false;
-  }
+    }
 
-  if (typeof 'undefined' != checkValid && 1 == checkValid && !valid){
-    contentService.setModal($scope.fillAllMessage, 'error');
-    return false;
-  }
+    index = --index;
 
-  index = --index;
+    var $tabItem = angular.element('.tab-item');
+    var $tabLink = angular.element('li','.get-up-nav');
+    $tabItem.removeClass('active');
+    $tabLink.removeClass('active');
+    angular.element($tabItem[index]).addClass('active');
+    angular.element($tabLink[index]).addClass('active');
 
-  var $tabItem = angular.element('.tab-item');
-  var $tabLink = angular.element('li','.get-up-nav');
-  $tabItem.removeClass('active');
-  $tabLink.removeClass('active');
-  angular.element($tabItem[index]).addClass('active');
-  angular.element($tabLink[index]).addClass('active');
+  };
 
-};
+  $scope.error = {};
+
+  $scope.$watch('order.name + order.email + order.phone + order.address + order.city + order.zip + order.country + order.shipping + order.payment', function() {
+      $scope.error.field = false;
+    });
 
   $scope.order = {
     name:'',
@@ -36,6 +42,7 @@ $scope.dkitForm = function(e, index, checkValid, valid){
     shipping: 1,
     payment: 1
   };
+
   $scope.products = {};
   $scope.max_product_id = 0;
   $scope.prices = {};
