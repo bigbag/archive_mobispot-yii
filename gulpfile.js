@@ -17,6 +17,7 @@ gulp.task('css', function() {
         'themes/mobispot/css/reset.css',
         'themes/mobispot/css/style.css',
         'themes/mobispot/css/front-page-slider.css',
+        'themes/mobispot/css/a-slider.css',
     ])
     .pipe(rename('style.min.css'))
     .pipe(minifyCSS())
@@ -24,7 +25,6 @@ gulp.task('css', function() {
 
     gulp.src([
         'themes/mobispot/css/add.css',
-        'themes/mobispot/css/a-slider.css',
     ])
     .pipe(rename('add.min.css'))
     .pipe(minifyCSS())

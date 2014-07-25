@@ -8,22 +8,6 @@ angular.module('mobispot').controller('UserController',
   $scope.modal = 'none';
   $scope.host_mobile = 0;
 
-  var prevSlide = function() {
-   angular.element('.slidesjs-previous').click();
-  };
-
-  var nextSlide = function() {
-    angular.element('.slidesjs-next').click();
-  };
-
-  var stopSlide = function() {
-    angular.element('.slidesjs-stop').click();
-  };
-
-  var startSlide = function() {
-    angular.element('.slidesjs-play').click();
-  };
-
   //Очистка значений
   $scope.setEmpty = function() {
     // $scope.user.email = '';

@@ -6,9 +6,16 @@
     </article>
     <footer class="footer-page">
         <ul class="left">
-            <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
-            <li><a href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
-
+            <li>
+                <a href="/readers">
+                    <?php echo Yii::t('phone', 'Device compatibility'); ?>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:helpme@mobispot.com">
+                    <?php echo Yii::t('general', 'Email us'); ?>
+                </a>
+            </li>
             <li class="lang">
                 <ul class="lang-list">
                     <li class="<?php echo ('en' == Yii::app()->language)?'current-lang':'' ?>">
@@ -195,6 +202,28 @@
                     <?php echo Yii::t('general', 'Spend less time paying for lunch, spend more time eating it. Mobispot works with your campus payment scheme.'); ?>
                 </p>
             </header>
+        </div>
+        <table class="info-table pay-logo">
+            <colgroup><col width="37%">
+            <col width="26%">
+
+            <col width="37%">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="img-wrapper">
+                            <img src="/themes/mobispot/img/info/pay-logo.png" alt="pay-logo">
+                        </div>
+                    </td>
+                    <td>
+                        <p><?php echo Yii::t('general', 'Look for the payment reader with our logo in your campus.'); ?></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="wrapper">
             <article  class="payment-item img-left">
                 <h3>
                     <?php echo Yii::t('general', 'Make your wristband pay for you'); ?>

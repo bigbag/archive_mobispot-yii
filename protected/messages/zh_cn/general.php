@@ -71,5 +71,6 @@
   'Campuses, retailers, e-wallets, transportation companies are welcomed.' => '我们高兴地与大家交往， 特别与校园，办公大楼，电子钱包，零售网和公共交通公司。',
   'Come on, drop a line to ' => '联系我们： ',
   'Email us' => '联系我们',
-  
+  'Look for the payment reader with our logo in your campus.' => '',
+
 );
