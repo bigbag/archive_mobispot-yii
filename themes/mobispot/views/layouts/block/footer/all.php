@@ -1,5 +1,5 @@
 <footer class="footer-page content">
-    <ul class="left">
+    <ul class="left info-links">
         <li>
             <a href="/readers">
                 <?php echo Yii::t('phone', 'Device compatibility'); ?>

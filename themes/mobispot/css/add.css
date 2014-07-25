@@ -183,3 +183,6 @@ div.store-content {
 .display_none {
     display: none;
 }
+
+.spot-all .content-wrapper {
+  margin-bottom: 0; }
