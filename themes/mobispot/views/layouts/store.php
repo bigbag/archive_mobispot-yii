@@ -9,10 +9,9 @@
     <body ng-controller="ProductController"
         ng-cloak class="ng-cloak"
         ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-        <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-
+<div ng-controller="UserController">
         <?php include('block/header/all.php'); ?>
-
+</div>
         <div class="row">
             <div class="large-12 columns singlebox-margin">
             <?php echo $content; ?>
