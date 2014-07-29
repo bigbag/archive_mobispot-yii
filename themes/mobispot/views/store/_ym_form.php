@@ -8,6 +8,12 @@
 <input type="hidden" name="CustAddr" size="43" value="<?php echo $order->address ?>">
 <input type="hidden" name="CustEMail" size="43" value="<?php echo $order->email ?>">
 <input type="hidden" name="OrderDetails" size="43" value="<?php echo Yii::t('store', 'Demo kit Mobispot') ?>">
+<?php if (!empty($successUrl)): ?>
+    <input type="hidden" name="shopSuccessURL" size="43" value="<?php echo $successUrl; ?>">
+<?php endif; ?>
+<?php if (!empty($failUrl)): ?>
+    <input type="hidden" name="shopFailURL" size="43" value="<?php echo $failUrl; ?>">
+<?php endif; ?>
 <input name="paymentType" value="<?php echo $action ?>" type="hidden">
 <!-- <br><input type="submit" value="Оплатить"><br> -->
 </form>
