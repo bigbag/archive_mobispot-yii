@@ -18,6 +18,10 @@ angular.module('mobispot').controller('UserController',
     $scope.result = {};
   };
 
+  $scope.hideModal = function() {
+    $scope.modal = 'none';
+  };
+
   //Инициализация датапикера
   angular.element('#birthday').datepicker({
     yearRange: '1900:-0',
@@ -31,7 +35,7 @@ angular.module('mobispot').controller('UserController',
 
   //Сторож модальных окон
   $scope.$watch('modal', function() {
-    $scope.setEmpty();
+    $scope.setEmpty($scope.modal);
     contentService.viewModal($scope.modal);
   });
 
@@ -44,13 +48,6 @@ angular.module('mobispot').controller('UserController',
         }
     });
   };
-
-  angular.element(document).on('keyup', function(e) {
-    if (!angular.isUndefined($scope.modal)  && ($scope.modal == 'none')) {
-      if (e.keyCode === 37) prevSlide();
-      if (e.keyCode === 39) nextSlide();
-    }
-  });
 
   //Автоопределение разрещения
   $scope.getResolution = function() {
