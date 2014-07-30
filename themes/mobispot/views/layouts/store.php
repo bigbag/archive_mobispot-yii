@@ -8,10 +8,11 @@
 
     <body ng-controller="ProductController"
         ng-cloak class="ng-cloak"
-        ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
-<div ng-controller="UserController">
+        ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'"
+        >
+    
         <?php include('block/header/all.php'); ?>
-</div>
+        
         <div class="row">
             <div class="large-12 columns singlebox-margin">
             <?php echo $content; ?>
