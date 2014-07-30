@@ -18,8 +18,13 @@
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon48.png">
-
-    <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
+    
+    <link rel="stylesheet" href="themes/mobispot/css/foundation3/foundation.min.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/reset.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/foundation_actual/foundation.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/a-slider.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/style.css">
+    <link rel="stylesheet" href="/themes/mobispot/css/add.css">
 
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">

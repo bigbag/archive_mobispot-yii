@@ -167,3 +167,7 @@ div.store-content {
 
 .spot-all .content-wrapper {
   margin-bottom: 0; }
+
+.store-body {
+  background-color: transparent;
+}
