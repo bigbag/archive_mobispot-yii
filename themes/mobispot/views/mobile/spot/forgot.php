@@ -1,4 +1,4 @@
-<div class="wrapper" ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>';host_mobile=1">
+<div class="wrapper" ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>';host_type='mobile'">
     <header>
         <ul class="lang">
             <li><a class="<?php echo ('ru' == Yii::app()->language)?'active':'' ?>" href="/service/lang/ru">RU</a></li>

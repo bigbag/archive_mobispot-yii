@@ -15,7 +15,9 @@
     >
     <div class="main spot spot-all">
         <?php include('block/header/all.php'); ?>
-        <?php echo $content; ?>
+        <div ng-click="hideModal()">
+            <?php echo $content; ?>
+        </div>
     </div>
 
     <?php include('block/footer/all.php'); ?>
