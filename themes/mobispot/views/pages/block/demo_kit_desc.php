@@ -1,4 +1,4 @@
-<div class="row tab-item active">
+<div class="row tab-item" ng-class="{active: (store.stage == 'desc')}">
     <div class="small-9 large-9 column">
         <h2><?php echo Yii::t('store', 'Mobispot demo-kit')?></h2>
         <p class="form-h clearfix">
@@ -32,7 +32,11 @@
             <div class="next-step" ng-init="summ=<?php echo $config['price']?>">
                 <h3><?php echo Yii::t('store', 'Price:')?> {{summ}} <?php echo Yii::t('store', 'USD')?></h3>
                 <p><?php echo Yii::t('store', 'Worldwide')?></p>
-                <a class="form-button button button-round" href="javascript:;" ng-click="dkitForm($event, '2')"><?php echo Yii::t('store', 'Make an order')?> >></a>
+                <a class="form-button button button-round"
+                    href="javascript:;"
+                    ng-click="store.stage = 'delivery'">
+                    <?php echo Yii::t('store', 'Make an order')?> >>
+                </a>
             </div>
         </div>
     </div>

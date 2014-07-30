@@ -1,6 +1,6 @@
-<div class="row tab-item">
+<div class="row tab-item" ng-class="{active: (store.stage == 'delivery')}">
     <a class="tab-back"
-        ng-click="dkitForm($event, '1')" href="javascript:;">
+        ng-click="store.stage = 'desc'" href="javascript:;">
         <i class="icon">&#xe602;&#xe602;</i>
     </a>
     <div class="small-9 large-9 column">
@@ -71,10 +71,14 @@
             </p>
         </div>
     </div>
-        <div class="small-3 large-3 column">
-                <div class="next-step">
-                    <h3><?php echo Yii::t('store', 'Final step')?></h3>
-                    <a class="form-button button button-round button-round_2line" href="javascript:;" ng-click="dkitForm($event, '3', 1, orderForm.$valid)"> <?php echo Yii::t('store', 'Payment and shipping')?> >></a>
-                </div>
+    <div class="small-3 large-3 column">
+        <div class="next-step">
+            <h3><?php echo Yii::t('store', 'Final step')?></h3>
+            <a class="form-button button button-round button-round_2line"
+                href="javascript:;"
+                ng-click="store.stage = 'shipping'">
+                <?php echo Yii::t('store', 'Payment and shipping')?> >>
+            </a>
         </div>
+    </div>
 </div>

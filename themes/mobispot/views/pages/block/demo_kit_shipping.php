@@ -1,6 +1,6 @@
-<div class="row tab-item">
+<div class="row tab-item" ng-class="{active: (store.stage == 'shipping')}">
     <a class="tab-back"
-        ng-click="dkitForm($event, '2')"
+        ng-click="store.stage = 'delivery'"
         href="javascript:;">
         <i class="icon">&#xe602;&#xe602;</i>
     </a>
