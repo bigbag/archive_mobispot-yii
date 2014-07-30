@@ -11,7 +11,7 @@
         ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
         <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
         <?php include('block/header/all.php'); ?>
-        <div ng-click="modal='none'">
+        <div ng-click="hideModal()">
             <?php echo $content; ?>
         </div>
     <?php include('block/script/all.php'); ?>

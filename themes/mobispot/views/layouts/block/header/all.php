@@ -1,5 +1,5 @@
-<header class="header-page">
-    <div class="hat-bar content" ng-controller="UserController">
+<header class="header-page" ng-init="host_type='desktop';">
+    <div class="hat-bar content">
         <h1 class="logo">
             <a href="/">
                 <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/img/logo_x2.png">
@@ -34,7 +34,7 @@
         </ul>
     </div>
     <?php if (Yii::app()->user->isGuest):?>
-    <div id="sign" class="show-block" ng-class="{active: (modal=='sign')}" ng-controller="UserController">
+    <div id="sign" class="show-block" ng-class="{active: (modal=='sign')}">
         <div class="form-block">
             <form name="loginForm" class="colum-form custom">
                 <div class="wrapper check">
@@ -88,7 +88,7 @@
             </form>
         </div>
     </div>
-    <div id="activation" class="show-block" ng-class="{active: (modal=='activation')}" ng-controller="UserController">
+    <div id="activation" class="show-block" ng-class="{active: (modal=='activation')}">
         <div class="form-block">
             <form class="colum-form custom" name="activForm">
                 <div class="wrapper check">
@@ -164,7 +164,7 @@
             </form>
         </div>
     </div>
-    <div id="forgot" class="show-block" ng-class="{active: (modal=='forgot')}" ng-controller="UserController">
+    <div id="forgot" class="show-block" ng-class="{active: (modal=='forgot')}">
         <div class="form-block">
             <form class="colum-form custom" name="recoveryForm">
             <label class="h-label" for="forgotPass">
