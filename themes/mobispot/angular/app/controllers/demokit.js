@@ -3,33 +3,18 @@
 angular.module('mobispot').controller('DemokitController',
   function($scope, $http, $compile, $timeout, contentService) {
 
-
-  $scope.dkitForm = function(e, index, checkValid, valid){
-    if ($scope.summ <= 0) {
-        return false;
-    }
-
-    if (typeof 'undefined' != checkValid && 1 == checkValid && !valid){
-      $scope.error.field = true;
-      return false;
-    }
-
-    index = --index;
-
-    var $tabItem = angular.element('.tab-item');
-    var $tabLink = angular.element('li','.get-up-nav');
-    $tabItem.removeClass('active');
-    $tabLink.removeClass('active');
-    angular.element($tabItem[index]).addClass('active');
-    angular.element($tabLink[index]).addClass('active');
-
-  };
-
   $scope.error = {};
+
+  $scope.$watch('store.stage', function() {
+      if ($scope.store.stage == 'shipping' && !$scope.orderForm.$valid) {
+        $scope.store.stage = 'delivery';
+        $scope.error.field = true;
+      }
+  });
 
   $scope.$watch('order.name + order.email + order.phone + order.address + order.city + order.zip + order.country + order.shipping + order.payment', function() {
       $scope.error.field = false;
-    });
+  });
 
   $scope.order = {
     name:'',
@@ -101,6 +86,8 @@ angular.module('mobispot').controller('DemokitController',
   };
 
   $scope.buyDemoKit = function(order) {
+    if (!$scope.orderForm.$valid) return false;
+
     if ($scope.toMain)
       window.location.href = '/';
     else {
@@ -111,13 +98,11 @@ angular.module('mobispot').controller('DemokitController',
             contentService.setModal(data.message, 'none');
             $scope.toMain = true;
             $scope.finishButton = $scope.toMainMessage;
-          }
-          else {
+          } else {
             angular.element('#demo-kit-block').after($compile(data.content)($scope));
             angular.element('#form-ym-pay').submit();
           }
-        }
-        else {
+        } else {
           contentService.setModal(data.message, 'error');
         }
       });
