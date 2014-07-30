@@ -6,7 +6,7 @@ angular.module('mobispot').controller('UserController',
   $scope.error = {};
   $scope.result = {};
   $scope.modal = 'none';
-  $scope.host_mobile = 0;
+  $scope.host_type = 'mobile';
 
   //Очистка значений
   $scope.setEmpty = function() {
@@ -36,7 +36,7 @@ angular.module('mobispot').controller('UserController',
   //Сторож модальных окон
   $scope.$watch('modal', function() {
     $scope.setEmpty($scope.modal);
-    contentService.viewModal($scope.modal);
+    contentService.desktopModal($scope.modal);
   });
 
   //Редактирование профиля пользователя
@@ -44,7 +44,7 @@ angular.module('mobispot').controller('UserController',
     $http.post('/user/editProfile',user).success(function(data) {
         if (data.error == 'no'){
           $scope.result.message = data.content;
-          contentService.viewModal('message');
+          contentService.desktopModal('message');
         }
     });
   };
@@ -102,17 +102,25 @@ angular.module('mobispot').controller('UserController',
         $scope.user.password = '';
         $scope.user.activ_code = '';
         $scope.user.terms = 0;
-        contentService.setModal(data.content, 'none');
+        if ($scope.host_type === 'mobile')
+          contentService.mobileModal(data.content, 'none');
+        else {
+          $scope.result.message = data.content;
+          contentService.desktopModal('message');
+        }
+
       }
       else if (data.error == 'email') {
         $scope.error.email = true;
         $scope.error.content = data.content;
-        contentService.setModal(data.content, 'error');
+        if ($scope.host_type === 'mobile')
+          contentService.mobileModal(data.content, 'error');
       }
       else if (data.error == 'code'){
         $scope.error.code = true;
         $scope.error.content = data.content;
-        contentService.setModal(data.content, 'error');
+        if ($scope.host_type === 'mobile')
+          contentService.mobileModal(data.content, 'error');
       }
     });
   };
@@ -125,17 +133,16 @@ angular.module('mobispot').controller('UserController',
       if (data.error == 'yes') {
         $scope.error.email = true;
         $scope.error.content = data.content;
-        if ($scope.host_mobile)
-            contentService.setModal(data.content, 'error');
+        if ($scope.host_type === 'mobile')
+            contentService.mobileModal(data.content, 'error');
       }
       else if (data.error == 'no'){
         $scope.user.email = '';
         $scope.result.message = data.content;
-
-        if ($scope.host_mobile)
-            contentService.setModal(data.content, 'none');
+        if ($scope.host_type === 'mobile')
+            contentService.mobileModal(data.content, 'none');
         else
-            contentService.viewModal('message');
+            contentService.desktopModal('message');
       }
     });
   };

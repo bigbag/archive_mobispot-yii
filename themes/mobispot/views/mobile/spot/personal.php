@@ -5,7 +5,7 @@
         user.token='<?php echo Yii::app()->request->csrfToken; ?>';
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
-        host_mobile=1;
+        host_type='desktop';
         spot.status=<?php echo $spot->status; ?>
         "
 >
