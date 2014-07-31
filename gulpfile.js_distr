@@ -1,71 +1,60 @@
-var gulp = require('gulp'), // Сообственно Gulp JS
-    minifyCSS = require('gulp-minify-css'), // Минификация CSS
-    uglify = require('gulp-uglify'), // Минификация JS
-    notify = require('gulp-notify'),
+var gulp = require('gulp'),
+    autoprefixer = require('gulp-autoprefixer'),
+    minifycss = require('gulp-minify-css'),
+    jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    concat = require('gulp-concat'),
     clean = require('gulp-clean'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
+    cssimport = require("gulp-cssimport"),
     cssPath = 'themes/mobispot/css/',
-    jsPath = 'themes/mobispot/js/',
-    tmpPath = 'tmp';
+    jsPath = 'themes/mobispot/js/';
 
-gulp.task('css', function() {
-    gulp.src('app/tmp', {read: false})
-    .pipe(clean());
-
-    gulp.src([
-        'themes/mobispot/css/reset.css',
-        'themes/mobispot/css/style.css',
-        'themes/mobispot/css/front-page.css',
-        'themes/mobispot/css/a-slider.css',
-    ])
-    .pipe(concat('style.min.css'))
-    .pipe(minifyCSS())
-    .pipe(gulp.dest(tmpPath));
-
-    gulp.src([
-        'themes/mobispot/css/add.css',
-    ])
-    .pipe(concat('add.min.css'))
-    .pipe(minifyCSS())
-    .pipe(gulp.dest(tmpPath));
-
-    gulp.src([
-        'themes/mobispot/css/foundation3/foundation.min.css',
-        'themes/mobispot/css/foundation_actual/foundation.min.css',
-        'tmp/style.min.css',
-        'tmp/add.min.css'
-    ])
-    .pipe(concat('all.min.css'))
-    .pipe(gulp.dest(cssPath));
-
-    gulp.src([
-        'themes/mobile/css/style.css'
-    ])
+gulp.task('mobile_view_style', function() {
+  return gulp.src('themes/mobile/css/style.css')
     .pipe(concat('style_mobile_view.min.css'))
-    .pipe(minifyCSS())
+    .pipe(cssimport())
+    .pipe(minifycss())
     .pipe(gulp.dest('themes/mobile/css/'));
-
-    gulp.src([
-        'themes/mobispot/css/mobile-style.css',
-        'themes/mobispot/css/mobile-add.css'
-    ])
-    .pipe(concat('style_mobile.min.css'))
-    .pipe(minifyCSS())
-    .pipe(gulp.dest('themes/mobispot/css/'));
-
 });
 
-gulp.task('js', function() {
-    gulp.src([
+gulp.task('mobile_style', function() {
+  return gulp.src([
+        'themes/mobispot/css/mobile-style.css',
+        'themes/mobispot/css/mobile-add.css'
+        ])
+    .pipe(concat('style_mobile.min.css'))
+    .pipe(cssimport())
+    .pipe(minifycss())
+    .pipe(gulp.dest('themes/mobispot/css/'));
+});
+
+gulp.task('desktop_style', function() {
+  return gulp.src([
+        'themes/mobispot/css/reset.css',
+        'themes/mobispot/css/foundation3/foundation.css',
+        'themes/mobispot/css/foundation_actual/foundation.css',
+        'themes/mobispot/css/front-page-slider.css',
+        'themes/mobispot/css/a-slider.css',
+        'themes/mobispot/css/style.css',
+        'themes/mobispot/css/add.css'
+        ])
+    .pipe(concat('all.min.css'))
+    .pipe(cssimport())
+    .pipe(minifycss())
+    .pipe(gulp.dest(cssPath));
+});
+
+gulp.task('scripts', function() {
+  return gulp.src([
         'themes/mobispot/js/script.js',
         'themes/mobispot/js/script-add.js',
         'themes/mobispot/js/scrollIt.min.js'
-    ])
+        ])
     .pipe(concat('script.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest(jsPath));
-
 });
 
-gulp.task('default', ['css', 'js']);
+gulp.task('default', [ 'desktop_style', 'mobile_style', 'mobile_view_style', 'scripts']);
