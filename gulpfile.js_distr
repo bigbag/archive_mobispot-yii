@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
-    minifycss = require('gulp-minify-css'),
+    minifyCss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     sourcemaps = require('gulp-sourcemaps'),
     cssimport = require("gulp-cssimport"),
+    ngAnnotate = require('gulp-ng-annotate'),
     cssPath = 'themes/mobispot/css/',
     jsPath = 'themes/mobispot/js/';
 
@@ -15,7 +16,7 @@ gulp.task('mobile_view_style', function() {
   return gulp.src('themes/mobile/css/style.css')
     .pipe(concat('style_mobile_view.min.css'))
     .pipe(cssimport())
-    .pipe(minifycss())
+    .pipe(minifyCss())
     .pipe(gulp.dest('themes/mobile/css/'));
 });
 
@@ -26,7 +27,7 @@ gulp.task('mobile_style', function() {
         ])
     .pipe(concat('style_mobile.min.css'))
     .pipe(cssimport())
-    .pipe(minifycss())
+    .pipe(minifyCss())
     .pipe(gulp.dest('themes/mobispot/css/'));
 });
 
@@ -42,7 +43,7 @@ gulp.task('desktop_style', function() {
         ])
     .pipe(concat('all.min.css'))
     .pipe(cssimport())
-    .pipe(minifycss())
+    .pipe(minifyCss())
     .pipe(gulp.dest(cssPath));
 });
 
@@ -57,4 +58,29 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest(jsPath));
 });
 
-gulp.task('default', [ 'desktop_style', 'mobile_style', 'mobile_view_style', 'scripts']);
+gulp.task('angular', function () {
+  return gulp.src([
+        'themes/mobispot/js/angular-cookies.min.js',
+        'themes/mobispot/angular/modules/sortable/src/sortable.js',
+        'themes/mobispot/angular/app/app.js',
+        'themes/mobispot/angular/app/service.js',
+        'themes/mobispot/angular/app/controllers/*.js'
+        ])
+    .pipe(sourcemaps.init())
+      .pipe(concat('app.min.js'))
+      .pipe(ngAnnotate())
+      .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('themes/mobispot/angular/'))
+});
+
+gulp.task('default', [
+    'angular',
+    'desktop_style',
+    'mobile_style',
+    'mobile_view_style',
+    'scripts']);
+
+gulp.task('watch', ['angular'], function () {
+  gulp.watch('themes/mobispot/angular/app/*.js', ['angular'])
+})
