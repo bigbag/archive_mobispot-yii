@@ -1,6 +1,5 @@
 <?php $this->pageTitle = Yii::t('store', 'Mobispot demo-kit'); ?>
 <?php $this->mainBackground = 'main-bg-w.png'?>
-<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/demokit.js"></script>'?>
 
 <div class="content-wrapper" ng-controller="DemokitController" >
     <div class="content-block"
