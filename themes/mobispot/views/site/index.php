@@ -1,4 +1,4 @@
-<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/slide.js"></script><script>
+<?php $this->blockFooterScript = '<script>
     $(function () {
         $.scrollIt();
     });

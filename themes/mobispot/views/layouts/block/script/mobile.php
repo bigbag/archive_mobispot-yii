@@ -1,10 +1,7 @@
     <script src="/themes/mobispot/js/jquery-ui.min.js"></script>
 
-    <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
-    <script>angular.module('mobispot', ['ngCookies']);</script>
-    <script src="/themes/mobispot/angular/app/service.js"></script>
-    <script src="/themes/mobispot/angular/app/controllers/user.js"></script>
-    <script src="/themes/mobispot/angular/app/controllers/spot.js"></script>
+    <script src="/themes/mobispot/angular/modules/autofill-event.js"></script>
+    <script src="/themes/mobispot/angular/app.min.js"></script>
 
     <?php echo $this->blockFooterScript; ?>
     <script src="/themes/mobispot/js/script.min.js"></script>
