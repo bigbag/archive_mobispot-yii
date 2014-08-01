@@ -10,7 +10,6 @@ angular.module('mobispot').controller('UserController',
 
   //Очистка значений
   $scope.setEmpty = function() {
-    // $scope.user.email = '';
     $scope.user.password = '';
     $scope.user.terms = 0;
 
