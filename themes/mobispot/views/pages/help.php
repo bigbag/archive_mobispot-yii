@@ -1,6 +1,5 @@
 <?php $this->pageTitle = Yii::t('phone', 'Help'); ?>
 <?php $this->mainBackground = 'main_bg_1.jpg'?>
-<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/help.js"></script>'?>
 
 <div class="content-wrapper">
     <div class="content-block" ng-controller="HelpController" >

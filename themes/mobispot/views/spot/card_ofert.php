@@ -1,5 +1,4 @@
 <?php $this->pageTitle = Yii::t('spot', 'User agreement confirmation'); ?>
-<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/spot.js"></script>'?>
 <div class="main message-page ng-cloak" ng-cloak>
     <div class="header-page">
         <div class="hat-bar content">
