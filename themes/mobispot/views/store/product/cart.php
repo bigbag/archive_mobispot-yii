@@ -1,4 +1,6 @@
-<div class="m-content-block store-content"  ng-controller="CartController" ng-init="CartInit()">
+<?php $this->mainBackground = 'main-bg-w.png'?>
+<div class="content-wrapper">
+<div class="content-block m-content-block store-content"  ng-controller="CartController" ng-init="CartInit()">
     <table class="twelve store-items store-items__bag">
         <tbody ng-cloak>
             <tr>
@@ -97,13 +99,15 @@
         </tbody>
     </table>
 
-    <div id="promoForm" class="six columns">
+    <div id="promoForm" class="six columns custom">
         <div class="label">
             <?php echo Yii::t('store', 'Got a promo-code? Put it in here and get your discount.'); ?>
         </div>
+        <div class="half">
         <input
             type="text"
             name="promo"
+            ng-class="{error: promoError}"
             ng-model="discount.promoCode"
             placeholder="<?php echo Yii::t('store', 'Promo-code'); ?>">
         <a
@@ -112,6 +116,7 @@
             ng-click="confirmPromo()">
             <?php echo Yii::t('store', 'Confirm'); ?>
         </a>
+        </div>
     </div>
 
     <div class="twelve total-amount clearfix">
@@ -121,6 +126,7 @@
             {{summ}}<span class="icon currency">&#xe019;</span>
         </h1>
         <a
+            id="store-checkout"
             class="spot-button right {{ summ || 'button-disable'}}"
             ng-click="checkOut()">
             <?php echo Yii::t('store', 'Proceed to checkout'); ?>
@@ -130,7 +136,7 @@
 
     <div id="proceedNextForm" class="row sub-proceed hide-content-box">
         <div class="row">
-            <form name="formCustomer" class="customer-info clearfix">
+            <form name="formCustomer" class="customer-info clearfix custom">
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'New customer'); ?></h3>
                     <input
@@ -204,7 +210,7 @@
         </div>
         <div id="deliveryStep">
             <div id="proceedFinishForm" class="hide-content-box">
-                <div class="row row__magrin-b buy-options">
+                <div class="row buy-options">
                     <div class="six columns">
                         <h3><?php echo Yii::t('store', 'Delivery'); ?></h3>
                         <span>
@@ -219,7 +225,7 @@
                                         <a
                                             class="radio-link"
                                             ng-click="setDelivery(delivery.id)">
-                                            <i class="large"></i>{{delivery.name}}
+                                            <i></i>{{delivery.name}}
                                         </a>
                                     </td>
                                     <td>
@@ -233,7 +239,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="buy-options">
+                <div class="row buy-options">
                     <div class="six columns">
                         <h3>
                             <?php echo Yii::t('store', 'Payment'); ?>
@@ -248,7 +254,7 @@
                                 <a
                                     class="radio-link"
                                     ng-click="setPayment(payment.id)">
-                                    <i class="large"></i>
+                                    <i></i>
                                     {{payment.caption}}
                                 </a>
                             </li>
@@ -269,4 +275,7 @@
             </div>
         </div>
     </div>
+    <div class="bag-footer">
+    </div>
+</div>
 </div>

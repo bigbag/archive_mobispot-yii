@@ -6,7 +6,7 @@
   '+$70 (2-3 days)' => '+70 $ (2-3 дня)',
   'API description in.pdf' => 'Описание API в .pdf',
   'Add to cart' => 'Добавить',
-  'Add to cart added' => 'Добавить в корзину',
+  'Added to cart: ' => 'Добавлено в корзину: ',
   'Added' => 'Добавлено',
   'Address' => 'Адрес',
   'All fields are required' => 'Все поля обязательны',
