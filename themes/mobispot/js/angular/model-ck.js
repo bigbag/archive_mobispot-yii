@@ -1,1 +1,0 @@
-function Ctrl(e){e.user={name:"",last:"visitor"}};

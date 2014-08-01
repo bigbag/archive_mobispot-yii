@@ -1,0 +1,86 @@
+var gulp = require('gulp'),
+    autoprefixer = require('gulp-autoprefixer'),
+    minifyCss = require('gulp-minify-css'),
+    jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
+    clean = require('gulp-clean'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
+    cssimport = require("gulp-cssimport"),
+    ngAnnotate = require('gulp-ng-annotate'),
+    cssPath = 'themes/mobispot/css/',
+    jsPath = 'themes/mobispot/js/';
+
+gulp.task('mobile_view_style', function() {
+  return gulp.src('themes/mobile/css/style.css')
+    .pipe(concat('style_mobile_view.min.css'))
+    .pipe(cssimport())
+    .pipe(minifyCss())
+    .pipe(gulp.dest('themes/mobile/css/'));
+});
+
+gulp.task('mobile_style', function() {
+  return gulp.src([
+        'themes/mobispot/css/mobile-style.css',
+        'themes/mobispot/css/mobile-add.css'
+        ])
+    .pipe(concat('style_mobile.min.css'))
+    .pipe(cssimport())
+    .pipe(minifyCss())
+    .pipe(gulp.dest('themes/mobispot/css/'));
+});
+
+gulp.task('desktop_style', function() {
+  return gulp.src([
+        'themes/mobispot/css/reset.css',
+        'themes/mobispot/css/foundation3/foundation.css',
+        'themes/mobispot/css/foundation_actual/foundation.css',
+        'themes/mobispot/css/front-page-slider.css',
+        'themes/mobispot/css/a-slider.css',
+        'themes/mobispot/css/style.css',
+        'themes/mobispot/css/add.css'
+        ])
+    .pipe(concat('all.min.css'))
+    .pipe(cssimport())
+    .pipe(minifyCss())
+    .pipe(gulp.dest(cssPath));
+});
+
+gulp.task('scripts', function() {
+  return gulp.src([
+        'themes/mobispot/js/script.js',
+        'themes/mobispot/js/script-add.js',
+        'themes/mobispot/js/scrollIt.min.js'
+        ])
+    .pipe(concat('script.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsPath));
+});
+
+gulp.task('angular', function () {
+  return gulp.src([
+        'themes/mobispot/js/angular-cookies.min.js',
+        'themes/mobispot/angular/modules/sortable/src/sortable.js',
+        'themes/mobispot/angular/app/app.js',
+        'themes/mobispot/angular/app/service.js',
+        'themes/mobispot/angular/app/controllers/*.js'
+        ])
+    .pipe(sourcemaps.init())
+      .pipe(concat('app.min.js'))
+      .pipe(ngAnnotate())
+      .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('themes/mobispot/angular/'))
+});
+
+gulp.task('default', [
+    'angular',
+    'desktop_style',
+    'mobile_style',
+    'mobile_view_style',
+    'scripts']);
+
+gulp.task('watch', ['angular'], function () {
+  gulp.watch('themes/mobispot/angular/app/*.js', ['angular'])
+})

@@ -34,9 +34,9 @@
   'Once registered your Spot link it to your bank card - fast and absolutely secure. Now your wristband’s payment feature is powered.' => '注册以后，把腕带同银行卡联系起来<br>
 ­ 又安全，又快。现在腕带的付款工<br> 具是激活的。',
   'Tap to pay' => '一触，就付',
-  'Find Mobispot payment reader in your campus. Tap your wristband to the reader to purchase coffee, snacks or lunch.' => '在校园找到付款阅读机。为了买水、咖啡和零食，把腕带触及<br> 阅读机。',
+  'Find Mobispot payment reader in your campus. Tap your wristband to the reader to purchase coffee, snacks or lunch.' => '在校园找到付款阅读机。为了买水、咖啡和零食，<wbr>把腕带触及<br> 阅读机。',
   'Manage spendings' => '控制开支',
-  'Track all your spendings at your personal account. Link even more banking cards to have several sources of money for your in-campus payments.' => '在用户中心控制一切开支。连同几个银行卡也可以联系<br>
+  'Track all your spendings at your personal account. Link even more banking cards to have several sources of money for your in-campus payments.' => '在用户中心控制一切开支。连同几个银行卡也可以联系，<br>
 以便在校园里总是有可用资金。',
   'Make a lasting connection' => '建立联系',
   'Met someone? Share your details instantly with Mobispot. Like something? Share it, and brands can share right back.' => '认识了新朋友? 轻松刷“环”, 与好友们分享自己的全部. 点赞了网页? 获得各种名牌的折扣和优惠',

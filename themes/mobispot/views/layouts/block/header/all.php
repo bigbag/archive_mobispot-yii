@@ -1,4 +1,4 @@
-<header class="header-page">
+<header class="header-page" ng-init="host_type='desktop';">
     <div class="hat-bar content">
         <h1 class="logo">
             <a href="/">

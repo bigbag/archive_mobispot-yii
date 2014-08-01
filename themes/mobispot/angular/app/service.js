@@ -3,7 +3,7 @@
 angular.module('mobispot').service('contentService', function() {
 
     //Отображение модального окна
-    this.viewModal = function(action, speed){
+    this.desktopModal = function(action, speed){
       if (angular.isUndefined(speed)) speed = 500;
 
       angular.element('.lang-list').fadeOut();
@@ -24,6 +24,22 @@ angular.module('mobispot').service('contentService', function() {
       }
     };
 
+    this.mobileModal = function(content, type){
+      var resultModal = angular.element('.m-result');
+      var resultContent = resultModal.find('p');
+
+      resultModal.removeClass('m-negative');
+      if (type == 'error') {
+          resultModal.addClass('m-negative');
+      }
+      resultModal.hide();
+      resultModal.show();
+      resultContent.text(content);
+      setTimeout(function(){
+        resultModal.hide();
+      }, 5000);
+    };
+
     //Автоскролинг до нужного блока
     this.scrollPage = function(id, speed){
       if (angular.isUndefined(speed)) speed = 600;
@@ -32,21 +48,4 @@ angular.module('mobispot').service('contentService', function() {
           scrollTop: scroll_height
         }, speed);
     };
-
-    var resultModal = angular.element('.m-result');
-    var resultContent = resultModal.find('p');
-
-    //Вызываем модальное окно
-    this.setModal = function(content, type){
-        resultModal.removeClass('m-negative');
-        if (type == 'error') {
-            resultModal.addClass('m-negative');
-        }
-        resultModal.hide();
-        resultModal.show();
-        resultContent.text(content);
-        setTimeout(function(){
-          resultModal.hide();
-        }, 5000);
-      };
 });

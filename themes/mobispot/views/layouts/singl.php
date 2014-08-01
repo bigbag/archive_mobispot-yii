@@ -26,9 +26,7 @@
 <body class="ofert-page">
     <?php echo $content; ?>
 
-    <script src="/themes/mobispot/js/angular-cookies.min.js"></script>
-    <script>angular.module('mobispot', ['ngCookies']);</script>
-    <script src="/themes/mobispot/angular/app/service.js"></script>
+    <script src="/themes/mobispot/angular/app.min.js"></script>
     <?php echo $this->blockFooterScript; ?>
     <script>$(document).foundation();</script>
 

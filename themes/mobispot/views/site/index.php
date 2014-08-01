@@ -1,4 +1,4 @@
-<?php $this->blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/slide.js"></script><script>
+<?php $this->blockFooterScript = '<script>
     $(function () {
         $.scrollIt();
     });
@@ -92,37 +92,50 @@
                     </p>
                     <ul class="color-list">
                         <li ng-click="fadeTo(wristband, 1)"
+                            ng-class="{active: 1 == wristband.current}"
                             style="background: #0062FF"></li>
                         <li ng-click="fadeTo(wristband, 3)"
+                            ng-class="{active: 3 == wristband.current}"
                             style="background: #5AC0B9" ></li>
                         <li ng-click="fadeTo(wristband, 4)"
+                            ng-class="{active: 4 == wristband.current}"
                             style="background: #d5d850" ></li>
                         <li ng-click="fadeTo(wristband, 2)"
+                            ng-class="{active: 2 == wristband.current}"
                             style="background: #AB2640" ></li>
                         <li ng-click="fadeTo(wristband, 12)"
+                            ng-class="{active: 12 == wristband.current}"
                             style="background: #c7cacc" ></li>
                         <li ng-click="fadeTo(wristband, 0)"
+                            ng-class="{active: 0 == wristband.current}"
                             style="background: #000"></li>
                         <li class="wri-p1 wri-pattern"
                             ng-click="fadeTo(wristband, 5)"
+                            ng-class="{active: 5 == wristband.current}"
                             style="background: #5AC0B9" ></li>
                         <li class="wri-p6 wri-pattern"
                             ng-click="fadeTo(wristband, 10)"
+                            ng-class="{active: 10 == wristband.current}"
                             style="background: #5AC0B9" ></li>
                         <li class="wri-p3 wri-pattern"
                             ng-click="fadeTo(wristband, 7)"
+                            ng-class="{active: 7 == wristband.current}"
                             style="background: #AB2640" ></li>
                         <li class="wri-p7 wri-pattern"
                             ng-click="fadeTo(wristband, 11)"
+                            ng-class="{active: 11 == wristband.current}"
                             style="background: #AB2640" ></li>
                         <li class="wri-p4 wri-pattern"
                             ng-click="fadeTo(wristband, 8)"
+                            ng-class="{active: 8 == wristband.current}"
                             style="background: #000" ></li>
                         <li class="wri-p5 wri-pattern"
                             ng-click="fadeTo(wristband, 9)"
+                            ng-class="{active: 9 == wristband.current}"
                             style="background: #000" ></li>
                         <li class="wri-p2 wri-pattern"
                             ng-click="fadeTo(wristband, 6)"
+                            ng-class="{active: 6 == wristband.current}"
                             style="background: #0062FF" ></li>
                     </ul>
                 <div class="img-wrapper mainimageshell viewwindow">
@@ -143,17 +156,23 @@
                     </p>
                     <ul class="color-list">
                             <li ng-click="fadeTo(cards, 1)"
+                                ng-class="{active: 1 == cards.current}"
                                 style="background: #0062FF"></li>
                             <li ng-click="fadeTo(cards, 2)"
+                                ng-class="{active: 2 == cards.current}"
                                 style="background: #5AC0B9" ></li>
                             <li ng-click="fadeTo(cards, 4)"
+                                ng-class="{active: 4 == cards.current}"
                                 style="background: #d5d850" ></li>
                             <li ng-click="fadeTo(cards, 3)"
+                                ng-class="{active: 3 == cards.current}"
                                 style="background: #AB2640" ></li>
                             <li class="white"
                                 ng-click="fadeTo(cards, 5)"
+                                ng-class="{active: 5 == cards.current}"
                                 style="background: #fff" ></li>
                             <li ng-click="fadeTo(cards, 0)"
+                                ng-class="{active: 0 == cards.current}"
                                 style="background: #000"></li>
                     </ul>
                     <div class="img-wrapper mainimageshell viewwindow">
@@ -173,17 +192,23 @@
                     <p><?php echo Yii::t('store', 'Occupies no space in your pocket but brings all the power of NFC.'); ?></p>
                     <ul class="color-list">
                         <li ng-click="fadeTo(keyfobs, 4)"
+                            ng-class="{active: 4 == keyfobs.current}"
                             style="background: #0062FF" ></li>
                         <li ng-click="fadeTo(keyfobs, 2)"
+                            ng-class="{active: 2 == keyfobs.current}"
                             style="background: #5AC0B9" ></li>
                         <li ng-click="fadeTo(keyfobs, 3)"
+                            ng-class="{active: 3 == keyfobs.current}"
                             style="background: #d5d850" ></li>
                         <li ng-click="fadeTo(keyfobs, 1)"
+                            ng-class="{active: 1 == keyfobs.current}"
                             style="background: #AB2640" ></li>
                         <li class="white"
                             ng-click="fadeTo(keyfobs, 5)"
+                            ng-class="{active: 5 == keyfobs.current}"
                             style="background: #fff" ></li>
                         <li ng-click="fadeTo(keyfobs, 0)"
+                            ng-class="{active: 0 == keyfobs.current}"
                             style="background: #000"></li>
                     </ul>
                     <div class="img-wrapper mainimageshell viewwindow">
