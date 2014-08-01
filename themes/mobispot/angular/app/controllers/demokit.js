@@ -95,7 +95,8 @@ angular.module('mobispot').controller('DemokitController',
       $http.post('/service/buyDemoKit', order).success(function(data) {
         if (data.error == 'no'){
           if ('email' == data.action) {
-            contentService.setModal(data.message, 'none');
+            $scope.result.message = data.message;
+            contentService.desktopModal('message');
             $scope.toMain = true;
             $scope.finishButton = $scope.toMainMessage;
           } else {
@@ -103,7 +104,8 @@ angular.module('mobispot').controller('DemokitController',
             angular.element('#form-ym-pay').submit();
           }
         } else {
-          contentService.setModal(data.message, 'error');
+          $scope.result.message = data.message;
+          contentService.desktopModal('message');
         }
       });
     }

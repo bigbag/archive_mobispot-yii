@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div id="menu" class="main-menu">
-        <ul ng-controller="UserCtrl" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>'">
+        <ul ng-controller="UserController" ng-init="user.token='<?php echo Yii::app()->request->csrfToken; ?>'">
             <li><a href="/spot/addSpot"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
             <li><a href="/user/profile/"><i class="icon">&#xe60f;</i><?php echo Yii::t('user', 'Profile'); ?></a></li>
             <li><a href="/service/logout/"><i class="icon">&#xe610;</i><?php echo Yii::t('user', 'Log Out'); ?></a></li>
