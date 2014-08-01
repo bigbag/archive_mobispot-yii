@@ -1,4 +1,6 @@
-<div class="m-content-block store-content"
+<?php $this->mainBackground = 'main-bg-w.png'?>
+<div class="content-wrapper">
+<div class="content-block m-content-block store-content"
     ng-controller="ProductController"
     ng-init="StoreInit()">
     <table class="twelve store-items">
@@ -87,13 +89,15 @@
             </tr>
         </tbody>
     </table>
-    <div ng-hide="items.count < 1">
+    <div class="bag-wrapper" ng-hide="items.count < 1">
         <a class="bag-link" href="/store/product/cart">
             <span class="icon">&#xe01a;</span>
-            <h3><?php echo Yii::t('store', 'Add to cart added')?> {{items.count}}<?php echo Yii::t('store', ' spot')?></h3>
+            <h3><?php echo Yii::t('store', 'Added to cart: ')?> {{items.count}}<?php echo Yii::t('store', ' spot')?></h3>
             <div><?php echo Yii::t('store', 'Go to registration'); ?></div>
             <i>></i>
         </a>
+    </div>
+    <div class="bag-footer">
     </div>
 </div>
 
@@ -106,4 +110,6 @@
         <img src="/themes/mobispot/images/icons/i-bag.2x.png" height="115">
         <span>{{items.count}}</span>
     </a>
+</div>
+
 </div>

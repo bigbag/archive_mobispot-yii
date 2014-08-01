@@ -171,3 +171,24 @@ div.store-content {
 .store-body {
   background-color: transparent;
 }
+
+div.bag-footer {
+    margin-bottom:112px;
+}
+
+div.twelve.total-amount.clearfix {
+    position:static;
+}
+
+#codeConfirm {
+    margin-top: 10px;
+}
+
+#store-checkout {
+    position: relative;
+    top: 100px;
+}
+
+.half {
+    width:50%;
+}

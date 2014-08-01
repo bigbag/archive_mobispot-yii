@@ -3,8 +3,9 @@
 class ProductController extends MController
 {
 
-    public $layout = '//layouts/store';
+    public $layout = '//layouts/all';
     public $imagePath = '/themes/mobispot/images/product/';
+    public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
     public function actionIndex()
     {
