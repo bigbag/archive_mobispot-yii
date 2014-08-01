@@ -159,6 +159,8 @@ angular.module('mobispot').controller('ProductController',
 
 angular.module('mobispot').controller('CartController',
   function($scope, $http, $compile, $timeout, contentService) {
+    $scope.promoError = false;
+  
     $scope.CartInit = function(){
         $scope.summ = 0;
         var data = {token: $scope.user.token};
@@ -421,11 +423,12 @@ angular.module('mobispot').controller('CartController',
     $scope.confirmPromo = function(){
         if(!$scope.inRequest){
             $scope.inRequest = true;
+            $scope.promoError = false;
 
             var data = {token: $scope.user.token, promoCode: $scope.discount.promoCode};
             $http.post(('/store/product/ConfirmPromo'), data).success(function(data, status) {
                 if (data.error == 'no'){
-                    angular.element('#promoForm input[name=promo]').removeClass('error');
+                    $scope.promoError = false;
                     var oldDiscount = $scope.discount.summ;
                     $scope.discount = data.discount;
                     if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
@@ -451,15 +454,16 @@ angular.module('mobispot').controller('CartController',
                 }
                 else
                 {
-                    angular.element('#promoForm input[name=promo]').addClass('error');
+                    $scope.promoError = true;
                     if ($scope.discount.summ > 0){
                         $scope.summ += parseFloat($scope.discount.summ);
                         $scope.discount.summ = 0;
                     }
-                    contentService.setModal(data.error, 'error');
+                    $scope.result.message = data.error;
+                    contentService.desktopModal('message');
                 }
             }).error(function(error){
-                angular.element('#promoForm input[name=promo]').addClass('error');
+                $scope.promoError = true;
                 if ($scope.discount.summ > 0){
                     $scope.summ += parseFloat($scope.discount.summ);
                     $scope.discount.summ = 0;
@@ -487,7 +491,8 @@ angular.module('mobispot').controller('CartController',
                     }, 600);
                 }
                 else{
-                    contentService.setModal(data.error, 'error');
+                    $scope.result.message = data.error;
+                    contentService.desktopModal('message');
                 }
             });
 
@@ -515,7 +520,8 @@ angular.module('mobispot').controller('CartController',
                 }
             }
             else
-               contentService.setModal(data.error, 'error');
+               $scope.result.message = data.error;
+               contentService.desktopModal('message');
         });
     };
 
