@@ -535,7 +535,7 @@ class StoreCart extends CFormModel
     {
         $error = Yii::t('store', 'Please complete all required fields!');
 
-        $customer = $this->getModelCustomer($newCustomer, 'Customer');
+        $customer = $this->getModelCustomer($newCustomer, 'StoreCustomer');
         if ($customer->validate()) {
             $customer->save();
 
