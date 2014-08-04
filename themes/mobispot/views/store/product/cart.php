@@ -142,17 +142,20 @@
                     <input
                         type="text"
                         ng-model="customer.first_name"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'First name'); ?>"
                         required>
                     <input
                         type="text"
                         ng-model="customer.last_name"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
                         required>
                     <input
                         type="email"
                         name="email"
                         ng-model="customer.email"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Email address'); ?>"
                         required>
                 </div>
@@ -160,42 +163,48 @@
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
                     <input
                         type="text"
-                        ng-model="customer.target_first_name"
+                        ng-model="customer.target_first_name"ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'First name'); ?>"
                         required>
                     <input
                         type="text"
                         ng-model="customer.target_last_name"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Last name'); ?>"
                         required>
                     <input
                         type="text"
                         name="phone"
                         ng-model="customer.phone"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Phone'); ?>"
                         required>
                     <input
                         type="text"
                         name="address"
                         ng-model="customer.address"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Address'); ?>"
                         required>
                     <input
                         type="text"
                         name="city"
                         ng-model="customer.city"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'City'); ?>"
                         required>
                     <input
                         type="text"
                         name="zip"
                         ng-model="customer.zip"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Zip / Postal code'); ?>"
                         required>
                     <input
                         type="text"
                         name="country"
                         ng-model="customer.country"
+                        ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>"
                         required>
                     <a
@@ -204,6 +213,7 @@
                         ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
                     </a>
+                    <span ng-init="customerHint='<?php echo Yii::t('store', 'All the fields must be filled. Please be careful.'); ?>'"></span>
                 </div>
             </form>
 
