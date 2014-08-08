@@ -1,10 +1,14 @@
 <?php $this->pageTitle = Yii::t('error', 'Error'); ?>
-<div class="content-wrapper error-page ng-cloak" ng-cloak>
-    <?php if (!empty($openLoginForm)): ?>
-        <span ng-init="modal='sign'"></span>
-    <?php endif; ?>
-    
-    <?php if ($code != 403): ?>
+<div class="main error-page ng-cloak" ng-cloak>
+    <div class="header-page">
+        <div class="hat-bar content">
+            <h1 class="logo">
+                <a href="/">
+                    <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/img/logo_x2.png">
+                </a>
+            </h1>
+        </div>
+    </div>
     <div class="content-wrapper">
         <div class="error-block">
             <div class="row">
@@ -21,7 +25,6 @@
                     <p>
                         <?php echo Yii::t('error', 'If you believe that something is going wrong please connect with us and we will fix it.') ?>
                     </p>
-                
                     <footer>
                         <a class="color" href="/help"><?php echo Yii::t('error', 'Get help!') ?></a>
                         <a class="color" href="mailto:helpme@mobispot.com">helpme@mobispot.com</a>
@@ -34,5 +37,4 @@
             </div>
         </div>
     </div>
-    <?php endif; ?> 
 </div>
