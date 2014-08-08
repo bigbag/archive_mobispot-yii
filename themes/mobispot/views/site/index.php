@@ -4,7 +4,7 @@
     });
 </script>'?>
 
-<div class="first-screen">
+<div class="first-screen" >
     <article class="text-block">
         <h1><?php echo Yii::t('general', 'Connect digital<br> & real via NFC') ?></h1>
             <p><?php echo Yii::t('general', 'Pay. Ride. Share. Get rewards.') ?></p>

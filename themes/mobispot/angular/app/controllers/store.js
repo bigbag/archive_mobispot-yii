@@ -160,6 +160,7 @@ angular.module('mobispot').controller('ProductController',
 angular.module('mobispot').controller('CartController',
   function($scope, $http, $compile, $timeout, contentService) {
     $scope.promoError = false;
+    $scope.customerError = false;
   
     $scope.CartInit = function(){
         $scope.summ = 0;
@@ -420,18 +421,17 @@ angular.module('mobispot').controller('CartController',
         }
     };
 
-    $scope.confirmPromo = function(){
-        if(!$scope.inRequest){
+    $scope.confirmPromo = function() {
+        if(!$scope.inRequest) {
             $scope.inRequest = true;
-            $scope.promoError = false;
 
             var data = {token: $scope.user.token, promoCode: $scope.discount.promoCode};
             $http.post(('/store/product/ConfirmPromo'), data).success(function(data, status) {
-                if (data.error == 'no'){
+                if (data.error == 'no') {
                     $scope.promoError = false;
                     var oldDiscount = $scope.discount.summ;
                     $scope.discount = data.discount;
-                    if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0){
+                    if (typeof $scope.discount.products != 'undefined' && $scope.discount.products.length > 0) {
                         $scope.discount.summ = 0;
                         for (var i = 0; i < $scope.products.length; i++) {
                             for (var j = 0; j < $scope.discount.products.length; j++) {
@@ -473,9 +473,19 @@ angular.module('mobispot').controller('CartController',
         }
         $scope.inRequest = false;
     };
+    
+    $scope.$watch('discount.promoCode', function()
+    {
+      $scope.promoError = false;
+    });
 
-    $scope.saveCustomer = function(valid){
-        if (!valid ) return false;
+    $scope.saveCustomer = function(valid) {
+        if (!valid ) { 
+            $scope.customerError = true;
+            $scope.result.message = $scope.customerHint;
+            contentService.desktopModal('message');
+            return false;
+        }
         if ($scope.summ === 0)  return false;
 
         if(!$scope.inRequest){
@@ -491,6 +501,7 @@ angular.module('mobispot').controller('CartController',
                     }, 600);
                 }
                 else{
+                    $scope.customerError = true;
                     $scope.result.message = data.error;
                     contentService.desktopModal('message');
                 }
@@ -499,6 +510,11 @@ angular.module('mobispot').controller('CartController',
             $scope.inRequest = false;
         }
     };
+    
+    $scope.$watch('customer.first_name + customer.last_name + customer.email + customer.target_first_name + customer.target_last_name + customer.phone + customer.address + customer.city + customer.zip + customer.country', function()
+    {
+      $scope.customerError = false;
+    });
 
     $scope.buy = function(){
 

@@ -74,7 +74,10 @@ angular.module('mobispot').controller('UserController',
           $scope.error.content = data.content;
       }
       else if (data.error == 'no'){
-        angular.element(location).attr('href','/spot/list/');
+        if (angular.isUndefined(data.access_url) || !data.access_url.length)
+          angular.element(location).attr('href','/spot/list/');
+        else
+          angular.element(location).attr('href',data.access_url);
       }
       else {
         angular.element(location).attr('href','/');
@@ -156,4 +159,16 @@ angular.module('mobispot').controller('UserController',
       }
     });
   };
+  
+  $scope.messageModal = function(text) {
+    if (angular.isUndefined(text) || !text.length)
+        return false;
+
+    $scope.result.message = text;
+    if ($scope.host_type === 'mobile')
+      contentService.mobileModal(text, 'none');
+    else
+      contentService.desktopModal('message');
+  }
+  
 });

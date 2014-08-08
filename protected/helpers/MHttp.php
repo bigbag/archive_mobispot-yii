@@ -6,6 +6,9 @@ class MHttp
 
     public static function setAccess()
     {
+        if (!Yii::app()->request->isPostRequest)
+            Yii::app()->session['access_url'] = Yii::app()->request->requestUri;
+        
         throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
     }
 
