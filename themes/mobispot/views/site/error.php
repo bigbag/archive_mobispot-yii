@@ -8,7 +8,7 @@
         <div class="error-block">
             <div class="row">
                 <div class="content-block p-error-txt">
-                    <?php if ($code != 403): ?>
+                    <?php //if ($code != 403): ?>
                         <?php if ($code == 404): ?>
                             <h2>
                                 <?php echo Yii::t('error', 'The page you wanted doesn’t exist.') ?>
@@ -30,7 +30,7 @@
                         <div class="error-icon">
                             <span class="type-error"><?php echo $code;?></span>
                         </div>
-                    <?php endif; ?> 
+                    <?php //endif; ?> 
                 </div>
             </div>
         </div>
