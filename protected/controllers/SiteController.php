@@ -25,8 +25,25 @@ class SiteController extends MController
         if ($this->isHostMobile() and !(Yii::app()->user->isGuest))
             //к списку спотов в моб.версии
             $this->redirect('spot/list');
+        
+        $initMessage = false;
+        $openLoginForm = false;
+        if (!empty(Yii::app()->session['open_login_form'] and Yii::app()->user->isGuest))
+        {
+            $initMessage = Yii::t('general', 'Please, log in!');
+            $openLoginForm = true;
+            unset(Yii::app()->session['open_login_form']);
+        }
 
-        $this->renderWithMobile('index', array('resolution' => $resolution), '//mobile/spot/login');
+        $this->renderWithMobile(
+            'index', 
+            array(
+                'resolution' => $resolution, 
+                'initMessage' => $initMessage,
+                'openLoginForm' => $openLoginForm,
+                ), 
+            '//mobile/spot/login'
+        );
     }
 
     public function actionError()

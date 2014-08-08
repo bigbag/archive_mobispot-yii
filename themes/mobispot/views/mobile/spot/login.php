@@ -10,6 +10,9 @@
         <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
     </header>
     <section class="content author tabs">
+    <?php if (!empty($initMessage)): ?>
+        <span ng-init="messageModal('<?php echo $initMessage; ?>')"></span>
+    <?php endif; ?>
         <nav>
             <a class="active" href="javascript:;">
                 <div class="v-text"><?php echo Yii::t('user', 'Sign in'); ?></div>
