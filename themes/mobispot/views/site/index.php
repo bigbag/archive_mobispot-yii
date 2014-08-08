@@ -4,7 +4,13 @@
     });
 </script>'?>
 
-<div class="first-screen">
+<div class="first-screen" >
+    <?php if (!empty($openLoginForm)): ?>
+        <span ng-init="modal='sign'"></span>
+    <?php endif; ?>
+    <?php if (!empty($initMessage)): ?>
+        <span ng-init="messageModal('<?php echo $initMessage; ?>')"></span>
+    <?php endif; ?>
     <article class="text-block">
         <h1><?php echo Yii::t('general', 'Connect digital<br> & real via NFC') ?></h1>
             <p><?php echo Yii::t('general', 'Pay. Ride. Share. Get rewards.') ?></p>

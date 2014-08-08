@@ -69,4 +69,5 @@
   'Come on, drop a line to ' => 'Ждем письмо от вас на ',
   'Email us' => 'Напишите нам',
   'Look for the payment reader with our logo in your campus.' => 'Ищите в своем кампусе платежный ридер с нашим логотипом',
+  'Please, log in!' => 'Пожалуйста, выполните вход на сайт!',
 );
