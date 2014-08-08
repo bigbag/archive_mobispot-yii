@@ -1,14 +1,9 @@
 <?php $this->pageTitle = Yii::t('error', 'Error'); ?>
-<div class="main error-page ng-cloak" ng-cloak>
-    <div class="header-page">
-        <div class="hat-bar content">
-            <h1 class="logo">
-                <a href="/">
-                    <img itemprop="logo" alt="Mobispot" src="/themes/mobispot/img/logo_x2.png">
-                </a>
-            </h1>
-        </div>
-    </div>
+<div class="content-wrapper error-page ng-cloak" ng-cloak>
+    <?php if (!empty($openLoginForm)): ?>
+        <span ng-init="modal='sign'"></span>
+    <?php endif; ?>
+    
     <div class="content-wrapper">
         <div class="error-block">
             <div class="row">
