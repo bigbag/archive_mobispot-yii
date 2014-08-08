@@ -6,12 +6,10 @@ class MHttp
 
     public static function setAccess()
     {
-        if (Yii::app()->request->isPostRequest)
-            throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
+        if (!Yii::app()->request->isPostRequest)
+            Yii::app()->session['access_url'] = Yii::app()->request->requestUri;
         
-        Yii::app()->session['access_url'] = Yii::app()->request->requestUri;
-        Yii::app()->session['open_login_form'] = true;
-        Yii::app()->controller->redirect('/');
+        throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
     }
 
     public static function setNotFound()

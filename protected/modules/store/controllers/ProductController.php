@@ -7,6 +7,12 @@ class ProductController extends MController
     public $imagePath = '/themes/mobispot/images/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
+    //заглушка пока магазин недоступен
+    public function beforeAction()
+    {
+        $this->redirect('/');
+    }
+    
     public function actionIndex()
     {
         $this->render('index',
