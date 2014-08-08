@@ -26,21 +26,10 @@ class SiteController extends MController
             //к списку спотов в моб.версии
             $this->redirect('spot/list');
         
-        $initMessage = false;
-        $openLoginForm = false;
-        if (!empty(Yii::app()->session['open_login_form'] and Yii::app()->user->isGuest))
-        {
-            $initMessage = Yii::t('general', 'Please, log in!');
-            $openLoginForm = true;
-            unset(Yii::app()->session['open_login_form']);
-        }
-
         $this->renderWithMobile(
             'index', 
             array(
-                'resolution' => $resolution, 
-                'initMessage' => $initMessage,
-                'openLoginForm' => $openLoginForm,
+                'resolution' => $resolution,
                 ), 
             '//mobile/spot/login'
         );
@@ -48,16 +37,28 @@ class SiteController extends MController
 
     public function actionError()
     {
-        $this->layout = '//layouts/singl';
+        $this->layout = '//layouts/all';
         if (!Yii::app()->errorHandler->error)
             MHttp::setBadRequest();
 
         $error = Yii::app()->errorHandler->error;
 
         if (Yii::app()->request->isPostRequest)
+        {
             echo $error['message'];
-        else
-            $this->render('error', $error);
+            
+        }
+
+        if ((!empty(Yii::app()->session['open_login_form'] and Yii::app()->user->isGuest))
+            or
+            (isset($error['code']) and $error['code'] == '403')
+        )
+        {
+            $error['openLoginForm'] = true;
+            unset(Yii::app()->session['open_login_form']);
+        }
+
+        $this->render('error', $error);
     }
 
     public function actionUpload()
