@@ -37,7 +37,7 @@ class SiteController extends MController
 
     public function actionError()
     {
-        $this->layout = '//layouts/singl';
+        $this->layout = '//layouts/all';
         if (!Yii::app()->errorHandler->error)
             MHttp::setBadRequest();
 
