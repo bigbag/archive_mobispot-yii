@@ -69,13 +69,6 @@ return array(
             'class' => 'CWebUser',
             'allowAutoLogin' => true,
         ),
-        'ut' => array(
-            'class' => 'ext.uniteller.Uniteller',
-            'shopId' => '',
-            'pass' => '',
-            'login' => '',
-            'isTest' => false,
-        ),
         'db' => array(
             'class' => 'CDbConnection',
             'connectionString' => 'mysql:host=localhost;dbname=mobispot',
