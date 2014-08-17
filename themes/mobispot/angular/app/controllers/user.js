@@ -104,22 +104,19 @@ angular.module('mobispot').controller('UserController',
         $scope.user.password = '';
         $scope.user.activ_code = '';
         $scope.user.terms = 0;
-        if ($scope.host_type === 'mobile')
+        if ($scope.host_type === 'mobile') {
           contentService.mobileModal(data.content, 'none');
-        else {
+        } else {
           $scope.result.message = data.content;
           contentService.desktopModal('message');
         }
 
-      }
-      else if (data.error == 'email') {
-        $scope.error.email = true;
-        $scope.error.content = data.content;
-        if ($scope.host_type === 'mobile')
-          contentService.mobileModal(data.content, 'error');
-      }
-      else if (data.error == 'code'){
-        $scope.error.code = true;
+      } else {
+        if (data.error === 'email') {
+          $scope.error.email = true;
+        } else {
+          $scope.error.code = true;
+        }
         $scope.error.content = data.content;
         if ($scope.host_type === 'mobile')
           contentService.mobileModal(data.content, 'error');
@@ -159,7 +156,7 @@ angular.module('mobispot').controller('UserController',
       }
     });
   };
-  
+
   $scope.messageModal = function(text) {
     if (angular.isUndefined(text) || !text.length)
         return false;
@@ -169,6 +166,6 @@ angular.module('mobispot').controller('UserController',
       contentService.mobileModal(text, 'none');
     else
       contentService.desktopModal('message');
-  }
-  
+  };
+
 });
