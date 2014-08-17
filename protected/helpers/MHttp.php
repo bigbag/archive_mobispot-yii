@@ -79,14 +79,8 @@ class MHttp
 
     public static function isMobileUserAgent()
     {
-        $answer = false;
-        $useragent=$_SERVER['HTTP_USER_AGENT'];
-
-        $check_platform = preg_match(self::MOBILE_PLATFORM_PATTERN,$useragent);
-        $check_version = preg_match(self::MOBILE_VERSION_PATTERN,substr($useragent,0,4));
-        if ($check_platform or $check_version) $answer = true;
-
-        return $answer;
+        $detect = Yii::app()->mobileDetect;
+        return $detect->isMobile();
     }
 
     public function isHostMobile()

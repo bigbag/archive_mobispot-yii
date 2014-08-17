@@ -154,6 +154,9 @@ return array(
             'hashPortable' => false,
             'hashCostLog2' => 10,
         ),
+        'mobileDetect' => array(
+            'class' => 'ext.MobileDetect.MobileDetect'
+        ),
         'urlManager' => require(dirname(__FILE__) . '/routes.php'),
     ),
     'params' => include(dirname(__FILE__) . '/params.php'),
