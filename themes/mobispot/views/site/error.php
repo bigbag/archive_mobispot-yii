@@ -3,7 +3,7 @@
     <?php if (!empty($openLoginForm)): ?>
         <span ng-init="modal='sign'"></span>
     <?php endif; ?>
-    
+
     <?php if ($code != 403): ?>
     <div class="content-wrapper">
         <div class="error-block">
@@ -22,8 +22,7 @@
                         <?php echo Yii::t('error', 'If you believe that something is going wrong please connect with us and we will fix it.') ?>
                     </p>
                     <footer>
-                        <a class="color" href="/help"><?php echo Yii::t('error', 'Get help!') ?></a>
-                        <a class="color" href="mailto:helpme@mobispot.com">helpme@mobispot.com</a>
+                        <a class="color" href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a>
                         <a class="color" href="https://twitter.com/heymobispot">@heymobispot</a>
                     </footer>
                     <div class="error-icon">
@@ -33,5 +32,5 @@
             </div>
         </div>
     </div>
-    <?php endif; ?> 
+    <?php endif; ?>
 </div>
