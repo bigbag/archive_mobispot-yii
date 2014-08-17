@@ -35,7 +35,6 @@ class MController extends CController
         return Yii::app()->request->getBaseUrl(true);
     }
 
-
     public function init()
     {
         Lang::setCurrentLang();
