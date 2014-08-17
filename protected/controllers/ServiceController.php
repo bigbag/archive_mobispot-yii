@@ -48,7 +48,7 @@ class ServiceController extends MController
             $answer['access_url'] = Yii::app()->session['access_url'];
             unset(Yii::app()->session['access_url']);
         }
-        
+
         $answer['error'] = "no";
 
         echo json_encode($answer);
@@ -302,6 +302,16 @@ class ServiceController extends MController
             $this->redirect('/');
 
         $this->render('soc_reg', array('info' => $info));
+    }
+
+    public function actionSetFullView()
+    {
+        if (MHttp::isHostMobile()){
+            $cookie = new CHttpCookie('full_view', true);
+            $cookie->domain = Yii::app()->params['desktopHost'];
+            Yii::app()->request->cookies['full_view'] = $cookie;
+            $this->redirect('//'.Yii::app()->params['desktopHost']);
+        }
     }
 
     // Привязка и отвязка соц сетей

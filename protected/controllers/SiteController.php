@@ -22,15 +22,15 @@ class SiteController extends MController
 
         $resolution = $this->getResolution();
 
-        if ($this->isHostMobile() and !(Yii::app()->user->isGuest))
+        if (MHttp::isHostMobile() and !(Yii::app()->user->isGuest))
             //к списку спотов в моб.версии
             $this->redirect('spot/list');
-        
+
         $this->renderWithMobile(
-            'index', 
+            'index',
             array(
                 'resolution' => $resolution,
-                ), 
+                ),
             '//mobile/spot/login'
         );
     }
@@ -46,7 +46,7 @@ class SiteController extends MController
         if (Yii::app()->request->isPostRequest)
         {
             echo $error['message'];
-            
+
         }
 
         if ((!empty(Yii::app()->session['open_login_form'] and Yii::app()->user->isGuest))

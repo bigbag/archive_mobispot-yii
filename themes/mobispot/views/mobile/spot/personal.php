@@ -2,7 +2,7 @@
     ng-controller="SpotController"
     ng-init=
         "spot.token='<?php echo Yii::app()->request->csrfToken; ?>';
-        user.token='<?php echo Yii::app()->request->csrfToken; ?>';
+        user.token=spot.token;
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
         host_type='desktop';
