@@ -9,6 +9,7 @@ angular.module('mobispot').controller('HelpController',
     if (!valid) return false;
     user.email = user.help_email;
     $http.post('/service/sendQuestion', user).success(function(data) {
+      if(data.error == 'no') {
         $scope.user.name = '';
         $scope.user.help_email = '';
         $scope.user.question = '';
@@ -16,6 +17,7 @@ angular.module('mobispot').controller('HelpController',
 
         $scope.result.message = data.content;
         contentService.viewModal('message');
+      }
     });
   };
 });
