@@ -13,7 +13,9 @@ class ServiceController extends MController
         if (isset($all_lang[$lang])) {
 
             Yii::app()->session['lang'] = 'value';
-            Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
+            $cookie = new CHttpCookie('lang', $lang);
+            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
+            Yii::app()->request->cookies['lang'] = $cookie;
 
             if (isset(Yii::app()->user->id)) {
                 $user = User::model()->findByPk(Yii::app()->user->id);
@@ -308,7 +310,7 @@ class ServiceController extends MController
     {
         if (MHttp::isHostMobile()){
             $cookie = new CHttpCookie('full_view', true);
-            $cookie->domain = Yii::app()->params['desktopHost'];
+            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
             Yii::app()->request->cookies['full_view'] = $cookie;
             $this->redirect('//'.Yii::app()->params['desktopHost']);
         }

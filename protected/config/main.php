@@ -58,7 +58,13 @@ return array(
             'useTransparentSessionID' => false,
             'autoStart' => 'false',
             'cookieMode' => 'only',
+            'cookieParams' => array('domain' => '.mobispot.test'),
             'timeout' => 36000
+        ),
+        'request' => array(
+            'csrfCookie' => array(
+                'domain' => '.mobispot.test',
+            ),
         ),
         'messages' => array(
             'class' => 'CPhpMessageSource',

@@ -11,7 +11,6 @@
             <a class="info-buttom" ng-click="showInfo()" href="/demo-kit"><?php echo Yii::t('general', 'Get our demo-kit') ?></a>
     </article>
     <footer class="footer-page">
-    <?php var_dump((!MHttp::isMobileUserAgent() and !MHttp::isHostMobile()));?>
         <ul class="left">
             <li>
                 <a href="/readers">
