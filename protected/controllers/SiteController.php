@@ -43,8 +43,7 @@ class SiteController extends MController
 
         $error = Yii::app()->errorHandler->error;
 
-        if (Yii::app()->request->isPostRequest)
-        {
+        if (Yii::app()->request->isPostRequest) {
             echo $error['message'];
 
         }

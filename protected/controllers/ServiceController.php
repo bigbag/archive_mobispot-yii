@@ -45,8 +45,7 @@ class ServiceController extends MController
             MHttp::getJsonAndExit($answer);
 
         User::autoLogin($form);
-        if (!empty(Yii::app()->session['access_url']))
-        {
+        if (!empty(Yii::app()->session['access_url'])) {
             $answer['access_url'] = Yii::app()->session['access_url'];
             unset(Yii::app()->session['access_url']);
         }
@@ -283,13 +282,11 @@ class ServiceController extends MController
         User::clearCacheSocInfo();
         if(!empty($returnTo))
             $this->redirect($returnTo);
-        elseif (!empty(Yii::app()->session['access_url']))
-        {
+        elseif (!empty(Yii::app()->session['access_url'])) {
             $path = Yii::app()->session['access_url'];
             unset(Yii::app()->session['access_url']);
             $this->redirect($path);
-        }
-        else
+        } else
             $this->redirect('/spot/list');
     }
 

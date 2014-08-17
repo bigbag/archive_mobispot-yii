@@ -12,7 +12,7 @@ class ProductController extends MController
     {
         $this->redirect('/');
     }
-    
+
     public function actionIndex()
     {
         $this->render('index',
