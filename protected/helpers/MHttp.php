@@ -8,7 +8,7 @@ class MHttp
     {
         if (!Yii::app()->request->isPostRequest)
             Yii::app()->session['access_url'] = Yii::app()->request->requestUri;
-        
+
         throw new CHttpException(403, Yii::t('user', 'Forbidden.'));
     }
 
@@ -77,7 +77,7 @@ class MHttp
         }
     }
 
-    public static function isMobile()
+    public static function isMobileUserAgent()
     {
         $answer = false;
         $useragent=$_SERVER['HTTP_USER_AGENT'];
@@ -89,13 +89,27 @@ class MHttp
         return $answer;
     }
 
-    public static function desktopHost($protocol = 'http')
+    public function isHostMobile()
+    {
+        $answer = false;
+        if(empty(Yii::app()->params['mobileHost'])) {
+            if (strpos($_SERVER['HTTP_HOST'], 'm.') !== false)
+                $answer = true;
+        } else {
+            if ($_SERVER['HTTP_HOST'] == Yii::app()->params['mobileHost'])
+                $answer = true;
+        }
+
+        return $answer;
+    }
+
+    public static function desktopHost()
     {
         $host = $_SERVER['HTTP_HOST'];
-        if (!empty(Yii::app()->params['desctop_host']))
-            $host = $protocol . '://' . Yii::app()->params['desctop_host'];
+        if (!empty(Yii::app()->params['desktopHost']))
+            $host = '//' . Yii::app()->params['desktopHost'];
         else
-            $host = $protocol . '://' . str_replace("m.", '', $host);
+            $host = '//' . str_replace("m.", '', $host);
         return $host;
     }
 }

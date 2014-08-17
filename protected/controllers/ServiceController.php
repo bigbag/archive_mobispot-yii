@@ -13,7 +13,9 @@ class ServiceController extends MController
         if (isset($all_lang[$lang])) {
 
             Yii::app()->session['lang'] = 'value';
-            Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $lang);
+            $cookie = new CHttpCookie('lang', $lang);
+            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
+            Yii::app()->request->cookies['lang'] = $cookie;
 
             if (isset(Yii::app()->user->id)) {
                 $user = User::model()->findByPk(Yii::app()->user->id);
@@ -43,12 +45,11 @@ class ServiceController extends MController
             MHttp::getJsonAndExit($answer);
 
         User::autoLogin($form);
-        if (!empty(Yii::app()->session['access_url']))
-        {
+        if (!empty(Yii::app()->session['access_url'])) {
             $answer['access_url'] = Yii::app()->session['access_url'];
             unset(Yii::app()->session['access_url']);
         }
-        
+
         $answer['error'] = "no";
 
         echo json_encode($answer);
@@ -281,13 +282,11 @@ class ServiceController extends MController
         User::clearCacheSocInfo();
         if(!empty($returnTo))
             $this->redirect($returnTo);
-        elseif (!empty(Yii::app()->session['access_url']))
-        {
+        elseif (!empty(Yii::app()->session['access_url'])) {
             $path = Yii::app()->session['access_url'];
             unset(Yii::app()->session['access_url']);
             $this->redirect($path);
-        }
-        else
+        } else
             $this->redirect('/spot/list');
     }
 
@@ -302,6 +301,16 @@ class ServiceController extends MController
             $this->redirect('/');
 
         $this->render('soc_reg', array('info' => $info));
+    }
+
+    public function actionSetFullView()
+    {
+        if (MHttp::isHostMobile()){
+            $cookie = new CHttpCookie('full_view', true);
+            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
+            Yii::app()->request->cookies['full_view'] = $cookie;
+            $this->redirect('//'.Yii::app()->params['desktopHost']);
+        }
     }
 
     // Привязка и отвязка соц сетей

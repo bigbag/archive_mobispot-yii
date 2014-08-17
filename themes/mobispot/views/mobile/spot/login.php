@@ -7,7 +7,7 @@
             <!-- <li><a class="<?php echo ('zh_tw' == Yii::app()->language)?'active':'' ?>" href="/service/lang/zh_tw">中文繁體</a></li> -->
         </ul>
         <h1><a href="/"><img width="140" src="/themes/mobispot/img/logo_x2.png"></a></h1>
-        <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
+        <a class="full-size" href="/service/setFullView"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
     </header>
     <section class="content author tabs">
         <nav>
@@ -21,6 +21,7 @@
             </a>
         </nav>
         <section class="author-block tabs-content">
+        <?php var_dump((!MHttp::isMobileUserAgent() and !MHttp::isHostMobile()));?>
             <article class="active">
                 <form name="loginForm">
                     <input
