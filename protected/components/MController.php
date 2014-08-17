@@ -18,6 +18,15 @@ class MController extends CController
     public function beforeRender($action)
     {
         //Yii::app()->cache->flush();
+
+        $full_view = false;
+        if (isset(Yii::app()->request->cookies['full_view'])){
+            $full_view = Yii::app()->request->cookies['full_view']->value;
+        }
+
+        if (MHttp::isMobileUserAgent() and !MHttp::isHostMobile() and !$full_view){
+             $this->redirect('//' . Yii::app()->params['mobileHost']);
+        }
         return parent::beforeRender($action);
     }
 
@@ -32,21 +41,9 @@ class MController extends CController
         Lang::setCurrentLang();
     }
 
-    public function isHostMobile()
-    {
-        $answer = false;
-        if (!empty(Yii::app()->params['mobile_host']) and $_SERVER['HTTP_HOST'] == Yii::app()->params['mobile_host'])
-            $answer = true;
-        elseif(empty(Yii::app()->params['mobile_host'])
-            and (strpos($_SERVER['HTTP_HOST'], 'm.') !== false))
-            $answer = true;
-
-        return $answer;
-    }
-
     public function renderWithMobile($view, $data, $viewMobile = false, $dataMobile = false)
     {
-        if (!$this->isHostMobile())
+        if (!MHttp::isHostMobile())
             $this->render($view, $data);
         else {
             if (!$viewMobile)
@@ -63,7 +60,7 @@ class MController extends CController
     {
         $answer = false;
 
-        if (!$this->isHostMobile())
+        if (!MHttp::isHostMobile())
             $answer = $this->renderPartial($view, $data, $return);
         else {
             if (!$viewMobile)

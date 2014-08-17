@@ -58,7 +58,13 @@ return array(
             'useTransparentSessionID' => false,
             'autoStart' => 'false',
             'cookieMode' => 'only',
+            'cookieParams' => array('domain' => '.mobispot.test'),
             'timeout' => 36000
+        ),
+        'request' => array(
+            'csrfCookie' => array(
+                'domain' => '.mobispot.test',
+            ),
         ),
         'messages' => array(
             'class' => 'CPhpMessageSource',
@@ -68,13 +74,6 @@ return array(
         'user' => array(
             'class' => 'CWebUser',
             'allowAutoLogin' => true,
-        ),
-        'ut' => array(
-            'class' => 'ext.uniteller.Uniteller',
-            'shopId' => '',
-            'pass' => '',
-            'login' => '',
-            'isTest' => false,
         ),
         'db' => array(
             'class' => 'CDbConnection',

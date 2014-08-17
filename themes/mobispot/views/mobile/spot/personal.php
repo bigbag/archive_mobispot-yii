@@ -2,7 +2,7 @@
     ng-controller="SpotController"
     ng-init=
         "spot.token='<?php echo Yii::app()->request->csrfToken; ?>';
-        user.token='<?php echo Yii::app()->request->csrfToken; ?>';
+        user.token=spot.token;
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
         host_type='desktop';
@@ -19,7 +19,7 @@
         </div>
         <header>
             <h1><a href="/"><img width="140" src="/themes/mobispot/img/logo_x2.png"></a></h1>
-            <a class="full-size" href="<?php echo MHttp::desktopHost()?>"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
+            <a class="full-size" href="/service/setFullView"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
         </header>
         <div class="control">
                 <a href="/spot/list" class="back icon">&#xe602;</a>

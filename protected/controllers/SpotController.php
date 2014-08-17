@@ -1099,7 +1099,7 @@ class SpotController extends MController
         if (!$spot)
             MHttp::getJsonOrRedirect($answer, $target);
 
-        if ($this->isHostMobile())
+        if (MHttp::isHostMobile())
             $target = '/spot/view/' . $spot->url;
 
         if (!empty($data['bindNet']['key']) && $answer['loggedIn']) {
@@ -1250,7 +1250,7 @@ class SpotController extends MController
         }
         if(Yii::app()->request->isPostRequest)
             echo json_encode($answer);
-        elseif ($this->isHostMobile())
+        elseif (MHttp::isHostMobile())
             $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
         else
             $this->redirect('/spot/list?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
@@ -1420,7 +1420,7 @@ class SpotController extends MController
         if (!$spot)
             MHttp::setNotFound();
 
-        if (!$this->isHostMobile())
+        if (!MHttp::isHostMobile())
             $this->redirect(MHttp::desktopHost() . '/spot/list/?discodes=' . $spot->discodes_id);
 
         $wallet = PaymentWallet::model()->findByAttributes(
@@ -1459,12 +1459,12 @@ class SpotController extends MController
     {
         $answer = Yii::app()->params['siteUrl']. '/spot/list/';
 
-        if (!$this->isHostMobile() or empty(Yii::app()->params['mobile_host']))
+        if (!MHttp::isHostMobile() or empty(Yii::app()->params['mobileHost']))
             return $answer;
 
         $answer =
             'http://'
-            . Yii::app()->params['mobile_host']
+            . Yii::app()->params['mobileHost']
             . '/spot/list/';
 
         if ($discodes_id)
@@ -1473,7 +1473,7 @@ class SpotController extends MController
         if (!empty($spot))
             $answer =
                 'http://'
-                . Yii::app()->params['mobile_host']
+                . Yii::app()->params['mobileHost']
                 . '/spot/view/'
                 . $spot->url;
 

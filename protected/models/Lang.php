@@ -74,7 +74,9 @@ class Lang extends CActiveRecord
 
         if (!isset($all_lang[$select_lang])) $select_lang = 'ru';
 
-        Yii::app()->request->cookies['lang'] = new CHttpCookie('lang', $select_lang);
+        $cookie = new CHttpCookie('lang', $select_lang);
+        $cookie->domain = '.'.Yii::app()->params['desktopHost'];
+        Yii::app()->request->cookies['lang'] = $cookie;
         Yii::app()->language = $select_lang;
     }
 

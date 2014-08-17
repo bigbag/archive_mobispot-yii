@@ -175,7 +175,7 @@ class UserController extends MController
         if (!$socToken or !$link or !$wallet)
             MHttp::getJsonOrRedirect($answer, $target);
 
-        if ($this->isHostMobile()) {
+        if (MHttp::isHostMobile()) {
             $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
             if ($spot)
                 $target = '/spot/view/' . $spot->url;
