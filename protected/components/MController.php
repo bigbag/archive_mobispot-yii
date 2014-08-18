@@ -20,8 +20,8 @@ class MController extends CController
         //Yii::app()->cache->flush();
 
         $full_view = false;
-        if (isset(Yii::app()->session['full_view'])){
-            $full_view = Yii::app()->session['full_view'];
+        if (isset(Yii::app()->request->cookies['full_view'])){
+            $full_view = Yii::app()->request->cookies['full_view']->value;
         }
 
         if (MHttp::isMobileUserAgent() and !MHttp::isHostMobile() and !$full_view){
