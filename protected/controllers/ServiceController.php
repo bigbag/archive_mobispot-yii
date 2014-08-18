@@ -305,10 +305,15 @@ class ServiceController extends MController
 
     public function actionSetFullView()
     {
-        if (MHttp::isHostMobile()){
-            Yii::app()->session['full_view'] = true;
-            $this->redirect('//'.Yii::app()->params['desktopHost']);
+        if (!MHttp::isHostMobile())
+            return false;
+
+        if (!isset(Yii::app()->request->cookies['full_view'])){
+            $cookie = new CHttpCookie('full_view', true);
+            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
+            Yii::app()->request->cookies['full_view'] = $cookie;
         }
+        $this->redirect('//'.Yii::app()->params['desktopHost']);
     }
 
     // Привязка и отвязка соц сетей
