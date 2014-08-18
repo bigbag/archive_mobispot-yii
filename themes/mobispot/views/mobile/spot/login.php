@@ -21,7 +21,6 @@
             </a>
         </nav>
         <section class="author-block tabs-content">
-        <?php var_dump((!MHttp::isMobileUserAgent() and !MHttp::isHostMobile()));?>
             <article class="active">
                 <form name="loginForm">
                     <input

@@ -306,9 +306,7 @@ class ServiceController extends MController
     public function actionSetFullView()
     {
         if (MHttp::isHostMobile()){
-            $cookie = new CHttpCookie('full_view', true);
-            $cookie->domain = '.'.Yii::app()->params['desktopHost'];
-            Yii::app()->request->cookies['full_view'] = $cookie;
+            Yii::app()->session['full_view'] = true;
             $this->redirect('//'.Yii::app()->params['desktopHost']);
         }
     }
