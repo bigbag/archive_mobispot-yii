@@ -1,46 +1,42 @@
+'use strict';
 function getRandomInt(min, max){
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 var hideMenu = function (){
-		$('.showMenu').removeClass('showMenu')
-}
+        $('.showMenu').removeClass('showMenu');
+};
 
 $(document).ready( function(){
+    $(document).on('click', '.tabs nav a', function(){
+        if(!$(this).hasClass('active')){
 
-	var randomImgLink = 'url(/themes/mobispot/images/bg-main/bg_' + getRandomInt(1, 4) + '.jpg)';
+            $('*','.tabs').removeClass('active');
 
-	$('body').css('background-image', randomImgLink);
+            $(this).addClass('active');
+            var tabIndex = $(this).index();
 
-	$(document).on('click', '.tabs nav a', function(){
-		if(!$(this).hasClass('active')){
+            var tabContent = $('.tabs-content > article');
 
-			$('*','.tabs').removeClass('active');
+            $(tabContent[tabIndex]).addClass('active');
 
-			$(this).addClass('active');
-			var tabIndex = $(this).index();
+        }
+    });
+    $(document).on('click', '#show-menu', function(){
+        $('.wrapper').addClass('showMenu');
+    });
+    $(document).on('click','.showMenu',hideMenu);
+    $(document).on('click','.main-back',hideMenu);
+    $(document).on('click','#menu', function(event){
+        event.stopPropagation();
+    });
+    $(document).on('click', '.make-main', function(){
+        $('tr','.card-list').removeClass('main-card');
+        $(this).parents('tr').addClass('main-card');
+    });
 
-			var tabContent = $('.tabs-content > article');
-			
-			$(tabContent[tabIndex]).addClass('active')
-
-		}
-	});
-	$(document).on('click', '#show-menu', function(){
-		$('.wrapper').addClass('showMenu');
-	});
-	$(document).on('click','.showMenu',hideMenu);
-	$(document).on('click','.main-back',hideMenu);
-	$(document).on('click','#menu', function(event){
-		event.stopPropagation();
-	});
-	$(document).on('click', '.make-main', function(){
-		$('tr','.card-list').removeClass('main-card');
-		$(this).parents('tr').addClass('main-card');
-	});
-	
-	$(document).on('click', '.block-wallet', function(){
-		$('.card').toggleClass('blocked');
-	});
+    $(document).on('click', '.block-wallet', function(){
+        $('.card').toggleClass('blocked');
+    });
 
 });

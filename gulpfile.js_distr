@@ -9,6 +9,8 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     cssimport = require("gulp-cssimport"),
     ngAnnotate = require('gulp-ng-annotate'),
+    imagemin = require('gulp-imagemin'),
+    image = require('gulp-image'),
     cssPath = 'themes/mobispot/css/',
     jsPath = 'themes/mobispot/js/';
 
@@ -47,7 +49,7 @@ gulp.task('desktop_style', function() {
     .pipe(gulp.dest(cssPath));
 });
 
-gulp.task('scripts', function() {
+gulp.task('scripts_desktop', function() {
   return gulp.src([
         'themes/mobispot/js/script.js',
         'themes/mobispot/js/script-add.js',
@@ -56,6 +58,21 @@ gulp.task('scripts', function() {
     .pipe(concat('script.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest(jsPath));
+});
+
+gulp.task('mobile_desktop', function() {
+  return gulp.src([
+        'themes/mobispot/js/mobile/script.js',
+        ])
+    .pipe(concat('script_mobile.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsPath));
+});
+
+gulp.task('images', function() {
+  return gulp.src('themes/mobile/images/icons/*')
+    .pipe(image({progressive: true}))
+    .pipe(gulp.dest('themes/mobile/images/icons/'))
 });
 
 gulp.task('angular', function () {
@@ -75,11 +92,14 @@ gulp.task('angular', function () {
 });
 
 gulp.task('default', [
-    'angular',
-    'desktop_style',
-    'mobile_style',
     'mobile_view_style',
-    'scripts']);
+    'mobile_style',
+    'desktop_style',
+    'scripts_desktop',
+    'mobile_desktop',
+    'angular'
+    ]);
+
 
 gulp.task('watch', ['angular'], function () {
   gulp.watch('themes/mobispot/angular/app/*.js', ['angular'])
