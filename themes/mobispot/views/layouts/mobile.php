@@ -20,6 +20,9 @@
         <div class="m-result">
             <p></p>
         </div>
-        <?php include('block/script/mobile.php'); ?>
+        <script src="/themes/mobispot/js/jquery-ui.min.js"></script>
+        <script src="/themes/mobispot/angular/app.min.js"></script>
+        <?php echo $this->blockFooterScript; ?>
+        <script src="/themes/mobispot/js/script_mobile.min.js"></script>
     </body>
 </html>
