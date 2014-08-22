@@ -1,7 +1,7 @@
             <div class="<?php echo ($coupon['part'])?'active ':''; ?>spot-item item-area type-coupon <?php echo $coupon['coupon_class']; ?>">
                 <?php //<i class="coupon-indicator coupon-indicator__new">New</i> ?>
                 <?php if($coupon['part']):?>
-                    <sup><?php echo Yii::t('spot', 'Учавствую')?></sup>
+                    <sup><?php echo Yii::t('spot', 'Participating')?></sup>
                 <?php endif; ?>
                 <div class="s-content">
                     <img src="/uploads/action/<?php echo $coupon['img']; ?>">
