@@ -18,7 +18,7 @@
                     <?php if($coupon['part']):?>
                         <a ng-click="disableAction($event, <?php echo $coupon['id']; ?>)" class="form-button red"><?php echo Yii::t('spot', 'Cancel participation') ?></a>
                     <?php else: ?>
-                        <a ng-click="checkLike($event, <?php echo $coupon['id']; ?>)" class="form-button red"><?php echo Yii::t('spot', 'Participate') ?></a>
+                        <a ng-click="checkLike(<?php echo $coupon['id']; ?>, $event)" class="form-button red"><?php echo Yii::t('spot', 'Participate') ?></a>
                     <?php endif; ?>
                 </div>
             </div>

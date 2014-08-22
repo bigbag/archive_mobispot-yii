@@ -75,8 +75,8 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array();
-        $net['tokenType'] = SocToken::TYPE_YOUTUBE;
+        $net['sharingType'] = array(Loyalty::VK_SUBS);
+        $net['tokenType'] = SocToken::TYPE_VK;
         $socNetworks[] = $net;
 
         $net['name'] = 'linkedin';
@@ -697,6 +697,24 @@ class SocInfo extends CFormModel
         return $answer;
     }
 
+    public function checkLoyaltySharing($loyaltySharing)
+    {
+        $answer = false;
+
+        if (empty($loyaltySharing->sharing_type))
+            return false;
+
+        $net = $this->getNetByName(
+            self::getNameBySharingType($loyaltySharing->sharing_type));
+
+        if (!empty($net['contentClass'])) {
+            $class = $net['contentClass'];
+            $answer = $class::checkSharing($loyaltySharing);
+        }
+
+        return $answer;   
+    }
+    
     public static function nameInList($name, $list)
     {
         $answer = false;
