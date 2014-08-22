@@ -223,5 +223,12 @@ CREATE TABLE `user_profile` (
   KEY `sex` (`sex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `coupon_access`;
+CREATE TABLE `coupon_access` (
+  `id` int(11) NOT NULL,
+  `discodes_id` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- 2014-08-17 15:44:01

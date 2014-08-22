@@ -5,16 +5,18 @@
         <?php echo Yii::t('spot', 'Social links')?>
     </a>
     <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
-    <a ng-click="general.views='wallet'"
-        ng-class="{active: general.views=='wallet'}">
-        <i class="icon">&#xe006;</i>
-        <?php echo Yii::t('spot', 'Wallet')?>
-    </a>
-     <a ng-click="general.views='coupon'"
-        ng-class="{active: general.views=='coupon'}">
-        <i class="icon">&#xe601;</i>
-        <?php echo Yii::t('spot', 'Coupon')?>
-    </a>
+        <a ng-click="general.views='wallet'"
+            ng-class="{active: general.views=='wallet'}">
+            <i class="icon">&#xe006;</i>
+            <?php echo Yii::t('spot', 'Wallet')?>
+        </a>
+        <?php if (CouponAccess::access($wallet->discodes_id)):?>
+         <a ng-click="general.views='coupon'"
+            ng-class="{active: general.views=='coupon'}">
+            <i class="icon">&#xe601;</i>
+            <?php echo Yii::t('spot', 'Coupon')?>
+        </a>
+        <?php endif;?>
     <?php endif;?>
     <a  title="settings"
         ng-click="general.views='settings'"
