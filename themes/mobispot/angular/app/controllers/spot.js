@@ -756,7 +756,7 @@ angular.module('mobispot').controller('SpotController',
   };
 
   //подключение акции, требующей жетона соцсети
-  $scope.checkLike = function(e, id_action)
+  $scope.checkLike = function(id_action, e)
   {
       var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
       var act;
@@ -797,26 +797,19 @@ angular.module('mobispot').controller('SpotController',
                   else {
                     popup.focus();
 
-                    $scope.checkingAction = {id:id_action};
-                    $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
+                    $scope.checkingAction = {id:id_action, sharing_ind:data.ind};
+                    if (!angular.isUndefined(e))
+                        $scope.actionDiv = angular.element(e.currentTarget).parent().parent('div.spot-item');
                     likeTimer = $timeout($scope.likesTimer, 1000);
                   }
               }
               else
               {
-                  if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
-                  {
-                      if ('yes' == data.message_error)
-                          contentService.setModal(data.message, 'error');
-                      else
-                          contentService.setModal(data.message, 'none');
-                  }
-
                   if ('undefined' != typeof (data.content))
                   {
-                    if (!$scope.host_mobile)
+                    if (!$scope.host_mobile && !angular.isUndefined(e))
                       act = angular.element(e.currentTarget).parent().parent('div.spot-item');
-                    else
+                    else if (!angular.isUndefined(e))
                       act = angular.element(e.currentTarget).parent().parent().parent().parent();
 
                     act.before($compile(data.content)($scope));
@@ -830,32 +823,37 @@ angular.module('mobispot').controller('SpotController',
     $scope.likesTimer = function()
     {
       if (!popup.closed) {
-          var data = {token: $scope.user.token, id:$scope.checkingAction.id, discodes:$scope.spot.discodes};
+          var data = {token: $scope.user.token, id:$scope.checkingAction.id, sharing_ind:$scope.checkingAction.sharing_ind, discodes:$scope.spot.discodes};
           $http.post('/user/checkLike', data).success(function(data) {
-              if ('undefined' != typeof (data.isSocLogged))
-              {
-                  if (data.isSocLogged)
-                  {
-                      popup.close();
-                      $scope.bindNet = {};
+              if (data.checked) {
+                //акция подключена
+                popup.close();
+                
+                $scope.actionDiv.before($compile(data.content)($scope));
+                $scope.actionDiv.remove();
+              }
+              else if (data.sharing_checked) {
+                //условие прошло проверку
+                popup.close();
 
-                      if ('undefined' != typeof (data.message_error) && 'undefined' != typeof (data.message))
-                      {
-                          if ('yes' == data.message_error)
-                              contentService.setModal(data.message, 'error');
-                          else
-                              contentService.setModal(data.message, 'none');
-                      }
-                      if ('undefined' != typeof (data.content) && 'undefined' != typeof ($scope.actionDiv))
-                      {
-                        $scope.actionDiv.before($compile(data.content)($scope));
-                        $scope.actionDiv.remove();
-                      }
-                  }
-                  else
+                //проверка следующего условия
+                $scope.checkLike($scope.checkingAction.id);
+              }
+              else if (data.sharing_logged)
+              {
+                //завершен логин по последнему условию, условие не выполнено
+                  popup.close();
+                  
+                  if ('undefined' != typeof (data.content))
                   {
-                      likeTimer = $timeout($scope.likesTimer, 1000);
+                    $scope.actionDiv.before($compile(data.content)($scope));
+                    $scope.actionDiv.remove();
                   }
+              }
+              else
+              {
+                //ждем логина и проверки
+                likeTimer = $timeout($scope.likesTimer, 1000);
               }
           });
       }
@@ -945,6 +943,23 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
+  $scope.reloadCoupon = function(id_action, e) {
+      var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+      var act;
+      $http.post('/user/getAction', data).success(function(data) {
+        if ('undefined' != typeof (data.content))
+        {
+          if (!$scope.host_mobile && !angular.isUndefined(e))
+            act = angular.element(e.currentTarget).parent().parent('div.spot-item');
+          else if (!angular.isUndefined(e))
+            act = angular.element(e.currentTarget).parent().parent().parent().parent();
+
+          act.before($compile(data.content)($scope));
+          act.remove();
+        }
+      });
+  }
+  
   $scope.getSocPatterns = function(){
     $scope.freeSocial = true;
     if (typeof ($scope.soc_patterns) == 'undefined')

@@ -2,6 +2,7 @@
 
 class VkContent extends SocContentBase
 {
+    const API_PATH = 'https://api.vk.com/method/';
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
@@ -156,4 +157,53 @@ class VkContent extends SocContentBase
         return $answer;
     }
 
+    
+    public static function checkSharing($loyalty)
+    {
+        $answer = false;
+
+        $link = $loyalty->getLink();
+        if (empty($link))
+            return false;
+
+        switch($loyalty->sharing_type) {
+            case Loyalty::VK_SUBS:
+                $answer = self::checkSubs($loyalty->data);
+            break;
+        }
+
+        return $answer;
+    }
+    
+    public static function checkSubs($id_group)
+    {
+        //подпика на группу
+        $answer = false;
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => SocToken::TYPE_VK,
+        ));
+        
+        if (!$socToken)
+            return false;
+            
+        $userSubs = self::makeRequest(
+            self::API_PATH
+            . 'users.getSubscriptions'
+            .'?user_id='
+            .$socToken->soc_id
+        );
+        
+        if (empty($userSubs['response']) or empty($userSubs['response']['groups']) or empty($userSubs['response']['groups']['items']))
+            return false;
+            
+        foreach($userSubs['response']['groups']['items'] as $key => $value)
+            if ($value == $id_group) {
+                $answer = true;
+                break;
+            }
+    
+        return $answer;
+    }
 }

@@ -156,6 +156,45 @@ class PersonEvent extends CActiveRecord
 
         return $result;
     }
+    
+    public function removeByUserLoyaltyId($user_id, $loyalty_id)
+    {
+        $result = False;
+        $loyalty = Loyalty::model()->findByPk($loyalty_id);
+        $wallet = PaymentWallet::model()->findByAttributes(
+                array('user_id' => $user_id)
+        );
+
+        if ($loyalty and $wallet) {
+            $person = Person::model()->findByAttributes(
+                    array(
+                        'firm_id' => $loyalty->firm_id,
+                        'payment_id' => $wallet->payment_id,
+                    )
+            );
+
+            if (!$person) {
+                return false;
+            }
+
+            foreach ($loyalty->terms_id as $term_id) {
+                $personEvent = PersonEvent::model()->findByAttributes(
+                        array(
+                            'person_id' => $person->id,
+                            'term_id' => $term_id,
+                            'event_id' => $loyalty->event_id,
+                            'firm_id' => $loyalty->firm_id,
+                        )
+                );
+
+                if ($personEvent) {
+                    $personEvent->delete();
+                }
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
