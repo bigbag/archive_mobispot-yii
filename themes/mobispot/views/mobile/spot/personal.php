@@ -6,7 +6,8 @@
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
         host_type='desktop';
-        spot.status=<?php echo $spot->status; ?>
+        spot.status=<?php echo $spot->status; ?>;
+        host_mobile=1
         "
 >
         <div id="menu" class="main-menu" ng-init="getSocPatterns()">
@@ -41,13 +42,13 @@
                 >
                     <?php echo Yii::t('spot', 'Wallet'); ?>
                 </a>
-                <!--
-                <a
-                    ng-class="{active: general.views=='coupon'}"
-                    ng-click="general.views='coupon'" >
-                    <?php //echo Yii::t('spot', 'Coupon'); ?>
-                </a>
-                -->
+                    <?php if (CouponAccess::access($wallet->discodes_id)):?>
+                    <a
+                        ng-class="{active: general.views=='coupon'}"
+                        ng-click="general.views='coupon'" >
+                        <?php echo Yii::t('spot', 'Coupon'); ?>
+                    </a>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"

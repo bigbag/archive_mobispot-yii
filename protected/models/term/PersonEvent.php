@@ -140,12 +140,12 @@ class PersonEvent extends CActiveRecord
                     $personEvent->term_id = $term_id;
                     $personEvent->event_id = $loyalty->event_id;
                     $personEvent->firm_id = $loyalty->firm_id;
-                    $personEvent->timeout = self::LIKE_TIMEOUT;
+                    $personEvent->timeout = $loyalty->timeout;
 
                     if ($personEvent->save())
                         $result = True;
                 } else {
-                    if ($personEvent->timeout != self::LIKE_TIMEOUT) {
+                    if ($personEvent->timeout != $loyalty->timeout) {
                         $personEvent->status = self::STATUS_BANNED;
                         $personEvent->save();
                     }

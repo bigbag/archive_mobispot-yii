@@ -207,7 +207,8 @@ class UserController extends MController
                     $answer['content'] = $this->    renderPartialWithMobile(
                         '//spot/block/coupon_error',
                         array('condition'=>$sharings[$i]->desc, 'id_loyalty'=>$action->id),
-                        true
+                        true,
+                        '//mobile/spot/coupon_error'
                 );
                 
                 $answer['message'] = $action->getPromoMessage();
