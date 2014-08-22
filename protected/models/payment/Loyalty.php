@@ -52,6 +52,7 @@ class Loyalty extends CActiveRecord
     const GOOGLE_PLUS_ONE = 13;
     const YOUTUBE_FOLLOWING = 14;
     const YOUTUBE_VIEWS = 15;
+    const VK_SUBS = 18;
 
     const MOBILE_COUNT = 3;
 

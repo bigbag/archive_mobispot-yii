@@ -70,6 +70,17 @@ CREATE TABLE `loyalty` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `loyalty_sharing`;
+CREATE TABLE `loyalty_sharing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loyalty_id` bigint unsigned NOT NULL,
+  `sharing_type` int(10) unsigned NOT NULL,
+  `desc` text,
+  `data` text,
+  `link` varchar(1024) DEFAULT NULL,
+  `control_value` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `payment_card`;
 CREATE TABLE `payment_card` (

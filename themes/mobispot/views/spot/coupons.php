@@ -4,11 +4,11 @@
             <?php include('block/menu.php'); ?>
         </div>
         <div class="tabs-block">
-            <div id="coupons-block" class="spot-content_row spot-coupon tabs-item" style="display:none">
+            <section class="coupon-block spot-content_row spot-coupon tabs-item">
                 <?php foreach ($coupons as $coupon):?>
                     <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/spot/block/coupon.php'); ?>
                 <?php endforeach; ?>
-            </div>
+            </section>
         </div>
     </section>
 </div>
