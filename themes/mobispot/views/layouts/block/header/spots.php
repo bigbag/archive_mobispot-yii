@@ -10,7 +10,7 @@
             <li>
                 <a class="show" href="/user/profile/">
                 <?php echo Yii::t('general', 'My profile & Security') ?>
-                <?php if ($info):?> (<?php echo $info['name']?>)<?php endif;?>
+                <?php if ($info and !empty($info['name'])):?> (<?php echo $info['name']?>)<?php endif;?>
                 </a>
             </li>
             <li>
