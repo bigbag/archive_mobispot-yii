@@ -130,15 +130,19 @@ class UserController extends MController
             );
         }
         $target = '/spot/list';
+        
+        if (MHttp::isHostMobile()) {
+            $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
+            if ($spot)
+                $target = '/spot/view/' . $spot->url;
+        }
 
         $answer = array(
             'error' => 'yes',
-            'message_error' => 'yes',
             'message' => '',
             'checked' => false,
             'isSocLogged' => false,
             'sharing_logged' => false,
-            'sharing_checked' => false,
             'ind' => 0,
         );
         $link = '';
@@ -169,8 +173,6 @@ class UserController extends MController
         
             $answer['ind'] = $i;
             Yii::app()->session['check_loyalty_' . $action->id] = $i;
-        
-            $link = $sharings[$i]->link;
 
             $service = SocInfo::getNameBySharingType($sharings[$i]->sharing_type);
             $answer['service'] = $service;
@@ -185,38 +187,20 @@ class UserController extends MController
             $answer['isSocLogged'] = true;
             if (isset($data['sharing_ind']) && $data['sharing_ind'] <= $i)
                 $answer['sharing_logged'] = true;
-            $answer['isSocLogged'] = true;
-            
-            $socToken = SocToken::model()->findByAttributes(array(
-                'user_id' => Yii::app()->user->id,
-                'type' => SocInfo::getTokenBySharingType($sharings[$i]->sharing_type),
-            ));
-
-            if (!$socToken or !$link or !$wallet)
-                MHttp::getJsonOrRedirect($answer, $target);
-            
-            if (MHttp::isHostMobile()) {
-                $spot = Spot::getSpot(array('discodes_id' => $data['discodes']));
-                if ($spot)
-                    $target = '/spot/view/' . $spot->url;
-            }
-
-            $checked = $socInfo->checkLoyaltySharing($sharings[$i]);
-            
-            if (!$checked) {
-                    $answer['content'] = $this->    renderPartialWithMobile(
-                        '//spot/block/coupon_error',
-                        array('condition'=>$sharings[$i]->desc, 'id_loyalty'=>$action->id),
-                        true,
-                        '//mobile/spot/coupon_error'
-                );
                 
-                $answer['message'] = $action->getPromoMessage();
-                MHttp::getJsonOrRedirect($answer, $target);
+            if (!Yii::app()->request->isPostRequest and $i < count($sharings)-1) {
+                $redirect_uri = 
+                    'http://' 
+                    + $_SERVER['HTTP_HOST']
+                    + '/user/BindSocLogin?service=' 
+                    + $service;
+                  
+                  $this->redirect(
+                    '/user/BindSocLogin?service=' . $service
+                    . '&redirect_uri=' . urlencode($redirect_uri)
+                    . '&discodes=' . $data['discodes']
+                    . '&chek_like=' . $data['id']);
             }
-            
-            if (isset($data['sharing_ind']) && $data['sharing_ind'] <= $i)
-                $answer['sharing_checked'] = true;
         }
 
         $wl = WalletLoyalty::model()->findByAttributes(array(
@@ -231,11 +215,26 @@ class UserController extends MController
             $wl->bonus_limit = $action->bonus_limit;
         }
         
-        $wl->checked = true;
+        $wl->status = WalletLoyalty::STATUS_CONNECTING;
+        $wl->errors = array();
+        $wl->checked = array();
         $wl->save();
-        $event = new PersonEvent;
-        $event->addByUserLoyaltyId($wallet->user_id, $action->id);
-        $answer['checked'] = true;
+        
+        foreach ($sharings as $sharing) {
+            $socToken = SocToken::model()->findByAttributes(array(
+                'user_id' => Yii::app()->user->id,
+                'type' => SocInfo::getTokenBySharingType($sharing->sharing_type),
+            ));        
+            
+            $task = LikesStack::model()->findByAttributes(array('token_id'=>$socToken->id, 'sharing_id'=>$sharing->id));
+            
+            if (!$task) {
+                $task = new LikesStack();
+                $task->token_id = $socToken->id;
+                $task->sharing_id = $sharing->id;
+                $task->save();
+            }
+        }
 
         $coupon = array(
             'id' => $action->id,
@@ -244,7 +243,7 @@ class UserController extends MController
             'img' => $action->img,
             'desc' => $action->desc,
             'soc_block' => $action->soc_block,
-            'part' => true,
+            'status' => $wl->status,
         );
 
         $answer['content'] = $this->renderPartialWithMobile(
@@ -253,9 +252,6 @@ class UserController extends MController
             true,
             '//mobile/spot/coupon'
         );
-
-        $answer['message_error'] = 'no';
-        $answer['message'] = Yii::t('spot', 'You are participating in the action');
 
         MHttp::getJsonOrRedirect($answer, $target);
     }
@@ -287,7 +283,10 @@ class UserController extends MController
             
         $event = new PersonEvent;
         $event->removeByUserLoyaltyId($wallet->user_id, $action->id);
-        $wl->checked = false;
+        
+        $wl->status = WalletLoyalty::STATUS_OFF;
+        $wl->checked = null;
+        $wl->errors = null;
         $wl->save();
 
         $coupon = array(
@@ -297,7 +296,8 @@ class UserController extends MController
             'img' => $action->img,
             'desc' => $action->desc,
             'soc_block' => $action->soc_block,
-            'part' => false,
+            'status' => $wl->status,
+            'errors' => $wl->errors,
         );
 
         $answer['content'] = $this->renderPartialWithMobile(
@@ -312,10 +312,10 @@ class UserController extends MController
     }
     
     
-    public function actionGetAction()
+    public function actionCheckLoyaltyConnection()
     {
         $data = MHttp::validateRequest();
-        $answer = array('error' => 'yes');    
+        $answer = array('error' => 'yes', 'connected' => false);    
         
         if (!Yii::app()->user->id)
             MHttp::setAccess();
@@ -324,10 +324,22 @@ class UserController extends MController
             MHttp::getJsonAndExit($answer);
             
         $action = Loyalty::model()->findByPk($data['id']);
+        $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
         
-        if (!$action)
+        if (!$action or !$wallet)
+            MHttp::getJsonAndExit($answer);
+
+        $wl = WalletLoyalty::model()->findByAttributes(array('wallet_id'=>$wallet->id, 'loyalty_id'=>$action->id));
+        
+        if (!$wl)
+            MHttp::getJsonAndExit($answer);
+            
+        $answer['error'] = "no";
+        
+        if ($wl->status == WalletLoyalty::STATUS_CONNECTING)
             MHttp::getJsonAndExit($answer);
         
+        $answer['connected'] = true;
         $coupon = array(
             'id' => $action->id,
             'name' => $action->name,
@@ -335,7 +347,8 @@ class UserController extends MController
             'img' => $action->img,
             'desc' => $action->desc,
             'soc_block' => $action->soc_block,
-            'part' => false,
+            'status' => $wl->status,
+            'errors' => $wl->errors,
         );
 
         $answer['content'] = $this->renderPartialWithMobile(
@@ -344,8 +357,7 @@ class UserController extends MController
             true,
             '//mobile/spot/coupon'
         );
-        $answer['error'] = "no";
-
+        
         echo json_encode($answer);        
     }
 
