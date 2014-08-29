@@ -85,3 +85,25 @@ a.m-link {
      height:100%;
      width:0px;
  }
+ 
+.coupon sup {
+    font-size: 14px;
+    float: right;
+    top: 11px;
+    right: 11px;
+    color: black;
+    padding: 5px 11px;
+    border-radius: 5px;
+}
+
+.coupon.connecting sup {
+    background: repeat scroll 0% 0% #ff0;
+}
+
+.coupon.error-coupon sup {
+    background: repeat scroll 0% 0% red;
+}
+
+.coupon.active sup {
+    background: repeat scroll 0% 0% #30D874;
+}

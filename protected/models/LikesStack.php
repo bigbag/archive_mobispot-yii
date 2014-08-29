@@ -43,8 +43,8 @@ class LikesStack extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('token_id, loyalty_id', 'required'),
-            array('token_id, loyalty_id', 'numerical', 'integerOnly' => true),
+            array('token_id', 'required'),
+            array('token_id', 'numerical', 'integerOnly' => true),
         );
     }
 
