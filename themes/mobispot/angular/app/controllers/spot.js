@@ -586,6 +586,7 @@ angular.module('mobispot').controller('SpotController',
   var popup;
   var socTimer;
   var likeTimer;
+  var loyaltyTimer;
 
   //через плашку
   $scope.bindByPanel = function(buttonName) {
@@ -760,6 +761,7 @@ angular.module('mobispot').controller('SpotController',
   {
       var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
       var act;
+      
       $http.post('/user/checkLike', data).success(function(data) {
 
           if ('no' == data.error)
@@ -825,40 +827,54 @@ angular.module('mobispot').controller('SpotController',
       if (!popup.closed) {
           var data = {token: $scope.user.token, id:$scope.checkingAction.id, sharing_ind:$scope.checkingAction.sharing_ind, discodes:$scope.spot.discodes};
           $http.post('/user/checkLike', data).success(function(data) {
-              if (data.checked) {
+              if (data.isSocLogged) {
                 //акция подключена
                 popup.close();
                 
                 $scope.actionDiv.before($compile(data.content)($scope));
                 $scope.actionDiv.remove();
               }
-              else if (data.sharing_checked) {
-                //условие прошло проверку
-                popup.close();
-
-                //проверка следующего условия
-                $scope.checkLike($scope.checkingAction.id);
-              }
-              else if (data.sharing_logged)
-              {
-                //завершен логин по последнему условию, условие не выполнено
+              else if (data.sharing_logged) {
+                //завершен логин по последнему условию
                   popup.close();
-                  
-                  if ('undefined' != typeof (data.content))
-                  {
-                    $scope.actionDiv.before($compile(data.content)($scope));
-                    $scope.actionDiv.remove();
-                  }
+                  $scope.checkLike($scope.checkingAction.id);
               }
-              else
-              {
-                //ждем логина и проверки
+              else {
+                //ждем логина
                 likeTimer = $timeout($scope.likesTimer, 1000);
               }
           });
       }
     };
 
+    //отслеживает изменение статуса акций, находящихся в процессе подключения
+    $scope.loyaltyTimer = function()
+    {
+        var items = angular.element(".connecting");
+        for (var i = 0; i < items.length; i++) {
+            var loyalty_id = angular.element(items[i]).attr('id').substring(7);
+            $scope.checkLoyaltyConnection(loyalty_id);
+        }
+        loyaltyTimer = $timeout($scope.loyaltyTimer, 1000);
+    }
+    
+    $scope.setLoyaltyTimer = function()
+    {
+        loyaltyTimer = $timeout($scope.loyaltyTimer, 1000);
+    }
+    
+    $scope.checkLoyaltyConnection = function(id_action) {
+      var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
+      var act=angular.element('#coupon-' + id_action);
+      $http.post('/user/checkLoyaltyConnection', data).success(function(data) {
+        if ('undefined' != typeof (data.connected) && data.connected)
+        {
+          act.before($compile(data.content)($scope));
+          act.remove();
+        }
+      });
+    }
+    
     $scope.disableAction = function(e, id_action)
     {
         var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
@@ -943,23 +959,6 @@ angular.module('mobispot').controller('SpotController',
     });
   };
 
-  $scope.reloadCoupon = function(id_action, e) {
-      var data = {token: $scope.user.token, id:id_action, discodes:$scope.spot.discodes};
-      var act;
-      $http.post('/user/getAction', data).success(function(data) {
-        if ('undefined' != typeof (data.content))
-        {
-          if (!$scope.host_mobile && !angular.isUndefined(e))
-            act = angular.element(e.currentTarget).parent().parent('div.spot-item');
-          else if (!angular.isUndefined(e))
-            act = angular.element(e.currentTarget).parent().parent().parent().parent();
-
-          act.before($compile(data.content)($scope));
-          act.remove();
-        }
-      });
-  }
-  
   $scope.getSocPatterns = function(){
     $scope.freeSocial = true;
     if (typeof ($scope.soc_patterns) == 'undefined')

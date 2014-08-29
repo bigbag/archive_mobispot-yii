@@ -318,14 +318,13 @@ class Loyalty extends CActiveRecord
         $answer['countAll'] = self::model()->count($criteria);
         $coupons = self::model()->findAll($criteria);
 
+        $wLoyalties = array();
         if (null != $wallet_id) {
             $wallet = PaymentWallet::model()->findByPk($wallet_id);
             if ($wallet) {
                 $wLoyalties = WalletLoyalty::model()->findAllByAttributes(array(
                     'wallet_id' => $wallet->id,
-                    'checked' => true,
                 ));
-
 
                 foreach ($wLoyalties as $wl) {
                     $loyaltyList[] = $wl->loyalty_id;
@@ -334,9 +333,20 @@ class Loyalty extends CActiveRecord
         }
 
         foreach ($coupons as $coupon) {
+            //на удаление
             $part = false;
-            if (in_array($coupon->id, $loyaltyList))
-                $part = true;
+            //
+            
+            $status = WalletLoyalty::STATUS_OFF;
+            $errors = array();
+            foreach ($wLoyalties as $wLoyalty) {
+                if ($wLoyalty->loyalty_id != $coupon->id)
+                    continue;
+                    
+                $status = $wLoyalty->status;
+                $errors = $wLoyalty->getErrors();
+            }
+            
             if (self::PAGE_MY != $page or $part) {
                 $answer['coupons'][] = array(
                     'id' => $coupon->id,
@@ -346,6 +356,8 @@ class Loyalty extends CActiveRecord
                     'desc' => $coupon->desc,
                     'soc_block' => $coupon->soc_block,
                     'part' => $part,
+                    'status' => $status,
+                    'errors' => $errors,
                 );
                 $answer['count'] = $answer['count'] + 1;
             }

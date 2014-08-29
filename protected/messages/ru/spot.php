@@ -82,4 +82,6 @@
   'Last 5 operations' => 'Последние 5 операций',
   'Search for Coupons' => 'Поиск по купонам',
   'Type the text or links' => 'Введите текст или ссылки',
+  'Connecting...' => 'Подключение...',
+  'Not connected' => 'Не подключен',
 );

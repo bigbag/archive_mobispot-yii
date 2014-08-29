@@ -196,3 +196,18 @@ div.twelve.total-amount.clearfix {
 div.error-page {
     background: inherit;
 }
+
+.spot-coupon .type-coupon.connecting {
+    box-shadow: 0px 0px 0px 1px #ff0 inset;
+}
+
+.spot-coupon .type-coupon.connecting sup {
+    font-size: 14px;
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    color: black;
+    background: repeat scroll 0% 0% #ff0;
+    padding: 5px 11px;
+    border-radius: 5px;
+}

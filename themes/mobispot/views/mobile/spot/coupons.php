@@ -10,7 +10,7 @@
             <a ng-class="{fl: actions.page == 'my'}" ng-click="actions.page = 'my'"><?php echo Yii::t('spot', 'Participating')?></a>
         </div>
     </div>
-    <div id="coupons-list" class="tabs-item">
+    <div id="coupons-list" class="tabs-item" ng-init="setLoyaltyTimer()">
         <?php /*foreach ($coupons as $coupon):?>
             <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/mobile/spot/coupon.php'); ?>
         <?php endforeach; */?>

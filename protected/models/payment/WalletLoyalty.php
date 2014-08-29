@@ -15,6 +15,11 @@ class WalletLoyalty extends CActiveRecord
     const STATUS_NOT_ACTUAL = 0;
     const STATUS_ACTUAL = 1;
     const STATUS_ALL = 2;
+    
+    const STATUS_OFF = 0;
+    const STATUS_CONNECTING = 1;
+    const STATUS_ERROR = 2;
+    const STATUS_ON = 3;
 
     /**
      * Returns the static model of the specified AR class.
@@ -48,13 +53,23 @@ class WalletLoyalty extends CActiveRecord
     public function beforeSave()
     {
         $this->summ = ($this->summ) * 100;
-
+        if ($this->checked != null and count($this->checked))
+            $this->checked = json_encode($this->checked);
+        else 
+            $this->checked = null;
+        if ($this->errors != null and count($this->errors))
+            $this->errors = json_encode($this->errors);
+        else 
+            $this->errors = null;
+            
         return parent::beforeSave();
     }
 
     protected function afterFind()
     {
         $this->summ = ($this->summ) / 100;
+        $this->checked = CJSON::decode($this->checked, true);
+        $this->errors = CJSON::decode($this->errors, true);
 
         return parent::afterFind();
     }
@@ -130,6 +145,27 @@ class WalletLoyalty extends CActiveRecord
             }
         }
         return $result;
+    }
+    
+    public function getErrors()
+    {
+        $answer = array();
+        
+        if ($this->status != WalletLoyalty::STATUS_ERROR)
+            return $answer;
+        
+        $checked_list = array();
+        if (count($this->checked))
+            $checked_list = $this->checked;
+        
+        $sharings = LoyaltySharing::model()->findAllByAttributes(array('loyalty_id'=>$this->loyalty_id));
+        
+        foreach ($sharings as $sharing) {
+            if (!in_array($sharing->id, $checked_list))
+                 $answer[] = $sharing->desc;
+        }
+        
+        return $answer;
     }
 
 }
