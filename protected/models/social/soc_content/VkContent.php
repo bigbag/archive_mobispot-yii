@@ -157,7 +157,7 @@ class VkContent extends SocContentBase
         return $answer;
     }
 
-    
+
     public static function checkSharing($loyalty)
     {
         $answer = false;
@@ -174,36 +174,36 @@ class VkContent extends SocContentBase
 
         return $answer;
     }
-    
+
     public static function checkSubs($id_group)
     {
         //подпика на группу
         $answer = false;
-        
+
         $socToken = SocToken::model()->findByAttributes(array(
             'user_id' => Yii::app()->user->id,
             'type' => SocToken::TYPE_VK,
         ));
-        
+
         if (!$socToken)
             return false;
-            
+
         $userSubs = self::makeRequest(
             self::API_PATH
             . 'users.getSubscriptions'
             .'?user_id='
             .$socToken->soc_id
         );
-        
+
         if (empty($userSubs['response']) or empty($userSubs['response']['groups']) or empty($userSubs['response']['groups']['items']))
             return false;
-            
+
         foreach($userSubs['response']['groups']['items'] as $key => $value)
             if ($value == $id_group) {
                 $answer = true;
                 break;
             }
-    
+
         return $answer;
     }
 }

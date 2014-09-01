@@ -156,7 +156,7 @@ class PersonEvent extends CActiveRecord
 
         return $result;
     }
-    
+
     public function removeByUserLoyaltyId($user_id, $loyalty_id)
     {
         $result = False;

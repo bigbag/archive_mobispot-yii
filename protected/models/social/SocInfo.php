@@ -712,9 +712,9 @@ class SocInfo extends CFormModel
             $answer = $class::checkSharing($loyaltySharing);
         }
 
-        return $answer;   
+        return $answer;
     }
-    
+
     public static function nameInList($name, $list)
     {
         $answer = false;
