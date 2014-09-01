@@ -1,8 +1,8 @@
 <article class="coupon">
     <div class="cover-coupon">
-        
+
         <h3><?php echo Yii::t('spot', 'Для подключения акции не были выполнены следующие условия:')?></h3>
-        
+
         <ul>
             <li>
                 <?php echo $condition; ?>

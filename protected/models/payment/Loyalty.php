@@ -336,17 +336,17 @@ class Loyalty extends CActiveRecord
             //на удаление
             $part = false;
             //
-            
+
             $status = WalletLoyalty::STATUS_OFF;
             $errors = array();
             foreach ($wLoyalties as $wLoyalty) {
                 if ($wLoyalty->loyalty_id != $coupon->id)
                     continue;
-                    
+
                 $status = $wLoyalty->status;
                 $errors = $wLoyalty->getErrors();
             }
-            
+
             if (self::PAGE_MY != $page or $part) {
                 $answer['coupons'][] = array(
                     'id' => $coupon->id,

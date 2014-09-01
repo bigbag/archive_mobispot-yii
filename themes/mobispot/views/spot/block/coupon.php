@@ -1,4 +1,4 @@
-            <div id="coupon-<?php echo $coupon['id']; ?>" 
+            <div id="coupon-<?php echo $coupon['id']; ?>"
                 class="
                 <?php if ($coupon['status']==WalletLoyalty::STATUS_ON):?>
                     active
@@ -22,7 +22,7 @@
                 </ul>
             </div>
             <?php else: ?>
-            
+
                 <?php //<i class="coupon-indicator coupon-indicator__new">New</i> ?>
                 <?php if($coupon['status']==WalletLoyalty::STATUS_ON):?>
                     <sup><?php echo Yii::t('spot', 'Participating')?></sup>
@@ -43,7 +43,7 @@
                     </div>
                     <?php if($coupon['status']==WalletLoyalty::STATUS_ON):?>
                         <a ng-click="disableAction($event, <?php echo $coupon['id']; ?>)" class="form-button red"><?php echo Yii::t('spot', 'Cancel participation') ?></a>
-                    <?php elseif ($coupon['status']==WalletLoyalty::STATUS_OFF 
+                    <?php elseif ($coupon['status']==WalletLoyalty::STATUS_OFF
                         or $coupon['status']==WalletLoyalty::STATUS_ERROR): ?>
                         <a ng-click="checkLike(<?php echo $coupon['id']; ?>, $event)" class="form-button red"><?php echo Yii::t('spot', 'Participate') ?></a>
                     <?php endif; ?>
