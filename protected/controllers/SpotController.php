@@ -18,7 +18,7 @@ class SpotController extends MController
         }
     }
 
-        // Загрузка файлов в спот
+    // Загрузка файлов в спот
     public function actionUpload()
     {
         $answer = array(
@@ -717,7 +717,7 @@ class SpotController extends MController
         $this->render('card_ofert', array('linking'=>$linking));
     }
 
-    // Смена статуса карты на платежный
+    // Смена статуса карты на платежную
     public function actionSetPaymentCard()
     {
         $data = MHttp::validateRequest();
@@ -742,10 +742,14 @@ class SpotController extends MController
             $answer['error'] = 'no';
         }
 
+        $wallet = PaymentWallet::model()->findByPk($card->wallet_id);
+        $wallet->blacklist = PaymentWallet::STATUS_ACTIVE;
+        $wallet->save();
+
         echo json_encode($answer);
     }
 
-    // Смена статуса карты на платежный
+    // Удаление карты
     public function actionRemoveCard()
     {
         $data = MHttp::validateRequest();
@@ -756,6 +760,15 @@ class SpotController extends MController
 
         if ($card->delete()){
             $answer['error'] = 'no';
+
+            $cards = PaymentCard::model()->findAllByAttributes(
+                array('wallet_id'=>$card->wallet_id)
+            );
+            if (!$cards) {
+                $wallet = PaymentWallet::model()->findByPk($card->wallet_id);
+                $wallet->blacklist = PaymentWallet::STATUS_NOACTIVE;
+                $wallet->save();
+            }
         }
 
         echo json_encode($answer);
