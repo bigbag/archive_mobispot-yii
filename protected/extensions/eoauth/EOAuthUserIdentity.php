@@ -139,7 +139,7 @@ class EOAuthUserIdentity extends EOAuthComponent implements IUserIdentity
 
                 if (!isset($token))
                     $token = new OAuthToken($oauthToken, null);
-                    
+
                 if (empty($consumer))
                     $consumer = new OAuthConsumer($this->key, $this->secret);
                 // Set authorized token.

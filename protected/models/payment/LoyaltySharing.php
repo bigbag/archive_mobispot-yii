@@ -44,7 +44,7 @@ class LoyaltySharing extends CActiveRecord
             array('loyalty_id, sharing_type', 'numerical', 'integerOnly' => true),
         );
     }
-    
+
     public function getLink()
     {
         return $this->link;
