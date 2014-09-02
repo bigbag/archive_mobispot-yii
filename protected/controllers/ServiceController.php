@@ -161,7 +161,7 @@ class ServiceController extends MController
                 $identity->authenticate();
                 User::lastVisit();
                 Yii::app()->user->login($identity);
-                $this->redirect('/user/personal');
+                $this->redirect('/spot/list/');
             }
         }
 

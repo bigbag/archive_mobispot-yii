@@ -152,7 +152,7 @@ angular.module('mobispot').controller('UserController',
 
     $http.post(window.location.pathname , user).success(function(data) {
       if (data.error == 'no'){
-        angular.element(location).attr('href','/user/personal');
+        angular.element(location).attr('href','/spot/list/');
       }
     });
   };
