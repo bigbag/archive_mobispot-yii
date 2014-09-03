@@ -35,6 +35,8 @@ class Report extends CActiveRecord
     const STATUS_COMPLETE = 1;
 
     const MAX_RECORD = 10;
+    
+    const FAILURE_TIMEOUT = 600;
 
     /**
      * Returns the static model of the specified AR class.
@@ -110,5 +112,15 @@ class Report extends CActiveRecord
         $this->creation_date = date('H:i d.m.Y', strtotime($this->creation_date) + $delta);
 
         return parent::afterFind();
+    }
+    
+    public function isFailure()
+    {
+        $answer = false;
+        if ((time() - strtotime($this->creation_date)) > self::FAILURE_TIMEOUT
+            and self::STATUS_NEW == $this->status)
+            $answer = true;
+    
+        return $answer;
     }
 }
