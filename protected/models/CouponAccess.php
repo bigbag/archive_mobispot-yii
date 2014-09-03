@@ -23,16 +23,16 @@ class CouponAccess extends CActiveRecord
     {
         return 'coupon_access';
     }
-    
+
     public static function access($discodes_id)
     {
         $answer = false;
-        
+
         $access = CouponAccess::model()->findByAttributes(array('discodes_id' => $discodes_id));
-        
+
         if ($access)
             $answer = true;
-        
+
         return $answer;
     }
 }
