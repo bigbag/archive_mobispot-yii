@@ -1,4 +1,4 @@
-<article id="coupon-<?php echo $coupon['id']; ?>" 
+<article id="coupon-<?php echo $coupon['id']; ?>"
     class="coupon
     <?php if ($coupon['status']==WalletLoyalty::STATUS_ON):?>
         active
@@ -6,7 +6,7 @@
         connecting
     <?php elseif ($coupon['status']==WalletLoyalty::STATUS_ERROR): ?>
         error-coupon
-    <?php endif; ?>               
+    <?php endif; ?>
     ">
     <?php if ($coupon['status']==WalletLoyalty::STATUS_ON):?>
         <sup><?php echo Yii::t('spot', 'Participating')?></sup>
