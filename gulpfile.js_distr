@@ -38,6 +38,7 @@ gulp.task('desktop_style', function() {
         'themes/mobispot/css/reset.css',
         'themes/mobispot/css/foundation3/foundation.css',
         'themes/mobispot/css/foundation_actual/foundation.css',
+        'themes/mobispot/css/jquery-ui-dialogs.css',
         'themes/mobispot/css/front-page-slider.css',
         'themes/mobispot/css/a-slider.css',
         'themes/mobispot/css/style.css',

@@ -49,3 +49,43 @@ angular.module('mobispot').service('contentService', function() {
         }, speed);
     };
 });
+
+angular.module('mobispot').service('dialogService', function() {
+    var dialogDOM = angular.element("#dialog-confirm");
+    var dialogQuestion = angular.element("#dialog-question");
+    
+    var yesNoDialog = function(callback, yesBtn, noBtn, title, descr) {
+      dialogQuestion.html(descr);
+      dialogDOM.dialog({
+        dialogClass: "jq-ui-dialog",
+        title:title,
+        resizable: true,
+        height:240,
+        minHeight:240,
+        minWidth: 380,
+        modal: true,
+        buttons: [
+            {
+              text: yesBtn,
+              click: function() {
+                callback('yes');
+                $( this ).dialog( "close" );
+              }
+            },
+            {
+              text: noBtn,
+              click: function() {
+                callback('no');
+                $( this ).dialog( "close" );
+              }
+            }
+          ]
+      });    
+
+    };
+
+    return {
+      yesNoDialog: yesNoDialog
+    };
+
+});

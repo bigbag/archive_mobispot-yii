@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mobispot').controller('SpotController',
-  function($scope, $http, $compile, $timeout, contentService) {
+  function($scope, $http, $compile, $timeout, contentService, dialogService) {
 
 /* Инициализация переменных */
 
@@ -31,6 +31,8 @@ angular.module('mobispot').controller('SpotController',
   $scope.actions.in_progress = false;
   $scope.actions.offset = 0;
   $scope.actions.count_all = 0;
+  
+  $scope.text = {};
 
 /* CRUD для спота */
 
@@ -249,30 +251,68 @@ angular.module('mobispot').controller('SpotController',
 
   // Очищаем спот
   $scope.cleanSpot = function(spot) {
-    $http.post('/spot/clean', spot).success(function(data) {
-      if(data.error == 'no') {
-        $scope.general.views = 'spot';
-      }
-    });
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+      
+      $http.post('/spot/clean', spot).success(function(data) {
+        if(data.error == 'no') {
+          $scope.general.views = 'spot';
+        }
+      });  
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    $scope.text.clean_spot,
+    $scope.text.clean_spot_descr
+    );  
   };
 
   // Удаляем спот
   $scope.removeSpot = function(spot) {
-    $http.post('/spot/remove', spot).success(function(data) {
-      if(data.error == 'no') {
-        angular.element(location).attr('href','/spot/list/');
-      }
-    });
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+  
+      $http.post('/spot/remove', spot).success(function(data) {
+        if(data.error == 'no') {
+          angular.element(location).attr('href','/spot/list/');
+        }
+      });
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    $scope.text.rm_spot,
+    $scope.text.rm_spot_descr
+    );  
   };
 
   // Меняем статус спота
   $scope.ivisibleSpot = function(spot) {
-    $http.post('/spot/invisible', spot).success(function(data) {
-      if(data.error == 'no') {
-        $scope.spot.status = data.status;
-        angular.element('#'+spot.discodes).toggleClass('invisible');
-      }
-    });
+    var title = $scope.text.mk_invisible;
+    var descr = $scope.text.mk_invisible_descr;
+
+    if (spot.status == 6) {
+        title = $scope.text.mk_visible;
+        descr = $scope.text.mk_visible_descr;
+    }
+  
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+  
+      $http.post('/spot/invisible', spot).success(function(data) {
+        if(data.error == 'no') {
+          $scope.spot.status = data.status;
+          angular.element('#'+spot.discodes).toggleClass('invisible');
+        }
+      });
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    title,
+    descr
+    );
   };
 
   // Отображение окна настроек

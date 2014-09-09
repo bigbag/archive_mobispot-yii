@@ -1,4 +1,7 @@
 <li id="<?php echo $spot->discodes_id;?>"
+    <?php if ($spot->status == 6): ?>
+    class="invisible"
+    <?php endif; ?>
     ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='spot'"
     ng-class="{active: spot.discodes=='<?php echo $spot->discodes_id;?>'}">
     <i class="icon i-invisible">&#xe60b;</i>

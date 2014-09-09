@@ -36,6 +36,8 @@
   'Make spot invisible' => 'Сделать спот невидимым',
   'Make spot visible' => 'Сделать спот видимым',
   'Make your spot invisible/visible for the handsets' => 'Сделайте ваш спот невидимым/видимым для мобильных устройств',
+  'Make your spot invisible for the handsets' => 'Сделайте ваш спот невидимым для мобильных устройств',
+  'Make your spot visible for the handsets' => 'Сделайте ваш спот видимым для мобильных устройств',
   'Maximum file size cannot be greater than 25mb' => 'Максимальный размер файла не должен превышать 25мб',
   'Move your link' => '',
   'My bank cards' => 'Мои банковские карты',
@@ -84,4 +86,6 @@
   'Type the text or links' => 'Введите текст или ссылки',
   'Connecting...' => 'Подключение...',
   'Not connected' => 'Не подключен',
+  'Yes' => 'Да',
+  'No' => 'Нет',
 );
