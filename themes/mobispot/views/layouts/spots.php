@@ -20,6 +20,8 @@
 
     <?php include('block/footer/spots.php'); ?>
     <?php include('block/script/spots.php'); ?>
-
+    <div id="dialog-confirm" style="display:none" title="<?php echo Yii::t('spot', 'Подтвердите действие'); ?>">
+      <p><span id="dialog-question"></span></p>
+    </div>
 </body>
 </html>
