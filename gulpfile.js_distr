@@ -25,6 +25,7 @@ gulp.task('mobile_view_style', function() {
 gulp.task('mobile_style', function() {
   return gulp.src([
         'themes/mobispot/css/mobile-style.css',
+        'themes/mobispot/css/jquery-ui-dialogs.css',
         'themes/mobispot/css/mobile-add.css'
         ])
     .pipe(concat('style_mobile.min.css'))

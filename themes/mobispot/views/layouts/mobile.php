@@ -24,5 +24,9 @@
         <script src="/themes/mobispot/angular/app.min.js"></script>
         <?php echo $this->blockFooterScript; ?>
         <script src="/themes/mobispot/js/script_mobile.min.js"></script>
+        
+    <div id="dialog-confirm" style="display:none" title="<?php echo Yii::t('spot', 'Подтвердите действие'); ?>">
+      <p><span id="dialog-question"></span></p>
+    </div>
     </body>
 </html>
