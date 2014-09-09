@@ -14,6 +14,19 @@
         </div>
     </div>
     <div class="fc"></div>
+    <span ng-init="
+        text.yes_btn='<?php echo Yii::t('spot', 'Yes'); ?>';
+        text.no_btn='<?php echo Yii::t('spot', 'No'); ?>';
+        text.mk_invisible='<?php echo Yii::t('spot', 'Make spot invisible').'?'; ?>';
+        text.mk_invisible_descr='<?php echo Yii::t('spot', 'Make your spot invisible for the handsets'); ?>';
+        text.mk_visible='<?php echo Yii::t('spot', 'Make spot visible').'?'; ?>';
+        text.mk_visible_descr='<?php echo Yii::t('spot', 'Make your spot visible for the handsets'); ?>';
+        text.clean_spot='<?php echo Yii::t('spot', 'Clean spot').'?'; ?>';
+        text.clean_spot_descr='<?php echo Yii::t('spot', 'Clean all the content from your spot.<br /> Will be impossible to restore.'); ?>';
+        text.rm_spot='<?php echo Yii::t('spot', 'Delete spot').'?'; ?>';
+        text.rm_spot_descr='<?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.'); ?>'">
+        
+    </span>
 </div>
 <div id="spot-edit"
     class="hide spot-item spot-main-input info-pick">
