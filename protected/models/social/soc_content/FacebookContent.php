@@ -10,6 +10,7 @@ class FacebookContent extends SocContentBase
     const URL_PHOTO = '/photo.php?fbid=';
     const URL_POSTS = '/posts/';
     const URL_MY_LIKES = 'me/likes/';
+    const DATE_DIFF = 14400;
 
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
@@ -138,10 +139,10 @@ class FacebookContent extends SocContentBase
                             . '&app_id=' . Yii::app()->eauth->services['facebook_mobile']['client_id']
                             . $redirectUrl;
 
-                $appToken = self::getAppToken();
+                $accessToken = self::userOrAppToken($discodesId);
 
                 //привязан пост
-                if (isset($postId) && isset($socUser['id']) && !empty($appToken)) {
+                if (isset($postId) && isset($socUser['id']) && !empty($accessToken)) {
                     $socToken = SocToken::model()->findByAttributes(array(
                         'user_id' => Yii::app()->user->id,
                         'type' => 1,
@@ -166,8 +167,8 @@ class FacebookContent extends SocContentBase
                 }
                 //последний пост из профиля
 
-                elseif (!empty($appToken)) {
-                    $userFeed = self::makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $appToken);
+                elseif (!empty($accessToken)) {
+                    $userFeed = self::makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $accessToken);
 
                     unset($lastPost);
                     $i = 0;
@@ -189,7 +190,7 @@ class FacebookContent extends SocContentBase
                             elseif (!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))) {
                                 if (isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)) {
                                     $prevPageUrl = $userFeed['paging']['previous'];
-                                    $userFeed = self::makeRequest($userFeed['paging']['previous'] . '&access_token=' . $appToken);
+                                    $userFeed = self::makeRequest($userFeed['paging']['previous'] . '&access_token=' . $accessToken);
                                     $i = 0;
                                 } else {
                                     $lastPost = 'no';
@@ -209,7 +210,7 @@ class FacebookContent extends SocContentBase
                                     . '+and+actor_id='
                                     . $socUser['id']
                                     . '+and+type+in+(46+,+80+,+128+,+247+,+237+,+272)LIMIT+1&access_token='
-                                    . $appToken;
+                                    . $accessToken;
 
                             if (@fopen($query_url, 'r')) {
                                 $fql_query_result = file_get_contents($query_url);
@@ -230,7 +231,7 @@ class FacebookContent extends SocContentBase
                                         $photoId = substr($lastPost['attachment']['media'][0]['href'], (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') + 28));
                                         $photoId = self::rmGetParam($photoId);
 
-                                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
+                                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $accessToken);
                                     } elseif (!empty($lastPost['message']))
                                         $userDetail['last_status'] = $lastPost['message'];
 
@@ -383,6 +384,26 @@ class FacebookContent extends SocContentBase
         return $appToken;
     }
 
+    public static function userOrAppToken($discodesId)
+    {
+        $spot = Spot::model()->findByPk($discodesId);
+        if (!$spot)
+            return self::getAppToken();
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => $spot->user_id,
+            'type' => 1,
+        ));
+        
+        if (!$socToken or empty($socToken->user_token))
+            return self::getAppToken();
+        
+        if (($socToken->token_expires - Time()) < 60)
+            return self::getAppToken();
+        
+        return $socToken->user_token;
+    }
+    
     public static function parseUsername($link)
     {
         $username = $link;
