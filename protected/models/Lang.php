@@ -66,7 +66,8 @@ class Lang extends CActiveRecord
             $select_lang = Yii::app()->request->cookies['lang']->value;
         } elseif (Yii::app()->user->id) {
             $user = User::getById(Yii::app()->user->id);
-            $select_lang = $user->lang;
+            if (!empty($user->lang))
+                $select_lang = $user->lang;
         } else {
             $lang_request = Yii::app()->getRequest()->getPreferredLanguage();
             $select_lang = substr($lang_request,0,1);
