@@ -226,12 +226,13 @@ class UserController extends MController
                 'type' => SocInfo::getTokenBySharingType($sharing->sharing_type),
             ));
 
-            $task = LikesStack::model()->findByAttributes(array('token_id'=>$socToken->id, 'sharing_id'=>$sharing->id));
+            $task = LikesStack::model()->findByAttributes(array('token_id'=>$socToken->id, 'sharing_id'=>$sharing->id, 'wl_id'=>$wl->id));
 
             if (!$task) {
                 $task = new LikesStack();
                 $task->token_id = $socToken->id;
                 $task->sharing_id = $sharing->id;
+                $task->wl_id = $wl->id;
                 $task->save();
             }
         }
