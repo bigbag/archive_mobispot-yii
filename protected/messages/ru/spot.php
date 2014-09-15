@@ -7,9 +7,9 @@
   'Another attempt will be performed in' => 'Новая попытка будет предпринята через',
   'Attention! To link the bank card with your spot we will have to charge you $0.029.' => 'Внимание! Для связывания банковской карты с вашим спотом потребуется списание в размере 1 руб.',
   'Block wallet' => 'Заблокировать кошелек',
-  'Clean all the content from your spot.<br /> Will be impossible to restore.' => 'Отчистить с вашего спота все содержимое.<br />
+  'Clean all the content from your spot.<br /> Will be impossible to restore.' => 'Очистить с вашего спота все содержимое.<br />
 Восстановить будет невозможно.',
-  'Clean spot' => 'Отчистить спот',
+  'Clean spot' => 'Очистить спот',
   'Close form' => 'Закрыть',
   'Coupon' => 'Купон',
   'Current' => 'Платежная',
