@@ -273,7 +273,7 @@ class ServiceController extends MController
 
         $result = User::socialCheck($serviceName, $atributes['id']);
         if ($result['user'] and !$result['token']->allow_login)
-            $this->redirect($redirect);
+            $this->redirect('/service/socialReg');
 
         if (!$result['user'])
             $this->redirect('/service/socialReg');
