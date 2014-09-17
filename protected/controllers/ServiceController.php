@@ -300,7 +300,11 @@ class ServiceController extends MController
         if (!$info)
             $this->redirect('/');
 
-        $this->render('soc_reg', array('info' => $info));
+        $this->renderWithMobile(
+            '//service/soc_reg',
+            array('info' => $info),
+            '//mobile/spot/soc_reg'
+        );
     }
 
     public function actionSetFullView()

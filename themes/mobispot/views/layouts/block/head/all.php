@@ -30,5 +30,3 @@
 
     <script src="/themes/mobispot/js/jquery.min.js"></script>
     <script src="/themes/mobispot/js/angular.min.js"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
