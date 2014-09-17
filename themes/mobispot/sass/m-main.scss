@@ -445,7 +445,7 @@ input{
 		margin: 11px 0 5px;
 		position: absolute;
 		right: 1px;
-		top: 105;
+		top: 105px;
 		color: #0062FF;
 		&:hover{
 			color: #fff;
@@ -926,3 +926,42 @@ padding: 11px 0;
 			}
 		}
 	}
+	.show-block{
+		background: rgba(255,255,255, $opacity);
+		text-align: center;
+		&.b-message{
+			font-size: 16px;
+			z-index: 99;
+			background: rgba(48, 216, 116, 0.95);
+			@include single-transition(all, .2s, ease-in-out);
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			.custom{
+				width: 300px;
+				text-align: left;
+				margin: 0 auto;
+			}
+				&.negative{
+					background: rgba(255, 0, 80, 0.9);
+				}
+				&.alert{
+					background: rgba(255, 255, 255, 0.95);
+				}
+			p{
+				line-height: 20px;
+				padding: 24px 0 20px;
+				margin-bottom: 0;
+				font-size: 16px;
+				color: #FFF;
+				line-height: 25px;
+			}
+			&.fixed{
+				padding: 14px;
+				p{
+					padding: 0;
+				}
+			}
+	}
+}
