@@ -1,18 +1,8 @@
 <?php $this->blockFooterScript = '<script>
-    $(\'a[href^="#"]\').on(\'click\',function (e) {
-        e.preventDefault();
-
-        var target = this.hash,
-        $target = $(target);
-
-        $(\'html, body\').stop().animate({
-            \'scrollTop\': $target.offset().top
-        }, 600, \'swing\', function () {
-            window.location.hash = target;
-        });
+    $(function () {
+        $.scrollIt();
     });
-</script>'
-?>
+</script>'?>
 
 <div class="first-screen" >
     <article class="text-block">
@@ -62,30 +52,30 @@
 </div>
 <div id="info" class="info-screen">
     <acticle class="main">
-    <a href="#nav-devices" id="nav-devices" class="about first"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Our devices'); ?></a>
+    <a href="javacsript:;" data-scroll-index="0" data-scroll-nav="0" class="about first"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Our devices'); ?></a>
     <ul id="infoNav" class="screen-nav">
-        <li>
-            <a href="#nav-payment">
+        <li data-scroll-nav="1">
+            <a href="#payment">
                 <?php echo Yii::t('general', 'Payments'); ?>
-            </a>
-        </li>
-        <li>
-            <a href="#nav-social">
+                </a>
+            </li>
+        <li data-scroll-nav="2">
+            <a href="#">
                 <?php echo Yii::t('general', 'Social links'); ?>
             </a>
         </li>
-        <li>
-            <a href="#nav-coupons">
+        <li data-scroll-nav="3">
+            <a href="#">
                 <?php echo Yii::t('general', 'Coupons'); ?>
             </a>
         </li>
-        <li>
-            <a href="#nav-tickets">
+        <li data-scroll-nav="4">
+            <a href="#">
                 <?php echo Yii::t('general', 'Tickets'); ?>
-            </a>
-        </li>
-        <li>
-            <a href="#nav-work">
+                </a>
+            </li>
+        <li data-scroll-nav="5">
+            <a href="#">
                 <?php echo Yii::t('general', 'Work with us'); ?>
             </a>
         </li>
@@ -235,7 +225,7 @@
                 </article>
             </div>
         </div>
-        <a href="#nav-payment" id="nav-payment" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Payments'); ?></a>
+        <a href="javacsript:;" data-scroll-nav="1" data-scroll-index="1" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Payments'); ?></a>
         <div  id="payment" class="info-item">
         <div class="wrapper">
             <header>
@@ -327,7 +317,7 @@
             </div>
         </div>
         </div>
-        <a href="#nav-social" id="nav-social" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Social links'); ?></a>
+        <a href="javacsript:;" data-scroll-nav="2" data-scroll-index="2" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Social links'); ?></a>
         <div id="soc" class="info-item">
             <header>
                 <h1><?php echo Yii::t('general', 'Make a lasting connection'); ?></h1>
@@ -387,7 +377,7 @@
                 </table>
             </div>
         </div>
-        <a href="#nav-coupons" id="nav-coupons" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Coupons'); ?></a>
+        <a href="javacsript:;" data-scroll-nav="3" data-scroll-index="3" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Coupons'); ?></a>
         <div id="coupon" class="info-item">
         <div class="wrapper">
             <header>
@@ -446,7 +436,7 @@
                 </div>
             </div>
         </div>
-        <a href="#nav-tickets" id="nav-tickets" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Tickets'); ?></a>
+        <a href="#info" data-scroll-nav="4" data-scroll-index="4" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Tickets'); ?></a>
         <div id="transport" class="info-item">
             <header>
                 <h1><?php echo Yii::t('general', 'All your tickets in one place'); ?></h1>
@@ -466,7 +456,7 @@
                 </div>
             </article>
         </div>
-        <a href="#nav-work" id="nav-work" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Work with us'); ?></a>
+        <a href="javacsript:;" data-scroll-nav="5" data-scroll-index="5" class="about"><i class="icon">&#xe613;</i><?php echo Yii::t('general', 'Work with us'); ?></a>
         <div id="dev" class="info-item">
             <header>
                 <h3>
