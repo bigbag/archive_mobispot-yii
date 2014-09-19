@@ -68,7 +68,7 @@
                     </span>
                 </div>
                 <footer class="form-footer">
-                    <a href="#"
+                    <a href="javascript:;"
                         class="left form-button"
                         ng-click="login(user, loginForm.$valid)">
                         <?php echo Yii::t('user', 'Sign in'); ?>
