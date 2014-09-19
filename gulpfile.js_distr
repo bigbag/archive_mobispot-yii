@@ -54,8 +54,7 @@ gulp.task('desktop_style', function() {
 gulp.task('scripts_desktop', function() {
   return gulp.src([
         'themes/mobispot/js/script.js',
-        'themes/mobispot/js/script-add.js',
-        'themes/mobispot/js/scrollIt.min.js'
+        'themes/mobispot/js/script-add.js'
         ])
     .pipe(concat('script.min.js'))
     .pipe(uglify())
