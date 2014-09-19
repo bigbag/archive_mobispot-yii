@@ -42,13 +42,13 @@
                 >
                     <?php echo Yii::t('spot', 'Wallet'); ?>
                 </a>
-                    <?php if (CouponAccess::access($wallet->discodes_id)):?>
+                    <?php //if (CouponAccess::access($wallet->discodes_id)):?>
                     <a
                         ng-class="{active: general.views=='coupon'}"
                         ng-click="general.views='coupon'" >
                         <?php echo Yii::t('spot', 'Coupon'); ?>
                     </a>
-                    <?php endif; ?>
+                    <?php //endif; ?>
                 <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
