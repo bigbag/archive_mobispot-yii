@@ -167,7 +167,12 @@ class UserController extends MController
         if (!empty(Yii::app()->session['check_loyalty_' . $action->id]))
             $ind = Yii::app()->session['check_loyalty_' . $action->id];
 
-        $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
+        $wallet = PaymentWallet::model()->findByAttributes(array(
+            'discodes_id' => $data['discodes'],
+        ));
+        
+        if (!$wallet)
+            MHttp::getJsonOrRedirect($answer, $target);
 
         for ($i=$ind; $i < count($sharings); $i++) {
 
