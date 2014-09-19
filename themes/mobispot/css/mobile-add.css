@@ -85,8 +85,6 @@ a.m-link {
      height:100%;
      width:0px;
  }
-<<<<<<< HEAD
-=======
  
 .coupon sup {
     font-size: 14px;
@@ -109,4 +107,3 @@ a.m-link {
 .coupon.active sup {
     background: repeat scroll 0% 0% #30D874;
 }
->>>>>>> hotfix/loyalty_api
