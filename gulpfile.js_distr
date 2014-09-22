@@ -51,6 +51,21 @@ gulp.task('desktop_style', function() {
     .pipe(gulp.dest(cssPath));
 });
 
+gulp.task('desktop_spot_style', function() {
+  return gulp.src([
+        'themes/mobispot/css/foundation3/foundation.min.css',
+        'themes/mobispot/css/foundation_actual/foundation.min.css',
+        'themes/mobispot/css/jquery-ui-dialogs.css',
+        'themes/mobispot/css/a-slider.css',
+        'themes/mobispot/css/style.css',
+        'themes/mobispot/css/add.css'
+        ])
+    .pipe(concat('spots.min.css'))
+    .pipe(cssimport())
+    .pipe(minifyCss())
+    .pipe(gulp.dest(cssPath));
+});
+
 gulp.task('scripts_desktop', function() {
   return gulp.src([
         'themes/mobispot/js/script.js',
@@ -96,6 +111,7 @@ gulp.task('default', [
     'mobile_view_style',
     'mobile_style',
     'desktop_style',
+    'desktop_spot_style',
     'scripts_desktop',
     'mobile_desktop',
     'angular'

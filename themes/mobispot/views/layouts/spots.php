@@ -4,7 +4,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="mobispot" lang="en"> <!--<![endif]-->
 <head>
     <?php $this->blockHeaderCeo = true;?>
-    <?php include('block/head/all.php'); ?>
+    <?php include('block/head/spots.php'); ?>
 </head>
 <body ng-controller="UserController"
     ng-cloak class="ng-cloak"
