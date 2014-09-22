@@ -38,7 +38,9 @@
             <div class="soc-block">
                 <?php if (!empty($coupon['soc_block'])) echo $coupon['soc_block']; ?>
                 <?php if ($coupon['status']==WalletLoyalty::STATUS_ON):?>
+                    <?php /*
                     <a class="accept" ng-click="disableAction($event, <?php echo $coupon['id']; ?>)"><?php echo Yii::t('spot', 'Cancel participation') ?></a>
+                    */ ?>
                 <?php elseif ($coupon['status']==WalletLoyalty::STATUS_OFF or $coupon['status']==WalletLoyalty::STATUS_ERROR):?>
                     <a class="accept" ng-click="checkLike(<?php echo $coupon['id']; ?>, $event)"><?php echo Yii::t('spot', 'Participate') ?></a>
                 <?php endif; ?>
