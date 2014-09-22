@@ -42,7 +42,9 @@
                         </div>
                     </div>
                     <?php if($coupon['status']==WalletLoyalty::STATUS_ON):?>
+                        <?php /*
                         <a ng-click="disableAction($event, <?php echo $coupon['id']; ?>)" class="form-button red"><?php echo Yii::t('spot', 'Cancel participation') ?></a>
+                        */ ?>
                     <?php elseif ($coupon['status']==WalletLoyalty::STATUS_OFF
                         or $coupon['status']==WalletLoyalty::STATUS_ERROR): ?>
                         <a ng-click="checkLike(<?php echo $coupon['id']; ?>, $event)" class="form-button red"><?php echo Yii::t('spot', 'Participate') ?></a>
