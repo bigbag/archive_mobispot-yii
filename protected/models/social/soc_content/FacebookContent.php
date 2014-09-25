@@ -4,6 +4,7 @@ class FacebookContent extends SocContentBase
 {
 
     const API_PATH = 'https://graph.facebook.com/';
+    const API_PATH_2_1 = 'https://graph.facebook.com/v2.1/';
     const FQL_PATH = 'https://graph.facebook.com/fql?q=';
 
     const URL_BASE = 'facebook.com/';
@@ -167,91 +168,107 @@ class FacebookContent extends SocContentBase
                 }
                 //последний пост из профиля
 
-                elseif (!empty($accessToken)) {
-                    $userFeed = self::makeRequest('https://graph.facebook.com/' . $socUsername . '/feed?access_token=' . $accessToken);
+                elseif (!empty($accessToken) and !empty($socUser['id'])) {
+                    $userFeed = self::makeRequest(self::API_PATH_2_1 . $socUser['id'] . '/feed?access_token=' . $accessToken);
 
                     unset($lastPost);
                     $i = 0;
                     $prevPageUrl = '';
 
-                    if (isset($socUser['id'])) {
-                        while (!isset($lastPost)) {
+                    while (!isset($lastPost)) {
 
-                            if (isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) && (empty($userFeed['data'][$i]['status_type']) || ($userFeed['data'][$i]['status_type'] != 'approved_friend'))//не приглашение в друзья
-                                    && !(!empty($userFeed['data'][$i]['type']) && !empty($userFeed['data'][$i]['story']) && ($userFeed['data'][$i]['type'] == 'status') && (strpos($userFeed['data'][$i]['story'], 'is now using Facebook in') !== false)
-                                    )//не смена языка Facebook
-                                    && !(isset($userFeed['data'][$i]['type']) && $userFeed['data'][$i]['type'] == 'status' && isset($userFeed['data'][$i]['privacy']) && isset($userFeed['data'][$i]['story']) && !isset($userFeed['data'][$i]['message']) && !isset($userFeed['data'][$i]['link']) && !isset($userFeed['data'][$i]['picture']) && !isset($userFeed['data'][$i]['icon']) && !isset($userFeed['data'][$i]['comments'])
-                                    )//не комментарий от имени публичного профиля
-                            )
-                            {
-                                $lastPost = $userFeed['data'][$i];
-                            }
-                            //следующая страница
-                            elseif (!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))) {
-                                if (isset($userFeed['paging']) && isset($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl)) {
-                                    $prevPageUrl = $userFeed['paging']['previous'];
-                                    $userFeed = self::makeRequest($userFeed['paging']['previous'] . '&access_token=' . $accessToken);
-                                    $i = 0;
-                                } else {
-                                    $lastPost = 'no';
-                                }
+                        if (isset($userFeed['data']) && isset($userFeed['data'][$i]) && isset($userFeed['data'][$i]['from']) && isset($userFeed['data'][$i]['from']['id']) && ($userFeed['data'][$i]['from']['id'] == $socUser['id']) 
+                        
+                        and (empty($userFeed['data'][$i]['status_type']) || ($userFeed['data'][$i]['status_type'] != 'approved_friend')
+                        )//не приглашение в друзья
+                        
+                        and !(!empty($userFeed['data'][$i]['story']) and strpos($userFeed['data'][$i]['story'], ' likes') !== false and empty($userFeed['data'][$i]['message'])
+                        )//не лайк
+                        
+                        and !(!empty($userFeed['data'][$i]['story']) and strpos($userFeed['data'][$i]['story'], ' went to an event') !== false and empty($userFeed['data'][$i]['message'])
+                        )//не приглашение на event
+                        
+                        and !(!empty($userFeed['data'][$i]['application']) and !empty($userFeed['data'][$i]['application']['namespace']) and $userFeed['data'][$i]['application']['namespace'] == 'likes'
+                        )//не лайк в приложении
+                        
+                        and !(!empty($userFeed['data'][$i]['application']) and !empty($userFeed['data'][$i]['application']['namespace']) and $userFeed['data'][$i]['application']['namespace'] == 'instapp'
+                        )//не автоперепост Instagramm
+                        
+                        && !(!empty($userFeed['data'][$i]['type']) && !empty($userFeed['data'][$i]['story']) && ($userFeed['data'][$i]['type'] == 'status') && (strpos($userFeed['data'][$i]['story'], 'is now using Facebook in') !== false)
+                        )//не смена языка Facebook
+                        
+                        && !(isset($userFeed['data'][$i]['type']) && $userFeed['data'][$i]['type'] == 'status' && isset($userFeed['data'][$i]['privacy']) && isset($userFeed['data'][$i]['story']) && !isset($userFeed['data'][$i]['message']) && !isset($userFeed['data'][$i]['link']) && !isset($userFeed['data'][$i]['picture']) && !isset($userFeed['data'][$i]['icon']) && !isset($userFeed['data'][$i]['comments'])
+                        )//не комментарий от имени публичного профиля
+                        
+                        )
+                        {
+                            $lastPost = $userFeed['data'][$i];
+                        }
+                        //следующая страница
+                        elseif (!isset($userFeed['data']) || ($i >= count($userFeed['data'])) || (!isset($userFeed['data'][$i]))) {
+                            if (isset($userFeed['paging']) && !empty($userFeed['paging']['previous']) && ($userFeed['paging']['previous'] != $prevPageUrl) and !empty($userFeed['paging']['next'])) {
+                                $prevPageUrl = $userFeed['paging']['previous'];
+                                $userFeed = self::makeRequest($userFeed['paging']['next'] . '&access_token=' . $accessToken);
+                                $i = 0;
                             } else {
-                                $i++;
+                                $lastPost = 'no';
                             }
-                        }
-
-                        if ($lastPost != 'no') {
-                            $postContent = self::getPostContent($lastPost);
-                            foreach ($postContent as $postKey => $postValue)
-                                $userDetail[$postKey] = $postValue;
                         } else {
-                            $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+,created_time+FROM+stream+WHERE+source_id='
-                                    . $socUser['id']
-                                    . '+and+actor_id='
-                                    . $socUser['id']
-                                    . '+and+type+in+(46+,+80+,+128+,+247+,+237+,+272)LIMIT+1&access_token='
-                                    . $accessToken;
+                            $i++;
+                        }
+                    }
 
-                            if (@fopen($query_url, 'r')) {
-                                $fql_query_result = file_get_contents($query_url);
-                                $lastPost = json_decode($fql_query_result, true);
+                    if ($lastPost != 'no') {
+                        $postContent = self::getPostContent($lastPost);
+                        foreach ($postContent as $postKey => $postValue)
+                            $userDetail[$postKey] = $postValue;
+                    } else {
+                        $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+,created_time+FROM+stream+WHERE+source_id='
+                                . $socUser['id']
+                                . '+and+actor_id='
+                                . $socUser['id']
+                                . '+and+type+in+(46+,+80+,+128+,+247+,+237+,+272)LIMIT+1&access_token='
+                                . $accessToken;
 
-                                if (isset($lastPost['data']) && isset($lastPost['data'][0])) {
-                                    $lastPost = $lastPost['data'][0];
+                        if (@fopen($query_url, 'r')) {
+                            $fql_query_result = file_get_contents($query_url);
+                            $lastPost = json_decode($fql_query_result, true);
 
-                                    if (isset($lastPost['story']))
-                                        $userDetail['sub-line'] = $lastPost['story'];
-                                    elseif (isset($lastPost['type']) and $lastPost['type'] == 'link' and isset($lastPost['status_type']) and $lastPost['status_type'] == 'shared_story' and !empty($lastPost['link'])) {
-                                        //$userDetail['block_type'] = self::TYPE_SHARED_LINK;
-                                        $userDetail['sub-line'] = Yii::t('social', 'shared a link');
+                            if (isset($lastPost['data']) && isset($lastPost['data'][0])) {
+                                $lastPost = $lastPost['data'][0];
 
-                                    }
+                                if (isset($lastPost['story']))
+                                    $userDetail['sub-line'] = $lastPost['story'];
+                                elseif (isset($lastPost['type']) and $lastPost['type'] == 'link' and isset($lastPost['status_type']) and $lastPost['status_type'] == 'shared_story' and !empty($lastPost['link'])) {
+                                    //$userDetail['block_type'] = self::TYPE_SHARED_LINK;
+                                    $userDetail['sub-line'] = Yii::t('social', 'shared a link');
 
-                                    if (isset($lastPost['attachment']) and isset($lastPost['attachment']['media']) and isset($lastPost['attachment']['media'][0]) and isset($lastPost['attachment']['media'][0]['href']) and (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') !== false)) {
-                                        $photoId = substr($lastPost['attachment']['media'][0]['href'], (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') + 28));
-                                        $photoId = self::rmGetParam($photoId);
+                                }
 
-                                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $accessToken);
-                                    } elseif (!empty($lastPost['message']))
-                                        $userDetail['last_status'] = $lastPost['message'];
+                                if (isset($lastPost['attachment']) and isset($lastPost['attachment']['media']) and isset($lastPost['attachment']['media'][0]) and isset($lastPost['attachment']['media'][0]['href']) and (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') !== false)) {
+                                    $photoId = substr($lastPost['attachment']['media'][0]['href'], (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') + 28));
+                                    $photoId = self::rmGetParam($photoId);
 
-                                    unset($dateDiff);
+                                    $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $accessToken);
+                                } elseif (!empty($lastPost['message']))
+                                    $userDetail['last_status'] = $lastPost['message'];
 
-                                    if (!empty($lastPost['created_time'])) {
-                                        $dateDiff = time() - $lastPost['created_time'];
-                                        $userDetail['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
-                                    }
+                                unset($dateDiff);
+
+                                if (!empty($lastPost['created_time'])) {
+                                    $dateDiff = time() - $lastPost['created_time'];
+                                    $userDetail['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
                                 }
                             }
                         }
+                    }
 
-                        if (isset($photoData) && !(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images'])) {
-                            $userDetail['last_img'] = $photoData['source'];
-                            if (!empty($photoData['name']))
-                                $userDetail['last_img_msg'] = $photoData['name'];
-                            if (!empty($photoData['link']))
-                                $userDetail['last_img_href'] = $photoData['link'];
-                        }
+                    if (isset($photoData) && !(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images'])) {
+                        $userDetail['last_img'] = $photoData['source'];
+                        if (!empty($photoData['name']))
+                            $userDetail['last_img_msg'] = $photoData['name'];
+                        if (!empty($photoData['link']))
+                            $userDetail['last_img_href'] = $photoData['link'];
                     }
                 }
             }else {
@@ -303,6 +320,8 @@ class FacebookContent extends SocContentBase
                 $postContent['block_type'] = self::TYPE_SHARED_LINK;
                 if (!empty($post['name']))
                     $postContent['link_name'] = $post['name'];
+                if (!empty($post['message']))
+                    $postContent['text'] = $post['message'];
                 if (!empty($post['caption']))
                     $postContent['link_caption'] = $post['caption'];
                 if (!empty($post['description']))
