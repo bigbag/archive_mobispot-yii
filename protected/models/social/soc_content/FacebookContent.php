@@ -185,6 +185,15 @@ class FacebookContent extends SocContentBase
                         and !(!empty($userFeed['data'][$i]['story']) and strpos($userFeed['data'][$i]['story'], ' likes') !== false and empty($userFeed['data'][$i]['message'])
                         )//не лайк
                         
+                        and !(!empty($userFeed['data'][$i]['story']) and strpos($userFeed['data'][$i]['story'], ' went to an event') !== false and empty($userFeed['data'][$i]['message'])
+                        )//не приглашение на event
+                        
+                        and !(!empty($userFeed['data'][$i]['application']) and !empty($userFeed['data'][$i]['application']['namespace']) and $userFeed['data'][$i]['application']['namespace'] == 'likes'
+                        )//не лайк в приложении
+                        
+                        and !(!empty($userFeed['data'][$i]['application']) and !empty($userFeed['data'][$i]['application']['namespace']) and $userFeed['data'][$i]['application']['namespace'] == 'instapp'
+                        )//не автоперепост Instagramm
+                        
                         && !(!empty($userFeed['data'][$i]['type']) && !empty($userFeed['data'][$i]['story']) && ($userFeed['data'][$i]['type'] == 'status') && (strpos($userFeed['data'][$i]['story'], 'is now using Facebook in') !== false)
                         )//не смена языка Facebook
                         
@@ -311,6 +320,8 @@ class FacebookContent extends SocContentBase
                 $postContent['block_type'] = self::TYPE_SHARED_LINK;
                 if (!empty($post['name']))
                     $postContent['link_name'] = $post['name'];
+                if (!empty($post['message']))
+                    $postContent['text'] = $post['message'];
                 if (!empty($post['caption']))
                     $postContent['link_caption'] = $post['caption'];
                 if (!empty($post['description']))
