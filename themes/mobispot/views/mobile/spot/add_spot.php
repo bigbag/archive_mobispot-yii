@@ -1,4 +1,4 @@
-<div class="wrapper" ng-controller="SpotController" ng-init="spot.token='<?php echo Yii::app()->request->csrfToken; ?>'; host_type='desktop';">
+<div class="wrapper" ng-controller="SpotController" ng-init="spot.token='<?php echo Yii::app()->request->csrfToken; ?>'; host_type='mobile';">
     <div id="menu" class="main-menu">
         <ul>
             <li><a href="/spot/addSpot"><i>+</i><?php echo Yii::t('user', 'Add New Spot'); ?></a></li>
