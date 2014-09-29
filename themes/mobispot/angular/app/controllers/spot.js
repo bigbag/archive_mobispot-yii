@@ -715,6 +715,10 @@ angular.module('mobispot').controller('SpotController',
                         if (currentNet > -1)
                             $scope.soc_patterns[currentNet].BindByPaste = true;
                     }
+                    else
+                    {
+                      contentService.messageModal(data.linkCorrect, $scope.host_type);
+                    }
                 }
             }
         }
@@ -786,11 +790,11 @@ angular.module('mobispot').controller('SpotController',
             }
             else
             {
-                contentService.setModal(data.linkCorrect, 'none');
+                contentService.messageModal(data.linkCorrect, $scope.host_type);
             }
           }
         }else if(data.linkCorrect != 'ok'){
-            contentService.setModal(data.linkCorrect, 'none');
+            contentService.messageModal(data.linkCorrect, $scope.host_type);
         }
       }
     });
@@ -977,7 +981,7 @@ angular.module('mobispot').controller('SpotController',
             if (currentNet > -1)
                 $scope.soc_patterns[currentNet].BindByPaste = true;
             } else {
-              contentService.setModal(data.linkCorrect, 'none');
+              contentService.messageModal(data.linkCorrect, $scope.host_type);
             }
           } else socTimer = $timeout($scope.loginTimer, 1000);
           }

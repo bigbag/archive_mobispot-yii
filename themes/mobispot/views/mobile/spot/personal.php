@@ -5,7 +5,7 @@
         user.token=spot.token;
         general.views='<?php echo $curent_views;?>';
         spot.discodes='<?php echo $spot->discodes_id;?>';
-        host_type='desktop';
+        host_type='mobile';
         spot.status=<?php echo $spot->status; ?>;
         host_mobile=1
         "

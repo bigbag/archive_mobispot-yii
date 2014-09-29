@@ -39,7 +39,30 @@ angular.module('mobispot').service('contentService', function() {
         resultModal.hide();
       }, 5000);
     };
-
+    
+    this.messageModal = function(message, host_type){
+      speed = 500;
+      if (host_type === 'mobile') {
+          this.mobileModal(message, 'none');
+      } else {
+        angular.element('.lang-list').fadeOut();
+        angular.element('.lang').removeClass('open');
+      
+        var modal = angular.element('#message');
+        var content = angular.element('#message p');
+      
+        if($('.show-block').hasClass('active')){
+          $('.show-block.active').removeClass('active').fadeOut(speed, function(){
+            content.html(message);
+            modal.fadeIn(speed).addClass('active');
+          });
+        } else  {
+          content.html(message);
+          modal.fadeIn(speed).addClass('active');
+        }    
+      }
+    }
+    
     //Автоскролинг до нужного блока
     this.scrollPage = function(id, speed){
       if (angular.isUndefined(speed)) speed = 600;
