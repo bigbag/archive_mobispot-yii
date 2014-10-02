@@ -35,10 +35,6 @@ body {
     opacity: 1;
 }
 
-li.phone-name {
-    color:#0062FF;
-}
-
 .warn {
     color:#FF0050;
     font-size:16px;
