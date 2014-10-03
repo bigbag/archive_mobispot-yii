@@ -32,7 +32,7 @@ class DemoKitOrder extends CActiveRecord
                     array(
                         'id' => 2,
                         'name' => Yii::t('store', 'Key'),
-                        'img' => '/themes/mobispot/img/a_slider/keyfobs_green.png',
+                        'img' => '/themes/mobispot/img/a_slider/keyfobs_green_demo.png',
                         'descr' => Yii::t('store', 'Occupies no space in your pocket but brings all the power of NFC.'),
                         'price' => 120
                     ),
