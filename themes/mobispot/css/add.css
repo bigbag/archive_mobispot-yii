@@ -35,10 +35,6 @@ body {
     opacity: 1;
 }
 
-li.phone-name {
-    color:#0062FF;
-}
-
 .warn {
     color:#FF0050;
     font-size:16px;
@@ -50,9 +46,7 @@ li.phone-name {
 }
 
 #demo-kit-block {
-    background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
-    padding: 22px;
+    background-color: #FFF;
 }
 
 .kit-items .img-w img {
@@ -218,4 +212,8 @@ div.error-page {
 
 .date-time {
     min-width:107px;
+}
+
+.show-address {
+    min-height: 88px;
 }

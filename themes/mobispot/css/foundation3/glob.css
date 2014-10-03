@@ -1,0 +1,91 @@
+html{
+	height: 100%;
+}
+body{
+	font-size: 87%;
+	min-width: 1000px;
+}
+.color{
+	color: #0062ff;
+}
+li{
+	list-style: none;
+}
+.logo a{
+	display: block;
+	max-width: 207px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: block;
+}
+.clear{
+	clear: both;
+	float: none;
+}
+
+
+* html .clearfix {
+	height: 1%;
+}
+
+.table-reset{
+	background: none;
+	border: 0;
+	margin: 0;
+	border-spacing: 0;
+
+}
+.table-reset tbody tr:nth-child(2n){
+	background: none;
+}
+.round,
+.round > img{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	behavior: url(/css/PIE.htc);
+	position: relative;
+}
+.slow{
+	-webkit-transition: color linear .2s;
+	-moz-transition: color linear .2s;
+	-o-transition: color linear .2s;
+	transition: color linear .2s;
+	-webkit-transition: background linear .2s;
+	-moz-transition: background linear .2s;
+	-o-transition: background linear .2s;
+	transition: background linear .2s;
+	-webkit-transition: opacity linear .2s;
+	-moz-transition: opacity linear .2s;
+	-o-transition: opacity linear .2s;
+	transition: opacity linear .2s;
+}
+.hide{
+	display: none;
+}
+.overflow-h{
+	overflow: hidden;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	display: none;
+	-webkit-appearance: none;
+	margin: 0;
+}
+.icon{
+	font-family: mobispot-icon !important;
+	font-style: normal;
+}
+.txt-right{
+	text-align: right;
+}

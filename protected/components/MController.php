@@ -10,6 +10,7 @@ class MController extends CController
     public $mainBackground = false;
     public $blockHeaderCeo = false;
     public $blockFooterScript = false;
+    public $casingClass = false;
 
     public $layout = '//layouts/all';
     public $menu = array();

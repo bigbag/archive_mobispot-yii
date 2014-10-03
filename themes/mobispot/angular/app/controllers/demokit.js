@@ -5,13 +5,6 @@ angular.module('mobispot').controller('DemokitController',
 
   $scope.error = {};
 
-  $scope.$watch('store.stage', function() {
-      if ($scope.store.stage == 'shipping' && !$scope.orderForm.$valid) {
-        $scope.store.stage = 'delivery';
-        $scope.error.field = true;
-      }
-  });
-
   $scope.$watch('order.name + order.email + order.phone + order.address + order.city + order.zip + order.country + order.shipping + order.payment', function() {
       $scope.error.field = false;
   });
@@ -86,7 +79,10 @@ angular.module('mobispot').controller('DemokitController',
   };
 
   $scope.buyDemoKit = function(order) {
-    if (!$scope.orderForm.$valid) return false;
+    if (!$scope.orderForm.$valid) {
+        $scope.error.field = true;
+        return false;
+    }
 
     if ($scope.toMain)
       window.location.href = '/';
@@ -106,6 +102,7 @@ angular.module('mobispot').controller('DemokitController',
         } else {
           $scope.result.message = data.message;
           contentService.desktopModal('message');
+          $scope.error.field = true;
         }
       });
     }

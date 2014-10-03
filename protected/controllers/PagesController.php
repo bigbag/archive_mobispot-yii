@@ -5,7 +5,7 @@ class PagesController extends MController
 
     public function actionReaders()
     {
-        $this->layout = '//layouts/all';
+        $this->layout = '//layouts/page';
         $this->render('readers', array('phones' => Phone::getJsonPhones(), 'devices' => Phone::getJsonDevices()));
     }
 
@@ -17,7 +17,7 @@ class PagesController extends MController
 
     public function actionDemoKit()
     {
-        $this->layout = '//layouts/all';
+        $this->layout = '//layouts/demo-kit';
         $config = DemoKitOrder::getConfig();
         $this->render(
             'demo_kit',
