@@ -11,10 +11,12 @@
                 <div class="row demo-block">
                     <div class="small-12 large-12 column">
                         <h1><?php echo Yii::t('store', 'Mobispot demo-kit'); ?></h1>
+                        <?php /*
                         <div class="api-info">
                                 <a href="javascript:;"><?php echo Yii::t('store', 'API description in.pdf')?></a> <br>
                                         <?php echo Yii::t('store', 'If you need a description how to handle Spots in your application download this file.')?> 
                         </div>
+                        */ ?>
                         <p class="form-h clearfix">
                             <?php echo Yii::t('store', 'With our demo-kit you can create really stunning applications. Bring the magic of one tap to your apps for NFC handsets, POS terminals and simple contactless readers.'); ?> <br>
                         </p>
