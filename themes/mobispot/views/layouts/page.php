@@ -16,7 +16,9 @@
         
         <?php include('block/header/page.php'); ?>
 
+        <div ng-click="hideModal()">
             <?php echo $content; ?>
+        </div>
 
         <?php if (!empty($this->mainBackground)): ?>
             </div>

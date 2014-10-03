@@ -46,9 +46,7 @@ body {
 }
 
 #demo-kit-block {
-    background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.9);
-    border-radius: 5px;
-    padding: 22px;
+    background-color: #FFF;
 }
 
 .kit-items .img-w img {
@@ -214,4 +212,8 @@ div.error-page {
 
 .date-time {
     min-width:107px;
+}
+
+.show-address {
+    min-height: 88px;
 }
