@@ -26,7 +26,7 @@ Class MMail
         $stack->senders = json_encode($senders);
         $stack->recipients = json_encode($recipients);
         $stack->subject = $mailTemplate->subject;
-        $stack->body = MMail::render($lang . '_' . $mailTemplate->slug, $data, true);
+        $stack->body = MMail::render($mailTemplate->lang . '_' . $mailTemplate->slug, $data, true);
 
         if (!$stack->save())
             return false;

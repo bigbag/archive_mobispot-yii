@@ -14,6 +14,7 @@
  */
 class MailTemplate extends CActiveRecord
 {
+    const LANG_DAFAULT = 'en';
 
     /**
      * Returns the static model of the specified AR class.
@@ -68,11 +69,15 @@ class MailTemplate extends CActiveRecord
 
     public static function getTemplate($slug, $lang)
     {
-        $mail_template = Yii::app()->cache->get('mail_template_' . $slug);
+        $mail_template = Yii::app()->cache->get($lang . '_mail_template_' . $slug);
+        
         if (!$mail_template) {
             $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug, 'lang' => $lang));
 
-            Yii::app()->cache->set('mail_template_' . $slug, $mail_template, 36000);
+            if (!$mail_template)
+                $mail_template = MailTemplate::model()->findByAttributes(array('slug' => $slug, 'lang' => self::LANG_DAFAULT));
+            
+            Yii::app()->cache->set($lang . '_mail_template_' . $slug, $mail_template, 36000);
         }
         return $mail_template;
     }
