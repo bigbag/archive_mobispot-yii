@@ -21,6 +21,22 @@
         <header>
             <h1><a href="/"><img width="140" src="/themes/mobispot/img/logo_x2.png"></a></h1>
             <a class="full-size" href="/service/setFullView"><i class="icon">&#xf108;</i><?php echo Yii::t('spot', 'Full size version'); ?></a>
+            <div id="message" class="show-block b-message" ng-class="{active: (modal=='message')}">
+                <p>{{result.message}}
+                </p>
+            </div>
+            <div id="b-dialog" class="show-block b-message"> 
+            <?php // <!-- .alert (bg grey), .negative (bg red) --> ?>
+                    <p>
+                    </p>
+                            
+                    <form class="custom">
+                        <footer class="form-footer">
+                            <a class="form-button yes-button">Yes</a>
+                            <a class="form-button no-button">No</a>
+                        </footer>
+                    </form>
+            </div>
         </header>
         <div class="control">
                 <a href="/spot/list" class="back icon">&#xe602;</a>

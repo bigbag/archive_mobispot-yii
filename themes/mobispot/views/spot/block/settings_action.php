@@ -26,7 +26,7 @@
         <div class="row toggle-visible">
             <div class="columns large-4">
                 <a class="red"
-                    ng-click="ivisibleSpot(spot)">
+                    ng-click="$event.stopPropagation();ivisibleSpot(spot)">
                     <div ng-show="spot.status==2">
                         <i class="icon">&#xe60c;</i>
                         <span><?php echo Yii::t('spot', 'Make spot invisible')?></span>
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="columns large-3">
                 <a class="red"
-                    ng-click="cleanSpot(spot)">
+                    ng-click="$event.stopPropagation();cleanSpot(spot)">
                     <i class="icon">&#xe609;</i>
                     <span><?php echo Yii::t('spot', 'Clean spot')?></span>
                 </a>
@@ -56,7 +56,7 @@
         <div class="row">
             <div class="columns large-3">
                 <a class="red"
-                    ng-click="removeSpot(spot)">
+                    ng-click="$event.stopPropagation();removeSpot(spot)">
                     <i class="icon">&#xe60a;</i>
                     <span><?php echo Yii::t('spot', 'Delete spot')?></span>
                 </a>

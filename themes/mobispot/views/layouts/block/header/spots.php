@@ -24,4 +24,16 @@
         <p>{{result.message}}
         </p>
     </div>
+    <div id="b-dialog" class="show-block b-message"> 
+    <?php // <!-- .alert (bg grey), .negative (bg red) --> ?>
+            <p>
+            </p>
+                    
+            <form class="custom">
+                <footer class="form-footer">
+                    <a class="form-button yes-button">Yes</a>
+                    <a class="form-button no-button">No</a>
+                </footer>
+            </form>
+    </div>
 </header>
