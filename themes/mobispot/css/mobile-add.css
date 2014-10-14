@@ -107,3 +107,24 @@ a.m-link {
 .coupon.active sup {
     background: repeat scroll 0% 0% #30D874;
 }
+
+.show-block {
+    display: none;
+}
+
+.show-block .form-button {
+    margin-top: 0px;
+    display: inline-block;
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+}
+
+.show-block .form-button.yes-button {
+    margin-right: 60px;
+}
+
+
+.show-block footer.form-footer {
+    text-align:center;
+}

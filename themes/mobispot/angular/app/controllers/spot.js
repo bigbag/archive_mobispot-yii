@@ -264,7 +264,7 @@ angular.module('mobispot').controller('SpotController',
     $scope.text.yes_btn,
     $scope.text.no_btn,
     $scope.text.clean_spot,
-    $scope.text.clean_spot_descr
+    'negative'
     );  
   };
 
@@ -283,7 +283,7 @@ angular.module('mobispot').controller('SpotController',
     $scope.text.yes_btn,
     $scope.text.no_btn,
     $scope.text.rm_spot,
-    $scope.text.rm_spot_descr
+    'negative'
     );  
   };
 
@@ -311,7 +311,7 @@ angular.module('mobispot').controller('SpotController',
     $scope.text.yes_btn,
     $scope.text.no_btn,
     title,
-    descr
+    'negative'
     );
   };
 
