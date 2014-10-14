@@ -74,36 +74,51 @@ angular.module('mobispot').service('contentService', function() {
 });
 
 angular.module('mobispot').service('dialogService', function() {
-    var dialogDOM = angular.element("#dialog-confirm");
-    var dialogQuestion = angular.element("#dialog-question");
     
-    var yesNoDialog = function(callback, yesBtn, noBtn, title, descr) {
-      dialogQuestion.html(descr);
-      dialogDOM.dialog({
-        dialogClass: "jq-ui-dialog",
-        title:title,
-        resizable: true,
-        height:240,
-        minHeight:240,
-        minWidth: 380,
-        modal: true,
-        buttons: [
-            {
-              text: yesBtn,
-              click: function() {
-                callback('yes');
-                $( this ).dialog( "close" );
-              }
-            },
-            {
-              text: noBtn,
-              click: function() {
-                callback('no');
-                $( this ).dialog( "close" );
-              }
-            }
-          ]
-      });    
+    var yesNoDialog = function(callback, textYes, textNo, message, dialog_class) {
+      speed = 500;
+
+      angular.element('.lang-list').fadeOut();
+      angular.element('.lang').removeClass('open');
+    
+      var modal = angular.element('#b-dialog');
+      var content = angular.element('#b-dialog p');
+      var btnYes = angular.element('#b-dialog .yes-button');
+      var btnNo = angular.element('#b-dialog .no-button');
+      
+      if($('.show-block').hasClass('active'))
+        $('.show-block.active').removeClass('active').fadeOut(0);
+      
+      content.html(message);
+      btnYes.text(textYes);
+      btnNo.text(textNo);
+      modal.removeClass('alert');
+      modal.removeClass('negative');
+      if (typeof dialog_class !== 'undefined')
+        modal.addClass(dialog_class);
+      modal.fadeIn(speed).addClass('active');
+      
+      btnYes.bind("click", cbYes);   
+      btnNo.bind("click", cbNo);
+      $(document).bind("click", cbNo);
+      
+      function cbYes() {
+        callback('yes');
+        closeDialog();
+      }
+      
+      function cbNo() {
+        callback('no');
+        closeDialog();
+      }
+      
+      function closeDialog() {
+        btnYes.unbind("click", cbYes);  
+        btnNo.unbind("click", cbNo);
+        $(document).unbind("click", cbNo);
+        
+        modal.removeClass('active').fadeOut(speed);      
+      }
 
     };
 

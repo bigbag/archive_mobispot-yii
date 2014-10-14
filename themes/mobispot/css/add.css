@@ -217,3 +217,20 @@ div.error-page {
 .show-address {
     min-height: 88px;
 }
+
+.header-page .show-block.negative .form-button {
+    color: #fff;
+    cursor: pointer;
+}
+
+.header-page .show-block.negative .form-button:hover {
+    color: #000;
+}
+
+.show-block footer.form-footer {
+    text-align:center;
+}
+
+.show-block .form-button.yes-button {
+    margin-right: 30px;
+}
