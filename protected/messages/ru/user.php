@@ -1,6 +1,6 @@
 <?php return  array (
   'A letter with instructions has been sent to your email address. Thank you.' => 'Письмо с инструкцией было выслано на Вашу эл. почту.',
-  'Activate spot' => 'Активировать',
+  'Activate spot' => 'Зарегистрировать',
   'Bad Request' => 'Ошибка',
   'Birthday' => 'День рождения',
   'Change password' => 'Смена пароля',
