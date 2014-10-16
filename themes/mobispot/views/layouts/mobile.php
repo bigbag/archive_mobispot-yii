@@ -21,6 +21,7 @@
             <p></p>
         </div>
         <script src="/themes/mobispot/js/jquery-ui.min.js"></script>
+        <script src="/themes/mobispot/js/jquery.animate-enhanced.min.js"></script>
         <script src="/themes/mobispot/angular/app.min.js"></script>
         <?php echo $this->blockFooterScript; ?>
         <script src="/themes/mobispot/js/script_mobile.min.js"></script>
