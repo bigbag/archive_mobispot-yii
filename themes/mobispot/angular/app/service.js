@@ -15,7 +15,7 @@ angular.module('mobispot').service('contentService', function() {
       }
       var modal = angular.element('#' + action);
 
-      if($('.show-block').hasClass('active')){
+      if($('.show-block').hasClass('active')  && ($('.show-block.active').attr('id') != action)){
         $('.show-block.active').removeClass('active').fadeOut(speed, function(){
           modal.fadeIn(speed).addClass('active');
         });
