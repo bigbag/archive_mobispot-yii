@@ -31,7 +31,7 @@ class FacebookContent extends SocContentBase
         unset($photoId);
 
         if (strpos($link, 'facebook.com/photo.php?fbid=') !== false) {
-            $photoId = self::parseParam('facebook.com/photo.php?fbid=');
+            $photoId = self::parseParam($link, 'facebook.com/photo.php?fbid=');
         } elseif ((strpos($link, 'facebook.com/') !== false) && (strpos($link, '/posts/') !== false)) {
             $postId = self::parseParam($link, '/posts/');
         }
