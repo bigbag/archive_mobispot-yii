@@ -16,29 +16,10 @@ class FacebookContent extends SocContentBase
     public static function isLinkCorrect($link, $discodesId = null, $dataKey = null)
     {
         $result = 'ok';
-        unset($postId);
-
-        if ((strpos($link, 'facebook.com/') !== false) && (strpos($link, '/posts/') !== false)) {
-            $postId = substr($link, (strpos($link, '/posts/') + 7));
-            $postId = self::rmGetParam($postId);
-        }
-
-        if (strpos($link, 'facebook.com/photo.php?fbid=') === false) {
-            $socUsername = self::parseUsername($link);
-            $result = 'ok';
-            $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername);
-
-            if (!empty($socUser['error']) || empty($socUser['id']))
-                $result = Yii::t('social', "This account doesn't exist:") . $socUsername;
-            elseif ((empty($socUser['is_published']) || ($socUser['is_published'] != 'true')) && !isset($postId)) {
-                if (empty(Yii::app()->session['facebook_id'])) {
-                    $result = Yii::t('social', "Please log in with your Facebook account to perform this action");
-                } elseif (Yii::app()->session['facebook_id'] != $socUser['id']) {
-                    $result = Yii::t('social', "You are not allowed to use page of another person in your spot");
-                }
-            }
-        }
-
+        
+        if (strpos($link, 'facebook.com/') === false)
+            $result = Yii::t('social', "Incorrect link");
+            
         return $result;
     }
 
@@ -50,11 +31,9 @@ class FacebookContent extends SocContentBase
         unset($photoId);
 
         if (strpos($link, 'facebook.com/photo.php?fbid=') !== false) {
-            $photoId = substr($link, (strpos($link, 'facebook.com/photo.php?fbid=') + 28));
-            $photoId = self::rmGetParam($photoId);
+            $photoId = self::parseParam('facebook.com/photo.php?fbid=');
         } elseif ((strpos($link, 'facebook.com/') !== false) && (strpos($link, '/posts/') !== false)) {
-            $postId = substr($link, (strpos($link, '/posts/') + 7));
-            $postId = self::rmGetParam($postId);
+            $postId = self::parseParam($link, '/posts/');
         }
 
         if (!empty($photoId)) {
@@ -222,45 +201,6 @@ class FacebookContent extends SocContentBase
                         $postContent = self::getPostContent($lastPost);
                         foreach ($postContent as $postKey => $postValue)
                             $userDetail[$postKey] = $postValue;
-                    } else {
-                        $query_url = 'https://graph.facebook.com/fql?q=SELECT+message+,+attachment+,created_time+FROM+stream+WHERE+source_id='
-                                . $socUser['id']
-                                . '+and+actor_id='
-                                . $socUser['id']
-                                . '+and+type+in+(46+,+80+,+128+,+247+,+237+,+272)LIMIT+1&access_token='
-                                . $accessToken;
-
-                        if (@fopen($query_url, 'r')) {
-                            $fql_query_result = file_get_contents($query_url);
-                            $lastPost = json_decode($fql_query_result, true);
-
-                            if (isset($lastPost['data']) && isset($lastPost['data'][0])) {
-                                $lastPost = $lastPost['data'][0];
-
-                                if (isset($lastPost['story']))
-                                    $userDetail['sub-line'] = $lastPost['story'];
-                                elseif (isset($lastPost['type']) and $lastPost['type'] == 'link' and isset($lastPost['status_type']) and $lastPost['status_type'] == 'shared_story' and !empty($lastPost['link'])) {
-                                    //$userDetail['block_type'] = self::TYPE_SHARED_LINK;
-                                    $userDetail['sub-line'] = Yii::t('social', 'shared a link');
-
-                                }
-
-                                if (isset($lastPost['attachment']) and isset($lastPost['attachment']['media']) and isset($lastPost['attachment']['media'][0]) and isset($lastPost['attachment']['media'][0]['href']) and (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') !== false)) {
-                                    $photoId = substr($lastPost['attachment']['media'][0]['href'], (strpos($lastPost['attachment']['media'][0]['href'], 'facebook.com/photo.php?fbid=') + 28));
-                                    $photoId = self::rmGetParam($photoId);
-
-                                    $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $accessToken);
-                                } elseif (!empty($lastPost['message']))
-                                    $userDetail['last_status'] = $lastPost['message'];
-
-                                unset($dateDiff);
-
-                                if (!empty($lastPost['created_time'])) {
-                                    $dateDiff = time() - $lastPost['created_time'];
-                                    $userDetail['footer-line'] = Yii::t('social', 'last post') . ' ' . SocContentBase::timeDiff($dateDiff);
-                                }
-                            }
-                        }
                     }
 
                     if (isset($photoData) && !(is_string($photoData) && (strpos($photoData, 'error:') !== false)) && isset($photoData) && !empty($photoData['id']) && !empty($photoData['source']) && !empty($photoData['images'])) {
@@ -405,7 +345,10 @@ class FacebookContent extends SocContentBase
 
     public static function userOrAppToken($discodesId)
     {
-        $spot = Spot::model()->findByPk($discodesId);
+        $spot = false;
+        
+        if (!empty($discodesId))
+            $spot = Spot::model()->findByPk($discodesId);
         if (!$spot)
             return self::getAppToken();
         
@@ -446,6 +389,7 @@ class FacebookContent extends SocContentBase
     public static function isLoggegByNet()
     {
         $answer = false;
+
         if (empty(Yii::app()->session['facebook_id']))
             return $answer;
 
@@ -457,7 +401,7 @@ class FacebookContent extends SocContentBase
             'type' => 1,
         ));
 
-        if ($socToken and ($socToken->token_expires - Time()) > 60)
+        if ($socToken and ($socToken->token_expires > time() + self::DATE_DIFF))
             $answer = true;
 
         return $answer;
@@ -599,5 +543,38 @@ class FacebookContent extends SocContentBase
             $shared = true;
 
         return $shared;
+    }
+    
+    public static function getBindedLink($link, $discodes_id, $key)
+    {
+        $answer = $link;
+        
+        if (self::contentNeedSave($link))
+            return $answer;
+        
+        if (!isset(Yii::app()->user->id))
+            return $answer;
+        
+        $socToken = SocToken::model()->findByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => 1,
+        ));
+        
+        if (!$socToken || $socToken->token_expires < time() + self::DATE_DIFF)
+            return $answer;
+        
+        $page_name = self::parseParam($link, 'facebook.com/');        
+        
+        $pageData = self::makeRequest(self::API_PATH_2_1 . $page_name. '?access_token='.self::getAppToken());
+        
+        if (!empty($pageData['id']))
+            return $answer;
+            
+        $userData = self::makeRequest(self::API_PATH_2_1 . 'me?fields=link' . '&access_token=' . $socToken->user_token);
+        
+        if (!empty($userData['link']))
+            $answer = $userData['link'];
+        
+        return $answer;
     }
 }
