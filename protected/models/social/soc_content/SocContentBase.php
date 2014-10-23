@@ -207,5 +207,10 @@ class SocContentBase
 
         return $text;
     }
+    
+    public static function getBindedLink($link, $discodes_id, $key)
+    {
+        return $link;
+    }
 
 }

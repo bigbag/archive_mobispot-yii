@@ -738,6 +738,16 @@ class SocInfo extends CFormModel
 
         return $answer;
     }
+    
+    public function getBindedLink($link, $netName, $discodes_id, $key)
+    {
+        $net = $this->getNetByName($netName);
+
+        $class = $net['contentClass'];
+        $answer = $class::getBindedLink($link, $discodes_id, $key);
+
+        return $answer;
+    }
 
     public static function writeAccessBySocInfo($info)
     {

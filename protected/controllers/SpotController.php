@@ -930,6 +930,7 @@ class SpotController extends MController
             $answer['linkCorrect'] = $socInfo->isLinkCorrect($spotContent->content['data'][$data['key']], $data['discodes'], $data['key']);
             if ($answer['linkCorrect'] == 'ok') {
                 $content['keys'][$data['key']] = 'socnet';
+                $content['data'][$data['key']] = $socInfo->getBindedLink($content['data'][$data['key']], $socNet['name'], $spot->discodes_id, $data['key']);
                 $spotContent->content = $content;
             }
         }
@@ -1042,7 +1043,7 @@ class SpotController extends MController
                     $content['keys'][$content['counter']] = 'socnet';
 
                     if (!empty($data['link']))
-                        $content['data'][$content['counter']] = $data['link'];
+                        $content['data'][$content['counter']] = $socInfo->getBindedLink($data['link'], $answer['socnet'], $spot->discodes_id, $content['counter']);
                     else
                         $content['data'][$content['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
 
@@ -1146,6 +1147,7 @@ class SpotController extends MController
                             $answer['linkCorrect'] = $socInfo->isLinkCorrect($spotContent->content['data'][$answer['key']], $discodes_id, $answer['key']);
                             if ($answer['linkCorrect'] == 'ok') {
                                 $content['keys'][$answer['key']] = 'socnet';
+                                $content['data'][$answer['key']] = $socInfo->getBindedLink($content['data'][$answer['key']], $answer['socnet'], $spot->discodes_id, $answer['key']);
                                 $spotContent->content = $content;
                             }
                         }
@@ -1237,7 +1239,7 @@ class SpotController extends MController
                 if ($answer['linkCorrect'] == 'ok') {
                     $content['keys'][$content['counter']] = 'socnet';
                     if (!empty($data['bindNet']['link']))
-                        $content['data'][$content['counter']] = $data['bindNet']['link'];
+                        $content['data'][$content['counter']] = $socInfo->getBindedLink($data['bindNet']['link'], $answer['socnet'], $spot->discodes_id, $content['counter']);
                     else
                         $content['data'][$content['counter']] = Yii::app()->session[$answer['socnet'] . '_profile_url'];
                     $answer['key'] = $content['counter'];
