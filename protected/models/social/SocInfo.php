@@ -75,7 +75,7 @@ class SocInfo extends CFormModel
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
         $net['profileHint'] = '';
-        $net['sharingType'] = array(Loyalty::VK_SUBS);
+        $net['sharingType'] = array(Loyalty::VK_SUBS, Loyalty::VK_LIKE);
         $net['tokenType'] = SocToken::TYPE_VK;
         $socNetworks[] = $net;
 
