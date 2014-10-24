@@ -272,7 +272,7 @@ class UserController extends MController
 
         if (empty($data['id']) or empty($data['discodes']))
             MHttp::getJsonAndExit($answer);
-/*
+
         $action = Loyalty::model()->findByPk($data['id']);
         $wallet = PaymentWallet::getActivByDiscodesId($data['discodes']);
 
@@ -285,6 +285,10 @@ class UserController extends MController
         ));
 
         if (!$wl)
+            MHttp::getJsonAndExit($answer);
+            
+        //запрет на отключение акции:
+        if ($wl->status != 2)
             MHttp::getJsonAndExit($answer);
 
         $event = new PersonEvent;
@@ -313,7 +317,7 @@ class UserController extends MController
             '//mobile/spot/coupon'
         );
         $answer['error'] = "no";
-*/
+
         echo json_encode($answer);
     }
 
