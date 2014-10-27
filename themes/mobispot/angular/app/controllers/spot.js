@@ -73,6 +73,8 @@ angular.module('mobispot').controller('SpotController',
       $scope.viewCoupons($scope.spot, $scope.actions);
     } else if ($scope.general.views == 'settings'){
       $scope.viewsSettings($scope.spot);
+    } else if ($scope.general.views == 'transport'){
+      $scope.viewTransport($scope.spot);
     }
   });
 
@@ -365,6 +367,21 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
+  
+  // Отображение вкладки Транспорт
+  $scope.viewTransport = function (spot) {
+    var spot_block = angular.element('#spot-block');
+    $http.post('/spot/transport', spot).success(function(data) {
+      if (data.error == 'no'){
+        spot_block.empty();
+        spot_block.html($compile(data.content)($scope));
+        $scope.bodyMinHeight();
+        angular.element('.spot-content_row').show().animate({
+          opacity: 1
+        },500);
+      }
+    }).error(function(error){alert(error)});
+  };
 
   //Cписок купонов
   $scope.listCoupons = function (spot, actions) {
@@ -409,6 +426,17 @@ angular.module('mobispot').controller('SpotController',
    }, 5000);
   };
 
+  //Отображение кастомного макета транспотрной карты
+  $scope.showCustomCard = function(){
+    $('#customCard').addClass('show');
+    $('body').css('overflow', 'hidden');
+  }
+  
+  $scope.hideCustomCard = function(){
+    $('#customCard').removeClass('show');
+    $('body').css('overflow', '');
+  }
+  
   // Блокировка кошелька
   $scope.blockedWallet = function(){
     $http.post('/spot/blockedWallet', $scope.wallet).success(function(data) {

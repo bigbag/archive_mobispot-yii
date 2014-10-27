@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "firm".
+ * This is the model class for table "report".
  *
- * The followings are the available columns in table 'firm':
+ * The followings are the available columns in table 'report':
  * @property integer $id
  * @property integer $term_id
  * @property integer $event_id
@@ -33,6 +33,8 @@ class Report extends CActiveRecord
 
     const STATUS_NEW = 0;
     const STATUS_COMPLETE = 1;
+    const STATUS_FAIL = -1;
+    const STATUS_LOST = -2;
 
     const MAX_RECORD = 10;
     
@@ -121,7 +123,9 @@ class Report extends CActiveRecord
         if ((time() + self::DATE_DIFF - strtotime($this->creation_date)) > self::FAILURE_TIMEOUT
             and self::STATUS_NEW == $this->status)
             $answer = true;
-    
+        elseif (self::STATUS_FAIL == $this->status)
+            $answer = true;
+        
         return $answer;
     }
 }
