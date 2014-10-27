@@ -774,6 +774,7 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    // Отображение купонов
     public function actionCoupons()
     {
         $answer = array(
@@ -818,6 +819,42 @@ class SpotController extends MController
         $answer['error'] = 'no';
 
         echo json_encode($answer);
+    }
+    
+    // Отображение вкладки Транспорт
+    public function actionTransport()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => ''
+        );
+        $data = MHttp::validateRequest();
+
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
+            MHttp::getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot) MHttp::getJsonAndExit($answer);    
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+    
+        Spot::curentViews('transport', true);
+        
+        $answer['content'] = $this->renderPartial(
+            '//spot/transport',
+            array('spot' => $spot, 'wallet'=>$wallet),
+            true
+        );
+
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);    
     }
 
     //список купонов
