@@ -96,4 +96,15 @@ Class MMail
             array('order' => $mailOrder)
         );
     }
+    
+    public function transport_order($email, $mailOrder, $lang)
+    {
+        return MMail::saveMail(
+            'transport_order',
+            $lang,
+            array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']),
+            $email,
+            $mailOrder
+        );
+    }
 }

@@ -2,7 +2,7 @@
 
 <div class="content-wrapper"
     ng-controller="SpotController"
-    ng-init="spot.token=user.token; spot.discodes='<?php echo $curent_discodes;?>';general.views='<?php echo $curent_views;?>'">
+    ng-init="spot.token=user.token; spot.discodes='<?php echo $curent_discodes;?>';general.views='<?php echo $curent_views;?>';setSpot(spot);">
     <div class="content-block">
         <div class="row">
             <div class="columns small-3 large-3">
