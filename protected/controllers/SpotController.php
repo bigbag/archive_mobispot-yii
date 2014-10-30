@@ -1532,8 +1532,15 @@ class SpotController extends MController
         return $answer;
     }
     
+    //загрузка лого или фото для макета транспортной карты
     public function actionUploadImg()
     {
+        $photo_width = 300;
+        $photo_height = 300;
+        
+        $logo_width = 230;
+        $logo_height = 60;
+        
         $answer = array(
             'error' => 'yes',
         );
@@ -1545,12 +1552,20 @@ class SpotController extends MController
         if ($token != Yii::app()->request->csrfToken or !$discodes_id or !$img_type)
             MHttp::getJsonAndExit($answer);
 
-        $fileType = strtolower(substr(strrchr($_FILES['img']['name'], '.'), 1));
+        if (empty($_FILES['img']))
+            MHttp::getJsonAndExit($answer);
+            
+        $img_attr = getimagesize($_FILES['img']['tmp_name']);
         
+        if ($img_attr[2] > 3 or $img_attr[2] < 1)
+            MHttp::getJsonAndExit($answer);
+        
+        /*
+        $fileType = strtolower(substr(strrchr($_FILES['img']['name'], '.'), 1));
         $images = $this->getImageType();
         if (!isset($images[$fileType]))
             MHttp::getJsonAndExit($answer);
-            
+        */    
         $spot = Spot::model()->findByAttributes(
             array(
                 'discodes_id' => (int)$discodes_id,
@@ -1561,22 +1576,32 @@ class SpotController extends MController
         if (!$spot)
             MHttp::getJsonAndExit($answer);
             
-        if ($img_type == 'transport_photo')
+        if ($img_type == 'transport_photo') {
             $filename = 'transport_photo_';
-        elseif ($img_type == 'transport_logo')
+            $img_width = $photo_width;
+            $img_height = $photo_height;
+        }
+        elseif ($img_type == 'transport_logo') {
             $filename = 'transport_logo_';
+            $img_width = $logo_width;
+            $img_height = $logo_height;
+        }
         else
             MHttp::getJsonAndExit($answer);
             
         $filename .= $spot->discodes_id 
-            . '_'. md5($spot->code) . '.' . $fileType;
+            . '_'. md5($spot->code);
 
-        $filepath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $filename;
+        $filepath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $filename . '.png';
 
-        move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
+        //move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
+        
+        MImg::cutToProportionPng($_FILES['img']['tmp_name'], $filepath, $img_width, $img_height); 
+
+        MImg::reduceToFramePng($filepath, $filepath, $img_width, $img_height);
 
         $answer['error'] = 'no';
-        $answer['path'] = '/uploads/spot/' . $filename;
+        $answer['path'] = '/uploads/spot/' . $filename . '.png';
         
         echo json_encode($answer);
     }
