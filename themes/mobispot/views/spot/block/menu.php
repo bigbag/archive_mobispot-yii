@@ -17,13 +17,13 @@
             <?php echo Yii::t('spot', 'Coupon')?>
         </a>
         <?php //endif;?>
-        <?php /*?>
+        <?php if (CouponAccess::access($wallet->discodes_id)):?>
         <a ng-click="general.views='transport'"
             ng-class="{active: general.views=='transport'}">
             <i class="icon">&#xe616;</i>
             <?php echo Yii::t('spot', 'Public transport')?>
         </a>
-        */ ?>
+        <?php endif;?>
     <?php endif;?>
     <a  title="settings"
         ng-click="general.views='settings'"

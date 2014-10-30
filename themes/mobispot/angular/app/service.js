@@ -71,6 +71,17 @@ angular.module('mobispot').service('contentService', function() {
           scrollTop: scroll_height
         }, speed);
     };
+    
+    var current_spot = {};
+    
+    this.setSpot = function(spot) {
+        current_spot = spot;
+    }
+    
+    this.getSpot = function() {
+        return current_spot;
+    }
+    
 });
 
 angular.module('mobispot').service('dialogService', function() {

@@ -33,6 +33,10 @@ angular.module('mobispot').controller('SpotController',
   $scope.actions.count_all = 0;
   
   $scope.text = {};
+  
+  $scope.transport_types = [];
+  $scope.custom_card = {back:'', photo:'', name:'', position:'', logo:'', 
+    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
 
 /* CRUD для спота */
 
@@ -380,7 +384,7 @@ angular.module('mobispot').controller('SpotController',
           opacity: 1
         },500);
       }
-    }).error(function(error){alert(error)});
+    });
   };
 
   //Cписок купонов
@@ -1132,4 +1136,96 @@ angular.module('mobispot').controller('SpotController',
         $scope.listCoupons($scope.spot, $scope.actions);
       }
   };
+  
+  $scope.initTransportType = function(type_id, type_name, type_img) {
+    $scope.transport_types[$scope.transport_types.length] = {id:type_id, name:type_name, img:type_img};
+  };
+  
+  //Выбор задника транспортной карты
+  $scope.setType = function(type) {
+    $scope.custom_card.back = type.id;
+    
+    if (type.img)
+      $('#card-back').css('background-image', ('url(/uploads/transport/' + type.img + ')'));
+  }
+  
+  //Загрузка картинки для макета транспортной карты
+  $scope.sendImg = function(el) {
+    var form = $(el).parents('form');
+    if ($(el).val() === '') {
+        return false;
+    }
+    
+    var discodes_input = form.children('input[name=discodes_id]');
+    var token_input = form.children('input[name=token]');
+    var type_input = form.children('input[name=img_type]');
+    var form_span = form.find('span.upload-holder');
+    var form_icon = form.find('i.upload-holder');
+    var form_img = form.find('img.upload-holder');
+    
+    var spot = contentService.getSpot();
+    
+    if (discodes_input.length)
+        discodes_input.val(spot.discodes);
+        
+    if (token_input.length)
+        token_input.val(spot.token);
+
+    form.ajaxSubmit({
+        type: 'POST',
+        success: function(json_data, statusText, xhr, form) {
+            var data = angular.fromJson(json_data);
+            
+            if (data.error="no") {
+              if (form_span.length)
+                form_span.addClass('hide');
+              if (form_icon.length)
+                form_icon.addClass('hide');
+                    
+              form_img.removeClass('hide');
+              form_img.attr("src", data.path + '?ver=' + new Date().getTime());
+              $scope.$apply(function() {
+                if ('transport_photo' == type_input.val())
+                  $scope.custom_card.photo = data.path;
+                 else if ('transport_logo' == type_input.val())
+                  $scope.custom_card.logo = data.path;
+                $scope.error.custom_card = false;
+              });
+            } else {
+              $scope.error.custom_card = true;
+            }
+        },
+    });
+  };
+  
+  $scope.setSpot = function() {
+    contentService.setSpot($scope.spot);
+  }
+  
+  //Заказ транспортной карты по макету
+  $scope.orderTransportCard = function(custom_card, valid, message_text) {
+    if (!valid || !custom_card.name.length || !custom_card.position.length || !custom_card.photo.length || !custom_card.logo.length) {
+      $scope.error.custom_card = true;
+      return false;
+    }
+    
+    var spot = contentService.getSpot();
+    custom_card.token = spot.token;
+    custom_card.discodes = spot.discodes;
+    
+    $http.post('/spot/orderTransportCard', custom_card).success(function(data) {
+        if ('no' == data.error) {
+          $scope.hideCustomCard();
+          contentService.messageModal(message_text, $scope.host_type);
+        } else {
+          $scope.error.custom_card = true;
+        }
+    });
+  }
+
+  //тригер на снятие ошибки для макета транспортной карты
+  $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.name + custom_card.position + custom_card.photo + custom_card.logo', function() {
+      $scope.error.custom_card = false;
+  });
+  
 });

@@ -1531,4 +1531,87 @@ class SpotController extends MController
 
         return $answer;
     }
+    
+    public function actionUploadImg()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        
+        $token = Yii::app()->request->getParam('token', false);
+        $discodes_id = Yii::app()->request->getParam('discodes_id', false);
+        $img_type = Yii::app()->request->getParam('img_type', false);
+        
+        if ($token != Yii::app()->request->csrfToken or !$discodes_id or !$img_type)
+            MHttp::getJsonAndExit($answer);
+
+        $fileType = strtolower(substr(strrchr($_FILES['img']['name'], '.'), 1));
+        
+        $images = $this->getImageType();
+        if (!isset($images[$fileType]))
+            MHttp::getJsonAndExit($answer);
+            
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$discodes_id,
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+            
+        if ($img_type == 'transport_photo')
+            $filename = 'transport_photo_';
+        elseif ($img_type == 'transport_logo')
+            $filename = 'transport_logo_';
+        else
+            MHttp::getJsonAndExit($answer);
+            
+        $filename .= $spot->discodes_id 
+            . '_'. md5($spot->code) . '.' . $fileType;
+
+        $filepath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $filename;
+
+        move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
+
+        $answer['error'] = 'no';
+        $answer['path'] = '/uploads/spot/' . $filename;
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionOrderTransportCard()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = MHttp::validateRequest();
+        
+        if (empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']) or empty($data['name']) or empty($data['position']) or empty($data['photo']) or empty($data['logo']) or empty($data['discodes']) or !Yii::app()->user->id)
+            MHttp::getJsonAndExit($answer);
+            
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+ 
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        
+        $card_type = TransportType::model()->findByPk($data['back']);
+        if (!$card_type)
+            MHttp::getJsonAndExit($answer);
+        $data['back_img'] = $card_type->img;
+        
+        MMail::transport_order($user->email, $data, Lang::getCurrentLang());
+        MMail::transport_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
+        $answer['error'] = 'no';
+    
+        echo json_encode($answer);
+    }
 }

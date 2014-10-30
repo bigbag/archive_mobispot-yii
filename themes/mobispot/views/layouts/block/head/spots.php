@@ -30,3 +30,4 @@
 
     <script src="/themes/mobispot/js/jquery.min.js"></script>
     <script src="/themes/mobispot/js/angular.min.js"></script>
+    <script src="/themes/mobispot/js/jquery.form.js"></script>

@@ -7,7 +7,7 @@
             <section class="transport-block spot-content_row tabs-item">
             <div class="item-area w-bg clearfix"> 
                 <h4>"Московская транспортная карта "Тройка" 
-                    <a class="spot-button_block" ng-click="blockedCard()" href="javascript:;">
+                    <a class="spot-button_block" href="javascript:;">
                                         <span class="block"><i class="icon">&#xe606;</i>block card</span>
                                     </a>
                     </h4>
