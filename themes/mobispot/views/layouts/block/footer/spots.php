@@ -63,12 +63,8 @@
                             '<?php echo $type->img; ?>')">
                         </span>
                         <?php endforeach; ?>
-                        <span ng-init="setType(transport_types[0])"></span>
-                        <select class="medium">
-                            <option ng-repeat="type in transport_types"
-                             ng-click="setType(type)">
-                            {{type.name}}
-                            </option>
+                        <span ng-init="selected_type = transport_types[0];setType(transport_types[0])"></span>
+                        <select class="medium" ng-model="selected_type" ng-change="setType(selected_type)" ng-options="type as type.name for type in transport_types">
                         </select>
                     </div>
                     <div id="card-back" class="personal-card horizontal"></div>
