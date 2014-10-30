@@ -1,40 +1,51 @@
 <p>Заказ успешно оформлен.</p>
 <p>Ваша карта:</p>
-<table>
+<table id="card">
 <tr>
-<td style="vertical-align:top">
-<div style="background-image: url('<?php echo $this->getBaseUrl(); ?>/uploads/transport/<?php echo $back_img; ?>');
-width: 513px;height: 321px;background-color: #FFF;border: 1px solid #E9EDF2;
-overflow: hidden;text-align: center;border-radius: 30px;position: relative;
-background-size: cover;margin: 0px;padding: 0px;">
-<img style="position:absolute;top:104px;left:30px;"src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/img/mail/card_vertical_arm.png">
-</div>
+<td style="vertical-align:top;text-align:left;">
+    <div style="width:513px;height:321px;border:2px solid #E9EDF2;overflow:hidden;border-radius:30px;display:inline-block;padding:0;margin:0;">
+        <img width="513" height="321" src="<?php echo $this->getBaseUrl(); ?>/uploads/transport/<?php echo $back_img; ?>">
+    </div>
 </td>
-<td>
-<div style="width: 321px;
-height: 513px;
-border-radius: 30px;
-background: none repeat scroll 0% 0% #E9EDF2;background-color: #FFF;border: 1px solid #E9EDF2;overflow: hidden;text-align: center;border-radius: 30px;position: relative;
-background-size: cover;">
-    <img style="position:absolute;top:30px;left:104px;"src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/img/mail/card_horizontal_arm.png">
-    <div style="border: 1px solid #E9EDF2;border-radius: 50%;display: inline-block;
-vertical-align: middle;height: 165px;width: 165px;line-height: 166px;
-text-align: center;margin-top: 115px;overflow: hidden;position: relative;box-sizing: border-box;"> 
-<img style="width:100%" src="<?php echo $this->getBaseUrl(); ?><?php echo $photo; ?>">
-    </div>
-    <div style="margin: 21px 0px 11px;height: 157px;font-family:museo_sans_cyrl100,Arial,Helvetica,sans-serif;">
-        <div style="font-size: 33px;color: rgba(0, 0, 0, 0.75);
-padding: 11px 35px;">
+<td style="padding-left:10px;">
+    <table id="vertical" style="width:351px;
+    height: 513px;
+    border-radius: 30px;
+    background: none repeat scroll 0% 0% #E9EDF2;background-color: #FFF;border: 2px solid #E9EDF2;overflow: hidden;">
+    <tr>
+        <td valign="top" style="text-align:center; padding-top:30px; height:78px;">
+            <img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/img/mail/card_horizontal_arm.png">
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" style="text-align:center; height:165px;overflow: hidden;">
+        <div style="border: 1px solid #E9EDF2;border-radius: 50%;display: inline-block;height: 165px;width: 165px;text-align: center;overflow: hidden;padding:0;margin:0;"> 
+            <img width="165" height="165" src="<?php echo $this->getBaseUrl(); ?><?php echo $photo; ?>">
+        </div>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" style="text-align:center; height:90px; padding-top:21px;font-family:museo_sans_cyrl100,Arial,Helvetica,sans-serif;font-size: 33px;color: rgba(0, 0, 0, 0.75);padding: 32px 35px 0px 35px;line-height: 40px;font-weight:500">
             <?php echo $name; ?>
-        </div>
-        <div style="overflow: hidden;word-wrap: break-word;resize: none;height: 50px;font-size: 18px;padding: 11px 50px;height: 50px;color: #8D9095;text-align: center;border: 0px none;position:relative;top:-15px">
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" style="text-align:center;height:42px;overflow: hidden;word-wrap: break-word;font-size: 18px;color: #8D9095;text-align: center;padding: 3px 60px 11px 60px;line-height:20px;font-weight:500">
             <?php echo $position; ?>
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" style="text-align:center; height:60px">
+        <div style="display: inline-block;overflow:hidden;width:230px;height:60px;padding-bottom:-5px">
+                <img width="230" height="60" src="<?php echo $this->getBaseUrl(); ?><?php echo $logo; ?>">
         </div>
-    </div>
-    <div style="display: block;margin: 0px auto;line-height: 17px;overflow:hidden;width:230px;height:60px;padding:0px;position:relative;top:-25px;">
-        <img style="width:100%" src="<?php echo $this->getBaseUrl(); ?><?php echo $logo; ?>">
-    </div>
-</div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+    </tr>
+    </table>
 </td>
 </tr>
 </table>
