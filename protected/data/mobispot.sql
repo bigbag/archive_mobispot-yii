@@ -225,10 +225,19 @@ CREATE TABLE `user_profile` (
 
 DROP TABLE IF EXISTS `coupon_access`;
 CREATE TABLE `coupon_access` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `discodes_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- 2014-08-17 15:44:01
+
+DROP TABLE IF EXISTS `transport_type`;
+CREATE TABLE `transport_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  `img` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

@@ -234,3 +234,33 @@ div.error-page {
 .show-block .form-button.yes-button {
     margin-right: 30px;
 }
+
+.upload-logo.error, .upload-photo.error {
+    color:#F5797C !important;
+}
+
+#form-logo label.upload-logo {
+    width:230px;
+    height:60px;
+    padding:0px;
+    position:relative;
+    top:-5px;
+    overflow: hidden;
+}
+
+#form-logo label.upload-logo span{
+    display:inline-block;
+    margin-top:25px;
+}
+
+#form-logo label.upload-logo span.hide{
+    display:none;
+}
+
+img.upload-holder {
+    width:100%;
+} 
+
+span.upload-holder{
+    color: #0062FF;
+}
