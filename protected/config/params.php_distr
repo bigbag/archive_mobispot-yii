@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'defaultTimezone' => '3',
     'siteUrl' => '//mobispot.test',
     'mobileHost' => 'm.mobispot.test',
     'desktopHost' => 'mobispot.test',
