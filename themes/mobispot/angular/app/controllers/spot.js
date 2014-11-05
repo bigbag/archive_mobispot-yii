@@ -37,7 +37,8 @@ angular.module('mobispot').controller('SpotController',
   $scope.transport_types = [];
   $scope.custom_card = {back:'', photo:'', name:'', position:'', logo:'', 
     shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
-
+  $scope.selected_type={};
+  
 /* CRUD для спота */
 
   //Тригер на снятие ошибки при изменении поля
@@ -1144,9 +1145,10 @@ angular.module('mobispot').controller('SpotController',
   //Выбор задника транспортной карты
   $scope.setType = function(type) {
     $scope.custom_card.back = type.id;
-    
-    if (type.img)
-      $('#card-back').css('background-image', ('url(/uploads/transport/' + type.img + ')'));
+
+    if (type.img){
+      $('#card-back').css('background-image', 'url(/uploads/transport/' + type.img + ')');
+    }
   }
   
   //Загрузка картинки для макета транспортной карты
