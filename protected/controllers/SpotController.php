@@ -1592,16 +1592,16 @@ class SpotController extends MController
         $filename .= $spot->discodes_id 
             . '_'. md5($spot->code);
 
-        $filepath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $filename . '.png';
+        $filepath = Yii::getPathOfAlias('webroot.uploads.spot.') . '/' . $filename . '.jpg';
 
         //move_uploaded_file($_FILES['img']['tmp_name'], $filepath);
         
-        MImg::cutToProportionPng($_FILES['img']['tmp_name'], $filepath, $img_width, $img_height); 
+        MImg::cutToProportionJpg($_FILES['img']['tmp_name'], $filepath, $img_width, $img_height); 
 
-        MImg::reduceToFramePng($filepath, $filepath, $img_width, $img_height);
+        MImg::reduceToFrameJpg($filepath, $filepath, $img_width, $img_height);
 
         $answer['error'] = 'no';
-        $answer['path'] = '/uploads/spot/' . $filename . '.png';
+        $answer['path'] = '/uploads/spot/' . $filename . '.jpg';
         
         echo json_encode($answer);
     }
@@ -1613,7 +1613,7 @@ class SpotController extends MController
         );
         $data = MHttp::validateRequest();
         
-        if (empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']) or empty($data['name']) or empty($data['position']) or empty($data['photo']) or empty($data['logo']) or empty($data['discodes']) or !Yii::app()->user->id)
+        if (empty($data['email']) or empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']) or empty($data['discodes']) or !Yii::app()->user->id)
             MHttp::getJsonAndExit($answer);
             
         $spot = Spot::model()->findByAttributes(
@@ -1633,7 +1633,19 @@ class SpotController extends MController
             MHttp::getJsonAndExit($answer);
         $data['back_img'] = $card_type->img;
         
-        MMail::transport_order($user->email, $data, Lang::getCurrentLang());
+        $photo_path = false;
+        $logo_path = false;
+        
+        if (!empty($data['photo']))
+            $photo_path = Yii::getPathOfAlias('webroot') . '/' . $data['photo'];
+            
+        if (!empty($data['logo']))
+            $logo_path = Yii::getPathOfAlias('webroot') . '/' . $data['logo'];
+        
+        $data['front_img'] =  MImg::makeTransportCard(
+            $spot->discodes_id, $photo_path, $logo_path, $data['name'], $data['position']);
+        
+        MMail::transport_order($data['email'], $data, Lang::getCurrentLang());
         MMail::transport_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
         $answer['error'] = 'no';
     

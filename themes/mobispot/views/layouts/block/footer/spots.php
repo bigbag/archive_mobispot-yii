@@ -79,25 +79,25 @@
                         <input type="hidden" name="img_type" value="transport_photo">
                         <input type="hidden" name="discodes_id">
                         <input type="hidden" name="token">
-                        <label for="input-photo" class="upload-photo" href="javascript:;"ng-class="{error: error.custom_card}" ><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить фото')?></span> <i class="icon upload-holder">&#xE60F;</i><img class="hide upload-holder"></label>
+                        <label for="input-photo" class="upload-photo" href="javascript:;"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить фото')?></span> <i class="icon upload-holder">&#xE60F;</i><img class="hide upload-holder"></label>
                     </form>
                     <div class="owner-info">
-                        <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="22"ng-class="{error: error.custom_card}"></textarea>
-                        <textarea class="position" style="padding-bottom:15px;" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34" ng-class="{error: error.custom_card}"></textarea>
+                        <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="22"></textarea>
+                        <textarea class="position" style="padding-bottom:15px;" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
                     </div>
                     <form id="form-logo" enctype="multipart/form-data" action="/spot/uploadImg">
                         <input id="input-logo" class="hide" name="img" type="file" onchange="angular.element(this).scope().sendImg(this)" >
                         <input type="hidden" name="img_type" value="transport_logo">
                         <input type="hidden" name="discodes_id">
                         <input type="hidden" name="token">
-                        <label for="input-logo" class="upload-logo" href="javascript:;"ng-class="{error: error.custom_card}"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span><img class="hide upload-holder"></label></a>
+                        <label for="input-logo" class="upload-logo" href="javascript:;"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span><img class="hide upload-holder"></label></a>
                     </form>
 
                 </div>
                 <p class="step-description">
                     <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
                     <br>
-                    - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>300x300</b> <br>
+                    - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>165x165</b> <br>
                     <br>
                     - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
                     <br>
@@ -117,7 +117,13 @@
             <form class="custom" id="form-shipping" name="shippingForm">
                     <h5><span class="number">3</span><?php echo Yii::t('spot', 'Информация по доставке')?></h5>
                                 <div class="column small-4 large-4">
-
+                                    <input
+                                            name='email'
+                                            type="email"
+                                            ng-model="custom_card.email"
+                                            placeholder="<?php echo Yii::t('spot', 'Email')?>"
+                                            ng-class="{error: error.custom_card}"
+                                            required>
                                     <input
                                             name='name'
                                             type="text"
