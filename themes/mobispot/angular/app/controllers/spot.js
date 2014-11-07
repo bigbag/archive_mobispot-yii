@@ -1206,7 +1206,7 @@ angular.module('mobispot').controller('SpotController',
   
   //Заказ транспортной карты по макету
   $scope.orderTransportCard = function(custom_card, valid, message_text) {
-    if (!valid || !custom_card.name.length || !custom_card.position.length || !custom_card.photo.length || !custom_card.logo.length) {
+    if (!valid) {
       $scope.error.custom_card = true;
       return false;
     }
@@ -1226,7 +1226,7 @@ angular.module('mobispot').controller('SpotController',
   }
 
   //тригер на снятие ошибки для макета транспортной карты
-  $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.name + custom_card.position + custom_card.photo + custom_card.logo', function() {
+  $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.email', function() {
       $scope.error.custom_card = false;
   });
   
