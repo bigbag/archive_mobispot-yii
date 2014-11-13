@@ -15,7 +15,7 @@
 }
 /* Each of the 3 steps in the process are contained within sections */
 .ng-image-crop > section {
-  background: #ccc;
+  background: transparent;
 }
 /* The cropping button */
 .ng-image-crop button {

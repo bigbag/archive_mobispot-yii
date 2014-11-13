@@ -276,3 +276,7 @@ span.upload-holder{
 label.face-holder.hide i, label.face-holder.hide span {
     display: none;
 }
+
+.personal-block .upload-photo.noborder {
+    border: 0;
+}

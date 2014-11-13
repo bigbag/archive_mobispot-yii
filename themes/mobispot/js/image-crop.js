@@ -860,17 +860,31 @@
             
             var form = $($elm).parents('form');
             var form_label = form.find('label.face-holder');
+            var div_upload = form.find('.upload-photo');
             
             form_label.addClass('hide');
+            if (div_upload.length)
+                div_upload.addClass('noborder');
             
             $canvas.width = scope.width;
             $canvas.height = scope.width;
 
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             
-            currentX = -Math.round($img.width / 2 - $canvas.width / 2);
-            currentY = -Math.round($img.height / 2 - $canvas.height / 2);
+            currentX = -Math.round(Math.abs($img.width / 2 - $canvas.width / 2));
+            currentY = -Math.round(Math.abs($img.height / 2 - $canvas.height / 2));
 
+            if ($img.width < $canvas.width)
+                currentX = 0 - currentX;
+            if ($img.height < $canvas.height)
+                currentY = 0 - currentY;
+                
+            //if ($img.width < $canvas.width)
+            
+//alert('x, y: ' + currentX + ', ' + currentY);
+//alert('$img.width v $canvas.width: ' + $img.width +' v ' + $canvas.width);
+
+            
             ctx.drawImage($img, currentX, currentY);
 
             imgWidth = $img.width;
@@ -960,14 +974,18 @@
             }
             */
             
-            if (x < minXPos)
+            if ($img.width < $canvas.width)
+                targetX = Math.round(Math.abs($img.width / 2 - $canvas.width / 2));
+            else if (x < minXPos)
                 targetX = minXPos;
             else if (x > maxXPos)
                 targetX = maxXPos;
             else
                 targetX = x;
-                
-            if (y < minYPos)
+            
+            if ($img.height < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs($img.height / 2 - $canvas.height / 2));            
+            else if (y < minYPos)
                 targetY = minYPos;
             else if (y > maxYPos)
                 targetY = maxYPos;
@@ -1188,9 +1206,13 @@
             var form = angular.element(e.currentTarget).parents('form');
             var form_label = form.find('label.face-holder');
             var img_crop = form.find('.ng-image-crop');
+            var div_upload = form.find('.upload-photo');
             
             form_label.removeClass('hide');
             img_crop.addClass('hide');
+            if (div_upload.length)
+                div_upload.removeClass('noborder');
+            
             scope.result = null;
             scope.$apply();
           }

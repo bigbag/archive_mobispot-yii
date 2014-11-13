@@ -42,6 +42,10 @@ class MImg
             $resource_height = $img_height;
             
             $resource = imagecreatetruecolor($resource_width, $resource_height);
+            
+            $back_color = imagecolorallocate($resource, 255, 255, 255);
+            imagefilledrectangle($resource, 0, 0, $resource_width, $resource_height, $back_color);
+            
             imagecopy($resource, $source, 0, 0, floor($width_diff / 2), 0, floor($new_width), $img_height);
        }
        else
@@ -53,6 +57,9 @@ class MImg
             $resource_width = $img_width;
             $resource_height = floor($new_height);
             $resource = imagecreatetruecolor($resource_width, $resource_height);
+            
+            $back_color = imagecolorallocate($resource, 255, 255, 255);
+            imagefilledrectangle($resource, 0, 0, $resource_width, $resource_height, $back_color);
             
             imagecopy($resource, $source, 0, 0, 0, floor($height_diff / 2), $img_width, floor($new_height));
 
