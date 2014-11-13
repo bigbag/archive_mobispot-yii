@@ -1636,9 +1636,23 @@ class SpotController extends MController
         $photo_path = false;
         $logo_path = false;
         
-        if (!empty($data['photo']))
-            $photo_path = Yii::getPathOfAlias('webroot') . '/' . $data['photo'];
-            
+        if (!empty($data['photo_croped']))
+        {
+            $photo = $data['photo_croped'];
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
+            $photo_data = base64_decode($photo);
+            $filepath = 
+                Yii::getPathOfAlias('webroot.uploads.spot.') 
+                . '/transport_photo_'
+                . $spot->discodes_id 
+                . '_' . md5($spot->code) 
+                . '.png';
+
+            if (file_put_contents($filepath, $photo_data))
+                $photo_path = $filepath;
+        }
+         
         if (!empty($data['logo']))
             $logo_path = Yii::getPathOfAlias('webroot') . '/' . $data['logo'];
         
@@ -1647,6 +1661,10 @@ class SpotController extends MController
         
         MMail::transport_order($data['email'], $data, Lang::getCurrentLang());
         MMail::transport_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
+        
+        if (!empty($photo_path))
+            unlink($photo_path);
+        
         $answer['error'] = 'no';
     
         echo json_encode($answer);

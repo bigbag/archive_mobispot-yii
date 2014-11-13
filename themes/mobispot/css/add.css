@@ -235,10 +235,6 @@ div.error-page {
     margin-right: 30px;
 }
 
-.upload-logo.error, .upload-photo.error {
-    color:#F5797C !important;
-}
-
 #form-logo label.upload-logo {
     width:230px;
     height:60px;
@@ -263,4 +259,49 @@ img.upload-holder {
 
 span.upload-holder{
     color: #0062FF;
+}
+
+#form-photo label.face-holder {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 165px;
+    height: 165px;
+    line-height: 165px;
+    text-align: center;
+    z-index: 10;
+}
+
+label.face-holder.hide i, label.face-holder.hide span {
+    display: none;
+}
+
+.crop-control {
+    position:absolute;
+    display:none;
+    width: 27px;
+    height: 27px;
+    line-height: 27px;
+    text-align: center;
+    font-size: 17px;
+    font-family: mobispot-icon !important;
+    font-style: normal;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+    color: black;
+}
+
+.crop-control.new {
+    left:50px;
+    top:10px;
+}
+
+a.crop-control.delete {
+    left:100px;
+    top:10px;
+}
+
+.ng-image-crop:hover .crop-control{
+    display: inline-block;
 }

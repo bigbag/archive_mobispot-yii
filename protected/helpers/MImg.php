@@ -22,7 +22,7 @@ class MImg
     {
         $img_attr = getimagesize($source_path);
 
-        switch ( $img_attr[2] ) {
+        switch ($img_attr[2]) {
             case 1: $source = imagecreatefromgif($source_path); break;
             case 2: $source = imagecreatefromjpeg($source_path); break;
             case 3: $source = imagecreatefrompng($source_path); break;
@@ -68,7 +68,7 @@ class MImg
     {
         $img_attr = getimagesize($source_path);
 
-        switch ( $img_attr[2] ) {
+        switch ($img_attr[2]) {
             case 1: $source = imagecreatefromgif($source_path); break;
             case 2: $source = imagecreatefromjpeg($source_path); break;
             case 3: $source = imagecreatefrompng($source_path); break;
@@ -211,11 +211,22 @@ class MImg
         
         if (!empty($photo_src) and file_exists($photo_src)) {
             //фото
-            $photo = self::reduceToFrame(imagecreatefromjpeg($photo_src), self::PHOTO_WIDTH, self::PHOTO_HEIGHT); 
-            $photo = self::expandToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT, 255, 255, 255);
-            $photo = self::elipseFrame($photo, 255, 255, 255);
+            $photo_attr = getimagesize($photo_src);
+
+            switch ($photo_attr[2]) {
+                case 1: $photo = imagecreatefromgif($photo_src); break;
+                case 2: $photo = imagecreatefromjpeg($photo_src); break;
+                case 3: $photo = imagecreatefrompng($photo_src); break;
+                default: return false; break;
+            }
             
-            imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            if ($photo) {
+                $photo = self::reduceToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT); 
+                $photo = self::expandToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT, 255, 255, 255);
+                $photo = self::elipseFrame($photo, 255, 255, 255);
+                
+                imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            }
         }
         
         $cursor_y = self::CARD_HAT + self::PHOTO_HEIGHT + 59;
