@@ -1,0 +1,116 @@
+/* Some of these styles you can override, things like colors,
+ * however some styles are required for the structure, and are critical to this module behaving properly!
+ */
+
+/* Core component styles */
+.ng-image-crop {
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+/* Each of the 3 steps in the process are contained within sections */
+.ng-image-crop > section {
+  background: transparent;
+}
+/* The cropping button */
+.ng-image-crop button {
+  margin-top: 10px;
+}
+/* The dashed cropping guideline */
+.ng-image-crop .cropping-guide {
+  display: block;
+  background: transparent;
+  /* border: 2px dashed white; */
+  position: absolute;
+  pointer-events: none;
+}
+/* The circular themed cropping guideline */
+.ng-image-crop--circle .cropping-guide {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+/* The canvas where the user positions the image via dragging and zooming */
+.ng-image-crop .cropping-canvas {
+  /* background: rgba(255, 255, 255, .3); */
+  width: 165px;
+  height: 165px;
+  margin: 0 auto;
+  cursor: move;
+}
+
+.ng-image-crop-square section canvas.cropping-canvas {
+  width: 230px;
+  height: 230px;
+  position: relative;
+  top:-85px;
+}
+
+
+/* The overlayed draggable zoom handle in the corner of the module */
+.ng-image-crop .zoom-handle {
+  display: none;
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  background: rgba(255,255,255,0.7);
+  width: 80px;
+  height: 80px;
+  cursor: move;
+  border-radius: 200px 50px;
+}
+/* The text within the zoom handle */
+.ng-image-crop .zoom-handle > span {
+  color: rgba(0, 0, 0, 0.5);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  display: block;
+  position: relative;
+  top: 32px;
+}
+
+
+.crop-control {
+    position:absolute;
+    display:none;
+    width: 27px;
+    height: 27px;
+    line-height: 27px;
+    text-align: center;
+    font-size: 17px;
+    font-family: mobispot-icon !important;
+    font-style: normal;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+    color: black;
+}
+
+.crop-control.new {
+    left:50px;
+    top:10px;
+}
+
+.ng-image-crop-circle a.crop-control.delete {
+    left:100px;
+    top:10px;
+}
+
+.ng-image-crop-square a.crop-control.delete {
+    right:20px;
+    top:7px;
+    z-index:10;
+}
+
+.ng-image-crop:hover .crop-control{
+    display: inline-block;
+}
