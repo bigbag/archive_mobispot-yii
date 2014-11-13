@@ -22,7 +22,7 @@ class MImg
     {
         $img_attr = getimagesize($source_path);
 
-        switch ( $img_attr[2] ) {
+        switch ($img_attr[2]) {
             case 1: $source = imagecreatefromgif($source_path); break;
             case 2: $source = imagecreatefromjpeg($source_path); break;
             case 3: $source = imagecreatefrompng($source_path); break;
@@ -42,6 +42,10 @@ class MImg
             $resource_height = $img_height;
             
             $resource = imagecreatetruecolor($resource_width, $resource_height);
+            
+            $back_color = imagecolorallocate($resource, 255, 255, 255);
+            imagefilledrectangle($resource, 0, 0, $resource_width, $resource_height, $back_color);
+            
             imagecopy($resource, $source, 0, 0, floor($width_diff / 2), 0, floor($new_width), $img_height);
        }
        else
@@ -53,6 +57,9 @@ class MImg
             $resource_width = $img_width;
             $resource_height = floor($new_height);
             $resource = imagecreatetruecolor($resource_width, $resource_height);
+            
+            $back_color = imagecolorallocate($resource, 255, 255, 255);
+            imagefilledrectangle($resource, 0, 0, $resource_width, $resource_height, $back_color);
             
             imagecopy($resource, $source, 0, 0, 0, floor($height_diff / 2), $img_width, floor($new_height));
 
@@ -68,7 +75,7 @@ class MImg
     {
         $img_attr = getimagesize($source_path);
 
-        switch ( $img_attr[2] ) {
+        switch ($img_attr[2]) {
             case 1: $source = imagecreatefromgif($source_path); break;
             case 2: $source = imagecreatefromjpeg($source_path); break;
             case 3: $source = imagecreatefrompng($source_path); break;
@@ -174,9 +181,15 @@ class MImg
     
     public static function text_wrap($text, $wrap_border)
     {
+        $mb_count = self::strMbCount($text);
+        if ($mb_count >= 13)
+            $wrap_border -= 2;
+        elseif ($mb_count >= 12)
+            $wrap_border -= 1;
+        
         if (mb_strlen($text) <= $wrap_border)
             return array($text, '');
-
+            
         $pos = mb_strrpos($text, ' ', $wrap_border - mb_strlen($text) + 1);
         if ($pos > 0) {
             return array(mb_substr($text, 0, $pos), mb_substr($text, $pos + 1));
@@ -211,11 +224,22 @@ class MImg
         
         if (!empty($photo_src) and file_exists($photo_src)) {
             //фото
-            $photo = self::reduceToFrame(imagecreatefromjpeg($photo_src), self::PHOTO_WIDTH, self::PHOTO_HEIGHT); 
-            $photo = self::expandToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT, 255, 255, 255);
-            $photo = self::elipseFrame($photo, 255, 255, 255);
+            $photo_attr = getimagesize($photo_src);
+
+            switch ($photo_attr[2]) {
+                case 1: $photo = imagecreatefromgif($photo_src); break;
+                case 2: $photo = imagecreatefromjpeg($photo_src); break;
+                case 3: $photo = imagecreatefrompng($photo_src); break;
+                default: return false; break;
+            }
             
-            imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            if ($photo) {
+                $photo = self::reduceToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT); 
+                $photo = self::expandToFrame($photo, self::PHOTO_WIDTH, self::PHOTO_HEIGHT, 255, 255, 255);
+                $photo = self::elipseFrame($photo, 255, 255, 255);
+                
+                imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            }
         }
         
         $cursor_y = self::CARD_HAT + self::PHOTO_HEIGHT + 59;
@@ -226,8 +250,11 @@ class MImg
             //имя
             $name_color = imagecolorallocate($card, 63, 63, 63);
             
-            if (mb_strlen($name) > self::NAME_STRLEN)
-                $name_text = self::text_wrap($name, self::NAME_STRLEN)[0];
+            $name_str_1 = self::text_wrap($name, self::NAME_STRLEN)[0];
+            $name_str_2 = self::text_wrap($name, self::NAME_STRLEN)[1];
+            
+            if (mb_strlen($name_str_2))
+                $name_text = $name_str_1;
             else 
                 $name_text = $name;
             
@@ -238,9 +265,9 @@ class MImg
                 $font, 
                 $name_text);
                 
-            if (mb_strlen($name) > self::NAME_STRLEN) {
+            if (mb_strlen($name_str_2)) {
                 $cursor_y += 40;
-                $name_text = self::text_wrap($name, self::NAME_STRLEN)[1];
+                $name_text = $name_str_2;
                 imagettftext($card, self::NAME_SIZE, 0, 
                     self::center_text($name_text, $font, self::NAME_SIZE, imagesx($frame)), 
                     $cursor_y, 
@@ -261,8 +288,11 @@ class MImg
             //должность
             $position_color = imagecolorallocate($card, 141, 144, 149);
             
-            if (mb_strlen($position) > self::POSITION_STRLEN)
-                $position_text = self::text_wrap($position, self::POSITION_STRLEN)[0];
+            $position_str_1 = self::text_wrap($position, self::POSITION_STRLEN)[0];
+            $position_str_2 = self::text_wrap($position, self::POSITION_STRLEN)[1];
+            
+            if (mb_strlen($position_str_2))
+                $position_text = $position_str_1;
             else 
                 $position_text = $position;
             
@@ -273,10 +303,10 @@ class MImg
                 $font, 
                 $position_text);
                 
-            if (mb_strlen($position) > self::POSITION_STRLEN)
+            if (mb_strlen($position_str_2))
             {
                 $cursor_y += 21;
-                $position_text = self::text_wrap($position, self::POSITION_STRLEN)[1];
+                $position_text = $position_str_2;
             
                 imagettftext($card, self::POSITION_SIZE, 0, 
                 self::center_text($position_text, $font, self::POSITION_SIZE, imagesx($frame)), 
@@ -303,4 +333,34 @@ class MImg
     
         return $spot->discodes_id . '_'. md5($spot->code) . '_transport_card_' . $i . '.jpg';
     }
+    
+    public static function ordutf8($string, $offset) {
+        $code = ord(substr($string, $offset,1)); 
+        if ($code >= 128) {        //otherwise 0xxxxxxx
+            if ($code < 224) $bytesnumber = 2;                //110xxxxx
+            else if ($code < 240) $bytesnumber = 3;        //1110xxxx
+            else if ($code < 248) $bytesnumber = 4;    //11110xxx
+            $codetemp = $code - 192 - ($bytesnumber > 2 ? 32 : 0) - ($bytesnumber > 3 ? 16 : 0);
+            for ($i = 2; $i <= $bytesnumber; $i++) {
+                $offset ++;
+                $code2 = ord(substr($string, $offset, 1)) - 128;        //10xxxxxx
+                $codetemp = $codetemp*64 + $code2;
+            }
+            $code = $codetemp;
+        }
+        $offset += 1;
+        if ($offset >= strlen($string)) $offset = -1;
+        return $code;
+    }
+    
+    public static function strMbCount($str)
+    {
+        $answer = 0;
+        for ($i=0; $i < strlen($str); $i++)
+            if (ord($str[$i]) !=  self::ordutf8($str, $i))
+                $answer++;
+        
+        return $answer / 2;
+    }
+    
 }

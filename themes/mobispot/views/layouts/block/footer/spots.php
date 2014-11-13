@@ -48,7 +48,7 @@
 <div id="customCard" class="overlay-page" ng-controller="SpotController">
     <a href="javascript:;" ng-click="hideCustomCard()" class="close-button icon">&#xE00B;</a>
     <h1><?php echo Yii::t('spot', 'Персонализация карты')?></h1>
-    <p><?php echo Yii::t('spot', 'Необходимо сверстать страницу, на которой будет создаваться кастомный дизайн траспортной карты.')?> </p>
+    <p><?php //echo Yii::t('spot', 'Необходимо сверстать страницу, на которой будет создаваться кастомный дизайн траспортной карты.')?> </p>
     <div class="personal-block">
     <div class="row">
         <div class="column small-6 large-6">
@@ -75,22 +75,47 @@
                 <h5><span class="number">2</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
                 <div class="personal-card vertical">
                     <form id="form-photo" enctype="multipart/form-data" action="/spot/uploadImg">
-                        <input id="input-photo" class="hide" name="img" type="file" onchange="angular.element(this).scope().sendImg(this)" >
                         <input type="hidden" name="img_type" value="transport_photo">
                         <input type="hidden" name="discodes_id">
                         <input type="hidden" name="token">
-                        <label for="input-photo" class="upload-photo" href="javascript:;"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить фото')?></span> <i class="icon upload-holder">&#xE60F;</i><img class="hide upload-holder"></label>
+                        <div class="upload-photo">
+                            <image-crop
+                                data-id="crop-photo"
+                                data-inputid="input-photo"
+                                data-width="165"
+                                data-height="165"
+                                data-shape="circle"
+                                data-step="imageCropStep"
+                                data-result="custom_card.photo_croped"
+                                ng-show="showImageCropper"
+                            ></image-crop>
+                            <label for="input-photo" class="face-holder">
+                            <span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить фото')?></span> <i class="icon upload-holder">&#xE60F;</i>
+                            </label>
+                        </div>
+
                     </form>
                     <div class="owner-info">
                         <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="22"></textarea>
                         <textarea class="position" style="padding-bottom:15px;" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
                     </div>
                     <form id="form-logo" enctype="multipart/form-data" action="/spot/uploadImg">
-                        <input id="input-logo" class="hide" name="img" type="file" onchange="angular.element(this).scope().sendImg(this)" >
                         <input type="hidden" name="img_type" value="transport_logo">
                         <input type="hidden" name="discodes_id">
                         <input type="hidden" name="token">
-                        <label for="input-logo" class="upload-logo" href="javascript:;"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span><img class="hide upload-holder"></label></a>
+                        <div class="upload-logo">
+                            <image-crop
+                                data-id="crop-logo"
+                                data-inputid="input-logo"
+                                data-width="230"
+                                data-height="60"
+                                data-shape="square"
+                                data-step="imageCropStep"
+                                data-result="custom_card.logo_croped"
+                                ng-show="showLogoCropper"
+                            ></image-crop>
+                            <label for="input-logo" class="face-holder"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span></label>
+                        </div>
                     </form>
 
                 </div>

@@ -17,6 +17,7 @@
 
 <script src="/themes/mobispot/js/script.min.js"></script>
 <script src="/themes/mobispot/js/foundation.min.js"></script>
+<script src="/themes/mobispot/js/image-crop.js"></script>
 <script>
     $(document).foundation();
     $(window).load(function () {

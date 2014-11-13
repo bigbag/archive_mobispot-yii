@@ -235,11 +235,7 @@ div.error-page {
     margin-right: 30px;
 }
 
-.upload-logo.error, .upload-photo.error {
-    color:#F5797C !important;
-}
-
-#form-logo label.upload-logo {
+#form-logo .upload-logo {
     width:230px;
     height:60px;
     padding:0px;
@@ -248,12 +244,12 @@ div.error-page {
     overflow: hidden;
 }
 
-#form-logo label.upload-logo span{
+#form-logo .upload-logo span{
     display:inline-block;
     margin-top:25px;
 }
 
-#form-logo label.upload-logo span.hide{
+#form-logo .upload-logo span.hide{
     display:none;
 }
 
@@ -263,4 +259,24 @@ img.upload-holder {
 
 span.upload-holder{
     color: #0062FF;
+}
+
+#form-photo label.face-holder {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: `px;
+    height: 165px;
+    line-height: 165px;
+    text-align: center;
+    z-index: 10;
+}
+
+label.face-holder.hide i, label.face-holder.hide span {
+    display: none;
+}
+
+.personal-block .upload-photo.noborder {
+    border: 0;
 }
