@@ -39,12 +39,21 @@
 }
 /* The canvas where the user positions the image via dragging and zooming */
 .ng-image-crop .cropping-canvas {
-  background: rgba(255, 255, 255, .3);
+  /* background: rgba(255, 255, 255, .3); */
   width: 165px;
   height: 165px;
   margin: 0 auto;
   cursor: move;
 }
+
+.ng-image-crop-square section canvas.cropping-canvas {
+  width: 230px;
+  height: 230px;
+  position: relative;
+  top:-85px;
+}
+
+
 /* The overlayed draggable zoom handle in the corner of the module */
 .ng-image-crop .zoom-handle {
   display: none;
@@ -68,4 +77,40 @@
   display: block;
   position: relative;
   top: 32px;
+}
+
+
+.crop-control {
+    position:absolute;
+    display:none;
+    width: 27px;
+    height: 27px;
+    line-height: 27px;
+    text-align: center;
+    font-size: 17px;
+    font-family: mobispot-icon !important;
+    font-style: normal;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+    color: black;
+}
+
+.crop-control.new {
+    left:50px;
+    top:10px;
+}
+
+.ng-image-crop-circle a.crop-control.delete {
+    left:100px;
+    top:10px;
+}
+
+.ng-image-crop-square a.crop-control.delete {
+    right:20px;
+    top:7px;
+    z-index:10;
+}
+
+.ng-image-crop:hover .crop-control{
+    display: inline-block;
 }

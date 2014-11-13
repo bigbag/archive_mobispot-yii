@@ -1653,9 +1653,26 @@ class SpotController extends MController
                 $photo_path = $filepath;
         }
          
-        if (!empty($data['logo']))
-            $logo_path = Yii::getPathOfAlias('webroot') . '/' . $data['logo'];
-        
+        if (!empty($data['logo_croped']))
+        {
+            $logo = $data['logo_croped'];
+            $logo = str_replace('data:image/png;base64,', '', $logo);
+            $logo = str_replace(' ', '+', $logo);
+            $logo_data = base64_decode($logo);
+            $filepath = 
+                Yii::getPathOfAlias('webroot.uploads.spot.') 
+                . '/transport_logo_'
+                . $spot->discodes_id 
+                . '_' . md5($spot->code) 
+                . '.png';
+
+            if (file_put_contents($filepath, $logo_data))
+            {
+                $logo_path = $filepath;
+                MImg::cutToProportionJpg($logo_path, $logo_path, MImg::LOGO_WIDTH, MImg::LOGO_HEIGHT);
+            }
+        }
+       
         $data['front_img'] =  MImg::makeTransportCard(
             $spot->discodes_id, $photo_path, $logo_path, $data['name'], $data['position']);
         
@@ -1664,9 +1681,11 @@ class SpotController extends MController
         
         if (!empty($photo_path))
             unlink($photo_path);
+        if (!empty($logo_path))
+            unlink($logo_path);
         
         $answer['error'] = 'no';
-    
+
         echo json_encode($answer);
     }
 }

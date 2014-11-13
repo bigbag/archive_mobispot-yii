@@ -235,7 +235,7 @@ div.error-page {
     margin-right: 30px;
 }
 
-#form-logo label.upload-logo {
+#form-logo .upload-logo {
     width:230px;
     height:60px;
     padding:0px;
@@ -244,12 +244,12 @@ div.error-page {
     overflow: hidden;
 }
 
-#form-logo label.upload-logo span{
+#form-logo .upload-logo span{
     display:inline-block;
     margin-top:25px;
 }
 
-#form-logo label.upload-logo span.hide{
+#form-logo .upload-logo span.hide{
     display:none;
 }
 
@@ -266,7 +266,7 @@ span.upload-holder{
     display: inline-block;
     vertical-align: middle;
     text-align: center;
-    width: 165px;
+    width: `px;
     height: 165px;
     line-height: 165px;
     text-align: center;
@@ -275,33 +275,4 @@ span.upload-holder{
 
 label.face-holder.hide i, label.face-holder.hide span {
     display: none;
-}
-
-.crop-control {
-    position:absolute;
-    display:none;
-    width: 27px;
-    height: 27px;
-    line-height: 27px;
-    text-align: center;
-    font-size: 17px;
-    font-family: mobispot-icon !important;
-    font-style: normal;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .4);
-    color: black;
-}
-
-.crop-control.new {
-    left:50px;
-    top:10px;
-}
-
-a.crop-control.delete {
-    left:100px;
-    top:10px;
-}
-
-.ng-image-crop:hover .crop-control{
-    display: inline-block;
 }

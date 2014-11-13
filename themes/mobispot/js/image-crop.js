@@ -764,7 +764,7 @@
     //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
     
       return {
-        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop--{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
         replace: true,
         restrict: 'AE',
         scope: {
@@ -863,9 +863,9 @@
             
             form_label.addClass('hide');
             
-            $canvas.width = 165;
-            $canvas.height = 165;
-            
+            $canvas.width = scope.width;
+            $canvas.height = scope.width;
+
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             
             currentX = -Math.round($img.width / 2 - $canvas.width / 2);
@@ -940,6 +940,11 @@
             // console.log('maxZoomGestureLength', maxZoomGestureLength);
 
             updateDragBounds();
+            
+            if ('square' == scope.shape) {
+                maxYPos+= 85;
+                minYPos-= 85;
+            }
             
             scope.result = $canvas.toDataURL();
             scope.$apply();

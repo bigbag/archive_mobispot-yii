@@ -100,11 +100,22 @@
                         <textarea class="position" style="padding-bottom:15px;" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
                     </div>
                     <form id="form-logo" enctype="multipart/form-data" action="/spot/uploadImg">
-                        <input id="input-logo" class="hide" name="img" type="file" onchange="angular.element(this).scope().sendImg(this)" >
                         <input type="hidden" name="img_type" value="transport_logo">
                         <input type="hidden" name="discodes_id">
                         <input type="hidden" name="token">
-                        <label for="input-logo" class="upload-logo" href="javascript:;"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span><img class="hide upload-holder"></label></a>
+                        <div class="upload-logo">
+                            <image-crop
+                                data-id="crop-logo"
+                                data-inputid="input-logo"
+                                data-width="230"
+                                data-height="60"
+                                data-shape="square"
+                                data-step="imageCropStep"
+                                data-result="custom_card.logo_croped"
+                                ng-show="showLogoCropper"
+                            ></image-crop>
+                            <label for="input-logo" class="face-holder"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span></label>
+                        </div>
                     </form>
 
                 </div>

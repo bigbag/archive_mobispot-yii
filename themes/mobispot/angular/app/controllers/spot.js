@@ -1201,6 +1201,7 @@ angular.module('mobispot').controller('SpotController',
   };
   
   $scope.showImageCropper = false;
+  $scope.showLogoCropper = false;
   
   $scope.setSpot = function() {
     contentService.setSpot($scope.spot);
