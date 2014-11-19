@@ -26,6 +26,7 @@
   'I agree to Mobispot Pages Terms' => '同意使用條件',
   'Kb' => '',
   'Link a bank card' => '',
+  'Link a wallet' => '',
   'Link your bank cards with your wallet to make payments using your spot' => '',
   'Linking your card is in progress. Please wait a minute.' => '',
   'MB' => '',
