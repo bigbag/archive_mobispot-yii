@@ -56,8 +56,7 @@
             </a>
         </div>
     </div>
-    <p class="no-card"
-        ng-show="!wallet.linking_card && !wallet.cards_count">
+    <p ng-show="!wallet.linking_card && !wallet.cards_count">
         <?php echo Yii::t('spot', 'You don’t have any bank cards linked with your spot.')?>
     </p>
 </div>
