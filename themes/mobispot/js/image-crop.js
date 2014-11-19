@@ -879,12 +879,6 @@
             if ($img.height < $canvas.height)
                 currentY = 0 - currentY;
                 
-            //if ($img.width < $canvas.width)
-            
-//alert('x, y: ' + currentX + ', ' + currentY);
-//alert('$img.width v $canvas.width: ' + $img.width +' v ' + $canvas.width);
-
-            
             ctx.drawImage($img, currentX, currentY);
 
             imgWidth = $img.width;
@@ -956,8 +950,10 @@
             updateDragBounds();
             
             if ('square' == scope.shape) {
-                maxYPos+= 85;
-                minYPos-= 85;
+                maxYPos += 85;
+                minYPos -= 85;
+                if (maxYPos > 85)
+                  maxYPos = 85;
             }
             
             scope.result = $canvas.toDataURL();
