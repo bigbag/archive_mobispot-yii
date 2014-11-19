@@ -560,6 +560,54 @@ class SpotController extends MController
         echo json_encode($answer);
     }
 
+    public function getYMRedirectUrl($discodes_id)
+    {  
+        $host = substr(Yii::app()->request->getBaseUrl(true), 7);
+        $host = 'http://mobispot.com';
+        return $host
+            . '/spot/addYMToken?spot='
+            . $discodes_id;
+    }
+
+    // Перенаправление пользователя на yandex для привязки кошелька
+    public function actionAddYMWallet()
+    {   
+        $discodes_id = Yii::app()->request->getParam('spot');
+        if (!$discodes_id ) $this->redirect('/spot/list/');
+
+        $url = Yii::app()->params['internal_api']
+            . '/api/internal/yandex/get_auth_url/'
+            . $discodes_id
+            . '?url='
+            . rawurlencode($this->getYMRedirectUrl($discodes_id));
+        $result = CJSON::decode(MHttp::setCurlRequest($url), true);
+        if ($result['error'] != 0) $this->redirect('/spot/list/');
+
+        $this->redirect($result['url']);
+    }
+
+    // Запрос ко внутреннему апи для получения токена
+    public function actionAddYMToken()
+    {   
+
+        $error = Yii::app()->request->getParam('error');
+        $discodes_id = Yii::app()->request->getParam('spot');
+        $code = Yii::app()->request->getParam('code');
+        if (!$discodes_id or !$code or $error) $this->redirect('/spot/list/');
+
+        $url = Yii::app()->params['internal_api']
+            . '/api/internal/yandex/get_token/'
+            . $discodes_id
+            . '/'
+            . $code
+            . '?url='
+            . rawurlencode($this->getYMRedirectUrl($discodes_id));
+        $result = CJSON::decode(MHttp::setCurlRequest($url), true);
+        
+        $this->redirect('/spot/list/');
+    }
+
+
     // Отображение кошелька
     public function actionWallet()
     {
@@ -597,7 +645,6 @@ class SpotController extends MController
         );
 
         Spot::curentViews('wallet', true);
-
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/wallet',
             array(

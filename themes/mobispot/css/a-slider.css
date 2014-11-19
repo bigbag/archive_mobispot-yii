@@ -105,20 +105,3 @@ ul.aslide {
 .color-list li {
     cursor: pointer;
 }
-
-.store-content .large {
-    width:242px !important;
-}
-
-.store-content .mainimageshell {
-    background-color:transparent;
-    width:242px  !important;
-    margin:0 auto;
-}
-
-.store-content .viewwindow {
-    width:240px !important;
-    height:200px !important;
-    overflow-x: hidden;
-    position:relative;
-}

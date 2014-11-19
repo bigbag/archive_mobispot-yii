@@ -54,8 +54,8 @@ class PaymentCard extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, wallet_id, pan, token, type, status', 'required'),
-            array('user_id, status, wallet_id', 'numerical', 'integerOnly' => true),
+            array('user_id, wallet_id, pan, token, type, status, system', 'required'),
+            array('user_id, status, wallet_id, system', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, user_id, wallet_id, pan, token, type, status', 'safe', 'on' => 'search'),
@@ -83,6 +83,7 @@ class PaymentCard extends CActiveRecord
             'type' => $this->type,
             'pan' => mb_substr($this->pan, $pan_leng - 9),
             'status' => $this->status,
+            'system' => $this->system,
         );
     }
 
