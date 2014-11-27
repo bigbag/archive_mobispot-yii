@@ -51,6 +51,12 @@ ul.aslide {
     width:300px !important;
 }
 
+.large.large378 {
+    width:378px !important;
+    cursor: pointer;
+    /* 378 x 390 */
+}
+
 
 .mainimageshell {
     background-color:transparent;
@@ -122,3 +128,4 @@ ul.aslide {
     overflow-x: hidden;
     position:relative;
 }
+

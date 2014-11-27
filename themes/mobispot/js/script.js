@@ -97,53 +97,45 @@ var closeLang = function(){
 function windowSize(){
 		var winHeight = $(window).height();
 		if(winHeight > 680){
-				$('.first-screen').height(winHeight - 47);
+				$('.first-screen').height(winHeight);
 		}
-		
 }
+
 $(window).on('load resize',windowSize);
 
 
 $(window).load(function() {
-	var hatBarHeight = $('.hat-bar').height();
 
+
+	var firstScreenHeight = $('#first-scr').height() - 1;
 	$(window).on('scroll', function(){
-	var scro = $(this).scrollTop();
-	if(scro > hatBarHeight){
-		$('.b-message').addClass('fixed');
-	} else {
-		$('.b-message').removeClass('fixed');
-	}
+			var scro = $(this).scrollTop();
 
+			if(scro > firstScreenHeight){
+				$('#fp-main-nav').addClass('start');
+			}
+	});
+
+	$('#first-scr').addClass('show-fs');
+	$('.main').addClass('show-fs');
+
+	$(".info-buttom, .nav-link").click(function() {
+		var link = '#' + $(this).attr('href');
+    $('html, body').animate({
+        scrollTop: $(link).offset().top
+    }, 400);
 });
 
-	var firstScreenHeight = $('.first-screen').height();
-	var lastScrollTop = 0;
-	$(window).on('scroll', function(event){
+	var hatBarHeight = $('.hat-bar').height();
+		$(window).on('scroll', function(){
 		var scro = $(this).scrollTop();
 
-		if(scro > firstScreenHeight ){
-			$('#infoNav').addClass('fix');
+		if(scro > hatBarHeight){
+			$('.b-message').addClass('fixed');
 		} else {
-			$('#infoNav').removeClass('fix');
+			$('.b-message').removeClass('fixed');
 		}
-
-		if(scro > firstScreenHeight - 90 ){
-			$('.header-page').addClass('scr');
-		} else {
-			$('.header-page').removeClass('scr');
-		}
-		if(scro > firstScreenHeight - 90){
-			 var st = $(this).scrollTop();
-		   if (st > lastScrollTop){
-		     $('.header-page').addClass('scr');
-		   } else {
-		     $('.header-page').removeClass('scr');
-		   }
-		   lastScrollTop = st;
-		 }
 });
-
 
 
 
