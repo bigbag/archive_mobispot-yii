@@ -290,3 +290,7 @@ label.face-holder.hide i, label.face-holder.hide span {
     top:-15px;
     height:1px;
 }
+
+.device-block {
+    text-align:center;
+}
