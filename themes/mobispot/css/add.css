@@ -2,7 +2,7 @@ html, body {
 	height: 100%;}
 
 body {
-    min-width: 950px;
+    min-width: 1280px;
     min-height: 550px,
     -webkit-transform: translate3d(0, 0, 0);
 }
@@ -293,4 +293,21 @@ label.face-holder.hide i, label.face-holder.hide span {
 
 .device-block {
     text-align:center;
+}
+
+.slider-window {
+    max-width: 100%;
+    margin-bottom: 34px;
+    margin-top: 80px;
+    vertical-align: baseline;
+    display: inline-block;
+    height: auto;
+}
+
+.nav-top p, .nav-bottom p {
+    min-width:397px;
+}
+
+.nav-middle p {
+   min-width:365px;
 }
