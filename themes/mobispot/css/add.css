@@ -280,3 +280,7 @@ label.face-holder.hide i, label.face-holder.hide span {
 .personal-block .upload-photo.noborder {
     border: 0;
 }
+
+.device-block img {
+    cursor:pointer;
+}
