@@ -97,9 +97,7 @@
                 <div class="device-block" ng-controller="SlideController" id="slider-spots">
                                 <div ng-mouseover="startColors()" ng-mouseleave="stopColors()" style="max-width: 100%;margin-bottom: 34px;margin-top: 80px;vertical-align: baseline;display: inline-block;height: auto;">
                                 <img ng-repeat="slide in spots.slides" id="spots_{{slide.id}}"
-                                   class="large f-slide large378"
-                                   width="378"
-                                   height="390"
+                                   class="f-slide"
                                    ng-class="{display_none: slide.id != spots.current}"
                                    ng-src="/themes/mobispot/img/a_slider/{{slide.img}}" />
                                 </div>
