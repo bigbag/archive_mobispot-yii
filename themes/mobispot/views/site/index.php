@@ -18,7 +18,7 @@
     <article class="text-block">
         <h1><?php echo Yii::t('general', 'Forget about all these<br> plastic cards'); ?></h1>
             <p><?php echo Yii::t('general', 'Find out how to unite several<br> contactless features in one device'); ?></p>
-            <a class="info-buttom" href="#fp-main-nav">
+            <a class="info-buttom" href="#spots-nav">
                 <i class="icon">&#xE613;</i>
             </a>
     </article>
@@ -62,11 +62,10 @@
 <div id="info" class="info-screen">
     <acticle class="main">
         <div id="fp-main-nav" class="second-screen">
-            
-            
+            <div id="spots-nav"></div>
 
-            <div class="devices-pre">
-            <h2 class="intro">
+            <div  class="devices-pre">
+            <h2 class="intro" >
                     <?php echo Yii::t('general', 'One device instead of multiple cards'); ?>
                 </h2>
                 <div class="devices devices-left">

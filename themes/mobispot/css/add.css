@@ -284,3 +284,9 @@ label.face-holder.hide i, label.face-holder.hide span {
 .device-block img {
     cursor:pointer;
 }
+
+#spots-nav {
+    position:relative;
+    top:-15px;
+    height:1px;
+}
