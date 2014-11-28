@@ -89,14 +89,15 @@ angular.module('mobispot').controller('SlideController',
     if ($scope.spots.color_rotation)
         return false;
         
+    $scope.spots.color_rotation = true;
+        
     if ($scope.spots.timer_rotation)
         return false;
     
-    $scope.spots.color_rotation = true;
     $scope.spots.timer_rotation = true;
     $timeout(function(){
      $scope.colorRotation();
-    }, 1000);
+    }, 500);
   };
   
   $scope.stopColors = function() {
