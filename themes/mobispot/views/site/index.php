@@ -14,7 +14,7 @@
 </script>'
 ?>
 
-<div id="first-scr" class="first-screen">
+<div id="first-scr" class="first-screen" ng-init="frontImgLoader()">
     <article class="text-block">
         <h1><?php echo Yii::t('general', 'Forget about all these<br> plastic cards'); ?></h1>
             <p><?php echo Yii::t('general', 'Find out how to unite several<br> contactless features in one device'); ?></p>
@@ -93,7 +93,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="device-block" ng-controller="SlideController" id="slider-spots">
+                <div class="device-block" ng-controller="SlideController" id="slider-spots" ng-init="sliderInit()">
                     <div class="slider-window" ng-mouseenter="startColors()" ng-mouseleave="stopColors()">
                         <img ng-repeat="slide in spots.slides" id="spots_{{slide.id}}"
                         class="f-slide"
