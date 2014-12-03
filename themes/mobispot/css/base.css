@@ -1,7 +1,7 @@
 /* line 2, ../sass/base.scss */
 .button:active {
-  -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  -webkit-box-shadow: none;
   box-shadow: none; }
 
 /* line 5, ../sass/base.scss */
@@ -20,8 +20,8 @@ body {
     max-width: 1024px;
     position: relative;
     margin: 0 auto;
-    -webkit-box-shadow: none;
     -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     box-shadow: none;
     background: #fff; }
     /* line 20, ../sass/base.scss */
@@ -59,9 +59,9 @@ body {
 .spot-main-input {
   border: 2px dashed;
   border-color: rgba(3, 3, 3, 0.3);
-  -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out; }
   /* line 57, ../sass/base.scss */
   .spot-main-input.show-info {
@@ -80,8 +80,8 @@ body {
   margin-bottom: 0;
   outline: none;
   border: 0;
-  -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  -webkit-box-shadow: none;
   box-shadow: none;
   resize: none; }
 
