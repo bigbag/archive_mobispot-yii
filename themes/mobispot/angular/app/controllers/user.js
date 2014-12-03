@@ -167,18 +167,5 @@ angular.module('mobispot').controller('UserController',
     else
       contentService.desktopModal('message');
   };
-
-  $scope.frontImgLoader = function()
-  {
-    angular.element('.splash #payment').css('background-image', 'url(../themes/mobispot/img/info/IMG_8472.jpg)');
-    
-    angular.element('.splash #soc').css('background-image', 'url(../themes/mobispot/img/info/IMG_9441.jpg)');
-    
-    angular.element('.splash #coupon').css('background-image', 'url(../themes/mobispot/img/info/IMG_9478.jpg)');
-    
-    angular.element('.splash #transport').css('background-image', 'url(../themes/mobispot/img/info/IMG_9554.jpg)');
-    
-    angular.element('.splash #dev').css('background-image', 'url(../themes/mobispot/img/info/IMG_9525.jpg)');
-  }
   
 });

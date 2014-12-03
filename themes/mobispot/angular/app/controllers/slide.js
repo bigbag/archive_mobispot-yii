@@ -122,7 +122,7 @@ angular.module('mobispot').controller('SlideController',
     $scope.spots.timer_rotation = true;
     $timeout(function(){
      $scope.colorRotation();
-    }, 300);
+    }, 100);
   };
   
   $scope.stopColors = function() {
