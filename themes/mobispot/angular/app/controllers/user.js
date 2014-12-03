@@ -168,4 +168,22 @@ angular.module('mobispot').controller('UserController',
       contentService.desktopModal('message');
   };
   
+  angular.element(window).bind('load', function() {
+    if (!angular.element('.splash').length || !angular.element('.splash #payment').length)
+        return false;
+        
+    //angular.element('.splash .first-screen').css('background-image', 'url(../themes/mobispot/img/info/IMG_9449.jpg)');
+    
+    angular.element('.splash #payment').css('background-image', 'url(../themes/mobispot/img/info/IMG_8472.jpg)');
+    
+    angular.element('.splash #soc').css('background-image', 'url(../themes/mobispot/img/info/IMG_9441.jpg)');
+    
+    angular.element('.splash #coupon').css('background-image', 'url(../themes/mobispot/img/info/IMG_9478.jpg)');
+    
+    angular.element('.splash #transport').css('background-image', 'url(../themes/mobispot/img/info/IMG_9554.jpg)');
+    
+    angular.element('.splash #dev').css('background-image', 'url(../themes/mobispot/img/info/IMG_9525.jpg)');
+ 
+  });
+  
 });

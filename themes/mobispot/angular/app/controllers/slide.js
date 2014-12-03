@@ -36,6 +36,11 @@ angular.module('mobispot').controller('SlideController',
     slider.listposition = {left:($scope.IMAGE_WIDTH * ind * -1) + "px"};
   };
   
+  angular.element(window).bind('load', function() {
+  
+    $scope.sliderInit();
+  });
+  
   $scope.sliderInit = function()
   {
       $scope.spots.slides = [
