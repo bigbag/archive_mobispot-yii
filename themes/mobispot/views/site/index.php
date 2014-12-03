@@ -93,7 +93,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="device-block" ng-controller="SlideController" id="slider-spots" ng-init="sliderInit()">
+                <div class="device-block" ng-controller="SlideController" id="slider-spots">
                     <div class="slider-window" ng-mouseenter="startColors()" ng-mouseleave="stopColors()">
                         <img ng-repeat="slide in spots.slides" id="spots_{{slide.id}}"
                         class="f-slide"
@@ -102,8 +102,8 @@
                     </div>
 
                     <ul class="device-type">
-                        <li ng-click="fadeToWistbrands()" ng-class="{active: 'wristband' == spots.current_type}"><img src="/themes/mobispot/img/products/brace_blue.png"></li>
-                        <li ng-click="fadeToCards()" ng-class="{active: 'card' == spots.current_type}"><img src="/themes/mobispot/img/products/card_red.png"></li>
+                        <li ng-click="fadeToWistbrands()" ng-class="{active: 'wristband' == spots.current_type}"><img src="/themes/mobispot/img/a_slider/brace_blue.png"></li>
+                        <li ng-click="fadeToCards()" ng-class="{active: 'card' == spots.current_type}"><img src="/themes/mobispot/img/a_slider/card_red.png"></li>
                         <li ng-click="fadeToKeys()" ng-class="{active: 'key' == spots.current_type}"><img src="/themes/mobispot/img/products/key_green.png"></li>
                     </ul>
                     <p><?php echo Yii::t('general', 'Choose your Spot'); ?></p>
