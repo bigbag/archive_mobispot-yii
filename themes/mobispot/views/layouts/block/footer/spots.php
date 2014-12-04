@@ -22,11 +22,11 @@
                         <img src="/themes/mobispot/img/lang-icon_ru.png">Русский
                     </a>
                 </li>
-                <!-- <li class="<?php //echo ('zh_cn' == Yii::app()->language)?'current-lang':'' ?>">
+                <li class="<?php echo ('zh_cn' == Yii::app()->language)?'current-lang':'' ?>">
                     <a href="/service/lang/zh_cn">
                         <img src="/themes/mobispot/img/lang-icon_zh_cn.png">中文简体
                     </a>
-                </li> -->
+                </li>
                 <!-- <li class="<?php //echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>">
                     <a href="/service/lang/zh_tw">
                         <img src="/themes/mobispot/img/lang-icon_zh_tw.png">中文繁體
