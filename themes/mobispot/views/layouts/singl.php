@@ -28,6 +28,7 @@
     <?php echo $content; ?>
 
     <script src="/themes/mobispot/angular/app.min.js"></script>
+    <script src="/themes/mobispot/js/foundation.min.js"></script>    
     <?php echo $this->blockFooterScript; ?>
     <script>$(document).foundation();</script>
 
