@@ -315,3 +315,7 @@ label.face-holder.hide i, label.face-holder.hide span {
 .splash #payment, .splash #soc, .splash #coupon, .splash #transport, .splash #dev {
     background-image: none;
 }
+
+.ofert-page .main {
+    display: block;
+}
