@@ -48,6 +48,11 @@
                             <img src="/themes/mobispot/img/lang-icon_zh_cn.png">中文简体
                         </a>
                     </li>
+                    <li class="<?php echo ('it' == Yii::app()->language)?'current-lang':'' ?>">
+                        <a href="/service/lang/it">
+                            <img src="/themes/mobispot/img/lang-icon_it.png">Italiano
+                        </a>
+                    </li>
                     <!-- <li class="<?php //echo ('zh_tw' == Yii::app()->language)?'current-lang':'' ?>">
                         <a href="/service/lang/zh_tw">
                             <img src="/themes/mobispot/img/lang-icon_zh_tw.png">中文繁體

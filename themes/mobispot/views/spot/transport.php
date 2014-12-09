@@ -13,7 +13,7 @@
                     </h4>
                     <div class="card-img">
                         <img src="/uploads/transport/troika.jpg">
-                        <a href="javascript:;" ng-click="showCustomCard()"><?php echo Yii::t('spot', 'Создать свой макет карты')?></a>
+                        <a href="javascript:;" ng-click="showCustomCard()"><?php echo Yii::t('spot', 'Создать карту с индивидуальным дизайном')?></a>
                     </div>
                     <div class="card-info">
                             <ul>
@@ -22,15 +22,15 @@
                                 <li><?php echo Yii::t('spot', 'Номер карты:')?>  <span></span> </li>
                             </ul>
                             <div class="balance">
-                                <?php echo Yii::t('spot', 'Баланс:');?> <b></b>
+                                <?php echo Yii::t('spot', 'Balance:');?> <b></b>
                             </div>
                             <a href="javascript:;" class="form-button"><?php echo Yii::t('spot', 'Пополнить:');?></a>
                     </div>
                     <footer>
-                        <?php echo Yii::t('spot', 'По вопросам функционирования карты:')?> 
+                        <?php echo Yii::t('spot', 'Поддержка по вопросам функционирования карты')?> 
                         +7 495 933-5918 <?php echo Yii::t('spot', 'или'); ?>  <a href="mailto:helpme@mobispot.com">helpme@mobispot.com</a>
                         <br>
-                        <?php echo Yii::t('spot', 'По транспортным вопросам:'); ?> +7 495 539-5454
+                        <?php echo Yii::t('spot', 'Поддержка по транспортным вопросам'); ?> +7 495 539-5454
                     </footer>
                 </div>
             </section>

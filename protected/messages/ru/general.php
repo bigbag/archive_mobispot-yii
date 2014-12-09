@@ -8,7 +8,7 @@
   'Maximum file size ' => 'Максимальный размер ',
   'Met someone?<br> Share your details instantly with Mobispot.<br> Like something?<br> Share it, and brands can share right back.' => 'Познакомились с кем-то?<br> Поделитесь информацией о себе одним касанием.<br> "Лайкнули" страницу?<br> Получите бонусы от известных брендов.',
   'My Spots' => 'Мои споты',
-  'My profile & Security' => 'Профиль',
+  'My profile & Security' => 'Мой профиль',
   'One tap is<br> all it takes' => 'Одним<br> прикосновением',
   'Pay with a tap,<br> not with cash' => 'Платите касанием,<br> без наличных',
   'Readers' => 'Ридеры (считыватели)',
