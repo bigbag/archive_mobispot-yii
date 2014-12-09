@@ -13,7 +13,7 @@
                 <td><div class="text-center"><?php echo $row->term->name; ?>
                     <?php if ($row->isFailure()):?> 
                     <span class="fail-description">
-                        <?php echo Yii::t('spot', 'Не удалось списать средства с Вашей банковской карты. Пополните, пожалуйста, ее баланс или выберите другую карту в качестве активной');?>
+                        <?php echo Yii::t('spot', 'Failed to charge your bank card. Please, top up the balance or select another card as active.');?>
                     </span>
                     <?php endif; ?>  
                 </div></td>

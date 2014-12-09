@@ -1,4 +1,4 @@
-<?php $this->pageTitle = Yii::t('error', 'Error'); ?>
+<?php $this->pageTitle = Yii::t('user', 'Error'); ?>
 <div class="content-wrapper error-page ng-cloak" ng-cloak>
     <?php if (!empty($openLoginForm)): ?>
         <span ng-init="modal='sign'"></span>
