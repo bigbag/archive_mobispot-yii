@@ -90,4 +90,5 @@
   'Yes' => 'Да',
   'No' => 'Нет',
   'Balance:' => 'Баланс:',
+  'Failed to charge your bank card. Please, top up the balance or select another card as active.' => 'Не удалось списать средства с вашей банковской карты. Пополните, пожалуйста, ее баланс или выберите другую карту в качестве платежной.',
 );

@@ -12,7 +12,7 @@
 <table style="margin-top:40px; width:660px; padding:0 30px" >
     <tr>
         <td rowspan="2" style="text-align:left;align:left;">&copy; Mobispot. Ltd. All rights reserved<br>
-            sales@mobispot.com<br>
+            hola@mobispot.com<br>
         </td>
     </tr>
 </table>

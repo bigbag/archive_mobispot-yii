@@ -70,7 +70,7 @@
             © 2013 Mobispot. Ltd. All rights reserved<br>
             5A Berezovaya ave, bldg 1-3, Moscow, 127273<br>
             Office +7 495 789-80-89<br>
-            sales@mobispot.com<br>
+            hola@mobispot.com<br>
         </td>
         <td>Follow Mobispot</td>
         <td><a href="#"><img src="<?php echo $this->getBaseUrl(); ?>>/themes/mobispot/images/mail/store/fb.png"></a></td>

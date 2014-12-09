@@ -9,11 +9,8 @@
     <p>Per reimpostare la password seguire questo link:<br/>
             <?php echo $activation_url;?></p>
 </div>
-<table style="margin-top:40px; width:660px; padding:0 30px" >
-    <tr>
-        <td rowspan="2" style="text-align:left;align:left;">&copy; Mobispot. Ltd. All rights reserved<br>
-            sales@mobispot.com<br>
-        </td>
-    </tr>
-</table>
+<p><br></p>
+<p>&copy;  Mobispot Social Systems Pte. Ltd.<br>
+<a href="mailto:hola@mobispot.com">hola@mobispot.com</a></p>
+<p>Follow us in <a href="https://www.facebook.com/heyMobispot" target="_blank">Facebook</a> or  <a href="https://twitter.com/heymobispot" target="_blank">Twitter</a></p>
 </div>
