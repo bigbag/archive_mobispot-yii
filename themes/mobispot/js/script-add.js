@@ -1,3 +1,4 @@
+ // Google analytics
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-33307941-1']);
 _gaq.push(['_setDomainName', 'mobispot.com']);
@@ -16,3 +17,27 @@ if (window.location.hash == '#_=_') {
     history.pushState('', document.title, window.location.pathname); // nice and clean
     e.preventDefault(); // no page reload
 }
+
+// Yandex metrica
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter27425150 = new Ya.Metrika({id:27425150,
+            webvisor:true,
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
