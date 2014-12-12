@@ -1,3 +1,68 @@
+//-----------------------//
+// Config
+//-----------------------//
+@import "compass";
+@import "compass/layout/sticky-footer";
+@import "rgbapng";
+
+@include font-face('Mobispot', font-files("mobispot-webfont.ttf", "mobispot-webfont.svg","mobispot-webfont.woff"),("mobispot-webfont.eot"), normal, normal);
+@include font-face('museo_sans_cyrl100', font-files("exljbris_-_museosanscyrl-100-webfont.ttf", "exljbris_-_museosanscyrl-100-webfont.svg","exljbris_-_museosanscyrl-100-webfont.woff"),("exljbris_-_museosanscyrl-100-webfont.eot"), 100, normal);
+
+@include font-face('museo_sans_cyrl100', font-files("museosanscyrl_700.ttf","museosanscyrl_700.woff"),("museosanscyrl_700.eot"), 900, bold);
+
+@include font-face('museo_sans_cyrl100', font-files("museosanscyrl_500.ttf","museosanscyrl_500.woff"),("museosanscyrl_500.eot"), 700, bold);
+
+
+@include font-face('Mobispot-icon', font-files("mobispot-icon.ttf", "mobispot-icon.svg","mobispot-icon.woff"),("mobispot-icon.eot"), 100, normal);
+
+@mixin round($size){
+	@include border-radius(50%);
+	@include inline-block;
+	height: $size;
+	width: $size;
+	line-height: $size + 1;
+	text-align: center; 
+}
+
+$bs: border-box;
+$color-blue: #0062ff;
+$color-red: #ff0050;
+$color-green: #30D874;
+$color-blue_lighter: #2578fe; 
+$color-hover: #333;
+$color-light: #fff;
+$opacity: .9;
+$main-lr-padding: 44px;
+$min-display-width: 1024px;
+$main-font-size: 16px;
+$logo-width: 140px;
+$footer-tb-padding: 36px;
+$footer-height: 112px;
+$slides-nav-padding: 19px;
+$main-font: museo_sans_cyrl100, Arial,Helvetica,sans-serif;
+$input-margin: 6px;
+$animation_speed: .8s;
+$height-hat: 50px;
+$ul-margin: 1.25rem;
+$main-border-radius: 5px;
+$white-op-bg: rgba(255, 255, 255, 0.9);
+
+
+.h1{
+	font-family: Mobispot;
+	font-weight: 100;
+	line-height: normal;
+		&.color{
+			color: $color-blue;
+		}
+}
+
+//-----------------------//
+// Basic
+//-----------------------//
+
+
+
 .spot-wrapper{
 	display: none;
 	@include opacity(0);
@@ -54,12 +119,6 @@
 				overflow: hidden;
 				padding-right: 33px;
 				font-size: 18px;
-			}
-			@media screen and (max-width: 1200px) {
-				h3{
-					font-size: 18px;
-					max-width: 60%; 
-				}
 			}
 			&.active{
 				background: #E0E6ED;
@@ -492,13 +551,14 @@
 	margin-left: 10px;
 	font-size: 17px;
 }
-.wallet-block, .settings-block{
+.wallet-block, .settings-block, .w-bg{
 	h4{
 		border-bottom: 1px solid #E9EDF2;
 		margin-bottom: 22px;
 		padding-bottom: 3px;
 	}
 }
+
 .input-right{
 	padding: 6px 10px;
 	@include inline-block;
@@ -533,11 +593,24 @@
 	margin-top: 1px;
 }
 .m-auto-payment{
-	padding: 19px 22px;
-	@include border-radius(8px);
 	overflow: hidden;
+	border-left: 1px solid #E9EDF2;
+	padding: 0 0 0 22px;
+	margin-right: -3px;
+	@include border-radius(0);
+	a{
+		&:hover{
+			span{
+				border-color: $color-blue;
+			}
+		}
+	}
+	
 	h4{
 		margin: 0 0 11px;
+	}
+	h5{
+		margin-top: 0;
 	}
 	select{
 		margin-bottom: 0;
@@ -569,7 +642,7 @@
 			@include opacity(0);
 		}
 		&.active{
-			@include single-box-shadow($color-green, 0, 0, 0, 1px, inset);
+			@include single-box-shadow( 0, 0, 0, 1px, $color-green, inset);
 			.indicator{
 				@include opacity(1);
 				background: $color-green;
@@ -679,6 +752,11 @@ form p .agree{
 	}
 	.wallet-block{
 		@include opacity(.1);
+		@media only screen and (min-width: 40.063em){
+			.columns{
+				float: none;
+			}
+		}
 	}
 	.spot-button_block{
 		display: none;
@@ -709,7 +787,7 @@ form p .agree{
 	margin-bottom: -2%;
 	.type-coupon{
 		&.active{
-			@include single-box-shadow($color-green, 0, 0, 0, 1px, inset);
+			@include single-box-shadow( 0, 0, 0, 1px, $color-green, inset);
 			sup{
 				font-size: 14px;
 				position: absolute;
@@ -757,6 +835,7 @@ form p .agree{
 		color: #8D9095;
 		padding: 2px 11px;
 		margin-bottom: 0;
+		font-size: 14px;
 	}
 	.checkbox{
 		position: relative;
@@ -789,7 +868,7 @@ a{
 .invisible{
 	.toggle-visible{
 		@include border-radius(5px);
-		@include single-box-shadow($color-green, 0, 0, 0, 1px, inset);
+		@include single-box-shadow( 0, 0, 0, 1px, $color-green, inset);
 		.red{
 			color: #8D9095;
 			&:hover{
@@ -858,7 +937,7 @@ a{
 			display: none;
 		}
 		.control{
-			@include single-box-shadow($color-green, 0, 0, 0, 1px, inset);
+			@include single-box-shadow( 0, 0, 0, 1px, $color-green, inset);
 			@include border-radius(5px);
 			margin-left: -11px;
 			padding-left: 11px;
@@ -909,16 +988,57 @@ a{
 		left: -350px;
 	}
 }
+.ya-icon{
+	height: 18px;
+	position: relative;
+	top: 2px;
+}
 .pay-system{
-	background: #FFF;
-	margin: 0 -21px 11px;
-	padding: 10px 22px;
-	height: 42px;
+	margin-bottom: 0;
+	height: auto !important;
+	img{
+			height: auto !important;
+	}
+	label{
+		display: table-cell;
+		vertical-align: middle;
+		height: 77px;
+	}
+	.ya-wallet{
+		span{
+			line-height: 65px;
+			padding: 10px;
+		}
+	}
+	.cards{
+		span{
+			line-height: 77px;
+			padding: 15px;
+		}
+	}
 	li{
+		width: 100%;
+		margin: 11px 11px 0 0;
+		&:first-child{
+			margin-top: 0;
+		}
 		display: inline-block;
+		overflow: hidden;
+		font-size: 14px;
 	}
 	img{
-		height: 20px;
+		max-width: 100%;
+	}
+	a{
+		display: block;
+		span{
+			display: block;
+			@include round(77px);
+			border: 1px solid #E9EDF2;
+			background: #fff;
+			margin-right: 10px;
+			float: left;
+		}
 	}
 }
 .table{
@@ -962,9 +1082,6 @@ a{
 	.main-indicator{
 		display: none;
 		color: #8D9095;
-	}
-	.make-main{
-		text-decoration: underline;
 	}
 	.main-card{
 		.main-indicator{
@@ -1067,10 +1184,13 @@ a{
 		position: absolute;
 		bottom: 0;
 		right: 0;
-		font-family: mobispot;
-		font-size: 22px;
-		line-height: 19px;
-		color: #8D9095;
+		font-size: 14px;
+		color: #fff;
+		background: #30D874;
+		@include border-radius(50%);
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
 	}
 }
 .button-round{
@@ -1150,7 +1270,7 @@ a{
 }
 .error-coupon{
 	.cover-coupon{
-		@include single-box-shadow($color-red, 0, 0, 0, 1px, inset);
+		@include single-box-shadow( 0, 0, 0, 1px, $color-red, inset);
 		@include opacity(1);
 		z-index: 10;
 		position: absolute;
@@ -1207,7 +1327,7 @@ a{
 	border-top: 2px solid #fff;
 	@include border-radius(5px);
 	text-align: center;
-	@include single-box-shadow(#E4B63F, 0, 0, 0, 1px, inset);
+	@include single-box-shadow( 0, 0, 0, 1px, #E4B63F, inset);
 	height: 42px;
 	tr:first-child &{
 		border-top: 0;
@@ -1222,6 +1342,13 @@ a{
 .fail{
 	td{
 		color: #FF0050;
+	}
+	.fail-description{
+		display: block;
+		text-align: center;
+		border-top: 1px dashed;
+		margin-top: 5px;
+		padding-top: 5px;
 	}
 }
 .add-spot-box{
@@ -1257,6 +1384,288 @@ a{
 		width: 75% !important;
 	}
 }
+.wallet-block{
+@media only screen and (max-width: 767px){
+			.large-5{
+				float: none !important;
+			}
+		}
+	}
+.transport-block{
+	overflow: hidden;
+	footer{
+		overflow: hidden;
+		float: none;
+		clear: both;
+		font-size: 14px;
+		line-height: 22px;
+		padding-top: 33px;
+		color: #8D9095;
+	}
+	.card-img{
+		width: 50%;
+		overflow: hidden;
+		float: left;
+		img{
+			display: block;
+			max-width: 100%;
+			@include border-radius(8px);
+		}
+		a{
+			display: block;
+			margin-top: 5px;
+		}
+	}
+	.card-info{
+		width: 50%;
+		float: left;
+		padding-left: 33px;
+		line-height: 22px;
+		ul{
+			height: 60px;
+			li{
+				margin-bottom: 3px;
+				span{
+					float: right;
+				}
+			}
+		}
+		.balance{
+			background: rgba(240, 243, 246, 0.5);
+			padding: 22px;
+			margin-bottom: 11px;
+			b{
+				float: right;
+				font-size: 22px;
+				color: $color-green;
+			}
+		}
+	}
+}
+.step-description{
+	padding: 22px 0 22px 22px;
+	overflow: hidden;
+	b{
+		color: #333;
+	}
+}
+@media screen and (max-width:1220px){
+		.overlay-page{
+			.small-6{
+				float: none !important;
+				clear: both;
+				width: 100%;
+			}
+			.small-12{
+				margin-top: 30px;
+			}
+		}
+	}
+.overlay-page{
+	width: 100%;
+	@include single-transition(opacity, $animation_speed/3, ease-in-out);
+	@include opacity(0);
+	z-index: -10;
+	min-width: 1024px;
+
+
+
+
+	&.show{
+		@include opacity(1);
+		z-index: 300;
+	}
+	position: fixed;
+	height: 100%;
+	overflow: scroll;
+	top: 0;
+	left: 0;
+	background: rgba(255, 255, 255, 0.98);
+	padding: 33px;
+	.close-button{
+		float: right;
+		color: #000;
+		background: #E9EDF2;
+		@include round(44px);
+		&:hover{
+			color: #fff;
+			background: $color-blue;
+		}
+	}
+	.personal-card{
+		background-color: #fff;
+		border: 1px solid #E9EDF2;
+		overflow: hidden;
+		text-align: center;
+		@include border-radius(30px);
+		position: relative;
+		background-size: cover;
+		&:after{
+			content: '';
+			position: absolute;
+			@include border-radius(30px);
+			background: #E9EDF2; 
+		}
+		&.horizontal{
+			width: 513px;
+			height: 321px;
+			float: left;
+			clear: both;
+			&+.step-description{
+				width: 513px;
+				padding-top: 17px;
+				clear: both;
+			}
+			&:after{
+				height: 92px;
+				width: 23px;
+				left: 24px;
+				top: 115px;
+			}
+		}
+		&.vertical{
+			width: 321px;
+			height: 513px;
+			float: left;
+			&:after{
+				width: 92px;
+				height: 23px;
+				left:  115px;
+				top: 24px;
+			}
+		}
+			
+	}
+}
+.personal-block{
+	padding: 0 24px; 
+	max-width: 1440px;
+
+	.content-row{
+		margin-left: 20px;
+	}
+	.button-round{
+		@include round(150px);
+	}
+	.upload-photo{
+		border: 1px solid #E9EDF2;
+		@include round(165px);
+		margin-top: 95px;
+		overflow: hidden;
+		position: relative;
+		span{
+			position: relative;
+			z-index: 1;
+		}
+		.icon{
+			position: absolute;
+			font-size: 175px;
+			color: #E9EDF2;
+			top: 28px;
+			left: 14px;
+		}
+	}
+	.upload-logo{
+		display: block;
+		border: 1px dashed #E9EDF2;
+		padding: 11px;
+		width: 60%;
+		margin: 0 auto;
+	}
+	.owner-info{
+		margin: 21px 0 11px;
+		height: 157px;
+		textarea{
+		margin-bottom: 0;
+		font-family: Mobispot;
+		text-align: center;
+		border: 0;
+		resize: none;
+		
+		-moz-box-shadow: none;
+-webkit-box-shadow: none;
+box-shadow: none;
+
+		&.name{
+			font-size: 33px;
+			padding: 11px 35px;
+			height: 64px;
+		}
+		&.position{
+			font-size: 18px;
+			padding: 11px 50px;
+			height: 50px;
+			color: #8D9095;
+		}
+	
+		&::-webkit-input-placeholder {
+			color:	#8D9095;
+			
+		}
+		&:-moz-placeholder {
+				color:	#8D9095;
+				
+		}
+		&::-moz-placeholder {
+				color:	#8D9095;
+				
+		}
+		&:-ms-input-placeholder {
+				color:	#8D9095;
+		}
+		&:hover, &:focus{
+			background: #F7F9FA;
+			&::-webkit-input-placeholder {
+				color:	#E9EDF2;
+				
+			}
+			&:-moz-placeholder {
+					color:	#E9EDF2;
+					
+			}
+			&::-moz-placeholder {
+					color:	#E9EDF2;
+					
+			}
+			&:-ms-input-placeholder {
+					color:	#E9EDF2;
+			}
+		}
+	}
+	}
+	
+}
+.close-button{
+	@include round(33px);
+	background: $color-blue;
+}
+
+
+//-----------------------//
+// 
+//-----------------------//
+
+@for $i from 1 through 6 {
+	h#{$i} { 
+		@extend .h1;
+		.number{
+			@include round(40px);
+			background: $color-green;
+			color: #fff;
+			font-size: 24px;
+			margin-right: 11px;
+			margin-left: -38px;
+		}
+	}
+}
+
+
+//-----------------------//
+// 
+//-----------------------//
+
+
+
 
 //-----------------------//
 // Animation
