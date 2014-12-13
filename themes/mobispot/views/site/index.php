@@ -14,7 +14,7 @@
 </script>'
 ?>
 
-<div id="first-scr" class="first-screen">
+<div id="first-scr" class="first-screen" ng-init="loadFront()">
     <article class="text-block">
         <h1><?php echo Yii::t('general', 'Forget about all these<br> plastic cards'); ?></h1>
             <p><?php echo Yii::t('general', 'Find out how to unite several<br> contactless features in one device'); ?></p>

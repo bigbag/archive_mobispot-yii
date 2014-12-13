@@ -172,18 +172,36 @@ angular.module('mobispot').controller('UserController',
     if (!angular.element('.splash').length || !angular.element('.splash #payment').length)
         return false;
         
-    //angular.element('.splash .first-screen').css('background-image', 'url(../themes/mobispot/img/info/IMG_9449.jpg)');
+    var resolution = 1920;
     
-    angular.element('.splash #payment').css('background-image', 'url(../themes/mobispot/img/info/IMG_8472.jpg)');
+    if ($(window).width() <= 1400)
+        resolution = 1400;
+    if ($(window).width() <= 1280)
+        resolution = 1280;
     
-    angular.element('.splash #soc').css('background-image', 'url(../themes/mobispot/img/info/IMG_9441.jpg)');
+    angular.element('.splash #payment').css('background-image', 'url(../themes/mobispot/img/info/pass_' + resolution + '.jpg)');
     
-    angular.element('.splash #coupon').css('background-image', 'url(../themes/mobispot/img/info/IMG_9478.jpg)');
+    angular.element('.splash #soc').css('background-image', 'url(../themes/mobispot/img/info/discount_' + resolution + '.jpg)');
     
-    angular.element('.splash #transport').css('background-image', 'url(../themes/mobispot/img/info/IMG_9554.jpg)');
+    angular.element('.splash #coupon').css('background-image', 'url(../themes/mobispot/img/info/social_' + resolution + '.jpg)');
     
-    angular.element('.splash #dev').css('background-image', 'url(../themes/mobispot/img/info/IMG_9525.jpg)');
+    angular.element('.splash #transport').css('background-image', 'url(../themes/mobispot/img/info/transport_' + resolution + '.jpg)');
+    
+    angular.element('.splash #dev').css('background-image', 'url(../themes/mobispot/img/info/partner_' + resolution + '.jpg)');
  
   });
+  
+  $scope.loadFront = function() {
+    var resolution = 1920;
+    
+    if ($(window).width() <= 1400)
+        resolution = 1400;
+    if ($(window).width() <= 1280)
+        resolution = 1280;
+        
+    var frontBlock = angular.element('.splash .first-screen');
+       
+    frontBlock.css('background-image', 'url(../themes/mobispot/img/info/front_' + resolution + '.jpg)');
+  }
   
 });
