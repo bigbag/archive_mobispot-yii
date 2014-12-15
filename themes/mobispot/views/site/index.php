@@ -11,6 +11,23 @@
             window.location.hash = target;
         });
     });
+    
+    $(\'.lazy-background\').lazyloadanything({
+        \'onLoad\': function(e, LLobj) {
+            var $block = LLobj.$element;
+            
+            var resolution = 1920;
+    
+            if (screen.width <= 1400)
+                resolution = 1400;
+            if (screen.width <= 1280)
+                resolution = 1280;
+                
+            var src = $block.attr(\'data-src\')  + resolution + \'.jpg)\';
+        
+            $block.css(\'background-image\', src);
+        }
+    });
 </script>'
 ?>
 
@@ -140,7 +157,7 @@
                 </div>
             </div>
         </div>
-        <div id="payment" class="info-item">
+        <div id="payment" class="info-item lazy-background" data-src="url(../themes/mobispot/img/info/pass_">
         <div class="wrapper">
             <header>
                 <h2><?php echo Yii::t('general', 'Pass that you\'ll never forget'); ?></h2>
@@ -154,7 +171,7 @@
         </div>
             
         </div>
-        <div id="soc" class="info-item">
+        <div id="soc" class="info-item lazy-background" data-src="url(../themes/mobispot/img/info/discount_">
             <div class="wrapper">
                 <header>
                     <h2><?php echo Yii::t('general', 'Reduce the amount of plastic in your pocket'); ?></h2>
@@ -170,7 +187,7 @@
                             </div>
             </div>
         </div>
-        <div id="coupon" class="info-item">
+        <div id="coupon" class="info-item lazy-background" data-src="url(../themes/mobispot/img/info/social_">
             <div class="wrapper">
                 <header>
                     <h2><?php echo Yii::t('general', 'Connect digital and real'); ?></h2>
@@ -181,7 +198,7 @@ When somebody wants to add you as a friend he can just tap your wristband with a
                         </p>
             </div>
         </div>
-        <div id="transport" class="info-item">
+        <div id="transport" class="info-item lazy-background" data-src="url(../themes/mobispot/img/info/transport_">
             <div class="wrapper">
                 <header>
                     <h2><?php echo Yii::t('general', 'All your tickets in one place'); ?></h2>
@@ -192,7 +209,7 @@ When somebody wants to add you as a friend he can just tap your wristband with a
             </div>
         </div>
 
-        <div id="dev" class="info-item">
+        <div id="dev" class="info-item lazy-background" data-src="url(../themes/mobispot/img/info/partner_">
             <header>
                 <h3>
                     <?php echo Yii::t('general', 'Would like to use our<br> features in your project?'); ?>

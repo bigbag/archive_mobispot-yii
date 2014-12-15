@@ -168,15 +168,29 @@ angular.module('mobispot').controller('UserController',
       contentService.desktopModal('message');
   };
   
+  $scope.loadFront = function() {
+    var resolution = 1920;
+    
+    if (screen.width <= 1400)
+        resolution = 1400;
+    if (screen.width <= 1280)
+        resolution = 1280;
+        
+    var frontBlock = angular.element('.splash .first-screen');
+       
+    frontBlock.css('background-image', 'url(../themes/mobispot/img/info/front_' + resolution + '.jpg)');
+  }
+  
+  /*
   angular.element(window).bind('load', function() {
     if (!angular.element('.splash').length || !angular.element('.splash #payment').length)
         return false;
         
     var resolution = 1920;
     
-    if ($(window).width() <= 1400)
+    if (screen.width <= 1400)
         resolution = 1400;
-    if ($(window).width() <= 1280)
+    if (screen.width <= 1280)
         resolution = 1280;
     
     angular.element('.splash #payment').css('background-image', 'url(../themes/mobispot/img/info/pass_' + resolution + '.jpg)');
@@ -190,18 +204,6 @@ angular.module('mobispot').controller('UserController',
     angular.element('.splash #dev').css('background-image', 'url(../themes/mobispot/img/info/partner_' + resolution + '.jpg)');
  
   });
-  
-  $scope.loadFront = function() {
-    var resolution = 1920;
-    
-    if ($(window).width() <= 1400)
-        resolution = 1400;
-    if ($(window).width() <= 1280)
-        resolution = 1280;
-        
-    var frontBlock = angular.element('.splash .first-screen');
-       
-    frontBlock.css('background-image', 'url(../themes/mobispot/img/info/front_' + resolution + '.jpg)');
-  }
+  */
   
 });
