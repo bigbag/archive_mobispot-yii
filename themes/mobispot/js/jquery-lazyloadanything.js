@@ -43,88 +43,12 @@
 			var $selector = this;
 
 			// Scroll listener
-			$listenTo.bind('scroll.lla', function(e) {
-		
-				// Check for manually/auto load
-				if(!force_load_flag && !settings.auto) return false;
-				force_load_flag = false;
-		
-				// Clear timeout if scrolling continues
-				clearTimeout(timeout);
-		
-				// Set the timeout for onLoad
-				timeout = setTimeout(function() {
-				
-					/*
-					x1, y1 o----------------------o x2, y1
-						   |                      |
-						   |                      |
-						   |                      |
-						   |                      |
-						   |                      |
-						   |                      |
-						   |                      |
-						   |                      |
-					x1, y2 o----------------------o x2, y2
-					*/
-					
-					var viewport_left = $listenTo.scrollLeft();
-					var viewport_top = $listenTo.scrollTop();
-					var viewport_width = $listenTo.innerWidth();
-					var viewport_height = $listenTo.innerHeight();
-					var viewport_x1 = viewport_left - settings.viewportMargin;
-					var viewport_x2 = viewport_left + viewport_width + settings.viewportMargin;
-					var viewport_y1 = viewport_top - settings.viewportMargin;
-					var viewport_y2 = viewport_top + viewport_height + settings.viewportMargin;
-					
-					var load_elements = [];
-					var i, llelem_top, llelem_bottom;
-				
-					// Cycle through llelements and check if they are within viewpane
-					for(i = 0; i < llelements.length; i++) {
-                                                
-						// Get top and bottom of llelem
-						var llelem_x1 = llelements[i].getLeft();
-						var llelem_x2 = llelements[i].getRight();
-						var llelem_y1 = llelements[i].getTop();
-						var llelem_y2 = llelements[i].getBottom() + screen.height;
-                                                
-						if(llelements[i].$element.is(':visible'))
-						{
-							if((viewport_x1 < llelem_x2) && (viewport_x2 > llelem_x1) && (viewport_y1 < llelem_y2) && (viewport_y2 > llelem_y1)) {
-
-									// Grab index of llelements that will be loaded
-									if(settings.repeatLoad || !llelements[i].loaded) load_elements.push(i);
-
-							}
-						}
-					}
-			
-					// Call onLoadingStart event
-					if(settings.onLoadingStart.call(undefined, e, llelements, load_elements)) {
-				
-						// Cycle through array of indexes that will be loaded
-						for(i = 0; i < load_elements.length; i++) {
-					
-							// Set loaded flag
-							llelements[load_elements[i]].loaded = true;
-					
-							// Call the individual element onLoad
-							if(settings.onLoad.call(undefined, e, llelements[load_elements[i]]) === false) break;
-						
-						}
-					
-						// Call onLoadingComplete event
-						settings.onLoadingComplete.call(undefined, e, llelements, load_elements);
-				
-					}
-				
-				}, settings.timeout);
-			
-			});
+			$listenTo.bind('scroll.lla', checkLazy);
 
 			// Load listener
-			$listenTo.bind('load', function(e) {
+			$listenTo.bind('load', checkLazy);
+            
+            function checkLazy(e) {
 		
 				// Check for manually/auto load
 				if(!force_load_flag && !settings.auto) return false;
@@ -202,7 +126,7 @@
 				
 				}, settings.timeout);
 			
-			});
+			}
             
 			// LazyLoadElement class
 			function LazyLoadElement($element) {
