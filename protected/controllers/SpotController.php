@@ -285,7 +285,8 @@ class SpotController extends MController
     {
         $answer = array(
             'error' => 'yes',
-            'name' => ''
+            'name' => '',
+            'content' => ''
         );
         $data = MHttp::validateRequest();
 
@@ -307,6 +308,7 @@ class SpotController extends MController
             $wallet->save(false);
         }
         $answer['error'] = "no";
+        $answer['content'] = Yii::t('user', "The information has been saved successfully");
 
         echo json_encode($answer);
     }

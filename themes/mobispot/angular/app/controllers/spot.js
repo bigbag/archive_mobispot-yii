@@ -252,6 +252,7 @@ angular.module('mobispot').controller('SpotController',
     $http.post('/spot/rename', spot).success(function(data) {
       if(data.error == 'no') {
         angular.element('#' + spot.discodes + ' h3').text(spot.name);
+        contentService.messageModal(data.content, $scope.host_type);
       }
     });
   };
