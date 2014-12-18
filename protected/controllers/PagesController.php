@@ -26,4 +26,10 @@ class PagesController extends MController
             )
         );
     }
+    
+    public function actionClients()
+    {
+        $this->layout = '//layouts/page';
+        $this->render('clients');
+    }
 }

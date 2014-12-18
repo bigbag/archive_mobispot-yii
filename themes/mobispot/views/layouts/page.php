@@ -9,10 +9,12 @@
         ng-cloak class="ng-cloak"
         ng-init="user.token='<?php echo Yii::app()->request->csrfToken ?>';modal='none'">
         <p style="display: block; height: 0; overflow: hidden; visibility: hidden; position: absolute;">We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.</p>
-        <div class="spl-extra" ng-init="host_type='desktop';">
-        <?php if (!empty($this->mainBackground)): ?>
-            <div class="main" style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground; ?>)">
-        <?php endif; ?>
+        <div class="spl-extra main<?php echo (empty($this->casingClass)?'':' '.$this->casingClass);?>" 
+            ng-init="host_type='desktop'"
+            <?php if (!empty($this->mainBackground)): ?>
+                style="background-image: url(/themes/mobispot/img/<?php echo $this->mainBackground; ?>)"
+            <?php endif; ?>
+        >
         
         <?php include('block/header/page.php'); ?>
 
