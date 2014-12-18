@@ -18,6 +18,7 @@ return array(
         'demo-kit' => 'pages/demoKit',
         'phones' => 'pages/readers',
         'help' => 'pages/help',
+        'clients' => 'pages/clients',
 
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

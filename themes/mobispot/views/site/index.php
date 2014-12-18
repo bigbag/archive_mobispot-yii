@@ -43,6 +43,9 @@
                 <li><a href="/demo-kit"><?php echo Yii::t('general', 'Get our demo-kit') ?></a></li>
                 <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
                 <li><a href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
+                <?php if ('ru' == Yii::app()->language): ?>
+                    <li><a href="/clients"><?php echo Yii::t('general', 'Наши клиенты'); ?></a></li>
+                <?php endif; ?>
             </ul>
     <footer class="footer-page">
 
@@ -217,6 +220,9 @@ When somebody wants to add you as a friend he can just tap your wristband with a
                 <p>
                     <?php echo Yii::t('general', 'We have a strong knowledge how different contactless applications work.<br> Our NFC devices are designed to be easily integrated into a wide range of applications.'); ?> 
                 </p>
+                <?php if ('ru' == Yii::app()->language): ?>
+                    <?php echo Yii::t('general', '<p><a href="/clients">Компании</a>, которые уже используют решения "Мобиспот" в своем бизнесе.</p>'); ?> 
+                <?php endif ?>
             </header>
             <article>
                     <p>
