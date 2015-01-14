@@ -6,7 +6,7 @@
         </span>
     </a>
 </h4>
-<div class="columns large-7 small-7">
+<div class="columns large-7 small-7 card-l">
     <div class="card-block">
         <table class="table table-card"
             ng-show="wallet.cards_count || wallet.linking_card">
@@ -56,7 +56,7 @@
             </a>
         </div>
     </div>
-    <p ng-show="!wallet.linking_card && !wallet.cards_count">
+    <p class="no-card" ng-show="!wallet.linking_card && !wallet.cards_count">
         <?php echo Yii::t('spot', 'You don’t have any bank cards linked with your spot.')?>
     </p>
 </div>

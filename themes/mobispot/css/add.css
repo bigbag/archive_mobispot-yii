@@ -319,3 +319,7 @@ label.face-holder.hide i, label.face-holder.hide span {
 .ofert-page .main {
     display: block;
 }
+
+.card-block + .no-card {
+    display: block;
+}
