@@ -321,5 +321,6 @@ label.face-holder.hide i, label.face-holder.hide span {
 }
 
 .card-block + .no-card {
-    display: block;
+    vertical-align: middle;
+    display: table-cell;
 }
