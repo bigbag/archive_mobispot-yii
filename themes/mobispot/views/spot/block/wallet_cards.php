@@ -12,7 +12,7 @@
             ng-show="wallet.cards_count || wallet.linking_card">
             <tbody>
                 <tr ng-repeat="card in wallet.cards"
-                    ng-class="{'main-card': card.status==1}">
+                    ng-class="{'blacklist': wallet.blacklist==0, 'main-card': card.status==1}">
                     <td>
                         <span ng-hide="card.system">
                             <i class="icon">&#xe60d;</i>
@@ -31,6 +31,9 @@
                         </a>
                         <span class="main-indicator">
                             <?php echo Yii::t('spot', 'Current')?>
+                        </span>
+                        <span class="main-indicator blocked">
+                            <?php echo Yii::t('spot', 'Blocked')?>
                         </span>
                         <a class="remove-card"
                             ng-click='removeCard(card.id)'>
