@@ -465,6 +465,7 @@ angular.module('mobispot').controller('SpotController',
       if (data.error == 'no'){
         angular.element('.main-card').removeClass('main-card');
         angular.element(e.currentTarget).parent().parent().addClass('main-card');
+        $scope.wallet.blacklist = 1;
       }
     });
   };

@@ -324,3 +324,23 @@ label.face-holder.hide i, label.face-holder.hide span {
     vertical-align: middle;
     display: table-cell;
 }
+
+.table .main-card.blacklist td:first-child, .table .main-card.blacklist td:last-child{
+    border-color:red;
+}
+
+.table .main-card.blacklist i{
+    color:red;
+}
+
+.table .main-card .main-indicator.blocked{
+    display:none;
+}
+
+.table  .main-card.blacklist .main-indicator{
+    display:none;
+}
+
+.table  .main-card.blacklist .main-indicator.blocked{
+    display:block;
+}
