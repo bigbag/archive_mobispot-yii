@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" href="/themes/mobispot/css/all.min.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/spot.css" />
+    <link rel="stylesheet" href="/themes/mobispot/css/image-crop-styles.css" />
     <link rel="stylesheet" href="/themes/mobispot/css/add.css" />
 
     <!--[if IE 8]>
