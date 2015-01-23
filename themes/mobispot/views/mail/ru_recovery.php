@@ -1,19 +1,62 @@
-<div bgcolor="#ffffff" style="padding:30px 0;margin:0; width:660px;  font-family:Arial, sans-serif;font-size:12pt;">
-<div style="padding-left:30px">
-    <img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/images/mail/mobispot.png"/>
-</div>
-<br /><br />
-<div style="background:#f1f3f4; padding:30px; width:600px;">
-    <h2 style="color: #0062ff;font-size:1.9em;">Восстановление пароля на сайте <?php echo $this->getBaseUrl(); ?></h2>
+<html>
+<head>
+    <style type="text/CSS">
+        body, #body_style {
+            background:#f4f4f4;
+            font-family:Helvetica, Arial, sans-serif;
+            color:#000000;
+            font-size:15pt;} 
+         
+        .ExternalClass {width:100%;}
+        .yshortcuts {color: #F00;}
+    </style>
+</head>
 
-    <p>Для восстановления пароля вам необходимо перейти по ссылке<br/>
-            <?php echo $activation_url;?></p>
+<body style="background:#f4f4f4;font-family:Helvetica, Arial, sans-serif;
+   font-size:15pt" alink="#FF0000" link="#FF0000" bgcolor="#f4f4f4" text="#FFFFFF">
+   
+<div id="body_style"> 
+
+<table style="background-color:#f4f4f4;width:100%;padding:30px 0 0 0;margin:0; font-family:Helvetica, Arial, sans-serif;font-size:15pt;border-collapse:collapse;color:#000000" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td style="padding:60px 90px;width:100%;border-collapse:collapse;">
+    <img width=198 alt="mobispot" src="http://mobispot.com/themes/mobispot/images/mail/mobispot2.png"/>
+<div style="padding-top:30px">
+    <p style="line-height: 1.2">Восстановление пароля на сайте <?php echo $this->getBaseUrl(); ?></p>
 </div>
-<table style="margin-top:40px; width:660px; padding:0 30px" >
-    <tr>
-        <td rowspan="2" style="text-align:left;align:left;">&copy; Mobispot. Ltd. All rights reserved<br>
+<a target="_blank" href="<?php echo $activation_url; ?>">
+    <img width=329 alt="Задать пароль" style="margin:25px 0" src="http://mobispot.com/themes/mobispot/images/mail/ru_reset_password_button.png"/>
+</a>
+<p style="line-height: 1.2">
+    С уважением,<br>
+    Команда Мобиспот 
+</p>
+</td>
+</tr>
+<tr>
+<td style="margin:0; width:100%; height:2px;padding:0; background-color:#dbdbdb;border-collapse:collapse" >
+</td>
+</tr>
+<tr>
+<td style="margin-top:80px; width:100%; padding:80px 30px;" >
+        <div style="width:100%;text-align:center;">
+            <a href="https://www.facebook.com/heyMobispot" style="text-decoration:none" target="_blank">
+                <img width=41 height=41 alt="Facebook" width=50 height=50 src="http://mobispot.com/themes/mobispot/images/mail/facebook.jpg"/>
+            </a>
+            <div style="display:inline-block;width:35px;"></div>
+            <a href="https://twitter.com/heymobispot" style="text-decoration:none" target="_blank">
+                <img width=41 height=41 alt="Twitter" width=50 height=50 src="http://mobispot.com/themes/mobispot/images/mail/twitter.jpg"/>
+            </a>
+        </div>
+        <div style="margin-top:30px;width:100%;text-align:center;font-size:12pt;color:#7f7f7f">&copy; 2015 Mobispot Social Systems Pte. Ltd.<br>
             hola@mobispot.com<br>
-        </td>
-    </tr>
+        </div>
+</td>
+</tr>
+</tbody>
 </table>
+
 </div>
+</body>
+</html>

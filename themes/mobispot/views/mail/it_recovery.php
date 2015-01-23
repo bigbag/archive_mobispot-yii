@@ -6,11 +6,11 @@
 <div style="background:#f1f3f4; padding:30px; width:600px;">
     <h2 style="color: #0062ff;font-size:1.9em;">Ripristino password <?php echo $this->getBaseUrl(); ?></h2>
 
-    <p>Per reimpostare la password seguire questo link:<br/>
+    <p style="line-height: 1.2">Per reimpostare la password seguire questo link:<br/>
             <?php echo $activation_url;?></p>
 </div>
 <p><br></p>
-<p>&copy;  Mobispot Social Systems Pte. Ltd.<br>
+<p style="line-height: 1.2">&copy;  Mobispot Social Systems Pte. Ltd.<br>
 <a href="mailto:hola@mobispot.com">hola@mobispot.com</a></p>
-<p>Follow us in <a href="https://www.facebook.com/heyMobispot" target="_blank">Facebook</a> or  <a href="https://twitter.com/heymobispot" target="_blank">Twitter</a></p>
+<p style="line-height: 1.2">Follow us in <a href="https://www.facebook.com/heyMobispot" target="_blank">Facebook</a> or  <a href="https://twitter.com/heymobispot" target="_blank">Twitter</a></p>
 </div>
