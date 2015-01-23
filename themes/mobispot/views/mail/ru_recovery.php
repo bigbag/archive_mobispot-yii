@@ -23,7 +23,8 @@
 <td style="padding:60px 90px;width:100%;border-collapse:collapse;">
     <img width=198 alt="mobispot" src="http://mobispot.com/themes/mobispot/images/mail/mobispot2.png"/>
 <div style="padding-top:30px">
-    <p style="line-height: 1.2">Восстановление пароля на сайте <?php echo $this->getBaseUrl(); ?></p>
+    <p style="line-height: 1.2">Здравствуйте,</p>
+    <p style="line-height: 1.2">Чтобы восстановить пароль, нажмите на кнопку ниже.</p>
 </div>
 <a target="_blank" href="<?php echo $activation_url; ?>">
     <img width=329 alt="Задать пароль" style="margin:25px 0" src="http://mobispot.com/themes/mobispot/images/mail/ru_reset_password_button.png"/>

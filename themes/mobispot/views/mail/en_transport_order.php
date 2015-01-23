@@ -30,7 +30,7 @@
     <p style="line-height: 1.2">
         Данные доставки:<br>
     </p>
-    <p>
+    <p style="line-height: 1.2">
         Имя: <?php echo $shipping_name; ?><br>
         Телефон: <?php echo $phone; ?><br>
         Адрес: <?php echo $address; ?><br>
