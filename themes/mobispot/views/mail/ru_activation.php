@@ -24,7 +24,7 @@
     <img width=198 alt="mobispot" src="http://mobispot.com/themes/mobispot/images/mail/mobispot2.png"/>
 <div style="padding-top:30px">
     <p>Здравствуйте,</p>
-    <p style="line-height: 1.2">Вы и Ваш первый Спот были успешно зарегистрированы на Mobispot. Для активации вашей учётной записи, подтвердите ваш e-mail адрес кнопкой.</p>
+    <p style="line-height: 1.2">Спасибо за регистрацию на Mobispot. Для активации вашей учётной записи, пожалуйста, подтвердите ваш e-mail адрес нажатием кнопки ниже.</p>
 </div>
 <a target="_blank" href="<?php echo $activation_url; ?>">
     <img width=329 alt="Подтвердить e-mail" style="margin:25px 0" src="http://mobispot.com/themes/mobispot/images/mail/ru_confirm_email_button.png"/>
