@@ -87,6 +87,18 @@ class PaymentCard extends CActiveRecord
         );
     }
 
+    public function beforeSave()
+    {
+        if ($this->status == PaymentCard::STATUS_PAYMENT) {
+            PaymentFail::model()->updateAll(
+                array('count' => PaymentFail::START_COUNT), 
+                'wallet_id=' . $this->wallet_id
+            );
+        }
+
+        return parent::beforeSave();
+    }
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
