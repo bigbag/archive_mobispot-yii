@@ -1,25 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "payment_card".
+ * This is the model class for table "fail".
  *
- * The followings are the available columns in table 'payment_card':
- * @property integer $id
- * @property integer $user_id
+ * The followings are the available columns in table 'fail':
+ * @property integer $report_id
+ * @property integer $count
+ * @property integer $timestamp
+ * @property integer $lock
  * @property integer $wallet_id
- * @property string $pan
- * @property text $token
- * @property string $type
- * @property integer $status
+ * @property string $payment_id
  */
-class PaymentCard extends CActiveRecord
+class PaymentFail extends CActiveRecord
 {
-
-    const STATUS_PAYMENT = 1;
-    const STATUS_ARCHIV = 0;
-
-    const MAX_CARDS_VIEW = 10;
-
+    const START_COUNT = 0;
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -43,7 +38,7 @@ class PaymentCard extends CActiveRecord
      */
     public function tableName()
     {
-        return 'payment_card';
+        return 'fail';
     }
 
     /**
@@ -54,11 +49,11 @@ class PaymentCard extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, wallet_id, pan, token, type, status, system', 'required'),
-            array('user_id, status, wallet_id, system', 'numerical', 'integerOnly' => true),
+            array('report_id, count, lock', 'required'),
+            array('report_id, count, lock, wallet_id, timestamp', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, user_id, wallet_id, pan, token, type, status', 'safe', 'on' => 'search'),
+            array('report_id, count, lock, wallet_id, timestamp, payment_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -70,33 +65,9 @@ class PaymentCard extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'report' => array(self::BELONGS_TO, 'Report', 'report_id'),
             'wallet' => array(self::BELONGS_TO, 'PaymentWallet', 'wallet_id'),
         );
-    }
-
-    public function getJson()
-    {
-        $pan_leng = count($this->pan);
-        return array(
-            'id' => $this->id,
-            'type' => $this->type,
-            'pan' => mb_substr($this->pan, $pan_leng - 9),
-            'status' => $this->status,
-            'system' => $this->system,
-        );
-    }
-
-    public function beforeSave()
-    {
-        if ($this->status == PaymentCard::STATUS_PAYMENT) {
-            PaymentFail::model()->updateAll(
-                array('count' => PaymentFail::START_COUNT), 
-                'wallet_id=' . $this->wallet_id
-            );
-        }
-
-        return parent::beforeSave();
     }
 
 
@@ -111,12 +82,12 @@ class PaymentCard extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('report_id', $this->id);
+        $criteria->compare('count', $this->user_id);
         $criteria->compare('wallet_id', $this->wallet_id);
-        $criteria->compare('pan', $this->pan, true);
-        $criteria->compare('type', $this->type, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('lock', $this->pan);
+        $criteria->compare('timestamp', $this->type);
+        $criteria->compare('payment_id', $this->status, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
