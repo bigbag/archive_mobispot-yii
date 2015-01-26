@@ -38,6 +38,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.custom_card = {back:'', photo:'', name:'', position:'', logo:'', 
     shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
   $scope.selected_type={};
+  $scope.in_request = false;
   
 /* CRUD для спота */
 
@@ -460,14 +461,19 @@ angular.module('mobispot').controller('SpotController',
 
   // Делаем карту платежной
   $scope.setPaymentCard = function(card_id, e){
+    if ($scope.in_request)
+      return false;
+    
     var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $scope.in_request = true;
     $http.post('/spot/setPaymentCard', data).success(function(data) {
       if (data.error == 'no'){
         angular.element('.main-card').removeClass('main-card');
         angular.element(e.currentTarget).parent().parent().addClass('main-card');
         $scope.wallet.blacklist = 1;
       }
-    });
+      $scope.in_request = false;
+    }).error(function(error){$scope.in_request = false;});
   };
 
   $scope.editCardList = function(){

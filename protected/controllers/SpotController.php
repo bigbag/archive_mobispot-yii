@@ -781,6 +781,9 @@ class SpotController extends MController
                 'status' => PaymentCard::STATUS_PAYMENT,
             )
         );
+        
+        if ($old_payment_card and $old_payment_card->id == $card->id)
+            MHttp::getJsonAndExit($answer);
 
         $card->status = PaymentCard::STATUS_PAYMENT;
         if ($card->save()){
