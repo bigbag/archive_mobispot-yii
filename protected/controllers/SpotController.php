@@ -1746,6 +1746,7 @@ class SpotController extends MController
         $answer = array(
             'error' => 'yes',
             'content' => '',
+            'empty_for_date' => false,
         );
 
         $data = MHttp::validateRequest();
@@ -1766,6 +1767,10 @@ class SpotController extends MController
         $date_history = mktime(0, 0, 0, substr($data['date'], 3, 2), substr($data['date'], 0, 2), substr($data['date'], 6, 4));
         
         $history = Report::listHistory($wallet->payment_id, $date_history);
+        
+        if (empty($history) or !strlen($history[0]->creation_date) or
+            substr($history[0]->creation_date, strlen($history[0]->creation_date) - 10, 10) != date('d.m.Y', $date_history))
+            $answer['empty_for_date'] = true;
         
         $answer['content'] = $this->renderPartial('//spot/block/list_history',
             array(
