@@ -159,8 +159,6 @@ angular.module('mobispot').controller('SpotController',
     });
   };
   
-<<<<<<< HEAD
-=======
   // Редактирование текстового блока в споте
   $scope.editContent = function(spot, key, e) {
     if (!spot.content_new){
@@ -226,7 +224,5 @@ angular.module('mobispot').controller('SpotController',
       delete $scope.spot.content_new;
     });
   };
-  
-  
->>>>>>> 8b10548caa50f2c0440468b81b323652e2cb5569
+
 });
