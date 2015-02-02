@@ -39,6 +39,9 @@ angular.module('mobispot').controller('SpotController',
     shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
   $scope.selected_type={};
   $scope.in_request = false;
+  $scope.wallet_history = {}
+  $scope.wallet_history.date = '';
+  $scope.date_history_shown = false;
   
 /* CRUD для спота */
 
@@ -353,6 +356,22 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
+        
+        angular.element('#date_history').datepicker({
+          yearRange: '1900:-0',
+          maxDate:0,
+          dateFormat: 'dd.mm.yy',
+          onSelect: function (dateText, inst) {
+            $scope.$apply(function () {
+              $scope.wallet_history.date = dateText;
+            });
+          },
+          onClose: function (dateText, inst) {
+            $scope.$apply(function () {
+              $scope.date_history_shown = false;
+            });
+          }
+        });
       } else {
         $scope.viewSpot($scope.spot);
       }
@@ -1240,5 +1259,30 @@ angular.module('mobispot').controller('SpotController',
   $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.email', function() {
       $scope.error.custom_card = false;
   });
+  
+  $scope.$watch('wallet_history.date', function() {
+    if (!$scope.wallet_history.date.length)
+      return false;
+
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'date':$scope.wallet_history.date};  
+    
+    block_history = angular.element('#history-wrapper');
+    
+    $http.post('/spot/listHistory', data).success(function(data) {
+      if(data.error == 'no') {
+        block_history.empty();
+        block_history.append($compile(data.content)($scope));
+      }
+    });
+    
+  });
+  
+  $scope.showDatepicker = function(selector){
+    if ($scope.date_history_shown)
+      return false;
+    
+    $scope.date_history_shown = true;
+    angular.element(selector).datepicker("show");   
+  }
   
 });

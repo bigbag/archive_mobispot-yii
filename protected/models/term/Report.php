@@ -128,4 +128,21 @@ class Report extends CActiveRecord
         
         return $answer;
     }
+    
+    public function listHistory($payment_id, $date=null)
+    {
+        if (!$date)
+            $date = time();
+        
+        $date += self::DATE_DIFF;
+        
+        $criteria = new CDbCriteria;
+        
+        $criteria->condition .= ' payment_id = ' . $payment_id . ' and type = ' . Report::TYPE_PAYMENT . ' and TO_DAYS(creation_date) <= TO_DAYS(\'' . date('Y-m-d H:i:s', $date) . '\')';
+        
+        $criteria->limit = Report::MAX_RECORD;
+        $criteria->order = 'creation_date desc';
+        
+        return self::model()->findAll($criteria);
+    }
 }

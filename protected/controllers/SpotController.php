@@ -1740,4 +1740,42 @@ class SpotController extends MController
 
         echo json_encode($answer);
     }
+    
+    public function actionListHistory()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
+            MHttp::getJsonAndExit($answer);
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$wallet) MHttp::getJsonAndExit($answer);
+        
+        if (!preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $data['date']))
+            MHttp::getJsonAndExit($answer);
+        
+        $date_history = mktime(0, 0, 0, substr($data['date'], 3, 2), substr($data['date'], 0, 2), substr($data['date'], 6, 4));
+        
+        $history = Report::listHistory($wallet->payment_id, $date_history);
+        
+        $answer['content'] = $this->renderPartial('//spot/block/list_history',
+            array(
+                'history'=> $history,
+            ),
+            true
+        );
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
 }
