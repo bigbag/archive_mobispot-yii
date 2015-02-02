@@ -41,6 +41,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.in_request = false;
   $scope.wallet_history = {}
   $scope.wallet_history.date = '';
+  $scope.wallet_history.empty_date = false;
   $scope.date_history_shown = false;
   
 /* CRUD для спота */
@@ -1268,12 +1269,16 @@ angular.module('mobispot').controller('SpotController',
     
     block_history = angular.element('#history-wrapper');
     
+    block_history.empty();
+    $scope.wallet_history.empty_date = false;
+    
     $http.post('/spot/listHistory', data).success(function(data) {
       if(data.error == 'no') {
-        block_history.empty();
         block_history.append($compile(data.content)($scope));
+        if (data.empty_for_date)
+            $scope.wallet_history.empty_date = true;
       }
-    });
+    }).error(function(error){alert(error)});
     
   });
   
