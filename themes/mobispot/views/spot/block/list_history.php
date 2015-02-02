@@ -1,3 +1,7 @@
+        <div ng-show="wallet_history.date && wallet_history.empty_date"
+        style="border-radius:10px;border:1px solid #E9EDF2;color: #8D9095;width: 100%;height:36px;text-align:center;line-height:36px;">
+            <?php echo Yii::t('spot', 'There are no transactions for the picked date'); ?>
+        </div>
         <table class="m-spot-table">
             <tbody>
             <?php foreach ($history as $row): ?>

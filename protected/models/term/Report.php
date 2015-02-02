@@ -138,10 +138,10 @@ class Report extends CActiveRecord
         
         $criteria = new CDbCriteria;
         
-        $criteria->condition .= ' payment_id = ' . $payment_id . ' and type = ' . Report::TYPE_PAYMENT . ' and TO_DAYS(creation_date) <= TO_DAYS(\'' . date('Y-m-d H:i:s', $date) . '\')';
+        $criteria->condition .= ' payment_id = ' . $payment_id . ' and type = ' . Report::TYPE_PAYMENT . ' and TO_DAYS(creation_date) >= TO_DAYS(\'' . date('Y-m-d H:i:s', $date) . '\')';
         
         $criteria->limit = Report::MAX_RECORD;
-        $criteria->order = 'creation_date desc';
+        $criteria->order = 'creation_date';
         
         return self::model()->findAll($criteria);
     }
