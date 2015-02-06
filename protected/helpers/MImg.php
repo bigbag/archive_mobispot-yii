@@ -379,14 +379,11 @@ class MImg
         $position_strlen = 29;
         
         $card_path = 
-                Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
-                . 'simple_card_' . $custom_card->id . '.jpg';
+            Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
+            . 'guu_card_' . $custom_card->id . '.jpg';
         $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::SIMPLE_CARD_FRAME);
         
         if ($custom_card->type == CustomCard::TYPE_GUU) {
-            $card_path = 
-                Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
-                . 'guu_card_' . $custom_card->id . '.jpg';
             $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::GUU_CARD_FRAME);
         }
         
