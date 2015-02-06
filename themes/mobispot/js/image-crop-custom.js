@@ -856,6 +856,27 @@
 
 
           $img.onload = function() {
+            var constMinWidth = 128;
+            var constMinHeight = 162;
+            var constMaxWidth = 500;
+            var constMaxHeight = 500;
+            if ($img.width < constMinWidth) {
+                messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $img.width + " пикселей)");
+                return false;
+            }
+            if ($img.width > constMaxWidth) {
+                messageModal("Максимальная ширина изображения " + constMaxWidth + " пикселей (ширина загруженного " + $img.width + " пикселей)");
+                return false;
+            }
+            if ($img.height < constMinHeight) {
+                messageModal("Минимальная высота изображения " + constMinHeight + " пикселей (высота загруженного " + $img.height + " пикселей)");
+                return false;
+            }
+            if ($img.height > constMaxHeight) {
+                messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $img.height + " пикселей)");
+                return false;
+            }
+              
             angular.element($elm).removeClass('hide');
             
             var form = $($elm).parents('.crop-wrapper');
@@ -1212,6 +1233,28 @@
             scope.result = null;
             scope.$apply();
           }
+          
+          messageModal = function(message) {
+            speed = 500;
+
+            angular.element('.lang-list').fadeOut();
+            angular.element('.lang').removeClass('open');
+          
+            var modal = angular.element('#message');
+            modal.addClass('negative');
+            var content = angular.element('#message p');
+          
+            if($('.show-block').hasClass('active')){
+              $('.show-block.active').removeClass('active').fadeOut(speed, function(){
+                content.html(message);
+                modal.fadeIn(speed).addClass('active');
+              });
+            } else  {
+              content.html(message);
+              modal.fadeIn(speed).addClass('active');
+            }    
+          }
+          
 
           $canvas.addEventListener('touchmove', scope.onCanvasMouseMove, false);
 

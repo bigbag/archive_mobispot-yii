@@ -1266,6 +1266,7 @@ angular.module('mobispot').controller('SpotController',
     
     if ($scope.isDoubleCard(custom_card)) {
       $scope.error.custom_card = true;
+      contentService.messageModal("Вы уже заказали эту карту", $scope.host_type);
       $timeout(function(){
        $scope.error.custom_card = false;
       }, 1000);

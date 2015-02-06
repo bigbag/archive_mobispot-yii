@@ -49,6 +49,8 @@ angular.module('mobispot').service('contentService', function() {
         angular.element('.lang').removeClass('open');
       
         var modal = angular.element('#message');
+        modal.removeClass('negative');
+        modal.removeClass('alert');
         var content = angular.element('#message p');
       
         if($('.show-block').hasClass('active')){

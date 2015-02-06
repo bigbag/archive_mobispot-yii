@@ -10,7 +10,7 @@
                 <h1><?php echo Yii::t('spot', 'Персонализация карты')?></h1>
                 <div class="personal-block">
                 <div class="row">
-                    <div class="column small-6 large-6">
+                    <div class="column small-6 large-6 large-max">
                             <h5><span class="number">1</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
                             <div class="personal-card vertical">
                                     <div class="upload-photo crop-wrapper">
@@ -40,11 +40,13 @@
 
                             </div>
                                 <p class="step-description">
-                                    <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
+                                    <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br><br>
                                     <br>
-                                    - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>128x162</b> <br>
-                                    <br>
-                                    - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
+                                    - <?php echo Yii::t('spot', 'Рекомендуемый размер фото для загрузки: ')?> <b>128x162</b> <br><br>
+                                    - <?php echo Yii::t('spot', 'Минимальный размер фото: ')?> <b>128x162</b> <br><br>
+                                    - <?php echo Yii::t('spot', 'Максимальный размер фото: ')?> <b>500x500</b> <br><br>
+                                    - <?php echo Yii::t('spot', 'Фото будет обрезано до размера: ')?> <b>128x162</b> <br><br>
+                                    - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br><br>
                                 </p>
                             </div>
 
