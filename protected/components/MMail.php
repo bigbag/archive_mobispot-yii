@@ -107,4 +107,15 @@ Class MMail
             $mailOrder
         );
     }
+    
+    public function guu_card_order($email, $mailOrder, $lang)
+    {
+        return MMail::saveMail(
+            'guu_card_order',
+            $lang,
+            array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']),
+            $email,
+            $mailOrder
+        );
+    }
 }
