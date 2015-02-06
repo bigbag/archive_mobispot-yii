@@ -39,14 +39,15 @@
                                 <span class="card-number" ng-init="custom_card.number='<?php echo $number;?>'">#{{custom_card.number}}</span>
 
                             </div>
+                                <p class="step-description">
+                                    <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
+                                    <br>
+                                    - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>128x162</b> <br>
+                                    <br>
+                                    - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
+                                </p>
                             </div>
-                            <p class="step-description">
-                                <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
-                                <br>
-                                - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>128x162</b> <br>
-                                <br>
-                                - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
-                            </p>
+
                     </div>
                 </div>
                 <div class="row">
@@ -65,46 +66,46 @@
                                                         name='name'
                                                         type="text"
                                                         ng-model="custom_card.shipping_name"
-                                                        placeholder="<?php echo Yii::t('spot', 'Name')?>"
+                                                        placeholder="<?php echo Yii::t('spot', 'Имя')?>"
                                                         ng-class="{error: error.custom_card}"
                                                         required>
                                                 <input
                                                         name='phone'
                                                         type="text"
                                                         ng-model="custom_card.phone"
-                                                        placeholder="<?php echo Yii::t('spot', 'Phone')?>"
+                                                        placeholder="<?php echo Yii::t('spot', 'Телефон')?>"
                                                         ng-class="{error: error.custom_card}"
                                                         required>
                                                 <input
                                                         name='address'
                                                         type='text'
                                                         ng-model="custom_card.address"
-                                                        placeholder="<?php echo Yii::t('spot', 'Address')?>"
+                                                        placeholder="<?php echo Yii::t('spot', 'Адрес')?>"
                                                         ng-class="{error: error.custom_card}"
                                                         required>
                                                 <input
                                                         name='city'
                                                         type='text'
                                                         ng-model="custom_card.city"
-                                                        placeholder="<?php echo Yii::t('spot', 'City')?>"
+                                                        placeholder="<?php echo Yii::t('spot', 'Город')?>"
                                                         ng-class="{error: error.custom_card}"
                                                         required>
                                                 <input
                                                         name='zip'
                                                         type='text'
                                                         ng-model="custom_card.zip"
-                                                        placeholder="<?php echo Yii::t('spot', 'Zip / Post code')?>"
+                                                        placeholder="<?php echo Yii::t('spot', 'Почтовый индекс')?>"
                                                         ng-class="{error: error.custom_card}"
                                                         required>
                                                         <div class="info">
-                                                            <p><?php echo Yii::t('spot', 'All the fields must be filled. Please be careful.')?></p>
+                                                            <p><?php echo Yii::t('spot', 'Все поля обязательны к заполнению. Пожалуйста, будьте внимательны.')?></p>
                                                         </div>
                                                 </div>
                                             
 
                                             <div class="column small-4 large-4">
                                                 <p><?php echo Yii::t('spot', 'После прохождения проверки вы получите письмо-подтвержение на указанный вами электронный адрес.')?> </p>
-                                                <a class="form-button button button-round" ng-click="orderGUUCard(custom_card, shippingForm.$valid, '<?php echo Yii::t('spot', 'Заказ оформлен')?>')" href="javascript:;"><?php echo Yii::t('spot', 'FINISH!')?></a>
+                                                <a class="form-button button button-round" ng-click="orderGUUCard(custom_card, shippingForm.$valid, '<?php echo Yii::t('spot', 'Заказ оформлен')?>')" href="javascript:;"><?php echo Yii::t('spot', 'ГОТОВО!')?></a>
                                             </div>
                                             <span></span>
                                         </div>
