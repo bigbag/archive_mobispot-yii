@@ -36,7 +36,7 @@ angular.module('mobispot').controller('SpotController',
   
   $scope.transport_types = [];
   $scope.custom_card = {back:'', photo_croped:'', name:'', position:'', department:'', logo:'', 
-    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''};
+    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:'', type:2};
   $scope.prev_custom_card = {};
   $scope.selected_type={};
   $scope.in_request = false;

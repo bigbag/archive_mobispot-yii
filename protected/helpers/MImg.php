@@ -5,6 +5,7 @@ class MImg
     
     const T_CARD_FRAME = '/themes/mobispot/img/card_frame.jpg';
     const GUU_CARD_FRAME = '/themes/mobispot/img/guu_card_frame.jpg';
+    const SIMPLE_CARD_FRAME = '/themes/mobispot/img/simple_card_frame.jpg';
     //const CARD_WIDTH = 321;
     //const CARD_HEIGHT = 513;
     const PHOTO_WIDTH = 165;
@@ -378,10 +379,16 @@ class MImg
         $position_strlen = 29;
         
         $card_path = 
-            Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
-            . 'guu_card_' . $custom_card->id . '.jpg';
-            
-        $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::GUU_CARD_FRAME);
+                Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
+                . 'simple_card_' . $custom_card->id . '.jpg';
+        $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::SIMPLE_CARD_FRAME);
+        
+        if ($custom_card->type == CustomCard::TYPE_GUU) {
+            $card_path = 
+                Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
+                . 'guu_card_' . $custom_card->id . '.jpg';
+            $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::GUU_CARD_FRAME);
+        }
         
         $card = imagecreatetruecolor(imagesx($frame), imagesy($frame));
         
