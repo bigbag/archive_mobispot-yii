@@ -408,8 +408,8 @@ class MImg
         }
         
         $cursor_y = self::CARD_HAT + $photo_height + 46;
-        //$font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
-        $font = Yii::getPathOfAlias('webroot') . '/themes/mobispot/fonts/museosanscyrl_500.ttf';
+        $font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
+        //$font = Yii::getPathOfAlias('webroot') . '/themes/mobispot/fonts/museosanscyrl_500.ttf';
         
         if (!empty($name))
         {

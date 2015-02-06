@@ -433,6 +433,7 @@ label.face-holder.hide i, label.face-holder.hide span {
     font-size:14px;
     padding: 0px 50px;
     margin:-5px 3px;
+    font-family: Mobispot, Arial;
 }
 
 .guu-card .personal-block .owner-info textarea:hover, .personal-block .owner-info textarea:focus  {
@@ -457,6 +458,7 @@ label.face-holder.hide i, label.face-holder.hide span {
     color:#1f22ad;
     font-size:22px;
     font-weight:900;
+    font-family: museo_sans_cyrl100;
 }
 
 
