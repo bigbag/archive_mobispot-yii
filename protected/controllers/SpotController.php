@@ -1784,7 +1784,9 @@ class SpotController extends MController
         if (!empty($photo_path))
             unlink($photo_path);
         
+        $answer['number'] = CustomCard::getGUUNum();
         $answer['error'] = 'no';
+        
 
         echo json_encode($answer);
     }

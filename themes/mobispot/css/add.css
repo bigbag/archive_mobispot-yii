@@ -473,3 +473,7 @@ label.face-holder.hide i, label.face-holder.hide span {
     padding:0;
     margin:0;
 }
+
+.column.small-6.large-6.large-max {
+    width:100%;
+}

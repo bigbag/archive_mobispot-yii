@@ -35,8 +35,9 @@ angular.module('mobispot').controller('SpotController',
   $scope.text = {};
   
   $scope.transport_types = [];
-  $scope.custom_card = {back:'', photo:'', name:'', position:'', logo:'', 
-    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
+  $scope.custom_card = {back:'', photo_croped:'', name:'', position:'', department:'', logo:'', 
+    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''};
+  $scope.prev_custom_card = {};
   $scope.selected_type={};
   $scope.in_request = false;
   $scope.wallet_history = {}
@@ -1263,13 +1264,53 @@ angular.module('mobispot').controller('SpotController',
       return false;
     }
     
+    if ($scope.isDoubleCard(custom_card)) {
+      $scope.error.custom_card = true;
+      contentService.messageModal("Вы уже заказали эту карту", $scope.host_type);
+      $timeout(function(){
+       $scope.error.custom_card = false;
+      }, 1000);
+      return false;
+    }
+    
+    $scope.saveCardParams(custom_card);
+    
     $http.post('/spot/orderGUUCard', custom_card).success(function(data) {
         if ('no' == data.error) {
           contentService.messageModal(message_text, $scope.host_type);
+          custom_card.number = data.number;
         } else {
           $scope.error.custom_card = true;
         }
     });
+  }
+  
+  $scope.saveCardParams = function(card) {
+    $scope.prev_custom_card = {};
+    $scope.prev_custom_card.photo_croped = card.photo_croped;
+    $scope.prev_custom_card.name = card.name;
+    $scope.prev_custom_card.position = card.position;
+    $scope.prev_custom_card.department = card.department;
+    $scope.prev_custom_card.shipping_name = card.shipping_name;
+    $scope.prev_custom_card.phone = card.phone;
+    $scope.prev_custom_card.address = card.address;
+    $scope.prev_custom_card.city = card.city;
+    $scope.prev_custom_card.zip = card.zip;
+  }
+  
+  $scope.isDoubleCard = function(card) {
+    if ($scope.prev_custom_card.photo_croped == card.photo_croped
+      && $scope.prev_custom_card.name == card.name
+      && $scope.prev_custom_card.position == card.position
+      && $scope.prev_custom_card.department == card.department
+      && $scope.prev_custom_card.shipping_name == card.shipping_name
+      && $scope.prev_custom_card.phone == card.phone
+      && $scope.prev_custom_card.address == card.address
+      && $scope.prev_custom_card.city == card.city
+      && $scope.prev_custom_card.zip == card.zip)
+        return true;
+      
+      return false;
   }
 
   //тригер на снятие ошибки для макета транспортной карты
