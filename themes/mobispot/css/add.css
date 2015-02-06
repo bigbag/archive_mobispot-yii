@@ -375,7 +375,7 @@ label.face-holder.hide i, label.face-holder.hide span {
     width: 321px;
     height: 513px;
     float: left; 
-    background: url(../img/guu_card_frame.jpg) 0 0 no-repeat;
+    /*background: url(../img/simple_card_frame.jpg) 0 0 no-repeat;*/
     border:0;
 }
 

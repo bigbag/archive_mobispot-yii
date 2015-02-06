@@ -1753,7 +1753,7 @@ class SpotController extends MController
         
         $photo_path = false;
         $card = new CustomCard();
-        $card->type = CustomCard::TYPE_GUU;
+        $card->type = $data['type'];
         $card->save();
         
         if (!empty($data['photo_croped']))

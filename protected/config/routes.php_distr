@@ -19,6 +19,7 @@ return array(
         'phones' => 'pages/readers',
         'help' => 'pages/help',
         'clients' => 'pages/clients',
+        'ieg2g7hg3/<type:\w+>' => 'pages/cardconstrucor',
 
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
