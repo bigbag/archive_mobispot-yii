@@ -124,6 +124,39 @@ class MImg
         return $result;
     }
     
+    public static function reduceToRectangle($source, $max_width, $max_height)
+    {
+        $width = imagesx($source);
+        $height = imagesy($source);
+
+        if ($width > $max_width || $height > $max_height) {
+            $resource_width = $width;
+            $resource_height = $height;
+            $srcX = 0;
+            $srcY = 0;
+            $srcW = $width;
+            $srcH = $height;
+            
+            if ($width > $max_width) {
+                $resource_width = $max_width;
+                $srcX = ($width - $max_width)/2;
+                $srcW = $max_width;
+            }
+            
+            if ($height > $max_height) {
+                $resource_height = $max_height;
+                $srcY = ($height - $max_height)/2;
+                $srcH = $max_height;
+            }
+
+            $result = imagecreatetruecolor($resource_width, $resource_height);
+            imagecopyresampled($result, $source, 0, 0, $srcX, $srcY, $resource_width, $resource_height, $srcW, $srcH);
+        }
+            else $result = $source;
+        
+        return $result;
+    }    
+    
     public static function elipseFrame($source, $r, $g, $b)
     {
         $result = $source;
@@ -340,9 +373,9 @@ class MImg
         $photo_width = 128;
         $photo_height = 162;
         $name_size = 15;
-        $name_strlen = 20;
+        $name_strlen = 23;
         $position_size = 11;
-        $position_strlen = 30;
+        $position_strlen = 29;
         
         $card_path = 
             Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
@@ -366,7 +399,7 @@ class MImg
             }
             
             if ($photo) {
-                //$photo = self::reduceToFrame($photo, $photo_width, $photo_height); 
+                $photo = self::reduceToRectangle($photo, $photo_width, $photo_height); 
                 //$photo = self::expandToFrame($photo, $photo_width, $photo_height, 255, 255, 255);
                 //$photo = self::elipseFrame($photo, 255, 255, 255);
                 
@@ -375,7 +408,8 @@ class MImg
         }
         
         $cursor_y = self::CARD_HAT + $photo_height + 46;
-        $font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
+        //$font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
+        $font = Yii::getPathOfAlias('webroot') . '/themes/mobispot/fonts/museosanscyrl_500.ttf';
         
         if (!empty($name))
         {
@@ -490,18 +524,19 @@ class MImg
         }
         
         $number = $custom_card->getNumber();
+        $font_number = Yii::getPathOfAlias('webroot') . '/themes/mobispot/fonts/museosanscyrl_700.ttf';
         
         if (!empty($number))
         {
             //номер
-            $number_size = 20;
+            $number_size = 19;
             $number_color = imagecolorallocate($card, 31, 34, 173);
 
             imagettftext($card, $number_size, 0, 
                 43, 
-                470, 
+                473, 
                 $number_color, 
-                $font, 
+                $font_number, 
                 '#' . $number);
         }
   
