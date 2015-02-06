@@ -108,7 +108,7 @@
                                                             <p><?php echo Yii::t('spot', 'Все поля обязательны к заполнению. Пожалуйста, будьте внимательны.')?></p>
                                                         </div>
                                                 <?php if (!empty($defaults)): ?>
-                                                    <span ng-init="custom_card.email='<?php echo $defaults['email'];?>';custom_card.shipping_name='<?php echo $defaults['shipping_name'];?>';custom_card.phone='<?php echo $defaults['phone'];?>';custom_card.address='<?php echo $defaults['address'];?>';custom_card.city='<?php echo $defaults['city'];?>';custom_card.zip='<?php echo $defaults['zip'];?>';custom_card.shirt_img='<?php echo $defaults['shirt_img'];?>';">
+                                                    <span ng-init="custom_card.email='<?php echo $defaults['email'];?>';custom_card.shipping_name='<?php echo $defaults['shipping_name'];?>';custom_card.phone='<?php echo $defaults['phone'];?>';custom_card.address='<?php echo $defaults['address'];?>';custom_card.city='<?php echo $defaults['city'];?>';custom_card.zip='<?php echo $defaults['zip'];?>';custom_card.shirt_img='<?php echo $defaults['shirt_img'];?>';custom_card.type='<?php echo $defaults['type'];?>';">
                                                     </span>
                                                 <?php endif;?>
                                                 </div>
