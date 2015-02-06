@@ -4,6 +4,7 @@ class MImg
     const JPG_QUALITY = 100;
     
     const T_CARD_FRAME = '/themes/mobispot/img/card_frame.jpg';
+    const GUU_CARD_FRAME = '/themes/mobispot/img/guu_card_frame.jpg';
     //const CARD_WIDTH = 321;
     //const CARD_HEIGHT = 513;
     const PHOTO_WIDTH = 165;
@@ -333,6 +334,186 @@ class MImg
     
         return $spot->discodes_id . '_'. md5($spot->code) . '_transport_card_' . $i . '.jpg';
     }
+    
+    public static function makeGUUCard($custom_card, $photo_src, $name, $position, $department)
+    {
+        $photo_width = 128;
+        $photo_height = 162;
+        $name_size = 15;
+        $name_strlen = 20;
+        $position_size = 11;
+        $position_strlen = 30;
+        
+        $card_path = 
+            Yii::getPathOfAlias('webroot.uploads.custom_card.') . '/' 
+            . 'guu_card_' . $custom_card->id . '.jpg';
+            
+        $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::GUU_CARD_FRAME);
+        
+        $card = imagecreatetruecolor(imagesx($frame), imagesy($frame));
+        
+        imagecopy ($card, $frame, 0, 0, 0, 0, imagesx($frame), imagesy($frame));
+        
+        if (!empty($photo_src) and file_exists($photo_src)) {
+            //фото
+            $photo_attr = getimagesize($photo_src);
+
+            switch ($photo_attr[2]) {
+                case 1: $photo = imagecreatefromgif($photo_src); break;
+                case 2: $photo = imagecreatefromjpeg($photo_src); break;
+                case 3: $photo = imagecreatefrompng($photo_src); break;
+                default: return false; break;
+            }
+            
+            if ($photo) {
+                //$photo = self::reduceToFrame($photo, $photo_width, $photo_height); 
+                //$photo = self::expandToFrame($photo, $photo_width, $photo_height, 255, 255, 255);
+                //$photo = self::elipseFrame($photo, 255, 255, 255);
+                
+                imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            }
+        }
+        
+        $cursor_y = self::CARD_HAT + $photo_height + 46;
+        $font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
+        
+        if (!empty($name))
+        {
+            //имя
+            $name_color = imagecolorallocate($card, 30, 34, 160);
+            
+            $name_str_1 = self::text_wrap($name, $name_strlen)[0];
+            $name_str_2 = self::text_wrap($name, $name_strlen)[1];
+            
+            if (mb_strlen($name_str_2))
+                $name_text = $name_str_1;
+            else 
+                $name_text = $name;
+            
+            imagettftext($card, $name_size, 0, 
+                self::center_text($name_text, $font, $name_size, imagesx($frame)), 
+                $cursor_y, 
+                $name_color, 
+                $font, 
+                $name_text);
+                
+            if (mb_strlen($name_str_2)) {
+                $cursor_y += 24;
+                $name_text = $name_str_2;
+                imagettftext($card, $name_size, 0, 
+                    self::center_text($name_text, $font, $name_size, imagesx($frame)), 
+                    $cursor_y, 
+                    $name_color, 
+                    $font, 
+                    $name_text);
+                    
+                    $cursor_y += 34;
+            }
+            else
+                $cursor_y += 34;
+        }
+        else
+            $cursor_y += 50;
+
+        $position_color = imagecolorallocate($card, 69, 69, 69);
+        
+        if (!empty($position))
+        {
+            //должность
+            $position_str_1 = self::text_wrap($position, $position_strlen)[0];
+            $position_str_2 = self::text_wrap($position, $position_strlen)[1];
+            
+            if (mb_strlen($position_str_2))
+                $position_text = $position_str_1;
+            else 
+                $position_text = $position;
+            
+            imagettftext($card, $position_size, 0, 
+                self::center_text($position_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $position_text);
+                
+            if (mb_strlen($position_str_2))
+            {
+                $cursor_y += 21;
+                $position_text = $position_str_2;
+            
+                imagettftext($card, $position_size, 0, 
+                self::center_text($position_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $position_text);
+                
+                $cursor_y += 21;
+            }
+            else
+                $cursor_y += 21;
+        }
+        else
+            $cursor_y += 21;
+        
+        $cursor_y += 10;
+  
+        if (!empty($department))
+        {
+            //отдел
+            $department_str_1 = self::text_wrap($department, $position_strlen)[0];
+            $department_str_2 = self::text_wrap($department, $position_strlen)[1];
+            
+            if (mb_strlen($department_str_2))
+                $department_text = $department_str_1;
+            else 
+                $department_text = $department;
+            
+            imagettftext($card, $position_size, 0, 
+                self::center_text($department_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $department_text);
+                
+            if (mb_strlen($department_str_2))
+            {
+                $cursor_y += 21;
+                $department_text = $department_str_2;
+            
+                imagettftext($card, $position_size, 0, 
+                self::center_text($department_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $department_text);
+            }
+        }
+        
+        $number = $custom_card->getNumber();
+        
+        if (!empty($number))
+        {
+            //номер
+            $number_size = 20;
+            $number_color = imagecolorallocate($card, 31, 34, 173);
+
+            imagettftext($card, $number_size, 0, 
+                43, 
+                470, 
+                $number_color, 
+                $font, 
+                '#' . $number);
+        }
+  
+        imagejpeg(
+            $card,  
+            $card_path, 
+            self::JPG_QUALITY
+        ); 
+    
+        return 'guu_card_' . $custom_card->id . '.jpg';
+    }
+    
     
     public static function ordutf8($string, $offset) {
         $code = ord(substr($string, $offset,1)); 

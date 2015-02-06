@@ -1255,6 +1255,22 @@ angular.module('mobispot').controller('SpotController',
         }
     });
   }
+  
+  //Заказ карты ГУУ по макету
+  $scope.orderGUUCard = function(custom_card, valid, message_text) {
+    if (!valid) {
+      $scope.error.custom_card = true;
+      return false;
+    }
+    
+    $http.post('/spot/orderGUUCard', custom_card).success(function(data) {
+        if ('no' == data.error) {
+          contentService.messageModal(message_text, $scope.host_type);
+        } else {
+          $scope.error.custom_card = true;
+        }
+    });
+  }
 
   //тригер на снятие ошибки для макета транспортной карты
   $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.email', function() {
@@ -1278,7 +1294,7 @@ angular.module('mobispot').controller('SpotController',
         if (data.empty_for_date)
             $scope.wallet_history.empty_date = true;
       }
-    }).error(function(error){alert(error)});
+    });
     
   });
   

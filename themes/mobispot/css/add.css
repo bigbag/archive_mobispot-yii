@@ -344,3 +344,130 @@ label.face-holder.hide i, label.face-holder.hide span {
 .table  .main-card.blacklist .main-indicator.blocked{
     display:block;
 }
+/* Карты ГУУ */
+/*
+.overlay-page.show.guu-card{
+    position:relative;
+    overflow: hidden;
+  
+}
+*/
+.guu-card{
+    padding: 33px;
+    
+
+}
+
+.guu-card .personal-card {
+    background-color: #fff;
+    border: 1px solid #E9EDF2;
+    overflow: hidden;
+    text-align: center;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    position: relative;
+    background-size: cover; 
+}
+
+
+.guu-card .personal-card.vertical {
+    width: 321px;
+    height: 513px;
+    float: left; 
+    background: url(../img/guu_card_frame.jpg) 0 0 no-repeat;
+    border:0;
+}
+
+.guu-card .personal-card.vertical:after {
+    width: 92px;
+    height: 23px;
+    left: 115px;
+    top: 24px; 
+}
+
+.guu-card .personal-block .upload-photo {
+    width:128px;
+    height:162px;
+    display:inline-block;
+    border-radius:0;
+    margin-top:79px;
+    background-color:white;
+}
+
+.guu-card label.face-holder {
+    cursor: pointer;
+    display: inline-block;
+    width:128px;
+    height:162px;
+    vertical-align: middle;
+    line-height: 162px;
+    text-align: center;
+}
+
+.guu-card .personal-block .upload-photo .icon {
+    position: absolute;
+    font-size: 142px;
+    color: #E9EDF2;
+    top: 0px;
+    left: 9px;
+}
+
+.guu-card .personal-block .upload-photo span {
+    position: relative;
+    top:-26px;
+}
+
+.guu-card .ng-image-crop-square section canvas.cropping-canvas {
+    width: 162px;
+    height: 162px;
+    position: relative;
+    top: 0px;
+    left:-17px;
+}
+
+.guu-card .owner-info textarea {
+    background-color: transparent;
+    width: 315px;
+    color:#6e6e6e;
+    font-size:14px;
+    padding: 0px 50px;
+    margin:-5px 3px;
+}
+
+.guu-card .personal-block .owner-info textarea:hover, .personal-block .owner-info textarea:focus  {
+    background-color: transparent;
+}
+
+
+.guu-card .owner-info textarea.name {
+    color:#1e22a0;
+    font-size:20px;
+}
+
+.guu-card .personal-block .owner-info textarea.position {
+    color:#6e6e6e;
+    font-size:14px;
+}
+
+.card-number {
+    position:absolute;
+    left:40px;
+    bottom:40px;
+    color:#1f22ad;
+    font-size:22px;
+    font-weight:900;
+}
+
+
+.guu-card .ng-image-crop-square a.crop-control.delete {
+    right:40px;
+}
+
+.guu-card .upload-photo {
+    border: 1px solid #b5b5b3;
+    width:128px;
+    height:162px;
+    padding:0;
+    margin:0;
+}

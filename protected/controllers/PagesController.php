@@ -32,4 +32,10 @@ class PagesController extends MController
         $this->layout = '//layouts/page';
         $this->render('clients');
     }
+    
+    public function actionGuuCardConstrucor()
+    {
+        $this->layout = '//layouts/page_constructor';
+        $this->render('guu_constructor', array('number'=>CustomCard::getGUUNum()));
+    }
 }
