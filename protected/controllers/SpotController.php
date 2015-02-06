@@ -1741,6 +1741,54 @@ class SpotController extends MController
         echo json_encode($answer);
     }
     
+    public function actionOrderGUUCard()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = MHttp::validateRequest();
+        
+        if (empty($data['email']) or empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']))
+            MHttp::getJsonAndExit($answer);
+        
+        $photo_path = false;
+        $card = new CustomCard();
+        $card->type = CustomCard::TYPE_GUU;
+        $card->save();
+        
+        if (!empty($data['photo_croped']))
+        {
+            $photo = $data['photo_croped'];
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
+            $photo_data = base64_decode($photo);
+            $filepath = 
+                Yii::getPathOfAlias('webroot.uploads.custom_card.') 
+                . '/photo_'
+                . $card->id
+                . '.png';
+
+            if (file_put_contents($filepath, $photo_data)){
+                $photo_path = $filepath;
+            }
+            else
+                MHttp::getJsonAndExit($answer);
+        }
+         
+        $data['front_img'] = MImg::makeGUUCard(
+             $card, $photo_path, $data['name'], $data['position'], $data['department']);
+        
+        MMail::guu_card_order($data['email'], $data, Lang::getCurrentLang());
+        MMail::guu_card_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
+        
+        if (!empty($photo_path))
+            unlink($photo_path);
+        
+        $answer['error'] = 'no';
+
+        echo json_encode($answer);
+    }
+    
     public function actionListHistory()
     {
         $answer = array(
