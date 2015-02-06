@@ -31,9 +31,9 @@
                                     </div>
 
                                 <div class="owner-info">
-                                    <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="28"></textarea>
-                                    <textarea class="position" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="40"></textarea>
-                                    <textarea class="department" ng-model="custom_card.department" placeholder="<?php echo Yii::t('spot', 'Отдел')?>" maxlength="40"></textarea>
+                                    <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="42"></textarea>
+                                    <textarea class="position" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="46"></textarea>
+                                    <textarea class="department" ng-model="custom_card.department" placeholder="<?php echo Yii::t('spot', 'Отдел')?>" maxlength="46"></textarea>
                                 </div>
                                 
                                 <span class="card-number" ng-init="custom_card.number='<?php echo $number;?>'">#{{custom_card.number}}</span>
