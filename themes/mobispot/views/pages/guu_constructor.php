@@ -1,4 +1,4 @@
-<?php $this->pageTitle = Yii::t('general', 'Наши клиенты'); ?>
+<?php $this->pageTitle = Yii::t('general', 'Заказ карты с индивидуальным дизаном'); ?>
 <?php $this->casingClass = 'clients'?>
 
     <div class="content-wrapper">
@@ -12,7 +12,12 @@
                 <div class="row">
                     <div class="column small-6 large-6 large-max">
                             <h5><span class="number">1</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
-                            <div class="personal-card vertical">
+                            <div class="personal-card vertical" style="<?php 
+                                if (empty($defaults)) 
+                                    echo 'background: url(/themes/mobispot/img/simple_card_frame.jpg) 0 0 no-repeat;';
+                                else
+                                    echo 'background: url(/themes/mobispot/img/'.$defaults['shirt_img'].') 0 0 no-repeat;';
+                                ?>">
                                     <div class="upload-photo crop-wrapper">
                                         <image-crop
                                             data-id="crop-photo"
@@ -31,9 +36,9 @@
                                     </div>
 
                                 <div class="owner-info">
-                                    <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="28"></textarea>
-                                    <textarea class="position" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="40"></textarea>
-                                    <textarea class="department" ng-model="custom_card.department" placeholder="<?php echo Yii::t('spot', 'Отдел')?>" maxlength="40"></textarea>
+                                    <textarea ng-model="custom_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="42"></textarea>
+                                    <textarea class="position" ng-model="custom_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="46"></textarea>
+                                    <textarea class="department" ng-model="custom_card.department" placeholder="<?php echo Yii::t('spot', 'Отдел')?>" maxlength="46"></textarea>
                                 </div>
                                 
                                 <span class="card-number" ng-init="custom_card.number='<?php echo $number;?>'">#{{custom_card.number}}</span>
@@ -102,6 +107,10 @@
                                                         <div class="info">
                                                             <p><?php echo Yii::t('spot', 'Все поля обязательны к заполнению. Пожалуйста, будьте внимательны.')?></p>
                                                         </div>
+                                                <?php if (!empty($defaults)): ?>
+                                                    <span ng-init="custom_card.email='<?php echo $defaults['email'];?>';custom_card.shipping_name='<?php echo $defaults['shipping_name'];?>';custom_card.phone='<?php echo $defaults['phone'];?>';custom_card.address='<?php echo $defaults['address'];?>';custom_card.city='<?php echo $defaults['city'];?>';custom_card.zip='<?php echo $defaults['zip'];?>';custom_card.shirt_img='<?php echo $defaults['shirt_img'];?>';">
+                                                    </span>
+                                                <?php endif;?>
                                                 </div>
                                             
 
