@@ -35,8 +35,7 @@ angular.module('mobispot').controller('SpotController',
   $scope.text = {};
   
   $scope.transport_types = [];
-  $scope.custom_card = {back:'', photo_croped:'', name:'', position:'', department:'', logo:'', 
-    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:'', type:2};
+  $scope.custom_card = {};
   $scope.prev_custom_card = {};
   $scope.selected_type={};
   $scope.in_request = false;
@@ -1258,7 +1257,7 @@ angular.module('mobispot').controller('SpotController',
   }
   
   //Заказ карты ГУУ по макету
-  $scope.orderGUUCard = function(custom_card, valid, message_text) {
+  $scope.orderCustomCard = function(custom_card, valid, message_text) {
     if (!valid) {
       $scope.error.custom_card = true;
       return false;
@@ -1275,7 +1274,7 @@ angular.module('mobispot').controller('SpotController',
     
     $scope.saveCardParams(custom_card);
     
-    $http.post('/spot/orderGUUCard', custom_card).success(function(data) {
+    $http.post('/spot/orderCustomCard', custom_card).success(function(data) {
         if ('no' == data.error) {
           contentService.messageModal(message_text, $scope.host_type);
           custom_card.number = data.number;
@@ -1286,31 +1285,21 @@ angular.module('mobispot').controller('SpotController',
   }
   
   $scope.saveCardParams = function(card) {
-    $scope.prev_custom_card = {};
-    $scope.prev_custom_card.photo_croped = card.photo_croped;
-    $scope.prev_custom_card.name = card.name;
-    $scope.prev_custom_card.position = card.position;
-    $scope.prev_custom_card.department = card.department;
-    $scope.prev_custom_card.shipping_name = card.shipping_name;
-    $scope.prev_custom_card.phone = card.phone;
-    $scope.prev_custom_card.address = card.address;
-    $scope.prev_custom_card.city = card.city;
-    $scope.prev_custom_card.zip = card.zip;
+    for(property in card) {
+        $scope.prev_custom_card[property] = card[property];
+    }
   }
   
   $scope.isDoubleCard = function(card) {
-    if ($scope.prev_custom_card.photo_croped == card.photo_croped
-      && $scope.prev_custom_card.name == card.name
-      && $scope.prev_custom_card.position == card.position
-      && $scope.prev_custom_card.department == card.department
-      && $scope.prev_custom_card.shipping_name == card.shipping_name
-      && $scope.prev_custom_card.phone == card.phone
-      && $scope.prev_custom_card.address == card.address
-      && $scope.prev_custom_card.city == card.city
-      && $scope.prev_custom_card.zip == card.zip)
-        return true;
-      
-      return false;
+    for(property in card) { 
+        if (property != 'number' && $scope.prev_custom_card[property] != card[property]) {
+            
+          return false;
+        }
+        
+    }
+
+    return true;
   }
 
   //тригер на снятие ошибки для макета транспортной карты
@@ -1338,6 +1327,10 @@ angular.module('mobispot').controller('SpotController',
     });
     
   });
+  
+  $scope.customCardInit = function(defaults) {
+     $scope.custom_card = angular.fromJson(defaults); 
+  }
   
   $scope.showDatepicker = function(selector){
     if ($scope.date_history_shown)
