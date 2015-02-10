@@ -33,12 +33,6 @@ class PagesController extends MController
         $this->render('clients');
     }
     
-    public function actionGuuCardConstrucor()
-    {
-        $this->layout = '//layouts/page_constructor';
-        $this->render('guu_constructor', array('number'=>CustomCard::getGUUNum()));
-    }
-
     public function actionCardconstrucor()
     {
         $this->layout = '//layouts/page_constructor';
@@ -48,14 +42,10 @@ class PagesController extends MController
         else
             MHttp::setNotFound();
         
-        if ($type == CustomCard::URL_GUU) {
-            $this->render('guu_constructor', array('number'=>CustomCard::getGUUNum(), 'defaults'=>CustomCard::getDefaults($type)));
-        }
-        elseif ($type == CustomCard::URL_SIMPLE) {
-            $this->render('guu_constructor', array('number'=>CustomCard::getGUUNum()));
-        }
-        else
+        $card = CustomCard::getDefaults($type);
+        if (!$card)
             MHttp::setNotFound();
+        
+        $this->render('card_constructor', array('card'=>str_replace('"', '&#34;', CJSON::encode($card))));
     }
-    
 }

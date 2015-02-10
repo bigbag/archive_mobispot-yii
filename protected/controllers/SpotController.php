@@ -1741,7 +1741,7 @@ class SpotController extends MController
         echo json_encode($answer);
     }
     
-    public function actionOrderGUUCard()
+    public function actionOrderCustomCard()
     {
         $answer = array(
             'error' => 'yes',
@@ -1784,7 +1784,7 @@ class SpotController extends MController
         if (!empty($photo_path))
             unlink($photo_path);
         
-        $answer['number'] = CustomCard::getGUUNum();
+        $answer['number'] = CustomCard::getNextNum($data['type']);
         $answer['error'] = 'no';
         
 

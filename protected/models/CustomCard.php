@@ -6,12 +6,8 @@
  */
 class CustomCard extends CActiveRecord
 {
-    
-    const TYPE_GUU = 1;
-    const TYPE_SIMPLE = 2;
-    
-    const URL_GUU = 'guu';
-    const URL_SIMPLE = 'simple';
+    const TYPE_GUU = 'guu';
+    const TYPE_SIMPLE = 'simple';
 
     /**
      * Returns the static model of the specified AR class.
@@ -42,7 +38,7 @@ class CustomCard extends CActiveRecord
         
     }
 
-    public static function getGUUNum() {
+    public static function getNextNum($type=self::TYPE_SIMPLE) {
         //$guu_cards = self::model()->findAllByAttributes(array('type'=>self::TYPE_GUU));
         $guu_cards = self::model()->findAll();
         $counter = count($guu_cards) + 100 + 1;
@@ -54,9 +50,10 @@ class CustomCard extends CActiveRecord
         
     }
     
-    public static function getDefaults($url_part) {
-        if ($url_part == self::URL_GUU)
-            return array(
+    public static function getDefaults($type) {
+        $defaults = array(
+            self::TYPE_GUU=>
+            array(
                 'email' => 'admin@guu.ru',
                 'shipping_name' => 'Admin',
                 'phone' => 'Admin',
@@ -65,7 +62,34 @@ class CustomCard extends CActiveRecord
                 'zip' => '109542',
                 'type' => self::TYPE_GUU,
                 'shirt_img' => 'guu_card_frame.jpg',
-            );
+                'number' => self::getNextNum(self::TYPE_GUU),
+                'token' => Yii::app()->request->csrfToken,
+                'name' => '',
+                'position' => '', 
+                'department' => '',
+            ),
+            self::TYPE_SIMPLE=>
+             array(
+                'email' => '',
+                'shipping_name' => '',
+                'phone' => '',
+                'address' => '',
+                'city' => '',
+                'zip' => '',
+                'type' => self::TYPE_SIMPLE,
+                'shirt_img' => 'simple_card_frame.jpg',
+                'number' => self::getNextNum(self::TYPE_SIMPLE),
+                'token' => Yii::app()->request->csrfToken,
+                'name' => '',
+                'position' => '', 
+                'department' => '',
+            )
+        );
+        
+        if (empty($defaults[$type]))
+            return false;
+        
+        return $defaults[$type];
     }
     
     
