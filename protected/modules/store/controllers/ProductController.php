@@ -10,9 +10,12 @@ class ProductController extends MController
     //заглушка пока магазин недоступен
     public function beforeAction()
     {
-        $this->redirect('/');
+        if (!CouponAccess::userAccess())
+            $this->redirect('/');
+        
+        return true;
     }
-
+    
     public function actionIndex()
     {
         $this->render('index',
@@ -163,41 +166,49 @@ class ProductController extends MController
     {
         $data = MHttp::validateRequest();
         $answer = array();
-
+        
         $cart = new StoreCart;
-        if (!isset($data['delivery']))
+        if (!isset($data['delivery'])) {
             $answer['error'] = Yii::t('store', 'Specify the delivery method');
-        elseif (!isset($data['payment']))
+            MHttp::getJsonAndExit($answer);
+        }
+        if (!isset($data['payment'])) {
             $answer['error'] = Yii::t('store', 'Select payment method');
-        else {
-            $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
-            $answer['error'] = $mailOrder['error'];
-            if ($mailOrder['error'] == 'no') {
-                if ($mailOrder['payment'] == 'Uniteller') {
-                    $payment = Yii::app()->ut;
-                    $token = sha1(Yii::app()->request->csrfToken);
-
-                    $order['shopId'] = $payment->shopId;
-                    $order['customerId'] = $mailOrder['customer_id'];
-                    $order['orderId'] = $mailOrder['id'];
-                    $order['amount'] = $mailOrder['total'];
-                    $order['signature'] = $payment->getPaySign($order);
-                    $order['return_ok'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=success&token=' . $token;
-                    $order['return_error'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=error&token=' . $token;
-
-                    $content = $this->renderPartial('//store/product/_bay_form',
-                        array(
-                            'order' => $order,
-                        ),
-                        true
-                    );
-
-                    $answer['content'] = $content;
-                    $answer['payment'] = $mailOrder['payment'];
-                }
+            MHttp::getJsonAndExit($answer);
+        }
+        
+        $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
+        $answer['error'] = $mailOrder['error'];
+        $answer['payment'] = $mailOrder['payment'];
+        
+        if ($mailOrder['error'] != 'no') {
+             MHttp::getJsonAndExit($answer);
+        }
+        
+        //письмо покупателю
+        if (!MMail::order_track($mailOrder['email'], $mailOrder, Lang::getCurrentLang()))
+            MHttp::getJsonAndExit($answer);
+        
+        if ($mailOrder['payment'] == StoreCart::PAYMENT_BY_CARD or $mailOrder['payment'] == StoreCart::PAYMENT_BY_YM) {
+            $answer['content'] = $this->renderPartial('//store/_store_ym_form',
+                array(
+                    'order'=>$mailOrder,
+                    'successUrl'=>urlencode(MHttp::desktopHost()),
+                    'failUrl'=>urlencode(MHttp::desktopHost()),
+                ),
+                true
+            );
+            $answer['error'] = 'no';
+        }
+        elseif ($mailOrder['payment'] == StoreCart::PAYMENT_MAIL) {
+            //банковский перевод, письмо админу
+            if (MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang()))
+            {
+                $answer['message'] = Yii::t('store', 'Thank you for your purchase. Our manager will contact you soon for further transfer details.');
+                $answer['error'] = 'no';
             }
         }
-
+        
         echo json_encode($answer);
     }
 

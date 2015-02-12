@@ -2,6 +2,9 @@
 
 angular.module('mobispot').controller('ProductController',
   function($scope, $http, $compile, $timeout, contentService) {
+    
+    $scope.host_type = 'desktop';
+      
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
 
@@ -528,16 +531,24 @@ angular.module('mobispot').controller('CartController',
             payment  : $scope.selectedPayment,
             discount : $scope.discount
         };
+        
         $http.post(('/store/product/buy'), data).success(function(data, status) {
             if (data.error == 'no'){
-                if (data.payment == 'Uniteller'){
-                    angular.element('#proceedFinishForm').after($compile(data.content)($scope));
-                    angular.element('#payUniteller').submit();
+                if ('email' == data.payment){
+                    contentService.messageModal(data.message, $scope.host_type);
+                    /*
+                    $timeout(function(){
+                        window.location = "/store";
+                    }, 5000);
+                    */
+                }
+                else {
+                  angular.element('#proceedFinishForm').after($compile(data.content)($scope));
+                  angular.element('#form-ym-pay').submit();
                 }
             }
             else
-               $scope.result.message = data.error;
-               contentService.desktopModal('message');
+               contentService.messageModal(data.error, $scope.host_type);
         });
     };
 

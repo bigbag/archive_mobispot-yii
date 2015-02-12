@@ -208,8 +208,7 @@
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>"
                         required>
                     <a
-                        class="spot-button {{ formCustomer.$valid || 'button-disable'}}"
-                        style="cursor: pointer"
+                        class="spot-button store {{ formCustomer.$valid || 'button-disable'}}"
                         ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
                     </a>
@@ -259,10 +258,10 @@
                         </span>
                     </div>
                     <div class="six columns">
-                        <ul class="add-active payment-options">
+                        <ul class="add-active payment-options store">
                             <li ng-repeat="payment in payments">
                                 <a
-                                    class="radio-link"
+                                    class="radio-link" 
                                     ng-click="setPayment(payment.id)">
                                     <i></i>
                                     {{payment.caption}}

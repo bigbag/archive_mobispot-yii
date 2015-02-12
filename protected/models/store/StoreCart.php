@@ -2,7 +2,10 @@
 
 class StoreCart extends CFormModel
 {
-
+    const PAYMENT_BY_CARD = 'AC';
+    const PAYMENT_BY_YM = 'PC';
+    const PAYMENT_MAIL = 'email';
+    
     protected $storeCart = array();
 
     public function __construct()
@@ -155,9 +158,9 @@ class StoreCart extends CFormModel
                 $result = array();
                 foreach ($delivery as $row) {
                     $result[$row->id]['id'] = $row->id;
-                    $result[$row->id]['name'] = $row->name;
-                    $result[$row->id]['period'] = $row->period;
-                    $result[$row->id]['price'] = $row->price;
+                    $result[$row->id]['name'] = Yii::t('store', $row->name);
+                    $result[$row->id]['period'] = Yii::t('store', $row->period);
+                    $result[$row->id]['price'] = Yii::t('store', $row->price);
                 }
             }
 
@@ -177,8 +180,8 @@ class StoreCart extends CFormModel
                 $result = array();
                 foreach ($payment as $row) {
                     $result[$row->id]['id'] = $row->id;
-                    $result[$row->id]['name'] = $row->name;
-                    $result[$row->id]['caption'] = $row->caption;
+                    $result[$row->id]['name'] = Yii::t('store', $row->name);
+                    $result[$row->id]['caption'] = Yii::t('store', $row->caption);
                 }
             }
             Yii::app()->cache->set('payment', $result, 120);
@@ -611,15 +614,11 @@ class StoreCart extends CFormModel
         Yii::app()->session['storeCustomer'] = $newCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
-
-        if (!empty($selectedDelivery['name']))
-            $deliv = StoreDelivery::model()->findByAttributes(array(
-                'name' => $selectedDelivery['name']
-            ));
-        if (!empty($selectedPayment['name']))
-            $pay = StorePayment::model()->findByAttributes(array(
-                'name' => $selectedPayment['name']
-            ));
+        
+        if (!empty($selectedDelivery['id']))
+            $deliv = StoreDelivery::model()->findByPk($selectedDelivery['id']);
+        if (!empty($selectedPayment['id']))
+            $pay = StorePayment::model()->findByPk($selectedPayment['id']);
 
         if (!isset($deliv) || !$deliv) {
             $error = Yii::t('store', 'Specify the delivery method');
