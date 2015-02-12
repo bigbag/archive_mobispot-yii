@@ -477,3 +477,8 @@ label.face-holder.hide i, label.face-holder.hide span {
 .column.small-6.large-6.large-max {
     width:100%;
 }
+
+ul.add-active.payment-options.store li{
+    display:block;
+    float:none;
+}
