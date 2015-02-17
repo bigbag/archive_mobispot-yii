@@ -110,26 +110,30 @@ class ServiceController extends MController
         if ($socInfo)
             SocToken::setToken($socInfo);
 
-        $spot = Spot::getActivatedSpot($data['activ_code']);
-        $spot->user_id = $model->id;
-        $spot->lang = Lang::getCurrentLang();
-        $spot->status = Spot::STATUS_REGISTERED;
-        $spot->save();
+        if (!empty($data['activ_code'])) {
+            $spot = Spot::getActivatedSpot($data['activ_code']);
+            $spot->user_id = $model->id;
+            $spot->lang = Lang::getCurrentLang();
+            $spot->status = Spot::STATUS_REGISTERED;
+            $spot->save();
 
-        $wallet = PaymentWallet::model()->findByAttributes(
-                array(
-                    'discodes_id' => $spot->discodes_id,
-                    'user_id' => 0,
-                )
-        );
-        if ($wallet) {
-            $wallet->status = PaymentWallet::STATUS_ACTIVE;
-            $wallet->user_id = $spot->user_id;
-            $wallet->save();
+            $wallet = PaymentWallet::model()->findByAttributes(
+                    array(
+                        'discodes_id' => $spot->discodes_id,
+                        'user_id' => 0,
+                    )
+            );
+            if ($wallet) {
+                $wallet->status = PaymentWallet::STATUS_ACTIVE;
+                $wallet->user_id = $spot->user_id;
+                $wallet->save();
+            }
+            $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
+        } else {
+            $answer['content'] = Yii::t('user', 'You have been registred successfully. Please check your inbox to confirm registration.');   
         }
 
         MMail::activation($model->email, $model->activkey, Lang::getCurrentLang());
-        $answer['content'] = Yii::t('user', "You and your first spot have been registred successfully. Please check your inbox to confirm registration.");
         $answer['error'] = "no";
         echo json_encode($answer);
     }

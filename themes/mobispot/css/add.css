@@ -482,3 +482,30 @@ ul.add-active.payment-options.store li{
     display:block;
     float:none;
 }
+
+.block-link-wrapper {
+    display: inline-block;
+    background: url(../img/tostore-bg.jpg) 0 0 no-repeat;
+    background-size: cover; 
+    width:50%;
+    height:100px;
+    margin-bottom:40px;
+}
+
+
+#to-store {
+    display: block;
+    width:100%;
+    padding-top:40px;
+    color: white;
+    font-size:19px;
+    font-family: Mobispot, Arial;
+}
+
+.block-form-wrapper {
+    display: inline-block;
+    width:264px;
+    text-align:left;
+    
+}
+

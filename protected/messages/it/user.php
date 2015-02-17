@@ -1,6 +1,7 @@
 <?php return  array (
   'A letter with instructions has been sent to your email address. Thank you.' => 'La lettera con le istruzioni è stata mandata sul Suo e-mail.',
   'Activate spot' => 'Registrare',
+  'Registration' => 'Registrare',
   'Birthday' => 'Data di nascita',
   'Change password' => 'Cambiamento di password',
   'City' => 'Città',
@@ -40,6 +41,7 @@
   'You account is blocked.' => '',
   'You account is not activated.' => '',
   'You and your first spot have been registred successfully. Please check your inbox to confirm registration.' => 'Tu e il tuo primo Spot è stato registrato con successo. Controlla la tua casella di posta elettronica per confermare la registrazione.',
+  'You have been registred successfully. Please check your inbox to confirm registration.' => 'Tu e il tuo primo Spot è stato registrato con successo. Controlla la tua casella di posta elettronica per confermare la registrazione.',
   'To change your password please click the button below and follow the instruction in the special email from us.' => 'Per cambiare il password, per favore, clicca sul bottone sotto e seguite le istruzioni dall’e-mail.',
   'You\'ve made a mistake in spot activation code.' => '',
   'password' => '',

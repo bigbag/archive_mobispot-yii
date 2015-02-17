@@ -1,5 +1,6 @@
 <?php return  array (
   'Activate spot' => '激活',
+  'Registration' => '激活',
   'Get our demo-kit' => '获得我们的演示',
   'All your tickets<br> in one place' => '轻松刷“环”,<br>便利买票',
   'Get Help' => '帮助',

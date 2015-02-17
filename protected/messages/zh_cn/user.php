@@ -1,6 +1,7 @@
 <?php return  array (
   'A letter with instructions has been sent to your email address. Thank you.' => '',
   'Activate spot' => '激活',
+  'Registration' => '激活',
   'Bad Request' => '',
   'Birthday' => '',
   'Change password' => '',
@@ -51,6 +52,7 @@
   'You account is blocked.' => '',
   'You account is not activated.' => '',
   'You and your first spot have been registred successfully. Please check your inbox to confirm registration.' => '',
+  'You have been registred successfully. Please check your inbox to confirm registration.' => '',
   'To change your password please click the button below and follow the instruction in the special email from us.' => '',
   'You\'ve made a mistake in spot activation code.' => '',
   'password' => '密码',
