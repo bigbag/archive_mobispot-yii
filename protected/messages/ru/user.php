@@ -1,6 +1,7 @@
 <?php return  array (
   'A letter with instructions has been sent to your email address. Thank you.' => 'Письмо с инструкцией было выслано на Вашу эл. почту.',
   'Activate spot' => 'Зарегистрировать',
+  'Registration' => 'Регистрация',
   'Bad Request' => 'Ошибка',
   'Birthday' => 'День рождения',
   'Change password' => 'Смена пароля',
@@ -51,6 +52,7 @@
   'You account is blocked.' => 'Учетная запись заблокирована',
   'You account is not activated.' => 'Учетная запись не активирована',
   'You and your first spot have been registred successfully. Please check your inbox to confirm registration.' => 'Вы и Ваш первый Спот были успешно зарегистрированы. Пожалуйста, проверьте Вашу почту для подтверждения регистрации.',
+  'You have been registred successfully. Please check your inbox to confirm registration.' => 'Вы были успешно зарегистрированы. Пожалуйста, проверьте Вашу почту для подтверждения регистрации.',
   'To change your password please click the button below and follow the instruction in the special email from us.' => 'Для смены пароля, пожалуйста, нажмите на кнопку ниже и следуйте инструкциям в электронном письме.',
   'You\'ve made a mistake in spot activation code.' => 'Вы сделали ошибку в коде активации Спота.',
   'password' => 'пароль',

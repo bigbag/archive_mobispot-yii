@@ -102,7 +102,6 @@ angular.module('mobispot').controller('UserController',
       if (data.error == 'no'){
         $scope.user.email = '';
         $scope.user.password = '';
-        $scope.user.activ_code = '';
         $scope.user.terms = 0;
         if ($scope.host_type === 'mobile') {
           contentService.mobileModal(data.content, 'none');

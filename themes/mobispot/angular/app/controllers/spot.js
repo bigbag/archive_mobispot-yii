@@ -54,7 +54,14 @@ angular.module('mobispot').controller('SpotController',
 
   // Добавление спота
   $scope.addSpot = function(spot) {
-    if (!spot.code || !$scope.spot.terms) return false;
+    if (!spot.code) {
+        $scope.error.code = true;
+        return false;
+    }
+    
+    if (!$scope.spot.terms)
+        return false;
+    
     $http.post('/spot/add', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.discodes = data.discodes;
@@ -62,7 +69,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#actSpot').click();
         delete $scope.spot.code;
         delete $scope.spot.terms;
-        if ($scope.host_mobile)
+        if ($scope.host_mobile || 1==spot.need_reload)
             window.location.href = 'http://' + window.location.hostname + '/spot/list';
       }else if (data.error == 'yes') {
         $scope.error.code = true;
