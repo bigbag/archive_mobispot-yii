@@ -1,5 +1,6 @@
 <?php return  array (
   'Activate spot' => 'Registrare',
+  'Registration' => 'Registrare',
   'Get our demo-kit' => 'Richiedere un demo-kit',
   'Get Help' => '',
   'My Spots' => 'Miei Spot',

@@ -102,17 +102,29 @@ class SpotController extends MController
         if ($spots){
             $curent_discodes = Spot::curentSpot($spots[0]->discodes_id);
             $curent_views = Spot::curentViews($curent_views);
-        }
+        
 
-        $this->renderWithMobile(
-            '//spot/body',
-            array(
-                'spots' => $spots,
-                'curent_discodes' => $curent_discodes,
-                'curent_views' => $curent_views,
-            ),
-            '//mobile/spot/list'
-        );
+            $this->renderWithMobile(
+                '//spot/body',
+                array(
+                    'spots' => $spots,
+                    'curent_discodes' => $curent_discodes,
+                    'curent_views' => $curent_views,
+                ),
+                '//mobile/spot/list'
+            );
+        } 
+        else {
+            $this->renderWithMobile(
+                '//spot/no_spots',
+                array(
+                    'spots' => array(),
+                    'curent_discodes' => false,
+                    'curent_views' => false,
+                ),
+                '//mobile/spot/list'
+            );
+        }
     }
 
     // Просмотр содержимого спота
