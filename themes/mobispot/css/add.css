@@ -135,6 +135,10 @@ div.store-content {
   margin-top: -20px;
 }
 
+.store-items__description h1 {
+    font-size: 2.2rem;
+}
+
 .m-auto-payment {
   min-height: 164px;
 }
@@ -506,6 +510,6 @@ ul.add-active.payment-options.store li{
     display: inline-block;
     width:264px;
     text-align:left;
-    
 }
+
 
