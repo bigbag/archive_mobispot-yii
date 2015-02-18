@@ -139,6 +139,153 @@ div.store-content {
     font-size: 2.2rem;
 }
 
+.bg-patt02 {
+    background-color: #0062FF;
+    overflow: hidden;
+}
+
+.bg-patt02:after, .bg-patt03:after {
+    height: 35px;
+    width: 35px;
+    top: 0px;
+    left: 0px;
+    background: url(../img/info/p2.png) no-repeat scroll 0px 6px / 100% auto transparent;
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.active .bg-patt02:after, .choose-color li:hover i.bg-patt02:after,
+.active .bg-patt03:after, .choose-color li:hover i.bg-patt03:after {
+    height: 50px;
+    width: 50px;
+}
+
+.bg-patt03 {
+    background-color: #AB2640;
+    overflow: hidden;
+}
+
+.bg-patt03:after {
+   background-image: url(../img/info/p3.png);
+}
+
+.bg-patt01 {
+    background-color: #5AC0B9;
+    overflow: hidden;
+}
+
+.bg-patt01:before, .bg-patt05:before {
+    top: 14px;
+    left: 14px;
+    border: 5px solid #FFF;
+    height: 23px;
+    width: 23px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.bg-patt01:after, .bg-patt05:after {
+    top: 3px;
+    left: 3px;
+    border: 5px solid #FFF;
+    height: 39px;
+    width: 39px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt01:after, .choose-color li:hover i.bg-patt01:after,
+.active .bg-patt05:after, .choose-color li:hover i.bg-patt05:after{
+    top: 4px;
+    left: 4px;
+    border: 7px solid #FFF;
+    height: 55px;
+    width: 55px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt01:before , .choose-color li:hover i.bg-patt01:before,
+.active .bg-patt05:before , .choose-color li:hover i.bg-patt05:before{
+    top: 21px;
+    left: 21px;
+    border: 7px solid #FFF;
+    height: 32px;
+    width: 32px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.bg-patt05 {
+    background-color: #000;
+    overflow: hidden;
+}
+
+.bg-patt05:before, .bg-patt05:after, 
+.active .bg-patt05:after, .choose-color li:hover i.bg-patt05:after,
+.active .bg-patt05:before , .choose-color li:hover i.bg-patt05:before{
+    border-color:#444;
+}
+
+.bg-patt06 {
+   background-color: #5AC0B9;
+   overflow: hidden;
+}
+
+.bg-patt04:after, .bg-patt06:after, .bg-patt07:after {
+    top: 0px;
+    left: -3px;
+    border: 14px solid #CAE8DD;
+    height: 92px;
+    width: 92px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt04:after, .choose-color li:hover i.bg-patt04:after,
+.active .bg-patt06:after, .choose-color li:hover i.bg-patt06:after,
+.active .bg-patt07:after, .choose-color li:hover i.bg-patt07:after {
+    top: 0px;
+    left: -3px;
+    border: 20px solid #CAE8DD;
+    height: 130px;
+    width: 130px;
+}
+
+.bg-patt07 {
+   background-color: #AB2640;
+   overflow: hidden;
+}
+
+.bg-patt07:after, .active .bg-patt07:after, .choose-color li:hover i.bg-patt07:after {
+    border-color:#D65770;
+}
+
+.bg-patt04 {
+   background-color: #000;
+   overflow: hidden;
+}
+
+.bg-patt04:after, .active .bg-patt04:after, .choose-color li:hover i.bg-patt04:after {
+    border-color:#363C44;
+}
+
+.choose-color li:first-child {
+    margin-left:10px;
+}
+
 .m-auto-payment {
   min-height: 164px;
 }
