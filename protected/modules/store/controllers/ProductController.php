@@ -4,7 +4,7 @@ class ProductController extends MController
 {
 
     public $layout = '//layouts/all';
-    public $imagePath = '/themes/mobispot/images/product/';
+    public $imagePath = '/uploads/store/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
     /*
