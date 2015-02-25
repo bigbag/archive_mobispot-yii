@@ -659,4 +659,14 @@ ul.add-active.payment-options.store li{
     text-align:left;
 }
 
+#constructor-simple.overlay-page.show, #constructor-troika.overlay-page.show{
+    z-index:190;
+}
 
+a.form-button.button.button-round.store {
+    margin-left:60px;
+}
+
+.row.block {
+    margin-top:30px;
+}
