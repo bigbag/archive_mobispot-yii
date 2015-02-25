@@ -1737,8 +1737,7 @@ class SpotController extends MController
             }
         }
        
-        $data['front_img'] =  MImg::makeTransportCard(
-            $spot->discodes_id, $photo_path, $logo_path, $data['name'], $data['position']);
+        $data['front_img'] =  MImg::makeTransportCard($photo_path, $logo_path, $data['name'], $data['position']);
         
         MMail::transport_order($data['email'], $data, Lang::getCurrentLang());
         MMail::transport_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());

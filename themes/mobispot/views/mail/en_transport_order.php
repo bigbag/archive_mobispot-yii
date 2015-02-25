@@ -32,7 +32,9 @@
     </p>
     <p style="line-height: 1.2">
         Имя: <?php echo $shipping_name; ?><br>
-        Телефон: <?php echo $phone; ?><br>
+        <?php if (!empty($phone)):?>
+            Телефон: <?php echo $phone; ?><br>
+        <?php endif; ?>
         Адрес: <?php echo $address; ?><br>
         Город: <?php echo $city; ?><br>
         Индекс: <?php echo $zip; ?>
@@ -41,7 +43,7 @@
     <table id="card">
     <tr>
     <td style="vertical-align:center;text-align:center;">
-        <img width="321" height="513" src="<?php echo $this->getBaseUrl(); ?>/uploads/spot/<?php echo $front_img; ?>">
+        <img width="321" height="513" src="<?php echo $this->getBaseUrl(); ?>/uploads/custom_card/<?php echo $front_img; ?>">
     </td>
     <td style="vertical-align:center;text-align:center;padding-left:100px;">
         <div style="width:513px;height:321px;border:2px solid #E9EDF2;overflow:hidden;border-radius:30px;display:inline-block;padding:0;margin:0;">
