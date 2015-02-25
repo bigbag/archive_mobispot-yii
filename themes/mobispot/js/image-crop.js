@@ -1306,6 +1306,7 @@
           height: '@',
           shape: '@',
           result: '=',
+          minheight: '@',
           step: '='
         },
         link: function (scope, element, attributes) {
@@ -1389,10 +1390,11 @@
 
 
           $transport_img.onload = function() {
-            var constMinWidth = 128;
-            var constMinHeight = 162;
+            var constMinWidth = 165;
+            var constMinHeight = scope.minheight;
             var constMaxWidth = 500;
             var constMaxHeight = 500;
+            
             if ($transport_img.width < constMinWidth) {
                 messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $transport_img.width + " пикселей)");
                 return false;

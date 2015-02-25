@@ -106,28 +106,8 @@
         <h1><?php echo Yii::t('spot', 'Персонализация карты')?></h1>
         <div class="personal-block">
         <div class="row">
+
             <div class="column small-6 large-6">
-                    <h5><span class="number">1</span> <?php echo Yii::t('spot', 'Выберите тип карты')?></h5>
-                    <form class="custom" action="">
-                        <div class="content-row large-6 left g-clearfix">
-                        <?php $transport_types=TransportType::model()->findAll(); ?>
-                            <?php foreach ($transport_types as $type):?>
-                            <span ng-init="initTransportType(
-                                '<?php echo $type->id; ?>',
-                                '<?php echo $type->name; ?>',
-                                '<?php echo $type->img; ?>')">
-                            </span>
-                            <?php endforeach; ?>
-                            <span ng-init="selected_type = transport_types[0];setType(transport_types[0])"></span>
-                            <select class="medium" ng-model="selected_type" ng-change="setType(selected_type)" ng-options="type as type.name for type in transport_types">
-                            </select>
-                        </div>
-                        <div id="card-back" class="personal-card horizontal"></div>
-                        <p class="step-description"></p>
-                    </form>
-            </div>
-            <div class="column small-6 large-6">
-                    <h5><span class="number">2</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
                     <div class="personal-card vertical">
                         <form id="form-photo" enctype="multipart/form-data" action="/spot/uploadImg">
                             <input type="hidden" name="img_type" value="transport_photo">
@@ -142,6 +122,7 @@
                                     data-shape="circle"
                                     data-step="imageCropStep"
                                     data-result="transport_card.photo_croped"
+                                    data-minheight="165"
                                     ng-show="showImageCropper"
                                 ></image-crop>
                                 <label for="input-photo" class="face-holder">
@@ -167,6 +148,7 @@
                                     data-shape="square"
                                     data-step="imageCropStep"
                                     data-result="transport_card.logo_croped"
+                                    data-minheight="60"
                                     ng-show="showLogoCropper"
                                 ></image-crop>
                                 <label for="input-logo" class="face-holder"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span></label>
@@ -177,30 +159,27 @@
                     <p class="step-description">
                         <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
                         <br>
-                        - <?php echo Yii::t('spot', 'Фото будет обрезано до пропорций')?> <b>165x165</b> <br>
-                        <br>
                         - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
                         <br>
-                        - <?php echo Yii::t('spot', 'Избегайте изображений обнаженной груди')?> <br>
-                        <br>
+                        - <?php echo Yii::t('spot', 'Рекомендуемый размер фото для загрузки: ')?> <b>165x165</b> <br><br>
+                        - <?php echo Yii::t('spot', 'Минимальный размер фото: ')?> <b>165x165</b> <br><br>
+                        - <?php echo Yii::t('spot', 'Максимальный размер изображений: ')?> <b>500x500</b> <br><br>
+                        - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер логотипа: ')?> <b>230x60</b> <br><br>
                         - <?php echo Yii::t('spot', 'Длина имени не больше чем')?> <b>22</b> <?php echo Yii::t('spot', 'символа')?><br>
                         <br>
                         - <?php echo Yii::t('spot', 'Длина должности')?> <b>34</b> <?php echo Yii::t('spot', 'символа')?><br>
                             <br>
-                        - <?php echo Yii::t('spot', 'Логотип будет образан до пропорций')?> <b>230x60</b>
-
                     </p>
             </div>
-        </div>
-        <div class="row">
-            <div class="column small-12 large-12">
-                <form class="custom" id="form-shipping" name="shippingForm">
-                    <div class="column small-4 large-4">
-
-                        <a class="form-button button button-round" ng-click="addTransportCard(transport_card)" href="javascript:;"><?php echo Yii::t('spot', 'FINISH!')?></a>
-                    </div>
-                </form>
+            <div class="column small-6 large-6 ">
+                    <form class="custom" action="">
+                        <div id="card-back" class="personal-card horizontal" style="background-image: url(/uploads/transport/troika.jpg)"></div>
+                        <p class="step-description"></p>
+                    </form>
             </div>
+        </div>
+        <div class="row block">
+            <a class="form-button button button-round store" ng-click="addTransportCard(transport_card)" href="javascript:;"><?php echo Yii::t('store', 'FINISH!')?></a>
         </div>
         </div>
     </div>    
@@ -213,7 +192,6 @@
             <div class="personal-block">
             <div class="row">
                 <div class="column small-6 large-6 large-max">
-                        <h5><span class="number">1</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
                         <div class="personal-card vertical" ng-style="{'background': 'url(/themes/mobispot/img/simple_card_frame.jpg) 0 0 no-repeat'}"
                             >
                                 <div class="upload-photo crop-wrapper">
@@ -250,9 +228,11 @@
                                 - <?php echo Yii::t('spot', 'Фото будет обрезано до размера: ')?> <b>128x162</b> <br><br>
                                 - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br><br>
                             </p>
-                        </div>
-                        <a class="form-button button button-round" ng-click="addSimpleCard(simple_card)" href="javascript:;"><?php echo Yii::t('spot', 'FINISH!')?></a>
+
                 </div>
+            </div>
+            <div class="row block">
+                <a class="form-button button button-round store" ng-click="addSimpleCard(simple_card)" href="javascript:;"><?php echo Yii::t('store', 'FINISH!')?></a>
             </div>
         </div>
     <?php //</Simple custom card> ?> 

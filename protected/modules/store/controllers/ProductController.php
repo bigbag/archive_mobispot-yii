@@ -7,7 +7,7 @@ class ProductController extends MController
     public $imagePath = '/uploads/store/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
-    
+    /*
     //заглушка пока магазин недоступен
     public function beforeAction()
     {
@@ -16,7 +16,7 @@ class ProductController extends MController
         
         return true;
     }
-    
+    */
     
     public function actionIndex()
     {
@@ -112,7 +112,7 @@ class ProductController extends MController
         $logo_path = false;
         $custom_name = false;
         $position = false;
-        $departament = false;
+        $department = false;
         
         $db_product = StoreProduct::model()->findByPk($data['id']);
         if (!$db_product)
@@ -153,9 +153,9 @@ class ProductController extends MController
             $custom_name = $data['name'];
         if (!empty($data['position']))
             $position = $data['position'];
-        if (!empty($data['departament']))
-            $departament = $data['departament'];
-        $card = CustomCard::newCustomCard($photo_path, $logo_path, $custom_name, $position, $departament, $db_product->type);
+        if (!empty($data['department']))
+            $department = $data['department'];
+        $card = CustomCard::newCustomCard($photo_path, $logo_path, $custom_name, $position, $department, $db_product->type);
 
         if (!empty($photo_path))
             unlink($photo_path);
