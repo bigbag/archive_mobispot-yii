@@ -758,6 +758,538 @@
 
   })();
 
+    angular.module('mobispot')
+    .directive('simpleCrop', function() {
+
+    //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
+    
+      return {
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><input id="{{ inputid }}" type="file" class="image-crop-input hide simple-input" /><section ng-style="sectionStyles"><canvas class="cropping-canvas simple-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle zoom-simple" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        replace: true,
+        restrict: 'AE',
+        scope: {
+          id: '@',
+          inputid: '@',
+          width: '@',
+          height: '@',
+          shape: '@',
+          result: '=',
+          step: '='
+        },
+        link: function (scope, element, attributes) {
+
+          scope.rand = Math.round(Math.random() * 99999);
+          scope.step = scope.step || 1;
+          scope.shape = scope.shape || 'circle';
+          scope.width = parseInt(scope.width, 10) || 300;
+          scope.height = parseInt(scope.height, 10) || 300;
+
+          scope.canvasWidth = scope.width + 100;
+          scope.canvasHeight = scope.height + 100;
+
+          var $elm = element[0];
+          
+
+          var $input = $elm.getElementsByClassName('simple-input')[0];
+          var $canvas = $elm.getElementsByClassName('simple-canvas')[0];
+          var $handle = $elm.getElementsByClassName('zoom-simple')[0];
+          var $finalImg = $elm.getElementsByClassName('image-crop-final')[0];
+          var $simple_img = new Image();
+          var simpleFileReader = new FileReader();
+
+          var maxLeft = 0, minLeft = 0, maxTop = 0, minTop = 0, imgLoaded = false, imgWidth = 0, imgHeight = 0;
+          var currentX = 0, currentY = 0, dragging = false, startX = 0, startY = 0, zooming = false;
+          var newWidth = imgWidth, newHeight = imgHeight;
+          var targetX = 0, targetY = 0;
+          var zoom = 1;
+          var maxZoomGestureLength = 0;
+          var maxZoomedInLevel = 0, maxZoomedOutLevel = 2;
+          var minXPos = 0, maxXPos = 0, minYPos = 0, maxYPos = 0; // for dragging bounds
+
+          var zoomWeight = .4;
+          var ctx = $canvas.getContext('2d');
+          var exif = null;
+          var files = [];
+
+          // ---------- INLINE STYLES ----------- //
+          scope.moduleStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px'
+          };
+
+          scope.sectionStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px'
+          };
+
+          scope.croppingGuideStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px',
+            top: '0px',
+            left: '0px'
+          };
+          
+          // ---------- EVENT HANDLERS ---------- //
+          simpleFileReader.onload = function(e) {
+
+            $simple_img.src = this.result;
+            scope.step = 2;
+            scope.$apply();
+
+            var byteString = atob(this.result.split(',')[1]);
+            var binary = new BinaryFile(byteString, 0, byteString.length);
+            exif = EXIF.readFromBinaryFile(binary);
+
+          };
+
+          function reset() {
+            files = [];
+            zoom = 1;
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            $input.value = null;
+            $simple_img.src = '';
+          }
+
+          element.on('change', function(e){
+            files = e.target.files;
+            simpleFileReader.readAsDataURL(files[0]);
+           });
+
+
+          $simple_img.onload = function() {
+            var constMinWidth = 128;
+            var constMinHeight = 162;
+            var constMaxWidth = 500;
+            var constMaxHeight = 500;
+            if ($simple_img.width < constMinWidth) {
+                messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $simple_img.width + " пикселей)");
+                return false;
+            }
+            if ($simple_img.width > constMaxWidth) {
+                messageModal("Максимальная ширина изображения " + constMaxWidth + " пикселей (ширина загруженного " + $simple_img.width + " пикселей)");
+                return false;
+            }
+            if ($simple_img.height < constMinHeight) {
+                messageModal("Минимальная высота изображения " + constMinHeight + " пикселей (высота загруженного " + $simple_img.height + " пикселей)");
+                return false;
+            }
+            if ($simple_img.height > constMaxHeight) {
+                messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $simple_img.height + " пикселей)");
+                return false;
+            }
+              
+            angular.element($elm).removeClass('hide');
+            
+            var form = $($elm).parents('.crop-wrapper');
+            var form_label = form.find('label.face-holder');
+            var div_upload = form.find('.upload-photo');
+            
+            form_label.addClass('hide');
+            if (div_upload.length)
+                div_upload.addClass('noborder');
+            
+            $canvas.width = scope.width;
+            $canvas.height = scope.width;
+
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            
+            currentX = -Math.round(Math.abs($simple_img.width / 2 - $canvas.width / 2));
+            currentY = -Math.round(Math.abs($simple_img.height / 2 - $canvas.height / 2));
+
+            if ($simple_img.width < $canvas.width)
+                currentX = 0 - currentX;
+            if ($simple_img.height < $canvas.height)
+                currentY = 0 - currentY;
+                
+            ctx.drawImage($simple_img, currentX, currentY);
+
+            imgWidth = $simple_img.width;
+            imgHeight = $simple_img.height;
+            
+            if (exif && exif.Orientation) {
+
+              // change mobile orientation, if required
+              switch(exif.Orientation){
+                case 1:
+                    // nothing
+                    break;
+                case 2:
+                    // horizontal flip
+                    ctx.translate(imgWidth, 0);
+                    ctx.scale(-1, 1);
+                    break;
+                case 3:
+                    // 180 rotate left
+                    ctx.translate(imgWidth, imgHeight);
+                    ctx.rotate(Math.PI);
+                    break;
+                case 4:
+                    // vertical flip
+                    ctx.translate(0, imgHeight);
+                    ctx.scale(1, -1);
+                    break;
+                case 5:
+                    // vertical flip + 90 rotate right
+                    ctx.rotate(0.5 * Math.PI);
+                    ctx.scale(1, -1);
+                    break;
+                case 6:
+                    // 90 rotate right
+                    ctx.rotate(0.5 * Math.PI);
+                    ctx.translate(0, -imgHeight);
+                    break;
+                case 7:
+                    // horizontal flip + 90 rotate right
+                    ctx.rotate(0.5 * Math.PI);
+                    ctx.translate(imgWidth, -imgHeight);
+                    ctx.scale(-1, 1);
+                    break;
+                case 8:
+                    // 90 rotate left
+                    ctx.rotate(-0.5 * Math.PI);
+                    ctx.translate(-imgWidth, 0);
+                    break;
+                default:
+                    break;
+              }
+              
+            }
+            
+            minLeft = (scope.width + 100) - this.width;
+            minTop = (scope.height + 100) - this.height;
+            newWidth = imgWidth;
+            newHeight = imgHeight;
+
+            // console.log('canvas width', $canvas.width);
+            // console.log('image width', imgWidth);
+
+            maxZoomedInLevel = ($canvas.width - 100) / imgWidth;
+            // console.log('maxZoomedInLevel', maxZoomedInLevel);
+
+            maxZoomGestureLength = to2Dp(Math.sqrt(Math.pow($canvas.width, 2) + Math.pow($canvas.height, 2)));
+            // console.log('maxZoomGestureLength', maxZoomGestureLength);
+
+            updateDragBounds();
+            /*
+            if ('square' == scope.shape) {
+                maxYPos += 85;
+                minYPos -= 85;
+                if (maxYPos > 85)
+                  maxYPos = 85;
+            }
+            */
+            scope.result = $canvas.toDataURL();
+            scope.$apply();
+          };
+
+          // ---------- PRIVATE FUNCTIONS ---------- //
+          function moveImage(x, y) {
+
+          /*
+            if ((x < minXPos) || (x > maxXPos) || (y < minYPos) || (y > maxYPos)) {
+              // new position is out of bounds, would show gutter
+              return;
+            }
+            */
+            
+            if ($simple_img.width < $canvas.width)
+                targetX = Math.round(Math.abs($simple_img.width / 2 - $canvas.width / 2));
+            else if (x < minXPos)
+                targetX = minXPos;
+            else if (x > maxXPos)
+                targetX = maxXPos;
+            else
+                targetX = x;
+            
+            if ($simple_img.height < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs($simple_img.height / 2 - $canvas.height / 2));            
+            else if (y < minYPos)
+                targetY = minYPos;
+            else if (y > maxYPos)
+                targetY = maxYPos;
+            else
+                targetY = y;
+                
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            ctx.drawImage($simple_img, targetX, targetY, newWidth, newHeight);
+          }
+
+          function to2Dp(val) {
+            return Math.round(val * 1000) / 1000;
+          }
+
+          function updateDragBounds() {
+            // $simple_img.width, $canvas.width, zoom
+
+            
+            minXPos = $canvas.width - ($simple_img.width * zoom);
+            minYPos = $canvas.height - ($simple_img.height * zoom);
+
+          }
+
+          function zoomImage(val) {
+
+            if (!val) {
+              return;
+            }
+
+
+            var proposedZoomLevel = to2Dp(zoom + val);
+
+            if ((proposedZoomLevel < maxZoomedInLevel) || (proposedZoomLevel > maxZoomedOutLevel)) {
+              // image wont fill whole canvas
+              // or image is too far zoomed in, it's gonna get pretty pixelated!
+              return;
+            }
+
+            zoom = proposedZoomLevel;
+            // console.log('zoom', zoom);
+
+            updateDragBounds();
+
+            //  do image position adjustments so we don't see any gutter
+            if (proposedZoomLevel === maxZoomedInLevel) {
+              // image fills canvas perfectly, let's center it
+              ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+              ctx.drawImage($simple_img, 0, 0, $canvas.width, $canvas.height);
+              return;
+            }
+
+            newWidth = $simple_img.width * zoom;
+            newHeight = $simple_img.height * zoom;
+
+            var newXPos = currentX * zoom;
+            var newYPos = currentY * zoom;
+
+            // check if we've exposed the gutter
+            if (newXPos < minXPos) {
+              newXPos = minXPos;
+            } else if (newXPos > maxXPos) {
+              newXPos = maxXPos;
+            }
+
+            if (newYPos < minYPos) {
+              newYPos = minYPos;
+            } else if (newYPos > maxYPos) {
+              newYPos = maxYPos;
+            }
+
+            // check if image is still going to fit the bounds of the box
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            ctx.drawImage($simple_img, newXPos, newYPos, newWidth, newHeight);
+          }
+
+          function calcZoomLevel(diffX, diffY) {
+
+            var hyp = Math.sqrt( Math.pow(diffX, 2) + Math.pow(diffY, 2) );
+            var zoomGestureRatio = to2Dp(hyp / maxZoomGestureLength);
+            var newZoomDiff = to2Dp((maxZoomedOutLevel - maxZoomedInLevel) * zoomGestureRatio * zoomWeight);
+            return diffX > 0 ? -newZoomDiff : newZoomDiff;
+          }
+
+          // ---------- SCOPE FUNCTIONS ---------- //
+
+          $finalImg.onload = function() {
+            var tempCanvas = document.createElement('canvas');
+            tempCanvas.width = this.width - 100;
+            tempCanvas.height = this.height - 100;
+            tempCanvas.style.display = 'none';
+
+            var tempCanvasContext = tempCanvas.getContext('2d');
+            tempCanvasContext.drawImage($finalImg, -50, -50);
+
+            $elm.getElementsByClassName('image-crop-section-final')[0].appendChild(tempCanvas);
+            scope.result = tempCanvas.toDataURL();
+            scope.$apply();
+
+            reset();
+
+          };
+
+          scope.crop = function() {
+            scope.croppedDataUri = $canvas.toDataURL();
+            scope.step = 3;
+          };
+
+          scope.onCanvasMouseUp = function(e) {
+
+            if (!dragging) {
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on canvas, stop it propagating up
+
+            startX = 0;
+            startY = 0;
+            dragging = false;
+            currentX = targetX;
+            currentY = targetY;
+
+            removeBodyEventListener('mouseup', scope.onCanvasMouseUp);
+            removeBodyEventListener('touchend', scope.onCanvasMouseUp);
+            removeBodyEventListener('mousemove', scope.onCanvasMouseMove);
+            removeBodyEventListener('touchmove', scope.onCanvasMouseMove);
+            scope.result = $canvas.toDataURL();
+            scope.$apply();
+          };
+
+          $canvas.addEventListener('touchend', scope.onCanvasMouseUp, false);
+                      
+          scope.onCanvasMouseDown = function(e) {
+            startX = e.type === 'touchstart' ? e.changedTouches[0].clientX : e.clientX;
+            startY = e.type === 'touchstart' ? e.changedTouches[0].clientY : e.clientY;
+            zooming = false;
+            dragging = true;
+
+            addBodyEventListener('mouseup', scope.onCanvasMouseUp);
+            addBodyEventListener('mousemove', scope.onCanvasMouseMove);
+          };
+
+          $canvas.addEventListener('touchstart', scope.onCanvasMouseDown, false);
+
+          function addBodyEventListener(eventName, func) {
+            document.documentElement.addEventListener(eventName, func, false);
+          }
+
+          function removeBodyEventListener(eventName, func) {
+            document.documentElement.removeEventListener(eventName, func);
+          }
+
+          scope.onHandleMouseDown = function(e) {
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on handle, stop it propagating up
+
+            startX = lastHandleX = (e.type === 'touchstart') ? e.changedTouches[0].clientX : e.clientX;
+            startY = lastHandleY = (e.type === 'touchstart') ? e.changedTouches[0].clientY : e.clientY;
+            dragging = false;
+            zooming = true;
+
+            addBodyEventListener('mouseup', scope.onHandleMouseUp);
+            addBodyEventListener('touchend', scope.onHandleMouseUp);
+            addBodyEventListener('mousemove', scope.onHandleMouseMove);
+            addBodyEventListener('touchmove', scope.onHandleMouseMove);
+          };
+
+          $handle.addEventListener('touchstart', scope.onHandleMouseDown, false);
+
+          scope.onHandleMouseUp = function(e) {
+
+            // this is applied on the whole section so check we're zooming
+            if (!zooming) {
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on canvas, stop it propagating up
+
+            startX = 0;
+            startY = 0;
+            zooming = false;
+            currentX = targetX;
+            currentY = targetY;
+
+            removeBodyEventListener('mouseup', scope.onHandleMouseUp);
+            removeBodyEventListener('touchend', scope.onHandleMouseUp);
+            removeBodyEventListener('mousemove', scope.onHandleMouseMove);
+            removeBodyEventListener('touchmove', scope.onHandleMouseMove);
+          };
+
+          $handle.addEventListener('touchend', scope.onHandleMouseUp, false);
+
+
+          scope.onCanvasMouseMove = function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!dragging) {
+              return;
+            }
+
+
+
+            var diffX = startX - ((e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX); // how far mouse has moved in current drag
+            var diffY = startY - ((e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY); // how far mouse has moved in current drag
+            /*targetX = currentX - diffX; // desired new X position
+            targetY = currentY - diffY; // desired new X position*/
+
+            moveImage(currentX - diffX, currentY - diffY);
+
+          };
+          
+          scope.deleteImg = function(e) {
+            e.preventDefault();
+            var form = angular.element(e.currentTarget).parents('.crop-wrapper');
+            var form_label = form.find('label.face-holder');
+            var img_crop = form.find('.ng-image-crop');
+            var div_upload = form.find('.upload-photo');
+            
+            form_label.removeClass('hide');
+            img_crop.addClass('hide');
+            if (div_upload.length)
+                div_upload.removeClass('noborder');
+            
+            scope.result = null;
+            scope.$apply();
+          }
+          
+          messageModal = function(message) {
+            speed = 500;
+
+            angular.element('.lang-list').fadeOut();
+            angular.element('.lang').removeClass('open');
+          
+            var modal = angular.element('#message');
+            modal.addClass('negative');
+            var content = angular.element('#message p');
+          
+            if($('.show-block').hasClass('active')){
+              $('.show-block.active').removeClass('active').fadeOut(speed, function(){
+                content.html(message);
+                modal.fadeIn(speed).addClass('active');
+              });
+            } else  {
+              content.html(message);
+              modal.fadeIn(speed).addClass('active');
+            }    
+          }
+          
+
+          $canvas.addEventListener('touchmove', scope.onCanvasMouseMove, false);
+
+
+          var lastHandleX = null, lastHandleY = null;
+
+          scope.onHandleMouseMove = function(e) {
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            // this is applied on the whole section so check we're zooming
+            if (!zooming) {
+              return false;
+            }
+
+            var diffX = lastHandleX - ((e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX); // how far mouse has moved in current drag
+            var diffY = lastHandleY - ((e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY); // how far mouse has moved in current drag
+
+            lastHandleX = (e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX;
+            lastHandleY = (e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY;
+
+            var zoomVal = calcZoomLevel(diffX, diffY);
+            zoomImage(zoomVal);
+
+          };
+
+          $handle.addEventListener('touchmove', scope.onHandleMouseMove, false);
+
+        }
+      };
+    });
+  
+  
   angular.module('mobispot')
     .directive('imageCrop', function() {
 
@@ -788,12 +1320,13 @@
           scope.canvasHeight = scope.height + 100;
 
           var $elm = element[0];
+          
 
           var $input = $elm.getElementsByClassName('image-crop-input')[0];
           var $canvas = $elm.getElementsByClassName('cropping-canvas')[0];
           var $handle = $elm.getElementsByClassName('zoom-handle')[0];
           var $finalImg = $elm.getElementsByClassName('image-crop-final')[0];
-          var $img = new Image();
+          var $transport_img = new Image();
           var fileReader = new FileReader();
 
           var maxLeft = 0, minLeft = 0, maxTop = 0, minTop = 0, imgLoaded = false, imgWidth = 0, imgHeight = 0;
@@ -831,7 +1364,7 @@
           // ---------- EVENT HANDLERS ---------- //
           fileReader.onload = function(e) {
 
-            $img.src = this.result;
+            $transport_img.src = this.result;
             scope.step = 2;
             scope.$apply();
 
@@ -846,7 +1379,7 @@
             zoom = 1;
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             $input.value = null;
-            $img.src = '';
+            $transport_img.src = '';
           }
 
           element.on('change', function(e){
@@ -855,7 +1388,28 @@
            });
 
 
-          $img.onload = function() {
+          $transport_img.onload = function() {
+            var constMinWidth = 128;
+            var constMinHeight = 162;
+            var constMaxWidth = 500;
+            var constMaxHeight = 500;
+            if ($transport_img.width < constMinWidth) {
+                messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $transport_img.width + " пикселей)");
+                return false;
+            }
+            if ($transport_img.width > constMaxWidth) {
+                messageModal("Максимальная ширина изображения " + constMaxWidth + " пикселей (ширина загруженного " + $transport_img.width + " пикселей)");
+                return false;
+            }
+            if ($transport_img.height < constMinHeight) {
+                messageModal("Минимальная высота изображения " + constMinHeight + " пикселей (высота загруженного " + $transport_img.height + " пикселей)");
+                return false;
+            }
+            if ($transport_img.height > constMaxHeight) {
+                messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $transport_img.height + " пикселей)");
+                return false;
+            }
+
             angular.element($elm).removeClass('hide');
             
             var form = $($elm).parents('form');
@@ -871,18 +1425,18 @@
 
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             
-            currentX = -Math.round(Math.abs($img.width / 2 - $canvas.width / 2));
-            currentY = -Math.round(Math.abs($img.height / 2 - $canvas.height / 2));
+            currentX = -Math.round(Math.abs($transport_img.width / 2 - $canvas.width / 2));
+            currentY = -Math.round(Math.abs($transport_img.height / 2 - $canvas.height / 2));
 
-            if ($img.width < $canvas.width)
+            if ($transport_img.width < $canvas.width)
                 currentX = 0 - currentX;
-            if ($img.height < $canvas.height)
+            if ($transport_img.height < $canvas.height)
                 currentY = 0 - currentY;
                 
-            ctx.drawImage($img, currentX, currentY);
+            ctx.drawImage($transport_img, currentX, currentY);
 
-            imgWidth = $img.width;
-            imgHeight = $img.height;
+            imgWidth = $transport_img.width;
+            imgHeight = $transport_img.height;
             
             if (exif && exif.Orientation) {
 
@@ -970,8 +1524,8 @@
             }
             */
             
-            if ($img.width < $canvas.width)
-                targetX = Math.round(Math.abs($img.width / 2 - $canvas.width / 2));
+            if ($transport_img.width < $canvas.width)
+                targetX = Math.round(Math.abs($transport_img.width / 2 - $canvas.width / 2));
             else if (x < minXPos)
                 targetX = minXPos;
             else if (x > maxXPos)
@@ -979,8 +1533,8 @@
             else
                 targetX = x;
             
-            if ($img.height < $canvas.height && 'square' != scope.shape)
-                targetY = Math.round(Math.abs($img.height / 2 - $canvas.height / 2));            
+            if ($transport_img.height < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs($transport_img.height / 2 - $canvas.height / 2));            
             else if (y < minYPos)
                 targetY = minYPos;
             else if (y > maxYPos)
@@ -989,7 +1543,7 @@
                 targetY = y;
                 
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-            ctx.drawImage($img, targetX, targetY, newWidth, newHeight);
+            ctx.drawImage($transport_img, targetX, targetY, newWidth, newHeight);
           }
 
           function to2Dp(val) {
@@ -997,11 +1551,11 @@
           }
 
           function updateDragBounds() {
-            // $img.width, $canvas.width, zoom
+            // $transport_img.width, $canvas.width, zoom
 
             
-            minXPos = $canvas.width - ($img.width * zoom);
-            minYPos = $canvas.height - ($img.height * zoom);
+            minXPos = $canvas.width - ($transport_img.width * zoom);
+            minYPos = $canvas.height - ($transport_img.height * zoom);
 
           }
 
@@ -1029,12 +1583,12 @@
             if (proposedZoomLevel === maxZoomedInLevel) {
               // image fills canvas perfectly, let's center it
               ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-              ctx.drawImage($img, 0, 0, $canvas.width, $canvas.height);
+              ctx.drawImage($transport_img, 0, 0, $canvas.width, $canvas.height);
               return;
             }
 
-            newWidth = $img.width * zoom;
-            newHeight = $img.height * zoom;
+            newWidth = $transport_img.width * zoom;
+            newHeight = $transport_img.height * zoom;
 
             var newXPos = currentX * zoom;
             var newYPos = currentY * zoom;
@@ -1054,7 +1608,7 @@
 
             // check if image is still going to fit the bounds of the box
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
-            ctx.drawImage($img, newXPos, newYPos, newWidth, newHeight);
+            ctx.drawImage($transport_img, newXPos, newYPos, newWidth, newHeight);
           }
 
           function calcZoomLevel(diffX, diffY) {
@@ -1244,6 +1798,8 @@
         }
       };
     });
+    
+
 
 
 })();

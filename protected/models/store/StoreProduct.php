@@ -12,9 +12,13 @@
  * @property string $color
  * @property string $size
  * @property string surface
+ * @property integer type
  */
 class StoreProduct extends CActiveRecord
 {
+    const TYPE_SPOT = 1;
+    const TYPE_CUSTOM_CARD = 2;
+    const TYPE_TROIKA = 3;
 
     public static function model($className = __CLASS__)
     {
