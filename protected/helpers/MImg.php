@@ -233,23 +233,14 @@ class MImg
         return array(mb_substr($text, 0, $wrap_border), mb_substr($text, $wrap_border));
     }
     
-    public static function makeTransportCard($discodes_id, $photo_src, $logo_src, $name, $position)
+    public static function makeTransportCard($photo_src, $logo_src, $name, $position)
     {
-        $spot = Spot::getSpot(array('discodes_id' => $discodes_id));
+        $card_filename = 'transport_' . self::generateRandomString() . '.jpg';
         
-        if (!$spot)
-            return false;
-        $i = 1;
+        while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename))
+            $card_filename = 'transport_' . self::generateRandomString() . '.jpg';
         
-        while (file_exists(Yii::getPathOfAlias('webroot.uploads.spot.') . '/' 
-            . $spot->discodes_id . '_'. md5($spot->code) 
-            . '_transport_card_' . $i . '.jpg'))
-            $i++;
-        
-        $card_path = 
-            Yii::getPathOfAlias('webroot.uploads.spot.') . '/' 
-            . $spot->discodes_id . '_'. md5($spot->code) 
-            . '_transport_card_' . $i . '.jpg';
+        $card_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename;
             
         $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::T_CARD_FRAME);
         
@@ -366,7 +357,7 @@ class MImg
             self::JPG_QUALITY
         ); 
     
-        return $spot->discodes_id . '_'. md5($spot->code) . '_transport_card_' . $i . '.jpg';
+        return $card_filename;
     }
     
     public static function makeGUUCard($custom_card, $photo_src, $name, $position, $department)
@@ -553,6 +544,172 @@ class MImg
         return 'guu_card_' . $custom_card->id . '.jpg';
     }
     
+    public static function makeCustomCard($photo_src, $name, $position, $department)
+    {
+        $photo_width = 128;
+        $photo_height = 162;
+        $name_size = 15;
+        $name_strlen = 23;
+        $position_size = 11;
+        $position_strlen = 29;
+        
+        $card_filename = 'custom_' . self::generateRandomString() . '.jpg';
+        
+        while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename))
+            $card_filename = 'custom_' . self::generateRandomString() . '.jpg';
+        
+        $card_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename;
+        
+        $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::SIMPLE_CARD_FRAME);
+        
+        $card = imagecreatetruecolor(imagesx($frame), imagesy($frame));
+        
+        imagecopy ($card, $frame, 0, 0, 0, 0, imagesx($frame), imagesy($frame));
+        
+        if (!empty($photo_src) and file_exists($photo_src)) {
+            //фото
+            $photo_attr = getimagesize($photo_src);
+
+            switch ($photo_attr[2]) {
+                case 1: $photo = imagecreatefromgif($photo_src); break;
+                case 2: $photo = imagecreatefromjpeg($photo_src); break;
+                case 3: $photo = imagecreatefrompng($photo_src); break;
+                default: return false; break;
+            }
+            
+            if ($photo) {
+                $photo = self::reduceToRectangle($photo, $photo_width, $photo_height); 
+                //$photo = self::expandToFrame($photo, $photo_width, $photo_height, 255, 255, 255);
+                //$photo = self::elipseFrame($photo, 255, 255, 255);
+                
+                imagecopy ($card, $photo, (imagesx($frame) - imagesx($photo)) / 2, self::CARD_HAT, 0, 0, imagesx($photo), imagesy($photo));
+            }
+        }
+        
+        $cursor_y = self::CARD_HAT + $photo_height + 46;
+        $font = Yii::getPathOfAlias('webroot') . '/' . self::CARD_FONT;
+        //$font = Yii::getPathOfAlias('webroot') . '/themes/mobispot/fonts/museosanscyrl_500.ttf';
+        
+        if (!empty($name))
+        {
+            //имя
+            $name_color = imagecolorallocate($card, 30, 34, 160);
+            
+            $name_str_1 = self::text_wrap($name, $name_strlen)[0];
+            $name_str_2 = self::text_wrap($name, $name_strlen)[1];
+            
+            if (mb_strlen($name_str_2))
+                $name_text = $name_str_1;
+            else 
+                $name_text = $name;
+            
+            imagettftext($card, $name_size, 0, 
+                self::center_text($name_text, $font, $name_size, imagesx($frame)), 
+                $cursor_y, 
+                $name_color, 
+                $font, 
+                $name_text);
+                
+            if (mb_strlen($name_str_2)) {
+                $cursor_y += 24;
+                $name_text = $name_str_2;
+                imagettftext($card, $name_size, 0, 
+                    self::center_text($name_text, $font, $name_size, imagesx($frame)), 
+                    $cursor_y, 
+                    $name_color, 
+                    $font, 
+                    $name_text);
+                    
+                    $cursor_y += 34;
+            }
+            else
+                $cursor_y += 34;
+        }
+        else
+            $cursor_y += 50;
+
+        $position_color = imagecolorallocate($card, 69, 69, 69);
+        
+        if (!empty($position))
+        {
+            //должность
+            $position_str_1 = self::text_wrap($position, $position_strlen)[0];
+            $position_str_2 = self::text_wrap($position, $position_strlen)[1];
+            
+            if (mb_strlen($position_str_2))
+                $position_text = $position_str_1;
+            else 
+                $position_text = $position;
+            
+            imagettftext($card, $position_size, 0, 
+                self::center_text($position_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $position_text);
+                
+            if (mb_strlen($position_str_2))
+            {
+                $cursor_y += 21;
+                $position_text = $position_str_2;
+            
+                imagettftext($card, $position_size, 0, 
+                self::center_text($position_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $position_text);
+                
+                $cursor_y += 21;
+            }
+            else
+                $cursor_y += 21;
+        }
+        else
+            $cursor_y += 21;
+        
+        $cursor_y += 10;
+  
+        if (!empty($department))
+        {
+            //отдел
+            $department_str_1 = self::text_wrap($department, $position_strlen)[0];
+            $department_str_2 = self::text_wrap($department, $position_strlen)[1];
+            
+            if (mb_strlen($department_str_2))
+                $department_text = $department_str_1;
+            else 
+                $department_text = $department;
+            
+            imagettftext($card, $position_size, 0, 
+                self::center_text($department_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $department_text);
+                
+            if (mb_strlen($department_str_2))
+            {
+                $cursor_y += 21;
+                $department_text = $department_str_2;
+            
+                imagettftext($card, $position_size, 0, 
+                self::center_text($department_text, $font, $position_size, imagesx($frame)), 
+                $cursor_y, 
+                $position_color, 
+                $font, 
+                $department_text);
+            }
+        }
+        
+        imagejpeg(
+            $card,  
+            $card_path, 
+            self::JPG_QUALITY
+        ); 
+    
+        return $card_filename;
+    }
     
     public static function ordutf8($string, $offset) {
         $code = ord(substr($string, $offset,1)); 
@@ -581,6 +738,17 @@ class MImg
                 $answer++;
         
         return $answer / 2;
+    }
+    
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        
+        return $randomString;
     }
     
 }

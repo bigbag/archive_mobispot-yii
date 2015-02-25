@@ -32,7 +32,9 @@
     </p>
     <p style="line-height: 1.2">
         Имя: <?php echo $shipping_name; ?><br>
-        Телефон: <?php echo $phone; ?><br>
+        <?php if (!empty($phone)): ?>
+            Телефон: <?php echo $phone; ?><br>
+        <?php endif; ?>
         Адрес: <?php echo $address; ?><br>
         Город: <?php echo $city; ?><br>
         Индекс: <?php echo $zip; ?>

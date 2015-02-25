@@ -67,7 +67,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="columns six inline choose">
+                            <div class="columns six inline choose" ng-show="product.type==1">
                                 <span class="label label-left">
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>

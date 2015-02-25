@@ -3,11 +3,11 @@
 class ProductController extends MController
 {
 
-    public $layout = '//layouts/all';
+    public $layout = '//layouts/store';
     public $imagePath = '/uploads/store/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
-    /*
+    
     //заглушка пока магазин недоступен
     public function beforeAction()
     {
@@ -16,7 +16,7 @@ class ProductController extends MController
         
         return true;
     }
-    */
+    
     
     public function actionIndex()
     {
@@ -100,10 +100,77 @@ class ProductController extends MController
         $answer['error'] = $cart->addToCart($data);
         $answer['count'] = $this->getItemsInCart();
 
-
         echo json_encode($answer);
     }
+    
+    
+    public function actionAddCustomCard()
+    {
+        $answer = array('error' => 'yes');
+        $data = MHttp::validateRequest();
+        $photo_path = false;
+        $logo_path = false;
+        $custom_name = false;
+        $position = false;
+        $departament = false;
+        
+        $db_product = StoreProduct::model()->findByPk($data['id']);
+        if (!$db_product)
+            MHttp::getJsonAndExit($answer);
 
+        if (!empty($data['photo_croped']))
+        {
+            $photo = $data['photo_croped'];
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
+            $photo_data = base64_decode($photo);
+            $filename = 'photo_' . MImg::generateRandomString() . '.png';
+            while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename))
+                $filename = 'photo_' . MImg::generateRandomString() . '.png';
+
+            if (file_put_contents(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename, $photo_data))
+                $photo_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename;
+        }
+        
+        if (!empty($data['logo_croped']))
+        {
+            $logo = $data['logo_croped'];
+            $logo = str_replace('data:image/png;base64,', '', $logo);
+            $logo = str_replace(' ', '+', $logo);
+            $logo_data = base64_decode($logo);
+            $filename = 'logo_' . MImg::generateRandomString() . '.png';
+            while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename))
+                $filename = 'logo_' . MImg::generateRandomString() . '.png';
+
+            if (file_put_contents(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename, $logo_data))
+            {
+                $logo_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename;
+                MImg::cutToProportionJpg($logo_path, $logo_path, MImg::LOGO_WIDTH, MImg::LOGO_HEIGHT);
+            }
+        }
+        
+        if (!empty($data['name']))
+            $custom_name = $data['name'];
+        if (!empty($data['position']))
+            $position = $data['position'];
+        if (!empty($data['departament']))
+            $departament = $data['departament'];
+        $card = CustomCard::newCustomCard($photo_path, $logo_path, $custom_name, $position, $departament, $db_product->type);
+
+        if (!empty($photo_path))
+            unlink($photo_path);
+        if (!empty($logo_path))
+            unlink($logo_path);
+        if (!$card)
+            MHttp::getJsonAndExit($answer);
+        
+        $cart = new StoreCart;
+        $data['front_img'] = $card->img;
+        $answer['error'] = $cart->addCustomCard($data);
+        $answer['count'] = $this->getItemsInCart();
+        echo json_encode($answer);
+    }
+    
     public function actionDeleteFromCart()
     {
         $data = MHttp::validateRequest();
@@ -191,6 +258,28 @@ class ProductController extends MController
         if (!MMail::order_track($mailOrder['email'], $mailOrder, Lang::getCurrentLang()))
             MHttp::getJsonAndExit($answer);
         
+        //письма с персонализированными картами
+        foreach($mailOrder['items'] as $item) {
+            if (empty($item['front_card_img']))
+                continue;
+            
+            $db_product = StoreProduct::model()->findByPk($item['id_product']);
+            $card = $mailOrder;
+            $card['shipping_name'] = $mailOrder['target_first_name'];
+            $card['front_img'] = $item['front_card_img'];
+            
+            if (CustomCard::TYPE_TROIKA == $db_product->type) {
+                $card['back_img'] = CustomCard::TROIKA_BACK;
+                
+                MMail::transport_order($mailOrder['email'], $card, Lang::getCurrentLang());
+                MMail::transport_order(Yii::app()->params['generalEmail'], $card, Lang::getCurrentLang());
+            }
+            elseif (CustomCard::TYPE_SIMPLE == $db_product->type) {
+                MMail::guu_card_order($mailOrder['email'], $card, Lang::getCurrentLang());
+                MMail::guu_card_order(Yii::app()->params['generalEmail'], $card, Lang::getCurrentLang());
+            }
+        }
+
         if ($mailOrder['payment'] == StoreCart::PAYMENT_BY_CARD or $mailOrder['payment'] == StoreCart::PAYMENT_BY_YM) {
             $answer['content'] = $this->renderPartial('//store/_store_ym_form',
                 array(
@@ -311,5 +400,4 @@ class ProductController extends MController
         } else
             MHttp::setNotFound();
     }
-
 }

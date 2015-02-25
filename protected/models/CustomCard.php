@@ -8,7 +8,10 @@ class CustomCard extends CActiveRecord
 {
     const TYPE_GUU = 'guu';
     const TYPE_SIMPLE = 'simple';
-
+    const TYPE_TROIKA = 'troika';
+    
+    const TROIKA_BACK = 'troika.jpg';
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -26,6 +29,15 @@ class CustomCard extends CActiveRecord
     public function tableName()
     {
         return 'custom_card';
+    }
+    
+    public function beforeValidate()
+    {
+        if ($this->isNewRecord) {
+            $this->creation_date = date('Y-m-d H:i:s');
+        }
+
+        return parent::beforeValidate();
     }
     
     public function getNumber()
@@ -92,5 +104,34 @@ class CustomCard extends CActiveRecord
         return $defaults[$type];
     }
     
+    public static function newTransportCard($photo_path, $logo_path, $name, $position)
+    {
+        $card = new CustomCard;
+        $card->draft = true;
+        $card->type = self::TYPE_TROIKA;
+        $card->img = MImg::makeTransportCard($photo_path, $logo_path, $name, $position);
+        if (!empty($card->img) and file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card->img))
+            $card->save();
+        
+        return $card;
+    }
+    
+    public static function newCustomCard($photo_path, $logo_path, $custom_name, $position, $departament, $type)
+    {
+        $card = new CustomCard;
+        $card->draft = true;
+        $card->type = $type;
+        if (self::TYPE_TROIKA == $type)
+            $card->img = MImg::makeTransportCard($photo_path, $logo_path, $custom_name, $position);
+        elseif (self::TYPE_SIMPLE == $type)
+            $card->img = MImg::makeCustomCard($photo_path, $custom_name, $position, $departament);
+        else
+            return false;
+        
+        if (!empty($card->img) and file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card->img))
+            $card->save();
+        
+        return $card;
+    }
     
 }

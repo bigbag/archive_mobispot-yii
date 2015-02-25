@@ -138,6 +138,7 @@ class StoreCart extends CFormModel
                 $item['color'] = $product->color;
                 $item['surface'] = $product->surface;
                 $item['size'] = $product->size;
+                $item['type'] = $product->type;
 
                 $data[] = $item;
             }
@@ -341,10 +342,90 @@ class StoreCart extends CFormModel
             $error = $valError;
         return $error;
     }
+    
+    public function addCustomCard($newProduct)
+    {
+        $error = 'error';
+        $newProduct['quantity'] = 1;
+
+        $prodArray['id'] = $newProduct['id'];
+        $prodArray['quantity'] = $newProduct['quantity'];
+        $db_product = StoreProduct::model()->findByPk($newProduct['id']);
+        $prodArray['selectedSize'] = $db_product->size[0];
+        $newProduct['selectedSize'] = $db_product->size[0];
+        $prodArray['front_card_img'] = $newProduct['front_img'];
+        $this->storeCart[] = $prodArray;
+
+        Yii::app()->session['storeCart'] = $this->storeCart;
+        if (isset(Yii::app()->session['itemsInCart']))
+            Yii::app()->session['itemsInCart'] += $newProduct['quantity'];
+        else
+            Yii::app()->session['itemsInCart'] = $newProduct['quantity'];
+
+        if (isset(Yii::app()->session['storeEmail'])) {
+            $newCustomer = array();
+            $newCustomer['email'] = Yii::app()->session['storeEmail'];
+            $dbCustomer = StoreCustomer::model()->findByAttributes(array(
+                'email' => Yii::app()->session['storeEmail']
+            ));
+            if ($dbCustomer) {
+                $order = StoreOrder::model()->findByAttributes(array(
+                    'id_customer' => $dbCustomer->id,
+                    'status' => 0
+                ));
+                if ($order) {
+                    $list = StoreOrderList::model()->findAllByAttributes(array(
+                        'id_order' => $order->id
+                    ));
+                    $added = false;
+                    if ($list) {
+                        foreach ($list as $item) {
+                            if ($this->equalProduct($newProduct, $item) && ($added == false)) {
+                                $addQuantity = StoreOrderList::model()->findByPK($item->id);
+                                $addQuantity->quantity += $newProduct['quantity'];
+                                $addQuantity->save();
+                                $added = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!$added) {
+                        $addProduct = new StoreOrderList;
+                        $addProduct->id_order = $order->id;
+                        $addProduct->id_product = $newProduct['id'];
+                        $addProduct->quantity = $newProduct['quantity'];
+                        if (!empty($newProduct['selectedColor']))
+                            $addProduct->color = $newProduct['selectedColor'];
+                        if (!empty($newProduct['selectedSurface']))
+                            $addProduct->surface = $newProduct['selectedSurface'];
+                        $addProduct->size_name = $newProduct['selectedSize']['value'];
+                        $addProduct->price = $newProduct['selectedSize']['price'];
+                        $addProduct->save();
+                    }
+                }else {
+                    $this->saveCustomer($newCustomer);
+                }
+            } else {
+                $this->saveCustomer($newCustomer);
+            }
+            
+            $error = 'no';
+        } else
+            $error = 'no';
+        
+        return $error;
+    }
 
     public function equalProduct($product, $etalon)
     {
         $answer = false;
+        if (!empty($newProduct['front_img'])) {
+            if ($newProduct['front_img'] == $etalon->front_card_img)
+                $answer = true;
+            
+            return $answer;
+        }
+        
         if (!is_array($etalon) && isset($etalon->id_order) && isset($etalon->id_product)) {
             //etalone from order_list
             if (
@@ -655,6 +736,10 @@ class StoreCart extends CFormModel
                     $item['id_product'] = $product['id'];
                     $list->quantity = $product['quantity'];
                     $item['quantity'] = $product['quantity'];
+                    if (!empty($product['front_card_img'])) {
+                        $item['front_card_img'] = $product['front_card_img'];
+                        $list->front_card_img = $product['front_card_img'];
+                    }
                     if (isset($product['selectedColor'])) {
                         $list->color = $product['selectedColor'];
                         $item['color'] = $product['selectedColor'];
@@ -843,4 +928,6 @@ class StoreCart extends CFormModel
         return $mailOrder;
     }
 
+
+    
 }
