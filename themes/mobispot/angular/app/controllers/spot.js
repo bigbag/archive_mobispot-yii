@@ -1347,4 +1347,52 @@ angular.module('mobispot').controller('SpotController',
     angular.element(selector).datepicker("show");   
   }
   
+  //привязка нового телефона к споту
+  $scope.addPhone = function(phone, valid) {
+    if (!valid) 
+      return false;
+    
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'phone': phone}
+    $http.post('/spot/addPhone', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.new_phone = '';
+        angular.element('#phones-list').append($compile(data.content)($scope));
+      }
+    });
+  }
+  
+  $scope.removePhone = function(phone, e) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'phone': phone}
+    $http.post('/spot/removePhone', data).success(function(data) {
+      if (data.error == 'no'){
+        var phoneItem = angular.element(e.currentTarget).parents('.phone-row');
+        phoneItem.remove();
+      }
+    });
+  }
+  
+  $scope.activateSchoolExtended = function(address) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'address':address}
+    $http.post('/spot/activateSchoollExtended', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.home_address = '';
+        var PhoneServices = angular.element('#phone_services');
+        PhoneServices.empty();
+        PhoneServices.append($compile(data.content)($scope));
+      }
+    });
+  }
+
+  $scope.removeSchoolExtended = function() {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token}
+    $http.post('/spot/removeSchoollExtended', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.home_address = '';
+        var PhoneServices = angular.element('#phone_services');
+        PhoneServices.empty();
+        PhoneServices.append($compile(data.content)($scope));
+      }
+    });
+  }
+  
 });

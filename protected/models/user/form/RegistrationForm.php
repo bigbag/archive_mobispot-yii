@@ -14,10 +14,10 @@ class RegistrationForm extends User
     public function rules()
     {
         $rules = array(
-            array('email, password, terms', 'required'),
+            array('email, password, activ_code, terms', 'required'),
             array('email, password, activ_code', 'filter', 'filter' => 'trim'),
             array('password', 'length', 'min' => 5),
-            //array('activ_code', 'length', 'is' => 10),
+            array('activ_code', 'length', 'is' => 10),
             array('email', 'email'),
             array('email', 'unique'),
             array('activ_code', 'checkexists'),
@@ -27,7 +27,7 @@ class RegistrationForm extends User
 
     public function checkexists($attribute, $params)
     {
-        if (!$this->hasErrors() and !empty($this->activ_code)) {
+        if (!$this->hasErrors()) {
             $spot = Spot::getActivatedSpot($this->activ_code);
 
             if ($spot == null)
