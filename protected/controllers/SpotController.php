@@ -560,12 +560,20 @@ class SpotController extends MController
             )
         );
         if (!$spot) MHttp::getJsonAndExit($answer);
+        
+        $phones = SpotPhone::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id));
+        
+        $school_extended_address = false;
+        if (count($phones) and $phones[0]->school_sms)
+            $school_extended_address = $spot->getHomeAddress();
 
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/settings',
             array(
                 'wallet' => $wallet,
                 'spot' => $spot,
+                'phones' => $phones,
+                'school_extended_address' => $school_extended_address,
             ),
             true,
             '//mobile/spot/settings'
@@ -1844,4 +1852,167 @@ class SpotController extends MController
         echo json_encode($answer);
     }
     
+    public function actionAddPhone()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['phone']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>$data['phone'], 'discodes_id'=>$spot->discodes_id));
+        
+        if ($spotPhone)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = new SpotPhone();
+        $spotPhone->phone = '7' . $data['phone'];
+        $spotPhone->discodes_id = $spot->discodes_id;
+        
+        $settingPhone = SpotPhone::model()->findByAttributes(array('discodes_id'=>$spot->discodes_id));
+        if ($settingPhone) {
+            $spotPhone->school_sms = $settingPhone->school_sms;
+        }
+        
+        $spotPhone->save();
+            
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/phone',
+            array(
+                'phone' => $spotPhone,
+             ),
+            true
+        );
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    
+    public function actionRemovePhone() 
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['phone']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>$data['phone'], 'discodes_id'=>$spot->discodes_id));
+        
+        if (!$spotPhone)
+            MHttp::getJsonAndExit($answer);
+        
+        if($spotPhone->delete())
+            $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionActivateSchoollExtended()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['address']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhones = SpotPhone::model()->findAllByAttributes(array('discodes_id'=>$spot->discodes_id));
+        
+        if (empty($spotPhones))
+            MHttp::getJsonAndExit($answer);
+        
+        if (!$spot->setMapPoint($data['address'], Spot::MAP_POINT_HOME))
+            MHttp::getJsonAndExit($answer);
+        
+        foreach($spotPhones as $phone){
+            $phone->school_sms = 1;
+            $phone->save();
+        }
+        
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/school_extended',
+            array(
+                'school_extended_address' => $data['address'],
+             ),
+            true
+        );
+        
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionRemoveSchoollExtended()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhones = SpotPhone::model()->findAllByAttributes(array('discodes_id'=>$spot->discodes_id));
+        
+        if (empty($spotPhones))
+            MHttp::getJsonAndExit($answer);
+        
+        foreach($spotPhones as $phone){
+            $phone->school_sms = 0;
+            $phone->save();
+        }
+        
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/school_extended',
+            array(
+                'school_extended_address' => false,
+             ),
+            true
+        );
+        
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
 }
