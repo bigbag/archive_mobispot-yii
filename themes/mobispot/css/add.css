@@ -670,3 +670,61 @@ a.form-button.button.button-round.store {
 .row.block {
     margin-top:30px;
 }
+
+.remove-button {
+    font-family: Mobispot-icon;
+    font-size:11px;
+    height:18px;
+    width:18px;
+    display:none;
+    line-height:18px;
+    margin:0px;
+}
+
+.phone-row{
+    cursor:pointer;
+}
+
+.phone-row:hover .remove-button {
+    display:inline-block;
+}
+
+.phone-icon {
+    width:49px;
+    text-align:left;
+}
+
+.phone-ctrl{
+    width:18px;
+}
+
+.wrapper-table {
+    border:none;
+    width:100%;
+}
+
+.left_list {
+    width:50%;
+    border-right:1px solid #E9EDF2;
+    vertical-align:top;
+}
+
+#phone_services {
+    vertical-align:top;
+}
+
+#phones-list {
+    width:90%;
+    border:none;
+    margin-top:20px;
+    width:220px;
+}
+
+.service-ctrl {
+    color:#4D4D4D;
+}
+
+.ctrl-icon {
+    font-family: Mobispot-icon;
+    font-size:10px;
+}
