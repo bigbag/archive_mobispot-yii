@@ -28,6 +28,20 @@
                         maxlength="300"
                         required >
                 </div>
+                <div class="wrapper">
+                    <input
+                        name='code'
+                        type="text"
+                        ng-model="user.activ_code"
+                        ng-keypress="($event.keyCode == 13)?activation(user, activForm.$valid):''"
+                        placeholder="<?php echo Yii::t('user', 'Spot activation code') ?>"
+                        autocomplete="off"
+                        maxlength="10"
+                        ng-minlength="10";
+                        ng-maxlength="10"
+                        ng-class="{error: error.code}"
+                        required >
+                </div>
                 <div class="checkbox">
                 <input
                     id="formReg_agree"
@@ -42,7 +56,7 @@
                     <a class="left form-button"
                         ng-click="activation(user, activForm.$valid)"
                         href="javascript:;">
-                        <?php echo Yii::t('user', 'Registration'); ?>
+                        <?php echo Yii::t('user', 'Activate spot'); ?>
                     </a>
                 </footer>
             </form>

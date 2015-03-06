@@ -23,13 +23,22 @@
                         <?php else: ?>
                         <span ng-init="user.email='<?php echo $email ?>'"><span>
                             <?php endif ?>
-                            
+                            <input
+                                name='code'
+                                type="text"
+                                ng-model="user.activ_code"
+                                placeholder="<?php echo Yii::t('user', 'Spot activation code') ?>"
+                                autocomplete="off"
+                                maxlength="10"
+                                ng-minlength="10";
+                                ng-maxlength="10"
+                                required >
                             <div class="toggle-active">
                                 <a class="checkbox agree"   ng-click="setTerms(user)"><i></i><?php echo Yii::t('user', 'I agree to Terms and Conditions'); ?></a>
                             </div>
                             <div class="form-control">
                                 <a class="spot-button activ button-disable"  ng-click="social(user, socialForm.$valid)">
-                                    <?php echo Yii::t('user', 'Registration'); ?>
+                                    <?php echo Yii::t('user', 'Activate spot'); ?>
                                 </a>
                             </div>
                             </form>
