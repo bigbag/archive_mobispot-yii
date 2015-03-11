@@ -8,8 +8,8 @@
 <?php else:?>
 <form name="school_extended_form" class="custom">
     <label>Сервисы информирования</label>
-    <h5><img src="/themes/mobispot/img/icons/checked.png"><?php echo Yii::t('spot', 'Школьная продленка');?></h5>
-    <p><?php echo Yii::t('spot', 'Адрес:');?><?php echo $school_extended_address;?></p>
+    <h5><img src="/themes/mobispot/img/icons/checked.png"> <?php echo Yii::t('spot', 'Школьная продленка');?></h5>
+    <span><?php echo Yii::t('spot', 'Адрес:');?><?php echo $school_extended_address;?></span><br>
     <a class="service-ctrl" ng-click="removeSchoolExtended()"><span class="ctrl-icon">&#xe00b;</span> <?php echo Yii::t('spot', 'Удалить');?></a>
 </form>
 <?php endif;?>

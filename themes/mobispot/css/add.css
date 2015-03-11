@@ -714,10 +714,9 @@ a.form-button.button.button-round.store {
 }
 
 #phones-list {
-    width:90%;
     border:none;
     margin-top:20px;
-    width:220px;
+    width:240px;
 }
 
 .service-ctrl {
