@@ -94,6 +94,7 @@ gulp.task('angular', function () {
   return gulp.src([
         'themes/mobispot/js/angular-cookies.min.js',
         'themes/mobispot/angular/modules/sortable/src/sortable.js',
+        'themes/mobispot/angular/modules/mask.js',
         'themes/mobispot/angular/app/app.js',
         'themes/mobispot/angular/app/service.js',
         'themes/mobispot/angular/app/controllers/*.js'

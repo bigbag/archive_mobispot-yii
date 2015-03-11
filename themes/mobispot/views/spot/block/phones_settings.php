@@ -4,7 +4,7 @@
     <td class="left_list">
         <form name="new_phone_form" class="custom">
             <label for="new_phone_input"><?php echo Yii::t('spot', 'Введите номер телефона (10 цифр)');?></label>
-            <input id="new_phone_input" type="text" ng-minlength="10" ng-maxlength="10" maxlength="10" required ng-model="new_phone" name="new_phone"></input>
+            <input id="new_phone_input" ui-mask="+7(999)999 99 99" type="text" required ng-model="new_phone" name="new_phone"></input>
             <a class="form-button" ng-click="addPhone(new_phone, new_phone_form.$valid)"><?php echo Yii::t('spot', 'Добавить номер');?></a>
         </form>
         <table id="phones-list">

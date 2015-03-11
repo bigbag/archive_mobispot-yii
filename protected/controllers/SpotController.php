@@ -1871,7 +1871,7 @@ class SpotController extends MController
         if (!$spot)
             MHttp::getJsonAndExit($answer);
         
-        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>$data['phone'], 'discodes_id'=>$spot->discodes_id));
+        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>'7' . $data['phone'], 'discodes_id'=>$spot->discodes_id));
         
         if ($spotPhone)
             MHttp::getJsonAndExit($answer);
