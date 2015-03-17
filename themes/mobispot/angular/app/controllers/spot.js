@@ -498,6 +498,8 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.main-card').removeClass('main-card');
         angular.element(e.currentTarget).parent().parent().addClass('main-card');
         $scope.wallet.blacklist = 1;
+        
+        $scope.listHistory($scope.wallet_history.date);
       }
       $scope.in_request = false;
     }).error(function(error){$scope.in_request = false;});
@@ -1315,10 +1317,11 @@ angular.module('mobispot').controller('SpotController',
   });
   
   $scope.$watch('wallet_history.date', function() {
-    if (!$scope.wallet_history.date.length)
-      return false;
-
-    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'date':$scope.wallet_history.date};  
+    $scope.listHistory($scope.wallet_history.date);
+  });
+  
+  $scope.listHistory = function (date) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'date':date};
     
     block_history = angular.element('#history-wrapper');
     
@@ -1332,8 +1335,7 @@ angular.module('mobispot').controller('SpotController',
             $scope.wallet_history.empty_date = true;
       }
     });
-    
-  });
+  }
   
   $scope.customCardInit = function(defaults) {
      $scope.custom_card = angular.fromJson(defaults); 

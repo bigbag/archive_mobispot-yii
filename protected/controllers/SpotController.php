@@ -1830,16 +1830,28 @@ class SpotController extends MController
         );
         if (!$wallet) MHttp::getJsonAndExit($answer);
         
-        if (!preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $data['date']))
-            MHttp::getJsonAndExit($answer);
+        if (empty($data['date']) or !preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $data['date']))
+            $data['date'] = false;
         
-        $date_history = mktime(0, 0, 0, substr($data['date'], 3, 2), substr($data['date'], 0, 2), substr($data['date'], 6, 4));
+        if ($data['date']) {
+            $date_history = mktime(0, 0, 0, substr($data['date'], 3, 2), substr($data['date'], 0, 2), substr($data['date'], 6, 4));
         
-        $history = Report::listHistory($wallet->payment_id, $date_history);
+            $history = Report::listHistory($wallet->payment_id, $date_history);
         
-        if (empty($history) or !strlen($history[0]->creation_date) or
-            substr($history[0]->creation_date, strlen($history[0]->creation_date) - 10, 10) != date('d.m.Y', $date_history))
-            $answer['empty_for_date'] = true;
+            if (empty($history) or !strlen($history[0]->creation_date) or
+                substr($history[0]->creation_date, strlen($history[0]->creation_date) - 10, 10) != date('d.m.Y', $date_history))
+                $answer['empty_for_date'] = true;
+        } else {
+            $history = Report::model()->findAllByAttributes(
+                array(
+                    'payment_id' => $wallet->payment_id,
+                    'type' => Report::TYPE_PAYMENT,
+                ),
+                array(
+                    'order' => 'creation_date desc',
+                    'limit' => Report::MAX_RECORD)
+            );            
+        }
         
         $answer['content'] = $this->renderPartial('//spot/block/list_history',
             array(
