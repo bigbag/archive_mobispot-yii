@@ -119,14 +119,17 @@ class Report extends CActiveRecord
     
     public function isFailure()
     {
-        $answer = false;
-        if ((time() + self::DATE_DIFF - strtotime($this->creation_date)) > self::FAILURE_TIMEOUT
-            and self::STATUS_NEW == $this->status)
-            $answer = true;
-        elseif (self::STATUS_FAIL == $this->status)
-            $answer = true;
-        
-        return $answer;
+        if (self::STATUS_FAIL == $this->status)
+            return true;
+     
+        if (self::STATUS_NEW != $this->status)
+            return false;
+     
+        $wallet = PaymentWallet::model()->findByAttributes(array('payment_id' => $this->payment_id));
+        if (!$wallet or PaymentWallet::STATUS_NOACTIVE == $wallet->blacklist)
+            return true;
+       
+        return false;
     }
     
     public function listHistory($payment_id, $date=null)
