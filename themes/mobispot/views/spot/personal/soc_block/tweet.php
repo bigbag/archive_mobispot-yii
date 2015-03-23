@@ -21,7 +21,7 @@
                 <?php endif ?>
                 <?php if (!empty($socContent['tweet_text'])):?>
                 <div class="ins-block">
-                    <p><?php echo $socContent['tweet_text'] ?>
+                    <p><?php echo YText::hrefActivate(CHtml::encode($socContent['tweet_text'])); ?>
                     </p>
                     <footer>
                         <div class="left timestamp"><?php

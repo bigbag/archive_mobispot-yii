@@ -18,7 +18,7 @@
             <?php if (!empty($socContent['soc_username']) || !empty($socContent['color-header']) || !empty($socContent['sub-time'])): ?>
                 <div class="author-row">
                     <?php if (isset($socContent['soc_username'])): ?>
-                    <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username']; ?></a>
+                    <a class="authot-name" href="<?php echo (empty($socContent['user_url']))?$socContent['soc_url']:$socContent['user_url']; ?>"><?php echo $socContent['soc_username']; ?></a>
                     <?php endif; ?>
                     <?php if (isset($socContent['color-header'])): ?>
                     <h3 class="color"><?php echo $socContent['color-header']; ?></h3>
@@ -138,7 +138,7 @@
                 <?php if (isset($socContent['last_img_msg'])): ?>
                     <p><?php echo YText::hrefActivate($socContent['last_img_msg']); ?></p>
                 <?php endif; ?>
-                <a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail">
+                <a href="<?php echo $socContent['shared_link']; ?>" class="thumbnail soc-content">
                 <?php if (!empty($socContent['youtube_video_link']) && !empty($socContent['youtube_video_flash'])):?>
                     <object>
                         <param name="movie" value="<?php echo $socContent['youtube_video_flash']; ?>"></param>
