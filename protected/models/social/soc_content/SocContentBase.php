@@ -197,13 +197,13 @@ class SocContentBase
     {
         $text = '';
         if (!empty($userDetail['text']))
-            $text .= $userDetail['text'].' ';
-        if (!empty($userDetail['last_status']))
-            $text .= $userDetail['last_status'].' ';
-        if (!empty($userDetail['last_img_msg']))
-            $text .= $userDetail['last_img_msg'].' ';
-        if (!empty($userDetail['last_img_story']))
-            $text .= $userDetail['last_img_story'].' ';
+            $text .= $userDetail['text'] . ' ';
+        if (!empty($userDetail['last_status']) and strpos($text, $userDetail['last_status']) === false)
+            $text .= $userDetail['last_status'] . ' ';
+        if (!empty($userDetail['last_img_msg']) and strpos($text, $userDetail['last_img_msg']) === false)
+            $text .= $userDetail['last_img_msg'] . ' ';
+        if (!empty($userDetail['last_img_story']) and strpos($text, $userDetail['last_img_story']) === false)
+            $text .= $userDetail['last_img_story'] . ' ';
 
         return $text;
     }

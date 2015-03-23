@@ -7,6 +7,7 @@ class FacebookContent extends SocContentBase
     const API_PATH_2_1 = 'https://graph.facebook.com/v2.1/';
     const FQL_PATH = 'https://graph.facebook.com/fql?q=';
 
+    const URL_FB = 'https://www.facebook.com/';
     const URL_BASE = 'facebook.com/';
     const URL_PHOTO = '/photo.php?fbid=';
     const URL_POSTS = '/posts/';
@@ -68,12 +69,14 @@ class FacebookContent extends SocContentBase
                                 $userDetail['photo'] = 'http://graph.facebook.com/' . $photoData['from']['id'] . '/picture';
                                 if (isset($socUser['name']))
                                     $userDetail['soc_username'] = $socUser['name'];
+                                if (isset($socUser['username']))
+                                    $userDetail['user_url'] = self::URL_FB . $socUser['username'];
                                 if (!empty($socUser['first_name']) && !empty($socUser['last_name']))
                                     $userDetail['soc_username'] = $socUser['first_name'] . ' ' . $socUser['last_name'];
                                 if (isset($socUser['link']))
                                     $userDetail['soc_url'] = $socUser['link'];
                                 else
-                                    $userDetail['soc_url'] = 'https://www.facebook.com/' . $photoData['from']['id'];
+                                    $userDetail['soc_url'] = self::URL_FB . $photoData['from']['id'];
                                 if (empty($photoData['from']['category'])) {
                                     $redirectUrl = '';
                                     $spot = Spot::model()->findByPk($discodesId);
@@ -103,12 +106,14 @@ class FacebookContent extends SocContentBase
                 $userDetail['photo'] = 'http://graph.facebook.com/' . $socUsername . '/picture';
                 if (isset($socUser['name']))
                     $userDetail['soc_username'] = $socUser['name'];
+                if (isset($socUser['username']))
+                    $userDetail['user_url'] = self::URL_FB . $socUser['username'];
                 if (!empty($socUser['first_name']) && !empty($socUser['last_name']))
                     $userDetail['soc_username'] = $socUser['first_name'] . ' ' . $socUser['last_name'];
                 if (isset($socUser['link']))
                     $userDetail['soc_url'] = $socUser['link'];
                 else
-                    $userDetail['soc_url'] = 'https://www.facebook.com/' . $socUsername;
+                    $userDetail['soc_url'] = self::URL_FB . $socUsername;
 
                 $redirectUrl = '';
                 $spot = Spot::model()->findByPk($discodesId);
@@ -123,26 +128,16 @@ class FacebookContent extends SocContentBase
 
                 //привязан пост
                 if (isset($postId) && isset($socUser['id']) && !empty($accessToken)) {
-                    $socToken = SocToken::model()->findByAttributes(array(
-                        'user_id' => Yii::app()->user->id,
-                        'type' => 1,
-                    ));
-
-                    if ($socToken)
-                        $userToken = $socToken->user_token;
-                    else
-                        $userToken = false;
-
-                    $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $userToken);
+                    $socPost = self::makeRequest('https://graph.facebook.com/' . $socUser['id'] . '_' . $postId . '?access_token=' . $accessToken);
                     if (is_string($socPost) && (strpos($socPost, 'error') !== false)) {
                         $userDetail['error'] = Yii::t('social', "You have no rights to use this post in your spot:") . $link;
                     } else {
-                        $postContent = self::getPostContent($socPost);
+                        $postContent = self::getPostContent($socPost, $accessToken);
                         foreach ($postContent as $postKey => $postValue)
                             $userDetail[$postKey] = $postValue;
                     }
 
-                    if (empty($userDetail['last_status']) && empty($userDetail['last_img']) && empty($userDetail['place_name']) && empty($userDetail['error']) && empty($userDetail['link_text']))
+                    if (empty($userDetail['text']) and empty($userDetail['last_status']) and empty($userDetail['last_img']) and empty($userDetail['place_name']) and empty($userDetail['error']) and empty($userDetail['link_text']))
                         $userDetail['error'] = Yii::t('social', "This post doesn't exist:") . $link;
                 }
                 //последний пост из профиля
@@ -238,7 +233,7 @@ class FacebookContent extends SocContentBase
         return $userDetail;
     }
 
-    public static function getPostContent($post, $appToken = null)
+    public static function getPostContent($post, $accessToken = null)
     {
 
         $postContent = array();
@@ -281,20 +276,20 @@ class FacebookContent extends SocContentBase
             if (!empty($post['picture'])) {
                 $postContent['last_img'] = $post['picture'];
                 if (!empty($post['link'])) {
-                    if (empty($appToken))
-                        $appToken = self::getAppToken();
+                    if (empty($accessToken))
+                        $accessToken = self::getAppToken();
                     $postContent['last_img_href'] = $post['link'];
-                    if (strpos($post['link'], 'facebook.com/photo.php?fbid=') !== false and !empty($appToken)) {
+                    if (strpos($post['link'], 'facebook.com/photo.php?fbid=') !== false and !empty($accessToken)) {
                         $photoId = substr($post['link'], (strpos($post['link'], 'facebook.com/photo.php?fbid=') + 28));
                         $photoId = self::rmGetParam($photoId);
-                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $appToken);
+                        $photoData = self::makeRequest('https://graph.facebook.com/' . $photoId . '?access_token=' . $accessToken);
                     }
                 }
                 if (!empty($post['message']))
                     $postContent['last_img_msg'] = $post['message'];
                 $postContent['last_img_story'] = '';
                 if (!empty($post['description']) && empty($postContent['link_description']))
-                    $postContent['last_img_story'] .= '<p>' . $post['description'] . '</p>';
+                    $postContent['last_img_story'] .= $post['description'];
                 if ($postContent['last_img_story'] == '')
                     unset($postContent['last_img_story']);
             } elseif (!empty($post['link']) && (!empty($post['message']) || !empty($post['story']))) {
@@ -311,8 +306,6 @@ class FacebookContent extends SocContentBase
         }
 
         return $postContent;
-
-        //var_dump($postContent);
     }
 
     public static function getAppToken()
