@@ -15,27 +15,35 @@
             <div class="mess-body">
                 <div class="author-row">
                 <?php if (!empty($socContent['soc_username'])): ?>
-                <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                    <a class="authot-name" href="<?php echo (empty($socContent['user_url']))?
+                        $socContent['soc_url']
+                        :$socContent['user_url']; ?>">
+                    <?php echo $socContent['soc_username'] ?></a>
                 <?php endif ?>
                 <span class="sub-line">
-                <?php echo (!empty($socContent['sub-line']))?$socContent['sub-line']:'' ?>
+                <?php echo (!empty($socContent['sub-line']))?
+                    CHtml::encode($socContent['sub-line']):'' ?>
                 </span>
                 </div>
                 <div class="ins-block">
                     <p> <?php echo (!empty($socContent['text']))?
-                        $socContent['text']:'' ?></p>
+                        YText::hrefActivate(CHtml::encode($socContent['text'])):'' ?></p>
 
                     <a href="<?php echo (!empty($socContent['shared_link']))?
-                        $socContent['shared_link']:'' ?>" class="thumbnail">
+                        $socContent['shared_link']:'' ?>" class="thumbnail soc-content">
                         <?php if (!empty($socContent['last_img'])): ?>
                         <img src="<?php echo $socContent['last_img']; ?>">
                         <?php endif ?>
                         <h4><?php echo (!empty($socContent['link_name']))?
                         $socContent['link_name']:'' ?></h4>
-                        <span class="sub-txt"><?php echo (!empty($socContent['link_caption']))?
-                        $socContent['link_caption']:'' ?></span>
-                        <p><?php echo (!empty($socContent['link_description']))?
-                        $socContent['link_description']:'' ?></p>
+                        <span class="sub-txt">
+                            <?php echo (!empty($socContent['link_caption']))?
+                                CHtml::encode($socContent['link_caption']):'' ?>
+                        </span>
+                        <p>
+                            <?php echo (!empty($socContent['link_description']))?
+                                CHtml::encode($socContent['link_description']):'' ?>
+                        </p>
                     </a>
 
                     <footer>

@@ -20,6 +20,13 @@ body {
     opacity: 1;
 }
 
+.thumbnail.soc-content img {
+    float: left;
+    margin-top: 0px;
+    margin-right: 19px;
+    margin-bottom: 0px;
+}
+
 .error-page .p-error-txt .error-icon {
       background: url(../img/i-error.2x.png) 0 0 no-repeat;
       background-size: 100%;
