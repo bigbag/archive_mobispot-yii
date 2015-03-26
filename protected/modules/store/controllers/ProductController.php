@@ -7,7 +7,7 @@ class ProductController extends MController
     public $imagePath = '/uploads/store/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
-    /*
+    
     //заглушка пока магазин недоступен
     public function beforeAction()
     {
@@ -16,7 +16,7 @@ class ProductController extends MController
         
         return true;
     }
-    */
+    
     
     public function actionIndex()
     {
