@@ -125,6 +125,26 @@
     z-index:10;
 }
 
+.ng-image-crop-square a.crop-control.zoom-in {
+    left:8px;
+    top:4px;
+    font-size: 25px;
+    line-height: 18px;
+    z-index:10;
+    width: 22px;
+    height: 22px;
+}
+
+.ng-image-crop-square a.crop-control.zoom-out {
+    left:8px;
+    top:30px;
+    font-size: 25px;
+    line-height: 18px;
+    z-index:10;
+    width: 22px;
+    height: 22px;
+}
+
 .ng-image-crop:hover .crop-control{
     display: inline-block;
 }

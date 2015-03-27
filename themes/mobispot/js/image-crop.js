@@ -764,7 +764,7 @@
     //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
     
       return {
-        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><input id="{{ inputid }}" type="file" class="image-crop-input hide simple-input" /><section ng-style="sectionStyles"><canvas class="cropping-canvas simple-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle zoom-simple" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><a ng-click="zoomIn($event)" class="crop-control zoom-in">+</a><a ng-click="zoomOut($event)" class="crop-control zoom-out">-</a><input id="{{ inputid }}" type="file" class="image-crop-input hide simple-input" /><section ng-style="sectionStyles"><canvas class="cropping-canvas simple-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle zoom-simple" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
         replace: true,
         restrict: 'AE',
         scope: {
@@ -803,10 +803,11 @@
           var targetX = 0, targetY = 0;
           var zoom = 1;
           var maxZoomGestureLength = 0;
-          var maxZoomedInLevel = 0, maxZoomedOutLevel = 2;
-          var minXPos = 0, maxXPos = 0, minYPos = 0, maxYPos = 0; // for dragging bounds
+          var maxZoomedInLevel = 0, maxZoomedOutLevel = 5;
+          var minXPos = 0, maxXPos = (162 - 128)/2, minYPos = 0, maxYPos = 0; // for dragging bounds
 
           var zoomWeight = .4;
+          var zoomStep = 0.07;
           var ctx = $canvas.getContext('2d');
           var exif = null;
           var files = [];
@@ -859,8 +860,8 @@
           $simple_img.onload = function() {
             var constMinWidth = 128;
             var constMinHeight = 162;
-            var constMaxWidth = 500;
-            var constMaxHeight = 500;
+            var constMaxWidth = 3648;
+            var constMaxHeight = 2736;
             if ($simple_img.width < constMinWidth) {
                 messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $simple_img.width + " пикселей)");
                 return false;
@@ -963,7 +964,12 @@
             // console.log('canvas width', $canvas.width);
             // console.log('image width', imgWidth);
 
-            maxZoomedInLevel = ($canvas.width - 100) / imgWidth;
+            //maxZoomedInLevel = ($canvas.width - 100) / imgWidth;
+            
+            maxZoomedInLevel = ($canvas.width - 20) / imgWidth;
+            if ($canvas.height / imgHeight > maxZoomedInLevel)
+                maxZoomedInLevel = $canvas.height / imgHeight;
+            
             // console.log('maxZoomedInLevel', maxZoomedInLevel);
 
             maxZoomGestureLength = to2Dp(Math.sqrt(Math.pow($canvas.width, 2) + Math.pow($canvas.height, 2)));
@@ -991,9 +997,9 @@
               return;
             }
             */
-            
-            if ($simple_img.width < $canvas.width)
-                targetX = Math.round(Math.abs($simple_img.width / 2 - $canvas.width / 2));
+          
+            if (newWidth < $canvas.width)
+                targetX = Math.round(Math.abs(newWidth / 2 - $canvas.width / 2));
             else if (x < minXPos)
                 targetX = minXPos;
             else if (x > maxXPos)
@@ -1001,8 +1007,8 @@
             else
                 targetX = x;
             
-            if ($simple_img.height < $canvas.height && 'square' != scope.shape)
-                targetY = Math.round(Math.abs($simple_img.height / 2 - $canvas.height / 2));            
+            if (newHeight < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs(newHeight / 2 - $canvas.height / 2));            
             else if (y < minYPos)
                 targetY = minYPos;
             else if (y > maxYPos)
@@ -1021,10 +1027,8 @@
           function updateDragBounds() {
             // $simple_img.width, $canvas.width, zoom
 
-            
-            minXPos = $canvas.width - ($simple_img.width * zoom);
+            minXPos = $canvas.width - (162 - 128)/2 - ($simple_img.width * zoom);
             minYPos = $canvas.height - ($simple_img.height * zoom);
-
           }
 
           function zoomImage(val) {
@@ -1036,7 +1040,7 @@
 
             var proposedZoomLevel = to2Dp(zoom + val);
 
-            if ((proposedZoomLevel < maxZoomedInLevel) || (proposedZoomLevel > maxZoomedOutLevel)) {
+            if (((proposedZoomLevel < maxZoomedInLevel) && (val <= 0)) || (proposedZoomLevel > maxZoomedOutLevel)) {
               // image wont fill whole canvas
               // or image is too far zoomed in, it's gonna get pretty pixelated!
               return;
@@ -1058,22 +1062,28 @@
             newWidth = $simple_img.width * zoom;
             newHeight = $simple_img.height * zoom;
 
+            /*
             var newXPos = currentX * zoom;
             var newYPos = currentY * zoom;
-
-            // check if we've exposed the gutter
-            if (newXPos < minXPos) {
-              newXPos = minXPos;
-            } else if (newXPos > maxXPos) {
-              newXPos = maxXPos;
-            }
-
-            if (newYPos < minYPos) {
-              newYPos = minYPos;
-            } else if (newYPos > maxYPos) {
-              newYPos = maxYPos;
-            }
-
+            */
+            
+            var newXPos = currentX;
+            var newYPos = currentY;
+            
+            if (newWidth < $canvas.width)
+                newXPos = Math.round(Math.abs(newWidth / 2 - $canvas.width / 2));
+            else if (newXPos < minXPos)
+                newXPos = minXPos;
+            else if (newXPos > maxXPos)
+                newXPos = maxXPos;
+            
+            if (newHeight < $canvas.height && 'square' != scope.shape)
+                newYPos = Math.round(Math.abs(newHeight / 2 - $canvas.height / 2));            
+            else if (newYPos < minYPos)
+                newYPos = minYPos;
+            else if (newYPos > maxYPos)
+                newYPos = maxYPos;
+                
             // check if image is still going to fit the bounds of the box
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             ctx.drawImage($simple_img, newXPos, newYPos, newWidth, newHeight);
@@ -1235,6 +1245,16 @@
             //scope.$apply();
           }
           
+          scope.zoomIn = function(e) {
+            e.preventDefault();
+            zoomImage(zoomStep);
+          }
+
+          scope.zoomOut = function(e) {
+            e.preventDefault();
+            zoomImage(-zoomStep);
+          }
+          
           messageModal = function(message) {
             speed = 500;
 
@@ -1393,8 +1413,8 @@
           $transport_img.onload = function() {
             var constMinWidth = 165;
             var constMinHeight = scope.minheight;
-            var constMaxWidth = 1920;
-            var constMaxHeight = 1080;
+            var constMaxWidth = 3648;
+            var constMaxHeight = 2736;
             
             if ($transport_img.width < constMinWidth) {
                 messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $transport_img.width + " пикселей)");
@@ -1522,16 +1542,9 @@
 
           // ---------- PRIVATE FUNCTIONS ---------- //
           function moveImage(x, y) {
-
-          /*
-            if ((x < minXPos) || (x > maxXPos) || (y < minYPos) || (y > maxYPos)) {
-              // new position is out of bounds, would show gutter
-              return;
-            }
-            */
             
-            if ($transport_img.width < $canvas.width)
-                targetX = Math.round(Math.abs($transport_img.width / 2 - $canvas.width / 2));
+            if (newWidth < $canvas.width)
+                targetX = Math.round(Math.abs(newWidth / 2 - $canvas.width / 2));
             else if (x < minXPos)
                 targetX = minXPos;
             else if (x > maxXPos)
@@ -1539,8 +1552,8 @@
             else
                 targetX = x;
             
-            if ($transport_img.height < $canvas.height && 'square' != scope.shape)
-                targetY = Math.round(Math.abs($transport_img.height / 2 - $canvas.height / 2));
+            if (newHeight < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs(newHeight / 2 - $canvas.height / 2));
             else if (y < minYPos)
                 targetY = minYPos;
             else if (y > maxYPos)
@@ -1561,6 +1574,10 @@
 
             minXPos = $canvas.width - ($transport_img.width * zoom);
             minYPos = $canvas.height - ($transport_img.height * zoom);
+            
+            if (scope.shape == 'square' && zoom > 1)
+                minYPos -= 84; //для логотипа 230x60
+            
           }
 
           function zoomImage(val) {
