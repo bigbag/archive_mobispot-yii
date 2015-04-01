@@ -21,4 +21,7 @@ return array(
     'transport_api' => '',
     'mailTemplate' => 'webroot.themes.mobispot.views.mail',
     'questionMail' => array(),
+    'api' => array(
+        'troika'=>'',
+    ),
 );

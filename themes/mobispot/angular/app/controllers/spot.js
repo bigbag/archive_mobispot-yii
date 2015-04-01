@@ -1397,4 +1397,23 @@ angular.module('mobispot').controller('SpotController',
     });
   }
   
+  // Блокировка карты Тройка
+  $scope.blockTroika = function(spot) {
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+    
+      $http.post('/spot/blockTroika', spot).success(function(data) {
+        if(data.error == 'no') {
+          angular.element('#blockTroika').addClass('disabled');
+          angular.element('#'+spot.discodes).addClass('invisible');
+        }
+      });
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    $scope.text.block_troika,
+    'negative'
+    );
+  };
 });
