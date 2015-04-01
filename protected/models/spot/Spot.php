@@ -329,7 +329,7 @@ class Spot extends CActiveRecord
         $answer = array();
         
         $ch = curl_init();
-        $url = Yii::app()->params['transport_api'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
+        $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -371,7 +371,7 @@ class Spot extends CActiveRecord
     {
         $point = array('address'=>$address, 'type'=>$type, 'code128'=>$this->code128);
         $ch = curl_init();
-        $url = Yii::app()->params['transport_api'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
+        $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));

@@ -94,4 +94,5 @@
   'Blocked' => 'Заблокировано',
   'There are no transactions for the picked date' => 'Операции за выбранную дату отсутствуют',
   'Spot\'s name' => 'Название спота',
+  'Public transport' => 'Транспорт',
 );

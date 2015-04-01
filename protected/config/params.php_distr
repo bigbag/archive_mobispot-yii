@@ -18,7 +18,10 @@ return array(
     'ym_scid' => '',
     'ym_shop_id' => '',
     'internal_api' => '',
-    'transport_api' => '',
     'mailTemplate' => 'webroot.themes.mobispot.views.mail',
     'questionMail' => array(),
+    'api' => array(
+        'troika'=>'',
+        'transport'=>'',
+    ),
 );
