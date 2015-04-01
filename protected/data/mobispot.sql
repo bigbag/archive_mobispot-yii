@@ -241,3 +241,9 @@ CREATE TABLE `transport_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+DROP TABLE IF EXISTS `spot_troika`;
+CREATE TABLE `spot_troika` (
+  `discodes_id` int(7) NOT NULL,
+  PRIMARY KEY (`discodes_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

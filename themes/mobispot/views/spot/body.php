@@ -24,7 +24,9 @@
         text.clean_spot='<?php echo Yii::t('spot', 'Clean spot').'?'; ?>';
         text.clean_spot_descr='<?php echo Yii::t('spot', 'Clean all the content from your spot.<br /> Will be impossible to restore.'); ?>';
         text.rm_spot='<?php echo Yii::t('spot', 'Delete spot').'?'; ?>';
-        text.rm_spot_descr='<?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.'); ?>'">
+        text.rm_spot_descr='<?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.'); ?>';
+        text.block_troika='<?php echo Yii::t('spot', 'Разблокировать карту будет невозможно. Вы уверены?'); ?>';
+        ">
         
     </span>
 </div>

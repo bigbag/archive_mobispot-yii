@@ -915,17 +915,21 @@ class SpotController extends MController
         
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
+            
+        if (!$wallet) MHttp::getJsonAndExit($answer);   
+            
+        $troika = SpotTroika::getCard($wallet->hard_id);
     
         Spot::curentViews('transport', true);
         
         $answer['content'] = $this->renderPartial(
             '//spot/transport',
-            array('spot' => $spot, 'wallet'=>$wallet),
+            array('spot' => $spot, 'wallet'=>$wallet, 'troika'=>$troika),
             true
         );
 
         $answer['error'] = 'no';
-
+        
         echo json_encode($answer);    
     }
 
@@ -1860,6 +1864,44 @@ class SpotController extends MController
             true
         );
         $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionBlockTroika()
+    {
+        $answer = array('error' => 'yes');
+        
+        $data = MHttp::validateRequest();
+        
+         if (empty($data['discodes']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+            
+        if (!$wallet)
+            MHttp::getJsonAndExit($answer);
+        
+        if (!SpotTroika::lostCard($wallet->hard_id))
+            MHttp::getJsonAndExit($answer);
+        
+        $answer = array('error' => 'no');
+        
+        $wallet->status = PaymentWallet::STATUS_BANNED;
+        $wallet->save();
+
+        $spot->status = Spot::STATUS_INVISIBLE;
+        $spot->save();
         
         echo json_encode($answer);
     }
