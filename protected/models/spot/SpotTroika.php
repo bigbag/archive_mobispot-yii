@@ -53,7 +53,15 @@ class SpotTroika extends CActiveRecord
     {
         $ch = curl_init();
         $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
-
+        
+        curl_setopt($ch, CURLOPT_USERPWD, 
+            Yii::app()->params['api_user']['login'] 
+            . ':' 
+            . Yii::app()->params['api_user']['password']);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
+        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
+        
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -80,7 +88,7 @@ class SpotTroika extends CActiveRecord
         
         $result = CJSON::decode($result, true);
 
-        if (empty($result['status']) or !isset($result['state']))
+        if (empty($result['status']) or !isset($result['troika_state']))
             return false;
                 
         return $result;        
@@ -97,6 +105,14 @@ class SpotTroika extends CActiveRecord
         
         $card['status'] = self::STATUS_REMOVED;
         $card['troika_state'] = self::STATE_LOST;
+        
+        curl_setopt($ch, CURLOPT_USERPWD, 
+            Yii::app()->params['api_user']['login'] 
+            . ':' 
+            . Yii::app()->params['api_user']['password']);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
+        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -128,13 +144,13 @@ class SpotTroika extends CActiveRecord
     
     public static function isActive($card)
     {
-        if (empty($card['status']) or !isset($card['state']))
+        if (empty($card['status']) or !isset($card['troika_state']))
             return false;
         
         $status_active = array(self::STATUS_DELIVERED);
         $state_active = array(self::STATE_ACTIVE);
         
-        if(!in_array($card['status'], $status_active) or !in_array($card['state'], $state_active))
+        if(!in_array($card['status'], $status_active) or !in_array($card['troika_state'], $state_active))
             return false;
         
         return true;

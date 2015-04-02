@@ -24,4 +24,5 @@ return array(
         'troika'=>'',
         'transport'=>'',
     ),
+    'api_user' => array('login'=>'', 'password'=>''),
 );
