@@ -2,7 +2,7 @@
     <?php if ($spot->status == 6): ?>
     class="invisible"
     <?php endif; ?>
-    ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='spot'"
+    ng-click="spot.discodes='<?php echo $spot->discodes_id;?>'; general.views='<?php echo (SpotTroika::isBlockedCard($spot->discodes_id))?'transport':'spot'?>'"
     ng-class="{active: spot.discodes=='<?php echo $spot->discodes_id;?>'}">
     <i class="icon i-invisible">&#xe60b;</i>
     <div class="box">

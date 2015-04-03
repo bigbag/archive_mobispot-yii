@@ -102,7 +102,9 @@ class SpotController extends MController
         if ($spots){
             $curent_discodes = Spot::curentSpot($spots[0]->discodes_id);
             $curent_views = Spot::curentViews($curent_views);
-        
+            
+            if (SpotTroika::isBlockedCard($curent_discodes))
+                $curent_views = Spot::curentViews('transport', true);
 
             $this->renderWithMobile(
                 '//spot/body',
@@ -156,7 +158,7 @@ class SpotController extends MController
 
         $content = $spotContent->content;
         $content_keys = $content['keys'];
-
+        
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/content',
             array(
@@ -915,16 +917,23 @@ class SpotController extends MController
         
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
-            
-        if (!$wallet) MHttp::getJsonAndExit($answer);   
-            
-        $troika = SpotTroika::getCard($wallet->hard_id);
-    
+        
+        $troika = false;
+        
+        if ($wallet) {
+            $troika = SpotTroika::getCard($wallet->hard_id);
+        }
+        
+        Spot::curentSpot($spot->discodes_id, true);
         Spot::curentViews('transport', true);
         
         $answer['content'] = $this->renderPartial(
             '//spot/transport',
-            array('spot' => $spot, 'wallet'=>$wallet, 'troika'=>$troika),
+            array(
+                'spot' => $spot, 
+                'wallet'=>$wallet,
+                'troika'=>$troika
+            ),
             true
         );
 
