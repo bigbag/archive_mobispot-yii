@@ -51,47 +51,55 @@ class SpotTroika extends CActiveRecord
     
     public static function getCard($hard_id)
     {
-        $ch = curl_init();
-        $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
-        
-        curl_setopt($ch, CURLOPT_USERPWD, 
-            Yii::app()->params['api_user']['login'] 
-            . ':' 
-            . Yii::app()->params['api_user']['password']);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
-        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
-        
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-        
-        try {
-            $result = curl_exec($ch);
-        } catch (Exception $e) {
-            Yii::log(
-                    'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                    'URL: ' . $url . PHP_EOL .
-                    'Options: ' . var_export($options, true)
-                    , 'error', 'application'
-            );
-            return false;
-        }
-        
-        $headers = curl_getinfo($ch);
-        
-        if (empty($headers['http_code']) or $headers['http_code'] != 200)
-            return false;
-        
-        $result = CJSON::decode($result, true);
+        $card = Yii::app()->cache->get('troika_' . $hard_id);
+        if (!$card) {
+            $ch = curl_init();
+            $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
+            
+            curl_setopt($ch, CURLOPT_USERPWD, 
+                Yii::app()->params['api_user']['login'] 
+                . ':' 
+                . Yii::app()->params['api_user']['password']);
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
+            
+            try {
+                $result = curl_exec($ch);
+            } catch (Exception $e) {
+                Yii::log(
+                        'Curl exception: ' . $e->getMessage() . PHP_EOL .
+                        'URL: ' . $url . PHP_EOL .
+                        'Options: ' . var_export($options, true)
+                        , 'error', 'application'
+                );
+                Yii::app()->cache->set('troika_' . $hard_id, false, 60);
+                return false;
+            }
+            
+            $headers = curl_getinfo($ch);
+            
+            if (empty($headers['http_code']) or $headers['http_code'] != 200) {
+                Yii::app()->cache->set('troika_' . $hard_id, false, 60);
+                return false;
+            }
+            
+            $card = CJSON::decode($result, true);
 
-        if (empty($result['status']) or !isset($result['troika_state']))
-            return false;
-                
-        return $result;        
+            if (empty($card['status']) or !isset($card['troika_state'])) {
+                Yii::app()->cache->set('troika_' . $hard_id, false, 60);
+                return false;
+            }
+            
+            Yii::app()->cache->set('troika_' . $hard_id, $card, 60);
+        }
+            
+        return $card;        
     }
     
     public static function lostCard($hard_id)
@@ -110,9 +118,7 @@ class SpotTroika extends CActiveRecord
             Yii::app()->params['api_user']['login'] 
             . ':' 
             . Yii::app()->params['api_user']['password']);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
-        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -139,6 +145,8 @@ class SpotTroika extends CActiveRecord
         if (empty($headers['http_code']) or $headers['http_code'] != 200)
             return false;
         
+        Yii::app()->cache->set('troika_' . $hard_id, $card, 60);
+        
         return true;        
     }
     
@@ -154,6 +162,27 @@ class SpotTroika extends CActiveRecord
             return false;
         
         return true;
+    }
+    
+    public static function isBlockedCard($discodes_id)
+    {
+        if (!self::hasTroika($discodes_id))
+            return false;
+            
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$discodes_id));
+            
+        if (!$wallet)
+            return true;
+            
+        $troika = self::getCard($wallet->hard_id);
+        if (!$troika)
+            return true;
+        
+        if (!self::isActive($troika))
+            return true;
+        
+        return false;
     }
     
 }
