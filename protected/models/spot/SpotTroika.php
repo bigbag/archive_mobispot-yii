@@ -58,9 +58,7 @@ class SpotTroika extends CActiveRecord
             Yii::app()->params['api_user']['login'] 
             . ':' 
             . Yii::app()->params['api_user']['password']);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
-        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
@@ -110,9 +108,7 @@ class SpotTroika extends CActiveRecord
             Yii::app()->params['api_user']['login'] 
             . ':' 
             . Yii::app()->params['api_user']['password']);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
-        curl_setopt($ch, CURLOPT_COOKIESESSION, true); 
-        curl_setopt($ch, CURLOPT_COOKIEFILE, "api_cookie.txt"); 
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
