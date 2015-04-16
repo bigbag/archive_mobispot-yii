@@ -47,7 +47,7 @@
     </td>
     <td style="vertical-align:center;text-align:center;padding-left:100px;">
         <div style="width:513px;height:321px;border:2px solid #E9EDF2;overflow:hidden;border-radius:30px;display:inline-block;padding:0;margin:0;">
-            <img width="513" height="321" src="<?php echo $this->getBaseUrl(); ?>/uploads/transport/<?php echo $back_img; ?>">
+            <img width="513" height="321" src="<?php echo $this->getBaseUrl(); ?>/uploads/transport/<?php echo (empty($back_img))?'card_back_white.jpg':$back_img; ?>">
         </div>
     </td>
     </tr>
