@@ -21,7 +21,7 @@
 </div>
 <table style="width:100%;" cellspacing="0">
     <tr style="border-top:1px solid #bfbfbf;">
-        <th style="color: #0062ff; text-align:left; border-top:1px solid #bfbfbf;padding:20px 0;"><img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/images/mail/store/order.png" /> #<?php echo $order["id"]; ?> </th>
+        <th style="color: #0062ff; text-align:left; border-top:1px solid #bfbfbf;padding:20px 0;"><img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/images/mail/store/order.png" /> #<?php echo $order["order"]->id; ?> </th>
         <th colspan="4" style="border-top:1px solid #bfbfbf;"></th>
     </tr>
     <tr>
@@ -30,9 +30,9 @@
         <td colspan="2" style="border-top:1px solid #bfbfbf;"><img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/images/mail/store/tracking_number.png" /></td>
     </tr>
     <tr>
-        <td style="text-align:left; padding-bottom:20px;"><?php echo $order["target_first_name"];?> <?php echo $order["target_last_name"]; ?><br><?php echo $order["address"]; ?>, <?php echo $order["city"]; ?>,<br><?php echo $order["zip"]; ?></td>
-        <td colspan="2" style="vertical-align:top;"><?php echo $order["delivery"]; ?></td>
-        <td colspan="2" style="vertical-align:top;"><?php $order["delivery_id"] ?></td>
+        <td style="text-align:left; padding-bottom:20px;"><?php echo $order['customer']->target_first_name;?> <?php echo $order['customer']->target_last_name; ?><br><?php echo $order['customer']->address; ?>, <?php echo $order['customer']->city; ?>,<br><?php echo $order['customer']->zip; ?></td>
+        <td colspan="2" style="vertical-align:top;"><?php echo $order['delivery']->name; ?></td>
+        <td colspan="2" style="vertical-align:top;"><?php $order['delivery']->id ?></td>
     </tr>
     <tr>
         <td style="border-top:1px solid #bfbfbf; padding:20px 0;"><img src="<?php echo $this->getBaseUrl(); ?>/themes/mobispot/images/mail/store/item.png" /></td>

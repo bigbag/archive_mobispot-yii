@@ -64,5 +64,18 @@ class StoreProduct extends CActiveRecord
             array('name, size', 'required'),
         );
     }
+    
+    public function getList()
+    {
+        $products = self::model()->findAll();
+        $list = array();
+        
+        foreach ($products as $product)
+        {
+            $list[$product->id] = $product;
+        }
+        
+        return $list;
+    }
 
 }
