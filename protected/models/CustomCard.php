@@ -11,6 +11,7 @@ class CustomCard extends CActiveRecord
     const TYPE_TROIKA = 'troika';
     
     const TROIKA_BACK = 'troika.jpg';
+    const SIMPLE_BACK = 'card_back_white.jpg';
     
     /**
      * Returns the static model of the specified AR class.
@@ -132,6 +133,17 @@ class CustomCard extends CActiveRecord
             $card->save();
         
         return $card;
+    }
+    
+    public static function backByType($type)
+    {
+        $back = false;
+        
+        $types = array(self::TYPE_SIMPLE => self::SIMPLE_BACK, self::TYPE_TROIKA => self::TROIKA_BACK);
+        if (isset($types[$type]))
+            $back = $types[$type];
+        
+        return $back;
     }
     
 }
