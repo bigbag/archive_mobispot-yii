@@ -13,6 +13,7 @@ return array(
         'corp/service/lang/<id:\w+>' => 'corp/service/lang',
         'service/lang/<id:\w+>' => 'service/lang',
         '/store/SuccessOrder/<order:\d+>' => '/store/product/SuccessOrder',
+        '/store/FailedOrder/<order:\d+>' => '/store/product/FailedOrder',
 
         'readers' => 'pages/readers ',
         'pages/phone' => 'pages/readers',

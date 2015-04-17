@@ -225,17 +225,17 @@ class StoreCart extends CFormModel
         if (isset(Yii::app()->session['storeCustomer'])) {
             $customer = Yii::app()->session['storeCustomer'];
         } else {
-            if (!Yii::app()->user->isGuest) {
+            if (isset(Yii::app()->session['storeEmail'])) {
+                $dbCustomer = StoreCustomer::model()->findByAttributes(array(
+                    'email' => Yii::app()->session['storeEmail']
+                ));
+            } elseif (!Yii::app()->user->isGuest) {
                 $user_id = Yii::app()->user->id;
                 $user = User::model()->findByPk($user_id);
 
                 $customer['email'] = $user->email;
                 $dbCustomer = StoreCustomer::model()->findByAttributes(array(
                     'email' => $user->email
-                ));
-            } elseif (isset(Yii::app()->session['storeEmail'])) {
-                $dbCustomer = StoreCustomer::model()->findByAttributes(array(
-                    'email' => Yii::app()->session['storeEmail']
                 ));
             }
 
@@ -254,6 +254,8 @@ class StoreCart extends CFormModel
                 $customer['country'] = '';
             }
         }
+        
+        unset($customer['password']);
 
         return $customer;
     }
@@ -587,9 +589,8 @@ class StoreCart extends CFormModel
 
     public function getModelCustomer($newCustomer, $model)
     {
-        if (!Yii::app()->user->isGuest) {
-            $user_id = Yii::app()->user->id;
-            $user = User::model()->findByPk($user_id);
+        if (!Yii::app()->user->isGuest and empty($newCustomer['email'])) {
+            $user = User::model()->findByPk(Yii::app()->user->id);
             if ($user)
                 $newCustomer['email'] = $user->email;
         }
@@ -608,8 +609,15 @@ class StoreCart extends CFormModel
         }
 
         foreach ($newCustomer as $field => $value) {
-            if ($field != 'email')
+            if (!in_array($field, array('id', 'email')))
                 $customer->$field = $value;
+            if (empty($value))
+                $customer->$field = null;
+        }
+        
+        foreach (array('email', 'first_name', 'last_name', 'target_first_name', 'target_last_name', 'address', 'city', 'phone', 'country', 'zip', 'password') as $field) {
+            if (!isset($newCustomer[$field]))
+                $customer->$field = null;
         }
 
         return $customer;
@@ -664,7 +672,9 @@ class StoreCart extends CFormModel
     public function validateCustomer($newCustomer)
     {
         $error = Yii::t('store', 'All fields are required');
-        Yii::app()->session['storeCustomer'] = $newCustomer;
+        $sessionCustomer = $newCustomer;
+        unset($sessionCustomer['password']);
+        Yii::app()->session['storeCustomer'] = $sessionCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
         if ($customer->validate()) {

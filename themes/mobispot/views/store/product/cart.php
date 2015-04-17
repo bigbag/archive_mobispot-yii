@@ -158,6 +158,13 @@
                         ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Email address'); ?>"
                         required>
+                    <input name='password'
+                        type="password"
+                        ng-model="customer.password"
+                        placeholder="<?php echo Yii::t('user', 'Password')?>*"
+                        autocomplete="off"
+                        maxlength="300">
+                    <p><?php echo Yii::t('user', '*Укажите пароль, если Вы еще не зарегистрированы на Mobispot')?></p>
                 </div>
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>

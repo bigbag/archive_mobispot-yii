@@ -248,7 +248,8 @@ class ProductController extends MController
         
         $cartOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
         $answer['error'] = $cartOrder['error'];
-        $answer['payment'] = $cartOrder['payment'];
+        if (!empty($cartOrder['payment']))
+            $answer['payment'] = $cartOrder['payment'];
         
         if ($cartOrder['error'] != 'no') {
              MHttp::getJsonAndExit($answer);
@@ -298,7 +299,7 @@ class ProductController extends MController
         if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
             $this->redirect('/store');
         
-        $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
+        $message = Yii::t('store', 'При регистрации пользователя возникла ошибка!');
         
         $mailOrder = $order->mailOrder();
         
@@ -315,7 +316,11 @@ class ProductController extends MController
         }
         
         $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
-        $order->save();
+        
+        if ($order->registerUser() and $order->makeTroika() and $order->save())
+        {
+            $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
+        }
   
         $this->render('info', array('message'=>$message));
     }
