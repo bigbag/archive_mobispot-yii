@@ -22,7 +22,7 @@ class StoreOrder extends CActiveRecord
     const STATUS_PAYMENT_WAIT = 1;      //передано на оплату
     const STATUS_SUCCESS_REDIRECT = 2;  //пользователь пререведен магазином на shopSuccessURL
     const STATUS_PAID = 3;
-
+    
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -71,9 +71,8 @@ class StoreOrder extends CActiveRecord
         
         $list = array();
         
+        $productList = StoreProduct::getList();
         foreach ($items as $item) {
-            $productList = StoreProduct::getList();
-
             $list[] = array(
                 'name' => $productList[$item->id_product]->name,
                 'code' => $productList[$item->id_product]->code,
@@ -87,6 +86,19 @@ class StoreOrder extends CActiveRecord
         }
         
         return $list;
+    }
+    
+    public function troikaList()
+    {
+        $list = $this->itemsList();
+        $troikaList = array();
+        
+        foreach ($list as $item){
+            if (CustomCard::TYPE_TROIKA == $item['type'])
+                $troikaList[] = $item;
+        }
+        
+        return $troikaList;
     }
     
     public function subtotal($items=false)
@@ -162,5 +174,97 @@ class StoreOrder extends CActiveRecord
         return $mailOrders;
     }
     
+    public function registerUser()
+    {
+        $customer = StoreCustomer::model()->findByPk($this->id_customer);
+        
+        if (!$customer or empty($customer->email))
+            return false;
+        
+        $user = User::model()->findByAttributes(array('email'=>$customer->email));
+        if ($user)
+            return true;
+        
+        if (empty($customer->password))
+            return false;
+        
+        $user = new User;
+        $user->email = $customer->email;
+        $user->password = $customer->password;
+        $user->activkey = sha1(microtime() . $user->password);
+        
+        if ($user->save())
+            return true;
+        
+        return false;
+    }
+    
+    public function makeTroika()
+    {
+        $error = 'no';
+        $items = $this->troikaList();
+        $customer = StoreCustomer::model()->findByPk($this->id_customer);
+
+        if (!$customer)
+            return false;
+        
+        if (empty($items))
+            return true;
+        
+        foreach ($items as $item)
+        {
+            if (empty($item['front_card_img']))
+            {
+                $error = 'yes';
+                continue;
+            }
+            
+            $order = $customer->attributes;
+            unset($order['password']);
+            $order['card_img'] = '@' . Yii::getPathOfAlias('webroot') . StoreProduct::CARDS_PATH . $item['front_card_img'];
+            
+            $url = Yii::app()->params['api']['troika'] . '/api/order';
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_USERPWD, 
+                Yii::app()->params['api_user']['login'] 
+                . ':' 
+                . Yii::app()->params['api_user']['password']);
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $order);
+     
+            try {
+                $result = curl_exec($ch);
+            } catch (Exception $e) {
+                Yii::log(
+                        'Curl exception: ' . $e->getMessage() . PHP_EOL .
+                        'URL: ' . $url . PHP_EOL .
+                        'Options: ' . var_export($options, true)
+                        , 'error', 'application'
+                );
+                $error = 'yes';
+                continue;
+            }
+
+            $headers = curl_getinfo($ch);
+            
+            if (empty($headers['http_code']) or $headers['http_code'] != 200)
+            {
+                $error = 'yes';
+                continue;
+            }
+        }
+        
+        if ('no' == $error)
+            return true;
+        
+        return false;
+    }
 
 }
