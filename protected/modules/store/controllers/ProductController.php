@@ -295,8 +295,8 @@ class ProductController extends MController
         
         if (!$order)
             $this->redirect('/store');
-        //if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
-          //  $this->redirect('/store');
+        if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
+            $this->redirect('/store');
         
         $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
         
@@ -323,7 +323,7 @@ class ProductController extends MController
     public function actionFailedOrder()
     {
         $id_order = Yii::app()->request->getQuery('order', 0);
-        $order = StoreOrder::model()->findByPk($orderId);
+        $order = StoreOrder::model()->findByPk($id_order);
         
         if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
             $this->redirect('/store');
