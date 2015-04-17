@@ -14,6 +14,7 @@
  * @property string $city
  * @property string $phone
  * @property string $country
+ * @property string $password
  */
 class StoreCustomerForm extends CActiveRecord
 {
@@ -44,7 +45,23 @@ class StoreCustomerForm extends CActiveRecord
             array('email, first_name, last_name, target_first_name, target_last_name, address, city, phone, country, zip', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
+            array('password', 'new_user_password'),
+            array('password', 'length', 'min' => 5),
         );
     }
+    
+    public function new_user_password($attr, $params) {
+        $user = User::model()->findByAttributes(array('email' => $this->email));
 
+        if(!$user and empty($this->$attr)) {
+            $this->addError('password', Yii::t('store', 'Укажите пароль для новой учетной записи'));
+        }
+    }
+    
+    public function beforeSave()
+    {
+        if (!empty($this->password))
+            $this->password = Yii::app()->hasher->hashPassword($this->password);
+        parent::beforeSave();
+    }
 }

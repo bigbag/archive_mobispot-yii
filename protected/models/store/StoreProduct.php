@@ -19,6 +19,8 @@ class StoreProduct extends CActiveRecord
     const TYPE_SPOT = 1;
     const TYPE_CUSTOM_CARD = 2;
     const TYPE_TROIKA = 3;
+    
+    const CARDS_PATH = '/uploads/custom_card/';
 
     public static function model($className = __CLASS__)
     {
