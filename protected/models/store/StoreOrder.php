@@ -232,6 +232,7 @@ class StoreOrder extends CActiveRecord
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
             curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
