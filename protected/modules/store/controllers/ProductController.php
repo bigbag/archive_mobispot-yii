@@ -308,12 +308,14 @@ class ProductController extends MController
         MMail::order_track($mailOrder['customer']->email, $mailOrder, Lang::getCurrentLang());
         MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
         
+        /*
         //письма с персонализированными картами
         $customCards = $order->customCardsMailOrders($mailOrder);
         foreach($customCards as $customCard) {
                 MMail::custom_card_order($mailOrder['customer']->email, $customCard, Lang::getCurrentLang());
                 MMail::custom_card_order(Yii::app()->params['generalEmail'], $customCard, Lang::getCurrentLang());
         }
+        */
         
         $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
         
