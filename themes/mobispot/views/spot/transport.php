@@ -23,7 +23,7 @@
                         </ul>
                     </div>
                     <div class="block-information">
-                        <i class="icon">&#xe606;</i><?php echo Yii::t('spot', 'Карта заблокирована')?>
+                        <i class="icon">&#xe606;</i><?php echo SpotTroika::getStatusDescr($troika);?>
                     </div>
                 </div>
                 <div class="cover"></div>

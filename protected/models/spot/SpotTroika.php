@@ -52,7 +52,7 @@ class SpotTroika extends CActiveRecord
     public static function getCard($hard_id)
     {
         $card = Yii::app()->cache->get('troika_' . $hard_id);
-
+        
         if (!$card) {
             $ch = curl_init();
             $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
@@ -127,6 +127,35 @@ class SpotTroika extends CActiveRecord
             return true;
         
         return false;
+    }
+    
+    public static function getStatusDescr($card)
+    {
+        if (empty($card['status']) or !isset($card['troika_state']))
+            return Yii::t('spot', 'Карта заблокирована');
+        
+        if (self::STATE_ACTIVE != $card['troika_state'])
+            return Yii::t('spot', 'Карта заблокирована');
+        
+        if (self::STATUS_NEW == $card['status'])
+            return Yii::t('spot', 'Заказ на карту обрабатывается');
+        
+        if (self::STATUS_INPROGRESS == $card['status'])
+            return Yii::t('spot', 'Карта в процессе выпуска');
+
+        if (self::STATUS_RELEASED == $card['status'])
+            return Yii::t('spot', 'Карта передана в службу доставки');
+        
+        if (self::STATUS_DELIVERED == $card['status'])
+            return Yii::t('spot', 'Карта доставлена и активна');
+        
+        if (self::STATUS_REMOVED == $card['status'])
+            return Yii::t('spot', 'Карта заблокирована');        
+
+        if (self::isActive($card))
+            return Yii::t('spot', 'Карта активна');
+
+        return Yii::t('spot', 'Карта заблокирована');           
     }
     
 }
