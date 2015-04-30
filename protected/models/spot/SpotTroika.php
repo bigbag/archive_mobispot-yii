@@ -52,44 +52,15 @@ class SpotTroika extends CActiveRecord
     public static function getCard($hard_id)
     {
         $card = Yii::app()->cache->get('troika_' . $hard_id);
+
         if (!$card) {
             $ch = curl_init();
             $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
             
-            curl_setopt($ch, CURLOPT_USERPWD, 
-                Yii::app()->params['api_user']['login'] 
-                . ':' 
-                . Yii::app()->params['api_user']['password']);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            $auth = array('login' => Yii::app()->params['api_user']['login'],
+                'password' => Yii::app()->params['api_user']['password']);
             
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-            
-            try {
-                $result = curl_exec($ch);
-            } catch (Exception $e) {
-                Yii::log(
-                        'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                        'URL: ' . $url . PHP_EOL .
-                        'Options: ' . var_export($options, true)
-                        , 'error', 'application'
-                );
-                Yii::app()->cache->set('troika_' . $hard_id, false, 60);
-                return false;
-            }
-            
-            $headers = curl_getinfo($ch);
-            
-            if (empty($headers['http_code']) or $headers['http_code'] != 200) {
-                Yii::app()->cache->set('troika_' . $hard_id, false, 60);
-                return false;
-            }
-            
-            $card = CJSON::decode($result, true);
+            $card = CJSON::decode(MHttp::setCurlRequest($url, false, $auth), true);
 
             if (empty($card['status']) or !isset($card['troika_state'])) {
                 Yii::app()->cache->set('troika_' . $hard_id, false, 60);
@@ -114,38 +85,11 @@ class SpotTroika extends CActiveRecord
         $card['status'] = self::STATUS_REMOVED;
         $card['troika_state'] = self::STATE_LOST;
         
-        curl_setopt($ch, CURLOPT_USERPWD, 
-            Yii::app()->params['api_user']['login'] 
-            . ':' 
-            . Yii::app()->params['api_user']['password']);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $card);
- 
-        try {
-            $result = curl_exec($ch);
-        } catch (Exception $e) {
-            Yii::log(
-                    'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                    'URL: ' . $url . PHP_EOL .
-                    'Options: ' . var_export($options, true)
-                    , 'error', 'application'
-            );
-            return false;
-        }
-
-        $headers = curl_getinfo($ch);
+        $auth = array('login' => Yii::app()->params['api_user']['login'],
+                'password' => Yii::app()->params['api_user']['password']);
         
-        if (empty($headers['http_code']) or $headers['http_code'] != 200)
-            return false;
-        
-        Yii::app()->cache->set('troika_' . $hard_id, $card, 60);
+        $result = MHttp::setCurlRequest($url, $card, $auth);
+        Yii::app()->cache->delete('troika_' . $hard_id);
         
         return true;        
     }
@@ -158,7 +102,7 @@ class SpotTroika extends CActiveRecord
         $status_active = array(self::STATUS_DELIVERED);
         $state_active = array(self::STATE_ACTIVE);
         
-        if(!in_array($card['status'], $status_active) or !in_array($card['troika_state'], $state_active))
+        if (!in_array($card['status'], $status_active) or !in_array($card['troika_state'], $state_active))
             return false;
         
         return true;

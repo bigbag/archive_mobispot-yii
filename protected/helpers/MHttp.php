@@ -49,7 +49,7 @@ class MHttp
         else Yii::app()->controller->redirect($target);
     }
 
-    public static function setCurlRequest($url, $data=false)
+    public static function setCurlRequest($url, $data=false, $autorization = false)
     {
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, (string)$url);
@@ -62,6 +62,20 @@ class MHttp
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+        
+        if (!empty($autorization) and !empty($autorization['login']) 
+            and !empty($autorization['password'])) {
+                
+            curl_setopt($ch, CURLOPT_USERPWD, 
+                $autorization['login']
+                . ':' 
+                . $autorization['password']);
+                
+            if (!empty($autorization['method']))
+                curl_setopt($ch, CURLOPT_HTTPAUTH, $autorization['method']);
+            else
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        }        
 
         $result=curl_exec($ch);
         $errno=curl_errno($ch);
