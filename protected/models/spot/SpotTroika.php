@@ -54,7 +54,6 @@ class SpotTroika extends CActiveRecord
         $card = Yii::app()->cache->get('troika_' . $hard_id);
         
         if (!$card) {
-            $ch = curl_init();
             $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
             
             $auth = array('login' => Yii::app()->params['api_user']['login'],
@@ -75,7 +74,6 @@ class SpotTroika extends CActiveRecord
     
     public static function lostCard($hard_id)
     {
-        $ch = curl_init();
         $url = Yii::app()->params['api']['troika'] . '/api/card/hard_id/' . $hard_id;
         
         $card = self::getCard($hard_id);
