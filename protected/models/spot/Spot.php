@@ -328,37 +328,10 @@ class Spot extends CActiveRecord
     {
         $answer = array();
         
-        $ch = curl_init();
         $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
+        
+        $result = CJSON::decode(MHttp::setCurlRequest($url), true);
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-        
-        try {
-            $result = curl_exec($ch);
-        } catch (Exception $e) {
-            Yii::log(
-                    'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                    'URL: ' . $url . PHP_EOL .
-                    'Options: ' . var_export($options, true)
-                    , 'error', 'application'
-            );
-            return $answer;
-        }
-        
-        $headers = curl_getinfo($ch);
-        
-        if (empty($headers['http_code']) or $headers['http_code'] != 200)
-            return $answer;
-        
-        $result = CJSON::decode($result, true);
-        if (!isset($result['error']) or $result['error'] != 0)
-            return $answer;
-        
         if (empty($result['map_points']) or !count($result['map_points']))
             return $answer;
 
@@ -370,33 +343,13 @@ class Spot extends CActiveRecord
     public function setMapPoint($address, $type)
     {
         $point = array('address'=>$address, 'type'=>$type, 'code128'=>$this->code128);
-        $ch = curl_init();
         $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, CJSON::encode($point, true));
- 
-        try {
-            $result = curl_exec($ch);
-        } catch (Exception $e) {
-            Yii::log(
-                    'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                    'URL: ' . $url . PHP_EOL .
-                    'Options: ' . var_export($options, true)
-                    , 'error', 'application'
-            );
-            return false;
-        }
+        $data = CJSON::encode($point, true);
+        $headers = array('Content-Type: application/json');
+        $result = CJSON::decode(MHttp::setCurlRequest($url, $data, false, $headers), true);
 
-        $headers = curl_getinfo($ch);
-        
-        if (empty($headers['http_code']) or $headers['http_code'] != 201)
+        if (is_string($result) and strpos($result, '{error:') !== false)
             return false;
         
         return true;
