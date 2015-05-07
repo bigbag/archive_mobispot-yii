@@ -224,42 +224,16 @@ class StoreOrder extends CActiveRecord
             $order['card_img'] = '@' . Yii::getPathOfAlias('webroot') . StoreProduct::CARDS_PATH . $item['front_card_img'];
             
             $url = Yii::app()->params['api']['troika'] . '/api/order';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_USERPWD, 
-                Yii::app()->params['api_user']['login'] 
-                . ':' 
-                . Yii::app()->params['api_user']['password']);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_CAINFO, Yii::app()->params['ssl']);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $order);
-     
-            try {
-                $result = curl_exec($ch);
-            } catch (Exception $e) {
-                Yii::log(
-                        'Curl exception: ' . $e->getMessage() . PHP_EOL .
-                        'URL: ' . $url . PHP_EOL .
-                        'Options: ' . var_export($options, true)
-                        , 'error', 'application'
-                );
-                $error = 'yes';
-                continue;
-            }
-
-            $headers = curl_getinfo($ch);
             
-            if (empty($headers['http_code']) or $headers['http_code'] != 200)
-            {
+            $auth = array('login' => Yii::app()->params['api_user']['login'],
+                'password' => Yii::app()->params['api_user']['password']);
+                
+            $headers = array("Content-Type:multipart/form-data");
+        
+            $result = MHttp::setCurlRequest($url, $order, $auth, $headers);
+            
+            if (is_string($result) and strpos($result, '{error:') !== false)
                 $error = 'yes';
-                continue;
-            }
         }
         
         if ('no' == $error)
