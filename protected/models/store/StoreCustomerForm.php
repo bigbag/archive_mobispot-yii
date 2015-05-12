@@ -57,11 +57,4 @@ class StoreCustomerForm extends CActiveRecord
             $this->addError('password', Yii::t('store', 'Укажите пароль для новой учетной записи'));
         }
     }
-    
-    public function beforeSave()
-    {
-        if (!empty($this->password))
-            $this->password = Yii::app()->hasher->hashPassword($this->password);
-        parent::beforeSave();
-    }
 }

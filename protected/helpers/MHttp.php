@@ -55,7 +55,7 @@ class MHttp
         curl_setopt($ch, CURLOPT_URL, (string)$url);
         if ($data) {
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, (array)$data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$data:(array)$data);
         }
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

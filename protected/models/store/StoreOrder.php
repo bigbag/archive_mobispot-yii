@@ -183,7 +183,7 @@ class StoreOrder extends CActiveRecord
         
         $user = User::model()->findByAttributes(array('email'=>$customer->email));
         if ($user)
-            return true;
+            return $user->id;
         
         if (empty($customer->password))
             return false;
@@ -194,18 +194,19 @@ class StoreOrder extends CActiveRecord
         $user->activkey = sha1(microtime() . $user->password);
         
         if ($user->save())
-            return true;
+            return $user->id;
         
         return false;
     }
     
-    public function makeTroika()
+    public function makeTroika($user_id)
     {
         $error = 'no';
         $items = $this->troikaList();
         $customer = StoreCustomer::model()->findByPk($this->id_customer);
+        $user = User::model()->findByPk($user_id);
 
-        if (!$customer)
+        if (!$customer or !$user)
             return false;
         
         if (empty($items))
@@ -219,18 +220,18 @@ class StoreOrder extends CActiveRecord
                 continue;
             }
             
-            $order = $customer->attributes;
-            unset($order['password']);
-            $order['card_img'] = '@' . Yii::getPathOfAlias('webroot') . StoreProduct::CARDS_PATH . $item['front_card_img'];
+            $data = array(
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'image' => Yii::app()->getBaseUrl(true) . '/' . StoreProduct::CARDS_PATH . $item['front_card_img']
+            );
             
             $url = Yii::app()->params['api']['troika'] . '/api/order';
             
             $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
-                
-            $headers = array("Content-Type:multipart/form-data");
-        
-            $result = MHttp::setCurlRequest($url, $order, $auth, $headers);
+            
+            $result = MHttp::setCurlRequest($url, $data, $auth);
             
             if (is_string($result) and strpos($result, '{error:') !== false)
                 $error = 'yes';
