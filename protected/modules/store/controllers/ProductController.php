@@ -308,20 +308,20 @@ class ProductController extends MController
         MMail::order_track($mailOrder['customer']->email, $mailOrder, Lang::getCurrentLang());
         MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
         
-        /*
         //письма с персонализированными картами
         $customCards = $order->customCardsMailOrders($mailOrder);
         foreach($customCards as $customCard) {
                 MMail::custom_card_order($mailOrder['customer']->email, $customCard, Lang::getCurrentLang());
                 MMail::custom_card_order(Yii::app()->params['generalEmail'], $customCard, Lang::getCurrentLang());
         }
-        */
         
+        $user_id = $order->registerUser();
         $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
         
-        if ($order->registerUser() and $order->makeTroika() and $order->save())
+        if ($user_id and $order->save())
         {
             $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
+            $order->makeTroika($user_id);
         }
   
         $this->render('info', array('message'=>$message));
