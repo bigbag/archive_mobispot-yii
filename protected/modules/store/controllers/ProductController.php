@@ -305,6 +305,26 @@ class ProductController extends MController
         
         if (!$mailOrder)
             $this->redirect('/store');
+        
+        $user_id = $order->registerUser(Lang::getCurrentLang());
+        $user = User::model()->findByPk($user_id);
+        if (!$user)
+        {
+            $this->render('info', array('message'=>$message));
+            Yii::app()->end();   
+        }
+            
+        MMail::activation($user->email, $user->activkey, Lang::getCurrentLang());
+        
+        $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
+        if (!$order->save())
+        {
+            $this->render('info', array('message'=>$message));
+            Yii::app()->end();           
+        }
+        
+        $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
+        
         MMail::order_track($mailOrder['customer']->email, $mailOrder, Lang::getCurrentLang());
         MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
         
@@ -315,14 +335,7 @@ class ProductController extends MController
                 MMail::custom_card_order(Yii::app()->params['generalEmail'], $customCard, Lang::getCurrentLang());
         }
         
-        $user_id = $order->registerUser();
-        $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
-        
-        if ($user_id and $order->save())
-        {
-            $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
-            $order->makeTroika($user_id);
-        }
+        $order->makeTroika($user_id);
   
         $this->render('info', array('message'=>$message));
     }
