@@ -174,7 +174,7 @@ class StoreOrder extends CActiveRecord
         return $mailOrders;
     }
     
-    public function registerUser()
+    public function registerUser($lang)
     {
         $customer = StoreCustomer::model()->findByPk($this->id_customer);
         
@@ -192,11 +192,14 @@ class StoreOrder extends CActiveRecord
         $user->email = $customer->email;
         $user->password = $customer->password;
         $user->activkey = sha1(microtime() . $user->password);
+        $user->lang = $lang;
         
-        if ($user->save())
-            return $user->id;
-        
-        return false;
+        if (!$user->save())
+        {
+            return false;
+        }
+
+        return $user->id;
     }
     
     public function makeTroika($user_id)
