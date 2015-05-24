@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "log".
+ * This is the model class for table "payment_card".
  *
- * The followings are the available columns in table 'log':
+ * The followings are the available columns in table 'payment_card':
  * @property integer $id
  * @property integer $user_id
  * @property integer $wallet_id
@@ -85,6 +85,18 @@ class PaymentCard extends CActiveRecord
             'status' => $this->status,
             'system' => $this->system,
         );
+    }
+
+    public function beforeSave()
+    {
+        if ($this->status == PaymentCard::STATUS_PAYMENT) {
+            PaymentFail::model()->updateAll(
+                array('count' => PaymentFail::START_COUNT), 
+                'wallet_id=' . $this->wallet_id
+            );
+        }
+
+        return parent::beforeSave();
     }
 
 

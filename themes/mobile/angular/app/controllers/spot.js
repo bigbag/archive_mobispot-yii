@@ -42,7 +42,6 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-
   // Отображение кошелька
   $scope.viewWallet = function (spot) {
 
@@ -131,6 +130,7 @@ angular.module('mobispot').controller('SpotController',
                 if (url.indexOf('redirect_uri=') === -1)
                   url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
 
+
                 var href = url + '&discodes=' + $scope.spot.discodes + '&newField=1' + '&synch=true';
 
                 if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
@@ -202,7 +202,6 @@ angular.module('mobispot').controller('SpotController',
       delete $scope.spot.content_new;
     });
   };
-
 
   // Прячем текстовый блок при клике вне, данные сохраняем
   $scope.hideSpotEdit = function() {

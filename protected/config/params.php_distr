@@ -17,7 +17,12 @@ return array(
     'ym_pay_url' => 'https://demomoney.yandex.ru/eshop.xml',
     'ym_scid' => '',
     'ym_shop_id' => '',
-    'internal_api' => ''
+    'internal_api' => '',
     'mailTemplate' => 'webroot.themes.mobispot.views.mail',
     'questionMail' => array(),
+    'api' => array(
+        'troika'=>'',
+        'transport'=>'',
+    ),
+    'api_user' => array('login'=>'', 'password'=>''),
 );

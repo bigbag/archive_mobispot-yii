@@ -15,7 +15,7 @@
             <div class="mess-body">
                 <div class="author-row">
                     <?php if (!empty($socContent['soc_username'])): ?>
-                    <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                    <a class="authot-name" href="<?php echo (empty($socContent['user_url']))?$socContent['soc_url']:$socContent['user_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif ?>
                     <b class="time sub-line">
                     <?php echo (!empty($socContent['sub-line']))?

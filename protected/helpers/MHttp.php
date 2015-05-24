@@ -49,19 +49,38 @@ class MHttp
         else Yii::app()->controller->redirect($target);
     }
 
-    public static function setCurlRequest($url, $data=false)
+    public static function setCurlRequest($url, $data=false, $autorization = false, $headers = false)
     {
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, (string)$url);
         if ($data) {
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, (array)$data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$data:(array)$data);
         }
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+        
+        if (!empty($autorization) and !empty($autorization['login']) 
+            and !empty($autorization['password'])) {
+                
+            curl_setopt($ch, CURLOPT_USERPWD, 
+                $autorization['login']
+                . ':' 
+                . $autorization['password']);
+                
+            if (!empty($autorization['method']))
+                curl_setopt($ch, CURLOPT_HTTPAUTH, $autorization['method']);
+            else
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        }
+        
+        if (!empty($headers) and is_array($headers))
+        {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
 
         $result=curl_exec($ch);
         $errno=curl_errno($ch);

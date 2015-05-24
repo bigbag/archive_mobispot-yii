@@ -67,7 +67,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="columns six inline choose">
+                            <div class="columns six inline choose" ng-show="product.type==1">
                                 <span class="label label-left">
                                     <?php echo Yii::t('store', 'Quantity'); ?>
                                 </span>
@@ -158,6 +158,13 @@
                         ng-class="{error: customerError}"
                         placeholder="<?php echo Yii::t('store', 'Email address'); ?>"
                         required>
+                    <input name='password'
+                        type="password"
+                        ng-model="customer.password"
+                        placeholder="<?php echo Yii::t('user', 'Password')?>*"
+                        autocomplete="off"
+                        maxlength="300">
+                    <p><?php echo Yii::t('user', '*Укажите пароль, если Вы еще не зарегистрированы на Mobispot')?></p>
                 </div>
                 <div class="six columns">
                     <h3><?php echo Yii::t('store', 'Delivery address'); ?></h3>
@@ -208,8 +215,7 @@
                         placeholder="<?php echo Yii::t('store', 'Country'); ?>"
                         required>
                     <a
-                        class="spot-button {{ formCustomer.$valid || 'button-disable'}}"
-                        style="cursor: pointer"
+                        class="spot-button store {{ formCustomer.$valid || 'button-disable'}}"
                         ng-click="saveCustomer(formCustomer.$valid)">
                         <?php echo Yii::t('store', 'Confirm'); ?>
                     </a>
@@ -259,10 +265,10 @@
                         </span>
                     </div>
                     <div class="six columns">
-                        <ul class="add-active payment-options">
+                        <ul class="add-active payment-options store">
                             <li ng-repeat="payment in payments">
                                 <a
-                                    class="radio-link"
+                                    class="radio-link" 
                                     ng-click="setPayment(payment.id)">
                                     <i></i>
                                     {{payment.caption}}

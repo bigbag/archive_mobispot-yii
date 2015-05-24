@@ -46,7 +46,7 @@
                     ng-maxlength="10"
                     ng-class="{error: error.code}"
                     required >
-
+                    
             <div class="checkbox">
             <input
                 id="formReg_agree"

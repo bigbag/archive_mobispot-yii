@@ -32,4 +32,20 @@ class PagesController extends MController
         $this->layout = '//layouts/page';
         $this->render('clients');
     }
+    
+    public function actionCardconstrucor()
+    {
+        $this->layout = '//layouts/page_constructor';
+        $type = 'simple';
+        if (Yii::app()->request->getQuery('type', 0)) 
+            $type = Yii::app()->request->getQuery('type', 0);
+        else
+            MHttp::setNotFound();
+        
+        $card = CustomCard::getDefaults($type);
+        if (!$card)
+            MHttp::setNotFound();
+        
+        $this->render('card_constructor', array('card'=>str_replace('"', '&#34;', CJSON::encode($card))));
+    }
 }

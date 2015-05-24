@@ -3,16 +3,21 @@
 class ProductController extends MController
 {
 
-    public $layout = '//layouts/all';
-    public $imagePath = '/themes/mobispot/images/product/';
+    public $layout = '//layouts/store';
+    public $imagePath = '/uploads/store/product/';
     public $blockFooterScript = '<script src="/themes/mobispot/angular/app/controllers/store.js"></script>';
 
+    
     //заглушка пока магазин недоступен
     public function beforeAction()
     {
-        $this->redirect('/');
+        if (!CouponAccess::userAccess())
+            $this->redirect('/');
+        
+        return true;
     }
-
+    
+    
     public function actionIndex()
     {
         $this->render('index',
@@ -95,10 +100,77 @@ class ProductController extends MController
         $answer['error'] = $cart->addToCart($data);
         $answer['count'] = $this->getItemsInCart();
 
-
         echo json_encode($answer);
     }
+    
+    
+    public function actionAddCustomCard()
+    {
+        $answer = array('error' => 'yes');
+        $data = MHttp::validateRequest();
+        $photo_path = false;
+        $logo_path = false;
+        $custom_name = false;
+        $position = false;
+        $department = false;
+        
+        $db_product = StoreProduct::model()->findByPk($data['id']);
+        if (!$db_product)
+            MHttp::getJsonAndExit($answer);
 
+        if (!empty($data['photo_croped']))
+        {
+            $photo = $data['photo_croped'];
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
+            $photo_data = base64_decode($photo);
+            $filename = 'photo_' . MImg::generateRandomString() . '.png';
+            while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename))
+                $filename = 'photo_' . MImg::generateRandomString() . '.png';
+
+            if (file_put_contents(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename, $photo_data))
+                $photo_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename;
+        }
+        
+        if (!empty($data['logo_croped']))
+        {
+            $logo = $data['logo_croped'];
+            $logo = str_replace('data:image/png;base64,', '', $logo);
+            $logo = str_replace(' ', '+', $logo);
+            $logo_data = base64_decode($logo);
+            $filename = 'logo_' . MImg::generateRandomString() . '.png';
+            while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename))
+                $filename = 'logo_' . MImg::generateRandomString() . '.png';
+
+            if (file_put_contents(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename, $logo_data))
+            {
+                $logo_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $filename;
+                MImg::cutToProportionJpg($logo_path, $logo_path, MImg::LOGO_WIDTH, MImg::LOGO_HEIGHT);
+            }
+        }
+        
+        if (!empty($data['name']))
+            $custom_name = $data['name'];
+        if (!empty($data['position']))
+            $position = $data['position'];
+        if (!empty($data['department']))
+            $department = $data['department'];
+        $card = CustomCard::newCustomCard($photo_path, $logo_path, $custom_name, $position, $department, $db_product->type);
+
+        if (!empty($photo_path))
+            unlink($photo_path);
+        if (!empty($logo_path))
+            unlink($logo_path);
+        if (!$card)
+            MHttp::getJsonAndExit($answer);
+        
+        $cart = new StoreCart;
+        $data['front_img'] = $card->img;
+        $answer['error'] = $cart->addCustomCard($data);
+        $answer['count'] = $this->getItemsInCart();
+        echo json_encode($answer);
+    }
+    
     public function actionDeleteFromCart()
     {
         $data = MHttp::validateRequest();
@@ -163,125 +235,127 @@ class ProductController extends MController
     {
         $data = MHttp::validateRequest();
         $answer = array();
-
+        
         $cart = new StoreCart;
-        if (!isset($data['delivery']))
+        if (!isset($data['delivery'])) {
             $answer['error'] = Yii::t('store', 'Specify the delivery method');
-        elseif (!isset($data['payment']))
+            MHttp::getJsonAndExit($answer);
+        }
+        if (!isset($data['payment'])) {
             $answer['error'] = Yii::t('store', 'Select payment method');
-        else {
-            $mailOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
-            $answer['error'] = $mailOrder['error'];
-            if ($mailOrder['error'] == 'no') {
-                if ($mailOrder['payment'] == 'Uniteller') {
-                    $payment = Yii::app()->ut;
-                    $token = sha1(Yii::app()->request->csrfToken);
-
-                    $order['shopId'] = $payment->shopId;
-                    $order['customerId'] = $mailOrder['customer_id'];
-                    $order['orderId'] = $mailOrder['id'];
-                    $order['amount'] = $mailOrder['total'];
-                    $order['signature'] = $payment->getPaySign($order);
-                    $order['return_ok'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=success&token=' . $token;
-                    $order['return_error'] = $this->createAbsoluteUrl('/store/product/PayUniteller') . '?result=error&token=' . $token;
-
-                    $content = $this->renderPartial('//store/product/_bay_form',
-                        array(
-                            'order' => $order,
-                        ),
-                        true
-                    );
-
-                    $answer['content'] = $content;
-                    $answer['payment'] = $mailOrder['payment'];
-                }
-            }
+            MHttp::getJsonAndExit($answer);
+        }
+        
+        $cartOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
+        $answer['error'] = $cartOrder['error'];
+        if (!empty($cartOrder['payment']))
+            $answer['payment'] = $cartOrder['payment'];
+        
+        if ($cartOrder['error'] != 'no') {
+             MHttp::getJsonAndExit($answer);
         }
 
+        if ($cartOrder['payment'] == StoreCart::PAYMENT_BY_CARD or $cartOrder['payment'] == StoreCart::PAYMENT_BY_YM) {
+            $answer['content'] = $this->renderPartial('//store/_store_ym_form',
+                array(
+                    'order'=>$cartOrder,
+                    'successUrl'=>urlencode($this->getBaseUrl() . '/store/SuccessOrder/' . $cartOrder['id']),
+                    'failUrl'=>urlencode($this->getBaseUrl() . '/store/FailedOrder/' . $cartOrder['id']),
+                ),
+                true
+            );
+            $answer['error'] = 'no';
+        }
+        elseif ($cartOrder['payment'] == StoreCart::PAYMENT_MAIL) {
+            $order = StoreOrder::model()->findByPk($cartOrder['id']);
+            $mailOrder = $order->mailOrder();
+            //банковский перевод
+            if (MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang()))
+            {
+                MMail::order_track($mailOrder['email'], $mailOrder, Lang::getCurrentLang());
+                
+                //письма с персонализированными картами
+                $customCards = $order->customCardsMailOrders($mailOrder);
+                foreach($customCards as $customCard) {
+                        MMail::custom_card_order($mailOrder['customer']->email, $customCard, Lang::getCurrentLang());
+                        MMail::custom_card_order(Yii::app()->params['generalEmail'], $customCard, Lang::getCurrentLang());
+                }
+                
+                $answer['message'] = Yii::t('store', 'Thank you for your purchase. Our manager will contact you soon for further transfer details.');
+                $answer['error'] = 'no';
+            }
+        }
+        
         echo json_encode($answer);
     }
 
-    public function actionPayUniteller()
+    public function actionSuccessOrder()
     {
-        $token = Yii::app()->request->getParam('token', 0);
-        $orderId = Yii::app()->request->getParam('Order_ID', 0);
-        $result = Yii::app()->request->getParam('result', 0);
-
-        if ($token and $token == sha1(Yii::app()->request->csrfToken) and $orderId) {
-            $order = StoreOrder::model()->findByPk($orderId);
-            if ($order && $order->status == 1) {
-                $payment = Yii::app()->ut;
-
-                $info = $payment->getCheckData($order->id);
-
-                if (isset($info['status'])) {
-                   $data = array(
-                        "Status" => $info['status'],
-                        "ApprovalCode" => $info['response_code'],
-                        "BillNumber"   => $info['billnumber']
-                    );
-
-                    $order->payment_data = $data;
-
-                    $status = strtolower($data['Status']);
-                } else {
-                    $status = false;
-                }
-
-                if ($status != 'authorized' and $status != 'paid') {
-                    $order->status = -1;
-                    if (!isset(Yii::app()->session['itemsInCart']) || Yii::app()->session['itemsInCart'] == 0) {
-                        //Восстановление заказа в корзину
-                        $cartList = array();
-                        $itemsInCart = 0;
-                        $list = StoreOrderList::model()->findAllByAttributes(array(
-                            'id_order' => $order->id
-                        ));
-                        if ($list) {
-                            foreach ($list as $item) {
-                                $product = array();
-                                $selectedSize = array();
-                                $product['id'] = $item->id_product;
-                                $product['quantity'] = $item->quantity;
-                                $product['selectedColor'] = $item->color;
-                                $product['selectedSurface'] = $item->surface;
-                                $selectedSize['value'] = $item->size_name;
-                                $selectedSize['price'] = $item->price;
-                                $product['selectedSize'] = $selectedSize;
-                                $cartList[] = $product;
-                                $itemsInCart += $item->quantity;
-                            }
-                        }
-                        Yii::app()->session['storeCart'] = $cartList;
-                        Yii::app()->session['itemsInCart'] = $itemsInCart;
-                    }
-
-                    //Восстановление одноразового промо-кода
-                    if (!empty($order->promo_id)) {
-                        $promoCode = StorePromoCode::model()->findByPk($order->promo_id);
-                        if ($promoCode && !$promoCode->is_multifold && $promoCode->used) {
-                            $promoCode->used = false;
-                            $promoCode->save();
-                        }
-                    }
-                    $order->save();
-                } else {
-                    $mailOrder = StoreCart::getMessageByOrder($order->id);
-
-                    $order->status = 2;
-                    MMail::order_track($mailOrder['email'], $mailOrder, Lang::getCurrentLang());
-                    MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
-                    $order->save();
-                    $token = sha1(Yii::app()->request->csrfToken);
-                    $cacheId = 'StoreOrder' . $orderId;
-                    Yii::app()->cache->set($cacheId, $mailOrder, 300);
-                    $this->redirect('/store/product/order?Order_ID=' . $orderId . '&token=' . $token);
-                }
-            }
+        $id_order = Yii::app()->request->getQuery('order', 0);
+        $order = StoreOrder::model()->findByPk($id_order);
+        
+        if (!$order)
+            $this->redirect('/store');
+        if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
+            $this->redirect('/store');
+        
+        $message = Yii::t('store', 'При регистрации пользователя возникла ошибка!');
+        
+        $mailOrder = $order->mailOrder();
+        
+        if (!$mailOrder)
+            $this->redirect('/store');
+        
+        $user_id = $order->registerUser(Lang::getCurrentLang());
+        $user = User::model()->findByPk($user_id);
+        if (!$user)
+        {
+            $this->render('info', array('message'=>$message));
+            Yii::app()->end();   
         }
-        $this->redirect('/store');
+            
+        MMail::activation($user->email, $user->activkey, Lang::getCurrentLang());
+        
+        $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
+        if (!$order->save())
+        {
+            $this->render('info', array('message'=>$message));
+            Yii::app()->end();           
+        }
+        
+        $message = Yii::t('store', 'Ваш заказ успешно оплачен. Спасибо за покупку!');
+        
+        MMail::order_track($mailOrder['customer']->email, $mailOrder, Lang::getCurrentLang());
+        MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang());
+        
+        //письма с персонализированными картами
+        $customCards = $order->customCardsMailOrders($mailOrder);
+        foreach($customCards as $customCard) {
+                MMail::custom_card_order($mailOrder['customer']->email, $customCard, Lang::getCurrentLang());
+                MMail::custom_card_order(Yii::app()->params['generalEmail'], $customCard, Lang::getCurrentLang());
+        }
+        
+        $order->makeTroika($user_id);
+  
+        $this->render('info', array('message'=>$message));
     }
-
+    
+    public function actionFailedOrder()
+    {
+        $id_order = Yii::app()->request->getQuery('order', 0);
+        $order = StoreOrder::model()->findByPk($id_order);
+        
+        if ($order->status != StoreOrder::STATUS_PAYMENT_WAIT)
+            $this->redirect('/store');
+        
+        $message = Yii::t('store', 'При проведении платежа возникла ошибка!');
+        $order->status = StoreOrder::STATUS_CANCELED;
+        $order->save();
+        
+        $this->render('info', array('message'=>$message));
+    }
+    
+    /*
     public function actionOrder()
     {
         $token = Yii::app()->request->getParam('token', 0);
@@ -298,5 +372,5 @@ class ProductController extends MController
         } else
             MHttp::setNotFound();
     }
-
+    */
 }

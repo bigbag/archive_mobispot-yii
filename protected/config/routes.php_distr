@@ -12,6 +12,8 @@ return array(
         '/spot/view/<url:\w{15}>'=>'/spot/view/',
         'corp/service/lang/<id:\w+>' => 'corp/service/lang',
         'service/lang/<id:\w+>' => 'service/lang',
+        '/store/SuccessOrder/<order:\d+>' => '/store/product/SuccessOrder',
+        '/store/FailedOrder/<order:\d+>' => '/store/product/FailedOrder',
 
         'readers' => 'pages/readers ',
         'pages/phone' => 'pages/readers',
@@ -19,6 +21,7 @@ return array(
         'phones' => 'pages/readers',
         'help' => 'pages/help',
         'clients' => 'pages/clients',
+        'ieg2g7hg3/<type:\w+>' => 'pages/cardconstrucor',
 
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

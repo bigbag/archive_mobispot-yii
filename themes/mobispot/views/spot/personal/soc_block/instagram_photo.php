@@ -23,13 +23,13 @@
                     <div class="sub-line">
                     <?php if (!empty($socContent['sub-line'])): ?>
                         <span class="icon">&#xe01b;</span>
-                        <?php echo $socContent['sub-line'] ?>
+                        <?php echo CHtml::encode($socContent['sub-line']) ?>
                     <?php endif ?>
                     </div>
                 </div>
                 <div class="ins-block">
                     <?php if (!empty($socContent['text'])): ?>
-                        <p><?php echo YText::hrefActivate($socContent['text']); ?></p>
+                        <p><?php echo YText::hrefActivate(CHtml::encode($socContent['text'])); ?></p>
                     <?php endif ?>
 
                     <?php if (!empty($socContent['last_img'])): ?>
@@ -40,11 +40,6 @@
                         <?php echo $socContent['likes-block']; ?>
                         </div>
                     <?php endif ?>
-                    <?php /*?>
-                    <div class="comments">
-                        <img width="24" src="img/avatar.png"> <a class="authot-name" href="#">katya_fug</a> асфальт!
-                    </div>
-                    <?php */?>
                 </div>
             </div>
         </div>

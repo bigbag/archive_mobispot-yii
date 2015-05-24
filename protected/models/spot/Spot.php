@@ -33,6 +33,9 @@ class Spot extends CActiveRecord
 
     const TYPE_DEMO = 0;
     const TYPE_FULL = 3;
+    
+    const MAP_POINT_SCHOOL = 1;
+    const MAP_POINT_HOME = 2;
 
     public $spot_type_name;
 
@@ -308,5 +311,61 @@ class Spot extends CActiveRecord
             'sort' => array(
                 'defaultOrder' => 'generated_date DESC',),
         ));
+    }
+    
+    //определяет, отображать ли интерфейс привязки телефонного номера
+    public function isPhonesEnabled()
+    {
+        $map_points = $this->getMapPoints();
+        
+        if (count($map_points))
+            return true;
+        
+        return false;
+    }
+    
+    public function getMapPoints()
+    {
+        $answer = array();
+        
+        $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
+        
+        $result = CJSON::decode(MHttp::setCurlRequest($url), true);
+
+        if (empty($result['map_points']) or !count($result['map_points']))
+            return $answer;
+
+        $answer = $result['map_points'];
+                
+        return $answer;
+    }
+    
+    public function setMapPoint($address, $type)
+    {
+        $point = array('address'=>$address, 'type'=>$type, 'code128'=>$this->code128);
+        $url = Yii::app()->params['api']['transport'] . '/spot/hard_id/' . $this->barcode . '/map_point/';
+
+        $data = CJSON::encode($point, true);
+        $headers = array('Content-Type: application/json');
+        $result = CJSON::decode(MHttp::setCurlRequest($url, $data, false, $headers), true);
+
+        if (is_string($result) and strpos($result, '{error:') !== false)
+            return false;
+        
+        return true;
+    }
+    
+    public function getHomeAddress()
+    {
+        $answer = false;
+        
+        $points = $this->getMapPoints();
+        
+        foreach($points as $point){
+            if (self::MAP_POINT_HOME == $point['type'])
+                $answer = $point['address'];
+        }
+        
+        return $answer;
     }
 }

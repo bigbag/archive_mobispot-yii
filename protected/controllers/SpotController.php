@@ -102,17 +102,31 @@ class SpotController extends MController
         if ($spots){
             $curent_discodes = Spot::curentSpot($spots[0]->discodes_id);
             $curent_views = Spot::curentViews($curent_views);
-        }
+            
+            if (SpotTroika::isBlockedCard($curent_discodes))
+                $curent_views = Spot::curentViews('transport', true);
 
-        $this->renderWithMobile(
-            '//spot/body',
-            array(
-                'spots' => $spots,
-                'curent_discodes' => $curent_discodes,
-                'curent_views' => $curent_views,
-            ),
-            '//mobile/spot/list'
-        );
+            $this->renderWithMobile(
+                '//spot/body',
+                array(
+                    'spots' => $spots,
+                    'curent_discodes' => $curent_discodes,
+                    'curent_views' => $curent_views,
+                ),
+                '//mobile/spot/list'
+            );
+        } 
+        else {
+            $this->renderWithMobile(
+                '//spot/no_spots',
+                array(
+                    'spots' => array(),
+                    'curent_discodes' => false,
+                    'curent_views' => false,
+                ),
+                '//mobile/spot/list'
+            );
+        }
     }
 
     // Просмотр содержимого спота
@@ -144,7 +158,7 @@ class SpotController extends MController
 
         $content = $spotContent->content;
         $content_keys = $content['keys'];
-
+        
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/content',
             array(
@@ -548,12 +562,20 @@ class SpotController extends MController
             )
         );
         if (!$spot) MHttp::getJsonAndExit($answer);
+        
+        $phones = SpotPhone::model()->findAllByAttributes(array('discodes_id' => $spot->discodes_id));
+        
+        $school_extended_address = false;
+        if (count($phones) and $phones[0]->school_sms)
+            $school_extended_address = $spot->getHomeAddress();
 
         $answer['content'] = $this->renderPartialWithMobile(
             '//spot/settings',
             array(
                 'wallet' => $wallet,
                 'spot' => $spot,
+                'phones' => $phones,
+                'school_extended_address' => $school_extended_address,
             ),
             true,
             '//mobile/spot/settings'
@@ -781,6 +803,9 @@ class SpotController extends MController
                 'status' => PaymentCard::STATUS_PAYMENT,
             )
         );
+        
+        if ($old_payment_card and $old_payment_card->id == $card->id)
+            MHttp::getJsonAndExit($answer);
 
         $card->status = PaymentCard::STATUS_PAYMENT;
         if ($card->save()){
@@ -892,17 +917,28 @@ class SpotController extends MController
         
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
-    
+        
+        $troika = false;
+        
+        if ($wallet) {
+            $troika = SpotTroika::getCard($wallet->hard_id);
+        }
+        
+        Spot::curentSpot($spot->discodes_id, true);
         Spot::curentViews('transport', true);
         
         $answer['content'] = $this->renderPartial(
             '//spot/transport',
-            array('spot' => $spot, 'wallet'=>$wallet),
+            array(
+                'spot' => $spot, 
+                'wallet'=>$wallet,
+                'troika'=>$troika
+            ),
             true
         );
 
         $answer['error'] = 'no';
-
+        
         echo json_encode($answer);    
     }
 
@@ -1722,8 +1758,7 @@ class SpotController extends MController
             }
         }
        
-        $data['front_img'] =  MImg::makeTransportCard(
-            $spot->discodes_id, $photo_path, $logo_path, $data['name'], $data['position']);
+        $data['front_img'] =  MImg::makeTransportCard($photo_path, $logo_path, $data['name'], $data['position']);
         
         MMail::transport_order($data['email'], $data, Lang::getCurrentLang());
         MMail::transport_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
@@ -1735,6 +1770,312 @@ class SpotController extends MController
         
         $answer['error'] = 'no';
 
+        echo json_encode($answer);
+    }
+    
+    public function actionOrderCustomCard()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = MHttp::validateRequest();
+        
+        if (empty($data['email']) or empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']))
+            MHttp::getJsonAndExit($answer);
+        
+        $photo_path = false;
+        $card = new CustomCard();
+        $card->type = $data['type'];
+        $card->save();
+        
+        if (!empty($data['photo_croped']))
+        {
+            $photo = $data['photo_croped'];
+            $photo = str_replace('data:image/png;base64,', '', $photo);
+            $photo = str_replace(' ', '+', $photo);
+            $photo_data = base64_decode($photo);
+            $filepath = 
+                Yii::getPathOfAlias('webroot.uploads.custom_card.') 
+                . '/photo_'
+                . $card->id
+                . '.png';
+
+            if (file_put_contents($filepath, $photo_data)){
+                $photo_path = $filepath;
+            }
+            else
+                MHttp::getJsonAndExit($answer);
+        }
+         
+        $data['front_img'] = MImg::makeGUUCard(
+             $card, $photo_path, $data['name'], $data['position'], $data['department']);
+        
+        MMail::guu_card_order($data['email'], $data, Lang::getCurrentLang());
+        MMail::guu_card_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
+        
+        if (!empty($photo_path))
+            unlink($photo_path);
+        
+        $answer['number'] = CustomCard::getNextNum($data['type']);
+        $answer['error'] = 'no';
+        
+
+        echo json_encode($answer);
+    }
+    
+    public function actionListHistory()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+            'empty_for_date' => false,
+        );
+
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or Yii::app()->user->isGuest)
+            MHttp::getJsonAndExit($answer);
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$wallet) MHttp::getJsonAndExit($answer);
+        
+        if (empty($data['date']) or !preg_match("~^[0-9]{2}.[0-9]{2}.[0-9]{4}$~", $data['date']))
+            $data['date'] = false;
+        
+        if ($data['date']) {
+            $date_history = mktime(0, 0, 0, substr($data['date'], 3, 2), substr($data['date'], 0, 2), substr($data['date'], 6, 4));
+        
+            $history = Report::listHistory($wallet->payment_id, $date_history);
+        
+            if (empty($history) or !strlen($history[0]->creation_date) or
+                substr($history[0]->creation_date, strlen($history[0]->creation_date) - 10, 10) != date('d.m.Y', $date_history))
+                $answer['empty_for_date'] = true;
+        } else {
+            $history = Report::model()->findAllByAttributes(
+                array(
+                    'payment_id' => $wallet->payment_id,
+                    'type' => Report::TYPE_PAYMENT,
+                ),
+                array(
+                    'order' => 'creation_date desc',
+                    'limit' => Report::MAX_RECORD)
+            );            
+        }
+        
+        $answer['content'] = $this->renderPartial('//spot/block/list_history',
+            array(
+                'history'=> $history,
+            ),
+            true
+        );
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionBlockTroika()
+    {
+        $answer = array('error' => 'yes');
+        
+        $data = MHttp::validateRequest();
+        
+         if (empty($data['discodes']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+            
+        if (!$wallet)
+            MHttp::getJsonAndExit($answer);
+        
+        if (!SpotTroika::lostCard($wallet->hard_id))
+            MHttp::getJsonAndExit($answer);
+        
+        $answer = array('error' => 'no');
+        
+        $wallet->status = PaymentWallet::STATUS_BANNED;
+        $wallet->save();
+
+        $spot->status = Spot::STATUS_INVISIBLE;
+        $spot->save();
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionAddPhone()
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['phone']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>'7' . $data['phone'], 'discodes_id'=>$spot->discodes_id));
+        
+        if ($spotPhone)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = new SpotPhone();
+        $spotPhone->phone = '7' . $data['phone'];
+        $spotPhone->discodes_id = $spot->discodes_id;
+        
+        $settingPhone = SpotPhone::model()->findByAttributes(array('discodes_id'=>$spot->discodes_id));
+        if ($settingPhone) {
+            $spotPhone->school_sms = $settingPhone->school_sms;
+        }
+        
+        $spotPhone->save();
+            
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/phone',
+            array(
+                'phone' => $spotPhone,
+             ),
+            true
+        );
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    
+    public function actionRemovePhone() 
+    {
+        $answer = array(
+            'error' => 'yes',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['phone']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhone = SpotPhone::model()->findByAttributes(array('phone'=>$data['phone'], 'discodes_id'=>$spot->discodes_id));
+        
+        if (!$spotPhone)
+            MHttp::getJsonAndExit($answer);
+        
+        if($spotPhone->delete())
+            $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionActivateSchoollExtended()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']) or empty($data['address']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhones = SpotPhone::model()->findAllByAttributes(array('discodes_id'=>$spot->discodes_id));
+        
+        if (empty($spotPhones))
+            MHttp::getJsonAndExit($answer);
+        
+        if (!$spot->setMapPoint($data['address'], Spot::MAP_POINT_HOME))
+            MHttp::getJsonAndExit($answer);
+        
+        foreach($spotPhones as $phone){
+            $phone->school_sms = 1;
+            $phone->save();
+        }
+        
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/school_extended',
+            array(
+                'school_extended_address' => $data['address'],
+             ),
+            true
+        );
+        
+        $answer['error'] = 'no';
+        
+        echo json_encode($answer);
+    }
+    
+    public function actionRemoveSchoollExtended()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']))
+            MHttp::getJsonAndExit($answer);
+        
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $spotPhones = SpotPhone::model()->findAllByAttributes(array('discodes_id'=>$spot->discodes_id));
+        
+        if (empty($spotPhones))
+            MHttp::getJsonAndExit($answer);
+        
+        foreach($spotPhones as $phone){
+            $phone->school_sms = 0;
+            $phone->save();
+        }
+        
+        $answer['content'] = $this->renderPartial(
+            '//spot/block/school_extended',
+            array(
+                'school_extended_address' => false,
+             ),
+            true
+        );
+        
+        $answer['error'] = 'no';
+        
         echo json_encode($answer);
     }
 }

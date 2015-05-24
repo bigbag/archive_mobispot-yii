@@ -5,7 +5,7 @@
         </div>
         <div class="tabs-block">
             <section class="wallet-block spot-content_row tabs-item">
-                <span ng-init="wallet.status=<?php echo $wallet->status; ?>;wallet.id=<?php echo $wallet->id; ?>;wallet.token=spot.token"></span>
+                <span ng-init="wallet.status=<?php echo $wallet->status; ?>;wallet.id=<?php echo $wallet->id; ?>;wallet.token=spot.token;wallet.blacklist=<?php echo $wallet->blacklist; ?>"></span>
                 <div id="setPayment" class="row popup-row"
                     ng-class="{disable: wallet.status == -1}">
                     <div class="">

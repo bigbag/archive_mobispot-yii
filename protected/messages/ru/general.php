@@ -1,5 +1,6 @@
 <?php return  array (
   'Activate spot' => 'Зарегистрировать',
+  'Registration' => 'Регистрация',
   'Get our demo-kit' => 'Заказать демо-кит',
   'All your tickets<br> in one place' => 'Все ваши билеты<br> собраны вместе',
   'Get Help' => 'Помощь',

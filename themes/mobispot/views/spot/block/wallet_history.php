@@ -1,27 +1,10 @@
 <div class="item-area_table">
+    <img src="/themes/mobispot/img/icons/datepicker.jpg" style="float:right;font-family:mobispot-icon;fotn-size:72px;font-style:normal;position:relative;top:5px;cursor:pointer" ng-click="$event.stopPropagation();showDatepicker('#date_history')">
+    <input id="date_history" style="float:right;margin-right:10px;position:relative;width:1px;right:-10px;visibility:hidden;">
+    <span style="float:right;position:relative;top:8px;right:-7px">{{wallet_history.date}}</span>
     <h4><?php echo Yii::t('spot', 'Recent transactions')?></h4>
-    <div class="m-table-wrapper">
-        <table class="m-spot-table">
-            <tbody>
-            <?php foreach ($history as $row): ?>
-            <tr
-                <?php if ($row->isFailure()):?> 
-                class="fail"
-                <?php endif; ?>  
-            >
-                <td><div class="date-time"><?php echo $row->creation_date; ?></div></td>
-                <td><div class="text-center"><?php echo $row->term->name; ?>
-                    <?php if ($row->isFailure()):?> 
-                    <span class="fail-description">
-                        <?php echo Yii::t('spot', 'Failed to charge your bank card. Please, top up the balance or select another card as active.');?>
-                    </span>
-                    <?php endif; ?>  
-                </div></td>
-                <td><div class="txt-right"><?php echo $row->amount; ?></div></td>
-            </tr>
-            <?php endforeach ?>
-            </tbody>
-        </table>
+    <div id="history-wrapper" class="m-table-wrapper">
+        <?php include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/spot/block/list_history.php'); ?>
     </div>
     <!-- <a href="javascripts:;" class="link-report">
         <i class="icon">&#xe608;</i><?php echo Yii::t('spot', 'Get the statement')?>

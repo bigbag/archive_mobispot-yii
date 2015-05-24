@@ -35,9 +35,14 @@ angular.module('mobispot').controller('SpotController',
   $scope.text = {};
   
   $scope.transport_types = [];
-  $scope.custom_card = {back:'', photo:'', name:'', position:'', logo:'', 
-    shipping_name:'', phone:'', address:'', city:'', zip:'', token:'', discodes_id:''}
+  $scope.custom_card = {};
+  $scope.prev_custom_card = {};
   $scope.selected_type={};
+  $scope.in_request = false;
+  $scope.wallet_history = {}
+  $scope.wallet_history.date = '';
+  $scope.wallet_history.empty_date = false;
+  $scope.date_history_shown = false;
   
 /* CRUD для спота */
 
@@ -49,7 +54,14 @@ angular.module('mobispot').controller('SpotController',
 
   // Добавление спота
   $scope.addSpot = function(spot) {
-    if (!spot.code || !$scope.spot.terms) return false;
+    if (!spot.code) {
+        $scope.error.code = true;
+        return false;
+    }
+    
+    if (!$scope.spot.terms)
+        return false;
+    
     $http.post('/spot/add', spot).success(function(data) {
       if(data.error == 'no') {
         $scope.spot.discodes = data.discodes;
@@ -57,7 +69,7 @@ angular.module('mobispot').controller('SpotController',
         angular.element('#actSpot').click();
         delete $scope.spot.code;
         delete $scope.spot.terms;
-        if ($scope.host_mobile)
+        if ($scope.host_mobile || 1==spot.need_reload)
             window.location.href = 'http://' + window.location.hostname + '/spot/list';
       }else if (data.error == 'yes') {
         $scope.error.code = true;
@@ -352,6 +364,22 @@ angular.module('mobispot').controller('SpotController',
         angular.element('.spot-content_row').show().animate({
           opacity: 1
         },500);
+        
+        angular.element('#date_history').datepicker({
+          yearRange: '1900:-0',
+          maxDate:0,
+          dateFormat: 'dd.mm.yy',
+          onSelect: function (dateText, inst) {
+            $scope.$apply(function () {
+              $scope.wallet_history.date = dateText;
+            });
+          },
+          onClose: function (dateText, inst) {
+            $scope.$apply(function () {
+              $scope.date_history_shown = false;
+            });
+          }
+        });
       } else {
         $scope.viewSpot($scope.spot);
       }
@@ -460,13 +488,21 @@ angular.module('mobispot').controller('SpotController',
 
   // Делаем карту платежной
   $scope.setPaymentCard = function(card_id, e){
+    if ($scope.in_request)
+      return false;
+    
     var data = {'token': $scope.spot.token, 'card_id': card_id};
+    $scope.in_request = true;
     $http.post('/spot/setPaymentCard', data).success(function(data) {
       if (data.error == 'no'){
         angular.element('.main-card').removeClass('main-card');
         angular.element(e.currentTarget).parent().parent().addClass('main-card');
+        $scope.wallet.blacklist = 1;
+        
+        $scope.listHistory($scope.wallet_history.date);
       }
-    });
+      $scope.in_request = false;
+    }).error(function(error){$scope.in_request = false;});
   };
 
   $scope.editCardList = function(){
@@ -1228,10 +1264,157 @@ angular.module('mobispot').controller('SpotController',
         }
     });
   }
+  
+  //Заказ карты ГУУ по макету
+  $scope.orderCustomCard = function(custom_card, valid, message_text) {
+    if (!valid) {
+      $scope.error.custom_card = true;
+      return false;
+    }
+    
+    if ($scope.isDoubleCard(custom_card)) {
+      $scope.error.custom_card = true;
+      contentService.messageModal("Вы уже заказали эту карту", $scope.host_type);
+      $timeout(function(){
+       $scope.error.custom_card = false;
+      }, 1000);
+      return false;
+    }
+    
+    $scope.saveCardParams(custom_card);
+    
+    $http.post('/spot/orderCustomCard', custom_card).success(function(data) {
+        if ('no' == data.error) {
+          contentService.messageModal(message_text, $scope.host_type);
+          custom_card.number = data.number;
+        } else {
+          $scope.error.custom_card = true;
+        }
+    });
+  }
+  
+  $scope.saveCardParams = function(card) {
+    for(property in card) {
+        $scope.prev_custom_card[property] = card[property];
+    }
+  }
+  
+  $scope.isDoubleCard = function(card) {
+    for(property in card) { 
+        if (property != 'number' && $scope.prev_custom_card[property] != card[property]) {
+            
+          return false;
+        }
+        
+    }
+
+    return true;
+  }
 
   //тригер на снятие ошибки для макета транспортной карты
   $scope.$watch('custom_card.shipping_name + custom_card.phone + custom_card.address + custom_card.city + custom_card.zip + custom_card.email', function() {
       $scope.error.custom_card = false;
   });
   
+  $scope.$watch('wallet_history.date', function() {
+    $scope.listHistory($scope.wallet_history.date);
+  });
+  
+  $scope.listHistory = function (date) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'date':date};
+    
+    block_history = angular.element('#history-wrapper');
+    
+    block_history.empty();
+    $scope.wallet_history.empty_date = false;
+    
+    $http.post('/spot/listHistory', data).success(function(data) {
+      if(data.error == 'no') {
+        block_history.append($compile(data.content)($scope));
+        if (data.empty_for_date)
+            $scope.wallet_history.empty_date = true;
+      }
+    });
+  }
+  
+  $scope.customCardInit = function(defaults) {
+     $scope.custom_card = angular.fromJson(defaults); 
+  }
+  
+  $scope.showDatepicker = function(selector){
+    if ($scope.date_history_shown)
+      return false;
+    
+    $scope.date_history_shown = true;
+    angular.element(selector).datepicker("show");   
+  }
+  
+  //привязка нового телефона к споту
+  $scope.addPhone = function(phone, valid) {
+    if (!valid) 
+      return false;
+    
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'phone': phone}
+    $http.post('/spot/addPhone', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.new_phone = '';
+        angular.element('#phones-list').append($compile(data.content)($scope));
+      }
+    });
+  }
+  
+  $scope.removePhone = function(phone, e) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'phone': phone}
+    $http.post('/spot/removePhone', data).success(function(data) {
+      if (data.error == 'no'){
+        var phoneItem = angular.element(e.currentTarget).parents('.phone-row');
+        phoneItem.remove();
+      }
+    });
+  }
+  
+  $scope.activateSchoolExtended = function(address) {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token, 'address':address}
+    $http.post('/spot/activateSchoollExtended', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.home_address = '';
+        var PhoneServices = angular.element('#phone_services');
+        PhoneServices.empty();
+        PhoneServices.append($compile(data.content)($scope));
+      }
+    });
+  }
+
+  $scope.removeSchoolExtended = function() {
+    var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token}
+    $http.post('/spot/removeSchoollExtended', data).success(function(data) {
+      if (data.error == 'no'){
+        $scope.home_address = '';
+        var PhoneServices = angular.element('#phone_services');
+        PhoneServices.empty();
+        PhoneServices.append($compile(data.content)($scope));
+      }
+    });
+  }
+  
+  // Блокировка карты Тройка
+  $scope.blockTroika = function(spot) {
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+    
+      $http.post('/spot/blockTroika', spot).success(function(data) {
+        if(data.error == 'no') {
+          angular.element('#blockTroika').addClass('disabled');
+          angular.element('#'+spot.discodes).addClass('invisible');
+          angular.element(location).attr('href','/spot/list/');
+        }
+      });
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    $scope.text.block_troika,
+    'negative'
+    );
+  };
 });

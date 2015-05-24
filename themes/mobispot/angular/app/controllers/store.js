@@ -2,6 +2,12 @@
 
 angular.module('mobispot').controller('ProductController',
   function($scope, $http, $compile, $timeout, contentService) {
+    
+    $scope.host_type = 'desktop';
+    $scope.transport_card = {};
+    $scope.simple_card = {};
+    $scope.transport_types = [];
+      
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
 
@@ -17,6 +23,7 @@ angular.module('mobispot').controller('ProductController',
                     $scope.products[i].quantity = 1;
                     $scope.products[i].listposition = {left:"0px"};
                     $scope.products[i].addText = $scope.settings.addToCart;
+
                     if (typeof $scope.products[i].selectedColor != 'undefined' && typeof $scope.products[i].photo != 'undefined' && $scope.products[i].photo.length > 0)
                     {
                         var suffix = '_' + $scope.products[i].selectedColor;
@@ -56,30 +63,107 @@ angular.module('mobispot').controller('ProductController',
 
     $scope.addToCart = function addToCart(jsID){
         if($scope.products[jsID].quantity < 1) return false;
+        
+        if($scope.inRequest) return false;
 
-        if(!$scope.inRequest){
-            $scope.inRequest = true;
-
-            var data = {
-                token: $scope.user.token,
-                id : $scope.products[jsID].id,
-                quantity : parseInt($scope.products[jsID].quantity),
-                selectedColor : $scope.products[jsID].selectedColor,
-                selectedSurface : $scope.products[jsID].selectedSurface,
-                selectedSize : $scope.products[jsID].selectedSize
-            };
-            $http.post(('/store/product/addToCart'), data).success(function(data, status){
-                if(data.error == 'no'){
-                    $scope.products[jsID].addText = $scope.settings.added;
-                    $scope.items.count += parseInt($scope.products[jsID].quantity);
-                    var basket = angular.element('a.icon-bag-link span');
-                    basket.text($scope.items.count);
-                }
-            });
-
-            $scope.inRequest = false;
+        if ('troika' == $scope.products[jsID].type) {
+          $scope.showConstructorTroika($scope.products[jsID], jsID);
+          return false;
         }
+        
+        if ('simple' == $scope.products[jsID].type) {
+          $scope.showConstructorSimple($scope.products[jsID], jsID);
+          return false;
+        }
+            
+        $scope.inRequest = true;        
+        var data = {
+            token: $scope.user.token,
+            id : $scope.products[jsID].id,
+            quantity : parseInt($scope.products[jsID].quantity),
+            selectedColor : $scope.products[jsID].selectedColor,
+            selectedSurface : $scope.products[jsID].selectedSurface,
+            selectedSize : $scope.products[jsID].selectedSize
+        };
+        $http.post(('/store/product/addToCart'), data).success(function(data, status){
+            if(data.error == 'no'){
+                $scope.products[jsID].addText = $scope.settings.added;
+                $scope.items.count += parseInt($scope.products[jsID].quantity);
+                var basket = angular.element('a.icon-bag-link span');
+                basket.text($scope.items.count);
+            }
+            $scope.inRequest = false;
+        }).error(function(error){$scope.inRequest = false;});
     };
+    
+    
+  $scope.addTransportCard = function(transport_card) {
+     transport_card.token = $scope.user.token;
+     $http.post(('/store/product/addCustomCard'), transport_card).success(function(data){
+          if (data.error == 'no'){
+            if (!angular.isUndefined($scope.transportId))
+                $scope.products[$scope.transportId].addText = $scope.settings.added;
+            $scope.items.count += 1;
+            var basket = angular.element('a.icon-bag-link span');
+            basket.text($scope.items.count);
+          }
+      });
+  
+    $scope.hideConstructorTroika();
+  }
+  
+  $scope.addSimpleCard = function(simple_card) {
+     $http.post(('/store/product/addCustomCard'), simple_card).success(function(data){
+          if (data.error == 'no'){
+            if (!angular.isUndefined($scope.simpleId))
+                $scope.products[$scope.simpleId].addText = $scope.settings.added;
+            $scope.items.count += 1;
+            var basket = angular.element('a.icon-bag-link span');
+            basket.text($scope.items.count);
+          }
+      });
+  
+    $scope.hideConstructorSimple();
+  }
+    
+  //Отображение кастомного макета транспотрной карты
+  $scope.showConstructorTroika = function(product, jsID){
+    $scope.transport_card.id = product.id;
+    $scope.transportId = jsID;
+    $('#constructor-troika').addClass('show');
+    $('body').css('overflow', 'hidden');
+  }
+  
+  $scope.hideConstructorTroika = function(){
+    $('#constructor-troika').removeClass('show');
+    $('body').css('overflow', '');
+  }
+  
+  //Отображение кастомного макета
+  $scope.showConstructorSimple = function(product, jsID){
+    $scope.simple_card.id = product.id;
+    $scope.simpleId = jsID;
+    $('#constructor-simple').addClass('show');
+    $('body').css('overflow', 'hidden');
+  }
+  
+  $scope.hideConstructorSimple = function(){
+    $('#constructor-simple').removeClass('show');
+    $('body').css('overflow', '');
+  }
+  
+  $scope.initTransportType = function(type_id, type_name, type_img) {
+    $scope.transport_types[$scope.transport_types.length] = {id:type_id, name:type_name, img:type_img};
+  };
+  
+  //Выбор задника транспортной карты
+  $scope.setType = function(type) {
+    $scope.transport_card.back = type.id;
+
+    if (type.img){
+      $('#card-back').css('background-image', 'url(/uploads/transport/' + type.img + ')');
+    }
+  }
 
     $scope.sizeClass = function(selectedSize, size) {
         if (selectedSize === size) {
@@ -528,16 +612,24 @@ angular.module('mobispot').controller('CartController',
             payment  : $scope.selectedPayment,
             discount : $scope.discount
         };
+        
         $http.post(('/store/product/buy'), data).success(function(data, status) {
             if (data.error == 'no'){
-                if (data.payment == 'Uniteller'){
-                    angular.element('#proceedFinishForm').after($compile(data.content)($scope));
-                    angular.element('#payUniteller').submit();
+                if ('email' == data.payment){
+                    contentService.messageModal(data.message, $scope.host_type);
+                    /*
+                    $timeout(function(){
+                        window.location = "/store";
+                    }, 5000);
+                    */
+                }
+                else {
+                  angular.element('#proceedFinishForm').after($compile(data.content)($scope));
+                  angular.element('#form-ym-pay').submit();
                 }
             }
             else
-               $scope.result.message = data.error;
-               contentService.desktopModal('message');
+               contentService.messageModal(data.error, $scope.host_type);
         });
     };
 

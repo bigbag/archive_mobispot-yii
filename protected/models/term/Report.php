@@ -119,13 +119,33 @@ class Report extends CActiveRecord
     
     public function isFailure()
     {
-        $answer = false;
-        if ((time() + self::DATE_DIFF - strtotime($this->creation_date)) > self::FAILURE_TIMEOUT
-            and self::STATUS_NEW == $this->status)
-            $answer = true;
-        elseif (self::STATUS_FAIL == $this->status)
-            $answer = true;
+        if (self::STATUS_FAIL == $this->status)
+            return true;
+     
+        if (self::STATUS_NEW != $this->status)
+            return false;
+     
+        $wallet = PaymentWallet::model()->findByAttributes(array('payment_id' => $this->payment_id));
+        if (!$wallet or PaymentWallet::STATUS_NOACTIVE == $wallet->blacklist)
+            return true;
+       
+        return false;
+    }
+    
+    public function listHistory($payment_id, $date=null)
+    {
+        if (!$date)
+            $date = time();
         
-        return $answer;
+        $date += self::DATE_DIFF;
+        
+        $criteria = new CDbCriteria;
+        
+        $criteria->condition .= ' payment_id = ' . $payment_id . ' and type = ' . Report::TYPE_PAYMENT . ' and TO_DAYS(creation_date) >= TO_DAYS(\'' . date('Y-m-d H:i:s', $date) . '\')';
+        
+        $criteria->limit = Report::MAX_RECORD;
+        $criteria->order = 'creation_date';
+        
+        return self::model()->findAll($criteria);
     }
 }

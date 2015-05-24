@@ -97,10 +97,21 @@ Class MMail
         );
     }
     
-    public function transport_order($email, $mailOrder, $lang)
+    public function custom_card_order($email, $mailOrder, $lang)
     {
         return MMail::saveMail(
-            'transport_order',
+            'custom_card_order',
+            $lang,
+            array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']),
+            $email,
+            $mailOrder
+        );
+    }
+    
+    public function guu_card_order($email, $mailOrder, $lang)
+    {
+        return MMail::saveMail(
+            'guu_card_order',
             $lang,
             array(Yii::app()->params['adminEmail'] => Yii::app()->params['generalSender']),
             $email,

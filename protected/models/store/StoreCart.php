@@ -2,7 +2,10 @@
 
 class StoreCart extends CFormModel
 {
-
+    const PAYMENT_BY_CARD = 'AC';
+    const PAYMENT_BY_YM = 'PC';
+    const PAYMENT_MAIL = 'email';
+    
     protected $storeCart = array();
 
     public function __construct()
@@ -135,6 +138,7 @@ class StoreCart extends CFormModel
                 $item['color'] = $product->color;
                 $item['surface'] = $product->surface;
                 $item['size'] = $product->size;
+                $item['type'] = $product->type;
 
                 $data[] = $item;
             }
@@ -155,9 +159,9 @@ class StoreCart extends CFormModel
                 $result = array();
                 foreach ($delivery as $row) {
                     $result[$row->id]['id'] = $row->id;
-                    $result[$row->id]['name'] = $row->name;
-                    $result[$row->id]['period'] = $row->period;
-                    $result[$row->id]['price'] = $row->price;
+                    $result[$row->id]['name'] = Yii::t('store', $row->name);
+                    $result[$row->id]['period'] = Yii::t('store', $row->period);
+                    $result[$row->id]['price'] = Yii::t('store', $row->price);
                 }
             }
 
@@ -177,8 +181,8 @@ class StoreCart extends CFormModel
                 $result = array();
                 foreach ($payment as $row) {
                     $result[$row->id]['id'] = $row->id;
-                    $result[$row->id]['name'] = $row->name;
-                    $result[$row->id]['caption'] = $row->caption;
+                    $result[$row->id]['name'] = Yii::t('store', $row->name);
+                    $result[$row->id]['caption'] = Yii::t('store', $row->caption);
                 }
             }
             Yii::app()->cache->set('payment', $result, 120);
@@ -221,17 +225,17 @@ class StoreCart extends CFormModel
         if (isset(Yii::app()->session['storeCustomer'])) {
             $customer = Yii::app()->session['storeCustomer'];
         } else {
-            if (!Yii::app()->user->isGuest) {
+            if (isset(Yii::app()->session['storeEmail'])) {
+                $dbCustomer = StoreCustomer::model()->findByAttributes(array(
+                    'email' => Yii::app()->session['storeEmail']
+                ));
+            } elseif (!Yii::app()->user->isGuest) {
                 $user_id = Yii::app()->user->id;
                 $user = User::model()->findByPk($user_id);
 
                 $customer['email'] = $user->email;
                 $dbCustomer = StoreCustomer::model()->findByAttributes(array(
                     'email' => $user->email
-                ));
-            } elseif (isset(Yii::app()->session['storeEmail'])) {
-                $dbCustomer = StoreCustomer::model()->findByAttributes(array(
-                    'email' => Yii::app()->session['storeEmail']
                 ));
             }
 
@@ -250,6 +254,8 @@ class StoreCart extends CFormModel
                 $customer['country'] = '';
             }
         }
+        
+        unset($customer['password']);
 
         return $customer;
     }
@@ -338,10 +344,90 @@ class StoreCart extends CFormModel
             $error = $valError;
         return $error;
     }
+    
+    public function addCustomCard($newProduct)
+    {
+        $error = 'error';
+        $newProduct['quantity'] = 1;
+
+        $prodArray['id'] = $newProduct['id'];
+        $prodArray['quantity'] = $newProduct['quantity'];
+        $db_product = StoreProduct::model()->findByPk($newProduct['id']);
+        $prodArray['selectedSize'] = $db_product->size[0];
+        $newProduct['selectedSize'] = $db_product->size[0];
+        $prodArray['front_card_img'] = $newProduct['front_img'];
+        $this->storeCart[] = $prodArray;
+
+        Yii::app()->session['storeCart'] = $this->storeCart;
+        if (isset(Yii::app()->session['itemsInCart']))
+            Yii::app()->session['itemsInCart'] += $newProduct['quantity'];
+        else
+            Yii::app()->session['itemsInCart'] = $newProduct['quantity'];
+
+        if (isset(Yii::app()->session['storeEmail'])) {
+            $newCustomer = array();
+            $newCustomer['email'] = Yii::app()->session['storeEmail'];
+            $dbCustomer = StoreCustomer::model()->findByAttributes(array(
+                'email' => Yii::app()->session['storeEmail']
+            ));
+            if ($dbCustomer) {
+                $order = StoreOrder::model()->findByAttributes(array(
+                    'id_customer' => $dbCustomer->id,
+                    'status' => 0
+                ));
+                if ($order) {
+                    $list = StoreOrderList::model()->findAllByAttributes(array(
+                        'id_order' => $order->id
+                    ));
+                    $added = false;
+                    if ($list) {
+                        foreach ($list as $item) {
+                            if ($this->equalProduct($newProduct, $item) && ($added == false)) {
+                                $addQuantity = StoreOrderList::model()->findByPK($item->id);
+                                $addQuantity->quantity += $newProduct['quantity'];
+                                $addQuantity->save();
+                                $added = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!$added) {
+                        $addProduct = new StoreOrderList;
+                        $addProduct->id_order = $order->id;
+                        $addProduct->id_product = $newProduct['id'];
+                        $addProduct->quantity = $newProduct['quantity'];
+                        if (!empty($newProduct['selectedColor']))
+                            $addProduct->color = $newProduct['selectedColor'];
+                        if (!empty($newProduct['selectedSurface']))
+                            $addProduct->surface = $newProduct['selectedSurface'];
+                        $addProduct->size_name = $newProduct['selectedSize']['value'];
+                        $addProduct->price = $newProduct['selectedSize']['price'];
+                        $addProduct->save();
+                    }
+                }else {
+                    $this->saveCustomer($newCustomer);
+                }
+            } else {
+                $this->saveCustomer($newCustomer);
+            }
+            
+            $error = 'no';
+        } else
+            $error = 'no';
+        
+        return $error;
+    }
 
     public function equalProduct($product, $etalon)
     {
         $answer = false;
+        if (!empty($newProduct['front_img'])) {
+            if ($newProduct['front_img'] == $etalon->front_card_img)
+                $answer = true;
+            
+            return $answer;
+        }
+        
         if (!is_array($etalon) && isset($etalon->id_order) && isset($etalon->id_product)) {
             //etalone from order_list
             if (
@@ -503,9 +589,8 @@ class StoreCart extends CFormModel
 
     public function getModelCustomer($newCustomer, $model)
     {
-        if (!Yii::app()->user->isGuest) {
-            $user_id = Yii::app()->user->id;
-            $user = User::model()->findByPk($user_id);
+        if (!Yii::app()->user->isGuest and empty($newCustomer['email'])) {
+            $user = User::model()->findByPk(Yii::app()->user->id);
             if ($user)
                 $newCustomer['email'] = $user->email;
         }
@@ -524,8 +609,15 @@ class StoreCart extends CFormModel
         }
 
         foreach ($newCustomer as $field => $value) {
-            if ($field != 'email')
+            if (!in_array($field, array('id', 'email')))
                 $customer->$field = $value;
+            if (empty($value))
+                $customer->$field = null;
+        }
+        
+        foreach (array('email', 'first_name', 'last_name', 'target_first_name', 'target_last_name', 'address', 'city', 'phone', 'country', 'zip', 'password') as $field) {
+            if (!isset($newCustomer[$field]))
+                $customer->$field = null;
         }
 
         return $customer;
@@ -580,7 +672,9 @@ class StoreCart extends CFormModel
     public function validateCustomer($newCustomer)
     {
         $error = Yii::t('store', 'All fields are required');
-        Yii::app()->session['storeCustomer'] = $newCustomer;
+        $sessionCustomer = $newCustomer;
+        unset($sessionCustomer['password']);
+        Yii::app()->session['storeCustomer'] = $sessionCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
         if ($customer->validate()) {
@@ -611,164 +705,183 @@ class StoreCart extends CFormModel
         Yii::app()->session['storeCustomer'] = $newCustomer;
 
         $customer = $this->getModelCustomer($newCustomer, 'StoreCustomerForm');
-
-        if (!empty($selectedDelivery['name']))
-            $deliv = StoreDelivery::model()->findByAttributes(array(
-                'name' => $selectedDelivery['name']
-            ));
-        if (!empty($selectedPayment['name']))
-            $pay = StorePayment::model()->findByAttributes(array(
-                'name' => $selectedPayment['name']
-            ));
+        
+        if (!empty($selectedDelivery['id']))
+            $deliv = StoreDelivery::model()->findByPk($selectedDelivery['id']);
+        if (!empty($selectedPayment['id']))
+            $pay = StorePayment::model()->findByPk($selectedPayment['id']);
 
         if (!isset($deliv) || !$deliv) {
-            $error = Yii::t('store', 'Specify the delivery method');
-        } elseif (!isset($pay) || !$pay) {
-            $error = Yii::t('store', 'Select payment method');
-        } elseif ($customer->validate()) {
-            $customer->save();
+            $mailOrder['error'] = Yii::t('store', 'Specify the delivery method');
+            return $mailOrder;
+        }
 
-            $order = StoreOrder::model()->findByAttributes(array(
-                'id_customer' => $customer->id,
-                'status' => 0
-            ));
+        if (!isset($pay) || !$pay) {
+            $mailOrder['error'] = Yii::t('store', 'Select payment method');
+            return $mailOrder;
+        }
 
-            if (!isset($order) || !$order) {
-                $order = new StoreOrder;
-                $order->id_customer = $customer->id;
-                $order->status = 0;
-                $order->save();
-            }
+        if (!$customer->validate()) {
+            $mailOrder['error'] = self::stringModelErrors($customer->getErrors());
+            return $mailOrder;
+        }
+        
+        if (!empty($customer->password))
+            $customer->password = Yii::app()->hasher->hashPassword($customer->password);
+        
+        if (!$customer->save()) {
+            $mailOrder['error'] = self::stringModelErrors($customer->getErrors());
+            return $mailOrder;
+        }
+        
+        $order = StoreOrder::model()->findByAttributes(array(
+            'id_customer' => $customer->id,
+            'status' => 0
+        ));
 
-            $model = StoreOrderList::model();
-            $transaction = $model->dbConnection->beginTransaction();
-            try {
-                StoreOrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
-                $items = array();
+        if (!isset($order) || !$order) {
+            $order = new StoreOrder;
+            $order->id_customer = $customer->id;
+            $order->status = 0;
+            $order->save();
+        }
 
-                $subtotal = 0;
+        $model = StoreOrderList::model();
+        $transaction = $model->dbConnection->beginTransaction();
+        try {
+            StoreOrderList::model()->deleteAll('id_order = :id_order', array(':id_order' => $order->id));
+            $items = array();
 
-                foreach ($products as $product) {
-                    $list = new StoreOrderList;
-                    $item = array();
-                    $list->id_order = $order->id;
-                    $list->id_product = $product['id'];
-                    $item['id_product'] = $product['id'];
-                    $list->quantity = $product['quantity'];
-                    $item['quantity'] = $product['quantity'];
-                    if (isset($product['selectedColor'])) {
-                        $list->color = $product['selectedColor'];
-                        $item['color'] = $product['selectedColor'];
-                    } else
-                        $item['color'] = '';
-                    if (isset($product['selectedSurface'])) {
-                        $list->surface = $product['selectedSurface'];
-                        $item['surface'] = $product['selectedSurface'];
-                    } else
-                        $item['surface'] = '';
-                    $list->size_name = $product['selectedSize']['value'];
-                    $item['size_name'] = str_replace('single', '-', $product['selectedSize']['value']);
-                    $dbProduct = StoreProduct::model()->findByPk($product['id']);
-                    $item['name'] = $dbProduct->name;
-                    $items['code'] = $dbProduct->code;
-                    $dbSizes = $dbProduct->size;
-                    foreach ($dbSizes as $dbSize) {
-                        if ($dbSize['value'] == $product['selectedSize']['value']) {
-                            $list->price = $dbSize['price'];
-                            $item['price'] = $dbSize['price'];
-                        }
-                    }
+            $subtotal = 0;
 
-                    $list->save();
-                    $items[] = $item;
-                    $subtotal += $list->price * $list->quantity;
+            foreach ($products as $product) {
+                $list = new StoreOrderList;
+                $item = array();
+                $list->id_order = $order->id;
+                $list->id_product = $product['id'];
+                $item['id_product'] = $product['id'];
+                $list->quantity = $product['quantity'];
+                $item['quantity'] = $product['quantity'];
+                if (!empty($product['front_card_img'])) {
+                    $item['front_card_img'] = $product['front_card_img'];
+                    $list->front_card_img = $product['front_card_img'];
                 }
-
-                $tax = 0;
-                $discountSumm = 0;
-
-                if (!empty($discount['promoCode']) && !empty($discount['summ'])) {
-                    $promoCode = StorePromoCode::model()->findByAttributes(array(
-                        'code' => $discount['promoCode']
-                    ));
-
-                    if ($promoCode) {
-                        if ($promoCode->expires > Time() && !(!$promoCode->is_multifold && $promoCode->used)) {
-                            $promoProducts = $promoCode->products;
-                            foreach ($products as $product) {
-                                foreach ($promoProducts as $promoId) {
-                                    if (($promoId['id_product'] == $product['id']) && ($product['selectedSize']['price'] >= $promoId['discount'])) {
-                                        $discountSumm += $promoId['discount'] * $product['quantity'];
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if ($discountSumm > 0) {
-                                $order->promo_id = $promoCode->id;
-                                if (!$promoCode->used) {
-                                    $promoCode->used = true;
-                                    $promoCode->save();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                $mailOrder['id'] = $order->id;
-                $mailOrder['email'] = $customer->email;
-                $mailOrder['target_first_name'] = $customer->target_first_name;
-                $mailOrder['target_last_name'] = $customer->target_last_name;
-                $mailOrder['address'] = $customer->address;
-                $mailOrder['city'] = $customer->city;
-                $mailOrder['zip'] = $customer->zip;
-                $mailOrder['customer_id'] = $order->id_customer;
-
-                $mailOrder['delivery_id'] = $order->delivery;
-                $mailOrder['subtotal'] = $subtotal;
-                if ($discountSumm > 0)
-                    $mailOrder['discount'] = $discountSumm;
-                $mailOrder['tax'] = $tax;
-                $mailOrder['items'] = $items;
-
-                $mailOrder['delivery'] = $deliv->name;
-                $mailOrder['shipping'] = $deliv->price;
-                $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
-                $order->delivery = $deliv->id;
-
-                $mailOrder['payment'] = $pay->name;
-                $order->payment = $pay->id;
-                $order->buy_date = date('Y-m-d H:i:s');
-                $order->status = 1;
-                $order->save();
-
-                $transaction->commit();
-                $error = 'no';
-                $this->storeCart = array();
-                unset(Yii::app()->session['storeCart']);
-                Yii::app()->session['itemsInCart'] = 0;
-            } catch (Exception $e) {
-                $transaction->rollback();
-                $error = $e;
-            }
-        } else {
-            $modelErrors = $customer->getErrors();
-            $error = '';
-            foreach ($modelErrors as $mError) {
-                if (is_array($mError)) {
-                    foreach ($mError as $subError) {
-                        if (is_array($subError))
-                            $error .= print_r($subError, true) . ' ';
-                        else
-                            $error .= $subError . ' ';
-                    }
+                if (isset($product['selectedColor'])) {
+                    $list->color = $product['selectedColor'];
+                    $item['color'] = $product['selectedColor'];
                 } else
-                    $error .= $mError . ' ';
+                    $item['color'] = '';
+                if (isset($product['selectedSurface'])) {
+                    $list->surface = $product['selectedSurface'];
+                    $item['surface'] = $product['selectedSurface'];
+                } else
+                    $item['surface'] = '';
+                $list->size_name = $product['selectedSize']['value'];
+                $item['size_name'] = str_replace('single', '-', $product['selectedSize']['value']);
+                $dbProduct = StoreProduct::model()->findByPk($product['id']);
+                $item['name'] = $dbProduct->name;
+                $items['code'] = $dbProduct->code;
+                $dbSizes = $dbProduct->size;
+                foreach ($dbSizes as $dbSize) {
+                    if ($dbSize['value'] == $product['selectedSize']['value']) {
+                        $list->price = $dbSize['price'];
+                        $item['price'] = $dbSize['price'];
+                    }
+                }
+
+                $list->save();
+                $items[] = $item;
+                $subtotal += $list->price * $list->quantity;
             }
+
+            $tax = 0;
+            $discountSumm = 0;
+
+            if (!empty($discount['promoCode']) && !empty($discount['summ'])) {
+                $promoCode = StorePromoCode::model()->findByAttributes(array(
+                    'code' => $discount['promoCode']
+                ));
+
+                if ($promoCode) {
+                    if ($promoCode->expires > Time() && !(!$promoCode->is_multifold && $promoCode->used)) {
+                        $promoProducts = $promoCode->products;
+                        foreach ($products as $product) {
+                            foreach ($promoProducts as $promoId) {
+                                if (($promoId['id_product'] == $product['id']) && ($product['selectedSize']['price'] >= $promoId['discount'])) {
+                                    $discountSumm += $promoId['discount'] * $product['quantity'];
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($discountSumm > 0) {
+                            $order->promo_id = $promoCode->id;
+                            if (!$promoCode->used) {
+                                $promoCode->used = true;
+                                $promoCode->save();
+                            }
+                        }
+                    }
+                }
+            }
+
+            $mailOrder['id'] = $order->id;
+            $mailOrder['email'] = $customer->email;
+            $mailOrder['target_first_name'] = $customer->target_first_name;
+            $mailOrder['target_last_name'] = $customer->target_last_name;
+            $mailOrder['address'] = $customer->address;
+            $mailOrder['city'] = $customer->city;
+            $mailOrder['zip'] = $customer->zip;
+            $mailOrder['customer_id'] = $order->id_customer;
+
+            $mailOrder['delivery_id'] = $order->delivery;
+            $mailOrder['subtotal'] = $subtotal;
+            if ($discountSumm > 0)
+                $mailOrder['discount'] = $discountSumm;
+            $mailOrder['tax'] = $tax;
+            $mailOrder['items'] = $items;
+
+            $mailOrder['delivery'] = $deliv->name;
+            $mailOrder['shipping'] = $deliv->price;
+            $mailOrder['total'] = $subtotal + $deliv->price - $discountSumm;
+            $order->delivery = $deliv->id;
+
+            $mailOrder['payment'] = $pay->name;
+            $order->payment = $pay->id;
+            $order->buy_date = date('Y-m-d H:i:s');
+            $order->status = 1;
+            $order->save();
+
+            $transaction->commit();
+            $error = 'no';
+            $this->storeCart = array();
+            unset(Yii::app()->session['storeCart']);
+            Yii::app()->session['itemsInCart'] = 0;
+        } catch (Exception $e) {
+            $transaction->rollback();
+            $error = $e;
         }
 
         $mailOrder['error'] = $error;
         return $mailOrder;
+    }
+    
+    public static function stringModelErrors($modelErrors)
+    {
+        $error = '';
+        foreach ($modelErrors as $mError) {
+            if (is_array($mError)) {
+                foreach ($mError as $subError) {
+                    if (is_array($subError))
+                        $error .= print_r($subError, true) . ' ';
+                    else
+                        $error .= $subError . ' ';
+                }
+            } else
+                $error .= $mError . ' ';
+        }
+        
+        return $error;
     }
 
     public static function getMessageByOrder($orderId)
@@ -844,4 +957,6 @@ class StoreCart extends CFormModel
         return $mailOrder;
     }
 
+
+    
 }

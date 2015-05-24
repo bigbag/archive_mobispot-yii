@@ -14,7 +14,7 @@
             <div class="mess-body">
                 <div class="author-row">
                     <?php if (!empty($socContent['soc_username'])): ?>
-                    <a class="authot-name" href="<?php echo $socContent['soc_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
+                    <a class="authot-name" href="<?php echo (empty($socContent['user_url']))?$socContent['soc_url']:$socContent['user_url']; ?>"><?php echo $socContent['soc_username'] ?></a>
                     <?php endif?>
                     <span class="sub-line">
                     <?php if (!empty($socContent['sub-line'])): ?>
@@ -27,13 +27,11 @@
                 </div>
                 <div class="ins-block">
                     <?php if (!empty($socContent['text'])): ?>
-                        <p><?php echo $socContent['text']; ?></p>
-                    <?php elseif (!empty($socContent['last_status'])):?>
-                        <p><?php echo $socContent['last_status']; ?></p>
+                        <p><?php echo YText::hrefActivate(CHtml::encode($socContent['text'])); ?></p>
                     <?php elseif (!empty($socContent['tweet_text'])):?>
-                        <p><?php echo $socContent['tweet_text']; ?></p>
+                        <p><?php echo YText::hrefActivate(CHtml::encode($socContent['tweet_text'])); ?></p>
                     <?php elseif (!empty($socContent['checkin_shout'])):?>
-                        <p><?php echo $socContent['checkin_shout']; ?></p>
+                        <p><?php echo YText::hrefActivate(CHtml::encode($socContent['checkin_shout'])); ?></p>
                     <?php endif ?>
                     <?php if (!empty($socContent['checkin_photo'])):?>
                     <img src="<?php echo $socContent['checkin_photo']; ?>">

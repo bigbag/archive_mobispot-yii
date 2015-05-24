@@ -1,5 +1,5 @@
 html, body {
-	height: 100%;}
+height: 100%;}
 
 body {
     min-width: 1280px;
@@ -18,6 +18,13 @@ body {
 .show-block {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
+}
+
+.thumbnail.soc-content img {
+    float: left;
+    margin-top: 0px;
+    margin-right: 19px;
+    margin-bottom: 0px;
 }
 
 .error-page .p-error-txt .error-icon {
@@ -133,6 +140,157 @@ div.store-content {
   position: absolute;
   top: 50%;
   margin-top: -20px;
+}
+
+.store-items__description h1 {
+    font-size: 2.2rem;
+}
+
+.bg-patt02 {
+    background-color: #0062FF;
+    overflow: hidden;
+}
+
+.bg-patt02:after, .bg-patt03:after {
+    height: 35px;
+    width: 35px;
+    top: 0px;
+    left: 0px;
+    background: url(../img/info/p2.png) no-repeat scroll 0px 6px / 100% auto transparent;
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.active .bg-patt02:after, .choose-color li:hover i.bg-patt02:after,
+.active .bg-patt03:after, .choose-color li:hover i.bg-patt03:after {
+    height: 50px;
+    width: 50px;
+}
+
+.bg-patt03 {
+    background-color: #AB2640;
+    overflow: hidden;
+}
+
+.bg-patt03:after {
+   background-image: url(../img/info/p3.png);
+}
+
+.bg-patt01 {
+    background-color: #5AC0B9;
+    overflow: hidden;
+}
+
+.bg-patt01:before, .bg-patt05:before {
+    top: 14px;
+    left: 14px;
+    border: 5px solid #FFF;
+    height: 23px;
+    width: 23px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.bg-patt01:after, .bg-patt05:after {
+    top: 3px;
+    left: 3px;
+    border: 5px solid #FFF;
+    height: 39px;
+    width: 39px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt01:after, .choose-color li:hover i.bg-patt01:after,
+.active .bg-patt05:after, .choose-color li:hover i.bg-patt05:after{
+    top: 4px;
+    left: 4px;
+    border: 7px solid #FFF;
+    height: 55px;
+    width: 55px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt01:before , .choose-color li:hover i.bg-patt01:before,
+.active .bg-patt05:before , .choose-color li:hover i.bg-patt05:before{
+    top: 21px;
+    left: 21px;
+    border: 7px solid #FFF;
+    height: 32px;
+    width: 32px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.bg-patt05 {
+    background-color: #000;
+    overflow: hidden;
+}
+
+.bg-patt05:before, .bg-patt05:after, 
+.active .bg-patt05:after, .choose-color li:hover i.bg-patt05:after,
+.active .bg-patt05:before , .choose-color li:hover i.bg-patt05:before{
+    border-color:#444;
+}
+
+.bg-patt06 {
+   background-color: #5AC0B9;
+   overflow: hidden;
+}
+
+.bg-patt04:after, .bg-patt06:after, .bg-patt07:after {
+    top: 0px;
+    left: -3px;
+    border: 14px solid #CAE8DD;
+    height: 92px;
+    width: 92px;
+    content: "";
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+}
+
+.active .bg-patt04:after, .choose-color li:hover i.bg-patt04:after,
+.active .bg-patt06:after, .choose-color li:hover i.bg-patt06:after,
+.active .bg-patt07:after, .choose-color li:hover i.bg-patt07:after {
+    top: 0px;
+    left: -3px;
+    border: 20px solid #CAE8DD;
+    height: 130px;
+    width: 130px;
+}
+
+.bg-patt07 {
+   background-color: #AB2640;
+   overflow: hidden;
+}
+
+.bg-patt07:after, .active .bg-patt07:after, .choose-color li:hover i.bg-patt07:after {
+    border-color:#D65770;
+}
+
+.bg-patt04 {
+   background-color: #000;
+   overflow: hidden;
+}
+
+.bg-patt04:after, .active .bg-patt04:after, .choose-color li:hover i.bg-patt04:after {
+    border-color:#363C44;
+}
+
+.choose-color li:first-child {
+    margin-left:10px;
 }
 
 .m-auto-payment {
@@ -323,4 +481,320 @@ label.face-holder.hide i, label.face-holder.hide span {
 .card-block + .no-card {
     vertical-align: middle;
     display: table-cell;
+}
+
+.table .main-card.blacklist td:first-child, .table .main-card.blacklist td:last-child{
+    border-color:red;
+}
+
+.table .main-card.blacklist i{
+    color:red;
+}
+
+.table .main-card .main-indicator.blocked{
+    display:none;
+}
+
+.table  .main-card.blacklist .main-indicator{
+    display:none;
+}
+
+.table  .main-card.blacklist .main-indicator.blocked{
+    display:block;
+}
+/* Карты ГУУ */
+/*
+.overlay-page.show.guu-card{
+    position:relative;
+    overflow: hidden;
+  
+}
+*/
+.guu-card{
+    padding: 33px;
+    
+
+}
+
+.guu-card .personal-card {
+    background-color: #fff;
+    border: 1px solid #E9EDF2;
+    overflow: hidden;
+    text-align: center;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    position: relative;
+    background-size: cover; 
+}
+
+
+.guu-card .personal-card.vertical {
+    width: 321px;
+    height: 513px;
+    float: left; 
+    /*background: url(../img/simple_card_frame.jpg) 0 0 no-repeat;*/
+    border:0;
+}
+
+.guu-card .personal-card.vertical:after {
+    width: 92px;
+    height: 23px;
+    left: 115px;
+    top: 24px; 
+}
+
+.guu-card .personal-block .upload-photo {
+    width:128px;
+    height:162px;
+    display:inline-block;
+    border-radius:0;
+    margin-top:79px;
+    background-color:white;
+}
+
+.guu-card label.face-holder {
+    cursor: pointer;
+    display: inline-block;
+    width:128px;
+    height:162px;
+    vertical-align: middle;
+    line-height: 162px;
+    text-align: center;
+}
+
+.guu-card .personal-block .upload-photo .icon {
+    position: absolute;
+    font-size: 142px;
+    color: #E9EDF2;
+    top: 0px;
+    left: 9px;
+}
+
+.guu-card .personal-block .upload-photo span {
+    position: relative;
+    top:-26px;
+}
+
+.guu-card .ng-image-crop-square section canvas.cropping-canvas {
+    width: 162px;
+    height: 162px;
+    position: relative;
+    top: 0px;
+    left:-17px;
+}
+
+.guu-card .owner-info textarea {
+    background-color: transparent;
+    width: 315px;
+    color:#6e6e6e;
+    font-size:14px;
+    padding: 0px 50px;
+    margin:-5px 3px;
+    font-family: Mobispot, Arial;
+}
+
+.guu-card .personal-block .owner-info textarea:hover, .personal-block .owner-info textarea:focus  {
+    background-color: transparent;
+}
+
+
+.guu-card .owner-info textarea.name {
+    color:#1e22a0;
+    font-size:20px;
+}
+
+.guu-card .personal-block .owner-info textarea.position {
+    color:#6e6e6e;
+    font-size:14px;
+}
+
+.card-number {
+    position:absolute;
+    left:40px;
+    bottom:40px;
+    color:#1f22ad;
+    font-size:22px;
+    font-weight:900;
+    font-family: museo_sans_cyrl100;
+}
+
+
+.guu-card .ng-image-crop-square a.crop-control.delete {
+    right:40px;
+}
+
+.guu-card .upload-photo {
+    border: 1px solid #b5b5b3;
+    width:128px;
+    height:162px;
+    padding:0;
+    margin:0;
+}
+
+.column.small-6.large-6.large-max {
+    width:100%;
+}
+
+ul.add-active.payment-options.store li{
+    display:block;
+    float:none;
+}
+
+.block-link-wrapper {
+    display: inline-block;
+    background: url(../img/tostore-bg.jpg) 0 0 no-repeat;
+    background-size: cover; 
+    width:50%;
+    height:100px;
+    margin-bottom:40px;
+}
+
+
+#to-store {
+    display: block;
+    width:100%;
+    padding-top:40px;
+    color: white;
+    font-size:19px;
+    font-family: Mobispot, Arial;
+}
+
+.block-form-wrapper {
+    display: inline-block;
+    width:264px;
+    text-align:left;
+}
+
+#constructor-simple.overlay-page.show, #constructor-troika.overlay-page.show{
+    z-index:190;
+}
+
+a.form-button.button.button-round.store {
+    margin-left:60px;
+}
+
+.row.block {
+    margin-top:30px;
+}
+
+.remove-button {
+    font-family: Mobispot-icon;
+    font-size:11px;
+    height:18px;
+    width:18px;
+    display:none;
+    line-height:18px;
+    margin:0px;
+}
+
+.phone-row{
+    cursor:pointer;
+}
+
+.phone-row:hover .remove-button {
+    display:inline-block;
+}
+
+.phone-icon {
+    width:49px;
+    text-align:left;
+}
+
+.phone-ctrl{
+    width:18px;
+}
+
+.wrapper-table {
+    border:none;
+    width:100%;
+}
+
+.left_list {
+    width:50%;
+    border-right:1px solid #E9EDF2;
+    vertical-align:top;
+}
+
+#phone_services {
+    vertical-align:top;
+}
+
+#phones-list {
+    border:none;
+    margin-top:20px;
+    width:240px;
+}
+
+.service-ctrl {
+    color:#4D4D4D;
+}
+
+.ctrl-icon {
+    font-family: Mobispot-icon;
+    font-size:10px;
+}
+
+.card-info li {
+    font-size:20px;
+}
+
+.card-info li .number {
+    display:inline-block;
+    background-color: #E9EDF2;
+    border-radius:5px;
+    padding:0px 7px;
+    font-weight:800;
+    font-size:18px;
+    position:relative;
+    top:3px;
+}
+
+.card-info li .pay {
+    display:inline-block;
+    background-color:#E9EDF2;
+    width:100%;
+    text-align:center;
+    padding:10px;
+    margin:5px;
+}
+
+.card-info li .block {
+    display:inline-block;
+    background-color:#ff6565;
+    color:#ffffff;
+    width:100%;
+    text-align:center;
+    padding:10px;
+    margin:5px;
+}
+
+.card-info li .note {
+    color:#8D9095;
+    font-size:12px;
+}
+
+
+.transport-block.disabled .block-information {
+    opacity: 1;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -31px;
+    background: none repeat scroll 0% 0% #E0E6ED;
+    border-radius: 5px;
+    padding: 22px;
+    width: 400px;
+    text-align: center;
+}
+
+.transport-block.disabled .cover{
+    position: absolute;
+    opacity: 0.7;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left: 0;
+    background-color: #E0E6ED;
 }

@@ -12,9 +12,15 @@
  * @property string $color
  * @property string $size
  * @property string surface
+ * @property integer type
  */
 class StoreProduct extends CActiveRecord
 {
+    const TYPE_SPOT = 1;
+    const TYPE_CUSTOM_CARD = 2;
+    const TYPE_TROIKA = 3;
+    
+    const CARDS_PATH = '/uploads/custom_card/';
 
     public static function model($className = __CLASS__)
     {
@@ -59,6 +65,19 @@ class StoreProduct extends CActiveRecord
         return array(
             array('name, size', 'required'),
         );
+    }
+    
+    public function getList()
+    {
+        $products = self::model()->findAll();
+        $list = array();
+        
+        foreach ($products as $product)
+        {
+            $list[$product->id] = $product;
+        }
+        
+        return $list;
     }
 
 }

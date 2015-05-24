@@ -105,10 +105,44 @@
     top:10px;
 }
 
+.ng-image-crop-circle a.crop-control.zoom-in {
+    left:8px;
+    top:50px;
+    font-size: 25px;
+    line-height: 22px;
+}
+
+.ng-image-crop-circle a.crop-control.zoom-out {
+    left:8px;
+    top:90px;
+    font-size: 25px;
+    line-height: 22px;
+}
+
 .ng-image-crop-square a.crop-control.delete {
     right:20px;
     top:7px;
     z-index:10;
+}
+
+.ng-image-crop-square a.crop-control.zoom-in {
+    left:8px;
+    top:4px;
+    font-size: 25px;
+    line-height: 18px;
+    z-index:10;
+    width: 22px;
+    height: 22px;
+}
+
+.ng-image-crop-square a.crop-control.zoom-out {
+    left:8px;
+    top:30px;
+    font-size: 25px;
+    line-height: 18px;
+    z-index:10;
+    width: 22px;
+    height: 22px;
 }
 
 .ng-image-crop:hover .crop-control{
