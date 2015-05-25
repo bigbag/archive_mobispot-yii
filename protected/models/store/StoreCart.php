@@ -734,17 +734,7 @@ class StoreCart extends CFormModel
             return $mailOrder;
         }
         
-        $order = StoreOrder::model()->findByAttributes(array(
-            'id_customer' => $customer->id,
-            'status' => 0
-        ));
-
-        if (!isset($order) || !$order) {
-            $order = new StoreOrder;
-            $order->id_customer = $customer->id;
-            $order->status = 0;
-            $order->save();
-        }
+        $order = StoreOrder::getDraft($customer->id);
 
         $model = StoreOrderList::model();
         $transaction = $model->dbConnection->beginTransaction();

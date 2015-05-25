@@ -122,6 +122,24 @@ class StoreOrder extends CActiveRecord
     {
         return 0;
     }
+    
+    public static function getDraft($id_customer)
+    {
+        $order = StoreOrder::model()->findByAttributes(array(
+            'id_customer' => $id_customer,
+            'status' => self::STATUS_CART,
+        ));
+        
+        if ($order)
+            return $order;
+
+        $order = new StoreOrder;
+        $order->id_customer = $id_customer;
+        $order->status = self::STATUS_CART;
+        $order->save();
+        
+        return $order;
+    }
 
     public function mailOrder()
     {
