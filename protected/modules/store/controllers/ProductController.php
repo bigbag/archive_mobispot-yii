@@ -314,7 +314,8 @@ class ProductController extends MController
             Yii::app()->end();   
         }
             
-        MMail::activation($user->email, $user->activkey, Lang::getCurrentLang());
+        if (User::STATUS_NOACTIVE == $user->status)
+            MMail::activation($user->email, $user->activkey, Lang::getCurrentLang());
         
         $order->status = StoreOrder::STATUS_SUCCESS_REDIRECT;
         if (!$order->save())
