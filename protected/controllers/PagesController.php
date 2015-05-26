@@ -48,4 +48,10 @@ class PagesController extends MController
         
         $this->render('card_constructor', array('card'=>str_replace('"', '&#34;', CJSON::encode($card))));
     }
+    
+    public function actionTroika()
+    {
+        $this->layout = '//layouts/page_promo';
+        $this->render('troika');
+    }
 }
