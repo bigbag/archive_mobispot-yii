@@ -126,6 +126,8 @@ class ServiceController extends MController
             $wallet->status = PaymentWallet::STATUS_ACTIVE;
             $wallet->user_id = $spot->user_id;
             $wallet->save();
+
+            SpotTroika::releaseTroikaCard($wallet, $model);
         }
 
         MMail::activation($model->email, $model->activkey, Lang::getCurrentLang());
@@ -133,6 +135,7 @@ class ServiceController extends MController
         $answer['error'] = "no";
         echo json_encode($answer);
     }
+
 
     //Активация учетки
     public function actionActivation()
