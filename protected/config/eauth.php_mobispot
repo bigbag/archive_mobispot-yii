@@ -76,12 +76,11 @@ return array(// You can change the providers and their classes.
         'title' => 'Foursquare'
     ),
     'linkedin' => array(
-        // app https://www.linkedin.com/secure/developer
+        //https://www.linkedin.com/secure/developer
         'class' => 'CustomLinkedinOAuthService',
-        'key' => 'pgweaq9fm86c',
-        'secret' => 'hlGC8Jy64THUXdqA',
-        'token' => '13273519-31e5-4102-bd8b-a3285006b0e8',
-        'token_secret' => '31e54848-b2d9-44ad-9ffc-39f5ba781d95',
+        'scope' => 'r_emailaddress',
+        'client_id' => 'pgweaq9fm86c',
+        'client_secret' => 'hlGC8Jy64THUXdqA',
     ),
     'instagram' => array(
         //http://instagram.com/developer/clients/manage/
