@@ -381,7 +381,7 @@ class SocInfo extends CFormModel
 
         Yii::app()->cache->set('socData_' . md5($socUsername), $this->userDetail, 120);
 
-        $uncheck = array('html', 'list', 'list2', 'follow_button');
+        $uncheck = array('html', 'list', 'list2', 'follow_button', 'embedHtml');
 
         if (empty($this->userDetail['binded_link'])) {
             $this->userDetail['binded_link'] = $socUsername;
