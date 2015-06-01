@@ -25,26 +25,13 @@
                     </span>
                 </div>
                 <div class="ins-block">
-                <object>
-                    <param name="movie" value="<?php
-                    echo (!empty($socContent['youtube_video_flash']))?
-                        $socContent['youtube_video_flash']:'' ?>">
-                    <param name="allowFullScreen" value="true">
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php
-                    echo (!empty($socContent['youtube_video_flash']))?
-                        $socContent['youtube_video_flash']:'' ?>"
-                    <?php if (isset($socContent['youtube_video_rel'])): ?>
-                        rel="<?php echo $socContent['youtube_video_rel']; ?>"
-                    <?php endif; ?>
-                    type="application/x-shockwave-flash"
-                        width="100%" height="480"
-                    allowfullscreen="true">
-                </object>
+                    <?php echo (empty($socContent['embedHtml']))?'':$socContent['embedHtml']; ?>
                 </div>
             </div>
         </div>
         <div class="item-control">
             <div class="spot-activity">
+                <a class="button round" ng-click="unBindSocial(spot, <?php echo $key; ?>, $event)">&#xe003;</a>
                 <a
                     class="button round"
                     href=""

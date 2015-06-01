@@ -1,0 +1,269 @@
+.troika .header-page .hat-bar {
+    background: transparent;
+    height:100px;
+    padding:50px 5%;
+    overflow: visible;
+}
+
+.splash.troika .help-link li {
+    margin: 0 50px;
+}
+
+.splash.troika .first-screen, #business-info, #business-info h1 {
+    color: #fff;
+}
+
+.header-page li a.troika-btn {
+    position:relative;
+    display:inline-block;
+    color:#FFF;
+    font-family: mobispot;
+    font-size: 22px;
+    border: 2px solid #fff;
+    padding:8px 35px;
+    margin-bottom:10px;
+    background-color:#5ab4a6;
+}
+
+.troika .help-link {
+    font-size:16px;
+}
+
+.header-page li a.troika-btn:active {
+    top:3px;
+    left:1px;
+}
+
+.troika table.content tbody tr:nth-child(2n) {
+   background: transparent;
+}
+
+table.content {
+    background: transparent;
+    width: 100%;
+    border:none;
+    overflow:visible;
+}
+
+.bottomed {
+    display:inline-block;
+    position:absolute;
+    bottom:11px;
+    width:40%;
+    max-width:580px;
+}
+
+table.content tr {
+    background: transparent;
+}
+
+table.content td {
+    text-align:center;
+}
+
+.troika .first-screen {
+    position:relative;
+    text-align:center;
+    height:800px;
+}
+
+.first-screen .content{
+    position: relative;
+    bottom:10px;
+}
+
+.v-centred {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 426px;
+    margin: auto;
+}
+
+.first-screen .content h1{
+    /*ont-size:68px;*/
+    font-size:4.3rem;
+    color:#fff; 
+    margin-bottom:50px;
+    text-shadow: 6px 6px 8px rgba(0,0,0,0.5);
+}
+
+.first-screen table.content td.right-half{
+    padding:0 35px;
+    text-align:left;
+    vertical-align:top;
+    color:#fff;
+    font-size:25px;
+    line-height:35px;
+    text-shadow: 6px 6px 8px rgba(0,0,0,0.5);
+}
+
+.first-screen table.content td.left-half{
+    width:50%;
+    padding:0 35px;
+    text-align: right;
+}
+
+.troika .btn-wrapper {
+    width:100%;
+    text-align:center;
+    position:absolute;
+    bottom:10%;
+}
+
+.troika .info-buttom, .troika {
+    opacity: 1;
+    font-size:28px;
+    height:40px;
+    z-index:10;
+    color:#fff;
+    
+}
+
+.full-screen {
+    width:100%;
+    min-height: 680px;
+    background-size: cover;
+}
+
+#troika-info {
+    padding-top:40px;
+    text-align:center;
+    color:#fff;
+}
+
+#troika-info h1, #business-info h1{
+    font-size:3rem;
+}
+
+table.content.items-2 {
+    width:48%;
+    margin:30px auto 0 auto;
+}
+
+table.content.items-3 {
+    width:73%;
+    margin:20px auto 0 auto;
+}
+
+table.content.items-2 tbody tr td, table.content.items-3 tbody tr td {
+    padding: 0px 10px;
+}
+
+table.content.items-2 p, table.content.items-3 p, table.content.cards-order p, #business-info p{
+    font-size: 19px;
+}
+
+table.content.cards-order {
+    width:75%;
+    margin:40px auto 0 auto;
+}
+
+.order-btn, .order-btn:hover {
+    position:relative;
+    display:inline-block;
+    color:#FFF;
+    font-family: mobispot;
+    font-size: 25px;
+    padding:20px 71px;
+    margin:20px 0 10px 0;
+    background-color:#0062ff;
+    box-shadow:1px 11px 15px darkgrey;
+}
+
+.order-btn:active {
+    top:3px;
+    left:1px;
+}
+
+.troika .note {
+    width:75%;
+    margin:20px auto 0 auto;
+    padding-bottom:7px;
+    border-bottom:1px solid #000;
+}
+
+.troika .note  p{
+    color:#000;
+    text-align:left;
+    font-size: 17px;
+    margin:0 auto;    
+ }
+
+.center-btn {
+    width:100%;
+    margin:45px 0;
+ }
+
+.center-btn a{
+    display:inline-block;
+    font-size:21px;
+    color:#000;
+    border-bottom:1px solid #000;
+}
+
+#business-info {
+    position:relative;
+    padding:50px 80px;
+    display:tabel-cell;
+    vertical-align:center;
+    display:none;
+    overflow:hidden;
+}
+
+#business-info h1, #business-info h3, #business-info a, #business-info p {
+    color: #fff;
+    position:relative;
+    z-index: 5;
+}
+
+#business-info h3 {
+    margin-top: 10%;
+}
+
+#business-info .left-half {
+    text-align:left;
+}
+
+#business-info .right-half {
+    text-align:left;
+    vertical-align:center;
+    padding-left:5%;
+}
+
+#business-info a {
+    position:relative;
+    display:inline-block;
+    color:#fff;
+    font-family: mobispot;
+    font-size: 25px;
+    font-weight:500;
+    padding:20px 71px;
+    margin-bottom:10px;
+    border: 2px solid #fff;
+    background: none repeat scroll 0% 0% rgba(256, 256, 256, 0.3);
+}
+
+#business-info a:active {
+    top:3px;
+    left:1px;
+}
+
+.shadow-cover::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: none repeat scroll 0% 0% rgba(0, 0, 30, 0.5);
+    box-sizing: border-box;
+}
+
+.no-padding {
+    padding:0;
+}

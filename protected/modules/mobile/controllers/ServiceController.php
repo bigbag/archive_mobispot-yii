@@ -165,6 +165,8 @@ class ServiceController extends MController
             $wallet->status = PaymentWallet::STATUS_ACTIVE;
             $wallet->user_id = $spot->user_id;
             $wallet->save();
+
+            SpotTroika::releaseTroikaCard($wallet, $model);
         }
 
         MMail::activation($model->email, $model->activkey, $this->getLang());

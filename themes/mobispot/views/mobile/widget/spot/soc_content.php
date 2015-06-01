@@ -208,35 +208,9 @@
                     <p><?php echo $socContent['place_name']; ?></p>
             <?php endif; ?>
             <?php /* YouTube video *//////////////////////  ?>
-            <?php   if (!empty($socContent['youtube_video_link'])
-                        && !empty($socContent['youtube_video_flash'])
-                        && empty($socContent['shared_link'])
-                    ):?>
-                <object>
-                    <param name="movie" value="<?php echo $socContent['youtube_video_flash']; ?>"></param>
-                    <param name="allowFullScreen" value="true"></param>
-                    <embed class="yt_player" id="player_<?php echo $dataKey; ?>" src="<?php echo $socContent['youtube_video_flash']; ?>"
-                            <?php if (isset($socContent['youtube_video_rel'])): ?>
-                                rel="<?php echo $socContent['youtube_video_rel']; ?>"
-                            <?php endif; ?>
-                            type="application/x-shockwave-flash"
-                            <?php if (isset($socContent['youtube_video_rel'])): ?>
-                               width="100%" height="480"
-                            <?php else: ?>
-                               width="120" height="90"
-                            <?php endif; ?>
-                           allowfullscreen="true"></embed>
-                </object>
-                <?php if (isset($socContent['youtube_video_rel']) and empty($socContent['dinamic'])): ?>
-                    <script type="text/javascript">
-                        $(document).ready(function () {
-                            $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
-                        });
-                        $(window).resize(function () {
-                            $('#player_<?php echo $dataKey; ?>').height($('#player_<?php echo $dataKey; ?>').width() /<?php echo $socContent['youtube_video_rel']; ?>);
-                        });
-                    </script>
-                <?php endif; ?>
+            <?php   if (!empty($socContent['embedHtml'])): ?>
+                <?php echo $socContent['embedHtml']; ?>
+                
                 <?php if (isset($socContent['view_count'])): ?>
                     <footer>
                         <span><?php echo $socContent['view_count'] . ' ' . Yii::t('spot', 'views'); ?></span>
