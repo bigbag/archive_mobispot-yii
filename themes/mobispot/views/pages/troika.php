@@ -12,7 +12,7 @@
             <ul class="right">
                 <li>
                     <a href="http://mobispot.com/store" class="troika-btn">
-                        Заказать&nbsp;карту
+                        <?php echo Yii::t('general', 'Заказать&nbsp;карту'); ?>
                     </a>
                 </li>
             </ul>
@@ -34,8 +34,8 @@
             </td>
             <td class="right-half">
                 <div class="bottomed">
-                <h1>Тройка, которую<br>ждали</h1>
-                <span>Карта &ldquo;Тройка&rdquo; от Мобиспот умеет открывать двери и выполнять другие функции на территории вашего офиса. Создайте дизайн, который подходит вам или вашей компании
+                <h1><?php echo Yii::t('general', 'Тройка, которую<br>ждали'); ?></h1>
+                <span><?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном'); ?>
                 </span>
                 </div>
             </td>
@@ -51,15 +51,15 @@
         </div>
         
         <ul class="help-link">
-            <li><a class="tobusiness" href="#business">Для бизнеса</a></li>
-            <li><a href="mailto:hola@mobispot.com">Напишите нам</a></li>
-            <li><a href="http://mobispot.com">Wearable NFC</a></li>
+            <li><a class="tobusiness" href="#business"><?php echo Yii::t('general', 'Для бизнеса'); ?></a></li>
+            <li><a href="mailto:hola@mobispot.com"><?php echo Yii::t('general', 'Напишите нам'); ?></a></li>
+            <li><a href="http://mobispot.com"><?php echo Yii::t('general', 'Wearable NFC'); ?></a></li>
         </ul>
     </div>
     
     <div id="troika-info" class="full-screen">
         <div id="info"></div>
-        <h1>Карта с вашим дизайном</h1>
+        <h1><?php echo Yii::t('general', 'Карта с вашим дизайном'); ?></h1>
         <img width="60%"src="themes/mobispot/img/troika/2screenpic.png">
         <table class="content items-3">
         <tr>
@@ -75,16 +75,16 @@
         </tr>
         <tr>
             <td width="33%">
-                <h4>Оплачивай транспорт</h4>
-                <p>Карта работает как<br>стандартная &ldquo;Тройка&rdquo;</p>
+                <h4><?php echo Yii::t('general', 'Катайтесь'); ?></h4>
+                <p><?php echo Yii::t('general', 'Карта работает как<br>стандартная &ldquo;Тройка&rdquo;*'); ?></p>
             </td>
             <td width="33%">
-                <h4>Открывай двери</h4>
-                <p>Больше не надо носить<br>отдельный пропуск в офис*</p>
+                <h4><?php echo Yii::t('general', 'Открывайте двери'); ?></h4>
+                <p><?php echo Yii::t('general', 'Больше не надо носить<br>отдельный пропуск в офис**'); ?></p>
             </td>
             <td>
-                <h4>Оплачивай покупки</h4>
-                <p>Плати за покупки<br>внутри офиса</p>
+                <h4><?php echo Yii::t('general', 'Делайте покупки'); ?></h4>
+                <p><?php echo Yii::t('general', 'Расплачивайтесь картой за<br>товары и услуги внутри офиса***'); ?></p>
             </td>
         </tr>
         </table>        
@@ -99,12 +99,18 @@
         </tr>
         <tr>
             <td width="50%">
-                <h4>Участвуй в акциях</h4>
-                <p>Учавствуйте в акциях<br>внутри вашего офиса</p>
+                <h4><?php echo Yii::t('general', 'Получайте скидки'); ?></h4>
             </td>
             <td>
-                <h4>Хвастай дизайном</h4>
-                <p>Создай карту с вашим<br>уникальным дизайном</p>
+                <h4><?php echo Yii::t('general', 'Впечатляйте дизайном'); ?></h4>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                <p><?php echo Yii::t('general', 'Пользуйтесь картой как дисконтной в точках продаж рядом с офисом'); ?></p>
+            </td>
+            <td>
+                <p><?php echo Yii::t('general', 'Создайте карту с вашим уникальным дизайном'); ?></p>
             </td>
         </tr>
         </table>
@@ -114,20 +120,22 @@
                 <img src="themes/mobispot/img/troika/2screenpic2.jpg">
             </td>
             <td>
-                <h3>Получите свою карту<br>через 3 дня</h3>
-                <p>Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и через 3 дня курьер<wbr> привезет вам новую "Тройку".</p>
+                <h3><?php echo Yii::t('general', 'Получите свою карту<br>через 5 дней'); ?></h3>
+                <p><?php echo Yii::t('general', 'Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и через 5 дней курьер<wbr> привезет вам новую &ldquo;Тройку&rdquo;.'); ?></p>
                 <a href="http://mobispot.com/store" class="order-btn">
-                    Заказать&nbsp;карту
+                    <?php echo Yii::t('general', 'Заказать&nbsp;карту'); ?>
                 </a>
             </td>
         </tr>
         </table>
         <div class="note">
-            <p>* карта работает с большинством систем контроля доступа, включая Mifare, EM-marine.</p>
+            <p><?php echo Yii::t('general', '* Подробная информация о Московской транспортной карте &ldquo;Тройка&rdquo; на '); ?><a href="http://troika.mos.ru/" target="_blank">troika.mos.ru</a></p>
+            <p><?php echo Yii::t('general', '** Карта работает с большинством систем контроля доступа, включая Mifare, EM-marine.'); ?></p>
+            <p><?php echo Yii::t('general', '*** В подключенных точках продаж на территории вашего рабочего кампуса'); ?></p>
         </div>
         <div class="center-btn">
             <a href="#business" class="tobusiness faster">
-                Вы владелец бизнеса?
+                <?php echo Yii::t('general', 'Вы владелец бизнеса?'); ?>
             </a>
         </div>
     </div>
@@ -139,16 +147,16 @@
         <table class="content">
         <tr>
             <td width="50%" class="left-half">
-                <h1>Для бизнеса</h1>
-                <h3>Бизнес-центры</h3>
-                <p>Повысьте комфорт и удобство для ваших<br>арендаторов. Предоставьте дополнительные<br>услуги внутри офисного центра.</p>
-                <h3>Компании</h3>
-                <p>Помогите вашим сотрудникам избавиться от<br>множества карт. Развивайте дополнительные<br> программы лояльности для персонала при<br>помощи нашей карты</p>
-                <h3>Системные интеграторы</h3>
-                <p>Создавайте системы контроля доступа нового<br>уровня. Добавьте новый сервис в линейку<br>своих услуг.</p>
+                <h1><?php echo Yii::t('general', 'Для бизнеса'); ?></h1>
+                <h3><?php echo Yii::t('general', 'Бизнес-центры'); ?></h3>
+                <p><?php echo Yii::t('general', 'Предоставьте дополнительные услуги внутри<br>офисного центра. Повысьте комфорт<br>и удобство для ваших арендаторов.'); ?></p>
+                <h3><?php echo Yii::t('general', 'Компании'); ?></h3>
+                <p><?php echo Yii::t('general', 'Избавьте ваших сотрудников от множества карт.<br>Развивайте дополнительные программы лояльности<br>для сотрудников при помощи сервисов &ldquo;Мобиспот&rdquo;.'); ?></p>
+                <h3><?php echo Yii::t('general', 'Системные интеграторы'); ?></h3>
+                <p><?php echo Yii::t('general', 'Создавайте системы контроля доступа нового уровня.<br>Добавьте новый сервис в линейку своих услуг.'); ?></p>
             </td>
             <td class="right-half">
-                <a href="mailto:hola@mobispot.com">Напишите нам</a>
+                <a href="mailto:hola@mobispot.com"><?php echo Yii::t('general', 'Напишите нам'); ?></a>
             </td>
         </tr>
         </table>
