@@ -1,6 +1,9 @@
 <?php
 class MHttp
 {
+    const TYPE_GET = 'GET';
+    const TYPE_POST = 'POST';
+    
     public static function setAccess()
     {
         if (!Yii::app()->request->isPostRequest)
@@ -49,16 +52,12 @@ class MHttp
         else Yii::app()->controller->redirect($target);
     }
 
-    public static function setCurlRequest($url, $data=false, $autorization = false, $headers = false)
+    public static function setCurlRequest($url, $type=self::TYPE_GET, $params=array(), $autorization=false, $headers=false, $data=array())
     {
         $ch=curl_init();
-        curl_setopt($ch, CURLOPT_URL, (string)$url);
-        if ($data) {
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$data:(array)$data);
-        }
+        curl_setopt($ch, CURLOPT_URL, (string)$url . self::toGetParams($params));
+        
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
         curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
@@ -81,6 +80,11 @@ class MHttp
         {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
+        
+        if (self::TYPE_POST == $type) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$params:(array)$data);
+        } 
 
         $result=curl_exec($ch);
         $errno=curl_errno($ch);
@@ -93,6 +97,22 @@ class MHttp
         }
     }
 
+    public static function toGetParams($data, $prefix = '?')
+    {
+        $params = '';
+        
+        if (!is_array($data))
+            return $params;
+        
+        foreach($data as $key=>$value)
+            $params .= '&' . $key . '=' . $value;
+        
+        if (strlen($params))
+            $params = $prefix . substr($params, 1);
+
+        return $params;
+    }
+    
     public static function isMobileUserAgent()
     {
         $detect = Yii::app()->mobileDetect;

@@ -110,11 +110,11 @@ class UserController extends MController
             $data['link'] = urlencode($data['link']);
             unset(Yii::app()->session[$serviceName . '_synch_data']);
 
-            $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
+            $this->redirect('/spot/bindedContent?service=' . $serviceName . MHttp::toGetParams($data, '&'));
         } elseif(!empty(Yii::app()->session[$serviceName . '_loyalty_data'])) {
             $data = Yii::app()->session[$serviceName . '_loyalty_data'];
             unset(Yii::app()->session[$serviceName . '_loyalty_data']);
-            $this->redirect('/user/checkLike' . SocInfo::toGetParams($data));
+            $this->redirect('/user/checkLike' . MHttp::toGetParams($data));
         }
     }
 

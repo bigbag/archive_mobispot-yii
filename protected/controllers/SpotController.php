@@ -602,7 +602,7 @@ class SpotController extends MController
         $discodes_id = Yii::app()->request->getParam('spot');
         if (!$discodes_id ) $this->redirect('/spot/list/');
 
-        $url = Yii::app()->params['internal_api']
+        $url = Yii::app()->params['api']['internal']
             . '/api/internal/yandex/get_auth_url/'
             . $discodes_id
             . '?url='
@@ -622,7 +622,7 @@ class SpotController extends MController
         $code = Yii::app()->request->getParam('code');
         if (!$discodes_id or !$code or $error) $this->redirect('/spot/list/');
 
-        $url = Yii::app()->params['internal_api']
+        $url = Yii::app()->params['api']['internal']
             . '/api/internal/yandex/get_token/'
             . $discodes_id
             . '/'
@@ -761,7 +761,7 @@ class SpotController extends MController
     public function getLinkingParams($discodes_id)
     {
         $url =
-            Yii::app()->params['internal_api']
+            Yii::app()->params['api']['internal']
             . '/api/internal/yandex/linking/'
             . $discodes_id
             . '?url='
