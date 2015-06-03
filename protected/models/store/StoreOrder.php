@@ -252,7 +252,7 @@ class StoreOrder extends CActiveRecord
             $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
             
-            $result = MHttp::setCurlRequest($url, $data, $auth);
+            $result = MHttp::setCurlRequest($url, MHttp::TYPE_POST, array(), $auth, array(), $data);
             
             if (is_string($result) and strpos($result, '{error:') !== false)
                 $error = 'yes';

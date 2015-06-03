@@ -107,7 +107,7 @@ class ServiceController extends MController
             unset(Yii::app()->session[$serviceName . '_synch_data']);
             $host = '';
 
-            $this->redirect('/spot/bindedContent?service=' . $serviceName . SocInfo::toGetParams($data, '&'));
+            $this->redirect('/spot/bindedContent?service=' . $serviceName . MHttp::toGetParams($data, '&'));
         }
     }
 

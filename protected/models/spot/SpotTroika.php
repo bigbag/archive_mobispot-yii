@@ -83,7 +83,7 @@ class SpotTroika extends CActiveRecord
             $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
 
-            $card = CJSON::decode(MHttp::setCurlRequest($url, false, $auth), true);
+            $card = CJSON::decode(MHttp::setCurlRequest($url, MHttp::TYPE_GET, array(), $auth), true);
 
             if (empty($card['status']) or !isset($card['troika_state'])) {
                 Yii::app()->cache->set('troika_' . $hard_id, false, 60);
@@ -110,9 +110,9 @@ class SpotTroika extends CActiveRecord
         $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
 
-        $result = MHttp::setCurlRequest($url, $card, $auth);
+        $result = MHttp::setCurlRequest($url, Mhttp::TYPE_POST, array(), $auth, array(), $card);
         Yii::app()->cache->delete('troika_' . $hard_id);
-
+        
         return true;
     }
 

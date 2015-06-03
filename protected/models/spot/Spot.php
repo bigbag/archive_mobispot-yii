@@ -347,7 +347,7 @@ class Spot extends CActiveRecord
 
         $data = CJSON::encode($point, true);
         $headers = array('Content-Type: application/json');
-        $result = CJSON::decode(MHttp::setCurlRequest($url, $data, false, $headers), true);
+        $result = CJSON::decode(MHttp::setCurlRequest($url, Mhttp::TYPE_POST, array(), false, $headers, $data), true);
 
         if (is_string($result) and strpos($result, '{error:') !== false)
             return false;
