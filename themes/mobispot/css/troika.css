@@ -149,8 +149,12 @@ table.content.items-3 {
     margin:20px auto 0 auto;
 }
 
-table.content.items-2 tbody tr td, table.content.items-3 tbody tr td {
+table.content.items-2 td, table.content.items-3 td {
     padding: 0px 10px;
+}
+
+table.content.items-2 td {
+    vertical-align:top
 }
 
 table.content.items-2 p, table.content.items-3 p, table.content.cards-order p, #business-info p{
