@@ -421,7 +421,13 @@ class ServiceController extends MController
         if (!MMail::demokit_order($mailOrder['email'], $mailOrder, Lang::getCurrentLang()))
             MHttp::getJsonAndExit($answer);
 
-        if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
+        if ($payment['action'] == DemoKitOrder::PAYMENT_BY_CARD or 
+                $payment['action'] == DemoKitOrder::PAYMENT_BY_YM) {
+
+            $order->total = $order->getSummRub();
+            $order->customer_id = $order->id;
+            $order->details = Yii::t('store', 'Demo kit Mobispot');
+            
             $answer['content'] = $this->renderPartial('//store/_ym_form',
                 array(
                     'order'=>$order,

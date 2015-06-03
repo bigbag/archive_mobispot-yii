@@ -233,32 +233,40 @@ class ProductController extends MController
             MHttp::getJsonAndExit($answer);
         }
 
-        $cartOrder = $cart->buy($data['customer'], $data['products'], $data['discount'], $data['delivery'], $data['payment']);
-        $answer['error'] = $cartOrder['error'];
-        if (!empty($cartOrder['payment']))
-            $answer['payment'] = $cartOrder['payment'];
+        $order = $cart->buy($data['customer'],
+                            $data['products'],
+                            $data['discount'],
+                            $data['delivery'],
+                            $data['payment']);
 
-        if ($cartOrder['error'] != 'no') {
+        $answer['error'] = $order['error'];
+        if (!empty($order['payment']))
+            $answer['payment'] = $order['payment'];
+
+        if ($order['error'] != 'no') {
              MHttp::getJsonAndExit($answer);
         }
 
-        if ($cartOrder['payment'] == StoreCart::PAYMENT_BY_CARD or
-                $cartOrder['payment'] == StoreCart::PAYMENT_BY_YM) {
+        if ($order['payment'] == StoreCart::PAYMENT_BY_CARD or
+                $order['payment'] == StoreCart::PAYMENT_BY_YM) {
 
-            $answer['content'] = $this->renderPartial('//store/_store_ym_form',
+            $object_order = (object) $order;
+            $object_order->name = $order['target_first_name'] . ' ' . $order['target_last_name'];
+            $object_order->details = Yii::t('store', 'Mobispot');
+            $object_order->total = 10;
+
+            $answer['content'] = $this->renderPartial('//store/_ym_form',
                 array(
-                    'order'=>$cartOrder,
-                    'successUrl'=>urlencode($this->getBaseUrl() . '/store/SuccessOrder/' . $cartOrder['id']),
-                    'failUrl'=>urlencode($this->getBaseUrl() . '/store/FailedOrder/' . $cartOrder['id']),
+                    'order'=>$object_order,
+                    'action'=>$order['payment'],
+                    'successUrl'=>urlencode($this->getBaseUrl() . '/store/SuccessOrder/' . $order['id']),
+                    'failUrl'=>urlencode($this->getBaseUrl() . '/store/FailedOrder/' . $order['id']),
                 ),
                 true
             );
             $answer['error'] = 'no';
-            echo json_encode($answer);
-        }
-
-        if ($cartOrder['payment'] == StoreCart::PAYMENT_MAIL) {
-            $order = StoreOrder::model()->findByPk($cartOrder['id']);
+        } elseif ($order['payment'] == StoreCart::PAYMENT_MAIL) {
+            $order = StoreOrder::model()->findByPk($order['id']);
             $mailOrder = $order->mailOrder();
             //банковский перевод
             if (MMail::order_track(Yii::app()->params['generalEmail'], $mailOrder, Lang::getCurrentLang()))
