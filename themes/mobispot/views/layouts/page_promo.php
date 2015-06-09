@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="themes/mobispot/css/troika.css" />
     <link rel="stylesheet" href="themes/mobispot/css/add.css" />
     
+    <meta property="og:title" content="<?php echo Yii::t('general', 'Карта Тройка от Мобиспот'); ?>" />
+    <meta property="og:description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном.'); ?>" />
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
         <link rel="stylesheet" href="css/ie8.css">
