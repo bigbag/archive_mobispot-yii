@@ -28,12 +28,12 @@
 .troika .help-link {
     font-size:16px;
 }
-
+/*
 .header-page li a.troika-btn:active {
     top:3px;
     left:1px;
 }
-
+*/
 .troika table.content tbody tr:nth-child(2n) {
    background: transparent;
 }
@@ -166,7 +166,7 @@ table.content.cards-order {
     margin:40px auto 0 auto;
 }
 
-.order-btn, .order-btn:hover {
+.order-btn/*, .order-btn:hover*/ {
     position:relative;
     display:inline-block;
     color:#FFF;
@@ -178,12 +178,12 @@ table.content.cards-order {
     background-color:#0062ff;
     box-shadow:1px 11px 15px darkgrey;
 }
-
+/*
 .order-btn:active {
     top:3px;
     left:1px;
 }
-
+*/
 .troika .note {
     width:75%;
     margin:20px auto 0 auto;
