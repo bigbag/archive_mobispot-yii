@@ -1281,7 +1281,7 @@ h3 + .small-txt{
 	height: 200px;
 	width: 200px;
 	vertical-align: 200;
-	line-height: 125px;
+	padding:0;    
 	border-radius: 50%;
 	position: absolute;
 	top: 60px;
@@ -1295,4 +1295,11 @@ h3 + .small-txt{
 .item-download table{
 	position: relative;
 	z-index: 10;
+}
+
+.item-download .spot-button .item-text {
+    position: absolute;
+    bottom: 118px;
+    text-align: center;
+    width: 200px;
 }
