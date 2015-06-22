@@ -28,6 +28,8 @@ class FacebookContent extends SocContentBase
     {
         $userDetail = array();
         $userDetail['block_type'] = self::TYPE_POST;
+        $accessToken = self::userOrAppToken($discodesId);
+        
         unset($postId);
         unset($photoId);
 
@@ -98,7 +100,7 @@ class FacebookContent extends SocContentBase
         } else {
             //привязан пост или профиль
             $socUsername = self::parseUsername($link);
-            $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername);
+            $socUser = self::makeRequest('https://graph.facebook.com/' . $socUsername . '?access_token=' . $accessToken);
 
             if (!isset($socUser['error']) && isset($socUser['id'])) {
                 $userDetail['UserExists'] = true;
@@ -123,8 +125,6 @@ class FacebookContent extends SocContentBase
                     $userDetail['follow_url'] = 'https://www.facebook.com/dialog/friends/?id=' . $socUser['id']
                             . '&app_id=' . Yii::app()->eauth->services['facebook_mobile']['client_id']
                             . $redirectUrl;
-
-                $accessToken = self::userOrAppToken($discodesId);
 
                 //привязан пост
                 if (isset($postId) && isset($socUser['id']) && !empty($accessToken)) {
