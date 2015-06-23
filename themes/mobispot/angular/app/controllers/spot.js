@@ -699,6 +699,7 @@ angular.module('mobispot').controller('SpotController',
   var socTimer;
   var likeTimer;
   var loyaltyTimer;
+  var holderTimer;
 
   //через плашку
   $scope.bindByPanel = function(buttonName) {
@@ -793,10 +794,34 @@ angular.module('mobispot').controller('SpotController',
                     }
                 }
             }
+            else {
+                $timeout.cancel(holderTimer);
+                holderTimer = $timeout($scope.hintTimer, 10000);
+                angular.element('#socLinkHolder h4').html(data.profileHint);
+                angular.element('#noteHolder').addClass('hide');
+                angular.element('#socLinkHolder').removeClass('hide');
+                angular.element('#socLinkHolder h4').stop();
+                angular.element('#socLinkHolder h4').fadeTo(800, 0.5,
+                    function(){angular.element('#socLinkHolder h4').fadeTo(800, 1,
+                        function(){angular.element('#socLinkHolder h4').fadeTo(800, 0.5, function(){
+                            angular.element('#socLinkHolder h4').fadeTo(800, 1);})})});
+            }
         }
     });
   };
 
+  //возврашает исходный плейсхолдер нового поля, вместо сообщения с просьбой вставить ссылку на соцсеть
+  $scope.hintTimer = function()
+  {
+      angular.element('#socLinkHolder h4').stop();
+      angular.element('#socLinkHolder h4').html('');
+      if (angular.element('#noteHolder').hasClass('hide'))
+      {
+          angular.element('#socLinkHolder').addClass('hide');
+          angular.element('#noteHolder').removeClass('hide');
+      }
+  }
+  
   //возврашает индекс соцсети в скопе по имени
   $scope.getPatternInd = function(netName){
       var currentNet = -1;
