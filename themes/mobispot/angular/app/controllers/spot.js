@@ -6,6 +6,8 @@ angular.module('mobispot').controller('SpotController',
 /* Инициализация переменных */
 
   $scope.maxSize = 25*1024*1024;
+  $scope.popup_width = 500;
+  $scope.popup_height = 550;
   $scope.progress = 0;
   $scope.keys = [];
   $scope.action = false;
@@ -726,8 +728,8 @@ angular.module('mobispot').controller('SpotController',
                     var options = $.extend({
                       id: '',
                       popup: {
-                        width: 450,
-                        height: 380
+                        width: $scope.popup_width,
+                        height: $scope.popup_height
                       }
                     }, options);
 
@@ -820,8 +822,8 @@ angular.module('mobispot').controller('SpotController',
             var options = $.extend({
               id: '',
               popup: {
-                width: 450,
-                height: 380
+                width: $scope.popup_width,
+                height: $scope.popup_height
               }
             }, options);
 
@@ -885,8 +887,8 @@ angular.module('mobispot').controller('SpotController',
                   var options = $.extend({
                     id: '',
                     popup: {
-                      width: 450,
-                      height: 380
+                      width: $scope.popup_width,
+                      height: $scope.popup_height
                     }
                   }, options);
 
