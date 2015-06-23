@@ -14,14 +14,20 @@
                         ng-trim="true">
                     </textarea>
                     <div class="text-center label-cover" ng-class="{invisible: spot.content}">
+                        <div id="noteHolder">
                         <h4>
                             <?php echo Yii::t('spot', 'Type the text and links or drag your files here') ?>
                         </h4>
                         <span>
                             <?php echo Yii::t('spot', 'Maximum file size cannot be greater than 25mb') ?>
                         </span>
+                        </div>
+                        <div id="socLinkHolder" class="hide">
+                            <h4></h4>
+                        </div>                      
                         <div class="hat-cover"></div>
                     </div>
+
                     <div class="cover-fast-link">
                         <label
                             for="add-file"
