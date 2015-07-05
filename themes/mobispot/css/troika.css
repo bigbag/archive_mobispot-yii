@@ -13,7 +13,7 @@
     color: #fff;
 }
 
-.header-page li a.troika-btn {
+.header-page li a.troika-btn, .troika-btn {
     position:relative;
     display:inline-block;
     color:#FFF;
@@ -28,12 +28,12 @@
 .troika .help-link {
     font-size:16px;
 }
-
+/*
 .header-page li a.troika-btn:active {
     top:3px;
     left:1px;
 }
-
+*/
 .troika table.content tbody tr:nth-child(2n) {
    background: transparent;
 }
@@ -84,7 +84,7 @@ table.content td {
 }
 
 .first-screen .content h1{
-    /*ont-size:68px;*/
+    /*font-size:68px;*/
     font-size:4.3rem;
     color:#fff; 
     margin-bottom:50px;
@@ -166,23 +166,24 @@ table.content.cards-order {
     margin:40px auto 0 auto;
 }
 
-.order-btn, .order-btn:hover {
+.order-btn/*, .order-btn:hover*/ {
     position:relative;
     display:inline-block;
     color:#FFF;
     font-family: mobispot;
-    font-size: 25px;
+    font-size: 19px;
+    /*font-size: 25px;*/
     padding:20px 71px;
     margin:20px 0 10px 0;
     background-color:#0062ff;
     box-shadow:1px 11px 15px darkgrey;
 }
-
+/*
 .order-btn:active {
     top:3px;
     left:1px;
 }
-
+*/
 .troika .note {
     width:75%;
     margin:20px auto 0 auto;
@@ -193,7 +194,7 @@ table.content.cards-order {
 .troika .note  p{
     color:#000;
     text-align:left;
-    font-size: 17px;
+    font-size: 14px;
     margin:0 auto;    
  }
 

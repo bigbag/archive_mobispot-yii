@@ -45,7 +45,11 @@
                             <td><?php echo SocInfo::showFileSize(Yii::getPathOfAlias('webroot.uploads.spot.').DIRECTORY_SEPARATOR.$content['data'][$key])?></td>
                         </tr>
                     </table>
-                    <a href="<?php echo $folderUploads . $content['data'][$key]; ?>" class="spot-button soc-link" ><?php echo Yii::t('spot', 'Tap to Download') ?></a>
+                    <a href="<?php echo $folderUploads . $content['data'][$key]; ?>" class="spot-button soc-link" >
+                        <div class="item-text">
+                            <?php echo Yii::t('spot', 'Tap to Download') ?>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

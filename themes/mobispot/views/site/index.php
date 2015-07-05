@@ -40,6 +40,9 @@
             </a>
     </article>
         <ul class="help-link">
+                <?php if ('ru' == Yii::app()->language): ?>
+                    <li><a href="/troika"><?php echo Yii::t('general', 'Тройка'); ?></a></li>
+                <?php endif; ?>
                 <li><a href="/demo-kit"><?php echo Yii::t('general', 'Get our demo-kit') ?></a></li>
                 <li><a href="/readers"><?php echo Yii::t('phone', 'Device compatibility'); ?></a></li>
                 <li><a href="mailto:helpme@mobispot.com"><?php echo Yii::t('general', 'Email us'); ?></a></li>
@@ -205,10 +208,17 @@ When somebody wants to add you as a friend he can just tap your wristband with a
             <div class="wrapper">
                 <header>
                     <h2><?php echo Yii::t('general', 'All your tickets in one place'); ?></h2>
-            </header>
-                        <p>
-                            <?php echo Yii::t('general', 'Our devices are compatible with the transport infrastructure in many cities around the world. We will let you know when you are able to pay for a ride with NFC wristband in your hometown.'); ?>
-                    </p>
+                </header>
+                <p>
+                    <?php echo Yii::t('general', 'Our devices are compatible with the transport infrastructure in many cities around the world. We will let you know when you are able to pay for a ride with NFC wristband in your hometown.'); ?>
+                </p>
+                <?php if ('ru' == Yii::app()->language): ?>
+                <p>
+                    <a href="/troika">
+                        <?php echo Yii::t('general', 'Московская транспортная карта &laquo;Тройка&raquo; от Мобиспот'); ?>
+                    </a>
+                </p>
+                <?php endif; ?>
             </div>
         </div>
 
