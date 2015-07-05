@@ -28,13 +28,13 @@ angular.module('mobispot').controller('SpotController',
       $scope.viewsSettings($scope.spot);
     }
   });
-  
+
   // Отображение контента спота
   $scope.viewSpot = function (spot) {
     if (spot.discodes === 0) return false;
 
     var spot_block = angular.element('#spot-block');
-    
+
     $http.post('/spot/spotContent', spot).success(function(data) {
       if(data.error == 'no') {
         spot_block.empty();
@@ -42,22 +42,21 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
   // Отображение кошелька
   $scope.viewWallet = function (spot) {
-  
+
   };
 
     // Отображение купонов
   $scope.viewCoupons = function (spot) {
 
   };
-  
+
   // Отображение настроек
   $scope.viewsSettings = function (spot) {
-    
+
   };
-  
+
   //подгрузка блока с контентом соцсети
   $scope.loadSocContent = function(key)
   {
@@ -91,7 +90,7 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-  
+
   $scope.toKey = function(key)
   {
     var block = $('#block-' + key);
@@ -130,12 +129,13 @@ angular.module('mobispot').controller('SpotController',
                 url += url.indexOf('?') >= 0 ? '&' : '?';
                 if (url.indexOf('redirect_uri=') === -1)
                   url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
-                  
+
+
                 var href = url + '&discodes=' + $scope.spot.discodes + '&newField=1' + '&synch=true';
-                
+
                 if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
                     href += '&link=' + encodeURIComponent($scope.spot.content);
-                
+
                 window.location.href = href;
             }
             else
@@ -158,7 +158,7 @@ angular.module('mobispot').controller('SpotController',
         }
     });
   };
-  
+
   // Редактирование текстового блока в споте
   $scope.editContent = function(spot, key, e) {
     if (!spot.content_new){
@@ -183,7 +183,7 @@ angular.module('mobispot').controller('SpotController',
       $scope.hideSpotEdit();
     }
   };
-  
+
   // Сохранение текстового блока в споте
   $scope.saveContent = function(spot, e) {
     var spotEdit = angular.element(e.currentTarget).parents('.spot-item');
@@ -202,8 +202,7 @@ angular.module('mobispot').controller('SpotController',
       delete $scope.spot.content_new;
     });
   };
-  
-  
+
   // Прячем текстовый блок при клике вне, данные сохраняем
   $scope.hideSpotEdit = function() {
     if (!$scope.spot.content && !$scope.spot.content_new) return false;
