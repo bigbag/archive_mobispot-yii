@@ -12,7 +12,7 @@
             <ul class="right">
                 <li>
                     <a href="http://mobispot.com/store" class="troika-btn">
-                        <?php echo Yii::t('general', 'Заказать&nbsp;карту'); ?>
+                        <?php echo Yii::t('general', 'Скоро&nbsp;в&nbsp;продаже'); ?>
                     </a>
                 </li>
             </ul>
@@ -84,7 +84,7 @@
             </td>
             <td>
                 <h4><?php echo Yii::t('general', 'Делайте покупки'); ?></h4>
-                <p><?php echo Yii::t('general', 'Расплачивайтесь картой за<br>товары и услуги внутри офиса***'); ?></p>
+                <p><?php echo Yii::t('general', 'Расплачивайтесь картой за<br>товары и услуги внутри офиса'); ?></p>
             </td>
         </tr>
         </table>        
@@ -107,10 +107,10 @@
         </tr>
         <tr>
             <td width="50%">
-                <p><?php echo Yii::t('general', 'Пользуйтесь картой как дисконтной в точках продаж рядом с офисом'); ?></p>
+                <p><?php echo Yii::t('general', 'Получайте скидки в заведениях рядом с офисом***'); ?></p>
             </td>
             <td>
-                <p><?php echo Yii::t('general', 'Создайте карту с вашим уникальным дизайном'); ?></p>
+                <p><?php echo Yii::t('general', 'Создайте карту с вашим<br>уникальным дизайном'); ?></p>
             </td>
         </tr>
         </table>
@@ -120,17 +120,17 @@
                 <img src="themes/mobispot/img/troika/2screenpic2.jpg">
             </td>
             <td>
-                <h3><?php echo Yii::t('general', 'Получите свою карту<br>через 5 дней'); ?></h3>
-                <p><?php echo Yii::t('general', 'Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и через 5 дней курьер<wbr> привезет вам новую &ldquo;Тройку&rdquo;.'); ?></p>
-                <a href="http://mobispot.com/store" class="order-btn">
-                    <?php echo Yii::t('general', 'Заказать&nbsp;карту'); ?>
-                </a>
+                <h3><?php echo Yii::t('general', 'Получите свою карту'); ?></h3>
+                <p><?php echo Yii::t('general', 'Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и наш курьер привезет вам новую &ldquo;Тройку&rdquo;.'); ?></p>
+                <span class="order-btn">
+                    <?php echo Yii::t('general', 'Скоро&nbsp;в&nbsp;продаже'); ?>
+                </span>
             </td>
         </tr>
         </table>
         <div class="note">
             <p><?php echo Yii::t('general', '* Подробная информация о Московской транспортной карте &ldquo;Тройка&rdquo; на '); ?><a href="http://troika.mos.ru/" target="_blank">troika.mos.ru</a></p>
-            <p><?php echo Yii::t('general', '** Карта работает с большинством систем контроля доступа, включая Mifare, EM-marine.'); ?></p>
+            <p><?php echo Yii::t('general', '** Карта работает с большинством систем контроля доступа, включая Mifare, EM-marine'); ?></p>
             <p><?php echo Yii::t('general', '*** В подключенных точках продаж на территории вашего рабочего кампуса'); ?></p>
         </div>
         <div class="center-btn">
