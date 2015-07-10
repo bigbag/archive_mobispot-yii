@@ -259,8 +259,8 @@ class ProductController extends MController
                 array(
                     'order'=>$object_order,
                     'action'=>$order['payment'],
-                    'successUrl'=>urlencode($this->getBaseUrl() . '/store/SuccessOrder/' . $order['id']),
-                    'failUrl'=>urlencode($this->getBaseUrl() . '/store/FailedOrder/' . $order['id']),
+                    'successUrl'=>$this->getBaseUrl() . '/store/SuccessOrder/' . $order['id'],
+                    'failUrl'=>$this->getBaseUrl() . '/store/FailedOrder/' . $order['id'],
                 ),
                 true
             );

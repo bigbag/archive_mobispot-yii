@@ -432,8 +432,8 @@ class ServiceController extends MController
                 array(
                     'order'=>$order,
                     'action'=>$payment['action'],
-                    'successUrl'=>urlencode(MHttp::desktopHost()),
-                    'failUrl'=>urlencode(MHttp::desktopHost()),
+                    'successUrl'=>MHttp::desktopHost(),
+                    'failUrl'=>MHttp::desktopHost(),
                 ),
                 true
             );
