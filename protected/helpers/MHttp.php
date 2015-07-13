@@ -83,7 +83,7 @@ class MHttp
         
         if (self::TYPE_POST == $type) {
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$params:(array)$data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data)?$data:(array)$data);
         } 
 
         $result=curl_exec($ch);
