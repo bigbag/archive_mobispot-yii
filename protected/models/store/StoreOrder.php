@@ -247,7 +247,7 @@ class StoreOrder extends CActiveRecord
                 'image' => Yii::app()->getBaseUrl(true) . '/' . StoreProduct::CARDS_PATH . $item['front_card_img']
             );
             
-            $url = Yii::app()->params['api']['troika'] . '/api/order';
+            $url = Yii::app()->params['api']['troika'] . '/api/order/';
             
             $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
