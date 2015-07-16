@@ -1842,7 +1842,468 @@
       };
     });
     
+  angular.module('mobispot')
+    .directive('cardCrop', function() {
 
+    //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
+    
+      return {
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><a ng-click="zoomIn($event)" class="crop-control zoom-in">+</a><a ng-click="zoomOut($event)" class="crop-control zoom-out">-</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        replace: true,
+        restrict: 'AE',
+        scope: {
+          id: '@',
+          inputid: '@',
+          width: '@',
+          height: '@',
+          shape: '@',
+          result: '=',
+          minheight: '@',
+          side: '@',
+          step: '='
+        },
+        link: function (scope, element, attributes) {
+
+          scope.rand = Math.round(Math.random() * 99999);
+          scope.step = scope.step || 1;
+          scope.shape = scope.shape || 'circle';
+          scope.width = parseInt(scope.width, 10) || 300;
+          scope.height = parseInt(scope.height, 10) || 300;
+
+          scope.canvasWidth = scope.width + 100;
+          scope.canvasHeight = scope.height + 100;
+
+          var $elm = element[0];
+          
+
+          var $input = $elm.getElementsByClassName('image-crop-input')[0];
+          var $canvas = $elm.getElementsByClassName('cropping-canvas')[0];
+          var $handle = $elm.getElementsByClassName('zoom-handle')[0];
+          var $finalImg = $elm.getElementsByClassName('image-crop-final')[0];
+          var $card_img = new Image();
+          var fileReader = new FileReader();
+
+          var maxLeft = 0, minLeft = 0, maxTop = 0, minTop = 0, imgLoaded = false, imgWidth = 0, imgHeight = 0;
+          var currentX = 0, currentY = 0, dragging = false, startX = 0, startY = 0, zooming = false;
+          var newWidth = imgWidth, newHeight = imgHeight;
+          var targetX = 0, targetY = 0;
+          var zoom = 1;
+          var maxZoomGestureLength = 0;
+          var maxZoomedInLevel = 0, maxZoomedOutLevel = 5;
+          var minXPos = 0, maxXPos = 0, minYPos = 0, maxYPos = 0; // for dragging bounds
+
+          var zoomWeight = .4;
+          var zoomStep = 0.07;
+          var ctx = $canvas.getContext('2d');
+          var exif = null;
+          var files = [];
+
+          // ---------- INLINE STYLES ----------- //
+          scope.moduleStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px'
+          };
+
+          scope.sectionStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px'
+          };
+
+          scope.croppingGuideStyles = {
+            width: scope.width + 'px',
+            height: scope.height + 'px',
+            top: '0px',
+            left: '0px'
+          };
+          
+          // ---------- EVENT HANDLERS ---------- //
+          fileReader.onload = function(e) {
+
+            $card_img.src = this.result;
+            scope.step = 2;
+            //scope.$apply();
+
+            var byteString = atob(this.result.split(',')[1]);
+            var binary = new BinaryFile(byteString, 0, byteString.length);
+            exif = EXIF.readFromBinaryFile(binary);
+
+          };
+
+          function reset() {
+            files = [];
+            zoom = 1;
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            $input.value = null;
+            $card_img.src = '';
+          }
+
+          element.on('change', function(e){
+            files = e.target.files;
+            fileReader.readAsDataURL(files[0]);
+           });
+
+
+          $card_img.onload = function() {
+            var constMinWidth = scope.width;
+            var constMinHeight = scope.height;
+            var constMaxWidth = 3648;
+            var constMaxHeight = 2736;
+            
+            if ($card_img.width < constMinWidth) {
+                messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $card_img.width + " пикселей)");
+                return false;
+            }
+            if ($card_img.width > constMaxWidth) {
+                messageModal("Максимальная ширина изображения " + constMaxWidth + " пикселей (ширина загруженного " + $card_img.width + " пикселей)");
+                return false;
+            }
+            if ($card_img.height < constMinHeight) {
+                messageModal("Минимальная высота изображения " + constMinHeight + " пикселей (высота загруженного " + $card_img.height + " пикселей)");
+                return false;
+            }
+            if ($card_img.height > constMaxHeight) {
+                messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $card_img.height + " пикселей)");
+                return false;
+            }
+
+            angular.element($elm).removeClass('hide');
+            
+            $canvas.width = scope.side;
+            $canvas.height = scope.side;
+
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            
+            currentX = -Math.round(Math.abs($card_img.width / 2 - $canvas.width / 2));
+            currentY = -Math.round(Math.abs($card_img.height / 2 - $canvas.height / 2));
+
+            if ($card_img.width < $canvas.width)
+                currentX = 0 - currentX;
+            if ($card_img.height < $canvas.height)
+                currentY = 0 - currentY;
+                
+            ctx.drawImage($card_img, currentX, currentY);
+
+            imgWidth = $card_img.width;
+            imgHeight = $card_img.height;
+            
+            maxXPos = ($canvas.width - scope.width) / 2;
+            minXPos = - ($card_img.width - ($canvas.width - maxXPos));
+            
+            newWidth = imgWidth;
+            newHeight = imgHeight;
+
+            // console.log('canvas width', $canvas.width);
+            // console.log('image width', imgWidth);
+
+            maxZoomedInLevel = $canvas.width / imgWidth;
+            if ($canvas.height / imgHeight > maxZoomedInLevel)
+                maxZoomedInLevel = $canvas.height / imgHeight;
+            //console.log('maxZoomedInLevel', maxZoomedInLevel);
+
+            maxZoomGestureLength = to2Dp(Math.sqrt(Math.pow($canvas.width, 2) + Math.pow($canvas.height, 2)));
+            // console.log('maxZoomGestureLength', maxZoomGestureLength);
+
+            updateDragBounds();
+            
+            scope.result = $canvas.toDataURL();
+            //scope.$apply();
+          };
+
+          // ---------- PRIVATE FUNCTIONS ---------- //
+          function moveImage(x, y) {
+            
+            if (newWidth <= scope.width)
+                targetX = Math.round(Math.abs(newWidth / 2 - $canvas.width / 2));
+            else if (x < minXPos)
+            {                
+                targetX = minXPos;
+            }
+            else if (x > maxXPos)
+                targetX = maxXPos;
+            else
+                targetX = x;
+            
+            if (newHeight < $canvas.height && 'square' != scope.shape)
+                targetY = Math.round(Math.abs(newHeight / 2 - $canvas.height / 2));
+            else if (y < minYPos)
+                targetY = minYPos;
+            else if (y > maxYPos)
+                targetY = maxYPos;
+            else
+                targetY = y;
+            
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            ctx.drawImage($card_img, targetX, targetY, newWidth, newHeight);
+          }
+
+          function to2Dp(val) {
+            return Math.round(val * 1000) / 1000;
+          }
+
+          function updateDragBounds() {
+            // $card_img.width, $canvas.width, zoom
+
+            //minXPos = $canvas.width - ($card_img.width * zoom);
+            minXPos = - (($card_img.width * zoom) - ($canvas.width - maxXPos));
+            minYPos = $canvas.height - ($card_img.height * zoom);
+          }
+
+          function zoomImage(val) {
+
+            if (!val) {
+              return;
+            }
+
+
+            var proposedZoomLevel = to2Dp(zoom + val);
+
+            if ((proposedZoomLevel < maxZoomedInLevel) || (proposedZoomLevel > maxZoomedOutLevel)) {
+              // image wont fill whole canvas
+              // or image is too far zoomed in, it's gonna get pretty pixelated!
+              return;
+            }
+
+            zoom = proposedZoomLevel;
+            // console.log('zoom', zoom);
+
+            updateDragBounds();
+
+            //  do image position adjustments so we don't see any gutter
+            if (proposedZoomLevel === maxZoomedInLevel) {
+              // image fills canvas perfectly, let's center it
+              ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+              ctx.drawImage($card_img, 0, 0, $canvas.width, $canvas.height);
+              return;
+            }
+
+            newWidth = $card_img.width * zoom;
+            newHeight = $card_img.height * zoom;
+
+            /*
+            var newXPos = currentX * zoom;
+            var newYPos = currentY * zoom;
+            */
+            
+            var newXPos = currentX;
+            var newYPos = currentY;
+            
+            // check if we've exposed the gutter
+            if (newXPos < minXPos) {
+              newXPos = minXPos;
+            } else if (newXPos > maxXPos) {
+              newXPos = maxXPos;
+            }
+
+            if (newYPos < minYPos) {
+              newYPos = minYPos;
+            } else if (newYPos > maxYPos) {
+              newYPos = maxYPos;
+            }
+            
+            // check if image is still going to fit the bounds of the box
+            ctx.clearRect(0, 0, $canvas.width, $canvas.height);
+            ctx.drawImage($card_img, newXPos, newYPos, newWidth, newHeight);
+          }
+
+          function calcZoomLevel(diffX, diffY) {
+
+            var hyp = Math.sqrt( Math.pow(diffX, 2) + Math.pow(diffY, 2) );
+            var zoomGestureRatio = to2Dp(hyp / maxZoomGestureLength);
+            var newZoomDiff = to2Dp((maxZoomedOutLevel - maxZoomedInLevel) * zoomGestureRatio * zoomWeight);
+            return diffX > 0 ? -newZoomDiff : newZoomDiff;
+          }
+
+          // ---------- SCOPE FUNCTIONS ---------- //
+
+          $finalImg.onload = function() {
+            var tempCanvas = document.createElement('canvas');
+            tempCanvas.width = this.width - 100;
+            tempCanvas.height = this.height - 100;
+            tempCanvas.style.display = 'none';
+
+            var tempCanvasContext = tempCanvas.getContext('2d');
+            tempCanvasContext.drawImage($finalImg, -50, -50);
+
+            $elm.getElementsByClassName('image-crop-section-final')[0].appendChild(tempCanvas);
+            scope.result = tempCanvas.toDataURL();
+            //scope.$apply();
+
+            reset();
+
+          };
+
+          scope.crop = function() {
+            scope.croppedDataUri = $canvas.toDataURL();
+            scope.step = 3;
+          };
+
+          scope.onCanvasMouseUp = function(e) {
+
+            if (!dragging) {
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on canvas, stop it propagating up
+
+            startX = 0;
+            startY = 0;
+            dragging = false;
+            currentX = targetX;
+            currentY = targetY;
+
+            removeBodyEventListener('mouseup', scope.onCanvasMouseUp);
+            removeBodyEventListener('touchend', scope.onCanvasMouseUp);
+            removeBodyEventListener('mousemove', scope.onCanvasMouseMove);
+            removeBodyEventListener('touchmove', scope.onCanvasMouseMove);
+            scope.result = $canvas.toDataURL();
+            //scope.$apply();
+          };
+
+          $canvas.addEventListener('touchend', scope.onCanvasMouseUp, false);
+                      
+          scope.onCanvasMouseDown = function(e) {
+            startX = e.type === 'touchstart' ? e.changedTouches[0].clientX : e.clientX;
+            startY = e.type === 'touchstart' ? e.changedTouches[0].clientY : e.clientY;
+            zooming = false;
+            dragging = true;
+
+            addBodyEventListener('mouseup', scope.onCanvasMouseUp);
+            addBodyEventListener('mousemove', scope.onCanvasMouseMove);
+          };
+
+          $canvas.addEventListener('touchstart', scope.onCanvasMouseDown, false);
+
+          function addBodyEventListener(eventName, func) {
+            document.documentElement.addEventListener(eventName, func, false);
+          }
+
+          function removeBodyEventListener(eventName, func) {
+            document.documentElement.removeEventListener(eventName, func);
+          }
+
+          scope.onHandleMouseDown = function(e) {
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on handle, stop it propagating up
+
+            startX = lastHandleX = (e.type === 'touchstart') ? e.changedTouches[0].clientX : e.clientX;
+            startY = lastHandleY = (e.type === 'touchstart') ? e.changedTouches[0].clientY : e.clientY;
+            dragging = false;
+            zooming = true;
+
+            addBodyEventListener('mouseup', scope.onHandleMouseUp);
+            addBodyEventListener('touchend', scope.onHandleMouseUp);
+            addBodyEventListener('mousemove', scope.onHandleMouseMove);
+            addBodyEventListener('touchmove', scope.onHandleMouseMove);
+          };
+
+          $handle.addEventListener('touchstart', scope.onHandleMouseDown, false);
+
+          scope.onHandleMouseUp = function(e) {
+
+            // this is applied on the whole section so check we're zooming
+            if (!zooming) {
+              return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation(); // if event was on canvas, stop it propagating up
+
+            startX = 0;
+            startY = 0;
+            zooming = false;
+            currentX = targetX;
+            currentY = targetY;
+
+            removeBodyEventListener('mouseup', scope.onHandleMouseUp);
+            removeBodyEventListener('touchend', scope.onHandleMouseUp);
+            removeBodyEventListener('mousemove', scope.onHandleMouseMove);
+            removeBodyEventListener('touchmove', scope.onHandleMouseMove);
+          };
+
+          $handle.addEventListener('touchend', scope.onHandleMouseUp, false);
+
+
+          scope.onCanvasMouseMove = function(e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (!dragging) {
+              return;
+            }
+
+
+
+            var diffX = startX - ((e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX); // how far mouse has moved in current drag
+            var diffY = startY - ((e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY); // how far mouse has moved in current drag
+            /*targetX = currentX - diffX; // desired new X position
+            targetY = currentY - diffY; // desired new X position*/
+
+            moveImage(currentX - diffX, currentY - diffY);
+
+          };
+          
+          scope.deleteImg = function(e) {
+            e.preventDefault();
+            
+            var form = angular.element(e.currentTarget).parents('form');
+            var form_label = form.find('label.face-holder');
+            var img_crop = form.find('.ng-image-crop');
+            var div_upload = form.find('.upload-photo');
+            
+            form_label.removeClass('hide');
+            img_crop.addClass('hide');
+            if (div_upload.length)
+                div_upload.removeClass('noborder');
+            
+            scope.result = null;
+            reset();
+            //scope.$apply();
+          }
+          
+          scope.zoomIn = function(e) {
+            e.preventDefault();
+            zoomImage(zoomStep);
+          }
+
+          scope.zoomOut = function(e) {
+            e.preventDefault();
+            zoomImage(-zoomStep);
+          }
+          
+          $canvas.addEventListener('touchmove', scope.onCanvasMouseMove, false);
+
+
+          var lastHandleX = null, lastHandleY = null;
+
+          scope.onHandleMouseMove = function(e) {
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            // this is applied on the whole section so check we're zooming
+            if (!zooming) {
+              return false;
+            }
+
+            var diffX = lastHandleX - ((e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX); // how far mouse has moved in current drag
+            var diffY = lastHandleY - ((e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY); // how far mouse has moved in current drag
+
+            lastHandleX = (e.type === 'touchmove') ? e.changedTouches[0].clientX : e.clientX;
+            lastHandleY = (e.type === 'touchmove') ? e.changedTouches[0].clientY : e.clientY;
+
+            var zoomVal = calcZoomLevel(diffX, diffY);
+            zoomImage(zoomVal);
+
+          };
+
+          $handle.addEventListener('touchmove', scope.onHandleMouseMove, false);
+
+        }
+      };
+    });
 
 
 })();

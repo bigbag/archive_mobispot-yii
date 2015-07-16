@@ -11,9 +11,9 @@
             
             <ul class="right">
                 <li>
-                    <a href="http://mobispot.com/store" class="troika-btn">
+                    <span class="troika-btn">
                         <?php echo Yii::t('general', 'Скоро&nbsp;в&nbsp;продаже'); ?>
-                    </a>
+                    </span>
                 </li>
             </ul>
         </div>

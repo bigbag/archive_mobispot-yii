@@ -135,6 +135,21 @@ class CustomCard extends CActiveRecord
         return $card;
     }
     
+    public static function newUserDesignedCard($user_design_path)
+    {
+        $card = new CustomCard;
+        $card->draft = true;
+        $card->type = self::TYPE_TROIKA;
+        $card->img = MImg::makeUserDesignedCard($user_design_path);
+        
+        if (empty($card->img) or !file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card->img))
+            return false;
+
+        $card->save();
+        
+        return $card;
+    }
+    
     public static function backByType($type)
     {
         $back = false;

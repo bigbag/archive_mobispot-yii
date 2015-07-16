@@ -116,6 +116,7 @@ class ProductController extends MController
 
         $photo_path = false;
         $logo_path = false;
+        $user_design_path = false;
 
         $db_product = StoreProduct::model()->findByPk($data['id']);
         if (!$db_product)
@@ -136,16 +137,23 @@ class ProductController extends MController
                 );
             }
         }
-
-        $card = CustomCard::newCustomCard(
-                $photo_path,
-                $logo_path,
-                (!empty($data['name'])) ? $data['name'] : false,
-                (!empty($data['position'])) ? $data['position'] : false,
-                (!empty($data['department'])) ? $data['department'] : false,
-                $db_product->type
-            );
-
+        
+        if (!empty($data['design_croped'])){
+            $user_design_path = $this->saveCropImage($data['design_croped'], 'user_design');
+            $card = CustomCard::newUserDesignedCard($user_design_path);
+        }
+        else
+        {
+            $card = CustomCard::newCustomCard(
+                    $photo_path,
+                    $logo_path,
+                    (!empty($data['name'])) ? $data['name'] : false,
+                    (!empty($data['position'])) ? $data['position'] : false,
+                    (!empty($data['department'])) ? $data['department'] : false,
+                    $db_product->type
+                );
+        }
+        
         if (!$card)
             MHttp::getJsonAndExit($answer);
 
