@@ -148,3 +148,28 @@
 .ng-image-crop:hover .crop-control{
     display: inline-block;
 }
+
+.upload-design .ng-image-crop-square section canvas.cropping-canvas {
+    width: 513px;
+    height: 513px;
+    position: relative;
+    left: -96px;
+    top: -288px;
+}
+
+.upload-design .ng-image-crop-square a.crop-control.zoom-in {
+    top: -270px;
+    left: 20px;
+}
+
+.upload-design .ng-image-crop-square a.crop-control.zoom-out {
+    top: -244px;
+    left: 20px;
+}
+
+.upload-design .ng-image-crop-square a.crop-control.delete {
+    top: -270px;
+}
+
+
+

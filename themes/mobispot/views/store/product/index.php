@@ -100,89 +100,10 @@
     <div class="bag-footer">
     </div>
     
-    <?php //<Troika> ?>
-    <div id="constructor-troika" class="overlay-page">
-        <a href="javascript:;" ng-click="hideConstructorTroika()" class="close-button icon">&#xE00B;</a>
-        <h1><?php echo Yii::t('spot', 'Персонализация карты')?></h1>
-        <div class="personal-block">
-        <div class="row">
-
-            <div class="column small-6 large-6">
-                    <div class="personal-card vertical">
-                        <form id="form-photo" enctype="multipart/form-data" action="/spot/uploadImg">
-                            <input type="hidden" name="img_type" value="transport_photo">
-                            <input type="hidden" name="discodes_id">
-                            <input type="hidden" name="token">
-                            <div class="upload-photo">
-                                <image-crop
-                                    data-id="crop-photo"
-                                    data-inputid="input-photo"
-                                    data-width="165"
-                                    data-height="165"
-                                    data-shape="circle"
-                                    data-step="imageCropStep"
-                                    data-result="transport_card.photo_croped"
-                                    data-minheight="165"
-                                    ng-show="showImageCropper"
-                                ></image-crop>
-                                <label for="input-photo" class="face-holder">
-                                <span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить фото')?></span> <i class="icon upload-holder">&#xE60F;</i>
-                                </label>
-                            </div>
-
-                        </form>
-                        <div class="owner-info">
-                            <textarea ng-model="transport_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="22"></textarea>
-                            <textarea class="position" style="padding-bottom:15px;" ng-model="transport_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
-                        </div>
-                        <form id="form-logo" enctype="multipart/form-data" action="/spot/uploadImg">
-                            <input type="hidden" name="img_type" value="transport_logo">
-                            <input type="hidden" name="discodes_id">
-                            <input type="hidden" name="token">
-                            <div class="upload-logo">
-                                <image-crop
-                                    data-id="crop-logo"
-                                    data-inputid="input-logo"
-                                    data-width="230"
-                                    data-height="60"
-                                    data-shape="square"
-                                    data-step="imageCropStep"
-                                    data-result="transport_card.logo_croped"
-                                    data-minheight="60"
-                                    ng-show="showLogoCropper"
-                                ></image-crop>
-                                <label for="input-logo" class="face-holder"><span class="upload-holder"><?php echo Yii::t('spot', 'Загрузить логотип')?></span></label>
-                            </div>
-                        </form>
-
-                    </div>
-                    <p class="step-description">
-                        <?php echo Yii::t('spot', 'Внесите на карту все необходимые данные. Будьте внимательны:')?> <br>
-                        <br>
-                        - <?php echo Yii::t('spot', 'Допустимые разширения для картинок:')?> <b>jpg, gif, png</b><br>
-                        <br>
-                        - <?php echo Yii::t('spot', 'Минимальный размер фото: ')?> <b>165x165</b> <br><br>
-                        - <?php echo Yii::t('spot', 'Максимальный размер загружаемых картинок: ')?> <b>3648x2736</b> <br><br>
-                        - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер логотипа: ')?> <b>230x60</b> <br><br>
-                        - <?php echo Yii::t('spot', 'Длина имени не больше чем')?> <b>22</b> <?php echo Yii::t('spot', 'символа')?><br>
-                        <br>
-                        - <?php echo Yii::t('spot', 'Длина должности')?> <b>34</b> <?php echo Yii::t('spot', 'символа')?><br>
-                            <br>
-                    </p>
-            </div>
-            <div class="column small-6 large-6 ">
-                    <form class="custom" action="">
-                        <div id="card-back" class="personal-card horizontal" style="background-image: url(/uploads/transport/troika.jpg)"></div>
-                        <p class="step-description"></p>
-                    </form>
-            </div>
-        </div>
-        <div class="row block">
-            <a class="form-button button button-round store" ng-click="addTransportCard(transport_card)" href="javascript:;"><?php echo Yii::t('store', 'FINISH!')?></a>
-        </div>
-        </div>
-    </div>    
-    <?php //</Troika> ?>   
+    <?php //Troika ?>
+    <?php include(Yii::getPathOfAlias('webroot') 
+        . '/themes/mobispot/views/store/_troika_personalization.php');
+    ?>
     
     <?php //<Simple custom card> ?>
         <div id="constructor-simple" class="overlay-page guu-card" ng-init="simple_card.token='<?php echo Yii::app()->request->csrfToken ?>'">
