@@ -107,7 +107,7 @@ angular.module('mobispot').controller('ProductController',
             var basket = angular.element('a.icon-bag-link span');
             basket.text($scope.items.count);
           }
-      });
+      }).error(function(error){alert(error)});
   
     $scope.hideConstructorTroika();
   }
@@ -127,14 +127,14 @@ angular.module('mobispot').controller('ProductController',
   }
     
   //Отображение кастомного макета транспотрной карты
-  $scope.showConstructorTroika = function(product, jsID){
+  $scope.showConstructorTroika = function(product, jsID) {
     $scope.transport_card.id = product.id;
     $scope.transportId = jsID;
     $('#constructor-troika').addClass('show');
     $('body').css('overflow', 'hidden');
   }
   
-  $scope.hideConstructorTroika = function(){
+  $scope.hideConstructorTroika = function() {
     $('#constructor-troika').removeClass('show');
     $('body').css('overflow', '');
   }
@@ -147,7 +147,7 @@ angular.module('mobispot').controller('ProductController',
     $('body').css('overflow', 'hidden');
   }
   
-  $scope.hideConstructorSimple = function(){
+  $scope.hideConstructorSimple = function() {
     $('#constructor-simple').removeClass('show');
     $('body').css('overflow', '');
   }
@@ -155,6 +155,11 @@ angular.module('mobispot').controller('ProductController',
   $scope.initTransportType = function(type_id, type_name, type_img) {
     $scope.transport_types[$scope.transport_types.length] = {id:type_id, name:type_name, img:type_img};
   };
+  
+  $scope.showCardPattern = function() {
+    angular.element('#card-menu').hide();
+    angular.element('#card-pattern').show();
+  }
   
   //Выбор задника транспортной карты
   $scope.setType = function(type) {
