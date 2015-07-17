@@ -150,11 +150,11 @@
 }
 
 .upload-design .ng-image-crop-square section canvas.cropping-canvas {
-    width: 513px;
+    width: 321px;
     height: 513px;
     position: relative;
-    left: -96px;
     top: -288px;
+    border-radius:30px;
 }
 
 .upload-design .ng-image-crop-square a.crop-control.zoom-in {
@@ -169,7 +169,14 @@
 
 .upload-design .ng-image-crop-square a.crop-control.delete {
     top: -270px;
+    left: 20px;
 }
 
+.upload-design .ng-image-crop .cropping-canvas {
+    cursor:default;
+}
 
-
+.upload-design .ng-image-crop-square section canvas.cropping-canvas.hidden-canvas {
+    width: 638px;
+    height: 1016px;
+}
