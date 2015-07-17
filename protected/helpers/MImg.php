@@ -17,9 +17,7 @@ class MImg
     const NAME_STRLEN = 14;
     const POSITION_STRLEN = 23;
     const LOGO_WIDTH = 230;
-    const LOGO_HEIGHT = 60;
-    const DESIGN_WIDTH = 321;
-    const DESIGN_HEIGHT = 513;    
+    const LOGO_HEIGHT = 60; 
 
     //обрезает изображение по заданной пропорции, сохраняет в jpg
     public static function cutToProportionJpg($source_path, $result_path, $sample_x, $sample_y)
@@ -362,48 +360,6 @@ class MImg
         return $card_filename;
     }
 
-    public static function makeUserDesignedCard($user_design_src)
-    {
-        $card_filename = 'transport_' . self::generateRandomString() . '.jpg';
-
-        while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename))
-            $card_filename = 'transport_' . self::generateRandomString() . '.jpg';
-
-        $card_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $card_filename;
-
-        $frame = imagecreatefromjpeg(Yii::getPathOfAlias('webroot') . '/' . self::T_CARD_FRAME);
-
-        $card = imagecreatetruecolor(imagesx($frame), imagesy($frame));
-
-        imagecopy ($card, $frame, 0, 0, 0, 0, imagesx($frame), imagesy($frame));
-
-        if (!empty($user_design_src) and file_exists($user_design_src)) {
-            $design_attr = getimagesize($user_design_src);
-
-            switch ($design_attr[2]) {
-                case 1: $design = imagecreatefromgif($user_design_src); break;
-                case 2: $design = imagecreatefromjpeg($user_design_src); break;
-                case 3: $design = imagecreatefrompng($user_design_src); break;
-                default: return false; break;
-            }
-
-            if ($design) {
-                //$design = self::reduceToFrame($design, self::DESIGN_WIDTH, self::DESIGN_HEIGHT);
-                //$design = self::expandToFrame($design, self::DESIGN_WIDTH, self::DESIGN_HEIGHT, 255, 255, 255);
-
-                imagecopy ($card, $design, 0, 0, 96, 0, imagesx($design), imagesy($design));
-            }
-        }
-
-        imagejpeg(
-            $card,
-            $card_path,
-            self::JPG_QUALITY
-        );
-
-        return $card_filename;
-    }
-    
     public static function makeGUUCard($custom_card, $photo_src, $name, $position, $department)
     {
         $photo_width = 128;

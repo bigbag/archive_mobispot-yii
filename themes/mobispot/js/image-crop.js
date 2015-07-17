@@ -1844,11 +1844,8 @@
     
   angular.module('mobispot')
     .directive('cardCrop', function() {
-
-    //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
-    
       return {
-        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><a ng-click="zoomIn($event)" class="crop-control zoom-in">+</a><a ng-click="zoomOut($event)" class="crop-control zoom-out">-</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ></canvas><canvas id="serv_canvas" class="cropping-canvas hidden-canvas" width="638" height="1016" ></canvas></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
         replace: true,
         restrict: 'AE',
         scope: {
@@ -1856,10 +1853,11 @@
           inputid: '@',
           width: '@',
           height: '@',
+          lwidth: '@',
+          lheight: '@',
           shape: '@',
           result: '=',
           minheight: '@',
-          side: '@',
           step: '='
         },
         link: function (scope, element, attributes) {
@@ -1875,9 +1873,15 @@
 
           var $elm = element[0];
           
+          var constMinWidth = 638;
+          var constMinHeight = 1016;
+          var constMaxWidth = 3648;
+          var constMaxHeight = 2736;
 
           var $input = $elm.getElementsByClassName('image-crop-input')[0];
           var $canvas = $elm.getElementsByClassName('cropping-canvas')[0];
+          var $hidden_canvas = $elm.getElementsByClassName('hidden-canvas')[0];
+          
           var $handle = $elm.getElementsByClassName('zoom-handle')[0];
           var $finalImg = $elm.getElementsByClassName('image-crop-final')[0];
           var $card_img = new Image();
@@ -1895,6 +1899,7 @@
           var zoomWeight = .4;
           var zoomStep = 0.07;
           var ctx = $canvas.getContext('2d');
+          var server_canvas = $hidden_canvas.getContext('2d');
           var exif = null;
           var files = [];
 
@@ -1942,13 +1947,7 @@
             fileReader.readAsDataURL(files[0]);
            });
 
-
           $card_img.onload = function() {
-            var constMinWidth = scope.width;
-            var constMinHeight = scope.height;
-            var constMaxWidth = 3648;
-            var constMaxHeight = 2736;
-            
             if ($card_img.width < constMinWidth) {
                 messageModal("Минимальная ширина изображения " + constMinWidth + " пикселей (ширина загруженного " + $card_img.width + " пикселей)");
                 return false;
@@ -1965,48 +1964,34 @@
                 messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $card_img.height + " пикселей)");
                 return false;
             }
-
             angular.element($elm).removeClass('hide');
             
-            $canvas.width = scope.side;
-            $canvas.height = scope.side;
+            $canvas.width = scope.width;
+            $canvas.height = scope.height;
+            $hidden_canvas.width = $card_img.width;
+            $hidden_canvas.height = $card_img.height;
 
             ctx.clearRect(0, 0, $canvas.width, $canvas.height);
             
-            currentX = -Math.round(Math.abs($card_img.width / 2 - $canvas.width / 2));
-            currentY = -Math.round(Math.abs($card_img.height / 2 - $canvas.height / 2));
-
-            if ($card_img.width < $canvas.width)
-                currentX = 0 - currentX;
-            if ($card_img.height < $canvas.height)
-                currentY = 0 - currentY;
-                
-            ctx.drawImage($card_img, currentX, currentY);
-
-            imgWidth = $card_img.width;
-            imgHeight = $card_img.height;
+            if ($card_img.width / $card_img.height >= scope.lwidth / scope.lheight) {
+              crope_height = $card_img.height;
+              cropeY = 0;
+              crope_width = scope.lwidth * crope_height / scope.lheight;
+              cropeX = Math.round(Math.abs($card_img.width / 2 - crope_width / 2));
+            }
+            else {
+              cropeX = 0;
+              crope_width = $card_img.width;
+              crope_height = scope.lheight * crope_width / scope.lwidth;
+              cropeY = Math.round(Math.abs($card_img.height / 2 - crope_height / 2));
+            }
+               
+            ctx.drawImage($card_img, cropeX, cropeY, crope_width, crope_height, 0, 0, $canvas.width, $canvas.height);
             
-            maxXPos = ($canvas.width - scope.width) / 2;
-            minXPos = - ($card_img.width - ($canvas.width - maxXPos));
-            
-            newWidth = imgWidth;
-            newHeight = imgHeight;
+            server_canvas.drawImage($card_img, 0, 0, $card_img.width, $card_img.height,       0, 0, $card_img.width, $card_img.height);
 
-            // console.log('canvas width', $canvas.width);
-            // console.log('image width', imgWidth);
-
-            maxZoomedInLevel = $canvas.width / imgWidth;
-            if ($canvas.height / imgHeight > maxZoomedInLevel)
-                maxZoomedInLevel = $canvas.height / imgHeight;
-            //console.log('maxZoomedInLevel', maxZoomedInLevel);
-
-            maxZoomGestureLength = to2Dp(Math.sqrt(Math.pow($canvas.width, 2) + Math.pow($canvas.height, 2)));
-            // console.log('maxZoomGestureLength', maxZoomGestureLength);
-
-            updateDragBounds();
-            
-            scope.result = $canvas.toDataURL();
-            //scope.$apply();
+            scope.result = $hidden_canvas.toDataURL();
+            scope.$apply();
           };
 
           // ---------- PRIVATE FUNCTIONS ---------- //
@@ -2249,18 +2234,13 @@
             e.preventDefault();
             
             var form = angular.element(e.currentTarget).parents('form');
-            var form_label = form.find('label.face-holder');
             var img_crop = form.find('.ng-image-crop');
-            var div_upload = form.find('.upload-photo');
             
-            form_label.removeClass('hide');
             img_crop.addClass('hide');
-            if (div_upload.length)
-                div_upload.removeClass('noborder');
             
             scope.result = null;
             reset();
-            //scope.$apply();
+            scope.$apply();
           }
           
           scope.zoomIn = function(e) {

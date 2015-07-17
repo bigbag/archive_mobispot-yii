@@ -107,7 +107,7 @@ angular.module('mobispot').controller('ProductController',
             var basket = angular.element('a.icon-bag-link span');
             basket.text($scope.items.count);
           }
-      }).error(function(error){alert(error)});
+      });
   
     $scope.hideConstructorTroika();
   }

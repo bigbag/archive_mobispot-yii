@@ -22,11 +22,12 @@
                             data-inputid="input-design"
                             data-width="321"
                             data-height="513"
-                            data-side="513"
+                            data-lwidth="638"
+                            data-lheight="1016"
                             data-shape="square"
                             data-step="imageCropStep"
                             data-result="transport_card.design_croped"
-                            ng-show="showLogoCropper"
+                            ng-show="showDesignCropper"
                         ></card-crop>
                         <label for="input-design" style="margin:0 auto 0 auto;display:block;padding:17px 10px;border-radius:10px;background-color:#e6eff4;color:#0062FF;width:214px;height:70px;font-size:17px;font-family:Mobispot;line-height:1.25;"><?php echo Yii::t('spot', 'Загрузить<br> готовый макет')?></label>
                     </div>
@@ -91,7 +92,7 @@
                     - <?php echo Yii::t('spot', 'Минимальный размер фото: ')?> <b>165x165</b> <br><br>
                     - <?php echo Yii::t('spot', 'Максимальный допустимый размер изображений: ')?> <b>3648x2736</b> <br><br>
                     - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер лого: ')?> <b>230x60</b> <br><br>
-                    - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер готового макета:')?> <b>321x513</b><br>
+                    - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер готового макета:')?> <b>638x1016</b><br>
                     <br>
                 </p>
                 <p class="step-description" style="width:332px;background-color:#eff7f9;border:1px dashed red;font-size:14px;position:relative;padding-left:59px">
