@@ -101,12 +101,15 @@ class ProductController extends MController
 
         $photo_data = base64_decode($photo);
         $file_name = MImg::getRandomFileName($prefix, 'png');
+        while (file_exists(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $file_name))
+            $file_name = MImg::getRandomFileName($prefix, 'png');
+        
         $file_patch = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $file_name;
 
-        if (file_put_contents($file_patch, $photo_data))
-            return $file_patch;
-
-        return false;
+        if (!file_put_contents($file_patch, $photo_data))
+            return false;
+        
+        return $file_name;
     }
 
     public function actionAddCustomCard()
@@ -116,7 +119,6 @@ class ProductController extends MController
 
         $photo_path = false;
         $logo_path = false;
-        $user_design_path = false;
 
         $db_product = StoreProduct::model()->findByPk($data['id']);
         if (!$db_product)
@@ -130,8 +132,8 @@ class ProductController extends MController
             $logo_path = $this->saveCropImage($data['logo_croped'], 'logo');
             if ($logo_path) {
                 MImg::cutToProportionJpg(
-                    $logo_path,
-                    $logo_path,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
                     MImg::LOGO_WIDTH,
                     MImg::LOGO_HEIGHT
                 );
@@ -139,8 +141,8 @@ class ProductController extends MController
         }
         
         if (!empty($data['design_croped'])){
-            $user_design_path = $this->saveCropImage($data['design_croped'], 'user_design');
-            $card = CustomCard::newUserDesignedCard($user_design_path);
+            $user_design_file = $this->saveCropImage($data['design_croped'], 'transport_', true);
+            $card = CustomCard::newUserDesignedCard($user_design_file);
         }
         else
         {
@@ -158,7 +160,7 @@ class ProductController extends MController
             MHttp::getJsonAndExit($answer);
 
         $cart = new StoreCart;
-        $data['front_img'] = $card->img;
+        $data['custom_card'] = $card;
 
         echo json_encode(
             array(
