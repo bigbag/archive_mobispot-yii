@@ -117,15 +117,35 @@ class CustomCard extends CActiveRecord
         return $card;
     }
     
-    public static function newCustomCard($photo_path, $logo_path, $custom_name, $position, $departament, $type)
+    public static function newCustomCard($photo_file, $logo_file, $custom_name, $position, $departament, $type)
     {
+        $card_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/';
+        $photo_path = false;
+        $logo_path = false;
+        
         $card = new CustomCard;
+        if (!empty($photo_file))
+        {
+            $card->photo = $photo_file;
+            $photo_path = $card_path . $photo_file;
+        }
+        if (!empty($logo_file))
+        {
+            $card->logo = $logo_file;
+            $logo_path = $card_path. $logo_file;
+        }
+        if (!empty($custom_name))
+            $card->name = $custom_name;
+        if (!empty($position))
+            $card->position = $position;
+        
         $card->draft = true;
         $card->type = $type;
+        
         if (self::TYPE_TROIKA == $type)
             $card->img = MImg::makeTransportCard($photo_path, $logo_path, $custom_name, $position);
         elseif (self::TYPE_SIMPLE == $type)
-            $card->img = MImg::makeCustomCard($photo_path, $custom_name, $position, $departament);
+            $card->img = MImg::makeCustomCard($card_path . $photo_file, $custom_name, $position, $departament);
         else
             return false;
         

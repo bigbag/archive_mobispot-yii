@@ -355,7 +355,8 @@ class StoreCart extends CFormModel
         $db_product = StoreProduct::model()->findByPk($newProduct['id']);
         $prodArray['selectedSize'] = $db_product->size[0];
         $newProduct['selectedSize'] = $db_product->size[0];
-        $prodArray['front_card_img'] = $newProduct['front_img'];
+        $prodArray['front_card_img'] = $newProduct['custom_card']->img;
+        $prodArray['id_custom_card'] = $newProduct['custom_card']->id;
         $this->storeCart[] = $prodArray;
 
         Yii::app()->session['storeCart'] = $this->storeCart;
@@ -402,6 +403,7 @@ class StoreCart extends CFormModel
                             $addProduct->surface = $newProduct['selectedSurface'];
                         $addProduct->size_name = $newProduct['selectedSize']['value'];
                         $addProduct->price = $newProduct['selectedSize']['price'];
+                        $addProduct->id_custom_card = $newProduct['custom_card']->id;
                         $addProduct->save();
                     }
                 }else {
@@ -755,6 +757,10 @@ class StoreCart extends CFormModel
                 if (!empty($product['front_card_img'])) {
                     $item['front_card_img'] = $product['front_card_img'];
                     $list->front_card_img = $product['front_card_img'];
+                }
+                if (!empty($product['id_custom_card'])) {
+                    $item['id_custom_card'] = $product['id_custom_card'];
+                    $list->id_custom_card = $product['id_custom_card'];
                 }
                 if (isset($product['selectedColor'])) {
                     $list->color = $product['selectedColor'];

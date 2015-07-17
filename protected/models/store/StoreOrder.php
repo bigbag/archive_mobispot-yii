@@ -82,6 +82,7 @@ class StoreOrder extends CActiveRecord
                 'color' => $item->color,
                 'price' => $item->price,
                 'front_card_img' => $item->front_card_img,
+                'id_custom_card' => $item->id_custom_card,
             );
         }
         
@@ -246,6 +247,22 @@ class StoreOrder extends CActiveRecord
                 'user_email' => $user->email,
                 'image' => Yii::app()->getBaseUrl(true) . '/' . StoreProduct::CARDS_PATH . $item['front_card_img']
             );
+            
+            if (!empty($item['id_custom_card']))
+            {
+                $card = CustomCard::model()->findByPk($item['id_custom_card']);
+                
+                if (!empty($card->img))
+                    $data['image'] = $card->img;
+                if (!empty($card->photo))
+                    $data['photo'] = $card->photo;
+                if (!empty($card->logo))
+                    $data['logo'] = $card->logo;
+                if (!empty($card->name))
+                    $data['name'] = $card->name;
+                if (!empty($card->position))
+                    $data['position'] = $card->position;
+            }
             
             $url = Yii::app()->params['api']['troika'] . '/api/order/';
             

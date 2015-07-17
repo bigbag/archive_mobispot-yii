@@ -94,7 +94,7 @@ class ProductController extends MController
         );
     }
 
-    public function saveCropImage($photo, $prefix, $return_filename = false)
+    public function saveCropImage($photo, $prefix)
     {
         $photo = str_replace('data:image/png;base64,', '', $photo);
         $photo = str_replace(' ', '+', $photo);
@@ -109,10 +109,7 @@ class ProductController extends MController
         if (!file_put_contents($file_patch, $photo_data))
             return false;
         
-        if ($return_filename)
-            return $file_name;
-        
-        return $file_patch;
+        return $file_name;
     }
 
     public function actionAddCustomCard()
@@ -135,8 +132,8 @@ class ProductController extends MController
             $logo_path = $this->saveCropImage($data['logo_croped'], 'logo');
             if ($logo_path) {
                 MImg::cutToProportionJpg(
-                    $logo_path,
-                    $logo_path,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
                     MImg::LOGO_WIDTH,
                     MImg::LOGO_HEIGHT
                 );
@@ -163,7 +160,7 @@ class ProductController extends MController
             MHttp::getJsonAndExit($answer);
 
         $cart = new StoreCart;
-        $data['front_img'] = $card->img;
+        $data['custom_card'] = $card;
 
         echo json_encode(
             array(
