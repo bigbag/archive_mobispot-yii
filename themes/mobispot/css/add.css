@@ -798,3 +798,99 @@ a.form-button.button.button-round.store {
     left: 0;
     background-color: #E0E6ED;
 }
+
+.card-constructor .personal-block {
+    padding-left:54px;
+    padding-top:40px;
+    max-width:1164px;
+}
+
+.card-column{
+    padding: 30px 15px 50px 84px;
+    min-width:322px;
+}
+
+.card-column img.back {
+    position:absolute;
+    top:52px;
+    left:0px;
+}
+
+#card-menu {
+    box-shadow: -30px 10px 20px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.card-button {
+    display:block;
+    padding:17px 10px;
+    border-radius:10px;
+    background-color:#e6eff4;
+    color:#0062FF;
+    width:214px;
+    height:70px;
+    font-size:17px;
+    font-family: Mobispot;
+    line-height:1.25;
+}
+
+.card-line {
+    display:inline-block;
+    font-family:Mobispot;
+    font-size:17px;
+    margin:28px 0;
+}
+
+.card-button.top {
+    margin:144px auto 0 auto;
+}
+
+.card-button.bottom {
+    margin:0 auto 0 auto;
+}
+
+#card-pattern {
+    box-shadow: -20px 10px 20px rgba(0,0,0,0.2);
+    display: none;
+}
+
+.position {
+    padding-bottom:15px;
+}
+
+.descr-column {
+    padding:30px 0 0 0;min-width:332px;
+}
+
+.descr-column .step-description {
+    width:332px;
+    background-color:#eff7f9;
+    font-size:14px;
+}
+
+.step-description.descr {
+    border:1px dashed black;
+    margin-bottom:23px;
+}
+
+.step-description.bottom {
+    border: 1px dashed red;
+    position: relative;
+    padding-left: 59px;
+    color: #000;
+}
+
+.step-description.bottom img {
+    position:absolute;
+    top:19px;
+    left:25px;
+}
+
+.card-constructor .form-button.button.button-round.store {
+    font-size:31px;
+    position:absolute;
+    left:342px;
+    top:182px;
+    box-shadow: -10px 10px 20px rgba(0,0,0,0.2);
+    background-color:#e6eff4;
+}
