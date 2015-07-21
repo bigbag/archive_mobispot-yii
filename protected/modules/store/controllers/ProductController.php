@@ -117,27 +117,32 @@ class ProductController extends MController
         $answer = array('error' => 'yes');
         $data = MHttp::validateRequest();
 
-        $photo_path = false;
-        $logo_path = false;
+        $photo = false;
+        $photo_croped = false;
+        $logo = false;
+        $logo_croped = false;
 
         $db_product = StoreProduct::model()->findByPk($data['id']);
         if (!$db_product)
             MHttp::getJsonAndExit($answer);
 
-        if (!empty($data['photo_croped'])){
-            $photo_path = $this->saveCropImage($data['photo_croped'], 'photo');
+        if (!empty($data['photo_croped']) and !empty($data['photo'])) {
+            $photo = $this->saveCropImage($data['photo'], 'photo');
+            $photo_croped = $this->saveCropImage($data['photo_croped'], 'photo');
         }
 
-        if (!empty($data['logo_croped'])){
-            $logo_path = $this->saveCropImage($data['logo_croped'], 'logo');
-            if ($logo_path) {
+        if (!empty($data['logo_croped']) and !empty($data['logo'])) {
+            $logo_croped = $this->saveCropImage($data['logo_croped'], 'logo');
+            if ($logo_croped) {
                 MImg::cutToProportionJpg(
-                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
-                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_path,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped,
                     MImg::LOGO_WIDTH,
                     MImg::LOGO_HEIGHT
                 );
             }
+            
+            $logo = $this->saveCropImage($data['logo'], 'logo');
         }
         
         if (!empty($data['design_croped'])){
@@ -147,8 +152,10 @@ class ProductController extends MController
         else
         {
             $card = CustomCard::newCustomCard(
-                    $photo_path,
-                    $logo_path,
+                    $photo,
+                    $photo_croped,
+                    $logo,
+                    $logo_croped,
                     (!empty($data['name'])) ? $data['name'] : false,
                     (!empty($data['position'])) ? $data['position'] : false,
                     (!empty($data['department'])) ? $data['department'] : false,
@@ -156,9 +163,14 @@ class ProductController extends MController
                 );
         }
         
+        if (!empty($photo_croped))
+            unlink(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $photo_croped);
+        if (!empty($logo_croped))
+            unlink(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped);
+        
         if (!$card)
             MHttp::getJsonAndExit($answer);
-
+        
         $cart = new StoreCart;
         $data['custom_card'] = $card;
 

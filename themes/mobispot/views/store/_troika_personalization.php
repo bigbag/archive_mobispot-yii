@@ -43,11 +43,13 @@
                         <image-crop
                             data-id="crop-photo"
                             data-inputid="input-photo"
+                            data-imgtype="photo"
                             data-width="165"
                             data-height="165"
                             data-shape="circle"
                             data-step="imageCropStep"
                             data-result="transport_card.photo_croped"
+                            data-userimage="transport_card.photo"
                             data-minheight="165"
                             ng-show="showImageCropper"
                         ></image-crop>
@@ -69,11 +71,13 @@
                         <image-crop
                             data-id="crop-logo"
                             data-inputid="input-logo"
+                            data-imgtype="logo"
                             data-width="230"
                             data-height="60"
                             data-shape="square"
                             data-step="imageCropStep"
                             data-result="transport_card.logo_croped"
+                            data-userimage="transport_card.logo"
                             data-minheight="60"
                             ng-show="showLogoCropper"
                         ></image-crop>

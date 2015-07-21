@@ -1316,16 +1316,18 @@
     //<label class="crop-control new" for="{{ inputid }}">&#xe604;</label>
     
       return {
-        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><a ng-click="zoomIn($event)" class="crop-control zoom-in">+</a><a ng-click="zoomOut($event)" class="crop-control zoom-out">-</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
+        template: '<div id="{{ id }}" class="ng-image-crop ng-image-crop-{{ shape }} hide" ng-style="moduleStyles"><a ng-click="deleteImg($event)" class="crop-control delete">&#xe00b;</a><a ng-click="zoomIn($event)" class="crop-control zoom-in">+</a><a ng-click="zoomOut($event)" class="crop-control zoom-out">-</a><input id="{{ inputid }}" type="file" class="image-crop-input hide" /><section ng-style="sectionStyles"><canvas class="cropping-canvas" width="{{ canvasWidth }}" height="{{ canvasHeight }}" ng-mousemove="onCanvasMouseMove($event)" ng-mousedown="onCanvasMouseDown($event)" ng-mouseup="onCanvasMouseUp($event)"></canvas><canvas class="{{ imgtype }}" width="638" height="1016" ></canvas></canvas><div ng-style="croppingGuideStyles" class="cropping-guide"></div><div class="zoom-handle" ng-mousemove="onHandleMouseMove($event)" ng-mousedown="onHandleMouseDown($event)" ng-mouseup="onHandleMouseUp($event)"><span>&larr; zoom &rarr;</span></div><button class="hide" ng-click="crop()">Crop</button></section><section ng-style="sectionStyles" class="image-crop-section-final hide"><img class="image-crop-final" ng-src="{{ croppedDataUri }}" /></section></div>',
         replace: true,
         restrict: 'AE',
         scope: {
           id: '@',
           inputid: '@',
+          imgtype: '@',
           width: '@',
           height: '@',
           shape: '@',
           result: '=',
+          userimage: '=',
           minheight: '@',
           step: '='
         },
@@ -1345,6 +1347,7 @@
 
           var $input = $elm.getElementsByClassName('image-crop-input')[0];
           var $canvas = $elm.getElementsByClassName('cropping-canvas')[0];
+          var $hidden_canvas;
           var $handle = $elm.getElementsByClassName('zoom-handle')[0];
           var $finalImg = $elm.getElementsByClassName('image-crop-final')[0];
           var $transport_img = new Image();
@@ -1362,6 +1365,7 @@
           var zoomWeight = .4;
           var zoomStep = 0.07;
           var ctx = $canvas.getContext('2d');
+          var server_canvas;
           var exif = null;
           var files = [];
 
@@ -1432,7 +1436,14 @@
                 messageModal("Максимальная высота изображения " + constMaxHeight + " пикселей (высота загруженного " + $transport_img.height + " пикселей)");
                 return false;
             }
-
+            
+            $hidden_canvas = $elm.getElementsByClassName(scope.imgtype)[0];
+            server_canvas = $hidden_canvas.getContext('2d');
+            $hidden_canvas.width = $transport_img.width;
+            $hidden_canvas.height = $transport_img.height;
+            server_canvas.drawImage($transport_img, 0, 0, $transport_img.width, $transport_img.height,       0, 0, $transport_img.width, $transport_img.height);
+            scope.userimage = $hidden_canvas.toDataURL(); 
+            
             angular.element($elm).removeClass('hide');
             
             var form = $($elm).parents('form');
@@ -1461,55 +1472,6 @@
             imgWidth = $transport_img.width;
             imgHeight = $transport_img.height;
             
-            if (exif && exif.Orientation) {
-
-              // change mobile orientation, if required
-              switch(exif.Orientation){
-                case 1:
-                    // nothing
-                    break;
-                case 2:
-                    // horizontal flip
-                    ctx.translate(imgWidth, 0);
-                    ctx.scale(-1, 1);
-                    break;
-                case 3:
-                    // 180 rotate left
-                    ctx.translate(imgWidth, imgHeight);
-                    ctx.rotate(Math.PI);
-                    break;
-                case 4:
-                    // vertical flip
-                    ctx.translate(0, imgHeight);
-                    ctx.scale(1, -1);
-                    break;
-                case 5:
-                    // vertical flip + 90 rotate right
-                    ctx.rotate(0.5 * Math.PI);
-                    ctx.scale(1, -1);
-                    break;
-                case 6:
-                    // 90 rotate right
-                    ctx.rotate(0.5 * Math.PI);
-                    ctx.translate(0, -imgHeight);
-                    break;
-                case 7:
-                    // horizontal flip + 90 rotate right
-                    ctx.rotate(0.5 * Math.PI);
-                    ctx.translate(imgWidth, -imgHeight);
-                    ctx.scale(-1, 1);
-                    break;
-                case 8:
-                    // 90 rotate left
-                    ctx.rotate(-0.5 * Math.PI);
-                    ctx.translate(-imgWidth, 0);
-                    break;
-                default:
-                    break;
-              }
-              
-            }
-            
             minLeft = (scope.width + 100) - this.width;
             minTop = (scope.height + 100) - this.height;
             newWidth = imgWidth;
@@ -1537,7 +1499,7 @@
             }
             
             scope.result = $canvas.toDataURL();
-            //scope.$apply();
+            scope.$apply();
           };
 
           // ---------- PRIVATE FUNCTIONS ---------- //

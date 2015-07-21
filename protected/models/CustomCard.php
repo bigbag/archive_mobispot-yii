@@ -117,22 +117,22 @@ class CustomCard extends CActiveRecord
         return $card;
     }
     
-    public static function newCustomCard($photo_file, $logo_file, $custom_name, $position, $departament, $type)
+    public static function newCustomCard($photo, $photo_croped, $logo, $logo_croped, $custom_name, $position, $departament, $type)
     {
         $card_path = Yii::getPathOfAlias('webroot.uploads.custom_card') . '/';
         $photo_path = false;
         $logo_path = false;
         
         $card = new CustomCard;
-        if (!empty($photo_file))
+        if (!empty($photo) and !empty($photo_croped))
         {
-            $card->photo = $photo_file;
-            $photo_path = $card_path . $photo_file;
+            $card->photo = $photo;
+            $photo_path = $card_path . $photo_croped;
         }
-        if (!empty($logo_file))
+        if (!empty($logo) and !empty($logo_croped))
         {
-            $card->logo = $logo_file;
-            $logo_path = $card_path. $logo_file;
+            $card->logo = $logo;
+            $logo_path = $card_path. $logo_croped;
         }
         if (!empty($custom_name))
             $card->name = $custom_name;
@@ -145,7 +145,7 @@ class CustomCard extends CActiveRecord
         if (self::TYPE_TROIKA == $type)
             $card->img = MImg::makeTransportCard($photo_path, $logo_path, $custom_name, $position);
         elseif (self::TYPE_SIMPLE == $type)
-            $card->img = MImg::makeCustomCard($card_path . $photo_file, $custom_name, $position, $departament);
+            $card->img = MImg::makeCustomCard($card_path . $photo_croped, $custom_name, $position, $departament);
         else
             return false;
         
