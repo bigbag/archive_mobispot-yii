@@ -224,6 +224,7 @@ class StoreOrder extends CActiveRecord
     public function makeTroika($user_id)
     {
         $error = 'no';
+        $path = Yii::app()->getBaseUrl(true) . StoreProduct::CARDS_PATH;
         $items = $this->troikaList();
         $customer = StoreCustomer::model()->findByPk($this->id_customer);
         $user = User::model()->findByPk($user_id);
@@ -245,7 +246,7 @@ class StoreOrder extends CActiveRecord
             $data = array(
                 'user_id' => $user->id,
                 'user_email' => $user->email,
-                'image' => Yii::app()->getBaseUrl(true) . '/' . StoreProduct::CARDS_PATH . $item['front_card_img']
+                'image' => $path . $item['front_card_img']
             );
             
             if (!empty($item['id_custom_card']))
@@ -253,22 +254,22 @@ class StoreOrder extends CActiveRecord
                 $card = CustomCard::model()->findByPk($item['id_custom_card']);
                 
                 if (!empty($card->img))
-                    $data['image'] = $card->img;
+                    $data['image'] = $path . $card->img;
                 if (!empty($card->photo))
-                    $data['photo'] = $card->photo;
+                    $data['photo'] = $path . $card->photo;
                 if (!empty($card->logo))
-                    $data['logo'] = $card->logo;
+                    $data['logo'] = $path . $card->logo;
                 if (!empty($card->name))
                     $data['name'] = $card->name;
                 if (!empty($card->position))
                     $data['position'] = $card->position;
             }
-            
+          
             $url = Yii::app()->params['api']['troika'] . '/api/order/';
             
             $auth = array('login' => Yii::app()->params['api_user']['login'],
                 'password' => Yii::app()->params['api_user']['password']);
-            
+
             $result = MHttp::setCurlRequest($url, MHttp::TYPE_POST, array(), $auth, array(), $data);
             
             if (is_string($result) and strpos($result, '{error:') !== false)
