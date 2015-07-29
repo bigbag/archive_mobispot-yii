@@ -58,8 +58,8 @@
                     </form>
                     
                     <div class="owner-info">
-                        <textarea ng-model="transport_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="22"></textarea>
-                        <textarea class="position" ng-model="transport_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
+                        <textarea rows="2" ng-model="transport_card.name" class="name" placeholder="<?php echo Yii::t('spot', 'Ваше имя')?>" maxlength="23"></textarea>
+                        <textarea class="position" rows="2" ng-model="transport_card.position" placeholder="<?php echo Yii::t('spot', 'Должность')?>" maxlength="34"></textarea>
                     </div>
                     <form id="form-logo" enctype="multipart/form-data" action="/spot/uploadImg">
                         <input type="hidden" name="img_type" value="transport_logo">

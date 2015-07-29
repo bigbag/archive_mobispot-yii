@@ -894,3 +894,15 @@ a.form-button.button.button-round.store {
     box-shadow: -10px 10px 20px rgba(0,0,0,0.2);
     background-color:#e6eff4;
 }
+
+.card-constructor .personal-block .owner-info textarea.name {
+    height: 90px;
+    overflow: hidden;
+    padding: 0 35px;
+}
+
+.card-constructor .personal-block .owner-info textarea.position {
+    height: 63px;
+    overflow: hidden;
+    padding: 0 50px;
+}
