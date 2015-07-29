@@ -33,6 +33,7 @@
                 </div>
                 
                 <div id="card-pattern" class="personal-card vertical">
+                    <a ng-click="hideCardPattern()" class="crop-control delete">&#xe00b;</a>
                     <form id="form-photo" enctype="multipart/form-data" action="/spot/uploadImg">
                         <input type="hidden" name="img_type" value="transport_photo">
                         <input type="hidden" name="discodes_id">

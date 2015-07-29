@@ -161,6 +161,32 @@ angular.module('mobispot').controller('ProductController',
     angular.element('#card-pattern').show();
   }
   
+  $scope.hideCardPattern = function() {
+    angular.element('#card-menu').show();
+    angular.element('#card-pattern').hide();
+    
+    $scope.clearFormImg('#form-photo');
+    $scope.clearFormImg('#form-logo');
+    
+    delete($scope.transport_card.name);
+    delete($scope.transport_card.position);
+    delete($scope.transport_card.photo);
+    delete($scope.transport_card.logo);
+  }
+  
+  $scope.clearFormImg = function(form_selector)
+  {
+    var form = angular.element(form_selector);
+    var form_label = form.find('label.face-holder');
+    var img_crop = form.find('.ng-image-crop');
+    var div_upload = form.find('.upload-photo');
+    
+    form_label.removeClass('hide');
+    img_crop.addClass('hide');
+    if (div_upload.length)
+        div_upload.removeClass('noborder');
+  }
+  
   //Выбор задника транспортной карты
   $scope.setType = function(type) {
     $scope.transport_card.back = type.id;
