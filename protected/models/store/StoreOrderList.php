@@ -12,6 +12,7 @@
  * @property string $size_name
  * @property integer $price
  * @property string $surface
+ * @property integer id_custom_card
  */
 class StoreOrderList extends CActiveRecord
 {

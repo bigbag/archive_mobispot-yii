@@ -3,6 +3,16 @@
 /**
  * This is the model class for table "custom_card".
  *
+ * The followings are the available columns in table "custom_card":
+ * @property integer $id
+ * @property string $type
+ * @property string $img
+ * @property integer $draft
+ * @property string $creation_date
+ * @property string $photo
+ * @property string $logo
+ * @property string $name
+ * @property string $position
  */
 class CustomCard extends CActiveRecord
 {
