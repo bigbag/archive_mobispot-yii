@@ -169,7 +169,7 @@
 
 .upload-design .ng-image-crop-square a.crop-control.delete {
     top: -270px;
-    left: 20px;
+    right: 20px;
 }
 
 .upload-design .ng-image-crop .cropping-canvas {

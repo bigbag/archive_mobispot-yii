@@ -849,6 +849,10 @@ a.form-button.button.button-round.store {
     margin:0 auto 0 auto;
 }
 
+.card-button:focus, .card-button:hover {
+    color: #000;
+}
+
 #card-pattern {
     box-shadow: -20px 10px 20px rgba(0,0,0,0.2);
     display: none;
@@ -893,4 +897,26 @@ a.form-button.button.button-round.store {
     top:182px;
     box-shadow: -10px 10px 20px rgba(0,0,0,0.2);
     background-color:#e6eff4;
+}
+
+.card-constructor .personal-block .owner-info textarea.name {
+    height: 90px;
+    overflow: hidden;
+    padding: 0 35px;
+}
+
+.card-constructor .personal-block .owner-info textarea.position {
+    height: 63px;
+    overflow: hidden;
+    padding: 0 50px;
+}
+
+.personal-card.vertical .crop-control.delete {
+    right:20px;
+    top:20px;
+    background: #E9EDF2 none repeat scroll 0% 0%;
+}
+
+.personal-card.vertical:hover .crop-control.delete, .personal-card.vertical:focus .crop-control.delete{
+    display:block;
 }

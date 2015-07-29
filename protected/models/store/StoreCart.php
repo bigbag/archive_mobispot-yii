@@ -355,7 +355,6 @@ class StoreCart extends CFormModel
         $db_product = StoreProduct::model()->findByPk($newProduct['id']);
         $prodArray['selectedSize'] = $db_product->size[0];
         $newProduct['selectedSize'] = $db_product->size[0];
-        $prodArray['front_card_img'] = $newProduct['custom_card']->img;
         $prodArray['id_custom_card'] = $newProduct['custom_card']->id;
         $this->storeCart[] = $prodArray;
 
@@ -423,8 +422,8 @@ class StoreCart extends CFormModel
     public function equalProduct($product, $etalon)
     {
         $answer = false;
-        if (!empty($newProduct['front_img'])) {
-            if ($newProduct['front_img'] == $etalon->front_card_img)
+        if (!empty($newProduct['id_custom_card'])) {
+            if ($newProduct['id_custom_card'] == $etalon->id_custom_card)
                 $answer = true;
             
             return $answer;
@@ -754,9 +753,9 @@ class StoreCart extends CFormModel
                 $item['id_product'] = $product['id'];
                 $list->quantity = $product['quantity'];
                 $item['quantity'] = $product['quantity'];
-                if (!empty($product['front_card_img'])) {
-                    $item['front_card_img'] = $product['front_card_img'];
-                    $list->front_card_img = $product['front_card_img'];
+                if (!empty($product['id_custom_card'])) {
+                    $item['id_custom_card'] = $product['id_custom_card'];
+                    $list->id_custom_card = $product['id_custom_card'];
                 }
                 if (!empty($product['id_custom_card'])) {
                     $item['id_custom_card'] = $product['id_custom_card'];
