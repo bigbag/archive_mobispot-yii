@@ -14,6 +14,8 @@
  * @property string $city
  * @property string $phone
  * @property string $country
+ * @property string $zip
+ * @property string $password
  */
 class StoreCustomer extends CActiveRecord
 {

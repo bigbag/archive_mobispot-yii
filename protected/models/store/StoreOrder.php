@@ -81,7 +81,6 @@ class StoreOrder extends CActiveRecord
                 'quantity' => $item->quantity,
                 'color' => $item->color,
                 'price' => $item->price,
-                'front_card_img' => $item->front_card_img,
                 'id_custom_card' => $item->id_custom_card,
             );
         }
@@ -176,7 +175,12 @@ class StoreOrder extends CActiveRecord
             $baseOrder = $this->mailOrder();
         
         foreach($baseOrder['items'] as $item) {
-            if (empty($item['front_card_img']))
+            if (empty($item['id_custom_card']))
+                continue;
+            
+            $card = CustomCard::model()->findByPk($item['id_custom_card']);
+            
+            if (empty($card->img))
                 continue;
             
             $mailOrders[] = array(
@@ -185,7 +189,7 @@ class StoreOrder extends CActiveRecord
                 'address' => $baseOrder['customer']->address,
                 'city' => $baseOrder['customer']->city,
                 'zip' => $baseOrder['customer']->zip,
-                'front_img' => $item['front_card_img'],
+                'front_img' => $card->img,
                 'back_img' => CustomCard::backByType($item['type']),
             );
         }
@@ -237,7 +241,7 @@ class StoreOrder extends CActiveRecord
         
         foreach ($items as $item)
         {
-            if (empty($item['front_card_img']))
+            if (empty($item['id_custom_card']))
             {
                 $error = 'yes';
                 continue;
@@ -245,26 +249,22 @@ class StoreOrder extends CActiveRecord
             
             $data = array(
                 'user_id' => $user->id,
-                'user_email' => $user->email,
-                'image' => $path . $item['front_card_img']
+                'user_email' => $user->email
             );
             
-            if (!empty($item['id_custom_card']))
-            {
-                $card = CustomCard::model()->findByPk($item['id_custom_card']);
-                
-                if (!empty($card->img))
-                    $data['image'] = $path . $card->img;
-                if (!empty($card->photo))
-                    $data['photo'] = $path . $card->photo;
-                if (!empty($card->logo))
-                    $data['logo'] = $path . $card->logo;
-                if (!empty($card->name))
-                    $data['name'] = $card->name;
-                if (!empty($card->position))
-                    $data['position'] = $card->position;
-            }
-          
+            $card = CustomCard::model()->findByPk($item['id_custom_card']);
+            
+            if (!empty($card->img))
+                $data['image'] = $path . $card->img;
+            if (!empty($card->photo))
+                $data['photo'] = $path . $card->photo;
+            if (!empty($card->logo))
+                $data['logo'] = $path . $card->logo;
+            if (!empty($card->name))
+                $data['name'] = $card->name;
+            if (!empty($card->position))
+                $data['position'] = $card->position;
+
             $url = Yii::app()->params['api']['troika'] . '/api/order/';
             
             $auth = array('login' => Yii::app()->params['api_user']['login'],
