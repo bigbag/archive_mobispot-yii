@@ -11,9 +11,9 @@
             
             <ul class="right">
                 <li>
-                    <span class="troika-btn">
-                        <?php echo Yii::t('general', 'Скоро&nbsp;в&nbsp;продаже'); ?>
-                    </span>
+                    <a href="mailto:hola@mobispot.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D1%83" class="troika-btn">
+                        <?php echo Yii::t('general', 'Напишите&nbsp;нам'); ?>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -122,9 +122,9 @@
             <td>
                 <h3><?php echo Yii::t('general', 'Получите свою карту'); ?></h3>
                 <p><?php echo Yii::t('general', 'Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и наш курьер привезет вам новую &ldquo;Тройку&rdquo;.'); ?></p>
-                <span class="order-btn">
-                    <?php echo Yii::t('general', 'Скоро&nbsp;в&nbsp;продаже'); ?>
-                </span>
+                <a href="mailto:hola@mobispot.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D1%83" class="order-btn">
+                    <?php echo Yii::t('general', 'Напишите&nbsp;нам'); ?>
+                </a>
             </td>
         </tr>
         </table>
