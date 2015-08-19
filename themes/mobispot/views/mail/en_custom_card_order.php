@@ -40,19 +40,8 @@
         Индекс: <?php echo $zip; ?>
     </p>
     
-    <table id="card">
-    <tr>
-    <td style="vertical-align:center;text-align:center;">
-        <img width="321" height="513" src="<?php echo $this->getBaseUrl(); ?>/uploads/custom_card/<?php echo $front_img; ?>">
-    </td>
-    <td style="vertical-align:center;text-align:center;padding-left:100px;">
-        <div style="width:513px;height:321px;border:2px solid #E9EDF2;overflow:hidden;border-radius:30px;display:inline-block;padding:0;margin:0;">
-            <img width="513" height="321" src="<?php echo $this->getBaseUrl(); ?>/uploads/transport/<?php echo (empty($back_img))?'card_back_white.jpg':$back_img; ?>">
-        </div>
-    </td>
-    </tr>
-    </table>    
-    
+    <img width="321" height="513" style="border-radius:30px;-webkit-border-radius:30px;-moz-border-radius:30px;" src="<?php echo $this->getBaseUrl(); ?>/uploads/custom_card/<?php echo $front_img; ?>">
+
 </div>
 
 <p style="line-height: 1.2">
