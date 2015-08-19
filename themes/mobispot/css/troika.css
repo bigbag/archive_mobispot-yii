@@ -186,9 +186,8 @@ table.content.cards-order {
 */
 .troika .note {
     width:75%;
-    margin:20px auto 0 auto;
+    margin:40px auto 20px auto;
     padding-bottom:7px;
-    border-bottom:1px solid #000;
 }
 
 .troika .note  p{
@@ -215,7 +214,6 @@ table.content.cards-order {
     padding:50px 80px;
     display:tabel-cell;
     vertical-align:center;
-    display:none;
     overflow:hidden;
 }
 
