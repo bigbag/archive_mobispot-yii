@@ -133,11 +133,6 @@
             <p><?php echo Yii::t('general', '** Карта работает с большинством систем контроля доступа, включая Mifare, EM-marine'); ?></p>
             <p><?php echo Yii::t('general', '*** В подключенных точках продаж на территории вашего рабочего кампуса'); ?></p>
         </div>
-        <div class="center-btn">
-            <a href="#business" class="tobusiness faster">
-                <?php echo Yii::t('general', 'Вы владелец бизнеса?'); ?>
-            </a>
-        </div>
     </div>
     
     <div id="business-info" class="full-screen"
