@@ -17,16 +17,16 @@
     <link rel="stylesheet" href="themes/mobispot/css/add.css" />
     
     <meta  property="og:site_name" content="Mobispot"/>
-    <meta  property="og:title" content="<?php echo Yii::t('general', 'Карта Тройка от Мобиспот'); ?>"/>
+    <meta  property="og:title" content="<?php echo Yii::t('general', 'Кампусная карта Тройка от Мобиспот'); ?>"/>
     <meta  property="og:type" content="website"/>
     <meta  property="og:url" content="http://mobispot.com/troika"/>
     <meta  property="og:image" content="http://mobispot.com/themes/mobispot/img/troika/2screenpic.png"/>
-    <meta  property="og:description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном.'); ?>"/>
+    <meta  property="og:description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>"/>
     
-    <meta itemprop="name" content="<?php echo Yii::t('general', 'Карта Тройка от Мобиспот'); ?>">
+    <meta itemprop="name" content="<?php echo Yii::t('general', 'Кампусная карта Тройка от Мобиспот'); ?>">
     <meta itemprop="image" content="http://mobispot.com/themes/mobispot/img/troika/2screenpic.png">
-    <meta itemprop="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном.'); ?>">
-    <meta name="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном.'); ?>">
+    <meta itemprop="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>">
+    <meta name="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>">
     
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
