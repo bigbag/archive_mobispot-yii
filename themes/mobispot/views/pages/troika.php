@@ -35,7 +35,7 @@
             <td class="right-half">
                 <div class="bottomed">
                 <h1><?php echo Yii::t('general', 'Тройка, которую<br>ждали'); ?></h1>
-                <span><?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки - все одной картой с вашим уникальным дизайном'); ?>
+                <span><?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>
                 </span>
                 </div>
             </td>
@@ -120,8 +120,8 @@
                 <img src="themes/mobispot/img/troika/2screenpic2.jpg">
             </td>
             <td>
-                <h3><?php echo Yii::t('general', 'Получите свою карту'); ?></h3>
-                <p><?php echo Yii::t('general', 'Создайте дизайн карты на нашем сайте,<wbr> оформите заказ и наш курьер привезет вам новую &ldquo;Тройку&rdquo;.'); ?></p>
+                <h3><?php echo Yii::t('general', 'Получите свою кампусную карту'); ?></h3>
+                <p><?php echo Yii::t('general', 'Свяжитесь с нами и закажите кампусную<wbr> карту &ldquo;Тройка&rdquo; для себя и своей компании.'); ?></p>
                 <a href="mailto:hola@mobispot.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D1%83" class="order-btn">
                     <?php echo Yii::t('general', 'Напишите&nbsp;нам'); ?>
                 </a>
