@@ -28,6 +28,8 @@
     <meta itemprop="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>">
     <meta name="description" content="<?php echo Yii::t('general', 'Пользуйтесь городским транспортом, открывайте двери в офисе, делайте покупки и получайте скидки с помощью вашей кампусной карты'); ?>">
     
+    <meta name='yandex-verification' content='736bb65e80939b1d' />
+    
     <!--[if IE 8]>
         <html class="no-js lt-ie9" lang="en">
         <link rel="stylesheet" href="css/ie8.css">
