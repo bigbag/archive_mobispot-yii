@@ -14,6 +14,7 @@
     <meta itemprop="image" content="http://mobispot.com/themes/mobispot/img/og.jpg">
     <meta name="description" content="We create lovely NFC wristbands and make smart applications for them: payments, transportation, web sharing, secure ID, discounts and membership.">
     <?php endif; ?>
+    <meta name='yandex-verification' content='736bb65e80939b1d' />
 
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon16.png">
     <link rel="icon" type="image/png" href="/themes/mobispot/images/favicon32.png">

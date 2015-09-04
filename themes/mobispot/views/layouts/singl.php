@@ -19,6 +19,7 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name='yandex-verification' content='736bb65e80939b1d' />
     
     <script src="/themes/mobispot/js/jquery.min.js"></script>
     <script src="/themes/mobispot/js/angular.min.js"></script>
