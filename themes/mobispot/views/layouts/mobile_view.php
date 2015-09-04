@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="/themes/mobile/images/favicon48.png">
 
     <meta name="viewport" content="width=device-width" />
+    <meta name='yandex-verification' content='736bb65e80939b1d' />
 
     <link rel="stylesheet" href="/themes/mobile/css/style_mobile_view.min.css">
 
