@@ -39,11 +39,14 @@
             </div>
         </header>
         <div class="control">
-                <a href="/spot/list" class="back icon">&#xe602;</a>
-                <h4 class="spot-h"><i><img src="<?php echo MHttp::desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
-                <a id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
-            </div>
-            <section class="content tabs spot">
+            <a href="/spot/list" class="back icon">&#xe602;</a>
+            <h4 class="spot-h"><i><img src="<?php echo MHttp::desktopHost();?>/uploads/products/<?php echo $spot->hard->image;?>"></i><?php echo mb_substr($spot->name, 0, 50, 'utf-8') ?></h4>
+            <a id="show-menu" class="right"><i class="icon">&#xe611;</i></a>
+        </div>
+        <section class="content tabs spot
+            <?php if (SpotTroika::isBlockedCard($spot->discodes_id)):?>disabled
+            <?php endif; ?>
+        ">
             <nav>
                 <a
                     ng-class="{active: general.views=='spot'}"
@@ -52,12 +55,12 @@
                     <?php echo Yii::t('spot', 'Social links'); ?>
                 </a>
                 <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
-                <a
-                    ng-class="{active: general.views=='wallet'}"
-                    ng-click="general.views='wallet'"
-                >
-                    <?php echo Yii::t('spot', 'Wallet'); ?>
-                </a>
+                    <a
+                        ng-class="{active: general.views=='wallet'}"
+                        ng-click="general.views='wallet'"
+                    >
+                        <?php echo Yii::t('spot', 'Wallet'); ?>
+                    </a>
                     <?php //if (CouponAccess::access($wallet->discodes_id)):?>
                     <a
                         ng-class="{active: general.views=='coupon'}"
@@ -65,6 +68,14 @@
                         <?php echo Yii::t('spot', 'Coupon'); ?>
                     </a>
                     <?php //endif; ?>
+                <?php endif; ?>
+                <?php if (SpotTroika::hasTroika($spot->discodes_id)): ?>
+                    <a
+                        ng-class="{active: general.views=='transport'}"
+                        ng-click="general.views='transport'"
+                    >
+                        <?php echo Yii::t('spot', 'Public transport'); ?>
+                    </a>
                 <?php endif; ?>
                 <a
                     ng-class="{active: general.views=='settings'}"
@@ -75,6 +86,7 @@
             </nav>
             <section class="author-block" id="spot-block">
             </section>
+            <div class="cover"></div>
         </section>
         <div class="fc"></div>
         <?php if (!empty($scroll_key)):?>
@@ -91,7 +103,8 @@
             text.clean_spot='<?php echo Yii::t('spot', 'Clean spot').'?'; ?>';
             text.clean_spot_descr='<?php echo Yii::t('spot', 'Clean all the content from your spot.<br /> Will be impossible to restore.'); ?>';
             text.rm_spot='<?php echo Yii::t('spot', 'Delete spot').'?'; ?>';
-            text.rm_spot_descr='<?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.'); ?>'">
+            text.rm_spot_descr='<?php echo Yii::t('spot', 'Delete the spot from your account.<br /> Attention: Will be impossible to restore.'); ?>';
+            text.block_troika='<?php echo Yii::t('spot', 'Разблокировать карту будет невозможно. Вы уверены?'); ?>'">
         </span>        
     </div>
     <?php //include(Yii::getPathOfAlias('webroot') . '/themes/mobispot/views/layouts/block/soc-widget.php');
