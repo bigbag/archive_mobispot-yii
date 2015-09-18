@@ -930,14 +930,15 @@ class SpotController extends MController
         Spot::curentSpot($spot->discodes_id, true);
         Spot::curentViews('transport', true);
 
-        $answer['content'] = $this->renderPartial(
+        $answer['content'] = $this->renderPartialWithMobile(
             '//spot/transport',
             array(
                 'spot' => $spot,
                 'wallet'=>$wallet,
                 'troika'=>$troika
             ),
-            true
+            true,
+            '//mobile/spot/transport'
         );
 
         $answer['error'] = 'no';

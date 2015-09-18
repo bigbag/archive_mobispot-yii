@@ -7,7 +7,7 @@
             <section id="blockTroika" 
                 class="transport-block spot-content_row tabs-item<?php echo (empty($troika) or !SpotTroika::isActive($troika))?' ' . 'disabled':''; ?>">
                 <div class="item-area w-bg clearfix"> 
-                    <h4>Транспортная карта &laquo;Тройка&raquo;</h4>
+                    <h4><?php echo Yii::t('spot', 'Транспортная карта &laquo;Тройка&raquo;')?></h4>
                     <div class="card-img">
                         <img src="/themes/mobispot/img/troika.png">
                     </div>

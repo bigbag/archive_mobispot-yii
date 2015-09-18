@@ -128,3 +128,93 @@ a.m-link {
 .show-block footer.form-footer {
     text-align:center;
 }
+
+.tab-transport .number {
+    display: inline-block;
+    background-color: #E9EDF2;
+    border-radius: 5px;
+    padding: 3px 7px;
+    font-family: museo_sans_cyr700;
+    font-weight: 800;
+    font-size: 18px;
+    position: relative;
+    top: 0px;
+    margin-bottom:20px;
+}
+
+.tab-transport h4 {
+    border-bottom: 1px solid #CDCDCD;
+    padding-bottom: 7px;
+    margin-bottom:16px;
+    margin-top:6px;
+    font-family: Mobispot;
+    font-size: 23px;
+}
+
+.tab-transport li {
+    font-size: 19px;
+}
+
+.tab-transport li .pay {
+    display: inline-block;
+    background-color: #E9EDF2;
+    width: 100%;
+    text-align: center;
+    padding: 18px;
+    margin: 5px 0 14px 0;
+    text-decoration: none;
+    color: #0062FF;
+    font-size: 25px;
+}
+
+.tab-transport li .block {
+    display: inline-block;
+    background-color: #FF6565;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    padding: 18px;
+    font-size: 25px;
+    margin: 5px 0 25px 0;
+}
+
+.tab-transport li .note {
+    color: #8D9095;
+    font-size: 16px;
+}
+
+.content.disabled .cover {
+    position: absolute;
+    opacity: 0.9;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #E0E6ED;
+}
+
+.block-information {
+    display:none;
+}
+
+.content.disabled .block-information {
+    display:block;
+    opacity: 1;
+    z-index: 90;
+    top: 50%;
+    left: 50%;
+    margin-top: -180px;
+    margin-left: -150px;
+    background: #c7ccd2 none repeat scroll 0% 0%;
+    border-radius: 10px;
+    padding: 22px 10px;
+    width: 300px;
+    text-align: center;
+    position: absolute;
+    font-size: 25px;
+    font-weight:800px;
+}
+
+.content.tabs.spot {
+    position:relative;
+}
