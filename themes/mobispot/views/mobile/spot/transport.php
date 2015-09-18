@@ -3,7 +3,7 @@
         <h4><?php echo Yii::t('spot', 'Транспортная карта &laquo;Тройка&raquo;')?></h4>
             <ul>
                 <?php if(!empty($troika) and !empty($troika['troika_id'])):?>
-                    <li><?php echo Yii::t('spot', 'Номер карты:')?> <span class="number"><?php echo '0003 126 569' //echo $troika['troika_id']; ?></span></li>
+                    <li><?php echo Yii::t('spot', 'Номер карты:')?> <span class="number"><?php echo $troika['troika_id']; ?></span></li>
                 <?php endif; ?>
                 <li><a class="pay" target="_blank" href="http://troika.mos.ru/about/pay/"><?php echo Yii::t('spot', 'Пополнить баланс')?></a></li>
                 <li><a class="block" ng-click="$event.stopPropagation();blockTroika(spot)"><?php echo Yii::t('spot', 'Заблокировать карту')?></a></li>
