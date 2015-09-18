@@ -1434,7 +1434,7 @@ angular.module('mobispot').controller('SpotController',
         if(data.error == 'no') {
           angular.element('#blockTroika').addClass('disabled');
           angular.element('#'+spot.discodes).addClass('invisible');
-          angular.element(location).attr('href','/spot/list/');
+          window.location.reload();
         }
       });
     },

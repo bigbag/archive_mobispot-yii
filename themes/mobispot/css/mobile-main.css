@@ -18,6 +18,13 @@
   src: url('../fonts/mobispot-icon.eot?#iefix') format('eot'), url('../fonts/mobispot-icon.ttf') format('truetype'), url('../fonts/mobispot-icon.svg') format('svg'), url('../fonts/mobispot-icon.woff') format('woff');
   font-weight: 100;
   font-style: normal; }
+  
+@font-face {
+  font-family: "museo_sans_cyr700";
+  src: url('../fonts/museosanscyrl_700.eot?1416515659');
+  src: url('../fonts/museosanscyrl_700.eot?&1416515659#iefix') format('embedded-opentype'), url('../fonts/museosanscyrl_700.ttf?1416515660') format('truetype'), url('../fonts/museosanscyrl_700.woff?1416515660') format('woff');
+  font-weight: 900;
+  font-style: bold; }
 
 /* line 38, ../sass/m-main.scss */
 * {
