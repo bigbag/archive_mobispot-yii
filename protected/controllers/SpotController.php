@@ -223,7 +223,12 @@ class SpotController extends MController
             $wallet->save();
 
             $user = User::model()->findByPk($spot->user_id);
-            SpotTroika::releaseTroikaCard($wallet, $user);
+            
+            try {
+                SpotTroika::releaseTroikaCard($wallet, $user);
+            }
+            catch (Exception $e) {
+            }
         }
 
         $answer['content'] = $this->renderPartial('//spot/block/sidebar_spot',
