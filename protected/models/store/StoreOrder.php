@@ -227,6 +227,12 @@ class StoreOrder extends CActiveRecord
     
     public function makeTroika($user_id)
     {
+        Yii::setPathOfAlias('Predis',Yii::getPathOfAlias('ext.predis'));
+
+        require_once(Yii::getPathOfAlias('ext.celery-php') . DIRECTORY_SEPARATOR . 'amqp.php');
+        require_once(Yii::getPathOfAlias('ext.celery-php') . DIRECTORY_SEPARATOR . 'redisconnector.php');
+        require_once(Yii::getPathOfAlias('ext.celery-php') . DIRECTORY_SEPARATOR . 'celery.php' );
+        
         $error = 'no';
         $path = Yii::app()->getBaseUrl(true) . StoreProduct::CARDS_PATH;
         $items = $this->troikaList();
@@ -265,15 +271,18 @@ class StoreOrder extends CActiveRecord
             if (!empty($card->position))
                 $data['position'] = $card->position;
 
-            $url = Yii::app()->params['api']['troika'] . '/api/order/';
-            
-            $auth = array('login' => Yii::app()->params['api_user']['login'],
-                'password' => Yii::app()->params['api_user']['password']);
+            $c = new Celery(
+                Yii::app()->params['redis_celery']['server'],
+                Yii::app()->params['redis_celery']['login'],
+                Yii::app()->params['redis_celery']['password'],
+                Yii::app()->params['redis_celery']['vhost'],
+                Yii::app()->params['redis_celery']['exchange'],
+                Yii::app()->params['redis_celery']['binding'],
+                Yii::app()->params['redis_celery']['port'],
+                Yii::app()->params['redis_celery']['connector']
+            );
 
-            $result = MHttp::setCurlRequest($url, MHttp::TYPE_POST, array(), $auth, array(), $data);
-            
-            if (is_string($result) and strpos($result, '{error:') !== false)
-                $error = 'yes';
+            $c->postTask('troika.order.tasks.create_order_from_store', array(CJSON::encode($data, true)));
         }
         
         if ('no' == $error)
