@@ -25,4 +25,14 @@ return array(
         'internal'=>'',
     ),
     'api_user' => array('login'=>'', 'password'=>''),
+    'redis_celery' => array(
+        'server' => 'localhost',
+        'login' => '',
+        'password' => '',
+        'vhost' => '10',
+        'exchange' => 'celery',
+        'binding' => 'celery',
+        'port' => '6379',
+        'connector' => 'redis'
+    ),
 );
