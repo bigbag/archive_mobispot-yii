@@ -270,6 +270,18 @@ class SocInfo extends CFormModel
         }
         return $answer;
     }
+    
+    public function getNetByType($type)
+    {
+        $socNetworks = self::getSocNetworks();
+        foreach ($socNetworks as $net) {
+            if ($type == $net['tokenType']) {
+                $answer = $net;
+                break;
+            }
+        }
+        return $answer;
+    }
 
     public function getNetByLink($link)
     {

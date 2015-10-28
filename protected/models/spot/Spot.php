@@ -200,25 +200,17 @@ class Spot extends CActiveRecord
     public function getBindedNets()
     {
         $answer = array();
-
-        $spotContent = SpotContent::getSpotContent($this);
-        if (!$spotContent) {
-            $spotContent = SpotContent::initPersonal($this, $spotContent);
-        }
-
-        $content = $spotContent->content;
-        $content_keys = $content['keys'];
         $socInfo = new SocInfo;
 
-        foreach ($content_keys as $key => $type) {
-            if ('socnet' == $type)
-                $link = $content['data'][$key];
-            elseif ('content' == $type)
-                $link = $content['data'][$key]['binded_link'];
-            else
+        $user_tokens = SocToken::model()->findAllByAttributes(array(
+            'user_id' => Yii::app()->user->id
+        ));
+        
+        foreach ($user_tokens as $token) {
+            if (!empty($token->token_expires) and $token->token_expires < time())
                 continue;
-
-            $net = $socInfo->getNetByLink($link);
+            
+            $net = $socInfo->getNetByType($token->type);
             if (empty($net))
                 continue;
 

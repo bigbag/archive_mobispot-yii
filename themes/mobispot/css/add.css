@@ -920,3 +920,59 @@ a.form-button.button.button-round.store {
 .personal-card.vertical:hover .crop-control.delete, .personal-card.vertical:focus .crop-control.delete{
     display:block;
 }
+
+.discounts .spot-button{
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    -webkit-transition: color 600ms ease-out;
+    -moz-transition: color 600ms ease-out;
+    -o-transition: color 600ms ease-out;
+    transition: color 600ms ease-out;
+    -webkit-transition: background-color 600ms ease-out;
+    -moz-transition: background-color 600ms ease-out;
+    -o-transition: background-color 600ms ease-out;
+    transition: background-color 600ms ease-out;
+    height: 31px;
+    line-height: 31px;
+    padding: 0px 13px 0px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    background-color:#fff;
+    font-size: 14px;
+    margin-right:14px;
+    font-family: museo_sans_cyrl100, Arial, Helvetica, sans-serif;
+    color: #4a4a4a;
+}
+
+.discounts .spot-button:hover, .discounts .spot-button:focus, .discounts .spot-button.active {
+    background-color: #0062FF;
+    color: #fff;
+}
+
+.discounts .filter i.icon {
+    top: 4px;
+    left: -8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #0062FF;
+    font-size:29px;
+}
+
+.discounts .filter {
+    margin-bottom: 10px;
+}
+
+.discounts input.search {
+    display: inline-block;
+    width: 617px;
+    border: 1px solid #68a2e4;
+    margin-bottom: 12px;   
+}
+
+.discounts p {
+    color:#593a3a;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
