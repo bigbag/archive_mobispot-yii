@@ -48,12 +48,6 @@
             <?php endif; ?>
         ">
             <nav>
-                <a
-                    ng-class="{active: general.views=='spot'}"
-                    ng-click="general.views='spot'"
-                >
-                    <?php echo Yii::t('spot', 'Social links'); ?>
-                </a>
                 <?php if ($wallet and $spot->type == Spot::TYPE_FULL):?>
                     <a
                         ng-class="{active: general.views=='wallet'}"
@@ -61,13 +55,11 @@
                     >
                         <?php echo Yii::t('spot', 'Wallet'); ?>
                     </a>
-                    <?php //if (CouponAccess::access($wallet->discodes_id)):?>
                     <a
                         ng-class="{active: general.views=='coupon'}"
                         ng-click="general.views='coupon'" >
                         <?php echo Yii::t('spot', 'Coupon'); ?>
                     </a>
-                    <?php //endif; ?>
                 <?php endif; ?>
                 <?php if (SpotTroika::hasTroika($spot->discodes_id)): ?>
                     <a

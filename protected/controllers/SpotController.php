@@ -97,7 +97,7 @@ class SpotController extends MController
         if ($user->status == User::STATUS_NOACTIVE)  $this->redirect('/');
 
         $curent_discodes = 0;
-        $curent_views = 'spot';
+        $curent_views = 'wallet';
         $spots = Spot::getActiveByUserId(Yii::app()->user->id, true);
         if ($spots){
             $curent_discodes = Spot::curentSpot($spots[0]->discodes_id);
@@ -151,7 +151,7 @@ class SpotController extends MController
             array('discodes_id'=>$spot->discodes_id));
 
         Spot::curentSpot($spot->discodes_id, true);
-        Spot::curentViews('spot', true);
+        Spot::curentViews('wallet', true);
 
         $spotContent = SpotContent::getSpotContent($spot);
         if (!$spotContent) $spotContent = SpotContent::initPersonal($spot);
@@ -893,6 +893,7 @@ class SpotController extends MController
                 'coupons' => $coupons,
                 'wallet' => $wallet,
                 'spot' => $spot,
+                'spotNets' => $spot->getBindedNets(),
             ),
             true,
             '//mobile/spot/coupons'
@@ -991,12 +992,13 @@ class SpotController extends MController
         $answer['offset'] = $couponsList['offset'];
         $answer['count_all'] = $couponsList['countAll'];
 
-        $answer['content'] = $this->renderPartial(
-            '//mobile/spot/list_coupons',
+        $answer['content'] = $this->renderPartialWithMobile(
+            '//spot/block/list_coupons',
             array(
                 'coupons' => $coupons,
              ),
-            true
+            true,
+            '//mobile/spot/list_coupons'
         );
 
         $answer['error'] = 'no';
@@ -1394,12 +1396,13 @@ class SpotController extends MController
                 }
             }
         }
-        if(Yii::app()->request->isPostRequest)
+        if (Yii::app()->request->isPostRequest)
             echo json_encode($answer);
-        elseif (MHttp::isHostMobile())
-            $this->redirect('/spot/view/' . $spot->url . '?key=' . $answer['key']);
+        /*elseif (MHttp::isHostMobile())
+            $this->redirect('/spot/view/' . $spot->url);
+            */
         else
-            $this->redirect('/spot/list?discodes=' . $data['bindNet']['discodes'] . '&key=' . $answer['key']);
+            $this->redirect('/spot/list');
     }
 
     public function actionSocNetContent()
@@ -1572,7 +1575,7 @@ class SpotController extends MController
         $wallet = PaymentWallet::model()->findByAttributes(
             array('discodes_id'=>$spot->discodes_id));
 
-        $curent_views = Spot::curentViews('spot');
+        $curent_views = Spot::curentViews('wallet');
 
         $this->layout = self::MOBILE_LAYOUT;
         $data = array(
@@ -1583,7 +1586,7 @@ class SpotController extends MController
 
         if (!empty($scroll_key)) {
             $data['scroll_key'] = $scroll_key;
-            $curent_views = 'spot';
+            $curent_views = 'wallet';
         }
 
         $this->render('/mobile/spot/personal', $data);

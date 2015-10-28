@@ -36,6 +36,7 @@ class Loyalty extends CActiveRecord
     const PAGE_ALL = 'all';
     const PAGE_MY = 'my';
     const PAGE_NEW = 'new';
+    const PAGE_USED = 'used';
 
     const FACEBOOK_LIKE = 1;
     const FACEBOOK_SHARE = 2;
@@ -300,9 +301,13 @@ class Loyalty extends CActiveRecord
         $answer = array('coupons'=>array(), 'offset'=>0, 'count'=>0, 'countAll'=>0);
         $loyaltyList = array();
 
-        $criteria->condition .= ' coupon_class is not null and TO_DAYS(stop_date) > TO_DAYS(NOW())';
-        if (self::PAGE_NEW == $page)
+        if (self::PAGE_USED == $page) {
+            $criteria->condition .= ' TO_DAYS(stop_date) < TO_DAYS(NOW())';
+        } else
+            $criteria->condition .= ' TO_DAYS(stop_date) >= TO_DAYS(NOW())';
+        if (self::PAGE_NEW == $page) {
             $criteria->condition .= ' AND TO_DAYS(start_date) = (select max(TO_DAYS(m.start_date)) FROM ' . Loyalty::tableName() . ' AS m)';
+        }
         if ($phrase) {
             $phrase = addCslashes(addslashes($phrase), '%_');
             $criteria->condition .=
@@ -334,10 +339,6 @@ class Loyalty extends CActiveRecord
         }
 
         foreach ($coupons as $coupon) {
-            //на удаление
-            $part = false;
-            //
-
             $status = WalletLoyalty::STATUS_OFF;
             $errors = array();
             foreach ($wLoyalties as $wLoyalty) {
@@ -348,7 +349,7 @@ class Loyalty extends CActiveRecord
                 $errors = $wLoyalty->getErrors();
             }
 
-            if (self::PAGE_MY != $page or $part) {
+            if ((self::PAGE_USED != $page and self::PAGE_MY != $page) or WalletLoyalty::STATUS_ON ==$status) {
                 $answer['coupons'][] = array(
                     'id' => $coupon->id,
                     'name' => $coupon->name,
@@ -356,7 +357,6 @@ class Loyalty extends CActiveRecord
                     'img' => $coupon->img,
                     'desc' => $coupon->desc,
                     'soc_block' => $coupon->soc_block,
-                    'part' => $part,
                     'status' => $status,
                     'errors' => $errors,
                 );

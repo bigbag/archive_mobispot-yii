@@ -5,9 +5,19 @@
         ?>"
         title="Facebook"
         net="facebook"
-        ng-click="bindByPanel('facebook')"
+        ng-click="loginByService('facebook')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/facebook.png">
+    </a>
+    <a class="link<?php
+        echo (SocInfo::nameInList('vk', $spotNets))?
+        ' binded':''
+        ?>"
+        title="VKontakte"
+        net="vk"
+        ng-click="loginByService('vk')"
+        >
+        <img width="36" src="/themes/mobispot/socialmediaicons/vk.png">
     </a>
     <a class="link<?php
         echo (SocInfo::nameInList('twitter', $spotNets))?
@@ -15,19 +25,19 @@
         ?>"
         title="Twitter"
         net="twitter"
-        ng-click="bindByPanel('twitter')"
+        ng-click="loginByService('twitter')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/twitter.png">
     </a>
     <a class="link<?php
-        echo (SocInfo::nameInList('linkedin', $spotNets))?
+        echo (SocInfo::nameInList('instagram', $spotNets))?
         ' binded':''
         ?>"
-        title="LinkedIn"
-        net="linkedin"
-        ng-click="bindByPanel('linkedin')"
+        title="Instagram"
+        net="instagram"
+        ng-click="loginByService('instagram')"
         >
-        <img width="36" src="/themes/mobispot/socialmediaicons/linkedin.png">
+        <img width="36" src="/themes/mobispot/socialmediaicons/instagram.png">
     </a>
     <a class="link<?php
         echo (SocInfo::nameInList('foursquare', $spotNets))?
@@ -35,7 +45,7 @@
         ?>"
         title="Foursquare"
         net="foursquare"
-        ng-click="bindByPanel('foursquare')"
+        ng-click="loginByService('foursquare')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/foursquare.png">
     </a>
@@ -45,7 +55,7 @@
         ?>"
         title="Google+"
         net="google_oauth"
-        ng-click="bindByPanel('google_oauth')"
+        ng-click="loginByService('google_oauth')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/google.png">
     </a>
@@ -55,7 +65,7 @@
         ?>"
         title="YouTube"
         net="YouTube"
-        ng-click="bindByPanel('YouTube')"
+        ng-click="loginByService('YouTube')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/youtube.png">
     </a>
@@ -65,48 +75,8 @@
         ?>"
         title="Vimeo"
         net="vimeo"
-        ng-click="bindByPanel('vimeo')"
+        ng-click="loginByService('vimeo')"
         >
         <img width="36" src="/themes/mobispot/socialmediaicons/vimeo.png">
-    </a>
-    <a class="link<?php
-        echo (SocInfo::nameInList('vk', $spotNets))?
-        ' binded':''
-        ?>"
-        title="VKontakte"
-        net="vk"
-        ng-click="bindByPanel('vk')"
-        >
-        <img width="36" src="/themes/mobispot/socialmediaicons/vk.png">
-    </a>
-    <a class="link<?php
-        echo (SocInfo::nameInList('Behance', $spotNets))?
-        ' binded':''
-        ?>"
-        title="Behance"
-        net="Behance"
-        ng-click="bindByPanel('Behance')"
-        >
-        <img width="36" src="/themes/mobispot/socialmediaicons/behance.png">
-    </a>
-    <a class="link<?php
-        echo (SocInfo::nameInList('deviantart', $spotNets))?
-        ' binded':''
-        ?>"
-        title="DeviantART"
-        net="deviantart"
-        ng-click="bindByPanel('deviantart')"
-        >
-        <img width="36" src="/themes/mobispot/socialmediaicons/deviantart.png">
-    </a>
-    <a class="link<?php
-        echo (SocInfo::nameInList('instagram', $spotNets))?
-        ' binded':''
-        ?>"
-        title="Instagram"
-        net="instagram"
-        ng-click="bindByPanel('instagram')"
-        >
-        <img width="36" src="/themes/mobispot/socialmediaicons/instagram.png">
     </a>
 </div>
