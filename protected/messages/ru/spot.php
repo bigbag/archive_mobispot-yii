@@ -95,4 +95,7 @@
   'There are no transactions for the picked date' => 'Операции за выбранную дату отсутствуют',
   'Spot\'s name' => 'Название спота',
   'Public transport' => 'Транспорт',
+  'Discounts' => 'Скидки',
+  'Connect social network profiles with your account to get the discounts' => 'Соедините ваш аккаунт с социальными сетями, чтобы участвовать в акциях',
+  'Used' => 'Использованные',
 );

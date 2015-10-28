@@ -77,6 +77,7 @@ class UserController extends MController
         $discodes = Yii::app()->request->getQuery('discodes');
         $synch = Yii::app()->request->getQuery('synch');
         $checkLike = Yii::app()->request->getQuery('chek_like');
+        $login_only = Yii::app()->request->getQuery('loginonly');
 
         if (!isset($discodes))
             $discodes = '';
@@ -97,6 +98,8 @@ class UserController extends MController
                 'discodes'=> $discodes,
                 'loyalty_id'=>$checkLike,
             );
+        } elseif (isset($login_only)) {
+            Yii::app()->session[$serviceName . '_login_only'] = true;
         }
 
         $atributes = User::getSocInfo($serviceName);
@@ -115,7 +118,26 @@ class UserController extends MController
             $data = Yii::app()->session[$serviceName . '_loyalty_data'];
             unset(Yii::app()->session[$serviceName . '_loyalty_data']);
             $this->redirect('/user/checkLike' . MHttp::toGetParams($data));
+        } elseif(!empty(Yii::app()->session[$serviceName . '_login_only'])) {
+            unset(Yii::app()->session[$serviceName . '_login_only']);
+            $this->redirect('/spot/list');
         }
+    }
+    
+    public function actionIsLoggedByService()
+    {
+       $data = MHttp::validateRequest();
+       $answer = array('loggedIn' => false);
+       if (empty($data['netName']))
+           MHttp::setBadRequest();
+       
+       $socInfo = new SocInfo;
+       $answer['socnet'] = $socInfo->mergeMobile($data['netName']);
+       
+        if (!empty(Yii::app()->session[$answer['socnet'] . '_id']))
+            $answer['loggedIn'] = true;
+        
+        echo json_encode($answer);
     }
 
     //подключение акции, требующей жетона соцсети

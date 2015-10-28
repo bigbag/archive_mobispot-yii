@@ -84,9 +84,7 @@ angular.module('mobispot').controller('SpotController',
     $scope.actions.page = '';
     angular.element(window).unbind('scroll', $scope.loadMoreCoupons);
 
-    if ($scope.general.views == 'spot'){
-      $scope.viewSpot($scope.spot);
-    } else if ($scope.general.views == 'wallet'){
+    if ($scope.general.views == 'wallet' || $scope.general.views == 'spot'){
       $scope.viewWallet($scope.spot);
     } else if ($scope.general.views == 'coupon'){
       $scope.viewCoupons($scope.spot, $scope.actions);
@@ -101,7 +99,7 @@ angular.module('mobispot').controller('SpotController',
     var listHeight = angular.element('.spot-list').height();
     angular.element('.spot-content').css('min-height', listHeight+200);
   };
-
+/*
   $scope.viewSpot = function (spot) {
     if (spot.discodes === 0) return false;
 
@@ -128,7 +126,7 @@ angular.module('mobispot').controller('SpotController',
       }
     });
   };
-
+*/
   // Добавление нового блока в спот
   $scope.addContent = function() {
     $scope.addValue($scope.spot.content);
@@ -383,7 +381,7 @@ angular.module('mobispot').controller('SpotController',
           }
         });
       } else {
-        $scope.viewSpot($scope.spot);
+        $scope.general.views = 'settings';
       }
     });
   };
@@ -432,6 +430,7 @@ angular.module('mobispot').controller('SpotController',
         $scope.actions.offset += data.count;
         $scope.actions.count_all = data.count_all;
 
+        list.empty();
         list.append($compile(data.content)($scope));
         $scope.actions.in_progress = false;
       }
@@ -701,6 +700,45 @@ angular.module('mobispot').controller('SpotController',
   var loyaltyTimer;
   var holderTimer;
 
+  $scope.loginByService = function(netName) {
+    var options = $.extend({
+      id: '',
+      popup: {
+        width: $scope.popup_width,
+        height: $scope.popup_height
+      }
+    }, options);
+
+    var redirect_uri = 'http://' + window.location.hostname + '/user/BindSocLogin?service=' + netName;
+    var url = redirect_uri;
+
+    url += url.indexOf('?') >= 0 ? '&' : '?';
+    if (url.indexOf('redirect_uri=') === -1)
+      url += 'redirect_uri=' + encodeURIComponent(redirect_uri);
+
+    var centerWidth = (window.screen.width - options.popup.width) / 2,
+      centerHeight = (window.screen.height - options.popup.height) / 2;
+
+    if (!$scope.host_mobile) {
+        popup = window.open(url + '&js', "yii_eauth_popup", "width=" + options.popup.width + ",height=" + options.popup.height + ",left=" + centerWidth + ",top=" + centerHeight + ",resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=yes");
+    }
+
+    if (popup === null || typeof(popup)=='undefined') {
+        var href = url + '&loginonly=true';
+
+        if (typeof $scope.spot.content !== 'undefined' && $scope.spot.content.length)
+            href += '&link=' + encodeURIComponent($scope.spot.content);
+
+        window.location.href = href;
+    }
+    else {
+        popup.focus();
+
+        $scope.bindNet = {name:netName, discodes:$scope.spot.discodes, newField:1};
+        socTimer = $timeout($scope.loginTimer, 1000);
+    }
+  }
+  
   //через плашку
   $scope.bindByPanel = function(buttonName) {
     var netName = buttonName;
@@ -1033,7 +1071,24 @@ angular.module('mobispot').controller('SpotController',
             }
         });
     };
-
+    
+    //ожидание логина чрез попап, если залогинился - закрытие попапа, подсветка соцсети
+    $scope.loginTimer = function()
+    {
+      if (!popup.closed) {
+        var data = {token: $scope.user.token, netName:$scope.bindNet.name};
+        $http.post('/user/isLoggedByService', data).success(function(data) {
+          if (data.loggedIn) {
+                popup.close();
+                $scope.resetCursor();
+                $scope.netUp(data.socnet);
+          }
+            else socTimer = $timeout($scope.loginTimer, 1000);
+        });
+      }
+    };
+    
+/*
     //привязка соцсети и закрытие попапа, если пользователь залогинился через соцсеть
     $scope.loginTimer = function()
     {
@@ -1085,7 +1140,7 @@ angular.module('mobispot').controller('SpotController',
         });
       }
     };
-
+*/
   //Отвязка соцсети
   $scope.unBindSocial  = function(spot, key, e) {
     spot.key = key;
@@ -1186,8 +1241,6 @@ angular.module('mobispot').controller('SpotController',
   $scope.$watch('actions.page', function() {
     $scope.actions.offset = 0;
     $scope.actions.count_all = 0;
-    var list = angular.element('#coupons-list');
-    list.empty();
     $scope.listCoupons($scope.spot, $scope.actions);
   });
 
