@@ -48,7 +48,7 @@ class SiteController extends MController
 
         }
 
-        if ((!empty(Yii::app()->session['open_login_form'] and Yii::app()->user->isGuest))
+        if ((!empty(Yii::app()->session['open_login_form']) and Yii::app()->user->isGuest)
             or
             (isset($error['code']) and $error['code'] == '403')
         )
