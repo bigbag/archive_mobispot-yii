@@ -26,6 +26,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_g';
         $net['inviteValue'] = ''; //'&#xe009;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Google от Mobispot?');
         $net['smallIcon'] = 'google.png';
         $net['contentClass'] = 'GoogleContent';
         $net['needAuth'] = true;
@@ -41,6 +42,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc-fac';
         $net['inviteValue'] = ''; //'&#xe008;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Facebook от Mobispot?');
         $net['smallIcon'] = 'facebook.png';
         $net['contentClass'] = 'FacebookContent';
         $net['needAuth'] = true;
@@ -56,6 +58,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_twi';
         $net['inviteValue'] = ''; //'&#xe007';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Twitter от Mobispot?');
         $net['smallIcon'] = 'twitter.png';
         $net['contentClass'] = 'TwitterContent';
         $net['needAuth'] = true;
@@ -71,6 +74,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_vk';
         $net['inviteValue'] = ''; //'&#xe002;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт ВКонтакте от Mobispot?');
         $net['smallIcon'] = 'vk.png';
         $net['contentClass'] = 'VkContent';
         $net['needAuth'] = true;
@@ -86,6 +90,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_in';
         $net['inviteValue'] = ''; //'&#xe005;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт LinkedIn от Mobispot?');
         $net['smallIcon'] = 'linkedin.png';
         $net['contentClass'] = 'LinkedInContent';
         $net['needAuth'] = true;
@@ -101,6 +106,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc-fo';
         $net['inviteValue'] = ''; //'&#xe00a;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Foursquare от Mobispot?');
         $net['smallIcon'] = 'foursquare.png';
         $net['contentClass'] = 'FoursquareContent';
         $net['needAuth'] = true;
@@ -112,10 +118,11 @@ class SocInfo extends CFormModel
         $net['name'] = 'vimeo';
         $net['baseUrl'] = 'vimeo.com';
         $net['title'] = 'Vimeo';
-        $net['invite'] = Yii::t('social', 'Follow me'); //Yii::t('social', 'Watch more');
+        $net['invite'] = Yii::t('social', 'Follow me');
         $net['inviteClass'] = ''; //'i-soc_vo';
         $net['inviteValue'] = ''; //'&#xe003;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Vimeo от Mobispot?');
         $net['smallIcon'] = 'vimeo.png';
         $net['contentClass'] = 'VimeoContent';
         $net['needAuth'] = true;
@@ -131,6 +138,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc-da';
         $net['inviteValue'] = ''; //'&#xe00b;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт DeviantART от Mobispot?');
         $net['smallIcon'] = 'deviantart.png';
         $net['contentClass'] = 'DeviantARTContent';
         $net['needAuth'] = true;
@@ -146,6 +154,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc-be';
         $net['inviteValue'] = ''; //'&#xe00c;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Behance от Mobispot?');
         $net['smallIcon'] = 'behance.png';
         $net['contentClass'] = 'BehanceContent';
         $net['needAuth'] = false;
@@ -161,6 +170,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_yt';
         $net['inviteValue'] = ''; //'&#xe000;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт YouTube от Mobispot?');
         $net['smallIcon'] = 'youtube.png';
         $net['contentClass'] = 'YouTubeContent';
         $net['needAuth'] = false;
@@ -176,6 +186,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc_ing';
         $net['inviteValue'] = ''; //'&#xe006;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт Instagram от Mobispot?');
         $net['smallIcon'] = 'instagram.png';
         $net['contentClass'] = 'InstagramContent';
         $net['needAuth'] = true;
@@ -191,6 +202,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = ''; //'i-soc-pin';
         $net['inviteValue'] = ''; //'&#xe017;';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', '');
         $net['smallIcon'] = 'pinterest.png';
         $net['contentClass'] = 'PinterestContent';
         $net['needAuth'] = false;
@@ -206,6 +218,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = '';
         $net['inviteValue'] = '';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', '');
         $net['smallIcon'] = 'crunchbase.png';
         $net['contentClass'] = 'CrunchBaseContent';
         $net['needAuth'] = false;
@@ -221,6 +234,7 @@ class SocInfo extends CFormModel
         $net['inviteClass'] = '';
         $net['inviteValue'] = '';
         $net['note'] = Yii::t('social', '');
+        $net['unbind_warning'] = Yii::t('social', 'Отсоединить Ваш аккаунт tumblr от Mobispot?');
         $net['smallIcon'] = 'tumblr.png';
         $net['contentClass'] = 'TumblrContent';
         $net['needAuth'] = false;
@@ -260,6 +274,8 @@ class SocInfo extends CFormModel
 
     public function getNetByName($name)
     {
+        $answer = false;
+        
         $name = $this->mergeMobile($name);
         $socNetworks = self::getSocNetworks();
         foreach ($socNetworks as $net) {
@@ -273,6 +289,8 @@ class SocInfo extends CFormModel
     
     public function getNetByType($type)
     {
+        $answer = false;
+        
         $socNetworks = self::getSocNetworks();
         foreach ($socNetworks as $net) {
             if ($type == $net['tokenType']) {
@@ -546,6 +564,21 @@ class SocInfo extends CFormModel
 
         return $success;
     }
+    
+    public static function setGuest($net_name)
+    {
+        if (empty(Yii::app()->session[$net_name . '_id']) 
+            and empty(Yii::app()->session[$net_name . '_profile_url']))
+            return false;
+            
+        if (!empty(Yii::app()->session[$net_name . '_id']))
+            unset(Yii::app()->session[$net_name . '_id']);
+        
+        if (!empty(Yii::app()->session[$net_name . '_profile_url']))
+            unset(Yii::app()->session[$net_name . '_profile_url']);
+        
+        return true;
+    }
 
     public static function showFileSize($file)
     {
@@ -645,6 +678,15 @@ class SocInfo extends CFormModel
         $answer = $class::getBindedLink($link, $discodes_id, $key);
 
         return $answer;
+    }
+    
+    public function getUnbindWarning($net_name)
+    {
+        $net = $this->getNetByName($net_name);
+        if (empty($net) or empty($net['unbind_warning']))
+            return '';
+        
+        return $net['unbind_warning'];
     }
 
     public static function writeAccessBySocInfo($info)
