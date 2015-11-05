@@ -976,3 +976,6 @@ a.form-button.button.button-round.store {
     margin-bottom:8px;
 }
 
+.spot-coupon .type-coupon.active .form-button.red.disabled:hover {
+    color: #8D9095; 
+}

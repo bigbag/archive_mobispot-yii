@@ -124,6 +124,47 @@ class UserController extends MController
         }
     }
     
+    public function actionUnbindService()
+    {
+        $answer = array('error' => 'yes');
+        $data = MHttp::validateRequest();
+        
+        if (Yii::app()->user->isGuest) {
+            MHttp::setAccess();
+        }
+        
+        if (empty($data['net_name'])) {
+            MHttp::setBadRequest();
+        }
+        
+        $socInfo = new SocInfo;
+        $net = $socInfo->getNetByName($data['net_name']);
+        
+        if (empty($net) or empty($net['tokenType'])) {
+            MHttp::setNotFound();
+        }
+        
+        $answer['net_name'] = $net['name'];
+        
+        $tokens = SocToken::model()->findAllByAttributes(array(
+            'user_id' => Yii::app()->user->id,
+            'type' => $net['tokenType'],
+        ));
+        
+        if (empty($tokens)) {
+            MHttp::setNotFound();
+        }
+        
+        foreach($tokens as $token) {
+            $token->delete();
+        }
+        $socInfo->setGuest($net['name']);
+        
+        $answer['error'] = 'no';
+            
+        echo json_encode($answer);
+    }
+    
     public function actionIsLoggedByService()
     {
        $data = MHttp::validateRequest();
