@@ -700,7 +700,35 @@ angular.module('mobispot').controller('SpotController',
   var loyaltyTimer;
   var holderTimer;
 
-  $scope.loginByService = function(netName) {
+  $scope.toggleBinding = function(net_name, e, warning) {
+    var button = angular.element(e.currentTarget);
+
+    if (!(button.hasClass('binded'))) {
+      $scope.bindService(net_name);
+      return true;
+    }
+    
+    dialogService.yesNoDialog(function(dialog_result) {
+      if (dialog_result != 'yes')
+        return false;
+
+      var data = {token:$scope.user.token, net_name:net_name};
+      
+      $http.post('/user/unbindService', data).success(function(data) {
+        if(data.error == 'no') {
+            $scope.netDown(data.net_name);
+        }
+      });
+    },
+    $scope.text.yes_btn,
+    $scope.text.no_btn,
+    warning,
+    'negative'
+    );    
+  
+  }
+  
+  $scope.bindService = function(netName) {
     var options = $.extend({
       id: '',
       popup: {
