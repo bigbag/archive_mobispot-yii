@@ -58,7 +58,7 @@
                     <a
                         ng-class="{active: general.views=='coupon'}"
                         ng-click="general.views='coupon'" >
-                        <?php echo Yii::t('spot', 'Coupon'); ?>
+                        <?php echo Yii::t('spot', 'Discounts'); ?>
                     </a>
                 <?php endif; ?>
                 <?php if (SpotTroika::hasTroika($spot->discodes_id)): ?>

@@ -1425,7 +1425,8 @@ angular.module('mobispot').controller('SpotController',
   });
   
   $scope.$watch('wallet_history.date', function() {
-    $scope.listHistory($scope.wallet_history.date);
+    if ($scope.spot.discodes)
+      $scope.listHistory($scope.wallet_history.date);
   });
   
   $scope.listHistory = function (date) {
