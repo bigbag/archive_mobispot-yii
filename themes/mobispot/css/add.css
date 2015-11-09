@@ -979,3 +979,8 @@ a.form-button.button.button-round.store {
 .spot-coupon .type-coupon.active .form-button.red.disabled:hover {
     color: #8D9095; 
 }
+
+input.search::-webkit-input-placeholder {color: #4A4A4A;}
+input.search::-moz-placeholder {color: #4A4A4A;}/* Firefox 19+ */
+input.search:-moz-placeholder {color: #4A4A4A;}/* Firefox 18- */
+input.search:-ms-input-placeholder {color: #4A4A4A;}
