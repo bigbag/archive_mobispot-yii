@@ -1526,4 +1526,16 @@ angular.module('mobispot').controller('SpotController',
     'negative'
     );
   };
+  
+  // Получение корпоративного кошелька
+  $scope.initCorpWallet = function() {
+      var data = {'discodes': $scope.spot.discodes, 'token': $scope.spot.token};
+
+      $http.post('/spot/corpWallet', data).success(function(data) {
+        if(data.error == 'no') {
+          var corpWalletBlock = angular.element('#corpWallet');
+          corpWalletBlock.append(data.content);
+        }
+      });
+  }
 });

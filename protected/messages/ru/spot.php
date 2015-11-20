@@ -1,6 +1,6 @@
 <?php return  array (
   ' views' => ' просмотры',
-  'Account is blocked ...' => 'Кошелек заблокирован ...',
+  'Account is blocked ...' => 'Счет заблокирован',
   'Activate spot' => 'Активировать',
   'Add file' => 'Добавить файл',
   'Add new spot' => 'Добавить спот',
@@ -90,7 +90,7 @@
   'Yes' => 'Да',
   'No' => 'Нет',
   'Balance:' => 'Баланс:',
-  'Failed to charge your bank card. Please, top up the balance or select another card as active.' => 'Не удалось списать средства с вашей банковской карты. Пополните, пожалуйста, ее баланс или выберите другую карту в качестве платежной.',
+  'Failed to charge your bank card. Please, top up the balance or select another card as active.' => 'Не удалось списать средства с вашей банковской карты',
   'Blocked' => 'Заблокировано',
   'There are no transactions for the picked date' => 'Операции за выбранную дату отсутствуют',
   'Spot\'s name' => 'Название спота',
