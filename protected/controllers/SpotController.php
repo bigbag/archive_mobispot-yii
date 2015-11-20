@@ -669,7 +669,6 @@ class SpotController extends MController
         $history = Report::model()->findAllByAttributes(
             array(
                 'payment_id' => $wallet->payment_id,
-                'type' => Report::TYPE_PAYMENT,
             ),
             array(
                 'order' => 'creation_date desc',
@@ -1870,7 +1869,6 @@ class SpotController extends MController
             $history = Report::model()->findAllByAttributes(
                 array(
                     'payment_id' => $wallet->payment_id,
-                    'type' => Report::TYPE_PAYMENT,
                 ),
                 array(
                     'order' => 'creation_date desc',
@@ -2088,6 +2086,69 @@ class SpotController extends MController
 
         $answer['error'] = 'no';
 
+        echo json_encode($answer);
+    }
+    
+    //отображение корпоративного кошелька
+    public function actionCorpWallet()
+    {
+        $answer = array(
+            'error' => 'yes',
+            'content' => '',
+        );
+        $data = MHttp::validateRequest();
+        if (empty($data['discodes']))
+            MHttp::getJsonAndExit($answer);
+
+        $spot = Spot::model()->findByAttributes(
+            array(
+                'discodes_id' => (int)$data['discodes'],
+                'user_id' => Yii::app()->user->id,
+            )
+        );
+        
+        if (!$spot)
+            MHttp::getJsonAndExit($answer);
+        
+        $wallet = PaymentWallet::model()->findByAttributes(
+            array('discodes_id'=>$spot->discodes_id));
+            
+        if (!$wallet)
+            MHttp::getJsonAndExit($answer);
+        
+        $url =
+            Yii::app()->params['api']['internal']
+            . '/api/internal/corp_wallet/'
+            . $wallet->hard_id;
+
+        try {
+            $corp_wallet = CJSON::decode(MHttp::setCurlRequest($url), true);
+        }
+        catch (Exception $e) {
+            MHttp::getJsonAndExit($answer);
+        }
+        
+        if (empty($corp_wallet) or !isset($corp_wallet['error']) or 0 != $corp_wallet['error'])
+            MHttp::getJsonAndExit($answer);
+        
+        if (!empty($corp_wallet['firm_name']) 
+            and strpos($corp_wallet['firm_name'], ', ИНН') > 0)
+        {
+            $corp_wallet['firm_name'] = substr($corp_wallet['firm_name'], 0, strpos($corp_wallet['firm_name'], ', ИНН'));
+        }
+        
+        if (!empty($corp_wallet['firm_name']) 
+            and strpos($corp_wallet['firm_name'], ' ИНН') > 0)
+        {
+            $corp_wallet['firm_name'] = substr($corp_wallet['firm_name'], 0, strpos($corp_wallet['firm_name'], ' ИНН'));
+        }
+        
+        $answer['content'] = $this->renderPartial('//spot/block/corp_wallet',
+            array('corp_wallet' => $corp_wallet),
+            true
+        );
+        $answer['error'] = 'no';
+        
         echo json_encode($answer);
     }
 }

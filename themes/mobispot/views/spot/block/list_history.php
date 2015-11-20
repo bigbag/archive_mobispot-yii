@@ -1,5 +1,5 @@
-        <div ng-show="wallet_history.date && wallet_history.empty_date"
-        style="border-radius:10px;border:1px solid #E9EDF2;color: #8D9095;width: 100%;height:36px;text-align:center;line-height:36px;">
+        <div class="message-for-empty" ng-show="wallet_history.date && wallet_history.empty_date"
+        >
             <?php echo Yii::t('spot', 'There are no transactions for the picked date'); ?>
         </div>
         <table class="m-spot-table">
@@ -18,7 +18,25 @@
                     </span>
                     <?php endif; ?>  
                 </div></td>
-                <td><div class="txt-right"><?php echo $row->amount; ?></div></td>
+                <td>
+                    <div class="txt-right">
+                    <?php if (Report::CORP_TYPE_ON == $row->corp_type): ?>
+                        <?php if ($row->isFailure()):?> 
+                            <i class="icon coins"><img width="20" src="/themes/mobispot/img/coins_red.png"></i>
+                        <?php else: ?>
+                            <i class="icon coins"><img width="20" src="/themes/mobispot/img/coins_gray.png"></i>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <i class="icon card">&#xe60d;</i>
+                    <?php endif; ?>
+                    - <?php echo $row->amount; ?> 
+                    <?php if ($row->isFailure()):?>
+                        <i class="icon icon-currency10"><img src="/themes/mobispot/img/ruble_red.png"></i>
+                    <?php else: ?>
+                        <i class="icon icon-currency10"><img src="/themes/mobispot/img/ruble.png"></i>
+                    <?php endif; ?>
+                    </div>
+                </td>
             </tr>
             <?php endforeach ?>
             </tbody>

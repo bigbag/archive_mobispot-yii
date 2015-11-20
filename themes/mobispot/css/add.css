@@ -984,3 +984,147 @@ input.search::-webkit-input-placeholder {color: #4A4A4A;}
 input.search::-moz-placeholder {color: #4A4A4A;}/* Firefox 19+ */
 input.search:-moz-placeholder {color: #4A4A4A;}/* Firefox 18- */
 input.search:-ms-input-placeholder {color: #4A4A4A;}
+
+.corp-wallet .card-block {
+    border: 1px solid #30D874;
+    border-radius:5px;
+    position:relative;
+}
+
+.corp-wallet .card-block.negative {
+    border: 1px solid #FF0050;
+}
+
+table.table.table-card {
+    border-collapse:separate;
+}
+
+.card-item-header {
+    font-weight: 600;
+    padding: 9px 0px 9px 10px;   
+}
+
+.corp-wallet i.icon {
+    display:inline-block;
+}
+
+.corp-wallet .card-item-header i.icon {
+    margin-right: 8px;
+    color: #30D874;
+    font-weight: 100;
+    font-size: 16px;
+    margin-top: -11px;
+    position: relative;
+    top: 2px;
+}
+
+.corp-wallet .txt-right {
+    font-weight: 600;   
+}
+
+.corp-wallet .txt-right.negative {
+    color: #FF0050;
+}
+
+.corp-wallet .m-auto-payment {
+    border-color:transparent;
+}
+
+.icon.icon-currency10 {
+    display:inline-block;
+}
+
+.icon.icon-currency10 img{
+    width:7px;height:10px;
+}
+
+.icon.coins, .corp-wallet .card-item-header i.icon.coins {
+    position:relative;
+    top:5px;
+}
+
+.message-for-empty {
+    border-radius:10px;
+    border:1px solid #E9EDF2;
+    color:#8D9095;
+    width:100%;
+    height:36px;
+    text-align:center;
+    line-height:36px;   
+}
+
+#setPayment.disable .block-information {
+    background-color:#d8d8d8;
+    border-radius:10px;
+}
+#setPayment .cover.wallet-cover {
+    display:none;
+}
+
+#setPayment.disable .cover.wallet-cover {
+    position: absolute;
+    height: 105.8%;
+    width: 110.6%;
+    background: rgba(240, 240, 240, 0.7);
+    z-index: 10;
+    top: -5.3%;
+    left: -5.3%;
+    border-radius:5px;
+    display:block;
+}
+
+.corp-wallet .cover {
+    display: block;
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(216, 216, 216, 0.9);
+    border:1px solid #FF0050;
+    border-radius:5px;   
+}
+
+.corp-wallet .cover i.icon {
+    top:12px;
+    left:5px;
+    display:block;
+    position: absolute;
+    font-size:60px;
+    color: #999999;
+}
+
+.corp-wallet .cover .cover-descr {
+    margin:24px 0px 0px 40px;
+    text-align:center;
+    line-height:21px; 
+}
+
+.row.wallet-block {
+    position:relative;
+}
+
+.wallet-block .block-information {
+   height:85px;
+   line-height:21px; 
+}
+
+.wallet-block .block-information i.icon {
+    position:absolute;
+    font-size:60px;
+    color: #999999;
+    top:28px;
+    left:10px;   
+}
+
+.last-operations .icon.card {
+    position:relative;
+    top:3px;
+    font-size: 18px;
+}
+
+.fail .fail-description {
+    border: none;
+    margin-top: 0px;
+    padding-top: 0px;
+}

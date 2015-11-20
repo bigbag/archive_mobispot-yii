@@ -3090,57 +3090,6 @@ form p .agree {
   -webkit-transition: opacity 0.8s ease-in-out;
   transition: opacity 0.8s ease-in-out; }
 
-/* line 739, ../sass/spot.scss */
-#setPayment.disable:after {
-  display: block;
-  position: absolute;
-  top: 65px;
-  right: 0;
-  width: 100%;
-  height: 100%; }
-/* line 747, ../sass/spot.scss */
-#setPayment.disable h4 {
-  color: rgba(3, 3, 3, 0.1); }
-  /* line 749, ../sass/spot.scss */
-  #setPayment.disable h4 .b-account {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
-    opacity: 0.1; }
-/* line 753, ../sass/spot.scss */
-#setPayment.disable .wallet-block {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
-  opacity: 0.1; }
-  @media only screen and (min-width: 40.063em) {
-    /* line 756, ../sass/spot.scss */
-    #setPayment.disable .wallet-block .columns {
-      float: none; } }
-/* line 761, ../sass/spot.scss */
-#setPayment.disable .spot-button_block {
-  display: none; }
-/* line 764, ../sass/spot.scss */
-#setPayment.disable .block-information {
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  margin-left: -200px;
-  margin-top: -31px;
-  background: #E0E6ED;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  padding: 22px;
-  width: 400px;
-  text-align: center; }
-  /* line 776, ../sass/spot.scss */
-  #setPayment.disable .block-information i {
-    position: relative;
-    top: 1px; }
-/* line 781, ../sass/spot.scss */
-#setPayment.disable .m-table-wrapper, #setPayment.disable .link-report {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
-  opacity: 0.1; }
-
 /* line 786, ../sass/spot.scss */
 .spot-coupon {
   margin-bottom: -2%; }
