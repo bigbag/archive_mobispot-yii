@@ -17,6 +17,7 @@ return array(
     'ym_pay_url' => 'https://demomoney.yandex.ru/eshop.xml',
     'ym_scid' => '',
     'ym_shop_id' => '',
+    'ym_need_urlencode' => false,
     'mailTemplate' => 'webroot.themes.mobispot.views.mail',
     'questionMail' => array(),
     'api' => array(
