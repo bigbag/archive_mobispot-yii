@@ -609,9 +609,15 @@ class SpotController extends MController
 
         $url = Yii::app()->params['api']['internal']
             . '/api/internal/yandex/get_auth_url/'
-            . $discodes_id
-            . '?url='
-            . rawurlencode($this->getYMRedirectUrl($discodes_id));
+            . $discodes_id;
+            
+        if (Yii::app()->params['ym_need_urlencode'])
+            $url .= 
+                '?url=' . rawurlencode($this->getYMRedirectUrl($discodes_id));
+        else
+            $url .= 
+                '?url=' . $this->getYMRedirectUrl($discodes_id);
+            
         $result = CJSON::decode(MHttp::setCurlRequest($url), true);
         if ($result['error'] != 0) $this->redirect('/spot/list/');
 
