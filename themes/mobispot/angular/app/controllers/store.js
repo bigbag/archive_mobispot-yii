@@ -7,6 +7,7 @@ angular.module('mobispot').controller('ProductController',
     $scope.transport_card = {};
     $scope.simple_card = {};
     $scope.transport_types = [];
+    $scope.prev_custom_card = {};
       
     $scope.StoreInit = function(){
             var data = {token: $scope.user.token};
@@ -125,7 +126,32 @@ angular.module('mobispot').controller('ProductController',
   
     $scope.hideConstructorSimple();
   }
-    
+  
+  //тригер на снятие ошибки для макета транспортной карты
+  $scope.$watch('transport_card.shipping_name + transport_card.phone + transport_card.address + transport_card.city + transport_card.zip + transport_card.email', function() {
+      $scope.error.transport_card = false;
+  });
+  
+  //заказ тройки с отдельной страницы
+  $scope.mailTroikaCard = function(transport_card, valid, message_text) {
+    if (!valid) {
+      $scope.error.transport_card = true;
+      return false;
+    }
+
+    $http.post('/store/product/mailTroikaCard', transport_card).success(function(data) {
+        if ('no' == data.error) {
+          contentService.messageModal(message_text, $scope.host_type);
+          setTimeout(function(){
+            location.reload();
+          }, 2000);
+        } else {
+          $scope.error.transport_card = true;
+        }
+    });
+  }
+ 
+ 
   //Отображение кастомного макета транспотрной карты
   $scope.showConstructorTroika = function(product, jsID) {
     $scope.transport_card.id = product.id;

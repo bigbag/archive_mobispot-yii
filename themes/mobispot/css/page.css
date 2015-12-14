@@ -1,0 +1,34 @@
+.card-constructor .personal-card.vertical {
+    width: 321px;
+    height: 513px;
+    float: left;
+    background-color: #FFF;
+    border: 1px solid #E9EDF2;
+    overflow: hidden;
+    text-align: center;
+    border-radius: 30px;
+    position: relative;
+    background-size: cover;
+}
+
+.card-constructor .card-column {
+    position: relative;
+    float: left;
+}
+
+
+.card-constructor .personal-card.vertical::after {
+
+    width: 92px;
+    height: 23px;
+    left: 115px;
+    top: 24px;
+
+}
+.card-constructor .personal-card::after {
+    content: "";
+    position: absolute;
+    border-radius: 30px;
+    background: #E9EDF2 none repeat scroll 0% 0%;
+
+}
