@@ -49,6 +49,17 @@ class PagesController extends MController
         $this->render('card_constructor', array('card'=>str_replace('"', '&#34;', CJSON::encode($card))));
     }
     
+    public function actionTroikaconstructor()
+    {
+        $valid = 'ieg2g7hg3';
+        if (!Yii::app()->request->getQuery('key', 0) or Yii::app()->request->getQuery('key', 0) != $valid)
+            MHttp::setNotFound();
+        
+        $this->layout = '//layouts/troika_constructor';
+        $this->render('troika_constructor', array());
+        
+    }
+    
     public function actionTroika()
     {
         $this->layout = '//layouts/page_promo';

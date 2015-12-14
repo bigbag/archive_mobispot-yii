@@ -373,6 +373,74 @@ class ProductController extends MController
 
         $this->render('info', array('message'=>$message));
     }
+    
+    public function actionMailTroikaCard()
+    {
+        $answer = array('error' => 'yes');
+        $data = MHttp::validateRequest();
+        
+        if (empty($data['email']) or empty($data['shipping_name']) or empty($data['phone']) or empty($data['address']) or empty($data['city']) or empty($data['zip']))
+            MHttp::getJsonAndExit($answer);
+
+        $photo = false;
+        $photo_croped = false;
+        $logo = false;
+        $logo_croped = false;
+
+        if (!empty($data['photo_croped']) and !empty($data['photo'])) {
+            $photo = $this->saveCropImage($data['photo'], 'photo');
+            $photo_croped = $this->saveCropImage($data['photo_croped'], 'photo');
+        }
+
+        if (!empty($data['logo_croped']) and !empty($data['logo'])) {
+            $logo_croped = $this->saveCropImage($data['logo_croped'], 'logo');
+            if ($logo_croped) {
+                MImg::cutToProportionJpg(
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped,
+                    Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped,
+                    MImg::LOGO_WIDTH,
+                    MImg::LOGO_HEIGHT
+                );
+            }
+            
+            $logo = $this->saveCropImage($data['logo'], 'logo');
+        }
+        
+        if (!empty($data['design_croped'])){
+            $user_design_file = $this->saveCropImage($data['design_croped'], 'transport_', true);
+            $card = CustomCard::newUserDesignedCard($user_design_file);
+        }
+        else
+        {
+            $card = CustomCard::newCustomCard(
+                    $photo,
+                    $photo_croped,
+                    $logo,
+                    $logo_croped,
+                    (!empty($data['name'])) ? $data['name'] : false,
+                    (!empty($data['position'])) ? $data['position'] : false,
+                    (!empty($data['department'])) ? $data['department'] : false,
+                    CustomCard::TYPE_TROIKA
+                );
+        }
+        
+        if (!empty($photo_croped))
+            unlink(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $photo_croped);
+        if (!empty($logo_croped))
+            unlink(Yii::getPathOfAlias('webroot.uploads.custom_card') . '/' . $logo_croped);
+        
+        if (!$card)
+            MHttp::getJsonAndExit($answer);
+        
+        $data['front_img'] = $card->img;
+        $data['back_img'] = CustomCard::TROIKA_BACK;
+        
+        MMail::custom_card_order(Yii::app()->params['generalEmail'], $data, Lang::getCurrentLang());
+        MMail::custom_card_order($data['email'], $data, Lang::getCurrentLang());
+        
+        $answer['error'] = 'no';
+        echo json_encode($answer);
+    }
 
     /*
     public function actionOrder()
