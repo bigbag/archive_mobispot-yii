@@ -1501,7 +1501,28 @@
             scope.result = $canvas.toDataURL();
             scope.$apply();
           };
+          
+          messageModal = function(message) {
+            speed = 500;
 
+            angular.element('.lang-list').fadeOut();
+            angular.element('.lang').removeClass('open');
+          
+            var modal = angular.element('#message');
+            modal.addClass('negative');
+            var content = angular.element('#message p');
+          
+            if($('.show-block').hasClass('active')){
+              $('.show-block.active').removeClass('active').fadeOut(speed, function(){
+                content.html(message);
+                modal.fadeIn(speed).addClass('active');
+              });
+            } else  {
+              content.html(message);
+              modal.fadeIn(speed).addClass('active');
+            }    
+          }
+          
           // ---------- PRIVATE FUNCTIONS ---------- //
           function moveImage(x, y) {
             
