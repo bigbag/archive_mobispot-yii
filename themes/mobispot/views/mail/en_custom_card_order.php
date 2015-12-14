@@ -65,7 +65,7 @@
                 <img width=41 height=41 alt="Twitter" width=50 height=50 src="http://mobispot.com/themes/mobispot/images/mail/twitter.jpg"/>
             </a>
         </div>
-        <div style="margin-top:30px;width:100%;text-align:center;font-size:12pt;color:#7f7f7f">&copy; 2015 Mobispot Social Systems Pte. Ltd.<br>
+        <div style="margin-top:30px;width:100%;text-align:center;font-size:12pt;color:#7f7f7f">&copy; 2015 ООО "Мобиспот Рус"/Mobispot Rus LLC<br>
             hola@mobispot.com<br>
         </div>
 </td>
