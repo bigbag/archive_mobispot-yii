@@ -8,14 +8,13 @@
             <div id="constructor-troika" class="card-constructor"  ng-controller="ProductController" ng-init="transport_card.token='<?php echo Yii::app()->request->csrfToken ?>'">
                 
                 <h1><?php echo Yii::t('spot', 'Персонализация карты')?></h1>
-                <div class="personal-block">
-                <div class="row">
+                <div class="row personal-block">
                     <div class="column small-6 large-6 large-max">
                             <h5><span class="number">1</span> <?php echo Yii::t('spot', 'Персональные данные')?></h5>
 
 
             <div class="card-column">
-                <img class="back" src="/themes/mobispot/img/troika-v.png">
+                <img class="back" src="/themes/mobispot/img/troika-h.png">
                 <div id="card-menu" class="personal-card vertical">
                     <a class="card-button top" ng-click="showCardPattern()"><?php echo Yii::t('spot', 'Собрать дизайн<br> по шаблону')?></a>
                     <span class="card-line"><?php echo Yii::t('spot', 'или')?></span>
@@ -106,9 +105,8 @@
                                     - <?php echo Yii::t('spot', 'Минимальный и рекомендуемый размер готового макета:')?> <b>638x1016</b><br><br>
                                 </p>
                             </div>
-                    </div>
                 </div>
-                <div class="row">
+                <div class="row shipping-block">
                     <div class="column small-12 large-12">
                         <form class="custom" id="form-shipping" name="shippingForm">
                             <h5><span class="number">2</span><?php echo Yii::t('spot', 'Информация по доставке')?></h5>

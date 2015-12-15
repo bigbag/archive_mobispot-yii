@@ -32,3 +32,13 @@
     background: #E9EDF2 none repeat scroll 0% 0%;
 
 }
+
+.card-constructor .shipping-block {
+    padding-left: 54px;
+}
+
+.card-constructor img.back {
+    top: 280px;
+    left: 442px;
+}
+
