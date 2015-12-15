@@ -23,6 +23,7 @@ return array(
         'clients' => 'pages/clients',
         'troika' => 'pages/troika',
         'ieg2g7hg3/<type:\w+>' => 'pages/cardconstrucor',
+        '/troika/get' => 'pages/troikaconstructor',
 
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
