@@ -36,4 +36,5 @@ return array(
         'port' => '6379',
         'connector' => 'redis'
     ),
+    'access_key' => '',
 );

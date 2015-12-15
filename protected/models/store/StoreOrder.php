@@ -183,6 +183,11 @@ class StoreOrder extends CActiveRecord
             if (empty($card->img))
                 continue;
             
+            $draw_hole = false;
+            if (empty($card->photo) and empty($card->logo) and empty($card->name) and empty($card->position)) {
+                $draw_hole = true;
+            }
+            
             $mailOrders[] = array(
                 'shipping_name' => $baseOrder['customer']->target_first_name,
                 'phone' => $baseOrder['customer']->phone,
@@ -191,6 +196,7 @@ class StoreOrder extends CActiveRecord
                 'zip' => $baseOrder['customer']->zip,
                 'front_img' => $card->img,
                 'back_img' => CustomCard::backByType($item['type']),
+                'draw_hole' => $draw_hole,
             );
         }
 

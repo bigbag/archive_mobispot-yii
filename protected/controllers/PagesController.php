@@ -51,13 +51,12 @@ class PagesController extends MController
     
     public function actionTroikaconstructor()
     {
-        $valid = 'ieg2g7hg3';
-        if (!Yii::app()->request->getQuery('key', 0) or Yii::app()->request->getQuery('key', 0) != $valid)
+        if (!Yii::app()->request->getQuery('key', 0) 
+            or Yii::app()->request->getQuery('key', 0) != Yii::app()->params['access_key'])
             MHttp::setNotFound();
         
         $this->layout = '//layouts/troika_constructor';
         $this->render('troika_constructor', array());
-        
     }
     
     public function actionTroika()

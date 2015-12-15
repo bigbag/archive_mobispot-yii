@@ -40,7 +40,15 @@
         Индекс: <?php echo $zip; ?>
     </p>
     
-    <img width="321" height="513" style="border-radius:30px;-webkit-border-radius:30px;-moz-border-radius:30px;" src="<?php echo $this->getBaseUrl(); ?>/uploads/custom_card/<?php echo $front_img; ?>">
+    <div style="position:relative;width:321px;height:513px;">
+        <?php if (!empty($draw_hole)): ?>
+            <div style="position:absolute;width:92px;height:23px;
+                left:115px;top:24px;border-radius:30px;
+                background:#E9EDF2 none repeat scroll 0% 0%;">
+            </div>
+        <?php endif; ?>
+        <img width="321" height="513" style="border-radius:30px;-webkit-border-radius:30px;-moz-border-radius:30px;" src="<?php echo $this->getBaseUrl(); ?>/uploads/custom_card/<?php echo $front_img; ?>">
+    </div>
 
 </div>
 
