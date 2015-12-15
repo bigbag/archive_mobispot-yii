@@ -374,6 +374,7 @@ class ProductController extends MController
         $this->render('info', array('message'=>$message));
     }
     
+    //отправка писем с тройкой из выделенного конструктора
     public function actionMailTroikaCard()
     {
         $answer = array('error' => 'yes');
@@ -409,6 +410,7 @@ class ProductController extends MController
         if (!empty($data['design_croped'])){
             $user_design_file = $this->saveCropImage($data['design_croped'], 'transport_', true);
             $card = CustomCard::newUserDesignedCard($user_design_file);
+            $data['draw_hole'] = true;
         }
         else
         {
